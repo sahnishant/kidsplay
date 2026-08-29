@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { createSessionForCatalogEntry, getCatalogEntries, type SessionLaunch } from './content';
+  import {
+    createSessionForCatalogEntry,
+    getCatalogEntries,
+    getGoalReadiness,
+    type SessionLaunch
+  } from './content';
   import type { SessionAttempt } from './contracts/runtime';
   import {
     loadChildSettings,
@@ -13,11 +18,15 @@
   import Session from './ui/Session.svelte';
 
   const catalog = getCatalogEntries();
+  const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let activeSession = $state<SessionLaunch | null>(null);
   let startError = $state<string | null>(null);
   let progressSummary = $derived(summarizeProgress(progress));
+  let goalReadiness = $derived(
+    goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
+  );
 
   function handleChildChange(settings: ChildSettings): void {
     child = saveChildSettings(settings);
@@ -56,6 +65,7 @@
     {child}
     {catalog}
     progress={progressSummary}
+    {goalReadiness}
     onChildChange={handleChildChange}
     onStart={startSession}
   />
