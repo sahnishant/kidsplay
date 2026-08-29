@@ -12,6 +12,9 @@ const boundedScore = (correctParts: number, totalParts: number): number => {
   return Math.max(0, Math.min(1, correctParts / totalParts));
 };
 
+const pairKey = (first: string, second: string): string =>
+  first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`;
+
 export function evaluate(question: Question, response: unknown): EvaluationResult {
   let score = 0;
 
@@ -56,6 +59,24 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     const expected = question.solution.requiredTermIds;
     const correctParts = expected.filter((termId) => found.has(termId)).length;
     score = boundedScore(correctParts, expected.length);
+  }
+
+  if (question.solution.type === 'pair_matches') {
+    const expected = new Set(question.solution.pairs.map(([first, second]) => pairKey(first, second)));
+    const payload = response as { matchedPairs?: unknown };
+    const actual = new Set<string>();
+
+    if (Array.isArray(payload?.matchedPairs)) {
+      for (const value of payload.matchedPairs) {
+        if (!Array.isArray(value) || value.length !== 2) continue;
+        const [first, second] = value;
+        if (typeof first !== 'string' || typeof second !== 'string') continue;
+        actual.add(pairKey(first, second));
+      }
+    }
+
+    const correctParts = [...expected].filter((expectedPair) => actual.has(expectedPair)).length;
+    score = boundedScore(correctParts, expected.size);
   }
 
   const correct = score === 1;
