@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.homes.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Animals",
+  "entries": [
+    {
+      "id": "dog-kennel",
+      "rowId": "kr.animals.dog.home.kennel",
+      "subject": { "id": "dog", "label": "Dog", "symbol": "🐶" },
+      "relation": "lives_in",
+      "object": { "id": "kennel", "label": "kennel" },
+      "conceptIds": ["animals.homes.kennel"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "classification"] }
+    },
+    {
+      "id": "horse-stable",
+      "rowId": "kr.animals.horse.home.stable",
+      "subject": { "id": "horse", "label": "Horse", "symbol": "🐴" },
+      "relation": "lives_in",
+      "object": { "id": "stable", "label": "stable" },
+      "conceptIds": ["animals.homes.stable"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "cow-shed",
+      "rowId": "kr.animals.cow.home.shed",
+      "subject": { "id": "cow", "label": "Cow", "symbol": "🐄" },
+      "relation": "lives_in",
+      "object": { "id": "cowshed", "label": "cowshed" },
+      "conceptIds": ["animals.homes.cowshed"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "hen-coop",
+      "rowId": "kr.animals.hen.home.coop",
+      "subject": { "id": "hen", "label": "Hen", "symbol": "🐔" },
+      "relation": "lives_in",
+      "object": { "id": "coop", "label": "coop" },
+      "conceptIds": ["animals.homes.coop"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "rabbit-burrow",
+      "rowId": "kr.animals.rabbit.home.burrow",
+      "subject": { "id": "rabbit", "label": "Rabbit", "symbol": "🐰" },
+      "relation": "lives_in",
+      "object": { "id": "burrow", "label": "burrow" },
+      "conceptIds": ["animals.homes.burrow"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "lion-den",
+      "rowId": "kr.animals.lion.home.den",
+      "subject": { "id": "lion", "label": "Lion", "symbol": "🦁" },
+      "relation": "lives_in",
+      "object": { "id": "den", "label": "den" },
+      "conceptIds": ["animals.homes.den"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Class 2 Animals enrichment inside reviewed SOF ISO Animals chapter scope; exact profile fit remains separately reviewed."
+  }
+}
