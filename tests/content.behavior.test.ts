@@ -72,6 +72,7 @@ describe('catalog and profile-driven sessions', () => {
   it('keeps the broadened foundational topic pool free while launching short diverse sessions', () => {
     const pool = getFreeAnimalsQuestions();
     const poolRefs = pool.flatMap((question) => question.knowledgeRefs ?? []);
+    const poolIds = new Set(pool.map((question) => question.id));
     const session = getFreeExploreQuestions({ count: 8 });
 
     for (const topic of [
@@ -82,21 +83,30 @@ describe('catalog and profile-driven sessions', () => {
       expect(hasTopic(poolRefs, topic)).toBe(true);
     }
 
+    expect(poolIds.has('plants-water.passage.after-rain.001')).toBe(true);
+    expect(poolIds.has('air.visual.balloon-candle.001')).toBe(true);
+    expect(poolIds.has('rocks.visual.pumice-water.001')).toBe(true);
     expect(session).toHaveLength(8);
     expect(knowledgeGroupCount(session)).toBeGreaterThanOrEqual(5);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(activityFamilyCount(session)).toBeGreaterThanOrEqual(6);
   });
 
-  it('only launches diverse profile-safe questions, covers the broader prototype and includes genuine multi-row reasoning', () => {
+  it('only launches diverse profile-safe questions, covers the complete prototype scope and includes genuine multi-row reasoning', () => {
     const goalEntry = getCatalogEntries().find((entry) => entry.id === 'goal.class2-evs-olympiad.prototype');
     expect(goalEntry).toBeTruthy();
 
-    const profilePool = getProfileQuestions(PROFILE_REF, { count: 250 });
+    const profilePool = getProfileQuestions(PROFILE_REF, { count: 300 });
     const profilePoolRefs = profilePool.flatMap((question) => question.knowledgeRefs ?? []);
-    for (const topic of ['housing', 'safety', 'transport', 'air', 'water', 'rocks', 'universe', 'reasoning']) {
+    for (const topic of [
+      'housing', 'clothing', 'habits', 'safety', 'transport', 'communication', 'air', 'water',
+      'rocks', 'universe', 'family', 'festivals', 'reasoning'
+    ]) {
       expect(hasTopic(profilePoolRefs, topic)).toBe(true);
     }
+
+    expect(profilePool.some((question) => question.authoring.source === 'kidsplay-editorial-passage-reasoning')).toBe(true);
+    expect(profilePool.some((question) => question.authoring.source === 'kidsplay-editorial-visual-reasoning')).toBe(true);
 
     const session = createSessionForCatalogEntry(goalEntry!.id, {});
     const allowedRows = new Set(sofMembership.members.map((member) => member.rowId));
