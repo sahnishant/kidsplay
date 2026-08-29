@@ -4,6 +4,8 @@ import {
   getCatalogEntries,
   getFreeAnimalsQuestions,
   getFreeExploreQuestions,
+  getGoalReadiness,
+  getProfileMockQuestions,
   getProfileQuestions
 } from '../src/content';
 import type { Question } from '../src/contracts/question';
@@ -46,17 +48,25 @@ function hasTopic(refs: string[], topic: string): boolean {
 }
 
 describe('catalog and profile-driven sessions', () => {
-  it('separates broad free exploration from the profile-driven goal program', () => {
+  it('separates broad free exploration from profile-driven practice and a mixed mock', () => {
     const catalog = getCatalogEntries();
     const freeEntry = catalog.find((entry) => entry.kind === 'free_explore');
-    const goalEntry = catalog.find((entry) => entry.kind === 'goal_learning');
+    const practiceEntry = catalog.find((entry) => entry.id === 'goal.class2-evs-olympiad.prototype');
+    const mockEntry = catalog.find((entry) => entry.id.endsWith('.mixed-mock'));
 
     expect(freeEntry?.access.type).toBe('free');
     expect(freeEntry?.title).toContain('Class 2 Science');
-    expect(goalEntry?.access.type).toBe('purchase');
-    expect(goalEntry?.title).toContain('Core Science');
-    expect(goalEntry?.profileRef).toBe(PROFILE_REF);
-    expect(goalEntry?.status).toBe('prototype');
+    expect(freeEntry?.description).toContain('logical-reasoning');
+    expect(practiceEntry?.access.type).toBe('purchase');
+    expect(practiceEntry?.title).toContain('Core Science');
+    expect(practiceEntry?.profileRef).toBe(PROFILE_REF);
+    expect(practiceEntry?.status).toBe('prototype');
+    expect(mockEntry).toMatchObject({
+      kind: 'goal_learning',
+      profileRef: PROFILE_REF,
+      status: 'prototype',
+      actionLabel: 'Try mixed mock'
+    });
   });
 
   it('keeps the broadened foundational topic pool free while launching short diverse sessions', () => {
@@ -79,7 +89,7 @@ describe('catalog and profile-driven sessions', () => {
   });
 
   it('only launches diverse profile-safe questions, covers the broader prototype and includes genuine multi-row reasoning', () => {
-    const goalEntry = getCatalogEntries().find((entry) => entry.kind === 'goal_learning');
+    const goalEntry = getCatalogEntries().find((entry) => entry.id === 'goal.class2-evs-olympiad.prototype');
     expect(goalEntry).toBeTruthy();
 
     const profilePool = getProfileQuestions(PROFILE_REF, { count: 250 });
@@ -104,6 +114,43 @@ describe('catalog and profile-driven sessions', () => {
       expect(question.knowledgeRefs?.length ?? 0).toBeGreaterThan(0);
       for (const rowId of question.knowledgeRefs ?? []) expect(allowedRows.has(rowId)).toBe(true);
     }
+  });
+
+  it('builds a 20-question profile-safe mixed mock with several reasoning questions', () => {
+    const questions = getProfileMockQuestions(PROFILE_REF);
+    const allowedRows = new Set(sofMembership.members.map((member) => member.rowId));
+    const reasoningCount = questions.filter((question) =>
+      (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3
+    ).length;
+
+    expect(questions).toHaveLength(20);
+    expect(knowledgeGroupCount(questions)).toBeGreaterThanOrEqual(7);
+    expect(reasoningCount).toBeGreaterThanOrEqual(4);
+    for (const question of questions) {
+      for (const rowId of question.knowledgeRefs ?? []) expect(allowedRows.has(rowId)).toBe(true);
+    }
+
+    const mockEntry = getCatalogEntries().find((entry) => entry.id.endsWith('.mixed-mock'));
+    expect(mockEntry).toBeTruthy();
+    const launched = createSessionForCatalogEntry(mockEntry!.id, {});
+    expect(launched.mode).toBe('goal_mock');
+    expect(launched.questions).toHaveLength(20);
+  });
+
+  it('derives a transparent practice-readiness signal from profile evidence', () => {
+    const empty = getGoalReadiness(PROFILE_REF, {});
+    expect(empty).toMatchObject({ practicedRows: 0, readyRows: 0, score: 0, status: 'getting_started' });
+    expect(empty.totalRows).toBe(sofMembership.members.length);
+
+    const mastery: Record<string, MasteryCounter> = {};
+    for (const member of sofMembership.members.slice(0, 20)) mastery[member.rowId] = masteredCounter();
+    const ready = getGoalReadiness(PROFILE_REF, mastery);
+
+    expect(ready.practicedRows).toBe(20);
+    expect(ready.readyRows).toBe(20);
+    expect(ready.accuracy).toBe(1);
+    expect(ready.score).toBe(100);
+    expect(ready.status).toBe('mock_ready');
   });
 
   it('feeds mastery back into selection so a mastered first candidate is deprioritized', () => {
