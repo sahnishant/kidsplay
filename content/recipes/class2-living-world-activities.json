@@ -1,0 +1,241 @@
+[
+  {
+    "id": "animals.homes.memory.generated.001",
+    "sourceRef": "knowledge.animals.homes.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260830,
+    "difficulty": 1,
+    "prompt": "Match each animal with its home."
+  },
+  {
+    "id": "animals.homes.match.generated.001",
+    "sourceRef": "knowledge.animals.homes.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 1,
+    "prompt": "Take every animal to the correct home."
+  },
+  {
+    "id": "animals.homes.word-search.generated.001",
+    "sourceRef": "knowledge.animals.homes.001",
+    "engine": "word_search@1",
+    "seed": 20260830,
+    "difficulty": 2,
+    "prompt": "Find the six animal names."
+  },
+  {
+    "id": "animals.homes.crossword.generated.001",
+    "sourceRef": "knowledge.animals.homes.001",
+    "engine": "crossword@1",
+    "difficulty": 2,
+    "prompt": "Use the animal homes as clues to solve the crossword."
+  },
+  {
+    "id": "animals.homes.mcq.rabbit.generated.001",
+    "sourceRef": "knowledge.animals.homes.001",
+    "engine": "single_choice@1",
+    "entryIds": ["rabbit-burrow"],
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Which animal is connected with a burrow?"
+  },
+
+  {
+    "id": "animals.young.memory.generated.001",
+    "sourceRef": "knowledge.animals.young-ones.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260831,
+    "difficulty": 1,
+    "prompt": "Match each animal with the name of its young one."
+  },
+  {
+    "id": "animals.young.match.generated.001",
+    "sourceRef": "knowledge.animals.young-ones.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 1,
+    "prompt": "Match the animals and their young ones."
+  },
+  {
+    "id": "animals.young.word-search.generated.001",
+    "sourceRef": "knowledge.animals.young-ones.001",
+    "engine": "word_search@1",
+    "seed": 20260831,
+    "difficulty": 2,
+    "prompt": "Find the six animal names."
+  },
+  {
+    "id": "animals.young.crossword.generated.001",
+    "sourceRef": "knowledge.animals.young-ones.001",
+    "engine": "crossword@1",
+    "difficulty": 2,
+    "prompt": "Use the young-one names as clues to solve the crossword."
+  },
+  {
+    "id": "animals.young.mcq.frog.generated.001",
+    "sourceRef": "knowledge.animals.young-ones.001",
+    "engine": "single_choice@1",
+    "entryIds": ["frog-tadpole"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which animal has a young stage called a tadpole?"
+  },
+
+  {
+    "id": "animals.features.memory.generated.001",
+    "sourceRef": "knowledge.animals.features.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260901,
+    "difficulty": 2,
+    "prompt": "Match each animal with its body covering or useful feature."
+  },
+  {
+    "id": "animals.features.match.generated.001",
+    "sourceRef": "knowledge.animals.features.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each animal with the correct feature."
+  },
+  {
+    "id": "animals.features.word-search.generated.001",
+    "sourceRef": "knowledge.animals.features.001",
+    "engine": "word_search@1",
+    "seed": 20260901,
+    "difficulty": 2,
+    "prompt": "Find all six animal names."
+  },
+  {
+    "id": "animals.features.crossword.generated.001",
+    "sourceRef": "knowledge.animals.features.001",
+    "engine": "crossword@1",
+    "difficulty": 3,
+    "prompt": "Use the animal features as clues to solve the crossword."
+  },
+  {
+    "id": "animals.features.mcq.duck.generated.001",
+    "sourceRef": "knowledge.animals.features.001",
+    "engine": "single_choice@1",
+    "entryIds": ["duck-webbed-feet"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which animal has webbed feet that help it swim?"
+  },
+
+  {
+    "id": "plants.parts.memory.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260902,
+    "difficulty": 2,
+    "prompt": "Match each plant part with what it does."
+  },
+  {
+    "id": "plants.parts.match.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each plant part with its job."
+  },
+  {
+    "id": "plants.parts.word-search.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "word_search@1",
+    "seed": 20260902,
+    "difficulty": 2,
+    "prompt": "Find the six plant-part words."
+  },
+  {
+    "id": "plants.parts.crossword.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "crossword@1",
+    "difficulty": 3,
+    "prompt": "Use each plant-part job as a clue to solve the crossword."
+  },
+  {
+    "id": "plants.parts.mcq.leaves.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "single_choice@1",
+    "entryIds": ["leaves-make-food"],
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Which plant part makes food for the plant?"
+  },
+
+  {
+    "id": "plants.types.memory.generated.001",
+    "sourceRef": "knowledge.plants.types.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260903,
+    "difficulty": 2,
+    "prompt": "Match each plant with its type."
+  },
+  {
+    "id": "plants.types.match.generated.001",
+    "sourceRef": "knowledge.plants.types.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Sort the plants by type."
+  },
+  {
+    "id": "plants.types.word-search.generated.001",
+    "sourceRef": "knowledge.plants.types.001",
+    "engine": "word_search@1",
+    "seed": 20260903,
+    "difficulty": 2,
+    "prompt": "Find all six plant names."
+  },
+  {
+    "id": "plants.types.crossword.generated.001",
+    "sourceRef": "knowledge.plants.types.001",
+    "engine": "crossword@1",
+    "difficulty": 3,
+    "prompt": "Use the plant types as clues to solve the crossword."
+  },
+  {
+    "id": "plants.types.mcq.lotus.generated.001",
+    "sourceRef": "knowledge.plants.types.001",
+    "engine": "single_choice@1",
+    "entryIds": ["lotus-aquatic"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which of these is an aquatic plant?"
+  },
+
+  {
+    "id": "plants.uses.memory.generated.001",
+    "sourceRef": "knowledge.plants.uses.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260904,
+    "difficulty": 2,
+    "prompt": "Match each useful plant with what we get or make from it."
+  },
+  {
+    "id": "plants.uses.match.generated.001",
+    "sourceRef": "knowledge.plants.uses.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each plant with its use or product."
+  },
+  {
+    "id": "plants.uses.word-search.generated.001",
+    "sourceRef": "knowledge.plants.uses.001",
+    "engine": "word_search@1",
+    "seed": 20260904,
+    "difficulty": 2,
+    "prompt": "Find all six useful plant names."
+  },
+  {
+    "id": "plants.uses.crossword.generated.001",
+    "sourceRef": "knowledge.plants.uses.001",
+    "engine": "crossword@1",
+    "difficulty": 3,
+    "prompt": "Use each plant use as a clue to solve the crossword."
+  },
+  {
+    "id": "plants.uses.mcq.cotton.generated.001",
+    "sourceRef": "knowledge.plants.uses.001",
+    "engine": "single_choice@1",
+    "entryIds": ["cotton-fibre"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which plant gives fibre used to make cloth?"
+  }
+]
