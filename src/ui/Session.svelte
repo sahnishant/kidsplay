@@ -1,27 +1,62 @@
 <script lang="ts">
   import type { Question } from '../contracts/question';
+  import type { SessionAttempt } from '../contracts/runtime';
+  import type { AvatarId } from '../runtime/localProgress';
   import { evaluate } from '../evaluation/evaluate';
   import Scene from '../presentation/Scene.svelte';
   import { advanceSession, createSessionState, replaySession, submitResponse } from '../runtime/session';
   import EngineHost from './EngineHost.svelte';
 
-  let { title, questions }: { title: string; questions: Question[] } = $props();
+  let {
+    title,
+    questions,
+    childName = '',
+    childAvatar = 'fox',
+    onAttempt,
+    onExit
+  }: {
+    title: string;
+    questions: Question[];
+    childName?: string;
+    childAvatar?: AvatarId;
+    onAttempt?: (attempt: SessionAttempt) => void;
+    onExit?: () => void;
+  } = $props();
+
+  const avatarSymbols: Record<AvatarId, string> = {
+    fox: '🦊',
+    owl: '🦉',
+    panda: '🐼',
+    tiger: '🐯'
+  };
+
   let state = $state(createSessionState());
   let question = $derived(questions[state.index]);
   let correctCount = $derived(state.results.filter((result) => result.correct).length);
+  let displayName = $derived(childName.trim() || 'Explorer');
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
-    submitResponse(state, question, response);
+    const result = submitResponse(state, question, response);
+    const storedResponse = state.responses[state.responses.length - 1];
+    if (result && storedResponse) {
+      onAttempt?.({ question, response: storedResponse, result });
+    }
   }
 </script>
 
 {#if question}
   <section class="app-shell">
     <header class="session-header">
-      <div>
-        <div class="brand">Kidsplay Lab</div>
-        <div class="pack-title">{title}</div>
+      <div class="session-header__identity">
+        {#if onExit}
+          <button class="home-button" type="button" onclick={onExit} aria-label="Back to Kidsplay home">←</button>
+        {/if}
+        <div class="player-avatar" aria-hidden="true">{avatarSymbols[childAvatar]}</div>
+        <div>
+          <div class="brand">{displayName}</div>
+          <div class="pack-title">{title}</div>
+        </div>
       </div>
       <div class="progress-pill">{state.index + 1} / {questions.length}</div>
     </header>
@@ -58,8 +93,13 @@
 {:else}
   <section class="completion-card">
     <div class="completion-emoji">🌟</div>
-    <h1>Pack complete</h1>
+    <h1>Nice work, {displayName}</h1>
     <p>You solved {correctCount} of {state.results.length} questions correctly.</p>
-    <button class="primary-button" type="button" onclick={() => replaySession(state)}>Play again</button>
+    <div class="completion-actions">
+      <button class="primary-button" type="button" onclick={() => replaySession(state)}>Play again</button>
+      {#if onExit}
+        <button class="secondary-button" type="button" onclick={onExit}>Back home</button>
+      {/if}
+    </div>
   </section>
 {/if}
