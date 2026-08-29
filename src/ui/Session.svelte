@@ -108,3 +108,11 @@
     </div>
   </section>
 {/if}
+
+<style>
+  .completion-avatar {
+    width: 110px;
+    height: 110px;
+    margin: 0 auto 4px;
+  }
+</style>
