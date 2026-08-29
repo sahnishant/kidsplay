@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createSessionForCatalogEntry,
   getCatalogEntries,
+  getFreeExploreQuestions,
   getProfileQuestions
 } from '../src/content';
 import type { MasteryCounter } from '../src/runtime/localProgress';
@@ -27,9 +28,20 @@ describe('catalog and profile-driven sessions', () => {
     const goalEntry = catalog.find((entry) => entry.kind === 'goal_learning');
 
     expect(freeEntry?.access.type).toBe('free');
+    expect(freeEntry?.title).toContain('Animals & Plants');
     expect(goalEntry?.access.type).toBe('purchase');
     expect(goalEntry?.profileRef).toBe(PROFILE_REF);
     expect(goalEntry?.status).toBe('prototype');
+  });
+
+  it('launches a short free session that mixes animal and plant knowledge', () => {
+    const session = getFreeExploreQuestions({ count: 8 });
+    const refs = session.flatMap((question) => question.knowledgeRefs ?? []);
+
+    expect(session).toHaveLength(8);
+    expect(refs.some((rowId) => rowId.startsWith('kr.animals.'))).toBe(true);
+    expect(refs.some((rowId) => rowId.startsWith('kr.plants.'))).toBe(true);
+    expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
   });
 
   it('only launches questions whose complete knowledge reference set belongs to the profile', () => {
