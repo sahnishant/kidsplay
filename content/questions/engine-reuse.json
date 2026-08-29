@@ -1,0 +1,78 @@
+[
+  {
+    "id": "animals.land-water.sort.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": [
+      "animals.dog.habitat",
+      "animals.whale.habitat",
+      "animals.land-water.classification"
+    ],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Sort each animal into the place where it mainly lives." },
+    "interaction": {
+      "type": "drag_to_target",
+      "version": 1,
+      "items": [
+        { "id": "dog", "label": "Dog", "symbol": "🐶" },
+        { "id": "whale", "label": "Whale", "symbol": "🐋" }
+      ],
+      "targets": [
+        { "id": "land", "label": "Land", "symbol": "🌳" },
+        { "id": "water", "label": "Water", "symbol": "🌊" }
+      ]
+    },
+    "solution": {
+      "type": "target_assignment",
+      "assignments": { "dog": "land", "whale": "water" }
+    },
+    "feedback": {
+      "correct": "Correct. Dogs mainly live on land and whales live in water.",
+      "incorrect": "Think about where each animal normally lives and moves."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.classification.match.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": [
+      "animals.dog.pet-classification",
+      "animals.tiger.wild-classification",
+      "animals.butterfly.insect-classification"
+    ],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Match each animal with the correct kind." },
+    "interaction": {
+      "type": "drag_to_target",
+      "version": 1,
+      "items": [
+        { "id": "dog", "label": "Dog", "symbol": "🐶" },
+        { "id": "tiger", "label": "Tiger", "symbol": "🐯" },
+        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋" }
+      ],
+      "targets": [
+        { "id": "pet-animal", "label": "Pet animal" },
+        { "id": "wild-animal", "label": "Wild animal" },
+        { "id": "insect", "label": "Insect" }
+      ]
+    },
+    "solution": {
+      "type": "target_assignment",
+      "assignments": {
+        "dog": "pet-animal",
+        "tiger": "wild-animal",
+        "butterfly": "insect"
+      }
+    },
+    "feedback": {
+      "correct": "Correct. Dog is a pet animal, tiger is a wild animal, and butterfly is an insect.",
+      "incorrect": "Try matching each animal to the group it belongs to."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]
