@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.features.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Animals",
+  "entries": [
+    {
+      "id": "fish-scales",
+      "rowId": "kr.animals.fish.covering.scales",
+      "subject": { "id": "fish", "label": "Fish", "symbol": "🐟" },
+      "relation": "has",
+      "object": { "id": "scales", "label": "scales" },
+      "conceptIds": ["animals.body-coverings.scales"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "bird-feathers",
+      "rowId": "kr.animals.bird.covering.feathers",
+      "subject": { "id": "bird", "label": "Bird", "symbol": "🐦" },
+      "relation": "has",
+      "object": { "id": "feathers", "label": "feathers" },
+      "conceptIds": ["animals.body-coverings.feathers"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "sheep-wool",
+      "rowId": "kr.animals.sheep.covering.wool",
+      "subject": { "id": "sheep", "label": "Sheep", "symbol": "🐑" },
+      "relation": "has",
+      "object": { "id": "wool", "label": "wool" },
+      "conceptIds": ["animals.body-coverings.wool"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "tortoise-shell",
+      "rowId": "kr.animals.tortoise.covering.shell",
+      "subject": { "id": "tortoise", "label": "Tortoise", "symbol": "🐢" },
+      "relation": "has",
+      "object": { "id": "shell", "label": "hard shell" },
+      "conceptIds": ["animals.body-coverings.shell"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "polar-bear-fur",
+      "rowId": "kr.animals.polar-bear.covering.fur",
+      "subject": { "id": "polar-bear", "label": "Polar bear", "symbol": "🐻‍❄️" },
+      "relation": "has",
+      "object": { "id": "thick-fur", "label": "thick fur" },
+      "conceptIds": ["animals.adaptations.fur"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "duck-webbed-feet",
+      "rowId": "kr.animals.duck.feature.webbed-feet",
+      "subject": { "id": "duck", "label": "Duck", "symbol": "🦆" },
+      "relation": "has",
+      "object": { "id": "webbed-feet", "label": "webbed feet" },
+      "conceptIds": ["animals.adaptations.webbed-feet"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Class 2 Animals enrichment inside reviewed SOF ISO Animals chapter scope; exact profile fit remains separately reviewed."
+  }
+}
