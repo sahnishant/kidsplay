@@ -56,7 +56,7 @@ describe('user-facing product flow', () => {
     expect(stored.name).toBe('Dheu');
 
     await fireEvent.click(screen.getByRole('button', { name: 'Try prototype' }));
-    expect(screen.getByText('Class 2 EVS Olympiad Prototype')).toBeTruthy();
+    expect(screen.getByText('Class 2 Science Olympiad: Animals & Plants')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
