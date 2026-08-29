@@ -12,6 +12,7 @@ export const memoryPairsEngine: InteractionEngine = {
   mount: ({ question: rawQuestion, host, onSubmit, checkResponse }) => {
     const question = asMemoryPairs(rawQuestion);
     const deck = createShuffledDeck(question.interaction.cards, question.interaction.seed);
+    const totalPairs = question.interaction.cards.length / 2;
 
     const wrapper = document.createElement('div');
     wrapper.className = 'memory-pairs';
@@ -24,7 +25,7 @@ export const memoryPairsEngine: InteractionEngine = {
     status.className = 'memory-pairs__status';
     status.setAttribute('role', 'status');
     status.setAttribute('aria-live', 'polite');
-    status.textContent = `${question.solution.pairs.length} pairs to find.`;
+    status.textContent = `${totalPairs} pairs to find.`;
 
     const grid = document.createElement('div');
     grid.className = 'memory-pairs__grid';
@@ -67,7 +68,7 @@ export const memoryPairsEngine: InteractionEngine = {
         buttons.get(firstId)?.setAttribute('aria-disabled', 'true');
         buttons.get(secondId)?.setAttribute('aria-disabled', 'true');
 
-        const remaining = question.solution.pairs.length - matchedPairs.length;
+        const remaining = totalPairs - matchedPairs.length;
         status.textContent = remaining
           ? `${first?.label ?? 'Card'} and ${second?.label ?? 'card'} belong together. ${remaining} pair${remaining === 1 ? '' : 's'} left.`
           : 'You found every pair.';
