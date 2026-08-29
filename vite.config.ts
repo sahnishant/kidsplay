@@ -1,8 +1,9 @@
 import { svelte } from '@sveltejs/vite-plugin-svelte';
-import { defineConfig } from 'vite';
+import { svelteTesting } from '@testing-library/svelte/vite';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
-  plugins: [svelte()],
+  plugins: [svelte(), svelteTesting()],
   base: './',
   server: {
     port: 5180,
@@ -10,5 +11,11 @@ export default defineConfig({
   },
   build: {
     target: 'es2022'
+  },
+  test: {
+    environment: 'jsdom',
+    include: ['tests/**/*.test.ts'],
+    clearMocks: true,
+    restoreMocks: true
   }
 });
