@@ -4,16 +4,16 @@ Use this file first when resuming work. GitHub issue #1 is the canonical executi
 
 ## Current state
 
-The reusable **data → connector/planner → formatter → engine** mandate is implemented. The interactive runtime has now been migrated to **Svelte 5 + TypeScript + Vite**, while contracts, evaluation, generators, learning logic and mechanics remain framework-independent.
-
-Last runtime/code head before this checkpoint:
-- `02cbf2e4556a6a8b088248a6583ceb08c12fc859` — pin dev server to port 5180
-- previous functional commit `475d01aa8901c783e37e6575f24ef600bd500151` — migrate interactive runtime to Svelte
-- Android debug APK run `33249118323`: passed on `02cbf2e`
+The reusable **data → connector/planner → formatter → engine** architecture is implemented, and the first actual product vertical slice now uses it.
 
 Canonical branch: `kidsplay`.
 
-`kidsplay-work` is a temporary divergent branch. Do not merge it wholesale; delete it when convenient. `main` is still only the repository-initialization baseline and should not replace `kidsplay` as the working branch yet.
+Product/code checkpoint before this documentation update:
+- `7498fd91337fd3ce99a8da787f0fda5f730f8a99` — require runnable profile-driven goal content in CI.
+- `3618a5b35448b6525ef82c7d274c7f3f6b5b546b` — corrected first profile-driven product shell; Android APK run `33250279601` passed through artifact upload.
+- Latest validation run on `7498fd9`: content/Svelte/Vite build and Capacitor generation passed when this checkpoint was written; see issue #1 for the final run status.
+
+`kidsplay-work` is a temporary divergent branch. Do not merge it wholesale; delete it when convenient. `main` is still the initialization baseline and should not replace `kidsplay` until the product baseline is deliberately promoted.
 
 ## Canonical pipeline
 
@@ -24,27 +24,32 @@ Datatype normalizer
   ↓
 Canonical knowledge units (stable rowId)
   ↓
-Profile/index selector + session planner
+Profile/index selector + planner
   ↓
 Formatter(data, engine, recipe)
   ↓
 optional compiler
   ↓
-Versioned delivery contract
-  ├─ interactive engine → evaluator/progress
-  └─ output engine → printable/export artifact
+Generated/cache delivery questions with knowledgeRefs
+  ↓
+Runtime catalog/profile selector
+  ↓
+Svelte interactive engine
+  ↓
+Evaluator → local attempts → knowledge/concept mastery
 ```
+
+Output engines such as `print_cards@1` remain separate from the interactive runtime.
 
 ## Ownership rules
 
 - **Knowledge row**: reusable meaning + intrinsic `knowledgeLevel` + controlled `skills`.
 - **Datatype**: data shape, compatible engines, generic requirements and recipe unit mode.
-- **Learning profile**: country/curriculum/assessment/grade membership; profile collections reference stable row IDs.
-- **Planner/connector**: selects rows and delivery engines for a profile/session goal.
-- **Formatter**: converts normalized data to the chosen engine contract; no curriculum facts.
-- **Compiler**: expensive deterministic preparation such as crossword/maze layout.
+- **Learning profile**: country/curriculum/assessment/grade membership; collections reference stable row IDs.
+- **Planner/connector**: selects rows and delivery engines for a learning goal.
+- **Formatter/compiler**: creates versioned delivery questions/contracts; generated JSON remains disposable cache/build output.
+- **Runtime catalog/session resolver**: selects already-generated knowledge-backed questions for a free pack or profile goal; it does not contain curriculum facts.
 - **Interactive engine**: Svelte presentation/input component only.
-- **Output engine**: print/export mechanics only.
 - **Evaluator/progress**: correctness/mastery outside the engine.
 - **Pack/product**: sequencing/access/commercial policy outside knowledge.
 
@@ -57,6 +62,46 @@ Never merge these:
 3. activity `difficulty` — challenge introduced by the generated test/game.
 
 Curricular grade is profile metadata, not knowledge truth.
+
+## Implemented product vertical slice
+
+The app no longer boots directly into one hard-coded Animals session.
+
+### Home/catalog
+
+- child name stored locally;
+- lightweight avatar choice stored locally;
+- Free Explore entry;
+- Goal Learning entry;
+- progress summary for attempts, practised knowledge, strong/mastered knowledge and accuracy;
+- purchase-vs-free policy is visible, while the prototype goal remains tryable without payment infrastructure.
+
+### Profile-driven goal session
+
+`goal.class2-evs-olympiad.prototype` now points to `SOF_INDIA_CLASS2`.
+
+At build time, existing knowledge recipes generate cache questions carrying stable `knowledgeRefs`. At runtime, the goal session:
+
+1. loads the profile membership row IDs;
+2. admits only questions whose complete `knowledgeRefs` set belongs to that profile;
+3. prioritizes core content, then unseen/weaker mastery;
+4. preserves engine variety;
+5. falls back to explicit pack questions only if no profile-generated questions exist.
+
+CI now validates that every goal path names a real profile and has at least one runnable generated knowledge-backed question.
+
+### Offline progress/mastery
+
+The browser/Android runtime stores locally:
+
+- child settings;
+- bounded recent attempt history;
+- row-level knowledge counters from `knowledgeEvidence`;
+- concept-level counters from `masteryEvidence`.
+
+A row is currently shown as strong/mastered after at least two evidence events with weighted accuracy >= 75%. Goal-session selection uses stored row mastery so weaker/unseen content is selected before stronger content within the same profile-fit tier.
+
+No backend/account system is required for this milestone.
 
 ## Implemented semantic data
 
@@ -73,7 +118,7 @@ Compatible today with:
 - `crossword@1`
 - `print_cards@1`
 
-The current proof knowledge is still intentionally small: mainly animal associations plus a choice-item proof row. Do not mistake architectural breadth for production content depth.
+The current proof knowledge is intentionally small. Do not mistake architectural breadth for production content depth.
 
 ## Implemented delivery engines
 
@@ -91,27 +136,14 @@ Interactive:
 Output:
 - `print_cards@1`
 
-`content/engines/manifest.json` is the canonical engine catalogue. Validation checks manifest/formatter/datatype/runtime/contract drift.
+## What is missing now
 
-## What is actually missing now
+### P0 — protect the new product shell
 
-The architecture is ahead of the user-facing product.
+1. Add behavioral tests for catalog/profile selection, session progression, persistence and mastery updates.
+2. Tighten local-storage migration/validation if the persisted schema starts evolving.
 
-`src/App.svelte` still opens one hard-coded free Animals pack. The profile/session planner is proven in build tooling, but profile-driven planning is not yet the normal Android/browser app entry path. The current `SessionState` is in-memory only. Goal-path/access metadata exists in JSON, but there is no product catalog/home flow using it. Profile mappings are prototype/unverified and lack reviewed provenance/version/effective-date evidence. Visual scenes are still emoji/text prototypes; the asset registry has no admitted bundled character/animal assets.
-
-## P0 — next implementation slice
-
-Build one end-to-end product vertical slice before adding more architectural abstraction:
-
-1. **Catalog/home shell** — child name + lightweight avatar choice, Free Explore, Goal Learning.
-2. **Profile-driven session entry** — select a learning profile/goal and produce a session through the existing planner/formatter model rather than hard-coded pack bootstrap.
-3. **Runtime materialization** — resolve planned recipes into versioned delivery contracts/questions usable by Svelte engine components.
-4. **Offline local state** — persist child settings, attempts and progress without requiring a backend.
-5. **Mastery loop** — aggregate `knowledgeEvidence` into simple row/concept mastery and feed it back into revision/session selection.
-6. **Access-policy surface** — make free vs structured goal content visible; defer real payments/accounts until the goal path itself works end to end.
-7. **Behavioral tests** — cover catalog/profile selection, session progression, engine host boundaries, persistence and mastery; keep existing build/content validators.
-
-## P0 — content credibility
+### P0 — content credibility and real content
 
 Before any official-alignment claim:
 
@@ -119,7 +151,7 @@ Before any official-alignment claim:
 2. Add reviewed syllabus/assessment version.
 3. Add effective dates/version applicability.
 4. Make validation reject `reviewed`/official status without that evidence.
-5. Add a meaningful real Class 2 EVS/SOF content slice using the current datatypes first.
+5. Add a meaningful real Class 2 EVS/SOF content slice using current datatypes first.
 
 Use real content to discover schema pressure. Only then add semantic datatypes such as `passage@1`, `entity_table@1`, `ordered_process@1`, or `labeled_diagram@1`.
 
@@ -135,6 +167,7 @@ Keep it separate from question/knowledge truth:
 ## Guardrails
 
 - Do not reopen the completed data/connector/formatter/engine architecture without a real failing use case.
+- Do not move Node-only planner/formatter code into the Android runtime merely to avoid build artifacts.
 - Do not mass-edit rows when adding an engine.
 - Do not create a datatype for a subject/chapter.
 - Do not put curriculum/profile logic in formatters or engines.
