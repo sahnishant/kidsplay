@@ -94,5 +94,152 @@
     "topic": "Animals",
     "subtopic": "Classification",
     "gradeBands": [1, 2]
+  },
+
+  {
+    "id": "animals.homes.kennel",
+    "statement": "A kennel is a home made for a dog.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Animal Homes",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.homes.stable",
+    "statement": "A stable is a home used for horses.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Animal Homes",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.homes.cowshed",
+    "statement": "A cowshed is a shelter used for cows.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Animal Homes",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.homes.coop",
+    "statement": "A coop is a shelter used for hens and other domestic fowl.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Animal Homes",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.homes.burrow",
+    "statement": "A rabbit can live in a burrow underground.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Animal Homes",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.homes.den",
+    "statement": "A den is a sheltered resting place associated with animals such as lions.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Animal Homes",
+    "gradeBands": [1, 2]
+  },
+
+  {
+    "id": "animals.young-ones.puppy",
+    "statement": "A young dog is called a puppy.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Young Ones",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.young-ones.kitten",
+    "statement": "A young cat is called a kitten.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Young Ones",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.young-ones.calf",
+    "statement": "A young cow is called a calf.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Young Ones",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.young-ones.foal",
+    "statement": "A young horse is called a foal.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Young Ones",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.young-ones.lamb",
+    "statement": "A young sheep is called a lamb.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Young Ones",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.young-ones.tadpole",
+    "statement": "A tadpole is an early life stage of a frog.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Young Ones and Life Cycles",
+    "gradeBands": [1, 2]
+  },
+
+  {
+    "id": "animals.body-coverings.scales",
+    "statement": "Many fish have scales covering their bodies.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Body Coverings",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.body-coverings.feathers",
+    "statement": "Birds have feathers covering their bodies.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Body Coverings",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.body-coverings.wool",
+    "statement": "Sheep have a woolly coat.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Body Coverings",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.body-coverings.shell",
+    "statement": "A tortoise has a hard shell that protects its body.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Body Coverings",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.adaptations.fur",
+    "statement": "A polar bear has thick fur that helps reduce heat loss in a cold environment.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Adaptations",
+    "gradeBands": [2]
+  },
+  {
+    "id": "animals.adaptations.webbed-feet",
+    "statement": "A duck has webbed feet that help it paddle in water.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Adaptations",
+    "gradeBands": [2]
   }
 ]
