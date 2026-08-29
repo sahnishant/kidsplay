@@ -1,10 +1,12 @@
 <script lang="ts">
   import sceneJson from '../../content/scenes/animals.json';
+  import SceneIcon from './SceneIcon.svelte';
 
   type Motion = 'bounce' | 'float' | 'pulse' | 'wiggle';
+  type IconName = 'dog-happy' | 'dog-worried' | 'bone' | 'heart' | 'wave' | 'whale';
   interface SceneEntity {
     id: string;
-    kind: 'emoji' | 'text';
+    kind: 'icon' | 'text';
     value: string;
     label: string;
     x: number;
@@ -22,6 +24,10 @@
   const scenes = sceneJson as unknown as SceneDefinition[];
   const byId = new Map(scenes.map((scene) => [scene.id, scene]));
   let scene = $derived(byId.get(sceneId));
+
+  function iconName(value: string): IconName {
+    return value as IconName;
+  }
 </script>
 
 {#if scene}
@@ -31,9 +37,23 @@
         class={`scene__entity scene__entity--${entity.kind}${entity.motion ? ` motion--${entity.motion}` : ''}`}
         style={`left: ${entity.x}%; top: ${entity.y}%`}
         aria-hidden="true"
-      >{entity.value}</span>
+      >
+        {#if entity.kind === 'icon'}
+          <SceneIcon icon={iconName(entity.value)} />
+        {:else}
+          {entity.value}
+        {/if}
+      </span>
     {/each}
   </div>
 {:else}
   <div class="scene" role="img" aria-label={`Missing scene ${sceneId}`}></div>
 {/if}
+
+<style>
+  .scene__entity--icon {
+    width: clamp(74px, 21vw, 132px);
+    height: clamp(64px, 18vw, 112px);
+    filter: drop-shadow(0 8px 8px rgba(23, 48, 63, 0.14));
+  }
+</style>
