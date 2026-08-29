@@ -34,6 +34,9 @@
   let question = $derived(questions[state.index]);
   let correctCount = $derived(state.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
+  let reasoningQuestion = $derived(
+    Boolean(question && (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3)
+  );
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
@@ -64,6 +67,10 @@
     <article class="question-card">
       {#if question.stimulus?.type === 'scene'}
         <Scene sceneId={question.stimulus.sceneId} />
+      {/if}
+
+      {#if reasoningQuestion}
+        <div class="reasoning-cue"><span aria-hidden="true">🧠</span> Think it through</div>
       {/if}
 
       <h1 class="question-prompt">{question.prompt.text}</h1>
