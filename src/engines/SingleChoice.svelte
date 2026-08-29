@@ -13,9 +13,10 @@
     return copy;
   };
 
-  const options = question.interaction.shuffleOptions
+  let options = $derived.by(() => question.interaction.shuffleOptions
     ? shuffled(question.interaction.options)
-    : [...question.interaction.options];
+    : [...question.interaction.options]
+  );
   let selectedOptionId = $state<string | null>(null);
   let locked = $state(false);
 
