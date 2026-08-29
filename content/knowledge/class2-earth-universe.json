@@ -1,0 +1,38 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.earth.sky.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Earth and Universe",
+    "entries": [
+      { "id": "earth-planet", "rowId": "kr.universe.earth.type.planet", "subject": { "id": "earth", "label": "Earth", "symbol": "🌍" }, "relation": "is_a", "object": { "id": "planet", "label": "planet" }, "conceptIds": ["universe.earth.planet"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "sun-star", "rowId": "kr.universe.sun.type.star", "subject": { "id": "sun", "label": "Sun", "symbol": "☀️" }, "relation": "is_a", "object": { "id": "star", "label": "star" }, "conceptIds": ["universe.sun.star"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "moon-satellite", "rowId": "kr.universe.moon.type.satellite", "subject": { "id": "moon", "label": "Moon", "symbol": "🌙" }, "relation": "is_a", "object": { "id": "natural-satellite", "label": "natural satellite of Earth" }, "conceptIds": ["universe.moon.satellite"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "stars-light", "rowId": "kr.universe.stars.property.light", "subject": { "id": "stars", "label": "Stars", "symbol": "⭐" }, "relation": "have_property", "object": { "id": "own-light", "label": "huge hot bodies that give out their own light" }, "conceptIds": ["universe.stars.light"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "moonlight-reflect", "rowId": "kr.universe.moonlight.source.sun", "subject": { "id": "moonlight", "label": "Moonlight", "symbol": "🌕" }, "relation": "comes_from", "object": { "id": "reflected-sunlight", "label": "sunlight reflected from the Moon" }, "conceptIds": ["universe.moonlight.reflection"], "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "reasoning"] } },
+      { "id": "rotation-day-night", "rowId": "kr.universe.earth.rotation.day-night", "subject": { "id": "earth-rotation", "label": "Earth's rotation", "symbol": "🌎" }, "relation": "causes", "object": { "id": "day-night", "label": "the regular change between day and night" }, "conceptIds": ["universe.earth.rotation"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Earth, Sun, Moon and sky basics are general elementary science knowledge; exact profile placement remains separately reviewed." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.solar-system.landmarks.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Earth and Universe",
+    "entries": [
+      { "id": "mercury-nearest", "rowId": "kr.universe.mercury.position.closest-sun", "subject": { "id": "mercury", "label": "Mercury", "symbol": "🪐" }, "relation": "has_property", "object": { "id": "closest-sun", "label": "the planet closest to the Sun" }, "conceptIds": ["universe.planets.mercury"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "venus-hot", "rowId": "kr.universe.venus.property.hottest", "subject": { "id": "venus", "label": "Venus", "symbol": "🪐" }, "relation": "has_property", "object": { "id": "hottest", "label": "the hottest planet in the solar system" }, "conceptIds": ["universe.planets.venus"], "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "classification"] } },
+      { "id": "earth-third", "rowId": "kr.universe.earth.position.third", "subject": { "id": "earth", "label": "Earth", "symbol": "🌍" }, "relation": "has_property", "object": { "id": "third-sun", "label": "the third planet from the Sun" }, "conceptIds": ["universe.planets.earth-position"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "mars-red", "rowId": "kr.universe.mars.name.red-planet", "subject": { "id": "mars", "label": "Mars", "symbol": "🔴" }, "relation": "known_as", "object": { "id": "red-planet", "label": "Red Planet" }, "conceptIds": ["universe.planets.mars"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "vocabulary"] } },
+      { "id": "jupiter-largest", "rowId": "kr.universe.jupiter.property.largest", "subject": { "id": "jupiter", "label": "Jupiter", "symbol": "🪐" }, "relation": "has_property", "object": { "id": "largest", "label": "the largest planet in the solar system" }, "conceptIds": ["universe.planets.jupiter"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "saturn-rings", "rowId": "kr.universe.saturn.feature.rings", "subject": { "id": "saturn", "label": "Saturn", "symbol": "🪐" }, "relation": "has_feature", "object": { "id": "rings", "label": "a planet famous for its broad visible ring system" }, "conceptIds": ["universe.planets.saturn"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Solar-system landmarks add stretch-level Class 2 science breadth; exact profile placement remains separately reviewed." }
+  }
+]
