@@ -1,0 +1,38 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.habits.daily.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Good Habits and Safety Rules",
+    "entries": [
+      { "id": "brush-teeth", "rowId": "kr.habits.brush-teeth.frequency.twice", "subject": { "id": "brush-teeth", "label": "Brush teeth", "symbol": "🪥" }, "relation": "healthy_habit", "object": { "id": "twice-day", "label": "at least twice a day to help keep teeth clean" }, "conceptIds": ["habits.daily.brush-teeth"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "bathe-daily", "rowId": "kr.habits.bathe.frequency.daily", "subject": { "id": "bathe", "label": "Bathe", "symbol": "🛁" }, "relation": "healthy_habit", "object": { "id": "daily", "label": "regularly to keep the body clean" }, "conceptIds": ["habits.daily.bathe"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "trim-nails", "rowId": "kr.habits.trim-nails.purpose.clean", "subject": { "id": "trim-nails", "label": "Keep nails short and clean", "symbol": "✂️" }, "relation": "healthy_habit", "object": { "id": "clean-nails", "label": "so dirt and germs are less likely to collect under them" }, "conceptIds": ["habits.daily.clean-nails"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "exercise", "rowId": "kr.habits.exercise.purpose.fit", "subject": { "id": "exercise", "label": "Exercise and play actively", "symbol": "🏃" }, "relation": "healthy_habit", "object": { "id": "stay-fit", "label": "to help the body stay active and fit" }, "conceptIds": ["habits.daily.exercise"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "sleep", "rowId": "kr.habits.sleep.purpose.rest", "subject": { "id": "sleep", "label": "Sleep on time", "symbol": "😴" }, "relation": "healthy_habit", "object": { "id": "rest", "label": "to give the body and brain enough rest" }, "conceptIds": ["habits.daily.sleep"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "cover-cough", "rowId": "kr.habits.cover-cough.purpose.germs", "subject": { "id": "cover-cough", "label": "Cover a cough or sneeze", "symbol": "🤧" }, "relation": "healthy_habit", "object": { "id": "germ-spread", "label": "to reduce the spread of droplets and germs" }, "conceptIds": ["habits.daily.cover-cough"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Daily hygiene and health habits are general elementary EVS knowledge; exact profile placement remains separately reviewed." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.safety.rules.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Good Habits and Safety Rules",
+    "entries": [
+      { "id": "zebra-crossing", "rowId": "kr.safety.road.crossing.zebra", "subject": { "id": "zebra-crossing", "label": "Zebra crossing", "symbol": "🚸" }, "relation": "safety_rule", "object": { "id": "cross-road", "label": "a marked place where pedestrians should cross a road" }, "conceptIds": ["safety.rules.zebra-crossing"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "red-light", "rowId": "kr.safety.traffic.red.stop", "subject": { "id": "red-light", "label": "Red traffic light", "symbol": "🚦" }, "relation": "safety_rule", "object": { "id": "stop", "label": "a signal that tells road users to stop" }, "conceptIds": ["safety.rules.red-light"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "seat-belt", "rowId": "kr.safety.car.seat-belt", "subject": { "id": "seat-belt", "label": "Seat belt", "symbol": "🚗" }, "relation": "safety_rule", "object": { "id": "car-travel", "label": "should be fastened while travelling in a car" }, "conceptIds": ["safety.rules.seat-belt"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "helmet", "rowId": "kr.safety.cycle.helmet", "subject": { "id": "helmet", "label": "Helmet", "symbol": "⛑️" }, "relation": "safety_rule", "object": { "id": "cycle-head", "label": "helps protect the head while cycling" }, "conceptIds": ["safety.rules.helmet"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "socket", "rowId": "kr.safety.electricity.socket", "subject": { "id": "electric-socket", "label": "Electric socket", "symbol": "⚡" }, "relation": "safety_rule", "object": { "id": "do-not-touch", "label": "should never be touched or poked with fingers or objects" }, "conceptIds": ["safety.rules.electric-socket"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "sharp-tools", "rowId": "kr.safety.sharp-tools.adult", "subject": { "id": "sharp-tools", "label": "Sharp tools", "symbol": "✂️" }, "relation": "safety_rule", "object": { "id": "adult-help", "label": "should be used only with responsible adult guidance" }, "conceptIds": ["safety.rules.sharp-tools"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Everyday safety rules are general elementary EVS knowledge; exact profile placement remains separately reviewed." }
+  }
+]
