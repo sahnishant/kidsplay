@@ -1,0 +1,42 @@
+[
+  {
+    "id": "animals.classification.memory-pairs.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": [
+      "animals.dog.pet-classification",
+      "animals.tiger.wild-classification",
+      "animals.butterfly.insect-classification"
+    ],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Match each animal with what it is." },
+    "interaction": {
+      "type": "memory_pairs",
+      "version": 1,
+      "seed": 20260830,
+      "cards": [
+        { "id": "dog", "label": "Dog", "symbol": "🐶" },
+        { "id": "pet-animal", "label": "Pet animal" },
+        { "id": "tiger", "label": "Tiger", "symbol": "🐯" },
+        { "id": "wild-animal", "label": "Wild animal" },
+        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋" },
+        { "id": "insect", "label": "Insect" }
+      ]
+    },
+    "solution": {
+      "type": "pair_matches",
+      "pairs": [
+        ["dog", "pet-animal"],
+        ["tiger", "wild-animal"],
+        ["butterfly", "insect"]
+      ]
+    },
+    "feedback": {
+      "correct": "Excellent. Dog is a pet animal, tiger is a wild animal, and butterfly is an insect.",
+      "incorrect": "Look at the pairs again and think about how each animal is classified."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]
