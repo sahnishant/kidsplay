@@ -1,0 +1,14 @@
+[
+  { "id": "housing.types.igloo", "statement": "An igloo is a shelter built from blocks of hard snow or ice.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Types of Houses", "gradeBands": [2] },
+  { "id": "housing.types.tent", "statement": "A tent is a temporary shelter made from cloth or canvas stretched over supports.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Types of Houses", "gradeBands": [2] },
+  { "id": "housing.types.houseboat", "statement": "A houseboat is a home built to float or stay on water.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Types of Houses", "gradeBands": [2] },
+  { "id": "housing.types.stilt-house", "statement": "A stilt house is raised above the ground on strong posts.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Types of Houses", "gradeBands": [2] },
+  { "id": "housing.types.caravan", "statement": "A caravan is a movable home with wheels.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Types of Houses", "gradeBands": [2] },
+  { "id": "housing.types.pucca-house", "statement": "A pucca house uses strong materials such as bricks and cement.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Types of Houses", "gradeBands": [2] },
+  { "id": "clothing.weather.cotton", "statement": "Cotton clothes are suitable for hot weather because cotton is light and absorbs sweat.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Clothes for Weather", "gradeBands": [2] },
+  { "id": "clothing.weather.wool", "statement": "Woollen clothes help keep us warm in cold weather.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Clothes for Weather", "gradeBands": [2] },
+  { "id": "clothing.weather.raincoat", "statement": "A raincoat helps keep clothes dry in rainy weather.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Clothes for Weather", "gradeBands": [2] },
+  { "id": "clothing.weather.gumboots", "statement": "Gumboots help keep feet dry on wet or muddy ground.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Clothes for Weather", "gradeBands": [2] },
+  { "id": "clothing.weather.sun-hat", "statement": "A sun hat shades the head and face from strong sunlight.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Clothes for Weather", "gradeBands": [2] },
+  { "id": "clothing.purpose.uniform", "statement": "A school uniform is a common school dress worn by students.", "subject": "EVS", "topic": "Housing and Clothing", "subtopic": "Purpose of Clothes", "gradeBands": [2] }
+]
