@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "compile:content": "node scripts/compile-crosswords.mjs && node scripts/compile-mazes.mjs",
+    "compile:content": "node scripts/compile-crosswords.mjs && node scripts/compile-mazes.mjs && node scripts/generate-asset-notices.mjs",
     "dev": "npm run compile:content && vite",
     "validate:content": "npm run compile:content && node scripts/validate-content.mjs",
     "typecheck": "tsc --noEmit",

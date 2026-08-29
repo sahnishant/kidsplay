@@ -60,10 +60,10 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 ### P3 — reusable presentation assets
 
 - [x] Define asset registry and license/attribution inventory.
+- [x] Add build-time third-party artwork notice generation from the registry.
 - [ ] Find a permissively licensed modular character/animal source; initial icon/emoji candidates are documented in `docs/ASSET_SOURCES.md`.
 - [ ] Build modular character poses/parts rather than full custom animation sequences.
 - [ ] Support cheap expression/action variants: happy, afraid, walking, swimming, playing, holding/near object, love/attention cues.
-- [ ] Add automatic attribution-notice generation before importing the first attribution-required artwork.
 
 ### P4 — further mechanics backlog
 
@@ -85,7 +85,7 @@ Build only when a learning use case exists and reuse primitives first:
 
 ## Compiler/runtime policy
 
-`npm run compile:content` runs before desktop dev/build. Crosswords compile clue/answer sets into entry coordinates and numbering. Mazes compile seeds/dimensions into wall bitmasks. Generated question JSON is ignored by git; the learner runtime only renders prepared geometry and collects responses. This is the default pattern for expensive generation.
+`npm run compile:content` runs before desktop dev/build. Crosswords compile clue/answer sets into entry coordinates and numbering. Mazes compile seeds/dimensions into wall bitmasks. Asset notices compile from the asset admission registry. Generated question JSON and generated notice text are ignored by git; Vite bundles the generated asset notice into web/Android output. This is the default pattern for expensive or compliance-sensitive generation.
 
 ## Engine-admission test
 
