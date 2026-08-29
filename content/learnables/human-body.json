@@ -1,0 +1,21 @@
+[
+  { "id": "human.senses.eyes", "statement": "Eyes are sense organs that help us see.", "subject": "EVS", "topic": "Human Body", "subtopic": "Sense Organs", "gradeBands": [1, 2] },
+  { "id": "human.senses.ears", "statement": "Ears are sense organs that help us hear sounds.", "subject": "EVS", "topic": "Human Body", "subtopic": "Sense Organs", "gradeBands": [1, 2] },
+  { "id": "human.senses.nose", "statement": "The nose is a sense organ that helps us smell.", "subject": "EVS", "topic": "Human Body", "subtopic": "Sense Organs", "gradeBands": [1, 2] },
+  { "id": "human.senses.tongue", "statement": "The tongue helps us taste food.", "subject": "EVS", "topic": "Human Body", "subtopic": "Sense Organs", "gradeBands": [1, 2] },
+  { "id": "human.senses.skin", "statement": "Skin helps us feel touch, pressure and temperature.", "subject": "EVS", "topic": "Human Body", "subtopic": "Sense Organs", "gradeBands": [2] },
+
+  { "id": "human.organs.brain", "statement": "The brain helps control the body and supports thinking.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Organs", "gradeBands": [2] },
+  { "id": "human.organs.heart", "statement": "The heart pumps blood around the body.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Organs", "gradeBands": [2] },
+  { "id": "human.organs.lungs", "statement": "The lungs help us breathe.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Organs", "gradeBands": [2] },
+  { "id": "human.organs.stomach", "statement": "The stomach helps digest food.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Organs", "gradeBands": [2] },
+  { "id": "human.body.bones", "statement": "Bones give the body support and shape.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Support and Movement", "gradeBands": [1, 2] },
+  { "id": "human.body.muscles", "statement": "Muscles help body parts move.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Support and Movement", "gradeBands": [2] },
+
+  { "id": "human.body.hands", "statement": "Hands help us hold and pick up things.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Parts", "gradeBands": [1, 2] },
+  { "id": "human.body.legs", "statement": "Legs help us walk and run.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Parts", "gradeBands": [1, 2] },
+  { "id": "human.body.teeth", "statement": "Teeth help us bite and chew food.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Parts", "gradeBands": [1, 2] },
+  { "id": "human.body.neck", "statement": "The neck supports the head and helps it turn.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Parts", "gradeBands": [2] },
+  { "id": "human.body.skin-protection", "statement": "Skin covers the body and helps protect tissues underneath.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Parts", "gradeBands": [2] },
+  { "id": "human.body.joints", "statement": "Joints are places where bones meet and many joints allow body parts to bend.", "subject": "EVS", "topic": "Human Body", "subtopic": "Body Support and Movement", "gradeBands": [2] }
+]
