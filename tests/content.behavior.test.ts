@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   createSessionForCatalogEntry,
   getCatalogEntries,
+  getFreeAnimalsQuestions,
   getFreeExploreQuestions,
   getProfileQuestions
 } from '../src/content';
@@ -31,6 +32,15 @@ function activityFamilyCount(questions: Question[]): number {
   return new Set(questions.map(activityFamily)).size;
 }
 
+function knowledgeGroupCount(questions: Question[]): number {
+  return new Set(
+    questions
+      .flatMap((question) => question.knowledgeRefs ?? [])
+      .map((rowId) => rowId.split('.')[1])
+      .filter(Boolean)
+  ).size;
+}
+
 function hasTopic(refs: string[], topic: string): boolean {
   return refs.some((rowId) => rowId.startsWith(`kr.${topic}.`));
 }
@@ -42,41 +52,48 @@ describe('catalog and profile-driven sessions', () => {
     const goalEntry = catalog.find((entry) => entry.kind === 'goal_learning');
 
     expect(freeEntry?.access.type).toBe('free');
-    expect(freeEntry?.title).toContain('Body & Food');
+    expect(freeEntry?.title).toContain('Class 2 Science');
     expect(goalEntry?.access.type).toBe('purchase');
-    expect(goalEntry?.title).toContain('Body & Food');
+    expect(goalEntry?.title).toContain('Core Science');
     expect(goalEntry?.profileRef).toBe(PROFILE_REF);
     expect(goalEntry?.status).toBe('prototype');
   });
 
-  it('launches a short free session that mixes all current topics, engines and activity families', () => {
+  it('keeps the broadened foundational topic pool free while launching short diverse sessions', () => {
+    const pool = getFreeAnimalsQuestions();
+    const poolRefs = pool.flatMap((question) => question.knowledgeRefs ?? []);
     const session = getFreeExploreQuestions({ count: 8 });
-    const refs = session.flatMap((question) => question.knowledgeRefs ?? []);
+
+    for (const topic of [
+      'animals', 'plants', 'human', 'food', 'housing', 'clothing', 'habits', 'safety',
+      'transport', 'communication', 'air', 'water', 'rocks', 'universe'
+    ]) {
+      expect(hasTopic(poolRefs, topic)).toBe(true);
+    }
 
     expect(session).toHaveLength(8);
-    expect(hasTopic(refs, 'animals')).toBe(true);
-    expect(hasTopic(refs, 'plants')).toBe(true);
-    expect(hasTopic(refs, 'human')).toBe(true);
-    expect(hasTopic(refs, 'food')).toBe(true);
+    expect(knowledgeGroupCount(session)).toBeGreaterThanOrEqual(6);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(activityFamilyCount(session)).toBeGreaterThanOrEqual(6);
   });
 
-  it('only launches diverse profile-safe questions and includes genuine multi-row reasoning', () => {
+  it('only launches diverse profile-safe questions, covers the broader prototype and includes genuine multi-row reasoning', () => {
     const goalEntry = getCatalogEntries().find((entry) => entry.kind === 'goal_learning');
     expect(goalEntry).toBeTruthy();
 
+    const profilePool = getProfileQuestions(PROFILE_REF, { count: 200 });
+    const profilePoolRefs = profilePool.flatMap((question) => question.knowledgeRefs ?? []);
+    for (const topic of ['housing', 'safety', 'transport', 'air', 'water', 'rocks', 'universe']) {
+      expect(hasTopic(profilePoolRefs, topic)).toBe(true);
+    }
+
     const session = createSessionForCatalogEntry(goalEntry!.id, {});
     const allowedRows = new Set(sofMembership.members.map((member) => member.rowId));
-    const sessionRefs = session.questions.flatMap((question) => question.knowledgeRefs ?? []);
 
     expect(session.profileRef).toBe(PROFILE_REF);
     expect(session.questions).toHaveLength(8);
+    expect(knowledgeGroupCount(session.questions)).toBeGreaterThanOrEqual(6);
     expect(new Set(session.questions.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
-    expect(hasTopic(sessionRefs, 'animals')).toBe(true);
-    expect(hasTopic(sessionRefs, 'plants')).toBe(true);
-    expect(hasTopic(sessionRefs, 'human')).toBe(true);
-    expect(hasTopic(sessionRefs, 'food')).toBe(true);
     expect(activityFamilyCount(session.questions)).toBeGreaterThanOrEqual(6);
     expect(session.questions.some((question) =>
       (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3
