@@ -35,6 +35,17 @@ function testQuestion(): SingleChoiceQuestion {
   };
 }
 
+function reasoningQuestion(): SingleChoiceQuestion {
+  return {
+    ...testQuestion(),
+    id: 'test.reasoning.choice.001',
+    conceptIds: ['test.reasoning.one', 'test.reasoning.two'],
+    knowledgeRefs: ['kr.human.one', 'kr.food.two'],
+    difficulty: 3,
+    prompt: { text: 'Use two ideas to solve this.' }
+  };
+}
+
 beforeEach(() => {
   window.localStorage.clear();
 });
@@ -88,5 +99,19 @@ describe('user-facing product flow', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'See result' }));
     expect(screen.getByRole('heading', { name: 'Nice work, Dheu' })).toBeTruthy();
+  });
+
+  it('marks multi-knowledge challenge questions as a think-it-through moment', () => {
+    render(Session, {
+      props: {
+        title: 'Reasoning Test',
+        questions: [reasoningQuestion()],
+        childName: 'Dheu',
+        childAvatar: 'owl'
+      }
+    });
+
+    expect(screen.getByText('Think it through')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Use two ideas to solve this.' })).toBeTruthy();
   });
 });
