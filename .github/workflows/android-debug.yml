@@ -28,7 +28,10 @@ jobs:
           java-version: '21'
 
       - name: Install dependencies
-        run: npm install --no-audit --no-fund
+        run: |
+          npm ci --no-audit --no-fund
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          npm install --no-save --package-lock=false --no-audit --no-fund "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION"
 
       - name: Validate content and build web runtime
         run: npm run check
