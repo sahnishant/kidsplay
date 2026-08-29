@@ -1,0 +1,44 @@
+[
+  {
+    "id": "air.visual.balloon-candle.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["air.properties.occupies-space", "air.properties.burning"],
+    "knowledgeRefs": ["kr.air.balloon.contains.air", "kr.air.candle.need.air"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Study the two objects in the picture. Which pair of observations about air matches them?" },
+    "stimulus": { "type": "scene", "sceneId": "scene.air.balloon-candle" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "both", "label": "Air occupies space in the balloon, and air is needed for the candle to keep burning." },
+      { "id": "water", "label": "Water fills the balloon, and water keeps the flame burning." },
+      { "id": "none", "label": "Neither object tells us anything about air." },
+      { "id": "reverse", "label": "The candle shows air occupies space, and the balloon proves air is not needed for burning." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["both"] },
+    "feedback": { "correct": "Correct. The balloon demonstrates occupied space, while the flame demonstrates a need for air in burning.", "incorrect": "Connect the balloon to occupied space and the burning candle to its need for air." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-visual-reasoning" }
+  },
+  {
+    "id": "rocks.visual.pumice-water.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["rocks.types.pumice"],
+    "knowledgeRefs": ["kr.rocks.pumice.feature.light"],
+    "gradeBands": [2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "The picture highlights many holes in this rock and shows it at the water surface. Which rock fact best matches the visual clue?" },
+    "stimulus": { "type": "scene", "sceneId": "scene.rocks.pumice-water" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "pumice", "label": "Pumice can contain many holes and can be light enough for some pieces to float." },
+      { "id": "granite", "label": "Every hard granite piece must float because it has no holes." },
+      { "id": "marble", "label": "Marble floats because polishing fills it with air." },
+      { "id": "slate", "label": "Slate floats because it always splits into round balls." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["pumice"] },
+    "feedback": { "correct": "Correct. Pumice has many holes, and some pumice is light enough to float.", "incorrect": "Use both visual clues: the holes and the position at the water surface." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-visual-reasoning" }
+  }
+]
