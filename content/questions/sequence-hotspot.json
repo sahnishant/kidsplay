@@ -1,0 +1,74 @@
+[
+  {
+    "id": "animals.butterfly.lifecycle.sequence.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.butterfly.life-cycle"],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Put the butterfly life cycle in order." },
+    "interaction": {
+      "type": "sequence_order",
+      "version": 1,
+      "seed": 290826,
+      "items": [
+        { "id": "egg", "label": "Egg", "symbol": "🥚" },
+        { "id": "caterpillar", "label": "Caterpillar", "symbol": "🐛" },
+        { "id": "chrysalis", "label": "Chrysalis", "symbol": "🟤" },
+        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋" }
+      ]
+    },
+    "solution": {
+      "type": "ordered_items",
+      "orderedItemIds": ["egg", "caterpillar", "chrysalis", "butterfly"]
+    },
+    "feedback": {
+      "correct": "Correct. Egg, caterpillar, chrysalis, then butterfly.",
+      "incorrect": "Think about how a butterfly changes as it grows."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.habitat.hotspot.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.dog.habitat", "animals.whale.habitat"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Tap the animal that lives in water." },
+    "interaction": {
+      "type": "hotspot",
+      "version": 1,
+      "selectionMode": "single",
+      "board": {
+        "ariaLabel": "A dog on land and a whale in water",
+        "theme": "split-land-water",
+        "regions": [
+          {
+            "id": "dog",
+            "label": "Dog",
+            "symbol": "🐶",
+            "shape": { "type": "circle", "centerX": 0.27, "centerY": 0.58, "radius": 0.16 }
+          },
+          {
+            "id": "whale",
+            "label": "Whale",
+            "symbol": "🐋",
+            "shape": { "type": "circle", "centerX": 0.73, "centerY": 0.58, "radius": 0.17 }
+          }
+        ]
+      }
+    },
+    "solution": {
+      "type": "selected_regions",
+      "correctRegionIds": ["whale"]
+    },
+    "feedback": {
+      "correct": "Correct. A whale lives in water.",
+      "incorrect": "Look for the animal whose normal habitat is water."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]

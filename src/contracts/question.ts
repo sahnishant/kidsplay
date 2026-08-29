@@ -153,9 +153,69 @@ export interface MemoryPairsQuestion extends BaseQuestion {
   };
 }
 
+export interface SequenceItem {
+  id: string;
+  label: string;
+  symbol?: string;
+}
+
+export interface SequenceOrderQuestion extends BaseQuestion {
+  interaction: {
+    type: 'sequence_order';
+    version: 1;
+    seed: number;
+    items: SequenceItem[];
+  };
+  solution: {
+    type: 'ordered_items';
+    orderedItemIds: string[];
+  };
+}
+
+export type HotspotShape =
+  | {
+      type: 'circle';
+      centerX: number;
+      centerY: number;
+      radius: number;
+    }
+  | {
+      type: 'rect';
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    };
+
+export interface HotspotRegion {
+  id: string;
+  label: string;
+  symbol?: string;
+  shape: HotspotShape;
+}
+
+export interface HotspotQuestion extends BaseQuestion {
+  interaction: {
+    type: 'hotspot';
+    version: 1;
+    selectionMode: 'single' | 'multiple';
+    board: {
+      ariaLabel: string;
+      theme?: 'plain' | 'grass' | 'ocean' | 'sky' | 'split-land-water';
+      regions: HotspotRegion[];
+    };
+  };
+  solution: {
+    type: 'selected_regions';
+    correctRegionIds: string[];
+  };
+}
+
 export type Question =
   | SingleChoiceQuestion
   | WordBankFillQuestion
   | DragToTargetQuestion
   | WordSearchQuestion
-  | MemoryPairsQuestion;
+  | MemoryPairsQuestion
+  | SequenceOrderQuestion
+  | HotspotQuestion;

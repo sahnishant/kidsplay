@@ -79,6 +79,29 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     score = boundedScore(correctParts, expected.size);
   }
 
+  if (question.solution.type === 'ordered_items') {
+    const payload = response as { orderedItemIds?: unknown };
+    const actual = Array.isArray(payload?.orderedItemIds)
+      ? payload.orderedItemIds.filter((value): value is string => typeof value === 'string')
+      : [];
+    const expected = question.solution.orderedItemIds;
+    const correctPositions = expected.filter((itemId, index) => actual[index] === itemId).length;
+    score = boundedScore(correctPositions, expected.length);
+  }
+
+  if (question.solution.type === 'selected_regions') {
+    const payload = response as { selectedRegionIds?: unknown };
+    const actual = new Set(
+      Array.isArray(payload?.selectedRegionIds)
+        ? payload.selectedRegionIds.filter((value): value is string => typeof value === 'string')
+        : []
+    );
+    const expected = new Set(question.solution.correctRegionIds);
+    const union = new Set([...actual, ...expected]);
+    const intersection = [...expected].filter((regionId) => actual.has(regionId)).length;
+    score = boundedScore(intersection, union.size);
+  }
+
   const correct = score === 1;
 
   return {

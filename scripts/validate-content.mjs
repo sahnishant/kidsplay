@@ -39,7 +39,9 @@ const supportedEngines = new Set([
   'word_bank_fill@1',
   'drag_to_target@1',
   'word_search@1',
-  'memory_pairs@1'
+  'memory_pairs@1',
+  'sequence_order@1',
+  'hotspot@1'
 ]);
 
 const wordSearchDirections = new Set([
@@ -53,7 +55,9 @@ const wordSearchDirections = new Set([
   'up_left'
 ]);
 
+const hotspotThemes = new Set(['plain', 'grass', 'ocean', 'sky', 'split-land-water']);
 const pairKey = (first, second) => (first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`);
+const isNormalized = (value) => Number.isFinite(value) && value >= 0 && value <= 1;
 
 const duplicateIds = (items, label) => {
   const seen = new Set();
@@ -195,6 +199,60 @@ for (const question of questions) {
     }
     for (const cardId of cardIds) {
       if (!usedCardIds.has(cardId)) errors.push(`${prefix}: memory card ${cardId} is not assigned to a solution pair`);
+    }
+  }
+
+  if (interaction?.type === 'sequence_order') {
+    const itemIds = duplicateIds(interaction.items ?? [], `${prefix} sequence item`);
+    if (itemIds.size < 2) errors.push(`${prefix}: sequence order needs at least two items`);
+    if (!Number.isInteger(interaction.seed)) errors.push(`${prefix}: sequence-order seed must be an integer`);
+    if (question.solution?.type !== 'ordered_items') errors.push(`${prefix}: sequence order requires ordered_items solution`);
+
+    const orderedIds = question.solution?.orderedItemIds ?? [];
+    if (orderedIds.length !== itemIds.size) errors.push(`${prefix}: ordered solution must contain every sequence item`);
+    const orderedSet = new Set(orderedIds);
+    if (orderedSet.size !== orderedIds.length) errors.push(`${prefix}: ordered solution contains duplicate item ids`);
+    for (const itemId of orderedIds) {
+      if (!itemIds.has(itemId)) errors.push(`${prefix}: ordered solution refers to missing item ${itemId}`);
+    }
+    for (const itemId of itemIds) {
+      if (!orderedSet.has(itemId)) errors.push(`${prefix}: sequence item ${itemId} is missing from ordered solution`);
+    }
+  }
+
+  if (interaction?.type === 'hotspot') {
+    const regionIds = duplicateIds(interaction.board?.regions ?? [], `${prefix} hotspot region`);
+    if (!regionIds.size) errors.push(`${prefix}: hotspot needs at least one region`);
+    if (!['single', 'multiple'].includes(interaction.selectionMode)) {
+      errors.push(`${prefix}: hotspot selectionMode must be single or multiple`);
+    }
+    if (interaction.board?.theme && !hotspotThemes.has(interaction.board.theme)) {
+      errors.push(`${prefix}: unsupported hotspot theme ${interaction.board.theme}`);
+    }
+
+    for (const region of interaction.board?.regions ?? []) {
+      const shape = region.shape;
+      if (shape?.type === 'circle') {
+        if (![shape.centerX, shape.centerY, shape.radius].every(isNormalized) || shape.radius <= 0) {
+          errors.push(`${prefix}: hotspot circle ${region.id} must use normalized center/radius values`);
+        }
+      } else if (shape?.type === 'rect') {
+        if (![shape.x, shape.y, shape.width, shape.height].every(isNormalized) || shape.width <= 0 || shape.height <= 0) {
+          errors.push(`${prefix}: hotspot rect ${region.id} must use normalized x/y/width/height values`);
+        }
+      } else {
+        errors.push(`${prefix}: hotspot region ${region.id ?? '<unknown>'} has unsupported shape`);
+      }
+    }
+
+    if (question.solution?.type !== 'selected_regions') errors.push(`${prefix}: hotspot requires selected_regions solution`);
+    const correctIds = question.solution?.correctRegionIds ?? [];
+    if (!correctIds.length) errors.push(`${prefix}: hotspot needs at least one correct region`);
+    if (interaction.selectionMode === 'single' && correctIds.length !== 1) {
+      errors.push(`${prefix}: single-select hotspot must have exactly one correct region`);
+    }
+    for (const regionId of correctIds) {
+      if (!regionIds.has(regionId)) errors.push(`${prefix}: hotspot solution refers to missing region ${regionId}`);
     }
   }
 }

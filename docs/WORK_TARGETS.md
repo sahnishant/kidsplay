@@ -38,9 +38,17 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 - `memory_pairs@1`
   - semantic relations, not equality-only pairs
   - examples: DOG ↔ PET ANIMAL, TIGER ↔ WILD ANIMAL, BUTTERFLY ↔ INSECT
+- `sequence_order@1`
+  - shared reorder/swap/move primitive
+  - tap-two-to-swap and arrow movement
+- `hotspot@1`
+  - normalized hit-region geometry
+  - single/multiple selection contract
+  - scene-like board proof
 - reusable seeded random/shuffle
 - reusable card-deck shuffle primitive
 - reusable grid/line primitives
+- reusable normalized hit-region primitive
 - scene renderer with lightweight CSS motion
 - centralized external evaluator
 - question-bank validation and automatic JSON discovery
@@ -50,10 +58,10 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 
 ### P1 — mechanics multiplication
 
-- [ ] Reorder/swap primitive.
-- [ ] `sequence_order@1` using reorder/swap; first proof: lifecycle ordering.
-- [ ] Hit-region primitive using normalized coordinates.
-- [ ] `hotspot@1` / interactive-diagram selection; first proof: identify the correct animal/object in a scene-like board.
+- [x] Reorder/swap primitive.
+- [x] `sequence_order@1` using reorder/swap; first proof: butterfly lifecycle ordering.
+- [x] Hit-region primitive using normalized coordinates.
+- [x] `hotspot@1` / interactive-diagram selection; first proof: identify the water animal in a scene-like board.
 
 ### P2 — compiled puzzle engines
 

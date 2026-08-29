@@ -1,6 +1,8 @@
 import type { Question } from '../contracts/question';
 import { dragToTargetEngine } from '../engines/dragToTarget';
+import { hotspotEngine } from '../engines/hotspot';
 import { memoryPairsEngine } from '../engines/memoryPairs';
+import { sequenceOrderEngine } from '../engines/sequenceOrder';
 import { singleChoiceEngine } from '../engines/singleChoice';
 import type { InteractionEngine } from '../engines/types';
 import { wordBankFillEngine } from '../engines/wordBankFill';
@@ -11,7 +13,9 @@ const engines = new Map<string, InteractionEngine>([
   [wordBankFillEngine.key, wordBankFillEngine],
   [dragToTargetEngine.key, dragToTargetEngine],
   [wordSearchEngine.key, wordSearchEngine],
-  [memoryPairsEngine.key, memoryPairsEngine]
+  [memoryPairsEngine.key, memoryPairsEngine],
+  [sequenceOrderEngine.key, sequenceOrderEngine],
+  [hotspotEngine.key, hotspotEngine]
 ]);
 
 export function getEngine(question: Question): InteractionEngine {
