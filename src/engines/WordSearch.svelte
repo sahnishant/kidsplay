@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { WordSearchQuestion } from '../contracts/question';
   import type { GridPoint } from '../mechanics/grid';
   import { lineBetween, pointKey, samePoint } from '../mechanics/grid';
@@ -7,13 +8,13 @@
 
   let { question, onSubmit }: EngineProps<WordSearchQuestion> = $props();
 
-  const generated = generateWordSearch({
+  let generated = $derived.by(() => generateWordSearch({
     terms: question.interaction.terms,
     seed: question.interaction.seed,
     size: question.interaction.gridSize,
     directions: question.interaction.directions,
     alphabet: question.interaction.alphabet
-  });
+  }));
 
   let foundTermIds = $state<string[]>([]);
   let foundCellKeys = $state<string[]>([]);
@@ -24,7 +25,7 @@
   let dragPointerId: number | null = null;
   let dragMoved = false;
   let locked = $state(false);
-  let liveStatus = $state(`${question.interaction.terms.length} words to find.`);
+  let liveStatus = $state(untrack(() => `${question.interaction.terms.length} words to find.`));
   let gridElement: HTMLDivElement;
 
   function showPreview(points: readonly GridPoint[]): void {
@@ -169,7 +170,7 @@
   <div
     class="word-search__grid"
     style={`--word-search-size: ${generated.grid.length}`}
-    role="grid"
+    role="group"
     aria-label="Word search letter grid"
     bind:this={gridElement}
     onpointerdown={pointerDown}
@@ -185,7 +186,6 @@
           class={cellClass(point)}
           data-row={rowIndex}
           data-col={colIndex}
-          role="gridcell"
           aria-label={`Row ${rowIndex + 1}, column ${colIndex + 1}, ${letter}`}
           disabled={locked}
           onclick={(event) => event.detail === 0 && handleTap(point)}
