@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.human.actions.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Human Body",
+  "entries": [
+    {
+      "id": "hands-hold",
+      "rowId": "kr.human.hands.action.hold",
+      "subject": { "id": "hands", "label": "Hands", "symbol": "🤲" },
+      "relation": "action",
+      "object": { "id": "hold", "label": "help us hold and pick up things" },
+      "conceptIds": ["human.body.hands"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "legs-walk",
+      "rowId": "kr.human.legs.action.walk-run",
+      "subject": { "id": "legs", "label": "Legs", "symbol": "🦵" },
+      "relation": "action",
+      "object": { "id": "walk-run", "label": "help us walk and run" },
+      "conceptIds": ["human.body.legs"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "teeth-chew",
+      "rowId": "kr.human.teeth.action.chew",
+      "subject": { "id": "teeth", "label": "Teeth", "symbol": "🦷" },
+      "relation": "action",
+      "object": { "id": "chew", "label": "help bite and chew food" },
+      "conceptIds": ["human.body.teeth"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "neck-turn",
+      "rowId": "kr.human.neck.action.turn-head",
+      "subject": { "id": "neck", "label": "Neck", "symbol": "🙂" },
+      "relation": "action",
+      "object": { "id": "turn-head", "label": "supports and helps turn the head" },
+      "conceptIds": ["human.body.neck"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "skin-protects",
+      "rowId": "kr.human.skin.function.protect",
+      "subject": { "id": "skin", "label": "Skin", "symbol": "🖐️" },
+      "relation": "function",
+      "object": { "id": "protect", "label": "covers and helps protect the body" },
+      "conceptIds": ["human.body.skin-protection"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "joints-bend",
+      "rowId": "kr.human.joints.function.bend",
+      "subject": { "id": "joints", "label": "Joints", "symbol": "🦵" },
+      "relation": "function",
+      "object": { "id": "bend", "label": "let many body parts bend" },
+      "conceptIds": ["human.body.joints"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Human Body enrichment inside reviewed SOF ISO Human Body chapter scope; exact SOF profile fit remains separately reviewed."
+  }
+}
