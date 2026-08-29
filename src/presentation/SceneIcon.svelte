@@ -1,5 +1,14 @@
 <script lang="ts">
-  export type SceneIconId = 'dog-happy' | 'dog-worried' | 'bone' | 'heart' | 'wave' | 'whale';
+  export type SceneIconId =
+    | 'dog-happy'
+    | 'dog-worried'
+    | 'bone'
+    | 'heart'
+    | 'wave'
+    | 'whale'
+    | 'balloon'
+    | 'candle'
+    | 'pumice';
 
   let { icon }: { icon: SceneIconId } = $props();
 </script>
@@ -47,6 +56,29 @@
       <circle class="whale-eye" cx="40" cy="51" r="3.5" />
       <path class="whale-smile" d="M36 65q8 6 16 0" />
       <path class="whale-spout" d="M54 30c-7-9-4-17 1-23m4 22c6-10 5-17 2-23" />
+    </g>
+  {:else if icon === 'balloon'}
+    <g class="balloon">
+      <ellipse cx="60" cy="42" rx="31" ry="36" />
+      <path class="balloon-knot" d="m53 76 7-9 7 9Z" />
+      <path class="balloon-string" d="M60 76q-12 11 0 22" />
+      <ellipse class="balloon-shine" cx="48" cy="29" rx="7" ry="11" />
+    </g>
+  {:else if icon === 'candle'}
+    <g class="candle">
+      <rect class="candle-body" x="44" y="42" width="32" height="51" rx="5" />
+      <path class="candle-wax" d="M45 52q8-10 16 0 8-10 15 0v12H45Z" />
+      <path class="candle-flame" d="M60 43c-16-13 2-27 4-39 15 17 15 30-4 39Z" />
+      <path class="candle-wick" d="M60 43V34" />
+    </g>
+  {:else if icon === 'pumice'}
+    <g class="pumice">
+      <path class="pumice-rock" d="M21 67 29 32 54 15 87 25 104 53 88 83 49 90Z" />
+      <circle class="pumice-hole" cx="47" cy="40" r="7" />
+      <circle class="pumice-hole" cx="76" cy="43" r="5" />
+      <circle class="pumice-hole" cx="61" cy="67" r="8" />
+      <circle class="pumice-hole" cx="88" cy="61" r="4" />
+      <circle class="pumice-hole" cx="37" cy="68" r="4" />
     </g>
   {/if}
 </svg>
@@ -127,5 +159,59 @@
     stroke: #17394d;
     stroke-width: 2.5;
     stroke-linecap: round;
+  }
+
+  .balloon ellipse:first-child {
+    fill: #ec6681;
+    stroke: #b9405a;
+    stroke-width: 3;
+  }
+
+  .balloon-knot {
+    fill: #b9405a;
+  }
+
+  .balloon-string {
+    fill: none;
+    stroke: #725d55;
+    stroke-width: 2;
+  }
+
+  .balloon-shine {
+    fill: rgba(255, 255, 255, 0.6);
+  }
+
+  .candle-body {
+    fill: #f7e7b2;
+    stroke: #c8ae67;
+    stroke-width: 2.5;
+  }
+
+  .candle-wax {
+    fill: #fff7d7;
+  }
+
+  .candle-flame {
+    fill: #f5a623;
+    stroke: #d67917;
+    stroke-width: 2;
+  }
+
+  .candle-wick {
+    stroke: #5a4638;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+  }
+
+  .pumice-rock {
+    fill: #b9ada1;
+    stroke: #766b62;
+    stroke-width: 3;
+    stroke-linejoin: round;
+  }
+
+  .pumice-hole {
+    fill: #786f68;
+    opacity: 0.78;
   }
 </style>
