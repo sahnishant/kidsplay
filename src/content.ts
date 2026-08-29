@@ -133,12 +133,14 @@ function masteryScore(question: Question, mastery: Record<string, MasteryCounter
   return scores.reduce((sum, score) => sum + score, 0) / scores.length;
 }
 
+function rowKnowledgeGroup(rowId: string): string {
+  const parts = rowId.split('.');
+  if (parts[1] === 'choice' && parts[2]) return parts[2];
+  return parts[1] || 'general';
+}
+
 function knowledgeGroup(question: Question): string {
-  const groups = new Set(
-    (question.knowledgeRefs ?? [])
-      .map((rowId) => rowId.split('.')[1])
-      .filter(Boolean)
-  );
+  const groups = new Set((question.knowledgeRefs ?? []).map(rowKnowledgeGroup).filter(Boolean));
   if (!groups.size) return 'general';
   return groups.size === 1 ? [...groups][0] : 'mixed';
 }
@@ -185,6 +187,15 @@ function chooseWithEngineVariety(candidates: Question[], count: number): Questio
   }
 
   return selected;
+}
+
+function questionFitRank(
+  question: Question,
+  memberByRow: Map<string, ProfileMembershipMember>
+): number {
+  const refs = question.knowledgeRefs ?? [];
+  if (!refs.length) return fitRank.challenge;
+  return Math.min(...refs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
 }
 
 export function getLearningProfiles(): LearningProfile[] {
@@ -243,23 +254,24 @@ export function getProfileQuestions(profileRef: string, options: ProfileSessionO
   const mastery = options.mastery ?? {};
   const count = Math.max(1, options.count ?? 8);
 
-  const candidates = questionBank
+  const sorted = questionBank
     .filter((question) => {
       const refs = question.knowledgeRefs ?? [];
       return refs.length > 0 && refs.every((rowId) => memberByRow.has(rowId));
     })
     .sort((left, right) => {
-      const leftRefs = left.knowledgeRefs ?? [];
-      const rightRefs = right.knowledgeRefs ?? [];
-      const leftFit = Math.min(...leftRefs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
-      const rightFit = Math.min(...rightRefs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
-      if (leftFit !== rightFit) return leftFit - rightFit;
+      const fitDelta = questionFitRank(left, memberByRow) - questionFitRank(right, memberByRow);
+      if (fitDelta !== 0) return fitDelta;
 
       const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
       if (masteryDelta !== 0) return masteryDelta;
       if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
       return left.id.localeCompare(right.id);
     });
+
+  const candidates = [0, 1, 2, 3].flatMap((rank) =>
+    interleaveByKnowledgeGroup(sorted.filter((question) => questionFitRank(question, memberByRow) === rank))
+  );
 
   return chooseWithEngineVariety(candidates, count);
 }
