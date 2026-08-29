@@ -38,7 +38,8 @@ const supportedEngines = new Set([
   'single_choice@1',
   'word_bank_fill@1',
   'drag_to_target@1',
-  'word_search@1'
+  'word_search@1',
+  'memory_pairs@1'
 ]);
 
 const wordSearchDirections = new Set([
@@ -51,6 +52,8 @@ const wordSearchDirections = new Set([
   'up_right',
   'up_left'
 ]);
+
+const pairKey = (first, second) => (first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`);
 
 const duplicateIds = (items, label) => {
   const seen = new Set();
@@ -148,6 +151,50 @@ for (const question of questions) {
     }
     for (const termId of question.solution?.requiredTermIds ?? []) {
       if (!termIds.has(termId)) errors.push(`${prefix}: solution refers to missing word-search term ${termId}`);
+    }
+  }
+
+  if (interaction?.type === 'memory_pairs') {
+    const cardIds = duplicateIds(interaction.cards ?? [], `${prefix} memory card`);
+    if (cardIds.size < 4 || cardIds.size % 2 !== 0) {
+      errors.push(`${prefix}: memory pairs needs an even number of cards and at least four cards`);
+    }
+    if (!Number.isInteger(interaction.seed)) errors.push(`${prefix}: memory-pairs seed must be an integer`);
+    if (question.solution?.type !== 'pair_matches') errors.push(`${prefix}: memory pairs requires pair_matches solution`);
+
+    const pairs = question.solution?.pairs ?? [];
+    const seenPairKeys = new Set();
+    const usedCardIds = new Set();
+
+    for (const pair of pairs) {
+      if (!Array.isArray(pair) || pair.length !== 2) {
+        errors.push(`${prefix}: every memory solution pair must contain exactly two card ids`);
+        continue;
+      }
+      const [first, second] = pair;
+      if (typeof first !== 'string' || typeof second !== 'string') {
+        errors.push(`${prefix}: memory solution pair ids must be strings`);
+        continue;
+      }
+      if (first === second) errors.push(`${prefix}: a memory card cannot be paired with itself (${first})`);
+      if (!cardIds.has(first)) errors.push(`${prefix}: solution refers to missing memory card ${first}`);
+      if (!cardIds.has(second)) errors.push(`${prefix}: solution refers to missing memory card ${second}`);
+
+      const key = pairKey(first, second);
+      if (seenPairKeys.has(key)) errors.push(`${prefix}: duplicate memory pair ${first} / ${second}`);
+      seenPairKeys.add(key);
+
+      for (const cardId of [first, second]) {
+        if (usedCardIds.has(cardId)) errors.push(`${prefix}: memory card ${cardId} appears in more than one solution pair`);
+        usedCardIds.add(cardId);
+      }
+    }
+
+    if (pairs.length * 2 !== cardIds.size) {
+      errors.push(`${prefix}: memory solution must pair every card exactly once`);
+    }
+    for (const cardId of cardIds) {
+      if (!usedCardIds.has(cardId)) errors.push(`${prefix}: memory card ${cardId} is not assigned to a solution pair`);
     }
   }
 }
