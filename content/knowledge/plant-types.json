@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.plants.types.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Plants",
+  "entries": [
+    {
+      "id": "mango-tree",
+      "rowId": "kr.plants.mango.type.tree",
+      "subject": { "id": "mango", "label": "Mango", "symbol": "🥭" },
+      "relation": "is_a",
+      "object": { "id": "tree", "label": "tree" },
+      "conceptIds": ["plants.types.tree"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "rose-shrub",
+      "rowId": "kr.plants.rose.type.shrub",
+      "subject": { "id": "rose", "label": "Rose", "symbol": "🌹" },
+      "relation": "is_a",
+      "object": { "id": "shrub", "label": "shrub" },
+      "conceptIds": ["plants.types.shrub"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "mint-herb",
+      "rowId": "kr.plants.mint.type.herb",
+      "subject": { "id": "mint", "label": "Mint", "symbol": "🌿" },
+      "relation": "is_a",
+      "object": { "id": "herb", "label": "herb" },
+      "conceptIds": ["plants.types.herb"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "pea-climber",
+      "rowId": "kr.plants.pea.type.climber",
+      "subject": { "id": "pea", "label": "Pea", "symbol": "🫛" },
+      "relation": "is_a",
+      "object": { "id": "climber", "label": "climber" },
+      "conceptIds": ["plants.types.climber"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "pumpkin-creeper",
+      "rowId": "kr.plants.pumpkin.type.creeper",
+      "subject": { "id": "pumpkin", "label": "Pumpkin", "symbol": "🎃" },
+      "relation": "is_a",
+      "object": { "id": "creeper", "label": "creeper" },
+      "conceptIds": ["plants.types.creeper"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
+    },
+    {
+      "id": "lotus-aquatic",
+      "rowId": "kr.plants.lotus.type.aquatic",
+      "subject": { "id": "lotus", "label": "Lotus", "symbol": "🪷" },
+      "relation": "is_a",
+      "object": { "id": "aquatic-plant", "label": "aquatic plant" },
+      "conceptIds": ["plants.types.aquatic"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Class 2 Plants enrichment inside reviewed SOF ISO Plants chapter scope; exact profile fit remains separately reviewed."
+  }
+}
