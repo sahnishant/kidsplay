@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { SequenceOrderQuestion } from '../contracts/question';
   import { createShuffledOrder, moveItem, swapItems } from '../mechanics/reorder';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<SequenceOrderQuestion> = $props();
 
-  let order = $state(createShuffledOrder(question.interaction.items, question.interaction.seed));
+  let order = $state(untrack(() => createShuffledOrder(question.interaction.items, question.interaction.seed)));
   let selectedId = $state<string | null>(null);
   let status = $state('');
   let locked = $state(false);
