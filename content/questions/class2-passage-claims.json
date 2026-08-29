@@ -1,0 +1,122 @@
+[
+  {
+    "id": "plants-water.passage.after-rain.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["water.sources.rain", "plants.parts.roots"],
+    "knowledgeRefs": ["kr.water.rain.source.freshwater", "kr.plants.roots.function.absorb-water"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Read this: It rained in Meera's garden. Some rainwater entered the soil. The plant roots took in water from the soil. Which claim is best supported by the passage?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "supported", "label": "Rain can provide fresh water, and roots can absorb water from the soil." },
+      { "id": "leaves", "label": "Roots make food while leaves absorb all water." },
+      { "id": "rocks", "label": "Rain turns every rock into a plant." },
+      { "id": "none", "label": "Plants do not need water from their surroundings." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["supported"] },
+    "feedback": { "correct": "Correct. The passage connects rain as a water source with roots taking in water.", "incorrect": "Use both details in the passage: where the water came from and what the roots did." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-passage-reasoning" }
+  },
+  {
+    "id": "habits-safety.passage.school-day.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["habits.daily.cover-cough", "safety.rules.zebra-crossing"],
+    "knowledgeRefs": ["kr.habits.cover-cough.purpose.germs", "kr.safety.road.crossing.zebra"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Read this: On the way to school, Riya crossed at the zebra crossing. In class, she covered her mouth and nose when she sneezed. Which statement describes both choices?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "safe-healthy", "label": "She followed a road-safety rule and a healthy hygiene habit." },
+      { "id": "travel", "label": "She used two different means of transport." },
+      { "id": "food", "label": "She followed two food-storage rules." },
+      { "id": "wrong", "label": "Both choices make travel less safe." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["safe-healthy"] },
+    "feedback": { "correct": "Correct. One action is about safer road crossing and the other helps reduce spread of droplets.", "incorrect": "Classify each action first, then find the option that describes both." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-passage-reasoning" }
+  },
+  {
+    "id": "earth-sun.passage.morning-evening.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["universe.sun.star", "universe.earth.rotation"],
+    "knowledgeRefs": ["kr.universe.sun.type.star", "kr.universe.earth.rotation.day-night"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Read this: Kabir sees sunlight during the day and darkness at night. He learns that the Sun is a star and Earth keeps rotating. Which explanation uses both facts correctly?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "rotation", "label": "Earth's rotation changes which side faces the Sun, producing the regular day-night change." },
+      { "id": "sun-switch", "label": "The Sun stops being a star every night." },
+      { "id": "earth-stop", "label": "Earth stops rotating whenever it becomes dark." },
+      { "id": "moon", "label": "The Moon pushes Earth from day into night." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["rotation"] },
+    "feedback": { "correct": "Correct. The Sun remains a star while Earth's rotation changes which side receives sunlight.", "incorrect": "The Sun does not switch off; use Earth's rotation to explain the change." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-passage-reasoning" }
+  },
+  {
+    "id": "housing-weather.passage.flood-area.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["housing.types.stilt-house", "clothing.weather.raincoat"],
+    "knowledgeRefs": ["kr.housing.stilt-house.feature.raised", "kr.clothing.raincoat.weather.rain"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Read this: A family lives in a place with frequent heavy rain and water sometimes covers the ground. Their home is raised on strong posts, and they wear waterproof outer clothing when going out. Which pair matches the clues?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "stilt-raincoat", "label": "Stilt house and raincoat" },
+      { "id": "igloo-cotton", "label": "Igloo and cotton clothes" },
+      { "id": "caravan-wool", "label": "Caravan and woollen clothes" },
+      { "id": "houseboat-sunhat", "label": "Houseboat and sun hat" }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["stilt-raincoat"] },
+    "feedback": { "correct": "Correct. The raised-post clue identifies a stilt house, and waterproof outer clothing for rain is a raincoat.", "incorrect": "Match each clue separately: raised on posts, then waterproof clothing for rain." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-passage-reasoning" }
+  },
+  {
+    "id": "family-festivals.passage.neighbours.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["family.community.diversity", "festivals.customs.respect"],
+    "knowledgeRefs": ["kr.family.forms.value.respect", "kr.festivals.diversity.value.respect"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Read this: Two neighbouring families are arranged differently and celebrate different traditions. Their children ask one another polite questions and join in respectfully when invited. What idea is the passage showing?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "respect", "label": "Differences in families and traditions can be approached with curiosity and respect." },
+      { "id": "same", "label": "All families must have the same arrangement and customs." },
+      { "id": "avoid", "label": "Children should avoid learning about unfamiliar traditions." },
+      { "id": "compete", "label": "One family's celebration must be better than another's." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["respect"] },
+    "feedback": { "correct": "Correct. The passage shows respectful learning across differences.", "incorrect": "Look for the choice that accepts differences without ranking or rejecting them." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-passage-reasoning" }
+  },
+  {
+    "id": "transport-communication.passage.trip.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["transport.modes.train", "communication.methods.email"],
+    "knowledgeRefs": ["kr.transport.train.mode.rail", "kr.communication.email.use.internet"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Read this: Tara travels to another city on a vehicle that runs on railway tracks. After arriving, she sends a digital message through the internet. Which pair names the vehicle and message method?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "train-email", "label": "Train and email" },
+      { "id": "ship-letter", "label": "Ship and letter" },
+      { "id": "bus-radio", "label": "Bus and radio" },
+      { "id": "aeroplane-newspaper", "label": "Aeroplane and newspaper" }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["train-email"] },
+    "feedback": { "correct": "Correct. Railway tracks point to a train, and an internet message points to email.", "incorrect": "Identify the transport clue and communication clue one at a time." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-passage-reasoning" }
+  }
+]
