@@ -1,0 +1,11 @@
+[
+  { "id": "air.properties.memory.generated.001", "sourceRef": "knowledge.air.properties.001", "engine": "memory_pairs@1", "seed": 20260917, "difficulty": 2, "prompt": "Match each air example with the description that belongs with it." },
+  { "id": "air.properties.match.generated.001", "sourceRef": "knowledge.air.properties.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each air example with the correct description." },
+  { "id": "air.properties.mcq.generated.001", "sourceRef": "knowledge.air.properties.001", "engine": "single_choice@1", "entryIds": ["moving-air"], "distractorCount": 3, "difficulty": 1 },
+  { "id": "water.sources.memory.generated.001", "sourceRef": "knowledge.water.sources.001", "engine": "memory_pairs@1", "seed": 20260918, "difficulty": 2, "prompt": "Match each water source with the description that belongs with it." },
+  { "id": "water.sources.match.generated.001", "sourceRef": "knowledge.water.sources.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each water source with the correct description." },
+  { "id": "water.sources.mcq.generated.001", "sourceRef": "knowledge.water.sources.001", "engine": "single_choice@1", "entryIds": ["well-ground"], "distractorCount": 3, "difficulty": 1 },
+  { "id": "rocks.types.memory.generated.001", "sourceRef": "knowledge.rocks.types.001", "engine": "memory_pairs@1", "seed": 20260919, "difficulty": 2, "prompt": "Match each rock or stone with the description that belongs with it." },
+  { "id": "rocks.types.match.generated.001", "sourceRef": "knowledge.rocks.types.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each rock or stone with the correct description." },
+  { "id": "rocks.types.mcq.generated.001", "sourceRef": "knowledge.rocks.types.001", "engine": "single_choice@1", "entryIds": ["pumice-light"], "distractorCount": 3, "difficulty": 1 }
+]
