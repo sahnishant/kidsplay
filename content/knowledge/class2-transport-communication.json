@@ -1,0 +1,38 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.transport.modes.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Transport and Communication",
+    "entries": [
+      { "id": "bus-road", "rowId": "kr.transport.bus.mode.road", "subject": { "id": "bus", "label": "Bus", "symbol": "🚌" }, "relation": "transport_role", "object": { "id": "road-many", "label": "carries many passengers on roads" }, "conceptIds": ["transport.modes.bus"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "train-rail", "rowId": "kr.transport.train.mode.rail", "subject": { "id": "train", "label": "Train", "symbol": "🚆" }, "relation": "transport_role", "object": { "id": "rail", "label": "runs on railway tracks" }, "conceptIds": ["transport.modes.train"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "aeroplane-air", "rowId": "kr.transport.aeroplane.mode.air", "subject": { "id": "aeroplane", "label": "Aeroplane", "symbol": "✈️" }, "relation": "transport_role", "object": { "id": "air", "label": "flies through the air for fast long-distance travel" }, "conceptIds": ["transport.modes.aeroplane"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "ship-water", "rowId": "kr.transport.ship.mode.water", "subject": { "id": "ship", "label": "Ship", "symbol": "🚢" }, "relation": "transport_role", "object": { "id": "water", "label": "carries people or goods across water" }, "conceptIds": ["transport.modes.ship"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "bicycle-pedal", "rowId": "kr.transport.bicycle.feature.pedal", "subject": { "id": "bicycle", "label": "Bicycle", "symbol": "🚲" }, "relation": "transport_role", "object": { "id": "pedal", "label": "is a two-wheeled vehicle moved by pedalling" }, "conceptIds": ["transport.modes.bicycle"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "ambulance-emergency", "rowId": "kr.transport.ambulance.role.emergency", "subject": { "id": "ambulance", "label": "Ambulance", "symbol": "🚑" }, "relation": "transport_role", "object": { "id": "emergency", "label": "carries sick or injured people for urgent medical care" }, "conceptIds": ["transport.modes.ambulance"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Transport modes and purposes are general elementary EVS knowledge; exact profile placement remains separately reviewed." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.communication.methods.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Transport and Communication",
+    "entries": [
+      { "id": "telephone-voice", "rowId": "kr.communication.telephone.use.voice", "subject": { "id": "telephone", "label": "Telephone", "symbol": "☎️" }, "relation": "communication_role", "object": { "id": "voice", "label": "lets people speak with one another over a distance" }, "conceptIds": ["communication.methods.telephone"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "letter-post", "rowId": "kr.communication.letter.use.post", "subject": { "id": "letter", "label": "Letter", "symbol": "✉️" }, "relation": "communication_role", "object": { "id": "post", "label": "is a written message that can be delivered by post" }, "conceptIds": ["communication.methods.letter"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "email-digital", "rowId": "kr.communication.email.use.internet", "subject": { "id": "email", "label": "Email", "symbol": "📧" }, "relation": "communication_role", "object": { "id": "internet", "label": "is a digital message sent through the internet" }, "conceptIds": ["communication.methods.email"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "newspaper-news", "rowId": "kr.communication.newspaper.use.news", "subject": { "id": "newspaper", "label": "Newspaper", "symbol": "📰" }, "relation": "communication_role", "object": { "id": "printed-news", "label": "shares printed news and information" }, "conceptIds": ["communication.methods.newspaper"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "radio-audio", "rowId": "kr.communication.radio.use.audio", "subject": { "id": "radio", "label": "Radio", "symbol": "📻" }, "relation": "communication_role", "object": { "id": "audio", "label": "shares news, music and programmes mainly through sound" }, "conceptIds": ["communication.methods.radio"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "television-av", "rowId": "kr.communication.television.use.av", "subject": { "id": "television", "label": "Television", "symbol": "📺" }, "relation": "communication_role", "object": { "id": "audio-video", "label": "shares information and programmes using sound and moving pictures" }, "conceptIds": ["communication.methods.television"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Communication methods are general elementary EVS knowledge; exact profile placement remains separately reviewed." }
+  }
+]
