@@ -22,5 +22,29 @@
     "topic": "Animals",
     "subtopic": "Habitats",
     "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.dog.pet-classification",
+    "statement": "Dogs are commonly kept as pet animals.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Classification",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.tiger.wild-classification",
+    "statement": "A tiger is a wild animal.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Classification",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.butterfly.insect-classification",
+    "statement": "A butterfly is an insect.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Classification",
+    "gradeBands": [1, 2]
   }
 ]
