@@ -1,0 +1,8 @@
+[
+  { "id": "habits.daily.memory.generated.001", "sourceRef": "knowledge.habits.daily.001", "engine": "memory_pairs@1", "seed": 20260913, "difficulty": 2, "prompt": "Match each healthy habit with the description that belongs with it." },
+  { "id": "habits.daily.match.generated.001", "sourceRef": "knowledge.habits.daily.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each healthy habit with the correct description." },
+  { "id": "habits.daily.mcq.generated.001", "sourceRef": "knowledge.habits.daily.001", "engine": "single_choice@1", "entryIds": ["cover-cough"], "distractorCount": 3, "difficulty": 1 },
+  { "id": "safety.rules.memory.generated.001", "sourceRef": "knowledge.safety.rules.001", "engine": "memory_pairs@1", "seed": 20260914, "difficulty": 2, "prompt": "Match each safety rule with the description that belongs with it." },
+  { "id": "safety.rules.match.generated.001", "sourceRef": "knowledge.safety.rules.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each safety rule with the correct description." },
+  { "id": "safety.rules.mcq.generated.001", "sourceRef": "knowledge.safety.rules.001", "engine": "single_choice@1", "entryIds": ["socket"], "distractorCount": 3, "difficulty": 1 }
+]
