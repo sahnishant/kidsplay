@@ -61,6 +61,47 @@
     { "rowId": "kr.plants.rubber-tree.use.rubber", "fit": "core" },
     { "rowId": "kr.plants.tea.use.leaves", "fit": "core" },
     { "rowId": "kr.plants.neem.use.medicine", "fit": "stretch" },
-    { "rowId": "kr.plants.bamboo.use.baskets", "fit": "stretch" }
+    { "rowId": "kr.plants.bamboo.use.baskets", "fit": "stretch" },
+
+    { "rowId": "kr.human.eyes.sense.sight", "fit": "core" },
+    { "rowId": "kr.human.ears.sense.hearing", "fit": "core" },
+    { "rowId": "kr.human.nose.sense.smell", "fit": "core" },
+    { "rowId": "kr.human.tongue.sense.taste", "fit": "core" },
+    { "rowId": "kr.human.skin.sense.touch", "fit": "stretch" },
+
+    { "rowId": "kr.human.brain.function.control", "fit": "stretch" },
+    { "rowId": "kr.human.heart.function.pump-blood", "fit": "core" },
+    { "rowId": "kr.human.lungs.function.breathe", "fit": "core" },
+    { "rowId": "kr.human.stomach.function.digest-food", "fit": "core" },
+    { "rowId": "kr.human.bones.function.support", "fit": "core" },
+    { "rowId": "kr.human.muscles.function.move", "fit": "stretch" },
+
+    { "rowId": "kr.human.hands.action.hold", "fit": "review" },
+    { "rowId": "kr.human.legs.action.walk-run", "fit": "review" },
+    { "rowId": "kr.human.teeth.action.chew", "fit": "core" },
+    { "rowId": "kr.human.neck.action.turn-head", "fit": "core" },
+    { "rowId": "kr.human.skin.function.protect", "fit": "stretch" },
+    { "rowId": "kr.human.joints.function.bend", "fit": "stretch" },
+
+    { "rowId": "kr.food.cow.source.milk", "fit": "review" },
+    { "rowId": "kr.food.hen.source.eggs", "fit": "review" },
+    { "rowId": "kr.food.honeybee.source.honey", "fit": "core" },
+    { "rowId": "kr.food.wheat.source.flour", "fit": "core" },
+    { "rowId": "kr.food.rice-plant.source.rice", "fit": "core" },
+    { "rowId": "kr.food.mustard.source.oil", "fit": "stretch" },
+
+    { "rowId": "kr.food.rice.group.energy", "fit": "core" },
+    { "rowId": "kr.food.pulses.group.body-building", "fit": "core" },
+    { "rowId": "kr.food.milk.group.body-building", "fit": "core" },
+    { "rowId": "kr.food.butter.group.energy", "fit": "core" },
+    { "rowId": "kr.food.spinach.group.protective", "fit": "core" },
+    { "rowId": "kr.food.orange.group.protective", "fit": "core" },
+
+    { "rowId": "kr.food.habit.wash-hands", "fit": "core" },
+    { "rowId": "kr.food.habit.wash-fruits-vegetables", "fit": "core" },
+    { "rowId": "kr.food.habit.cover-food", "fit": "core" },
+    { "rowId": "kr.food.habit.chew-well", "fit": "review" },
+    { "rowId": "kr.food.habit.clean-water", "fit": "core" },
+    { "rowId": "kr.food.habit.avoid-spoiled", "fit": "core" }
   ]
 }
