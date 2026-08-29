@@ -32,7 +32,7 @@
     not_started: 'Not started',
     needs_practice: 'Practise next',
     growing: 'Growing',
-    strong: 'Strong'
+    strong: 'Strong so far'
   };
 
   function updateName(event: Event): void {
