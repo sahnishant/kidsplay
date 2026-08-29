@@ -20,10 +20,17 @@ export interface MasteryEvidence {
   weight: number;
 }
 
+export interface KnowledgeEvidence {
+  rowId: string;
+  result: 'correct' | 'incorrect';
+  weight: number;
+}
+
 export interface EvaluationResult {
   correct: boolean;
   score: number;
   maxScore: number;
   feedbackKey: 'correct' | 'incorrect';
   masteryEvidence: MasteryEvidence[];
+  knowledgeEvidence: KnowledgeEvidence[];
 }

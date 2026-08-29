@@ -64,11 +64,13 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
   }
 
   const correct = score === 1;
+  const result = correct ? 'correct' : 'incorrect';
   return {
     correct,
     score,
     maxScore: 1,
     feedbackKey: correct ? 'correct' : 'incorrect',
-    masteryEvidence: question.conceptIds.map((conceptId) => ({ conceptId, result: correct ? 'correct' : 'incorrect', weight: score }))
+    masteryEvidence: question.conceptIds.map((conceptId) => ({ conceptId, result, weight: score })),
+    knowledgeEvidence: (question.knowledgeRefs ?? []).map((rowId) => ({ rowId, result, weight: score }))
   };
 }

@@ -8,6 +8,8 @@ export interface BaseQuestion {
   revision: number;
   schemaVersion: 1;
   conceptIds: string[];
+  /** Stable knowledge-row IDs this activity directly tests. */
+  knowledgeRefs?: string[];
   /** Legacy/manual descriptive metadata only. Curriculum placement belongs to learning profiles. */
   gradeBands?: number[];
   difficulty: number;

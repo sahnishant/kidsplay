@@ -19,6 +19,8 @@ if (plan.length !== 6) errors.push(`Expected 6 planned activities, got ${plan.le
 const engineCount = new Set(plan.map((item) => item.engine)).size;
 if (engineCount < 5) errors.push(`Expected high variety across at least 5 engines, got ${engineCount}`);
 
+const sameSet = (left, right) => left.length === right.length && left.every((value) => right.includes(value));
+
 for (const recipe of plan) {
   const source = sourceById.get(recipe.sourceRef);
   if (!source) {
@@ -27,7 +29,12 @@ for (const recipe of plan) {
   }
   try {
     const result = formatDataForEngine(source, recipe.engine, recipe);
-    if (!(result.questions?.length || result.crosswordAuthoring?.length)) errors.push(`${recipe.id}: formatter produced no delivery authoring output`);
+    const deliveryItems = [...(result.questions ?? []), ...(result.crosswordAuthoring ?? [])];
+    if (!deliveryItems.length) errors.push(`${recipe.id}: formatter produced no delivery authoring output`);
+    for (const item of deliveryItems) {
+      const refs = item.knowledgeRefs ?? [];
+      if (!sameSet(refs, recipe.rowIds ?? [])) errors.push(`${recipe.id}: delivery knowledgeRefs do not match planned rowIds`);
+    }
   } catch (error) {
     errors.push(`${recipe.id}: ${error instanceof Error ? error.message : String(error)}`);
   }
@@ -38,5 +45,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Planner OK: ${plan.length} recipes across ${engineCount} engines from profile + skill selection.`);
+  console.log(`Planner OK: ${plan.length} recipes across ${engineCount} engines with stable row traceability.`);
 }

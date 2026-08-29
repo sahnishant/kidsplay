@@ -33,6 +33,25 @@ const meetsRequirements = (data, requirements = {}) => {
   return true;
 };
 
+const knowledgeRefsForRecipe = (normalized, recipe) => {
+  if (recipe.rowIds?.length) return [...new Set(recipe.rowIds)];
+  if (recipe.entryIds?.length) {
+    const byLocalId = new Map(normalized.units.map((unit) => [unit.localId, unit.rowId]));
+    return [...new Set(recipe.entryIds.map((id) => {
+      const rowId = byLocalId.get(id);
+      if (!rowId) throw new Error(`${recipe.id}: cannot resolve knowledge row for entry ${id}`);
+      return rowId;
+    }))];
+  }
+  return [...new Set(normalized.units.map((unit) => unit.rowId))];
+};
+
+const attachKnowledgeRefs = (result, knowledgeRefs) => ({
+  ...result,
+  questions: (result.questions ?? []).map((question) => ({ ...question, knowledgeRefs })),
+  crosswordAuthoring: (result.crosswordAuthoring ?? []).map((question) => ({ ...question, knowledgeRefs }))
+});
+
 export function getUsableEngines(data) {
   const normalized = asNormalized(data);
   const definition = getDataType(normalized);
@@ -52,5 +71,6 @@ export function formatDataForEngine(data, engine, recipe = {}) {
   if (!(definition.compatibleEngines ?? []).includes(engine)) throw new Error(`${normalized.sourceRef}: datatype ${sourceKey} is not compatible with ${engine}`);
   if (!implementation.supportedEngines.includes(engine)) throw new Error(`${normalized.sourceRef}: formatter ${sourceKey} does not implement ${engine}`);
   if (!meetsRequirements(normalized, definition.engineRequirements?.[engine])) throw new Error(`${normalized.sourceRef}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
-  return implementation.format(normalized, { ...recipe, engine });
+  const result = implementation.format(normalized, { ...recipe, engine });
+  return attachKnowledgeRefs(result, knowledgeRefsForRecipe(normalized, recipe));
 }
