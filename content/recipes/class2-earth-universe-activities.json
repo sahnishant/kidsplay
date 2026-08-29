@@ -1,0 +1,8 @@
+[
+  { "id": "universe.earth-sky.memory.generated.001", "sourceRef": "knowledge.earth.sky.001", "engine": "memory_pairs@1", "seed": 20260920, "difficulty": 2, "prompt": "Match each Earth or sky fact with the description that belongs with it." },
+  { "id": "universe.earth-sky.match.generated.001", "sourceRef": "knowledge.earth.sky.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each Earth or sky fact with the correct description." },
+  { "id": "universe.earth-sky.mcq.generated.001", "sourceRef": "knowledge.earth.sky.001", "engine": "single_choice@1", "entryIds": ["rotation-day-night"], "distractorCount": 3, "difficulty": 1 },
+  { "id": "universe.planets.memory.generated.001", "sourceRef": "knowledge.solar-system.landmarks.001", "engine": "memory_pairs@1", "seed": 20260921, "difficulty": 2, "prompt": "Match each planet with the description that belongs with it." },
+  { "id": "universe.planets.match.generated.001", "sourceRef": "knowledge.solar-system.landmarks.001", "engine": "drag_to_target@1", "difficulty": 2, "prompt": "Match each planet with the correct description." },
+  { "id": "universe.planets.mcq.generated.001", "sourceRef": "knowledge.solar-system.landmarks.001", "engine": "single_choice@1", "entryIds": ["jupiter-largest"], "distractorCount": 3, "difficulty": 1 }
+]
