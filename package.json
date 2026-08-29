@@ -13,7 +13,7 @@
     "validate:planner": "node scripts/validate-planner.mjs",
     "validate:outputs": "node scripts/validate-output-engines.mjs",
     "validate:taxonomies": "node scripts/validate-taxonomies.mjs",
-    "validate:alignment": "node scripts/validate-alignment.mjs",
+    "validate:alignment": "node scripts/validate-alignment.mjs && node scripts/validate-alignment-reviews.mjs",
     "validate:traceability": "node scripts/validate-knowledge-traceability.mjs",
     "validate:product": "node scripts/validate-product-catalog.mjs",
     "dev": "npm run compile:content && vite",
