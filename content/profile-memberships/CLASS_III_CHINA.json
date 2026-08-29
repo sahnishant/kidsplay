@@ -1,4 +1,14 @@
 {
   "profileRef": "CLASS_III_CHINA",
+  "provenance": {
+    "status": "prototype_unverified",
+    "sourceRefs": ["kidsplay.editorial.prototype.v1"],
+    "versionLabel": "prototype-1",
+    "academicYear": null,
+    "effectiveFrom": null,
+    "effectiveTo": null,
+    "reviewedAt": null,
+    "placementBasis": "editorial_prototype"
+  },
   "members": []
 }
