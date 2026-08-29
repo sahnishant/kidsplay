@@ -19,6 +19,48 @@
     { "rowId": "kr.animals.emu.bird", "fit": "stretch" },
     { "rowId": "kr.animals.camel.ship-of-desert", "fit": "core" },
     { "rowId": "kr.animals.mammoth.extinct", "fit": "challenge" },
-    { "rowId": "kr.choice.animals.camel.ship-of-desert", "fit": "core" }
+    { "rowId": "kr.choice.animals.camel.ship-of-desert", "fit": "core" },
+
+    { "rowId": "kr.animals.dog.home.kennel", "fit": "review" },
+    { "rowId": "kr.animals.horse.home.stable", "fit": "core" },
+    { "rowId": "kr.animals.cow.home.shed", "fit": "core" },
+    { "rowId": "kr.animals.hen.home.coop", "fit": "core" },
+    { "rowId": "kr.animals.rabbit.home.burrow", "fit": "core" },
+    { "rowId": "kr.animals.lion.home.den", "fit": "review" },
+
+    { "rowId": "kr.animals.dog.young.puppy", "fit": "review" },
+    { "rowId": "kr.animals.cat.young.kitten", "fit": "review" },
+    { "rowId": "kr.animals.cow.young.calf", "fit": "review" },
+    { "rowId": "kr.animals.horse.young.foal", "fit": "core" },
+    { "rowId": "kr.animals.sheep.young.lamb", "fit": "core" },
+    { "rowId": "kr.animals.frog.young.tadpole", "fit": "core" },
+
+    { "rowId": "kr.animals.fish.covering.scales", "fit": "review" },
+    { "rowId": "kr.animals.bird.covering.feathers", "fit": "review" },
+    { "rowId": "kr.animals.sheep.covering.wool", "fit": "core" },
+    { "rowId": "kr.animals.tortoise.covering.shell", "fit": "core" },
+    { "rowId": "kr.animals.polar-bear.covering.fur", "fit": "stretch" },
+    { "rowId": "kr.animals.duck.feature.webbed-feet", "fit": "core" },
+
+    { "rowId": "kr.plants.roots.function.absorb-water", "fit": "core" },
+    { "rowId": "kr.plants.stem.function.support", "fit": "core" },
+    { "rowId": "kr.plants.leaves.function.make-food", "fit": "core" },
+    { "rowId": "kr.plants.flower.function.make-seeds", "fit": "core" },
+    { "rowId": "kr.plants.fruit.function.protect-seeds", "fit": "core" },
+    { "rowId": "kr.plants.seed.function.new-plant", "fit": "core" },
+
+    { "rowId": "kr.plants.mango.type.tree", "fit": "review" },
+    { "rowId": "kr.plants.rose.type.shrub", "fit": "core" },
+    { "rowId": "kr.plants.mint.type.herb", "fit": "core" },
+    { "rowId": "kr.plants.pea.type.climber", "fit": "core" },
+    { "rowId": "kr.plants.pumpkin.type.creeper", "fit": "core" },
+    { "rowId": "kr.plants.lotus.type.aquatic", "fit": "core" },
+
+    { "rowId": "kr.plants.cotton.use.fibre", "fit": "core" },
+    { "rowId": "kr.plants.sugarcane.use.sugar", "fit": "review" },
+    { "rowId": "kr.plants.rubber-tree.use.rubber", "fit": "core" },
+    { "rowId": "kr.plants.tea.use.leaves", "fit": "core" },
+    { "rowId": "kr.plants.neem.use.medicine", "fit": "stretch" },
+    { "rowId": "kr.plants.bamboo.use.baskets", "fit": "stretch" }
   ]
 }
