@@ -73,6 +73,7 @@ export class SessionController {
     engine.mount({
       question,
       host: interactionHost,
+      checkResponse: (response) => evaluate(question, response),
       onSubmit: (response) => this.handleSubmit(question, response, card)
     });
 
