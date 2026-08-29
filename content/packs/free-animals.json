@@ -1,7 +1,7 @@
 {
   "id": "free.animals-foundation.1",
   "kind": "learning_pack",
-  "title": "Living World: Animals & Plants",
+  "title": "Science Explorer: Animals, Plants, Body & Food",
   "access": { "type": "free" },
   "questionRefs": [
     "animals.dog.habitat.mcq.001",
@@ -54,6 +54,36 @@
     "plants.uses.memory.generated.001",
     "plants.uses.match.generated.001",
     "plants.uses.word-search.generated.001",
-    "plants.uses.mcq.cotton.generated.001"
+    "plants.uses.mcq.cotton.generated.001",
+
+    "human.senses.memory.generated.001",
+    "human.senses.match.generated.001",
+    "human.senses.word-search.generated.001",
+    "human.senses.mcq.tongue.generated.001",
+
+    "human.organs.memory.generated.001",
+    "human.organs.match.generated.001",
+    "human.organs.word-search.generated.001",
+    "human.organs.mcq.lungs.generated.001",
+
+    "human.actions.memory.generated.001",
+    "human.actions.match.generated.001",
+    "human.actions.word-search.generated.001",
+    "human.actions.mcq.teeth.generated.001",
+
+    "food.sources.memory.generated.001",
+    "food.sources.match.generated.001",
+    "food.sources.word-search.generated.001",
+    "food.sources.mcq.honey.generated.001",
+
+    "food.groups.memory.generated.001",
+    "food.groups.match.generated.001",
+    "food.groups.word-search.generated.001",
+    "food.groups.mcq.spinach.generated.001",
+
+    "food.habits.memory.generated.001",
+    "food.habits.match.generated.001",
+    "food.habits.fill.generated.001",
+    "food.habits.mcq.spoiled.generated.001"
   ]
 }
