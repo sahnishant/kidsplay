@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.food.sources.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Food",
+  "entries": [
+    {
+      "id": "cow-milk",
+      "rowId": "kr.food.cow.source.milk",
+      "subject": { "id": "cow", "label": "Cow", "symbol": "🐄" },
+      "relation": "food_source",
+      "object": { "id": "milk", "label": "is a common source of milk" },
+      "conceptIds": ["food.sources.milk"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "classification"] }
+    },
+    {
+      "id": "hen-eggs",
+      "rowId": "kr.food.hen.source.eggs",
+      "subject": { "id": "hen", "label": "Hen", "symbol": "🐔" },
+      "relation": "food_source",
+      "object": { "id": "eggs", "label": "is a common source of eggs" },
+      "conceptIds": ["food.sources.eggs"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "classification"] }
+    },
+    {
+      "id": "honeybee-honey",
+      "rowId": "kr.food.honeybee.source.honey",
+      "subject": { "id": "honeybee", "label": "Honeybee", "symbol": "🐝" },
+      "relation": "food_source",
+      "object": { "id": "honey", "label": "makes honey" },
+      "conceptIds": ["food.sources.honey"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "classification"] }
+    },
+    {
+      "id": "wheat-flour",
+      "rowId": "kr.food.wheat.source.flour",
+      "subject": { "id": "wheat", "label": "Wheat", "symbol": "🌾" },
+      "relation": "food_source",
+      "object": { "id": "flour", "label": "is ground to make flour" },
+      "conceptIds": ["food.sources.wheat"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "classification"] }
+    },
+    {
+      "id": "rice-plant-rice",
+      "rowId": "kr.food.rice-plant.source.rice",
+      "subject": { "id": "rice-plant", "label": "Rice plant", "symbol": "🌾" },
+      "relation": "food_source",
+      "object": { "id": "rice", "label": "gives us rice grains" },
+      "conceptIds": ["food.sources.rice"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "classification"] }
+    },
+    {
+      "id": "mustard-oil",
+      "rowId": "kr.food.mustard.source.oil",
+      "subject": { "id": "mustard", "label": "Mustard seeds", "symbol": "🌱" },
+      "relation": "food_source",
+      "object": { "id": "oil", "label": "can be pressed to make cooking oil" },
+      "conceptIds": ["food.sources.mustard"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "classification"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Food enrichment inside reviewed SOF ISO Food chapter scope; exact SOF profile fit remains separately reviewed."
+  }
+}
