@@ -5,10 +5,13 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const membershipPath = path.join(repoRoot, 'content/profile-memberships/SOF_INDIA_CLASS2.json');
 const sourceRegistryPath = path.join(repoRoot, 'content/alignment-sources/registry.json');
+const reviewPath = path.join(repoRoot, 'content/alignment-reviews/SOF_INDIA_CLASS2.json');
 
 const membership = JSON.parse(await readFile(membershipPath, 'utf8'));
 const sourceRegistry = JSON.parse(await readFile(sourceRegistryPath, 'utf8'));
+const review = JSON.parse(await readFile(reviewPath, 'utf8'));
 const sources = new Map((sourceRegistry.sources ?? []).map((source) => [source.id, source]));
+const evidenceByRow = new Map((review.rowEvidence ?? []).map((entry) => [entry.rowId, entry]));
 
 function topicForRow(rowId) {
   const parts = rowId.split('.');
@@ -27,12 +30,16 @@ const fitCounts = members.reduce((counts, member) => {
   counts[member.fit] = (counts[member.fit] ?? 0) + 1;
   return counts;
 }, {});
+const evidenceRows = members.filter((member) => evidenceByRow.has(member.rowId));
+const pendingRows = members.filter((member) => !evidenceByRow.has(member.rowId));
 
-console.log(`# SOF Class 2 row review report`);
+console.log('# SOF Class 2 row review report');
 console.log('');
 console.log(`Profile: \`${membership.profileRef}\``);
 console.log(`Profile provenance: \`${membership.provenance?.status ?? 'unknown'}\``);
 console.log(`Rows in prototype membership: **${members.length}**`);
+console.log(`Rows with reproducible row/skill evidence recorded: **${evidenceRows.length}**`);
+console.log(`Rows still pending row/skill evidence: **${pendingRows.length}**`);
 console.log(`Fit distribution: ${Object.entries(fitCounts).map(([fit, count]) => `${fit}=${count}`).join(', ')}`);
 console.log('');
 console.log('## Scope sources');
@@ -44,14 +51,26 @@ for (const sourceRef of membership.provenance?.sourceRefs ?? []) {
   console.log(`- \`${sourceRef}\` — ${label} (${status})`);
 }
 console.log('');
-console.log('## Row-level review queue');
+console.log('## Recorded row/skill evidence');
 console.log('');
-console.log('The profile remains prototype-unverified, so every row below is pending exact row-level evidence review.');
-console.log('Record a source reference plus exact page/section/anchor outside this generated report before promoting a row mapping.');
+if (!evidenceRows.length) {
+  console.log('- None yet.');
+} else {
+  for (const member of evidenceRows) {
+    const evidence = evidenceByRow.get(member.rowId);
+    console.log(`- [x] \`${member.rowId}\` — fit: \`${member.fit}\`; ${evidence.evidenceType}; ${evidence.sourceRef}; ${evidence.locator}`);
+  }
+}
+console.log('');
+console.log('## Remaining row-level review queue');
+console.log('');
+console.log('The profile itself remains prototype-unverified. A checked row means reproducible evidence has been recorded; it does not automatically promote the whole profile.');
 console.log('');
 for (const [topic, topicMembers] of [...groups.entries()].sort(([a], [b]) => a.localeCompare(b))) {
-  console.log(`### ${topic} (${topicMembers.length})`);
+  const pendingTopicMembers = topicMembers.filter((member) => !evidenceByRow.has(member.rowId));
+  if (!pendingTopicMembers.length) continue;
+  console.log(`### ${topic} (${pendingTopicMembers.length} pending)`);
   console.log('');
-  for (const member of topicMembers) console.log(`- [ ] \`${member.rowId}\` — fit: \`${member.fit}\``);
+  for (const member of pendingTopicMembers) console.log(`- [ ] \`${member.rowId}\` — fit: \`${member.fit}\``);
   console.log('');
 }
