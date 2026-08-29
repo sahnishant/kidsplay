@@ -119,9 +119,11 @@ function isMasteryCounter(value: unknown): value is MasteryCounter {
 
 function sanitizeCounters(value: unknown): Record<string, MasteryCounter> {
   if (!value || typeof value !== 'object') return {};
-  return Object.fromEntries(
-    Object.entries(value as Record<string, unknown>).filter(([, counter]) => isMasteryCounter(counter))
-  );
+  const counters: Record<string, MasteryCounter> = {};
+  for (const [id, counter] of Object.entries(value as Record<string, unknown>)) {
+    if (isMasteryCounter(counter)) counters[id] = counter;
+  }
+  return counters;
 }
 
 export function loadProgress(): ProgressSnapshot {
