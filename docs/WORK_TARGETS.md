@@ -26,71 +26,103 @@ stored data
 → evaluator/persisted progress
 ```
 
-Core invariants remain complete: stable `rowId`, shared normalizers, profile-owned curriculum placement, independent knowledge/profile/activity difficulty axes, build/cache questions, reusable engines, and row-level traceability.
+Core invariants remain complete: stable `rowId`, shared normalizers, profile-owned curriculum placement, independent knowledge/profile/activity difficulty axes, generated build/cache questions, reusable engines, and row-level traceability.
 
-## First product vertical slice — complete
+## Product/runtime baseline — complete
 
 - [x] Svelte home/catalog replaces hard-coded pack bootstrap.
 - [x] Player name/avatar stored locally.
 - [x] Free Explore and Goal Learning are distinct entry points.
 - [x] SOF Class 2 goal is profile-driven through `SOF_INDIA_CLASS2`.
-- [x] Runtime admits only generated questions whose complete `knowledgeRefs` set belongs to the profile.
-- [x] Goal selection uses profile fit, unseen/weaker mastery and engine variety.
+- [x] Runtime admits only activities whose complete `knowledgeRefs` set belongs to the selected profile.
+- [x] Goal selection uses profile fit, unseen/weaker mastery, topic/activity-family diversity and engine variety.
+- [x] Multi-row goal activities are ranked by the hardest included profile fit.
 - [x] Attempts, row evidence and concept mastery persist offline.
 - [x] Progress summary is visible on home.
 - [x] Free-vs-purchase policy is visible without premature payment/account infrastructure.
-- [x] Product/catalog CI validates real profile/membership links and runnable knowledge-backed goal content.
+- [x] Svelte health is 0 errors / 0 warnings.
+- [x] Windows-safe Vitest execution uses one worker thread; Linux/Android CI remains green.
 
-## Behavioral protection — complete for current slice
+## First useful living-world learning slice — complete
 
-Behavior tests now run inside `npm run check` using Vitest + Svelte Testing Library + jsdom.
+The bank has moved beyond proof content.
+
+- [x] 42 stable reusable knowledge rows across 8 knowledge sources.
+- [x] 48 canonical learnables.
+- [x] 31 knowledge-generated questions plus existing authored activities; 45 runnable questions currently validate.
+- [x] Animal homes: dog/kennel, horse/stable, cow/cowshed, hen/coop, rabbit/burrow, lion/den.
+- [x] Animal young ones: puppy, kitten, calf, foal, lamb, tadpole.
+- [x] Animal coverings/features: scales, feathers, wool, shell, thick fur, webbed feet.
+- [x] Plant-part functions: roots, stem, leaves, flower, fruit, seed.
+- [x] Plant types: tree, shrub, herb, climber, creeper, aquatic.
+- [x] Plant uses/products: cotton, sugarcane, rubber tree, tea, neem, bamboo.
+- [x] Same rows are reused in Free Explore and the SOF goal path.
+- [x] New sets generate memory, matching, word-search and MCQ activities where they fit naturally.
+- [x] Do not force crossword generation when the word set cannot form a natural connected grid.
+
+## Free Explore — meaningful session behavior
+
+`Living World: Animals & Plants` now launches short adaptive sessions rather than the entire pack.
+
+- [x] 8 questions per session.
+- [x] Animals + Plants mixed in representative sessions.
+- [x] Unseen/weaker knowledge first.
+- [x] At least four representative interaction types.
+- [x] Prefer distinct activity/knowledge families before heavy repetition.
+- [x] Behavioral test requires at least six distinct activity families in representative 8-question sessions.
+
+## Goal Learning — focused prototype
+
+Current title: **Class 2 Science Olympiad: Animals & Plants**.
+
+- [x] Transparent partial-syllabus title instead of implying full Olympiad coverage.
+- [x] SOF 2026-27 profile scope is reviewed at the chapter/syllabus level.
+- [x] Complete knowledge-reference isolation prevents profile leakage.
+- [x] Session selection is mastery-aware and topic-diverse.
+- [x] Purchase policy remains modeled outside engines/knowledge; prototype is still tryable without payment infrastructure.
+- [ ] Exact row memberships/fits remain `prototype_unverified` until row-level review evidence exists.
+
+## Behavioral protection
+
+Behavior tests run inside `npm run check` using Vitest + Svelte Testing Library + jsdom.
+
+Current coverage includes:
 
 - [x] Free-vs-goal catalog behavior.
+- [x] Short mixed free sessions.
+- [x] Animals + Plants session mix.
+- [x] Engine diversity and activity-family diversity.
 - [x] Profile isolation via complete `knowledgeRefs` membership.
-- [x] Mastery feedback into later profile selection.
+- [x] Mastery feedback into later selection.
 - [x] Session single-submit, advance and replay state.
-- [x] Runtime engine registry coverage across all nine shipped interactive engine types.
-- [x] Local player/attempt/mastery persistence and mastery summary.
-- [x] Svelte home → goal session → home behavior.
+- [x] Runtime engine registry coverage across all nine shipped interactive engines.
+- [x] Local player/attempt/mastery persistence.
+- [x] Svelte home → goal → home behavior.
 - [x] Engine submission → feedback → completion behavior.
-
-Verified behavioral-test head: `184c5d0e9a075df10eb1c71afdba607c3f1051dd`; Android run `33254579606` passed through APK artifact upload.
 
 ## Alignment provenance — infrastructure complete
 
 - [x] Central alignment-source registry.
 - [x] Every profile has explicit source refs/version applicability metadata.
 - [x] Every membership collection has provenance and placement-basis metadata.
-- [x] `reviewed` profile status requires a reviewed official source + version + review date + applicability.
+- [x] `reviewed` profile status requires reviewed official source + version + review date + applicability.
 - [x] `reviewed` membership status independently requires equivalent evidence.
 - [x] SOF Class 2 profile scope reviewed against official current ISO syllabus plus official 2026-27 reference.
-- [x] Keep existing SOF row placements `prototype_unverified`; reviewed syllabus scope does not automatically validate individual row fits.
+- [x] Keep current SOF row placements `prototype_unverified`; broad syllabus scope does not validate individual row fits.
 
 Detailed contract: `docs/CURRICULUM_METADATA.md`.
 
-## Current profile/index capability
+## Next P0 — broaden and deepen actual learning
 
-- [x] Central profile registry.
-- [x] Many-to-many row-ID membership collections.
-- [x] Membership fit: review/core/stretch/challenge.
-- [x] Cross-datatype learning index/query.
-- [x] Profile planner with engine variety.
-- [x] Runtime profile sessions driven by generated knowledge references + mastery.
-- [x] Profile and membership provenance model.
-- [x] Reviewed-alignment evidence gate.
-- [ ] Review real row-level SOF memberships/fits against sources before marking membership provenance reviewed.
+The next pass should continue content/product depth rather than architecture.
 
-## Next P0 — build real reviewed SOF Class 2 content
-
-The current knowledge bank is still a proof set. The next pass should be content-first rather than architecture-first.
-
-- [ ] Expand reusable Class 2 science/EVS knowledge across the reviewed SOF 2026-27 scope, starting with current datatypes.
-- [ ] Start with high-reuse areas such as Animals and Plants, then Human Body, Food, Housing/Clothing, Safety, Transport/Communication, Air/Water/Rocks, Earth/Universe.
-- [ ] Attach source/provenance evidence to row placement decisions.
-- [ ] Review `fit` (`review/core/stretch/challenge`) rather than inferring it from the broad syllabus heading.
-- [ ] Reuse the same knowledge rows in free exploration and SOF goal preparation.
-- [ ] Add representative logical-reasoning/HOTS recipes only after the underlying knowledge slice is broad enough.
-- [ ] Observe real schema pressure before adding new datatypes.
+- [ ] Add **Human Body** reusable knowledge and activities.
+- [ ] Add **Food** reusable knowledge and activities.
+- [ ] Then cover Housing/Clothing, Safety, Transport/Communication, Air/Water/Rocks, Earth/Universe.
+- [ ] Add real logical-reasoning/HOTS activities that combine knowledge instead of simply reformatting one association.
+- [ ] Add topic-level mastery visibility for parent/child once more topics exist.
+- [ ] Review individual SOF membership/fit decisions against row-level evidence before marking alignment reviewed.
+- [ ] Decide `main` promotion after this living-world baseline is locally verified and dependency-lock policy is settled.
 
 ## P1 — semantic datatypes only when real content needs them
 
@@ -114,8 +146,8 @@ The current knowledge bank is still a proof set. The next pass should be content
 
 - Canonical branch: `kidsplay`.
 - `kidsplay-work` is temporary/divergent; do not merge wholesale; delete when convenient (issue #2).
-- `main` remains the repository-initialization baseline.
-- Do not promote to `main` merely because architecture/tests are green; first land a meaningful reviewed content slice so the promoted baseline represents a useful product rather than a proof bank.
+- `main` remains repository initialization until deliberately promoted.
+- [ ] Track a reproducible npm lockfile and move CI from `npm install` to `npm ci` before/with main promotion.
 
 ## GitHub project memory
 
