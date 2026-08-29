@@ -1,5 +1,18 @@
 {
   "profileRef": "SOF_INDIA_CLASS2",
+  "provenance": {
+    "status": "prototype_unverified",
+    "sourceRefs": [
+      "sof.iso.class2.syllabus.current",
+      "sof.iso.class2.workbook.2026-27"
+    ],
+    "versionLabel": "SOF ISO 2026-27 scope; row placement prototype",
+    "academicYear": "2026-27",
+    "effectiveFrom": null,
+    "effectiveTo": null,
+    "reviewedAt": null,
+    "placementBasis": "editorial_within_reviewed_scope"
+  },
   "members": [
     { "rowId": "kr.animals.dog.domestic", "fit": "review" },
     { "rowId": "kr.animals.seahorse.water-animal", "fit": "core" },
