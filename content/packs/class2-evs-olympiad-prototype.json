@@ -3,6 +3,7 @@
   "kind": "goal_path",
   "status": "prototype",
   "title": "Class 2 EVS Olympiad Prototype",
+  "profileRef": "SOF_INDIA_CLASS2",
   "access": {
     "type": "purchase",
     "productId": "class2-evs-olympiad"
