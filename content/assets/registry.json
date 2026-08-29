@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "policy": {
+    "defaultStatus": "blocked_until_reviewed",
+    "allowedSourceStatuses": ["approved", "candidate", "reference_only"],
+    "requiredForBundledAsset": [
+      "id",
+      "sourceId",
+      "sourcePathOrName",
+      "license",
+      "attributionRequired",
+      "modificationStatus"
+    ]
+  },
+  "sources": [
+    {
+      "id": "tabler-icons",
+      "repository": "https://github.com/tabler/tabler-icons",
+      "license": "MIT",
+      "status": "approved",
+      "intendedUse": "Utility/object/interaction SVG icons, not primary child characters",
+      "attributionRequired": false,
+      "notes": "Repository describes the icon set as MIT-licensed. Preserve the MIT license if assets are redistributed."
+    },
+    {
+      "id": "jdecked-twemoji",
+      "repository": "https://github.com/jdecked/twemoji",
+      "license": "CC-BY-4.0 graphics",
+      "status": "candidate",
+      "intendedUse": "Consistent lightweight animal/object SVGs when attribution is acceptable",
+      "attributionRequired": true,
+      "notes": "The repository code has separate licensing; graphics are explicitly covered by LICENSE-GRAPHICS under CC-BY-4.0."
+    },
+    {
+      "id": "googlefonts-noto-emoji",
+      "repository": "https://github.com/googlefonts/noto-emoji",
+      "license": "OFL-1.1 repository metadata; verify exact asset path before import",
+      "status": "candidate",
+      "intendedUse": "Possible consistent emoji-style animal/object visual source",
+      "attributionRequired": true,
+      "notes": "Do not infer that every source/art file has identical terms from repository metadata. Verify the exact files before bundling."
+    },
+    {
+      "id": "game-icons",
+      "repository": "https://github.com/game-icons/icons",
+      "license": "Per-asset / repository reports NOASSERTION",
+      "status": "reference_only",
+      "intendedUse": "Mechanic and symbol inspiration only until exact icon author/license is recorded",
+      "attributionRequired": true,
+      "notes": "Never bulk-import this repository. Each selected asset needs its exact author and license checked."
+    },
+    {
+      "id": "platform-unicode-emoji",
+      "repository": null,
+      "license": "Platform-rendered glyph; no Kidsplay artwork redistributed",
+      "status": "approved",
+      "intendedUse": "Prototype/fallback only",
+      "attributionRequired": false,
+      "notes": "Visual appearance varies by Android/browser/platform, so this is not the long-term character system."
+    }
+  ],
+  "assets": []
+}

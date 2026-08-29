@@ -22,6 +22,7 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 8. Expensive generation such as crossword/maze layout belongs in authoring/build compilation when possible.
 9. Maintain versioned contracts and validate the full bank.
 10. Desktop development remains Node/npm only; GitHub Actions is the default Android proof path.
+11. External assets require an entry in `content/assets/registry.json`; public GitHub availability alone is never sufficient licensing evidence.
 
 ## Implemented interaction/runtime capability
 
@@ -58,10 +59,11 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 
 ### P3 — reusable presentation assets
 
-- [ ] Define asset registry and license/attribution inventory.
-- [ ] Find permissively licensed/free SVG/character sources for inspiration/use where licenses permit.
+- [x] Define asset registry and license/attribution inventory.
+- [ ] Find a permissively licensed modular character/animal source; initial icon/emoji candidates are documented in `docs/ASSET_SOURCES.md`.
 - [ ] Build modular character poses/parts rather than full custom animation sequences.
 - [ ] Support cheap expression/action variants: happy, afraid, walking, swimming, playing, holding/near object, love/attention cues.
+- [ ] Add automatic attribution-notice generation before importing the first attribution-required artwork.
 
 ### P4 — further mechanics backlog
 
