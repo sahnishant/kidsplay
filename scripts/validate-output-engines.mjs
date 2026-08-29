@@ -27,8 +27,18 @@ if (recipe) {
     else {
       const html = getOutputEngine(recipe.engine).render(contract);
       const searchableHtml = html.toLowerCase();
-      if (!searchableHtml.includes('camel') || !searchableHtml.includes('ship of the desert')) errors.push('rendered printable cards lost expected association content');
       if (contract.cards.length < 2) errors.push('expected multiple printable cards from rich association data');
+      if (contract.rowIds.length !== contract.cards.length) errors.push('printable card row traceability count does not match card count');
+
+      for (const card of contract.cards.slice(0, 3)) {
+        if (!contract.rowIds.includes(card.rowId)) errors.push(`printable card ${card.id} lost row traceability`);
+        for (const side of [card.front, card.back]) {
+          const text = String(side?.text ?? '').trim().toLowerCase();
+          if (text && !searchableHtml.includes(text)) {
+            errors.push(`rendered printable cards lost source text: ${side.text}`);
+          }
+        }
+      }
     }
   } catch (error) {
     errors.push(error instanceof Error ? error.message : String(error));
@@ -40,5 +50,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log('Output engine OK: profile-selected association data renders printable memory cards without interactive runtime semantics.');
+  console.log('Output engine OK: profile-selected association data renders printable memory cards with row traceability.');
 }
