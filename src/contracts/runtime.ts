@@ -34,3 +34,9 @@ export interface EvaluationResult {
   masteryEvidence: MasteryEvidence[];
   knowledgeEvidence: KnowledgeEvidence[];
 }
+
+export interface SessionAttempt {
+  question: Question;
+  response: QuestionResponseEnvelope;
+  result: EvaluationResult;
+}
