@@ -62,7 +62,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: 'How each topic is going' })).toBeTruthy();
     expect(screen.getByText('Human Body')).toBeTruthy();
     expect(screen.getByText('Food')).toBeTruthy();
-    expect(screen.getByText('Profile: SOF_INDIA_CLASS2')).toBeTruthy();
+    expect(screen.getAllByText('Profile: SOF_INDIA_CLASS2')).toHaveLength(2);
 
     const nameInput = screen.getByLabelText('Child name') as HTMLInputElement;
     await fireEvent.input(nameInput, { target: { value: 'Dheu' } });
