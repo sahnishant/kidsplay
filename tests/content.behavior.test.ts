@@ -5,6 +5,7 @@ import {
   getFreeExploreQuestions,
   getProfileQuestions
 } from '../src/content';
+import type { Question } from '../src/contracts/question';
 import type { MasteryCounter } from '../src/runtime/localProgress';
 import sofMembership from '../content/profile-memberships/SOF_INDIA_CLASS2.json';
 
@@ -21,12 +22,13 @@ function masteredCounter(): MasteryCounter {
   };
 }
 
-function knowledgeFamilyCount(questions: ReturnType<typeof getFreeExploreQuestions>): number {
-  return new Set(
-    questions
-      .map((question) => question.authoring.source)
-      .filter((source) => source.startsWith('knowledge:'))
-  ).size;
+function activityFamily(question: Question): string {
+  if (question.authoring.source.startsWith('knowledge:')) return question.authoring.source;
+  return question.id.split('.').slice(0, 3).join('.');
+}
+
+function activityFamilyCount(questions: Question[]): number {
+  return new Set(questions.map(activityFamily)).size;
 }
 
 describe('catalog and profile-driven sessions', () => {
@@ -42,7 +44,7 @@ describe('catalog and profile-driven sessions', () => {
     expect(goalEntry?.status).toBe('prototype');
   });
 
-  it('launches a short free session that mixes topics, engines and knowledge families', () => {
+  it('launches a short free session that mixes topics, engines and activity families', () => {
     const session = getFreeExploreQuestions({ count: 8 });
     const refs = session.flatMap((question) => question.knowledgeRefs ?? []);
 
@@ -50,7 +52,7 @@ describe('catalog and profile-driven sessions', () => {
     expect(refs.some((rowId) => rowId.startsWith('kr.animals.'))).toBe(true);
     expect(refs.some((rowId) => rowId.startsWith('kr.plants.'))).toBe(true);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
-    expect(knowledgeFamilyCount(session)).toBeGreaterThanOrEqual(6);
+    expect(activityFamilyCount(session)).toBeGreaterThanOrEqual(6);
   });
 
   it('only launches diverse questions whose complete knowledge reference set belongs to the profile', () => {
@@ -66,7 +68,7 @@ describe('catalog and profile-driven sessions', () => {
     expect(new Set(session.questions.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(sessionRefs.some((rowId) => rowId.startsWith('kr.animals.'))).toBe(true);
     expect(sessionRefs.some((rowId) => rowId.startsWith('kr.plants.'))).toBe(true);
-    expect(knowledgeFamilyCount(session.questions)).toBeGreaterThanOrEqual(6);
+    expect(activityFamilyCount(session.questions)).toBeGreaterThanOrEqual(6);
 
     for (const question of session.questions) {
       expect(question.knowledgeRefs?.length ?? 0).toBeGreaterThan(0);
