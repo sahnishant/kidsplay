@@ -145,6 +145,13 @@ function knowledgeGroup(question: Question): string {
   return groups.size === 1 ? [...groups][0] : 'mixed';
 }
 
+function activityFamily(question: Question): string {
+  if (question.authoring.source.startsWith('knowledge:')) return question.authoring.source;
+  const refs = question.knowledgeRefs ?? [];
+  if (refs.length) return [...new Set(refs.map(rowKnowledgeGroup))].sort().join('+');
+  return question.id.split('.').slice(0, 3).join('.');
+}
+
 function interleaveByKnowledgeGroup(candidates: Question[]): Question[] {
   const buckets = new Map<string, Question[]>();
   for (const question of candidates) {
@@ -166,24 +173,35 @@ function interleaveByKnowledgeGroup(candidates: Question[]): Question[] {
   return result;
 }
 
-function chooseWithEngineVariety(candidates: Question[], count: number): Question[] {
+function chooseDiverseSession(candidates: Question[], count: number): Question[] {
   const selected: Question[] = [];
   const selectedIds = new Set<string>();
   const usedEngines = new Set<Question['interaction']['type']>();
+  const usedFamilies = new Set<string>();
 
-  for (const question of candidates) {
-    if (selected.length >= count) break;
-    if (usedEngines.has(question.interaction.type)) continue;
+  const select = (question: Question): void => {
     selected.push(question);
     selectedIds.add(question.id);
     usedEngines.add(question.interaction.type);
+    usedFamilies.add(activityFamily(question));
+  };
+
+  for (const question of candidates) {
+    if (selected.length >= count) break;
+    if (usedEngines.has(question.interaction.type) || usedFamilies.has(activityFamily(question))) continue;
+    select(question);
+  }
+
+  for (const question of candidates) {
+    if (selected.length >= count) break;
+    if (selectedIds.has(question.id) || usedFamilies.has(activityFamily(question))) continue;
+    select(question);
   }
 
   for (const question of candidates) {
     if (selected.length >= count) break;
     if (selectedIds.has(question.id)) continue;
-    selected.push(question);
-    selectedIds.add(question.id);
+    select(question);
   }
 
   return selected;
@@ -239,7 +257,7 @@ export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Qu
     if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
     return left.id.localeCompare(right.id);
   });
-  return chooseWithEngineVariety(interleaveByKnowledgeGroup(candidates), count);
+  return chooseDiverseSession(interleaveByKnowledgeGroup(candidates), count);
 }
 
 export function getFreeAnimalsPackTitle(): string {
@@ -273,7 +291,7 @@ export function getProfileQuestions(profileRef: string, options: ProfileSessionO
     interleaveByKnowledgeGroup(sorted.filter((question) => questionFitRank(question, memberByRow) === rank))
   );
 
-  return chooseWithEngineVariety(candidates, count);
+  return chooseDiverseSession(candidates, count);
 }
 
 export function createSessionForCatalogEntry(
