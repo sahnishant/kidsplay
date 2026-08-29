@@ -1,0 +1,16 @@
+[
+  { "id": "reasoning.pattern.symbols.generated.001", "sourceRef": "knowledge.reasoning.pattern-symbols.001", "engine": "single_choice@1", "difficulty": 2, "shuffleOptions": false, "feedback": { "correct": "Correct. The symbols alternate star, circle, star, circle.", "incorrect": "Look for the two-symbol rule that repeats." } },
+  { "id": "reasoning.pattern.numbers.generated.001", "sourceRef": "knowledge.reasoning.pattern-numbers.001", "engine": "single_choice@1", "difficulty": 2, "shuffleOptions": true, "feedback": { "correct": "Correct. The pattern adds 2 each time.", "incorrect": "Compare each number with the one before it." } },
+  { "id": "reasoning.odd-one-out.shapes.generated.001", "sourceRef": "knowledge.reasoning.odd-one-out-shape.001", "engine": "single_choice@1", "difficulty": 1 },
+  { "id": "reasoning.odd-one-out.transport.generated.001", "sourceRef": "knowledge.reasoning.odd-one-out-communication.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.analogy.home.generated.001", "sourceRef": "knowledge.reasoning.analogy-home.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.analogy.senses.generated.001", "sourceRef": "knowledge.reasoning.analogy-senses.001", "engine": "single_choice@1", "difficulty": 1 },
+  { "id": "reasoning.ranking.height.generated.001", "sourceRef": "knowledge.reasoning.ranking-height.001", "engine": "single_choice@1", "difficulty": 3, "feedback": { "correct": "Correct. Mira is above Tara, and Tara is above Neha, so Neha is shortest.", "incorrect": "Put the three children in height order from the clues." } },
+  { "id": "reasoning.ranking.position.generated.001", "sourceRef": "knowledge.reasoning.ranking-position.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.coding.letters.generated.001", "sourceRef": "knowledge.reasoning.coding-next-letter.001", "engine": "single_choice@1", "difficulty": 3, "feedback": { "correct": "Correct. D→E, O→P and G→H.", "incorrect": "Move each letter forward by exactly one place." } },
+  { "id": "reasoning.coding.symbols.generated.001", "sourceRef": "knowledge.reasoning.coding-symbol-value.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.units.pencil.generated.001", "sourceRef": "knowledge.reasoning.units-pencil.001", "engine": "single_choice@1", "difficulty": 1 },
+  { "id": "reasoning.units.room.generated.001", "sourceRef": "knowledge.reasoning.units-room.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.shapes.triangle.generated.001", "sourceRef": "knowledge.reasoning.shape-triangle.001", "engine": "single_choice@1", "difficulty": 1 },
+  { "id": "reasoning.embedded.symbols.generated.001", "sourceRef": "knowledge.reasoning.embedded-symbols.001", "engine": "single_choice@1", "difficulty": 2, "shuffleOptions": false, "feedback": { "correct": "Correct. The triangle is immediately followed by the circle.", "incorrect": "Keep both the symbols and their order unchanged." } }
+]
