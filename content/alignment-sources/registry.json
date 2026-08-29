@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "id": "kidsplay.editorial.prototype.v1",
+      "type": "editorial_prototype",
+      "authority": "Kidsplay",
+      "title": "Prototype learning-profile targeting",
+      "url": null,
+      "versionLabel": "prototype-1",
+      "academicYear": null,
+      "retrievedOn": null,
+      "status": "internal",
+      "notes": "Internal editorial placement only. This source cannot support an official or reviewed alignment claim."
+    },
+    {
+      "id": "sof.iso.class2.syllabus.current",
+      "type": "official_syllabus",
+      "authority": "Science Olympiad Foundation",
+      "title": "SOF International Science Olympiad (ISO) Syllabus Class 2",
+      "url": "https://sofworld.org/nso/class-2/nso-syllabus/nso-syllabus-class-2",
+      "versionLabel": "current syllabus retrieved 2026-08-29",
+      "academicYear": "2026-27",
+      "retrievedOn": "2026-08-29",
+      "status": "reviewed",
+      "notes": "Official SOF page. Current Class 2 science scope includes Plants, Animals, Human Body, Food, Housing and Clothing, Family and Festivals, Good Habits and Safety Rules, Transport and Communication, Air, Water and Rocks, and Earth and Universe, plus logical reasoning and higher-order questions."
+    },
+    {
+      "id": "sof.iso.class2.workbook.2026-27",
+      "type": "official_reference",
+      "authority": "Science Olympiad Foundation",
+      "title": "Class 2 International Science Olympiad Workbook",
+      "url": "https://sofworld.org/iso/class-2/sof-international-science-olympiad-iso-books-class-2/class-2-international-science",
+      "versionLabel": "2026-27",
+      "academicYear": "2026-27",
+      "retrievedOn": "2026-08-29",
+      "status": "reviewed",
+      "notes": "Official SOF catalog page identifies the workbook as the 2026-27 edition and lists the current Class 2 ISO chapter structure."
+    }
+  ]
+}
