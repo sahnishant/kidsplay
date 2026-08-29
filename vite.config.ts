@@ -15,6 +15,9 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
+    pool: 'threads',
+    maxWorkers: 1,
+    fileParallelism: false,
     clearMocks: true,
     restoreMocks: true
   }
