@@ -1,6 +1,11 @@
 <script lang="ts">
   import type { CatalogEntry } from '../content';
-  import type { AvatarId, ChildSettings, ProgressSummary } from '../runtime/localProgress';
+  import type {
+    AvatarId,
+    ChildSettings,
+    ProgressSummary,
+    TopicProgressStatus
+  } from '../runtime/localProgress';
 
   let {
     child,
@@ -22,6 +27,13 @@
     { id: 'panda', symbol: '🐼', label: 'Panda' },
     { id: 'tiger', symbol: '🐯', label: 'Tiger' }
   ];
+
+  const topicStatusLabels: Record<TopicProgressStatus, string> = {
+    not_started: 'Not started',
+    needs_practice: 'Practise next',
+    growing: 'Growing',
+    strong: 'Strong'
+  };
 
   function updateName(event: Event): void {
     const input = event.currentTarget as HTMLInputElement;
@@ -92,6 +104,33 @@
     <div>
       <strong>{progress.accuracy === null ? '—' : `${Math.round(progress.accuracy * 100)}%`}</strong>
       <span>accuracy</span>
+    </div>
+  </section>
+
+  <section class="topic-progress-panel" aria-labelledby="topic-progress-heading">
+    <div class="section-heading">
+      <div>
+        <span class="eyebrow">LEARNING MAP</span>
+        <h2 id="topic-progress-heading">How each topic is going</h2>
+      </div>
+      <span class="saved-note">Based on practice on this device</span>
+    </div>
+
+    <div class="topic-progress-grid">
+      {#each progress.topics as topic}
+        <article class="topic-progress-card" data-status={topic.status}>
+          <div class="topic-progress-card__topline">
+            <h3>{topic.label}</h3>
+            <span class="topic-status">{topicStatusLabels[topic.status]}</span>
+          </div>
+          <strong class="topic-score">
+            {topic.accuracy === null ? '—' : `${Math.round(topic.accuracy * 100)}%`}
+          </strong>
+          <span class="topic-meta">
+            {topic.practicedKnowledge} practised · {topic.strongKnowledge} strong
+          </span>
+        </article>
+      {/each}
     </div>
   </section>
 
