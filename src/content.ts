@@ -69,7 +69,7 @@ export interface CatalogEntry {
 
 export interface SessionLaunch {
   id: string;
-  mode: 'free_explore' | 'goal_learning';
+  mode: 'free_explore' | 'goal_learning' | 'goal_mock';
   title: string;
   profileRef?: string;
   questions: Question[];
@@ -78,6 +78,18 @@ export interface SessionLaunch {
 export interface ProfileSessionOptions {
   count?: number;
   mastery?: Record<string, MasteryCounter>;
+}
+
+export type GoalReadinessStatus = 'getting_started' | 'building' | 'mock_ready';
+
+export interface GoalReadinessSummary {
+  profileRef: string;
+  practicedRows: number;
+  readyRows: number;
+  totalRows: number;
+  accuracy: number | null;
+  score: number;
+  status: GoalReadinessStatus;
 }
 
 const questionModules = import.meta.glob('../content/questions/*.json', {
@@ -106,6 +118,7 @@ const memberships = Object.values(membershipModules).filter(
 const profiles = (profileRegistry as ProfileRegistry).profiles;
 const freePack = freeAnimalsPack as LearningPack;
 const goalPack = olympiadPrototypePack as GoalPath;
+const goalMockEntryId = `${goalPack.id}.mixed-mock`;
 
 const fitRank: Record<ProfileMembershipMember['fit'], number> = {
   core: 0,
@@ -211,25 +224,45 @@ function chooseDiverseSession(candidates: Question[], count: number): Question[]
   return selected;
 }
 
-function ensureReasoningQuestion(selected: Question[], candidates: Question[], count: number): Question[] {
-  if (selected.some(isReasoningQuestion)) return selected;
-  const selectedIds = new Set(selected.map((question) => question.id));
-  const reasoning = candidates.find((question) => isReasoningQuestion(question) && !selectedIds.has(question.id));
-  if (!reasoning) return selected;
-  if (selected.length < count) return [...selected, reasoning];
-  if (!selected.length) return [reasoning];
+function ensureReasoningQuota(
+  selected: Question[],
+  candidates: Question[],
+  count: number,
+  minimumReasoning: number
+): Question[] {
+  const result = [...selected];
+  const availableReasoning = candidates.filter(isReasoningQuestion);
+  const target = Math.min(minimumReasoning, availableReasoning.length, count);
+  let reasoningCount = result.filter(isReasoningQuestion).length;
+  if (reasoningCount >= target) return result;
 
-  let replaceIndex = selected.length - 1;
-  for (let index = selected.length - 1; index >= 0; index -= 1) {
-    const engine = selected[index].interaction.type;
-    if (selected.some((question, otherIndex) => otherIndex !== index && question.interaction.type === engine)) {
-      replaceIndex = index;
-      break;
+  const selectedIds = new Set(result.map((question) => question.id));
+  for (const reasoning of availableReasoning) {
+    if (reasoningCount >= target) break;
+    if (selectedIds.has(reasoning.id)) continue;
+
+    if (result.length < count) {
+      result.push(reasoning);
+      selectedIds.add(reasoning.id);
+      reasoningCount += 1;
+      continue;
     }
+
+    let replaceIndex = -1;
+    for (let index = result.length - 1; index >= 0; index -= 1) {
+      if (!isReasoningQuestion(result[index])) {
+        replaceIndex = index;
+        break;
+      }
+    }
+    if (replaceIndex < 0) break;
+
+    selectedIds.delete(result[replaceIndex].id);
+    result[replaceIndex] = reasoning;
+    selectedIds.add(reasoning.id);
+    reasoningCount += 1;
   }
 
-  const result = [...selected];
-  result[replaceIndex] = reasoning;
   return result;
 }
 
@@ -242,6 +275,39 @@ function questionFitRank(
   return Math.max(...refs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
 }
 
+function getMembership(profileRef: string): ProfileMembership {
+  const membership = memberships.find((item) => item.profileRef === profileRef);
+  if (!membership) throw new Error(`Unknown profile membership ${profileRef}`);
+  return membership;
+}
+
+function getProfileCandidates(
+  profileRef: string,
+  mastery: Record<string, MasteryCounter>
+): Question[] {
+  const membership = getMembership(profileRef);
+  const memberByRow = new Map(membership.members.map((member) => [member.rowId, member]));
+
+  const sorted = questionBank
+    .filter((question) => {
+      const refs = question.knowledgeRefs ?? [];
+      return refs.length > 0 && refs.every((rowId) => memberByRow.has(rowId));
+    })
+    .sort((left, right) => {
+      const fitDelta = questionFitRank(left, memberByRow) - questionFitRank(right, memberByRow);
+      if (fitDelta !== 0) return fitDelta;
+
+      const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
+      if (masteryDelta !== 0) return masteryDelta;
+      if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
+      return left.id.localeCompare(right.id);
+    });
+
+  return [0, 1, 2, 3].flatMap((rank) =>
+    interleaveByKnowledgeGroup(sorted.filter((question) => questionFitRank(question, memberByRow) === rank))
+  );
+}
+
 export function getLearningProfiles(): LearningProfile[] {
   return [...profiles];
 }
@@ -252,7 +318,7 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: freePack.id,
       kind: 'free_explore',
       title: freePack.title,
-      description: 'Short mixed Animals, Plants, Human Body and Food sessions that keep moving toward unseen and weaker knowledge.',
+      description: 'Short mixed Class 2 science, EVS and logical-reasoning sessions that keep moving toward unseen and weaker knowledge.',
       access: freePack.access,
       status: 'ready',
       actionLabel: 'Play free'
@@ -261,11 +327,21 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: goalPack.id,
       kind: 'goal_learning',
       title: goalPack.title,
-      description: 'SOF Class 2 profile-driven practice with progress tracking and multi-fact reasoning. Prototype access is open while purchase flow is not connected.',
+      description: 'SOF Class 2 profile-driven practice with adaptive selection, weak-topic diagnostics and multi-fact reasoning. Row placement remains prototype-unverified.',
       access: goalPack.access,
       status: goalPack.status === 'reviewed' ? 'ready' : 'prototype',
       profileRef: goalPack.profileRef,
       actionLabel: goalPack.status === 'prototype' ? 'Try prototype' : 'Start goal'
+    },
+    {
+      id: goalMockEntryId,
+      kind: 'goal_learning',
+      title: 'Class 2 Science Olympiad: 20-Question Mixed Mock',
+      description: 'A 20-question mixed practice mock assembled from the same profile-selected bank, with several multi-fact reasoning items. It is not an official-length SOF paper.',
+      access: goalPack.access,
+      status: 'prototype',
+      profileRef: goalPack.profileRef,
+      actionLabel: 'Try mixed mock'
     }
   ];
 }
@@ -291,34 +367,61 @@ export function getFreeAnimalsPackTitle(): string {
 }
 
 export function getProfileQuestions(profileRef: string, options: ProfileSessionOptions = {}): Question[] {
-  const membership = memberships.find((item) => item.profileRef === profileRef);
-  if (!membership) throw new Error(`Unknown profile membership ${profileRef}`);
-
-  const memberByRow = new Map(membership.members.map((member) => [member.rowId, member]));
   const mastery = options.mastery ?? {};
   const count = Math.max(1, options.count ?? 8);
-
-  const sorted = questionBank
-    .filter((question) => {
-      const refs = question.knowledgeRefs ?? [];
-      return refs.length > 0 && refs.every((rowId) => memberByRow.has(rowId));
-    })
-    .sort((left, right) => {
-      const fitDelta = questionFitRank(left, memberByRow) - questionFitRank(right, memberByRow);
-      if (fitDelta !== 0) return fitDelta;
-
-      const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
-      if (masteryDelta !== 0) return masteryDelta;
-      if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
-      return left.id.localeCompare(right.id);
-    });
-
-  const candidates = [0, 1, 2, 3].flatMap((rank) =>
-    interleaveByKnowledgeGroup(sorted.filter((question) => questionFitRank(question, memberByRow) === rank))
-  );
-
+  const candidates = getProfileCandidates(profileRef, mastery);
   const selected = chooseDiverseSession(candidates, count);
-  return count >= 4 ? ensureReasoningQuestion(selected, candidates, count) : selected;
+  return count >= 4 ? ensureReasoningQuota(selected, candidates, count, 1) : selected;
+}
+
+export function getProfileMockQuestions(profileRef: string, options: ProfileSessionOptions = {}): Question[] {
+  const mastery = options.mastery ?? {};
+  const count = Math.max(8, options.count ?? 20);
+  const candidates = getProfileCandidates(profileRef, mastery);
+  const selected = chooseDiverseSession(candidates, count);
+  const reasoningTarget = Math.max(2, Math.min(4, Math.floor(count / 5)));
+  return ensureReasoningQuota(selected, candidates, count, reasoningTarget);
+}
+
+export function getGoalReadiness(
+  profileRef: string,
+  mastery: Record<string, MasteryCounter> = {}
+): GoalReadinessSummary {
+  const membership = getMembership(profileRef);
+  const policy = goalPack.profileRef === profileRef && goalPack.masteryPolicy
+    ? goalPack.masteryPolicy
+    : { requiredAccuracy: 0.8, minimumIndependentAttempts: 3 };
+  const counters = membership.members
+    .map((member) => mastery[member.rowId])
+    .filter((counter): counter is MasteryCounter => Boolean(counter && counter.totalWeight > 0));
+  const practicedRows = counters.length;
+  const readyRows = counters.filter((counter) =>
+    counter.attempts >= policy.minimumIndependentAttempts
+      && counter.correctWeight / counter.totalWeight >= policy.requiredAccuracy
+  ).length;
+  const totalWeight = counters.reduce((sum, counter) => sum + counter.totalWeight, 0);
+  const correctWeight = counters.reduce((sum, counter) => sum + counter.correctWeight, 0);
+  const accuracy = totalWeight > 0 ? correctWeight / totalWeight : null;
+
+  const evidenceCoverage = Math.min(1, practicedRows / 20);
+  const accuracyFactor = accuracy ?? 0;
+  const score = Math.round((evidenceCoverage * 0.5 + accuracyFactor * 0.5) * 100);
+  let status: GoalReadinessStatus = 'getting_started';
+  if (practicedRows >= 20 && accuracy !== null && accuracy >= policy.requiredAccuracy) {
+    status = 'mock_ready';
+  } else if (practicedRows >= 8) {
+    status = 'building';
+  }
+
+  return {
+    profileRef,
+    practicedRows,
+    readyRows,
+    totalRows: membership.members.length,
+    accuracy,
+    score,
+    status
+  };
 }
 
 export function createSessionForCatalogEntry(
@@ -348,6 +451,16 @@ export function createSessionForCatalogEntry(
       title: goalPack.title,
       profileRef: goalPack.profileRef,
       questions
+    };
+  }
+
+  if (entryId === goalMockEntryId && goalPack.profileRef) {
+    return {
+      id: `session.${goalMockEntryId}`,
+      mode: 'goal_mock',
+      title: 'Class 2 Science Olympiad: 20-Question Mixed Mock',
+      profileRef: goalPack.profileRef,
+      questions: getProfileMockQuestions(goalPack.profileRef, { count: 20, mastery })
     };
   }
 
