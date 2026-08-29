@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CatalogEntry } from '../content';
+  import type { CatalogEntry, GoalReadinessSummary } from '../content';
   import type {
     AvatarId,
     ChildSettings,
@@ -11,12 +11,14 @@
     child,
     catalog,
     progress,
+    goalReadiness,
     onChildChange,
     onStart
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
     progress: ProgressSummary;
+    goalReadiness: GoalReadinessSummary | null;
     onChildChange: (settings: ChildSettings) => void;
     onStart: (entryId: string) => void;
   } = $props();
@@ -39,6 +41,12 @@
     growing: 'Growing',
     strong: 'Strong so far'
   };
+
+  const readinessStatusLabels = {
+    getting_started: 'Getting started',
+    building: 'Building toward a mock',
+    mock_ready: 'Ready to try a mixed mock'
+  } as const;
 
   function updateName(event: Event): void {
     const input = event.currentTarget as HTMLInputElement;
@@ -148,6 +156,40 @@
       {/each}
     </div>
   </section>
+
+  {#if goalReadiness}
+    <section class="child-panel" aria-labelledby="readiness-heading">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">GOAL READINESS</span>
+          <h2 id="readiness-heading">Olympiad practice signal</h2>
+        </div>
+        <span class="saved-note">{readinessStatusLabels[goalReadiness.status]}</span>
+      </div>
+
+      <div class="progress-strip" aria-label="Olympiad practice readiness">
+        <div>
+          <strong>{goalReadiness.score}%</strong>
+          <span>practice readiness</span>
+        </div>
+        <div>
+          <strong>{goalReadiness.practicedRows}</strong>
+          <span>profile facts practised</span>
+        </div>
+        <div>
+          <strong>{goalReadiness.readyRows}</strong>
+          <span>facts meeting goal policy</span>
+        </div>
+        <div>
+          <strong>{goalReadiness.accuracy === null ? '—' : `${Math.round(goalReadiness.accuracy * 100)}%`}</strong>
+          <span>profile-practice accuracy</span>
+        </div>
+      </div>
+      <p class="saved-note">
+        This is a practice signal from local evidence, not an official SOF score or syllabus certification. Row placement is still prototype-unverified.
+      </p>
+    </section>
+  {/if}
 
   <section class="catalog-section" aria-labelledby="catalog-heading">
     <div class="section-heading">
