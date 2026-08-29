@@ -1,5 +1,15 @@
 {
   "profileRef": "CBSE_INDIA_CLASS1",
+  "provenance": {
+    "status": "prototype_unverified",
+    "sourceRefs": ["kidsplay.editorial.prototype.v1"],
+    "versionLabel": "prototype-1",
+    "academicYear": null,
+    "effectiveFrom": null,
+    "effectiveTo": null,
+    "reviewedAt": null,
+    "placementBasis": "editorial_prototype"
+  },
   "members": [
     { "rowId": "kr.animals.dog.domestic", "fit": "core" },
     { "rowId": "kr.animals.camel.ship-of-desert", "fit": "core" },
