@@ -1,5 +1,6 @@
 import type { Question } from '../contracts/question';
 import { dragToTargetEngine } from '../engines/dragToTarget';
+import { memoryPairsEngine } from '../engines/memoryPairs';
 import { singleChoiceEngine } from '../engines/singleChoice';
 import type { InteractionEngine } from '../engines/types';
 import { wordBankFillEngine } from '../engines/wordBankFill';
@@ -9,7 +10,8 @@ const engines = new Map<string, InteractionEngine>([
   [singleChoiceEngine.key, singleChoiceEngine],
   [wordBankFillEngine.key, wordBankFillEngine],
   [dragToTargetEngine.key, dragToTargetEngine],
-  [wordSearchEngine.key, wordSearchEngine]
+  [wordSearchEngine.key, wordSearchEngine],
+  [memoryPairsEngine.key, memoryPairsEngine]
 ]);
 
 export function getEngine(question: Question): InteractionEngine {
