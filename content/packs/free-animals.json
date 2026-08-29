@@ -1,7 +1,7 @@
 {
   "id": "free.animals-foundation.1",
   "kind": "learning_pack",
-  "title": "Animals: Land and Water",
+  "title": "Living World: Animals & Plants",
   "access": { "type": "free" },
   "questionRefs": [
     "animals.dog.habitat.mcq.001",
@@ -18,11 +18,48 @@
     "animals.habitat.hotspot.001",
     "animals.classification.crossword.001",
     "animals.dog.home-maze.001",
+
     "animals.associations.memory.generated.001",
     "animals.associations.match.generated.001",
     "animals.associations.word-search.generated.001",
     "animals.associations.crossword.generated.001",
     "animals.associations.mcq.camel.generated.001",
-    "animals.associations.fill.mammoth.generated.001"
+    "animals.associations.fill.mammoth.generated.001",
+
+    "animals.homes.memory.generated.001",
+    "animals.homes.match.generated.001",
+    "animals.homes.word-search.generated.001",
+    "animals.homes.crossword.generated.001",
+    "animals.homes.mcq.rabbit.generated.001",
+
+    "animals.young.memory.generated.001",
+    "animals.young.match.generated.001",
+    "animals.young.word-search.generated.001",
+    "animals.young.crossword.generated.001",
+    "animals.young.mcq.frog.generated.001",
+
+    "animals.features.memory.generated.001",
+    "animals.features.match.generated.001",
+    "animals.features.word-search.generated.001",
+    "animals.features.crossword.generated.001",
+    "animals.features.mcq.duck.generated.001",
+
+    "plants.parts.memory.generated.001",
+    "plants.parts.match.generated.001",
+    "plants.parts.word-search.generated.001",
+    "plants.parts.crossword.generated.001",
+    "plants.parts.mcq.leaves.generated.001",
+
+    "plants.types.memory.generated.001",
+    "plants.types.match.generated.001",
+    "plants.types.word-search.generated.001",
+    "plants.types.crossword.generated.001",
+    "plants.types.mcq.lotus.generated.001",
+
+    "plants.uses.memory.generated.001",
+    "plants.uses.match.generated.001",
+    "plants.uses.word-search.generated.001",
+    "plants.uses.crossword.generated.001",
+    "plants.uses.mcq.cotton.generated.001"
   ]
 }
