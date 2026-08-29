@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.food.groups.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Food",
+  "entries": [
+    {
+      "id": "rice-energy",
+      "rowId": "kr.food.rice.group.energy",
+      "subject": { "id": "rice", "label": "Rice", "symbol": "🍚" },
+      "relation": "food_group",
+      "object": { "id": "energy-cereal", "label": "is an energy-giving cereal food" },
+      "conceptIds": ["food.groups.energy.rice"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["classification", "recall", "reasoning"] }
+    },
+    {
+      "id": "pulses-building",
+      "rowId": "kr.food.pulses.group.body-building",
+      "subject": { "id": "pulses", "label": "Pulses", "symbol": "🫘" },
+      "relation": "food_group",
+      "object": { "id": "body-building-pulse", "label": "are body-building foods rich in protein" },
+      "conceptIds": ["food.groups.body-building.pulses"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["classification", "recall", "reasoning"] }
+    },
+    {
+      "id": "milk-building",
+      "rowId": "kr.food.milk.group.body-building",
+      "subject": { "id": "milk", "label": "Milk", "symbol": "🥛" },
+      "relation": "food_group",
+      "object": { "id": "body-building-dairy", "label": "helps growth and body building" },
+      "conceptIds": ["food.groups.body-building.milk"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["classification", "recall", "reasoning"] }
+    },
+    {
+      "id": "butter-energy",
+      "rowId": "kr.food.butter.group.energy",
+      "subject": { "id": "butter", "label": "Butter", "symbol": "🧈" },
+      "relation": "food_group",
+      "object": { "id": "energy-fat", "label": "is an energy-rich fatty food" },
+      "conceptIds": ["food.groups.energy.butter"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["classification", "recall", "reasoning"] }
+    },
+    {
+      "id": "spinach-protective",
+      "rowId": "kr.food.spinach.group.protective",
+      "subject": { "id": "spinach", "label": "Spinach", "symbol": "🥬" },
+      "relation": "food_group",
+      "object": { "id": "protective-leafy", "label": "is a protective leafy vegetable" },
+      "conceptIds": ["food.groups.protective.spinach"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["classification", "recall", "reasoning"] }
+    },
+    {
+      "id": "orange-protective",
+      "rowId": "kr.food.orange.group.protective",
+      "subject": { "id": "orange", "label": "Orange", "symbol": "🍊" },
+      "relation": "food_group",
+      "object": { "id": "protective-fruit", "label": "is a protective fruit rich in vitamins" },
+      "conceptIds": ["food.groups.protective.orange"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["classification", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Elementary food-group model for Kidsplay learning. SOF chapter scope is reviewed; exact profile fit remains separately reviewed."
+  }
+}
