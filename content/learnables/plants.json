@@ -1,0 +1,148 @@
+[
+  {
+    "id": "plants.parts.roots",
+    "statement": "Roots absorb water and minerals from the soil and help anchor a plant.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Parts",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.parts.stem",
+    "statement": "The stem supports the plant and carries water and other materials between roots and leaves.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Parts",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.parts.leaves",
+    "statement": "Leaves make food for the plant using light, water and air.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Parts",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.parts.flower",
+    "statement": "Flowers help flowering plants reproduce and form seeds.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Parts",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.parts.fruit",
+    "statement": "A fruit contains and helps protect seeds.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Parts",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.parts.seed",
+    "statement": "Under suitable conditions, a seed can grow into a new plant.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Parts",
+    "gradeBands": [1, 2]
+  },
+
+  {
+    "id": "plants.types.tree",
+    "statement": "A mango plant is a tree with a strong woody trunk.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Types",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.types.shrub",
+    "statement": "A rose plant is commonly classified as a shrub.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Types",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.types.herb",
+    "statement": "Mint is an herb with a soft green stem.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Types",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.types.climber",
+    "statement": "A pea plant is a climber that uses support to grow upward.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Types",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.types.creeper",
+    "statement": "A pumpkin plant is a creeper whose weak stem spreads along the ground.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Types",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.types.aquatic",
+    "statement": "Lotus is an aquatic plant that grows in water.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Plant Types",
+    "gradeBands": [1, 2]
+  },
+
+  {
+    "id": "plants.uses.fibre",
+    "statement": "Cotton plants provide fibre that is spun into yarn and used to make cloth.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.uses.sugar",
+    "statement": "Sugar is commonly produced from sugarcane.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.uses.rubber",
+    "statement": "Natural rubber can be made from latex collected from rubber trees.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.uses.tea",
+    "statement": "Tea leaves are harvested from the tea plant and processed to make tea.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "plants.uses.medicine",
+    "statement": "Neem has traditional medicinal and household uses.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.uses.materials",
+    "statement": "Bamboo is used to make baskets and many other useful objects.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [2]
+  }
+]
