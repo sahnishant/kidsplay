@@ -1,14 +1,17 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { WordBankFillQuestion } from '../contracts/question';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<WordBankFillQuestion> = $props();
 
-  const blankIds = question.interaction.segments
+  const getBlankIds = (): string[] => question.interaction.segments
     .filter((segment): segment is { type: 'blank'; id: string } => segment.type === 'blank')
     .map((segment) => segment.id);
+
+  let blankIds = $derived(getBlankIds());
   let answers = $state<Record<string, string>>({});
-  let activeBlankId = $state<string | null>(blankIds[0] ?? null);
+  let activeBlankId = $state<string | null>(untrack(() => getBlankIds()[0] ?? null));
   let locked = $state(false);
   let complete = $derived(blankIds.every((blankId) => Boolean(answers[blankId])));
 
