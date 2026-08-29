@@ -50,10 +50,13 @@ describe('catalog and profile-driven sessions', () => {
 
     const session = createSessionForCatalogEntry(goalEntry!.id, {});
     const allowedRows = new Set(sofMembership.members.map((member) => member.rowId));
+    const sessionRefs = session.questions.flatMap((question) => question.knowledgeRefs ?? []);
 
     expect(session.profileRef).toBe(PROFILE_REF);
-    expect(session.questions.length).toBeGreaterThan(0);
+    expect(session.questions).toHaveLength(8);
     expect(new Set(session.questions.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
+    expect(sessionRefs.some((rowId) => rowId.startsWith('kr.animals.'))).toBe(true);
+    expect(sessionRefs.some((rowId) => rowId.startsWith('kr.plants.'))).toBe(true);
 
     for (const question of session.questions) {
       expect(question.knowledgeRefs?.length ?? 0).toBeGreaterThan(0);
