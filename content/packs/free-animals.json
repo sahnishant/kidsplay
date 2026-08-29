@@ -17,6 +17,12 @@
     "animals.butterfly.lifecycle.sequence.001",
     "animals.habitat.hotspot.001",
     "animals.classification.crossword.001",
-    "animals.dog.home-maze.001"
+    "animals.dog.home-maze.001",
+    "animals.associations.memory.generated.001",
+    "animals.associations.match.generated.001",
+    "animals.associations.word-search.generated.001",
+    "animals.associations.crossword.generated.001",
+    "animals.associations.mcq.camel.generated.001",
+    "animals.associations.fill.mammoth.generated.001"
   ]
 }

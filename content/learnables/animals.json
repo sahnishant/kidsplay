@@ -48,11 +48,43 @@
     "gradeBands": [1, 2]
   },
   {
-    "id": "animals.butterfly.life-cycle",
-    "statement": "A butterfly develops through egg, caterpillar, chrysalis and adult butterfly stages.",
+    "id": "animals.dog.domestic-classification",
+    "statement": "A dog is a domestic animal.",
     "subject": "EVS",
     "topic": "Animals",
-    "subtopic": "Life Cycles",
+    "subtopic": "Classification",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.seahorse.water-classification",
+    "statement": "A seahorse is a water animal.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Classification",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.emu.bird-classification",
+    "statement": "An emu is a bird.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Classification",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.camel.ship-desert-name",
+    "statement": "The camel is called the ship of the desert.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Adaptation",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.mammoth.extinct-status",
+    "statement": "A mammoth is an extinct animal.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Classification",
     "gradeBands": [1, 2]
   }
 ]
