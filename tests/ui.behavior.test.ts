@@ -44,10 +44,13 @@ afterEach(() => {
 });
 
 describe('user-facing product flow', () => {
-  it('saves the player from home and enters and leaves a profile-driven goal session', async () => {
+  it('shows the learning map, saves the player and enters and leaves a profile-driven goal session', async () => {
     render(App);
 
     expect(screen.getByRole('heading', { name: 'Learn as you play' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'How each topic is going' })).toBeTruthy();
+    expect(screen.getByText('Human Body')).toBeTruthy();
+    expect(screen.getByText('Food')).toBeTruthy();
     expect(screen.getByText('Profile: SOF_INDIA_CLASS2')).toBeTruthy();
 
     const nameInput = screen.getByLabelText('Child name') as HTMLInputElement;
@@ -56,7 +59,7 @@ describe('user-facing product flow', () => {
     expect(stored.name).toBe('Dheu');
 
     await fireEvent.click(screen.getByRole('button', { name: 'Try prototype' }));
-    expect(screen.getByText('Class 2 Science Olympiad: Animals & Plants')).toBeTruthy();
+    expect(screen.getByText('Class 2 Science Olympiad: Living World, Body & Food')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
