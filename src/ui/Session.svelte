@@ -70,7 +70,7 @@
       {/if}
 
       {#if reasoningQuestion}
-        <div class="reasoning-cue"><span aria-hidden="true">🧠</span> Think it through</div>
+        <div class="reasoning-cue access-badge access-badge--goal"><span aria-hidden="true">🧠</span> Think it through</div>
       {/if}
 
       <h1 class="question-prompt">{question.prompt.text}</h1>
