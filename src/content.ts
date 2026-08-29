@@ -177,7 +177,7 @@ export function getCatalogEntries(): CatalogEntry[] {
       title: goalPack.title,
       description: 'Profile-driven practice with progress tracking. Prototype access is open while purchase flow is not connected.',
       access: goalPack.access,
-      status: goalPack.status,
+      status: goalPack.status === 'reviewed' ? 'ready' : 'prototype',
       profileRef: goalPack.profileRef,
       actionLabel: goalPack.status === 'prototype' ? 'Try prototype' : 'Start goal'
     }
