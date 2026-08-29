@@ -38,8 +38,30 @@ export interface ProgressSnapshot {
 
 export type TopicProgressStatus = 'not_started' | 'needs_practice' | 'growing' | 'strong';
 
+const TOPIC_DEFINITIONS = [
+  { id: 'animals', label: 'Animals' },
+  { id: 'plants', label: 'Plants' },
+  { id: 'human', label: 'Human Body' },
+  { id: 'food', label: 'Food' },
+  { id: 'housing', label: 'Housing' },
+  { id: 'clothing', label: 'Clothing' },
+  { id: 'habits', label: 'Good Habits' },
+  { id: 'safety', label: 'Safety' },
+  { id: 'transport', label: 'Transport' },
+  { id: 'communication', label: 'Communication' },
+  { id: 'air', label: 'Air' },
+  { id: 'water', label: 'Water' },
+  { id: 'rocks', label: 'Rocks' },
+  { id: 'universe', label: 'Earth & Universe' },
+  { id: 'family', label: 'Family' },
+  { id: 'festivals', label: 'Festivals' },
+  { id: 'reasoning', label: 'Logical Reasoning' }
+] as const;
+
+export type TopicId = (typeof TOPIC_DEFINITIONS)[number]['id'];
+
 export interface TopicProgressSummary {
-  id: 'animals' | 'plants' | 'human' | 'food';
+  id: TopicId;
   label: string;
   practicedKnowledge: number;
   strongKnowledge: number;
@@ -54,6 +76,7 @@ export interface ProgressSummary {
   practicedKnowledge: number;
   masteredKnowledge: number;
   topics: TopicProgressSummary[];
+  recommendedTopics: TopicProgressSummary[];
 }
 
 const CHILD_KEY = 'kidsplay.child.v1';
@@ -61,13 +84,10 @@ const PROGRESS_KEY = 'kidsplay.progress.v1';
 const MAX_STORED_ATTEMPTS = 250;
 
 const DEFAULT_CHILD: ChildSettings = { name: '', avatar: 'fox' };
-const TOPIC_LABELS: Record<TopicProgressSummary['id'], string> = {
-  animals: 'Animals',
-  plants: 'Plants',
-  human: 'Human Body',
-  food: 'Food'
-};
-const TOPIC_IDS = Object.keys(TOPIC_LABELS) as TopicProgressSummary['id'][];
+const TOPIC_LABELS = Object.fromEntries(
+  TOPIC_DEFINITIONS.map((topic) => [topic.id, topic.label])
+) as Record<TopicId, string>;
+const TOPIC_IDS = TOPIC_DEFINITIONS.map((topic) => topic.id);
 
 function canUseStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
@@ -222,12 +242,10 @@ function isStrongCounter(counter: MasteryCounter): boolean {
     && counter.correctWeight / counter.totalWeight >= 0.75;
 }
 
-function topicIdForRow(rowId: string): TopicProgressSummary['id'] | null {
+function topicIdForRow(rowId: string): TopicId | null {
   const parts = rowId.split('.');
   const candidate = parts[1] === 'choice' ? parts[2] : parts[1];
-  return TOPIC_IDS.includes(candidate as TopicProgressSummary['id'])
-    ? candidate as TopicProgressSummary['id']
-    : null;
+  return TOPIC_IDS.includes(candidate as TopicId) ? candidate as TopicId : null;
 }
 
 export function summarizeTopicProgress(snapshot: ProgressSnapshot): TopicProgressSummary[] {
@@ -262,10 +280,32 @@ export function summarizeTopicProgress(snapshot: ProgressSnapshot): TopicProgres
   });
 }
 
+function recommendTopics(topics: TopicProgressSummary[]): TopicProgressSummary[] {
+  const priority: Record<TopicProgressStatus, number> = {
+    needs_practice: 0,
+    growing: 1,
+    not_started: 2,
+    strong: 3
+  };
+
+  return topics
+    .filter((topic) => topic.practicedKnowledge > 0 && topic.status !== 'strong')
+    .sort((left, right) => {
+      const statusDelta = priority[left.status] - priority[right.status];
+      if (statusDelta) return statusDelta;
+      const leftAccuracy = left.accuracy ?? 1;
+      const rightAccuracy = right.accuracy ?? 1;
+      if (leftAccuracy !== rightAccuracy) return leftAccuracy - rightAccuracy;
+      return right.practicedKnowledge - left.practicedKnowledge;
+    })
+    .slice(0, 3);
+}
+
 export function summarizeProgress(snapshot: ProgressSnapshot): ProgressSummary {
   const totalAttempts = snapshot.attempts.length;
   const correctAttempts = snapshot.attempts.filter((attempt) => attempt.correct).length;
   const masteredKnowledge = Object.values(snapshot.knowledge).filter(isStrongCounter).length;
+  const topics = summarizeTopicProgress(snapshot);
 
   return {
     totalAttempts,
@@ -273,6 +313,7 @@ export function summarizeProgress(snapshot: ProgressSnapshot): ProgressSummary {
     accuracy: totalAttempts ? correctAttempts / totalAttempts : null,
     practicedKnowledge: Object.keys(snapshot.knowledge).length,
     masteredKnowledge,
-    topics: summarizeTopicProgress(snapshot)
+    topics,
+    recommendedTopics: recommendTopics(topics)
   };
 }
