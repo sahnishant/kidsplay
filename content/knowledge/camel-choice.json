@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
   "id": "knowledge.animals.camel-choice.001",
+  "rowId": "kr.choice.animals.camel.ship-of-desert",
   "kind": "choice_item",
   "version": 1,
   "language": "en",
-  "gradeBands": [1, 2],
   "subject": "EVS",
   "topic": "Animals",
   "prompt": "Which of the following is called the ship of the desert?",

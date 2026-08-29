@@ -1,24 +1,18 @@
 import { readFileSync } from 'node:fs';
-import { formatAssociationSet } from './associationSet.mjs';
-import { formatChoiceItem } from './choiceItem.mjs';
+import { normalizeData } from '../normalizers/registry.mjs';
+import { formatAssociationSet, associationSetSupportedEngines } from './associationSet.mjs';
+import { formatChoiceItem, choiceItemSupportedEngines } from './choiceItem.mjs';
 
-const dataTypeRegistry = JSON.parse(
-  readFileSync(new URL('../../content/data-types/registry.json', import.meta.url), 'utf8')
-);
+const dataTypeRegistry = JSON.parse(readFileSync(new URL('../../content/data-types/registry.json', import.meta.url), 'utf8'));
 
 const formatterImplementations = new Map([
-  ['association_set@1', formatAssociationSet],
-  ['choice_item@1', formatChoiceItem]
+  ['association_set@1', { format: formatAssociationSet, supportedEngines: associationSetSupportedEngines }],
+  ['choice_item@1', { format: formatChoiceItem, supportedEngines: choiceItemSupportedEngines }]
 ]);
 
-const dataTypes = new Map(
-  (dataTypeRegistry.dataTypes ?? []).map((dataType) => [
-    `${dataType.id}@${dataType.version}`,
-    dataType
-  ])
-);
-
-const sourceKeyFor = (data) => `${data.kind}@${data.version}`;
+const dataTypes = new Map((dataTypeRegistry.dataTypes ?? []).map((dataType) => [`${dataType.id}@${dataType.version}`, dataType]));
+const sourceKeyFor = (data) => data.datatype ?? `${data.kind}@${data.version}`;
+const asNormalized = (data) => Array.isArray(data.units) && data.datatype ? data : normalizeData(data);
 
 export function getDataType(data) {
   const sourceKey = sourceKeyFor(data);
@@ -27,42 +21,36 @@ export function getDataType(data) {
   return definition;
 }
 
-/** Master engine list stored once per datatype, never repeated on every data record. */
 export function getCompatibleEngines(data) {
   return [...(getDataType(data).compatibleEngines ?? [])];
 }
 
 const meetsRequirements = (data, requirements = {}) => {
-  if (requirements.minEntries !== undefined) {
-    if (!Array.isArray(data.entries) || data.entries.length < requirements.minEntries) return false;
-  }
+  if (requirements.minUnits !== undefined && data.units.length < requirements.minUnits) return false;
   if (requirements.minChoices !== undefined) {
-    if (!Array.isArray(data.choices) || data.choices.length < requirements.minChoices) return false;
+    if (!data.units.some((unit) => Array.isArray(unit.choices) && unit.choices.length >= requirements.minChoices)) return false;
   }
   return true;
 };
 
-/** Datatype-compatible engines for which this particular record is rich enough. */
 export function getUsableEngines(data) {
-  const definition = getDataType(data);
-  return getCompatibleEngines(data).filter((engine) =>
-    meetsRequirements(data, definition.engineRequirements?.[engine])
-  );
+  const normalized = asNormalized(data);
+  const definition = getDataType(normalized);
+  return getCompatibleEngines(normalized).filter((engine) => meetsRequirements(normalized, definition.engineRequirements?.[engine]));
+}
+
+export function getFormatterCapabilities() {
+  return Object.fromEntries([...formatterImplementations.entries()].map(([datatype, implementation]) => [datatype, [...implementation.supportedEngines]]));
 }
 
 export function formatDataForEngine(data, engine, recipe = {}) {
-  const sourceKey = sourceKeyFor(data);
-  const definition = getDataType(data);
-  const formatter = formatterImplementations.get(sourceKey);
-  if (!formatter) throw new Error(`No formatter implementation registered for ${sourceKey}`);
-
-  if (!(definition.compatibleEngines ?? []).includes(engine)) {
-    throw new Error(`${data.id}: datatype ${sourceKey} is not compatible with ${engine}`);
-  }
-
-  if (!meetsRequirements(data, definition.engineRequirements?.[engine])) {
-    throw new Error(`${data.id}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
-  }
-
-  return formatter(data, { ...recipe, engine });
+  const normalized = asNormalized(data);
+  const sourceKey = sourceKeyFor(normalized);
+  const definition = getDataType(normalized);
+  const implementation = formatterImplementations.get(sourceKey);
+  if (!implementation) throw new Error(`No formatter implementation registered for ${sourceKey}`);
+  if (!(definition.compatibleEngines ?? []).includes(engine)) throw new Error(`${normalized.sourceRef}: datatype ${sourceKey} is not compatible with ${engine}`);
+  if (!implementation.supportedEngines.includes(engine)) throw new Error(`${normalized.sourceRef}: formatter ${sourceKey} does not implement ${engine}`);
+  if (!meetsRequirements(normalized, definition.engineRequirements?.[engine])) throw new Error(`${normalized.sourceRef}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
+  return implementation.format(normalized, { ...recipe, engine });
 }

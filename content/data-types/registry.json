@@ -7,7 +7,7 @@
       "description": "A pre-authored prompt with choices and one correct choice.",
       "compatibleEngines": ["single_choice@1"],
       "engineRequirements": {
-        "single_choice@1": { "minChoices": 2 }
+        "single_choice@1": { "minUnits": 1, "minChoices": 2 }
       }
     },
     {
@@ -23,12 +23,12 @@
         "crossword@1"
       ],
       "engineRequirements": {
-        "single_choice@1": { "minEntries": 2 },
-        "word_bank_fill@1": { "minEntries": 2 },
-        "drag_to_target@1": { "minEntries": 2 },
-        "memory_pairs@1": { "minEntries": 2 },
-        "word_search@1": { "minEntries": 2 },
-        "crossword@1": { "minEntries": 2 }
+        "single_choice@1": { "minUnits": 2 },
+        "word_bank_fill@1": { "minUnits": 2 },
+        "drag_to_target@1": { "minUnits": 2 },
+        "memory_pairs@1": { "minUnits": 2 },
+        "word_search@1": { "minUnits": 2 },
+        "crossword@1": { "minUnits": 2 }
       }
     }
   ]

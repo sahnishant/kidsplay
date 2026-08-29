@@ -8,7 +8,8 @@ export interface BaseQuestion {
   revision: number;
   schemaVersion: 1;
   conceptIds: string[];
-  gradeBands: number[];
+  /** Legacy/manual descriptive metadata only. Curriculum placement belongs to learning profiles. */
+  gradeBands?: number[];
   difficulty: number;
   language: string;
   prompt: Prompt;

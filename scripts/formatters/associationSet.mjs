@@ -6,14 +6,22 @@ const capitalize = (text) => {
   return value ? value[0].toUpperCase() + value.slice(1) : value;
 };
 
-const selectedEntries = (source, recipe) => {
-  const entries = Array.isArray(source.entries) ? source.entries : [];
-  if (!recipe.entryIds?.length) return entries;
-  const byId = new Map(entries.map((entry) => [entry.id, entry]));
+const selectedUnits = (source, recipe) => {
+  const units = Array.isArray(source.units) ? source.units : [];
+  if (recipe.rowIds?.length) {
+    const byId = new Map(units.map((unit) => [unit.rowId, unit]));
+    return recipe.rowIds.map((id) => {
+      const unit = byId.get(id);
+      if (!unit) throw new Error(`${recipe.id}: unknown rowId ${id} in ${source.sourceRef}`);
+      return unit;
+    });
+  }
+  if (!recipe.entryIds?.length) return units;
+  const byLocalId = new Map(units.map((unit) => [unit.localId, unit]));
   return recipe.entryIds.map((id) => {
-    const entry = byId.get(id);
-    if (!entry) throw new Error(`${recipe.id}: unknown entry ${id} in ${source.id}`);
-    return entry;
+    const unit = byLocalId.get(id);
+    if (!unit) throw new Error(`${recipe.id}: unknown entry ${id} in ${source.sourceRef}`);
+    return unit;
   });
 };
 
@@ -22,32 +30,31 @@ const defaultFeedback = {
   incorrect: 'Try again and use the relationship between the two ideas.'
 };
 
-const baseQuestion = (source, recipe, entries, defaultPrompt) => ({
+const baseQuestion = (source, recipe, units, defaultPrompt) => ({
   id: recipe.id,
   revision: recipe.revision ?? 1,
   schemaVersion: 1,
-  conceptIds: unique(entries.flatMap((entry) => entry.conceptIds ?? [])),
-  gradeBands: recipe.gradeBands ?? source.gradeBands ?? [],
+  conceptIds: unique(units.flatMap((unit) => unit.conceptIds ?? [])),
   difficulty: recipe.difficulty ?? 2,
   language: source.language ?? 'en',
   prompt: { text: recipe.prompt ?? defaultPrompt },
   feedback: recipe.feedback ?? defaultFeedback,
   authoring: {
     status: source.authoring?.status ?? 'reviewed',
-    source: `knowledge:${source.id}`,
-    compiledBy: `${source.kind}@${source.version}->${recipe.engine}`
+    source: `knowledge:${source.sourceRef}`,
+    compiledBy: `${source.datatype}->${recipe.engine}`
   }
 });
 
-const questionPromptFor = (entry) => {
-  const object = entry.object.label;
-  if (entry.relation === 'known_as') return `Which of the following is called the ${object}?`;
-  if (entry.relation === 'is_a') return `Which of the following is ${articleFor(object)} ${object}?`;
+const questionPromptFor = (unit) => {
+  const object = unit.object.label;
+  if (unit.relation === 'known_as') return `Which of the following is called the ${object}?`;
+  if (unit.relation === 'is_a') return `Which of the following is ${articleFor(object)} ${object}?`;
   return `Which of the following is connected with “${object}”?`;
 };
 
-const formatMemory = (source, recipe, entries) => {
-  const base = baseQuestion(source, recipe, entries, 'Find the cards that belong together.');
+const formatMemory = (source, recipe, units) => {
+  const base = baseQuestion(source, recipe, units, 'Find the cards that belong together.');
   return {
     questions: [{
       ...base,
@@ -55,52 +62,42 @@ const formatMemory = (source, recipe, entries) => {
         type: 'memory_pairs',
         version: 1,
         seed: recipe.seed ?? 1,
-        cards: entries.flatMap((entry) => [
-          { id: `${entry.id}:subject`, label: entry.subject.label, symbol: entry.subject.symbol },
-          { id: `${entry.id}:object`, label: entry.object.label, symbol: entry.object.symbol }
+        cards: units.flatMap((unit) => [
+          { id: `${unit.localId}:subject`, label: unit.subject.label, symbol: unit.subject.symbol },
+          { id: `${unit.localId}:object`, label: unit.object.label, symbol: unit.object.symbol }
         ])
       },
       solution: {
         type: 'pair_matches',
-        pairs: entries.map((entry) => [`${entry.id}:subject`, `${entry.id}:object`])
+        pairs: units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`])
       }
     }],
     crosswordAuthoring: []
   };
 };
 
-const formatMatching = (source, recipe, entries) => {
-  const base = baseQuestion(source, recipe, entries, 'Match each item to the description that belongs with it.');
+const formatMatching = (source, recipe, units) => {
+  const base = baseQuestion(source, recipe, units, 'Match each item to the description that belongs with it.');
   return {
     questions: [{
       ...base,
       interaction: {
         type: 'drag_to_target',
         version: 1,
-        items: entries.map((entry) => ({
-          id: `${entry.id}:subject`,
-          label: entry.subject.label,
-          symbol: entry.subject.symbol
-        })),
-        targets: entries.map((entry) => ({
-          id: `${entry.id}:object`,
-          label: entry.object.label,
-          symbol: entry.object.symbol
-        }))
+        items: units.map((unit) => ({ id: `${unit.localId}:subject`, label: unit.subject.label, symbol: unit.subject.symbol })),
+        targets: units.map((unit) => ({ id: `${unit.localId}:object`, label: unit.object.label, symbol: unit.object.symbol }))
       },
       solution: {
         type: 'target_assignment',
-        assignments: Object.fromEntries(
-          entries.map((entry) => [`${entry.id}:subject`, `${entry.id}:object`])
-        )
+        assignments: Object.fromEntries(units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`]))
       }
     }],
     crosswordAuthoring: []
   };
 };
 
-const formatWordSearch = (source, recipe, entries) => {
-  const base = baseQuestion(source, recipe, entries, 'Find the words.');
+const formatWordSearch = (source, recipe, units) => {
+  const base = baseQuestion(source, recipe, units, 'Find the words.');
   return {
     questions: [{
       ...base,
@@ -110,47 +107,33 @@ const formatWordSearch = (source, recipe, entries) => {
         seed: recipe.seed ?? 1,
         gridSize: recipe.gridSize,
         directions: recipe.directions,
-        terms: entries.map((entry) => ({
-          id: `${entry.id}:subject`,
-          label: entry.subject.label,
-          word: entry.subject.label
-        }))
+        terms: units.map((unit) => ({ id: `${unit.localId}:subject`, label: unit.subject.label, word: unit.subject.label }))
       },
-      solution: {
-        type: 'found_terms',
-        requiredTermIds: entries.map((entry) => `${entry.id}:subject`)
-      }
+      solution: { type: 'found_terms', requiredTermIds: units.map((unit) => `${unit.localId}:subject`) }
     }],
     crosswordAuthoring: []
   };
 };
 
-const formatCrossword = (source, recipe, entries) => {
-  const base = baseQuestion(source, recipe, entries, 'Solve the crossword.');
+const formatCrossword = (source, recipe, units) => {
+  const base = baseQuestion(source, recipe, units, 'Solve the crossword.');
   return {
     questions: [],
     crosswordAuthoring: [{
       ...base,
-      entries: entries.map((entry) => ({
-        id: entry.id,
-        answer: entry.subject.label,
-        clue: capitalize(entry.object.label)
-      }))
+      entries: units.map((unit) => ({ id: unit.localId, answer: unit.subject.label, clue: capitalize(unit.object.label) }))
     }]
   };
 };
 
-const formatSingleChoice = (source, recipe, entries) => {
-  if (entries.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one entry`);
-  const target = entries[0];
-  const allEntries = source.entries ?? [];
+const formatSingleChoice = (source, recipe, units) => {
+  if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit`);
+  const target = units[0];
   const distractorCount = recipe.distractorCount ?? 3;
-  const distractors = allEntries.filter((entry) => entry.id !== target.id).slice(0, distractorCount);
-  if (distractors.length < distractorCount) {
-    throw new Error(`${recipe.id}: not enough distractors in ${source.id}`);
-  }
-  const optionEntries = [target, ...distractors];
-  const base = baseQuestion(source, recipe, entries, questionPromptFor(target));
+  const distractors = source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount);
+  if (distractors.length < distractorCount) throw new Error(`${recipe.id}: not enough distractors in ${source.sourceRef}`);
+  const optionUnits = [target, ...distractors];
+  const base = baseQuestion(source, recipe, units, questionPromptFor(target));
   return {
     questions: [{
       ...base,
@@ -158,39 +141,30 @@ const formatSingleChoice = (source, recipe, entries) => {
         type: 'single_choice',
         version: 1,
         shuffleOptions: true,
-        options: optionEntries.map((entry) => ({
-          id: `${entry.id}:subject`,
-          label: entry.subject.label
-        }))
+        options: optionUnits.map((unit) => ({ id: `${unit.localId}:subject`, label: unit.subject.label }))
       },
-      solution: {
-        type: 'exact_option',
-        correctOptionIds: [`${target.id}:subject`]
-      }
+      solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:subject`] }
     }],
     crosswordAuthoring: []
   };
 };
 
-const formatWordBankFill = (source, recipe, entries) => {
-  if (entries.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one entry`);
-  const target = entries[0];
+const formatWordBankFill = (source, recipe, units) => {
+  if (units.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one unit`);
+  const target = units[0];
   const template = recipe.sentenceTemplate ?? '{subject} — {blank}';
   const parts = template.split('{blank}');
   if (parts.length !== 2) throw new Error(`${recipe.id}: sentenceTemplate must contain {blank} exactly once`);
   const renderText = (value) => String(value).replaceAll('{subject}', target.subject.label).replaceAll('{object}', target.object.label);
   const distractorCount = recipe.distractorCount ?? 3;
-  const bankEntries = [
-    target,
-    ...(source.entries ?? []).filter((entry) => entry.id !== target.id).slice(0, distractorCount)
-  ];
+  const bankUnits = [target, ...source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount)];
   const before = renderText(parts[0]);
   const after = renderText(parts[1]);
   const segments = [];
   if (before) segments.push({ type: 'text', value: before });
   segments.push({ type: 'blank', id: 'answer' });
   if (after) segments.push({ type: 'text', value: after });
-  const base = baseQuestion(source, recipe, entries, 'Complete the sentence.');
+  const base = baseQuestion(source, recipe, units, 'Complete the sentence.');
   return {
     questions: [{
       ...base,
@@ -198,31 +172,33 @@ const formatWordBankFill = (source, recipe, entries) => {
         type: 'word_bank_fill',
         version: 1,
         segments,
-        wordBank: bankEntries.map((entry) => ({
-          id: `${entry.id}:object`,
-          label: entry.object.label
-        }))
+        wordBank: bankUnits.map((unit) => ({ id: `${unit.localId}:object`, label: unit.object.label }))
       },
-      solution: {
-        type: 'blank_answers',
-        answers: { answer: [`${target.id}:object`] }
-      }
+      solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
     }],
     crosswordAuthoring: []
   };
 };
 
-export function formatAssociationSet(source, recipe) {
-  const entries = selectedEntries(source, recipe);
-  if (!entries.length) throw new Error(`${recipe.id}: no entries selected from ${source.id}`);
+export const associationSetSupportedEngines = [
+  'single_choice@1',
+  'word_bank_fill@1',
+  'drag_to_target@1',
+  'memory_pairs@1',
+  'word_search@1',
+  'crossword@1'
+];
 
+export function formatAssociationSet(source, recipe) {
+  const units = selectedUnits(source, recipe);
+  if (!units.length) throw new Error(`${recipe.id}: no units selected from ${source.sourceRef}`);
   switch (recipe.engine) {
-    case 'memory_pairs@1': return formatMemory(source, recipe, entries);
-    case 'drag_to_target@1': return formatMatching(source, recipe, entries);
-    case 'word_search@1': return formatWordSearch(source, recipe, entries);
-    case 'crossword@1': return formatCrossword(source, recipe, entries);
-    case 'single_choice@1': return formatSingleChoice(source, recipe, entries);
-    case 'word_bank_fill@1': return formatWordBankFill(source, recipe, entries);
+    case 'memory_pairs@1': return formatMemory(source, recipe, units);
+    case 'drag_to_target@1': return formatMatching(source, recipe, units);
+    case 'word_search@1': return formatWordSearch(source, recipe, units);
+    case 'crossword@1': return formatCrossword(source, recipe, units);
+    case 'single_choice@1': return formatSingleChoice(source, recipe, units);
+    case 'word_bank_fill@1': return formatWordBankFill(source, recipe, units);
     default: throw new Error(`${recipe.id}: association_set formatter does not support ${recipe.engine}`);
   }
 }

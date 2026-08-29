@@ -1,8 +1,8 @@
 {
   "profileRef": "CBSE_INDIA_CLASS1",
   "members": [
-    { "dataRef": "knowledge.animals.associations.001", "rowRef": "dog-domestic", "fit": "core" },
-    { "dataRef": "knowledge.animals.associations.001", "rowRef": "camel-ship-desert", "fit": "core" },
-    { "dataRef": "knowledge.animals.camel-choice.001", "rowRef": "$root", "fit": "core" }
+    { "rowId": "kr.animals.dog.domestic", "fit": "core" },
+    { "rowId": "kr.animals.camel.ship-of-desert", "fit": "core" },
+    { "rowId": "kr.choice.animals.camel.ship-of-desert", "fit": "core" }
   ]
 }
