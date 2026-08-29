@@ -28,6 +28,11 @@
     { id: 'tiger', symbol: '🐯', label: 'Tiger' }
   ];
 
+  const defaultMapTopics = new Set(['animals', 'plants', 'human', 'food']);
+  let visibleTopics = $derived(
+    progress.topics.filter((topic) => topic.practicedKnowledge > 0 || defaultMapTopics.has(topic.id))
+  );
+
   const topicStatusLabels: Record<TopicProgressStatus, string> = {
     not_started: 'Not started',
     needs_practice: 'Practise next',
@@ -116,8 +121,18 @@
       <span class="saved-note">Based on practice on this device</span>
     </div>
 
+    {#if progress.recommendedTopics.length > 0}
+      <div class="section-heading" aria-label="Recommended next topics">
+        <div>
+          <span class="eyebrow">NEXT FOCUS</span>
+          <h3>{progress.recommendedTopics.map((topic) => topic.label).join(' · ')}</h3>
+        </div>
+        <span class="saved-note">Lowest current mastery first</span>
+      </div>
+    {/if}
+
     <div class="topic-progress-grid">
-      {#each progress.topics as topic}
+      {#each visibleTopics as topic}
         <article class="topic-progress-card" data-status={topic.status}>
           <div class="topic-progress-card__topline">
             <h3>{topic.label}</h3>
