@@ -36,12 +36,24 @@ export interface ProgressSnapshot {
   updatedAt: string | null;
 }
 
+export type TopicProgressStatus = 'not_started' | 'needs_practice' | 'growing' | 'strong';
+
+export interface TopicProgressSummary {
+  id: 'animals' | 'plants' | 'human' | 'food';
+  label: string;
+  practicedKnowledge: number;
+  strongKnowledge: number;
+  accuracy: number | null;
+  status: TopicProgressStatus;
+}
+
 export interface ProgressSummary {
   totalAttempts: number;
   correctAttempts: number;
   accuracy: number | null;
   practicedKnowledge: number;
   masteredKnowledge: number;
+  topics: TopicProgressSummary[];
 }
 
 const CHILD_KEY = 'kidsplay.child.v1';
@@ -49,6 +61,13 @@ const PROGRESS_KEY = 'kidsplay.progress.v1';
 const MAX_STORED_ATTEMPTS = 250;
 
 const DEFAULT_CHILD: ChildSettings = { name: '', avatar: 'fox' };
+const TOPIC_LABELS: Record<TopicProgressSummary['id'], string> = {
+  animals: 'Animals',
+  plants: 'Plants',
+  human: 'Human Body',
+  food: 'Food'
+};
+const TOPIC_IDS = Object.keys(TOPIC_LABELS) as TopicProgressSummary['id'][];
 
 function canUseStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
@@ -197,19 +216,63 @@ export function recordAttempt(attempt: SessionAttempt): ProgressSnapshot {
   return snapshot;
 }
 
+function isStrongCounter(counter: MasteryCounter): boolean {
+  return counter.attempts >= 2
+    && counter.totalWeight > 0
+    && counter.correctWeight / counter.totalWeight >= 0.75;
+}
+
+function topicIdForRow(rowId: string): TopicProgressSummary['id'] | null {
+  const parts = rowId.split('.');
+  const candidate = parts[1] === 'choice' ? parts[2] : parts[1];
+  return TOPIC_IDS.includes(candidate as TopicProgressSummary['id'])
+    ? candidate as TopicProgressSummary['id']
+    : null;
+}
+
+export function summarizeTopicProgress(snapshot: ProgressSnapshot): TopicProgressSummary[] {
+  return TOPIC_IDS.map((id) => {
+    const counters = Object.entries(snapshot.knowledge)
+      .filter(([rowId]) => topicIdForRow(rowId) === id)
+      .map(([, counter]) => counter);
+    const totalWeight = counters.reduce((sum, counter) => sum + counter.totalWeight, 0);
+    const correctWeight = counters.reduce((sum, counter) => sum + counter.correctWeight, 0);
+    const accuracy = totalWeight > 0 ? correctWeight / totalWeight : null;
+    const strongKnowledge = counters.filter(isStrongCounter).length;
+
+    let status: TopicProgressStatus = 'not_started';
+    if (counters.length) {
+      if (counters.length >= 3 && accuracy !== null && accuracy >= 0.8 && strongKnowledge / counters.length >= 0.6) {
+        status = 'strong';
+      } else if (accuracy !== null && accuracy >= 0.6) {
+        status = 'growing';
+      } else {
+        status = 'needs_practice';
+      }
+    }
+
+    return {
+      id,
+      label: TOPIC_LABELS[id],
+      practicedKnowledge: counters.length,
+      strongKnowledge,
+      accuracy,
+      status
+    };
+  });
+}
+
 export function summarizeProgress(snapshot: ProgressSnapshot): ProgressSummary {
   const totalAttempts = snapshot.attempts.length;
   const correctAttempts = snapshot.attempts.filter((attempt) => attempt.correct).length;
-  const masteredKnowledge = Object.values(snapshot.knowledge).filter((counter) => {
-    if (counter.attempts < 2 || counter.totalWeight <= 0) return false;
-    return counter.correctWeight / counter.totalWeight >= 0.75;
-  }).length;
+  const masteredKnowledge = Object.values(snapshot.knowledge).filter(isStrongCounter).length;
 
   return {
     totalAttempts,
     correctAttempts,
     accuracy: totalAttempts ? correctAttempts / totalAttempts : null,
     practicedKnowledge: Object.keys(snapshot.knowledge).length,
-    masteredKnowledge
+    masteredKnowledge,
+    topics: summarizeTopicProgress(snapshot)
   };
 }
