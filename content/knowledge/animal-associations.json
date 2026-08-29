@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.associations.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "gradeBands": [1, 2],
+  "subject": "EVS",
+  "topic": "Animals",
+  "canGenerate": [
+    "single_choice@1",
+    "word_bank_fill@1",
+    "drag_to_target@1",
+    "memory_pairs@1",
+    "word_search@1",
+    "crossword@1"
+  ],
+  "entries": [
+    {
+      "id": "dog-domestic",
+      "subject": { "id": "dog", "label": "Dog", "symbol": "🐶" },
+      "relation": "is_a",
+      "object": { "id": "domestic-animal", "label": "domestic animal" },
+      "conceptIds": ["animals.dog.domestic-classification"]
+    },
+    {
+      "id": "seahorse-water",
+      "subject": { "id": "seahorse", "label": "Seahorse", "symbol": "🐴" },
+      "relation": "is_a",
+      "object": { "id": "water-animal", "label": "water animal" },
+      "conceptIds": ["animals.seahorse.water-classification"]
+    },
+    {
+      "id": "emu-bird",
+      "subject": { "id": "emu", "label": "Emu", "symbol": "🐦" },
+      "relation": "is_a",
+      "object": { "id": "bird", "label": "bird" },
+      "conceptIds": ["animals.emu.bird-classification"]
+    },
+    {
+      "id": "camel-ship-desert",
+      "subject": { "id": "camel", "label": "Camel", "symbol": "🐫" },
+      "relation": "known_as",
+      "object": { "id": "ship-of-desert", "label": "ship of the desert" },
+      "conceptIds": ["animals.camel.ship-desert-name"]
+    },
+    {
+      "id": "mammoth-extinct",
+      "subject": { "id": "mammoth", "label": "Mammoth", "symbol": "🦣" },
+      "relation": "is_a",
+      "object": { "id": "extinct-animal", "label": "extinct animal" },
+      "conceptIds": ["animals.mammoth.extinct-status"]
+    }
+  ],
+  "authoring": { "status": "reviewed", "source": "internal" }
+}
