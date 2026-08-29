@@ -133,6 +133,37 @@ function masteryScore(question: Question, mastery: Record<string, MasteryCounter
   return scores.reduce((sum, score) => sum + score, 0) / scores.length;
 }
 
+function knowledgeGroup(question: Question): string {
+  const groups = new Set(
+    (question.knowledgeRefs ?? [])
+      .map((rowId) => rowId.split('.')[1])
+      .filter(Boolean)
+  );
+  if (!groups.size) return 'general';
+  return groups.size === 1 ? [...groups][0] : 'mixed';
+}
+
+function interleaveByKnowledgeGroup(candidates: Question[]): Question[] {
+  const buckets = new Map<string, Question[]>();
+  for (const question of candidates) {
+    const group = knowledgeGroup(question);
+    buckets.set(group, [...(buckets.get(group) ?? []), question]);
+  }
+
+  const result: Question[] = [];
+  let remaining = true;
+  while (remaining) {
+    remaining = false;
+    for (const bucket of buckets.values()) {
+      const next = bucket.shift();
+      if (!next) continue;
+      result.push(next);
+      remaining = true;
+    }
+  }
+  return result;
+}
+
 function chooseWithEngineVariety(candidates: Question[], count: number): Question[] {
   const selected: Question[] = [];
   const selectedIds = new Set<string>();
@@ -166,7 +197,7 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: freePack.id,
       kind: 'free_explore',
       title: freePack.title,
-      description: 'A mixed set of animal games using the reusable interaction engines.',
+      description: 'Short mixed Animals and Plants sessions that keep moving toward unseen and weaker knowledge.',
       access: freePack.access,
       status: 'ready',
       actionLabel: 'Play free'
@@ -175,7 +206,7 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: goalPack.id,
       kind: 'goal_learning',
       title: goalPack.title,
-      description: 'Profile-driven practice with progress tracking. Prototype access is open while purchase flow is not connected.',
+      description: 'SOF Class 2 profile-driven practice with progress tracking. Prototype access is open while purchase flow is not connected.',
       access: goalPack.access,
       status: goalPack.status === 'reviewed' ? 'ready' : 'prototype',
       profileRef: goalPack.profileRef,
@@ -186,6 +217,18 @@ export function getCatalogEntries(): CatalogEntry[] {
 
 export function getFreeAnimalsQuestions(): Question[] {
   return resolveQuestionRefs(freePack.questionRefs, freePack.id);
+}
+
+export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Question[] {
+  const mastery = options.mastery ?? {};
+  const count = Math.max(1, options.count ?? 8);
+  const candidates = getFreeAnimalsQuestions().sort((left, right) => {
+    const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
+    if (masteryDelta !== 0) return masteryDelta;
+    if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
+    return left.id.localeCompare(right.id);
+  });
+  return chooseWithEngineVariety(interleaveByKnowledgeGroup(candidates), count);
 }
 
 export function getFreeAnimalsPackTitle(): string {
@@ -230,7 +273,7 @@ export function createSessionForCatalogEntry(
       id: `session.${freePack.id}`,
       mode: 'free_explore',
       title: freePack.title,
-      questions: getFreeAnimalsQuestions()
+      questions: getFreeExploreQuestions({ count: 8, mastery })
     };
   }
 
