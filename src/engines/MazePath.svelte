@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { MazePathQuestion } from '../contracts/question';
   import { canTravel, WALL_BOTTOM, WALL_LEFT, WALL_RIGHT, WALL_TOP } from '../mechanics/maze';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<MazePathQuestion> = $props();
-  const interaction = question.interaction;
-  let path = $state([interaction.startIndex]);
+  let interaction = $derived(question.interaction);
+  let path = $state(untrack(() => [question.interaction.startIndex]));
   let complete = $state(false);
   let status = $state('Choose the next open cell.');
 
