@@ -34,10 +34,10 @@
 }
 
 .home-hero__spark {
+  flex: 0 0 auto;
   align-self: center;
-  font-size: clamp(3.5rem, 11vw, 6rem);
-  line-height: 1;
-  transform: rotate(12deg);
+  width: clamp(76px, 13vw, 112px);
+  height: clamp(76px, 13vw, 112px);
 }
 
 .child-panel,
@@ -112,11 +112,11 @@
 }
 
 .avatar-button {
-  min-height: 92px;
+  min-height: 104px;
   display: grid;
   place-items: center;
   gap: 2px;
-  padding: 10px;
+  padding: 9px;
   border: 2px solid #e3e8eb;
   border-radius: 20px;
   background: #f8fafb;
@@ -124,8 +124,10 @@
   cursor: pointer;
 }
 
-.avatar-button span {
-  font-size: 2.25rem;
+.avatar-art {
+  display: block;
+  width: 62px;
+  height: 62px;
 }
 
 .avatar-button small {
@@ -343,13 +345,13 @@
 
 .player-avatar {
   flex: 0 0 auto;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
+  padding: 2px;
   border-radius: 14px;
   background: #fff;
-  font-size: 1.65rem;
   box-shadow: 0 5px 14px rgba(36, 48, 58, 0.08);
 }
 
