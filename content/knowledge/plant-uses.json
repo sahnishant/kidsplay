@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.plants.uses.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Plants",
+  "entries": [
+    {
+      "id": "cotton-fibre",
+      "rowId": "kr.plants.cotton.use.fibre",
+      "subject": { "id": "cotton", "label": "Cotton plant", "symbol": "☁️" },
+      "relation": "gives",
+      "object": { "id": "cotton-fibre", "label": "fibre used to make cloth" },
+      "conceptIds": ["plants.uses.fibre"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "sugarcane-sugar",
+      "rowId": "kr.plants.sugarcane.use.sugar",
+      "subject": { "id": "sugarcane", "label": "Sugarcane", "symbol": "🌾" },
+      "relation": "gives",
+      "object": { "id": "sugar", "label": "sugar" },
+      "conceptIds": ["plants.uses.sugar"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "rubber-tree-rubber",
+      "rowId": "kr.plants.rubber-tree.use.rubber",
+      "subject": { "id": "rubber-tree", "label": "Rubber tree", "symbol": "🌳" },
+      "relation": "gives",
+      "object": { "id": "rubber", "label": "rubber" },
+      "conceptIds": ["plants.uses.rubber"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "tea-plant-tea-leaves",
+      "rowId": "kr.plants.tea.use.leaves",
+      "subject": { "id": "tea-plant", "label": "Tea plant", "symbol": "🍵" },
+      "relation": "gives",
+      "object": { "id": "tea-leaves", "label": "tea leaves" },
+      "conceptIds": ["plants.uses.tea"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "neem-medicine",
+      "rowId": "kr.plants.neem.use.medicine",
+      "subject": { "id": "neem", "label": "Neem", "symbol": "🌿" },
+      "relation": "used_for",
+      "object": { "id": "medicine", "label": "traditional medicinal uses" },
+      "conceptIds": ["plants.uses.medicine"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "bamboo-baskets",
+      "rowId": "kr.plants.bamboo.use.baskets",
+      "subject": { "id": "bamboo", "label": "Bamboo", "symbol": "🎋" },
+      "relation": "used_for",
+      "object": { "id": "baskets", "label": "making baskets and useful objects" },
+      "conceptIds": ["plants.uses.materials"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Class 2 Plants enrichment inside reviewed SOF ISO Plants chapter scope; exact profile fit remains separately reviewed."
+  }
+}
