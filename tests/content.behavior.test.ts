@@ -21,6 +21,14 @@ function masteredCounter(): MasteryCounter {
   };
 }
 
+function knowledgeFamilyCount(questions: ReturnType<typeof getFreeExploreQuestions>): number {
+  return new Set(
+    questions
+      .map((question) => question.authoring.source)
+      .filter((source) => source.startsWith('knowledge:'))
+  ).size;
+}
+
 describe('catalog and profile-driven sessions', () => {
   it('separates free exploration from the profile-driven goal program', () => {
     const catalog = getCatalogEntries();
@@ -34,7 +42,7 @@ describe('catalog and profile-driven sessions', () => {
     expect(goalEntry?.status).toBe('prototype');
   });
 
-  it('launches a short free session that mixes animal and plant knowledge', () => {
+  it('launches a short free session that mixes topics, engines and knowledge families', () => {
     const session = getFreeExploreQuestions({ count: 8 });
     const refs = session.flatMap((question) => question.knowledgeRefs ?? []);
 
@@ -42,9 +50,10 @@ describe('catalog and profile-driven sessions', () => {
     expect(refs.some((rowId) => rowId.startsWith('kr.animals.'))).toBe(true);
     expect(refs.some((rowId) => rowId.startsWith('kr.plants.'))).toBe(true);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
+    expect(knowledgeFamilyCount(session)).toBeGreaterThanOrEqual(6);
   });
 
-  it('only launches questions whose complete knowledge reference set belongs to the profile', () => {
+  it('only launches diverse questions whose complete knowledge reference set belongs to the profile', () => {
     const goalEntry = getCatalogEntries().find((entry) => entry.kind === 'goal_learning');
     expect(goalEntry).toBeTruthy();
 
@@ -57,6 +66,7 @@ describe('catalog and profile-driven sessions', () => {
     expect(new Set(session.questions.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(sessionRefs.some((rowId) => rowId.startsWith('kr.animals.'))).toBe(true);
     expect(sessionRefs.some((rowId) => rowId.startsWith('kr.plants.'))).toBe(true);
+    expect(knowledgeFamilyCount(session.questions)).toBeGreaterThanOrEqual(6);
 
     for (const question of session.questions) {
       expect(question.knowledgeRefs?.length ?? 0).toBeGreaterThan(0);
