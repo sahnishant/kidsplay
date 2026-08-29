@@ -1,0 +1,14 @@
+[
+  { "id": "transport.modes.bus", "statement": "A bus carries many passengers on roads.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "transport.modes.train", "statement": "A train runs on railway tracks.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "transport.modes.aeroplane", "statement": "An aeroplane flies through the air and is useful for fast long-distance travel.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "transport.modes.ship", "statement": "A ship carries people or goods across water.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "transport.modes.bicycle", "statement": "A bicycle is a two-wheeled vehicle moved by pedalling.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "transport.modes.ambulance", "statement": "An ambulance carries sick or injured people for urgent medical care.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "communication.methods.telephone", "statement": "A telephone lets people speak with one another over a distance.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
+  { "id": "communication.methods.letter", "statement": "A letter is a written message that can be delivered by post.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
+  { "id": "communication.methods.email", "statement": "Email is a digital message sent through the internet.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
+  { "id": "communication.methods.newspaper", "statement": "A newspaper shares printed news and information.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
+  { "id": "communication.methods.radio", "statement": "Radio shares news, music and programmes mainly through sound.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
+  { "id": "communication.methods.television", "statement": "Television shares information and programmes using sound and moving pictures.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] }
+]
