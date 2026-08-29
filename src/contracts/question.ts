@@ -128,8 +128,34 @@ export interface WordSearchQuestion extends BaseQuestion {
   };
 }
 
+export interface MemoryCard {
+  id: string;
+  label: string;
+  symbol?: string;
+}
+
+/**
+ * Memory pairs are relationship-based, not equality-based.
+ * The cards are independent learner-facing content; the solution defines which
+ * two cards belong together. This supports DOG <-> PET ANIMAL just as easily
+ * as A <-> a or an identical image pair.
+ */
+export interface MemoryPairsQuestion extends BaseQuestion {
+  interaction: {
+    type: 'memory_pairs';
+    version: 1;
+    seed: number;
+    cards: MemoryCard[];
+  };
+  solution: {
+    type: 'pair_matches';
+    pairs: Array<[string, string]>;
+  };
+}
+
 export type Question =
   | SingleChoiceQuestion
   | WordBankFillQuestion
   | DragToTargetQuestion
-  | WordSearchQuestion;
+  | WordSearchQuestion
+  | MemoryPairsQuestion;
