@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "profiles": [
     {
       "id": "CBSE_INDIA_CLASS1",
@@ -8,7 +8,15 @@
       "curriculumRef": "CBSE",
       "assessmentRef": null,
       "grade": 1,
-      "alignmentStatus": "prototype_unverified"
+      "alignmentStatus": "prototype_unverified",
+      "alignment": {
+        "sourceRefs": ["kidsplay.editorial.prototype.v1"],
+        "versionLabel": "prototype-1",
+        "academicYear": null,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "reviewedAt": null
+      }
     },
     {
       "id": "CBSE_INDIA_CLASS2",
@@ -17,7 +25,15 @@
       "curriculumRef": "CBSE",
       "assessmentRef": null,
       "grade": 2,
-      "alignmentStatus": "prototype_unverified"
+      "alignmentStatus": "prototype_unverified",
+      "alignment": {
+        "sourceRefs": ["kidsplay.editorial.prototype.v1"],
+        "versionLabel": "prototype-1",
+        "academicYear": null,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "reviewedAt": null
+      }
     },
     {
       "id": "SOF_INDIA_CLASS2",
@@ -25,8 +41,20 @@
       "pathway": "competition",
       "curriculumRef": null,
       "assessmentRef": "SOF",
+      "subjectRef": "SCIENCE_EVS",
       "grade": 2,
-      "alignmentStatus": "prototype_unverified"
+      "alignmentStatus": "reviewed",
+      "alignment": {
+        "sourceRefs": [
+          "sof.iso.class2.syllabus.current",
+          "sof.iso.class2.workbook.2026-27"
+        ],
+        "versionLabel": "SOF ISO 2026-27",
+        "academicYear": "2026-27",
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "reviewedAt": "2026-08-29"
+      }
     },
     {
       "id": "CLASS_III_CHINA",
@@ -35,7 +63,15 @@
       "curriculumRef": "GENERAL_PROTOTYPE",
       "assessmentRef": null,
       "grade": 3,
-      "alignmentStatus": "prototype_unverified"
+      "alignmentStatus": "prototype_unverified",
+      "alignment": {
+        "sourceRefs": ["kidsplay.editorial.prototype.v1"],
+        "versionLabel": "prototype-1",
+        "academicYear": null,
+        "effectiveFrom": null,
+        "effectiveTo": null,
+        "reviewedAt": null
+      }
     }
   ]
 }
