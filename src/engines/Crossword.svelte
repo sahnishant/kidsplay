@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { CrosswordEntry, CrosswordQuestion } from '../contracts/question';
   import type { EngineProps } from './types';
 
@@ -11,31 +12,36 @@
       entry.startCol + (entry.direction === 'across' ? index : 0)
     )
   );
-  const entriesById = new Map(question.interaction.entries.map((entry) => [entry.id, entry]));
-  const entryCells = new Map(question.interaction.entries.map((entry) => [entry.id, entryCellKeys(entry)]));
-  const cellEntries = new Map<string, string[]>();
-  const cellNumbers = new Map<string, number>();
 
-  for (const entry of question.interaction.entries) {
-    const keys = entryCells.get(entry.id) ?? [];
-    for (const key of keys) cellEntries.set(key, [...(cellEntries.get(key) ?? []), entry.id]);
-    if (keys[0]) cellNumbers.set(keys[0], entry.number);
-  }
+  let layout = $derived.by(() => {
+    const entriesById = new Map(question.interaction.entries.map((entry) => [entry.id, entry]));
+    const entryCells = new Map(question.interaction.entries.map((entry) => [entry.id, entryCellKeys(entry)]));
+    const cellEntries = new Map<string, string[]>();
+    const cellNumbers = new Map<string, number>();
 
-  const cells = Array.from({ length: question.interaction.rows * question.interaction.cols }, (_, index) => {
-    const row = Math.floor(index / question.interaction.cols);
-    const col = index % question.interaction.cols;
-    const key = cellKey(row, col);
-    return { row, col, key, entryIds: cellEntries.get(key) ?? [], number: cellNumbers.get(key) };
+    for (const entry of question.interaction.entries) {
+      const keys = entryCells.get(entry.id) ?? [];
+      for (const key of keys) cellEntries.set(key, [...(cellEntries.get(key) ?? []), entry.id]);
+      if (keys[0]) cellNumbers.set(keys[0], entry.number);
+    }
+
+    const cells = Array.from({ length: question.interaction.rows * question.interaction.cols }, (_, index) => {
+      const row = Math.floor(index / question.interaction.cols);
+      const col = index % question.interaction.cols;
+      const key = cellKey(row, col);
+      return { row, col, key, entryIds: cellEntries.get(key) ?? [], number: cellNumbers.get(key) };
+    });
+
+    return { entriesById, entryCells, cells };
   });
 
   let values = $state<Record<string, string>>({});
-  let activeEntryId = $state<string | null>(question.interaction.entries[0]?.id ?? null);
+  let activeEntryId = $state<string | null>(untrack(() => question.interaction.entries[0]?.id ?? null));
   let locked = $state(false);
   let gridElement: HTMLDivElement;
 
   function activeCell(key: string): boolean {
-    return activeEntryId ? (entryCells.get(activeEntryId) ?? []).includes(key) : false;
+    return activeEntryId ? (layout.entryCells.get(activeEntryId) ?? []).includes(key) : false;
   }
 
   function focusCell(key: string | undefined): void {
@@ -46,7 +52,7 @@
   function activateEntry(entryId: string, focus = true): void {
     activeEntryId = entryId;
     if (!focus) return;
-    const keys = entryCells.get(entryId) ?? [];
+    const keys = layout.entryCells.get(entryId) ?? [];
     const firstEmpty = keys.find((key) => !values[key]) ?? keys[0];
     queueMicrotask(() => focusCell(firstEmpty));
   }
@@ -62,7 +68,7 @@
     input.value = normalized;
     values[key] = normalized;
     if (!normalized || !activeEntryId) return;
-    const keys = entryCells.get(activeEntryId) ?? [];
+    const keys = layout.entryCells.get(activeEntryId) ?? [];
     const index = keys.indexOf(key);
     if (index >= 0 && index < keys.length - 1) focusCell(keys[index + 1]);
   }
@@ -70,7 +76,7 @@
   function handleKeydown(key: string, event: KeyboardEvent): void {
     const input = event.currentTarget as HTMLInputElement;
     if (event.key !== 'Backspace' || input.value || !activeEntryId) return;
-    const keys = entryCells.get(activeEntryId) ?? [];
+    const keys = layout.entryCells.get(activeEntryId) ?? [];
     const index = keys.indexOf(key);
     if (index > 0) focusCell(keys[index - 1]);
   }
@@ -78,8 +84,8 @@
   function submit(): void {
     if (locked) return;
     const answers: Record<string, string> = {};
-    for (const [entryId, entry] of entriesById) {
-      answers[entryId] = (entryCells.get(entry.id) ?? []).map((key) => values[key] ?? '').join('');
+    for (const [entryId, entry] of layout.entriesById) {
+      answers[entryId] = (layout.entryCells.get(entry.id) ?? []).map((key) => values[key] ?? '').join('');
     }
     locked = true;
     onSubmit({ answers });
@@ -91,15 +97,15 @@
   <div
     class="crossword__grid"
     style={`--crossword-cols: ${question.interaction.cols}`}
-    role="grid"
+    role="group"
     aria-label="Crossword grid"
     bind:this={gridElement}
   >
-    {#each cells as cell (cell.key)}
+    {#each layout.cells as cell (cell.key)}
       {#if !cell.entryIds.length}
         <span class="crossword__block" aria-hidden="true"></span>
       {:else}
-        <label class={`crossword__cell${activeCell(cell.key) ? ' crossword__cell--active' : ''}`} role="gridcell">
+        <label class={`crossword__cell${activeCell(cell.key) ? ' crossword__cell--active' : ''}`}>
           {#if cell.number}<span class="crossword__number" aria-hidden="true">{cell.number}</span>{/if}
           <input
             class="crossword__input"
