@@ -1,0 +1,217 @@
+[
+  {
+    "id": "clothing.hots.cold-rainy-day.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["clothing.weather.wool", "clothing.weather.raincoat"],
+    "knowledgeRefs": ["kr.clothing.wool.weather.winter", "kr.clothing.raincoat.weather.rain"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "It is cold and raining. Which pair is the most useful choice for the weather?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"wool-raincoat","label":"Woollen clothes and a raincoat"},
+      {"id":"cotton-sunhat","label":"Cotton clothes and a sun hat"},
+      {"id":"uniform-sunhat","label":"School uniform and a sun hat"},
+      {"id":"cotton-only","label":"Only light cotton clothes"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["wool-raincoat"] },
+    "feedback": { "correct": "Correct. Wool helps with cold and a raincoat helps keep clothes dry.", "incorrect": "The answer must handle both cold weather and rain." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "safety-transport.hots.cycling.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["transport.modes.bicycle", "safety.rules.helmet"],
+    "knowledgeRefs": ["kr.transport.bicycle.feature.pedal", "kr.safety.cycle.helmet"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Arun is going to ride a two-wheeled vehicle that he moves by pedalling. What should he use to help protect his head?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"helmet","label":"Helmet"},{"id":"raincoat","label":"Raincoat"},{"id":"seatbelt","label":"Seat belt"},{"id":"sunhat","label":"Sun hat"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["helmet"] },
+    "feedback": { "correct": "Correct. The vehicle is a bicycle, and a helmet helps protect the rider's head.", "incorrect": "First identify the pedalled vehicle, then choose its head-safety item." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "transport-communication.hots.emergency.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["transport.modes.ambulance", "communication.methods.telephone"],
+    "knowledgeRefs": ["kr.transport.ambulance.role.emergency", "kr.communication.telephone.use.voice"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Someone needs urgent medical help. Which pair best combines a way to call for help and a vehicle for the patient?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"phone-ambulance","label":"Telephone and ambulance"},{"id":"newspaper-bus","label":"Newspaper and bus"},{"id":"letter-bicycle","label":"Letter and bicycle"},{"id":"radio-train","label":"Radio and train"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["phone-ambulance"] },
+    "feedback": { "correct": "Correct. A telephone can be used to call, and an ambulance carries people for urgent medical care.", "incorrect": "Choose one fast communication method for calling and the emergency medical vehicle." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "air.hots.two-observations.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["air.properties.occupies-space", "air.properties.burning"],
+    "knowledgeRefs": ["kr.air.balloon.contains.air", "kr.air.candle.need.air"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Observation 1: A balloon becomes bigger when air is blown into it. Observation 2: A covered candle flame goes out after some time. Which conclusion uses both observations correctly?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"both","label":"Air occupies space and is needed for burning."},{"id":"none","label":"Air has no effect on balloons or flames."},{"id":"water","label":"Water makes balloons expand and keeps flames burning."},{"id":"only-space","label":"Air occupies space but burning never needs air."}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["both"] },
+    "feedback": { "correct": "Correct. The balloon shows occupied space; the flame shows air is needed for burning.", "incorrect": "Use one conclusion from each observation." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "water-rocks.hots.statement-pair.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["water.sources.river", "rocks.types.pumice"],
+    "knowledgeRefs": ["kr.water.river.feature.flowing", "kr.rocks.pumice.feature.light"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Statement I: A river is a natural body of flowing water. Statement II: Pumice can contain so many holes that some pieces float on water. Which is correct?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": false, "options": [
+      {"id":"both","label":"Both I and II are correct"},{"id":"i-only","label":"Only I is correct"},{"id":"ii-only","label":"Only II is correct"},{"id":"neither","label":"Neither is correct"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["both"] },
+    "feedback": { "correct": "Correct. Both statements match the facts.", "incorrect": "Check each statement separately before choosing." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "universe.hots.sun-moon-statements.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["universe.sun.star", "universe.moonlight.reflection"],
+    "knowledgeRefs": ["kr.universe.sun.type.star", "kr.universe.moonlight.source.sun"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Statement I: The Sun is a star. Statement II: The Moon's visible light is reflected sunlight. Which is correct?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": false, "options": [
+      {"id":"both","label":"Both I and II are correct"},{"id":"i-only","label":"Only I is correct"},{"id":"ii-only","label":"Only II is correct"},{"id":"neither","label":"Neither is correct"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["both"] },
+    "feedback": { "correct": "Correct. The Sun is a star, and the Moon reflects sunlight.", "incorrect": "Judge the Sun statement and Moon statement separately." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "universe.hots.day-night.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["universe.earth.planet", "universe.earth.rotation"],
+    "knowledgeRefs": ["kr.universe.earth.type.planet", "kr.universe.earth.rotation.day-night"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Earth is a planet that rotates. Which everyday change is directly linked with that rotation?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"day-night","label":"Day changing to night and back"},{"id":"rain","label":"Rain falling"},{"id":"plant-growth","label":"A seed growing"},{"id":"rock-polish","label":"Marble being polished"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["day-night"] },
+    "feedback": { "correct": "Correct. Earth's rotation causes the regular change between day and night.", "incorrect": "Think about the effect linked directly to Earth's turning." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "rocks-housing.hots.strong-materials.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["rocks.types.granite", "housing.types.pucca-house"],
+    "knowledgeRefs": ["kr.rocks.granite.feature.hard", "kr.housing.pucca.material.brick-cement"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which statement best connects the two facts: granite is hard, and pucca houses use strong materials such as bricks and cement?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"building","label":"Strong, hard materials can be useful in building work."},{"id":"clothing","label":"Both facts explain clothes for rainy weather."},{"id":"communication","label":"Both facts describe ways to send messages."},{"id":"breathing","label":"Both facts explain how lungs work."}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["building"] },
+    "feedback": { "correct": "Correct. Both facts point to materials chosen for strength in construction.", "incorrect": "Look for the common idea shared by a hard rock and strong house materials." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "habits.hots.two-good-habits.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["habits.daily.clean-nails", "habits.daily.cover-cough"],
+    "knowledgeRefs": ["kr.habits.trim-nails.purpose.clean", "kr.habits.cover-cough.purpose.germs"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which child follows both habits described: reducing dirt under the nails and reducing the spread of cough droplets?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"both","label":"Keeps nails short and clean, and covers a cough or sneeze."},{"id":"one","label":"Keeps nails clean but coughs openly near others."},{"id":"other","label":"Covers a cough but keeps very dirty nails."},{"id":"neither","label":"Does neither habit."}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["both"] },
+    "feedback": { "correct": "Correct. The option follows both hygiene habits.", "incorrect": "The correct child must satisfy both parts of the question." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "family-festivals.hots.respect.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["family.community.diversity", "festivals.customs.respect"],
+    "knowledgeRefs": ["kr.family.forms.value.respect", "kr.festivals.diversity.value.respect"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Two classmates have different family arrangements and celebrate different festivals. Which response follows both ideas in the lesson?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"respect","label":"Ask politely, learn about the differences and treat both families with respect."},{"id":"same","label":"Tell them every family and festival must be exactly the same."},{"id":"mock","label":"Make fun of unfamiliar customs."},{"id":"avoid","label":"Avoid anyone whose traditions are different."}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["respect"] },
+    "feedback": { "correct": "Correct. Different family forms and traditions should be approached with respect.", "incorrect": "Choose the response based on curiosity and respect rather than sameness." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "transport.hots.table-inference.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["transport.modes.train", "transport.modes.aeroplane", "transport.modes.ship"],
+    "knowledgeRefs": ["kr.transport.train.mode.rail", "kr.transport.aeroplane.mode.air", "kr.transport.ship.mode.water"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "A table has three rows: A — runs on railway tracks; B — flies through the air; C — carries people or goods across water. Which labels are correct?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id":"correct","label":"A Train, B Aeroplane, C Ship"},{"id":"swap1","label":"A Ship, B Train, C Aeroplane"},{"id":"swap2","label":"A Aeroplane, B Ship, C Train"},{"id":"swap3","label":"A Bicycle, B Bus, C Train"}
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": { "correct": "Correct. Tracks point to train, air to aeroplane and water to ship.", "incorrect": "Match each row clue to its transport mode before choosing the option." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  },
+  {
+    "id": "safety.hots.crossing-sequence.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["safety.rules.red-light", "safety.rules.zebra-crossing"],
+    "knowledgeRefs": ["kr.safety.traffic.red.stop", "kr.safety.road.crossing.zebra"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Put these road-crossing actions in the safest order." },
+    "interaction": {
+      "type": "sequence_order",
+      "version": 1,
+      "seed": 20260924,
+      "items": [
+        { "id": "reach", "label": "Reach a marked zebra crossing" },
+        { "id": "stop", "label": "Stop and wait when the traffic signal is red for your movement" },
+        { "id": "check", "label": "Check that traffic has stopped and it is safe" },
+        { "id": "cross", "label": "Cross on the zebra crossing" }
+      ]
+    },
+    "solution": { "type": "ordered_items", "orderedItemIds": ["reach", "stop", "check", "cross"] },
+    "feedback": { "correct": "Correct. Use the marked crossing, stop when required, check safety, then cross.", "incorrect": "Do not cross before stopping and checking that it is safe." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots-breadth" }
+  }
+]
