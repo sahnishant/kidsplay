@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.food.habits.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Food",
+  "entries": [
+    {
+      "id": "wash-hands",
+      "rowId": "kr.food.habit.wash-hands",
+      "subject": { "id": "wash-hands", "label": "Wash hands", "symbol": "🧼" },
+      "relation": "healthy_habit",
+      "object": { "id": "before-eating", "label": "before handling or eating food" },
+      "conceptIds": ["food.habits.clean-hands"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "wash-produce",
+      "rowId": "kr.food.habit.wash-fruits-vegetables",
+      "subject": { "id": "wash-produce", "label": "Wash fruits and vegetables", "symbol": "🍎" },
+      "relation": "healthy_habit",
+      "object": { "id": "before-eating-produce", "label": "before eating or preparing them" },
+      "conceptIds": ["food.habits.clean-produce"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "cover-food",
+      "rowId": "kr.food.habit.cover-food",
+      "subject": { "id": "cover-food", "label": "Keep food covered", "symbol": "🥣" },
+      "relation": "healthy_habit",
+      "object": { "id": "keep-clean", "label": "to help keep dust and insects away" },
+      "conceptIds": ["food.habits.cover-food"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "chew-food",
+      "rowId": "kr.food.habit.chew-well",
+      "subject": { "id": "chew-food", "label": "Chew food well", "symbol": "😁" },
+      "relation": "healthy_habit",
+      "object": { "id": "eat-slowly", "label": "instead of swallowing large bites quickly" },
+      "conceptIds": ["food.habits.chew-well"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "drink-clean-water",
+      "rowId": "kr.food.habit.clean-water",
+      "subject": { "id": "clean-water", "label": "Drink clean water", "symbol": "💧" },
+      "relation": "healthy_habit",
+      "object": { "id": "safe-drinking", "label": "that is safe for drinking" },
+      "conceptIds": ["food.habits.clean-water"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "avoid-spoiled-food",
+      "rowId": "kr.food.habit.avoid-spoiled",
+      "subject": { "id": "avoid-spoiled", "label": "Avoid spoiled food", "symbol": "🚫" },
+      "relation": "healthy_habit",
+      "object": { "id": "unsafe-food", "label": "because it can make us ill" },
+      "conceptIds": ["food.habits.avoid-spoiled"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Food hygiene overlaps healthy-habits learning; exact profile placement remains separately reviewed."
+  }
+}
