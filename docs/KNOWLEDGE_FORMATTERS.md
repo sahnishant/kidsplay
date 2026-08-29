@@ -3,23 +3,60 @@
 The scalable authoring model is:
 
 ```text
-Knowledge source / passage / blob
-            ↓
-        Formatter
-     (data, engine)
-            ↓
-   engine-ready contract
-            ↓
-      delivery engine
-            ↓
-    visible test / game
+Knowledge / question data
+        ↓
+formatter compatibility
+        ↓
+explicit canGenerate approval
+        ↓
+activity recipe / selection policy
+        ↓
+Formatter(data, engine, recipe)
+        ↓
+engine-ready delivery contract
+        ↓
+delivery engine
+        ↓
+visible test / game / output
 ```
 
 The question bank remains important, but generated questions are increasingly a **compiled artifact**, not always the primary authoring source.
 
+## The important two-level capability rule
+
+`canGenerate` stays explicit in the data.
+
+It means **approved for this dataset**, not “these are the only engines this information could ever support forever.”
+
+The formatter registry separately knows which engines are technically compatible with each data shape:
+
+```text
+Formatter compatibility = technically possible
+canGenerate             = explicitly approved for this dataset
+```
+
+This distinction is important when Kidsplay grows.
+
+Example today:
+
+```json
+"canGenerate": [
+  "single_choice@1",
+  "word_bank_fill@1",
+  "drag_to_target@1",
+  "memory_pairs@1",
+  "word_search@1",
+  "crossword@1"
+]
+```
+
+Later we may add `print_cards@1`. We can teach the `association_set@1` formatter how to produce a print-card contract. Existing association data then becomes **technically compatible** without rewriting its facts. `getCandidateEngines(data)` can report `print_cards@1` as a new candidate. After editorial/product approval, we append it to that record's `canGenerate` list.
+
+This gives us forward compatibility without silently changing the activities a dataset is allowed to create.
+
 ## Why this layer exists
 
-A fact such as:
+A rich source such as:
 
 ```text
 Dog      ↔ domestic animal
@@ -29,43 +66,52 @@ Camel    ↔ ship of the desert
 Mammoth  ↔ extinct animal
 ```
 
-contains more reusable educational value than one prewritten MCQ. The same source can become:
+can support many outputs:
 
 - semantic memory pairs;
 - match-the-following;
 - word search;
-- crossword (animal as answer, descriptor as clue);
+- crossword;
 - fill in the blank;
-- MCQ such as “Which of the following is called the ship of the desert?”;
-- later, visual variants when an entity has an approved asset reference.
+- MCQ;
+- later visual forms if approved assets exist;
+- later printable memory/revision cards.
 
-Kidsplay now proves this with `association_set@1`.
+A much smaller source such as one prompt, four choices and a correct answer may only be rich enough for `single_choice@1`. Data richness determines formatter compatibility; `canGenerate` determines approval.
 
-## Three separate things
+## Four separate things
 
-### 1. Knowledge source
+### 1. Knowledge/data source
 
-`content/knowledge/*.json`
+Stores reusable meaning or already-authored assessment data. Shapes can range from a minimal choice item to rich associations, tables, passages, diagrams and processes.
 
-Stores reusable meaning. It may be structured facts, an annotated passage, an ordered process, a diagram description, or eventually a raw text/blob with reviewed annotations.
+Data may explicitly list `canGenerate`. This is capability approval metadata, not rendering code.
 
-A source declares `canGenerate` so it knows which engine contracts are semantically safe to derive. This is capability metadata, not rendering code.
+### 2. Formatter capability registry
 
-### 2. Activity recipe
+The registry knows what each **data shape** can technically become. It exposes:
+
+- `getCompatibleEngines(data)` — technically derivable;
+- `getApprovedEngines(data)` — compatible and listed in `canGenerate`;
+- `getCandidateEngines(data)` — newly compatible engines not yet approved.
+
+Adding a new engine should therefore not require rewriting old knowledge. We extend a generic formatter once, scan existing data for candidates, then approve appropriate datasets.
+
+### 3. Activity recipe
 
 `content/recipes/*.json`
 
-Chooses which outputs we actually want. A recipe references a knowledge source and an engine and may supply lightweight formatting policy such as seed, difficulty, selected entries, prompt, distractor count or a cloze sentence template.
+Chooses which approved output we actually want generated and supplies lightweight policy: selected entries, seed, difficulty, prompt wording, distractor count, cloze template, etc.
 
-Recipes prevent the bad extreme of automatically generating every possible format from every source.
+Recipes prevent automatically generating every allowed format from every dataset.
 
-### 3. Formatter
+### 4. Formatter
 
 `formatDataForEngine(data, engine, recipe)`
 
-A formatter is reusable by **data shape + target engine**, never by individual question. We should not create `camelMcqFormatter`, `dogMemoryFormatter`, etc.
+A formatter is reusable by **data shape + target engine**, never by individual question. We do not create `camelMcqFormatter` or `dogMemoryFormatter`.
 
-Current registry:
+Current `association_set@1` targets:
 
 ```text
 association_set@1
@@ -77,11 +123,40 @@ association_set@1
     └── crossword@1
 ```
 
-Crossword is compiler-backed: the formatter produces generic crossword authoring data, then the existing crossword compiler performs layout. This preserves reuse instead of duplicating crossword logic inside the association formatter.
+Crossword remains compiler-backed: the formatter outputs crossword authoring data and the existing crossword compiler performs layout.
+
+## Printable and non-interactive engines
+
+Delivery engines do not all need to be interactive answer collectors.
+
+A future branch can be:
+
+```text
+same data
+   ↓
+Formatter(data, print_cards@1)
+   ↓
+print-card contract
+   ↓
+print/export engine
+   ↓
+front: prompt / image
+back: answer / explanation
+```
+
+So the wider architecture is:
+
+```text
+Data → Formatter → Delivery Contract
+                    ├─ interactive engine → MCQ / memory / crossword / match
+                    └─ output engine      → cards / worksheet / printable PDF
+```
+
+The same approved knowledge remains reusable across both.
 
 ## What belongs in data
 
-Good reusable data contains semantic roles, not UI instructions:
+Semantic roles, facts and approved capabilities—not UI implementation:
 
 ```json
 {
@@ -92,83 +167,50 @@ Good reusable data contains semantic roles, not UI instructions:
 }
 ```
 
-Optional media should be stable references such as `assetId`, never pixel coordinates or component names.
-
-## What belongs in a recipe
-
-Formatting choices that vary by assessment intent:
-
-```json
-{
-  "sourceRef": "knowledge.animals.associations.001",
-  "engine": "single_choice@1",
-  "entryIds": ["camel-ship-desert"],
-  "distractorCount": 3,
-  "difficulty": 1
-}
-```
-
-## What belongs in the formatter
-
-General transformation logic:
-
-- convert semantic pairs to memory card IDs and valid pairs;
-- convert pairs to draggable items and targets;
-- derive same-domain MCQ distractors;
-- translate relation types (`is_a`, `known_as`) into basic language templates;
-- create cloze segments from a recipe template;
-- expose words/clues to word-search/crossword compilers.
-
-No curriculum fact is hard-coded in formatter code.
+Optional media should be stable references such as `assetId`, never component names or pixel coordinates.
 
 ## Passages and blobs
 
-Raw text can be stored, but raw text alone should **not** automatically be considered safe assessment data.
-
-Recommended future pipeline:
+Raw text/blob storage is allowed, but raw prose should not automatically become trusted assessment facts. Recommended progression:
 
 ```text
 raw passage/blob
       ↓
-semantic annotation / extraction
+semantic annotation / reviewed extraction
       ↓
-reviewed claims, entities, relations, sequence steps, spans
+claims + entities + relations + spans + sequences
       ↓
-canGenerate capability declaration
+canGenerate approvals
       ↓
-formatter recipes
+recipes and formatters
 ```
 
-An LLM may later help create the annotations, but learner-facing questions should be generated from reviewed structured claims or explicitly approved passage spans. This keeps hallucination risk out of the delivery runtime.
+LLMs may later assist extraction or suggest candidate activities, but learner-facing answers should come from reviewed claims/spans or explicitly approved authored data.
 
 ## Future reusable source shapes
 
-Build these only as real content requires them:
+Build only as real content requires them:
 
+- `choice_item@1` — prompt + choices + correct answer; intentionally narrow;
 - `association_set@1` — implemented;
-- `entity_table@1` — entities with attributes, good for classification/compare/odd-one-out;
-- `passage@1` — text plus claims/spans/entities, good for comprehension and evidence selection;
+- `entity_table@1` — entities with attributes;
+- `passage@1` — text plus claims/spans/entities;
 - `ordered_process@1` — lifecycle/procedure/history steps;
 - `labeled_diagram@1` — regions/labels/relationships;
-- `rule_examples@1` — rule + positive/negative examples, good for reasoning;
-- `scenario@1` — state + choices + consequences, good for branching stories;
-- `raw_blob@1` — storage/provenance only until annotated.
+- `rule_examples@1` — rule + positive/negative examples;
+- `scenario@1` — state + choices + consequences;
+- `raw_blob@1` — provenance/storage until annotated.
 
-## Engine-first rule
+## Admission rules
 
-1. Stabilize a small set of delivery engines and mechanics.
-2. Define reusable semantic source shapes around what those engines can consume.
-3. Add generic formatters between source shapes and engine contracts.
-4. Reuse an existing formatter before creating another.
-5. Add a formatter only when the **data shape or transformation semantics** are genuinely new.
-6. Add an engine only when the **learner interaction** is genuinely new.
+### New engine
 
-This gives two independent scaling axes:
+Add only when learner interaction/output is genuinely new. After adding it, extend compatible generic formatters and scan old data for candidate approvals.
 
-```text
-more knowledge ───────────────► more generated activities
-       │
-       │ same formatter layer
-       ▼
-more engines ─────────────────► more ways to experience existing knowledge
-```
+### New formatter
+
+Add only when transformation semantics or the source data shape are genuinely new. Never create one per lesson/fact.
+
+### New `canGenerate` entry
+
+Add when a formatter is technically compatible **and** that specific dataset has been approved for that output type.
