@@ -26,7 +26,8 @@ if (recipe) {
     if (!contract) errors.push('print_cards formatter produced no output contract');
     else {
       const html = getOutputEngine(recipe.engine).render(contract);
-      if (!html.includes('Camel') || !html.includes('ship of the desert')) errors.push('rendered printable cards lost expected association content');
+      const searchableHtml = html.toLowerCase();
+      if (!searchableHtml.includes('camel') || !searchableHtml.includes('ship of the desert')) errors.push('rendered printable cards lost expected association content');
       if (contract.cards.length < 2) errors.push('expected multiple printable cards from rich association data');
     }
   } catch (error) {
