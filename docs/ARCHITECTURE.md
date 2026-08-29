@@ -15,20 +15,22 @@ The design has two planes.
 
 ### Runtime plane
 
-- **Session controller**: chooses and advances questions.
-- **Stimulus/presentation renderer**: text, scenes, audio and later richer media.
-- **Interaction engines**: collect responses for MCQ, fill, drag, sort, match, etc.
-- **Evaluation engine**: decides correctness and scoring from question solution + response.
+- **Session controller/state**: chooses and advances questions.
+- **Stimulus/presentation renderer**: Svelte components for text, scenes, audio and later richer media.
+- **Interaction engines**: Svelte components that collect responses for MCQ, fill, drag, sort, match, etc.
+- **Evaluation engine**: plain TypeScript that decides correctness and scoring from question solution + response.
+- **Mechanics**: framework-independent TypeScript for shuffling, grids, maze travel, word-search generation and other reusable algorithms.
 - **Progress/mastery engine**: later converts attempts into revision/mastery decisions.
 
 ## Boundary rules
 
-1. Question JSON contains no JSX, CSS, coordinates for screen layout, component names, score-award code or purchase checks.
-2. Engine code contains no dog/whale/science-specific answers.
-3. Paid/free/Olympiad decisions live in pack/path data, never inside interaction engines.
+1. Question JSON contains no Svelte, JSX, CSS, screen coordinates, component names, score-award code or purchase checks.
+2. Engine components contain no dog/whale/science-specific answers.
+3. Paid/free/Olympiad decisions live in pack/path/profile data, never inside interaction engines.
 4. Stimulus and response are independent. A scene can pair with MCQ, fill or drag without inventing three different scene engines.
 5. All interaction contracts are versioned (`interaction.version`). Questions themselves have `revision` and the envelope has `schemaVersion`.
 6. Engines emit a common response envelope; evaluation is separate from the visual engine.
+7. Svelte is a replaceable presentation boundary: contracts, JSON, evaluation, content tooling and mechanics do not import Svelte.
 
 ## Current interaction registry
 
@@ -36,15 +38,23 @@ The design has two planes.
 single_choice@1
 word_bank_fill@1
 drag_to_target@1
+word_search@1
+memory_pairs@1
+sequence_order@1
+hotspot@1
+crossword@1
+maze_path@1
 ```
 
-Adding an engine should require a new contract + engine implementation + validator support. Existing questions should remain untouched.
+Adding an engine requires a new contract + Svelte interaction component + registry entry + validator support. Existing questions remain untouched.
 
 ## Android-first technical strategy
 
-The initial runtime intentionally uses browser-native DOM/SVG/CSS and Pointer Events. Capacitor wraps it for Android. This minimizes dependencies and lets us create cheap reusable motion with CSS (`bounce`, `wiggle`, `float`, `pulse`) and later reusable SVG sprite parts.
+The runtime uses Svelte 5 with browser-native DOM/SVG/CSS and Pointer Events, built by Vite and wrapped by Capacitor for Android. Svelte replaces manual DOM construction; it does not replace the plain-TypeScript learning/evaluation/mechanics layers.
 
-A dedicated 2D game library should only be added for mechanics that genuinely need a scene graph, physics, tile maps or high-volume sprite rendering. This avoids paying bundle/performance/maintenance cost for ordinary learning interactions.
+Cheap reusable motion should remain CSS/SVG-first (`bounce`, `wiggle`, `float`, `pulse`) and later reusable sprite/vector parts. A dedicated 2D game library should only be added for mechanics that genuinely need a scene graph, physics, tile maps or high-volume sprite rendering.
+
+No SvelteKit, router, global state library, database or backend is required for the initial offline-first runtime.
 
 ## Data flow
 
@@ -53,13 +63,13 @@ Learnable
    ↓
 Question data ──────→ Scene reference
    ↓
-Session controller
+Session state
    ↓
-Engine registry → interaction engine
+Svelte engine registry → interaction component
    ↓
 standard response
    ↓
-Evaluator
+Plain TS evaluator
    ↓
 feedback / attempt record
 ```

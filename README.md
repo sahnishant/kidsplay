@@ -5,15 +5,16 @@ Android-first educational play system with a strict separation between **questio
 ## Current direction
 
 - Android is the primary shipping target.
-- Normal development is desktop/browser-first: TypeScript + browser-native DOM/SVG/CSS.
+- Normal development is desktop/browser-first: **Svelte 5 + TypeScript + Vite**, using browser-native DOM/SVG/CSS underneath.
+- Svelte is only the UI/presentation layer. Content contracts, evaluation, generators, learning logic and reusable mechanics remain framework-independent TypeScript/data.
 - **Android Studio, Android SDK, Java, Gradle, an emulator, and a phone are not required for ordinary local development.**
 - Capacitor packages the same browser runtime as Android when we need a native build.
 - GitHub Actions continuously verifies the Android APK so contributors can stay on the lightweight desktop loop.
 - Questions, learnables, scenes and learning packs live as data.
 - Interaction engines contain no curriculum answers or paid/free logic.
-- Current interactions include single choice, word-bank fill, drag-to-target, word search and relationship-based memory pairs.
+- Current interactions include single choice, word-bank fill, drag-to-target, word search, relationship-based memory pairs, ordering, hotspot selection, crossword and maze path.
 - Memory pairs are semantic: `DOG ↔ PET ANIMAL`, `TIGER ↔ WILD ANIMAL`, `A ↔ a`, etc. Matching identical cards is only one possible content pattern.
-- No general-purpose game engine is included. Heavier rendering/physics should be introduced only for activities that justify it.
+- No general-purpose game engine, SvelteKit, router, state library or database is included. Add heavier infrastructure only when a real requirement justifies it.
 
 ## Local development — Node.js only
 
@@ -26,7 +27,7 @@ npm run dev
 
 Open the local URL printed by Vite in any desktop browser.
 
-To validate all content and compile the browser runtime:
+To validate all content, type-check Svelte/TypeScript and compile the browser runtime:
 
 ```bash
 npm run check
