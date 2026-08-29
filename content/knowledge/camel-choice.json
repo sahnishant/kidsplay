@@ -16,5 +16,6 @@
   ],
   "correctChoiceId": "camel",
   "conceptIds": ["animals.camel.ship-desert-name"],
+  "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] },
   "authoring": { "status": "reviewed", "source": "internal" }
 }

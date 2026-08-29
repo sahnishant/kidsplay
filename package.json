@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "compile:content": "node scripts/compile-knowledge.mjs && node scripts/compile-crosswords.mjs && node scripts/compile-mazes.mjs && node scripts/generate-asset-notices.mjs",
+    "compile:index": "node scripts/build-content-index.mjs",
+    "compile:content": "node scripts/compile-knowledge.mjs && node scripts/build-content-index.mjs && node scripts/compile-crosswords.mjs && node scripts/compile-mazes.mjs && node scripts/generate-asset-notices.mjs",
+    "query:content": "npm run compile:index && node scripts/query-content.mjs",
     "dev": "npm run compile:content && vite",
     "validate:content": "npm run compile:content && node scripts/validate-content.mjs",
     "typecheck": "tsc --noEmit",

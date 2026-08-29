@@ -7,6 +7,7 @@ dist/
 # Build-time generated learning content
 content/questions/__generated-*.json
 content/authoring/crosswords/__generated-*.json
+content/index/__generated-*.json
 
 # Build-time generated third-party asset notice bundled by Vite
 public/THIRD_PARTY_ASSETS.txt

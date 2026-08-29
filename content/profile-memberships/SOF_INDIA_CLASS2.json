@@ -1,0 +1,11 @@
+{
+  "profileRef": "SOF_INDIA_CLASS2",
+  "members": [
+    { "dataRef": "knowledge.animals.associations.001", "rowRef": "dog-domestic", "fit": "review" },
+    { "dataRef": "knowledge.animals.associations.001", "rowRef": "seahorse-water", "fit": "core" },
+    { "dataRef": "knowledge.animals.associations.001", "rowRef": "emu-bird", "fit": "stretch" },
+    { "dataRef": "knowledge.animals.associations.001", "rowRef": "camel-ship-desert", "fit": "core" },
+    { "dataRef": "knowledge.animals.associations.001", "rowRef": "mammoth-extinct", "fit": "challenge" },
+    { "dataRef": "knowledge.animals.camel-choice.001", "rowRef": "$root", "fit": "core" }
+  ]
+}

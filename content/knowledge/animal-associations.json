@@ -13,35 +13,40 @@
       "subject": { "id": "dog", "label": "Dog", "symbol": "🐶" },
       "relation": "is_a",
       "object": { "id": "domestic-animal", "label": "domestic animal" },
-      "conceptIds": ["animals.dog.domestic-classification"]
+      "conceptIds": ["animals.dog.domestic-classification"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
     },
     {
       "id": "seahorse-water",
       "subject": { "id": "seahorse", "label": "Seahorse", "symbol": "🐴" },
       "relation": "is_a",
       "object": { "id": "water-animal", "label": "water animal" },
-      "conceptIds": ["animals.seahorse.water-classification"]
+      "conceptIds": ["animals.seahorse.water-classification"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
     },
     {
       "id": "emu-bird",
       "subject": { "id": "emu", "label": "Emu", "symbol": "🐦" },
       "relation": "is_a",
       "object": { "id": "bird", "label": "bird" },
-      "conceptIds": ["animals.emu.bird-classification"]
+      "conceptIds": ["animals.emu.bird-classification"],
+      "meta": { "knowledgeLevel": "intermediate", "skills": ["vocabulary", "classification"] }
     },
     {
       "id": "camel-ship-desert",
       "subject": { "id": "camel", "label": "Camel", "symbol": "🐫" },
       "relation": "known_as",
       "object": { "id": "ship-of-desert", "label": "ship of the desert" },
-      "conceptIds": ["animals.camel.ship-desert-name"]
+      "conceptIds": ["animals.camel.ship-desert-name"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
     },
     {
       "id": "mammoth-extinct",
       "subject": { "id": "mammoth", "label": "Mammoth", "symbol": "🦣" },
       "relation": "is_a",
       "object": { "id": "extinct-animal", "label": "extinct animal" },
-      "conceptIds": ["animals.mammoth.extinct-status"]
+      "conceptIds": ["animals.mammoth.extinct-status"],
+      "meta": { "knowledgeLevel": "advanced", "skills": ["vocabulary", "classification"] }
     }
   ],
   "authoring": { "status": "reviewed", "source": "internal" }
