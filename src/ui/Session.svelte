@@ -3,6 +3,7 @@
   import type { SessionAttempt } from '../contracts/runtime';
   import type { AvatarId } from '../runtime/localProgress';
   import { evaluate } from '../evaluation/evaluate';
+  import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
   import { advanceSession, createSessionState, replaySession, submitResponse } from '../runtime/session';
   import EngineHost from './EngineHost.svelte';
@@ -22,13 +23,6 @@
     onAttempt?: (attempt: SessionAttempt) => void;
     onExit?: () => void;
   } = $props();
-
-  const avatarSymbols: Record<AvatarId, string> = {
-    fox: '🦊',
-    owl: '🦉',
-    panda: '🐼',
-    tiger: '🐯'
-  };
 
   let state = $state(createSessionState());
   let question = $derived(questions[state.index]);
@@ -55,7 +49,9 @@
         {#if onExit}
           <button class="home-button" type="button" onclick={onExit} aria-label="Back to Kidsplay home">←</button>
         {/if}
-        <div class="player-avatar" aria-hidden="true">{avatarSymbols[childAvatar]}</div>
+        <div class="player-avatar" aria-hidden="true">
+          <Avatar avatar={childAvatar} mood={reasoningQuestion ? 'thinking' : 'happy'} motion={reasoningQuestion ? 'think' : 'idle'} />
+        </div>
         <div>
           <div class="brand">{displayName}</div>
           <div class="pack-title">{title}</div>
@@ -70,7 +66,7 @@
       {/if}
 
       {#if reasoningQuestion}
-        <div class="reasoning-cue access-badge access-badge--goal"><span aria-hidden="true">🧠</span> Think it through</div>
+        <div class="reasoning-cue access-badge access-badge--goal">Think it through</div>
       {/if}
 
       <h1 class="question-prompt">{question.prompt.text}</h1>
@@ -99,7 +95,9 @@
   </section>
 {:else}
   <section class="completion-card">
-    <div class="completion-emoji">🌟</div>
+    <div class="completion-avatar" aria-hidden="true">
+      <Avatar avatar={childAvatar} mood="celebrate" motion="bounce" />
+    </div>
     <h1>Nice work, {displayName}</h1>
     <p>You solved {correctCount} of {state.results.length} questions correctly.</p>
     <div class="completion-actions">
