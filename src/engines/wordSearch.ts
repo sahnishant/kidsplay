@@ -6,7 +6,7 @@ import type { InteractionEngine } from './types';
 
 function asWordSearch(question: Parameters<InteractionEngine['mount']>[0]['question']): WordSearchQuestion {
   if (question.interaction.type !== 'word_search') throw new Error('wordSearchEngine received wrong question type');
-  return question;
+  return question as WordSearchQuestion;
 }
 
 export const wordSearchEngine: InteractionEngine = {
