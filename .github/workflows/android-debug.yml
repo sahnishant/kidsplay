@@ -31,7 +31,12 @@ jobs:
         run: |
           npm ci --no-audit --no-fund
           ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
-          npm install --no-save --package-lock=false --no-audit --no-fund "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION"
+          NATIVE_DIR="$(mktemp -d)"
+          npm install --prefix "$NATIVE_DIR" --no-save --package-lock=false --no-audit --no-fund "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION"
+          mkdir -p node_modules/@rolldown
+          rm -rf node_modules/@rolldown/binding-linux-x64-gnu
+          cp -R "$NATIVE_DIR/node_modules/@rolldown/binding-linux-x64-gnu" node_modules/@rolldown/
+          rm -rf "$NATIVE_DIR"
 
       - name: Validate content and build web runtime
         run: npm run check
