@@ -1,10 +1,83 @@
 import freeAnimalsPack from '../content/packs/free-animals.json';
+import olympiadPrototypePack from '../content/packs/class2-evs-olympiad-prototype.json';
+import profileRegistry from '../content/learning-profiles/registry.json';
 import type { Question } from './contracts/question';
+import type { MasteryCounter } from './runtime/localProgress';
+
+interface AccessPolicy {
+  type: 'free' | 'purchase';
+  productId?: string;
+}
 
 interface LearningPack {
   id: string;
+  kind: 'learning_pack';
   title: string;
+  access: AccessPolicy;
   questionRefs: string[];
+}
+
+interface GoalPath {
+  id: string;
+  kind: 'goal_path';
+  status: 'prototype' | 'reviewed';
+  title: string;
+  access: AccessPolicy;
+  questionRefs: string[];
+  profileRef?: string;
+  masteryPolicy?: {
+    requiredAccuracy: number;
+    minimumIndependentAttempts: number;
+  };
+}
+
+export interface LearningProfile {
+  id: string;
+  country: string;
+  pathway: 'school' | 'competition';
+  curriculumRef: string | null;
+  assessmentRef: string | null;
+  grade: number;
+  alignmentStatus: string;
+}
+
+interface ProfileRegistry {
+  schemaVersion: number;
+  profiles: LearningProfile[];
+}
+
+interface ProfileMembershipMember {
+  rowId: string;
+  fit: 'review' | 'core' | 'stretch' | 'challenge';
+}
+
+interface ProfileMembership {
+  profileRef: string;
+  members: ProfileMembershipMember[];
+}
+
+export interface CatalogEntry {
+  id: string;
+  kind: 'free_explore' | 'goal_learning';
+  title: string;
+  description: string;
+  access: AccessPolicy;
+  status: 'ready' | 'prototype';
+  profileRef?: string;
+  actionLabel: string;
+}
+
+export interface SessionLaunch {
+  id: string;
+  mode: 'free_explore' | 'goal_learning';
+  title: string;
+  profileRef?: string;
+  questions: Question[];
+}
+
+export interface ProfileSessionOptions {
+  count?: number;
+  mastery?: Record<string, MasteryCounter>;
 }
 
 const questionModules = import.meta.glob('../content/questions/*.json', {
@@ -12,21 +85,171 @@ const questionModules = import.meta.glob('../content/questions/*.json', {
   import: 'default'
 }) as Record<string, unknown>;
 
+const membershipModules = import.meta.glob('../content/profile-memberships/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+
 const questionBank = Object.values(questionModules).flatMap((value) =>
   Array.isArray(value) ? (value as Question[]) : []
 );
+const questionById = new Map(questionBank.map((question) => [question.id, question]));
+const memberships = Object.values(membershipModules).filter(
+  (value): value is ProfileMembership => Boolean(
+    value
+      && typeof value === 'object'
+      && typeof (value as ProfileMembership).profileRef === 'string'
+      && Array.isArray((value as ProfileMembership).members)
+  )
+);
+
+const profiles = (profileRegistry as ProfileRegistry).profiles;
 const freePack = freeAnimalsPack as LearningPack;
+const goalPack = olympiadPrototypePack as GoalPath;
 
-export function getFreeAnimalsQuestions(): Question[] {
-  const byId = new Map(questionBank.map((question) => [question.id, question]));
+const fitRank: Record<ProfileMembershipMember['fit'], number> = {
+  core: 0,
+  review: 1,
+  stretch: 2,
+  challenge: 3
+};
 
-  return freePack.questionRefs.map((questionId) => {
-    const question = byId.get(questionId);
-    if (!question) throw new Error(`Pack ${freePack.id} refers to unknown question ${questionId}`);
+function resolveQuestionRefs(questionRefs: string[], packId: string): Question[] {
+  return questionRefs.map((questionId) => {
+    const question = questionById.get(questionId);
+    if (!question) throw new Error(`Pack ${packId} refers to unknown question ${questionId}`);
     return question;
   });
 }
 
+function masteryScore(question: Question, mastery: Record<string, MasteryCounter>): number {
+  const refs = question.knowledgeRefs ?? [];
+  if (!refs.length) return 0;
+  const scores = refs.map((rowId) => {
+    const counter = mastery[rowId];
+    if (!counter || counter.totalWeight <= 0) return -0.5;
+    return counter.correctWeight / counter.totalWeight;
+  });
+  return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+}
+
+function chooseWithEngineVariety(candidates: Question[], count: number): Question[] {
+  const selected: Question[] = [];
+  const selectedIds = new Set<string>();
+  const usedEngines = new Set<Question['interaction']['type']>();
+
+  for (const question of candidates) {
+    if (selected.length >= count) break;
+    if (usedEngines.has(question.interaction.type)) continue;
+    selected.push(question);
+    selectedIds.add(question.id);
+    usedEngines.add(question.interaction.type);
+  }
+
+  for (const question of candidates) {
+    if (selected.length >= count) break;
+    if (selectedIds.has(question.id)) continue;
+    selected.push(question);
+    selectedIds.add(question.id);
+  }
+
+  return selected;
+}
+
+export function getLearningProfiles(): LearningProfile[] {
+  return [...profiles];
+}
+
+export function getCatalogEntries(): CatalogEntry[] {
+  return [
+    {
+      id: freePack.id,
+      kind: 'free_explore',
+      title: freePack.title,
+      description: 'A mixed set of animal games using the reusable interaction engines.',
+      access: freePack.access,
+      status: 'ready',
+      actionLabel: 'Play free'
+    },
+    {
+      id: goalPack.id,
+      kind: 'goal_learning',
+      title: goalPack.title,
+      description: 'Profile-driven practice with progress tracking. Prototype access is open while purchase flow is not connected.',
+      access: goalPack.access,
+      status: goalPack.status,
+      profileRef: goalPack.profileRef,
+      actionLabel: goalPack.status === 'prototype' ? 'Try prototype' : 'Start goal'
+    }
+  ];
+}
+
+export function getFreeAnimalsQuestions(): Question[] {
+  return resolveQuestionRefs(freePack.questionRefs, freePack.id);
+}
+
 export function getFreeAnimalsPackTitle(): string {
   return freePack.title;
+}
+
+export function getProfileQuestions(profileRef: string, options: ProfileSessionOptions = {}): Question[] {
+  const membership = memberships.find((item) => item.profileRef === profileRef);
+  if (!membership) throw new Error(`Unknown profile membership ${profileRef}`);
+
+  const memberByRow = new Map(membership.members.map((member) => [member.rowId, member]));
+  const mastery = options.mastery ?? {};
+  const count = Math.max(1, options.count ?? 8);
+
+  const candidates = questionBank
+    .filter((question) => {
+      const refs = question.knowledgeRefs ?? [];
+      return refs.length > 0 && refs.every((rowId) => memberByRow.has(rowId));
+    })
+    .sort((left, right) => {
+      const leftRefs = left.knowledgeRefs ?? [];
+      const rightRefs = right.knowledgeRefs ?? [];
+      const leftFit = Math.min(...leftRefs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
+      const rightFit = Math.min(...rightRefs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
+      if (leftFit !== rightFit) return leftFit - rightFit;
+
+      const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
+      if (masteryDelta !== 0) return masteryDelta;
+      if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
+      return left.id.localeCompare(right.id);
+    });
+
+  return chooseWithEngineVariety(candidates, count);
+}
+
+export function createSessionForCatalogEntry(
+  entryId: string,
+  mastery: Record<string, MasteryCounter> = {}
+): SessionLaunch {
+  if (entryId === freePack.id) {
+    return {
+      id: `session.${freePack.id}`,
+      mode: 'free_explore',
+      title: freePack.title,
+      questions: getFreeAnimalsQuestions()
+    };
+  }
+
+  if (entryId === goalPack.id) {
+    const profileQuestions = goalPack.profileRef
+      ? getProfileQuestions(goalPack.profileRef, { count: 8, mastery })
+      : [];
+    const questions = profileQuestions.length
+      ? profileQuestions
+      : resolveQuestionRefs(goalPack.questionRefs, goalPack.id);
+
+    return {
+      id: `session.${goalPack.id}`,
+      mode: 'goal_learning',
+      title: goalPack.title,
+      profileRef: goalPack.profileRef,
+      questions
+    };
+  }
+
+  throw new Error(`Unknown catalog entry ${entryId}`);
 }
