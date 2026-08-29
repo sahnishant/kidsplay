@@ -1,0 +1,22 @@
+[
+  { "id": "food.sources.milk", "statement": "Cows are a common source of milk used as food by people.", "subject": "EVS", "topic": "Food", "subtopic": "Sources of Food", "gradeBands": [1, 2] },
+  { "id": "food.sources.eggs", "statement": "Hens are a common source of eggs.", "subject": "EVS", "topic": "Food", "subtopic": "Sources of Food", "gradeBands": [1, 2] },
+  { "id": "food.sources.honey", "statement": "Honeybees make honey.", "subject": "EVS", "topic": "Food", "subtopic": "Sources of Food", "gradeBands": [1, 2] },
+  { "id": "food.sources.wheat", "statement": "Wheat grains can be ground into flour.", "subject": "EVS", "topic": "Food", "subtopic": "Sources of Food", "gradeBands": [1, 2] },
+  { "id": "food.sources.rice", "statement": "Rice plants produce rice grains.", "subject": "EVS", "topic": "Food", "subtopic": "Sources of Food", "gradeBands": [1, 2] },
+  { "id": "food.sources.mustard", "statement": "Mustard seeds can be pressed to produce cooking oil.", "subject": "EVS", "topic": "Food", "subtopic": "Sources of Food", "gradeBands": [2] },
+
+  { "id": "food.groups.energy.rice", "statement": "Rice is a cereal food that mainly provides energy.", "subject": "EVS", "topic": "Food", "subtopic": "Food Groups", "gradeBands": [2] },
+  { "id": "food.groups.body-building.pulses", "statement": "Pulses are protein-rich foods that support growth and body building.", "subject": "EVS", "topic": "Food", "subtopic": "Food Groups", "gradeBands": [2] },
+  { "id": "food.groups.body-building.milk", "statement": "Milk provides nutrients that support growth and body building.", "subject": "EVS", "topic": "Food", "subtopic": "Food Groups", "gradeBands": [2] },
+  { "id": "food.groups.energy.butter", "statement": "Butter is rich in fat and provides energy.", "subject": "EVS", "topic": "Food", "subtopic": "Food Groups", "gradeBands": [2] },
+  { "id": "food.groups.protective.spinach", "statement": "Spinach is a leafy vegetable that provides vitamins and minerals.", "subject": "EVS", "topic": "Food", "subtopic": "Food Groups", "gradeBands": [2] },
+  { "id": "food.groups.protective.orange", "statement": "Oranges provide vitamins and are often grouped with protective foods.", "subject": "EVS", "topic": "Food", "subtopic": "Food Groups", "gradeBands": [2] },
+
+  { "id": "food.habits.clean-hands", "statement": "Washing hands before handling or eating food helps keep germs away from food.", "subject": "EVS", "topic": "Food", "subtopic": "Food Hygiene", "gradeBands": [1, 2] },
+  { "id": "food.habits.clean-produce", "statement": "Fruits and vegetables should be washed before eating or preparing them.", "subject": "EVS", "topic": "Food", "subtopic": "Food Hygiene", "gradeBands": [1, 2] },
+  { "id": "food.habits.cover-food", "statement": "Keeping food covered helps keep dust and insects away.", "subject": "EVS", "topic": "Food", "subtopic": "Food Hygiene", "gradeBands": [1, 2] },
+  { "id": "food.habits.chew-well", "statement": "Chewing food well breaks it into smaller pieces before swallowing.", "subject": "EVS", "topic": "Food", "subtopic": "Healthy Eating", "gradeBands": [1, 2] },
+  { "id": "food.habits.clean-water", "statement": "Drinking water should be clean and safe to drink.", "subject": "EVS", "topic": "Food", "subtopic": "Food Hygiene", "gradeBands": [1, 2] },
+  { "id": "food.habits.avoid-spoiled", "statement": "Spoiled food can make us ill and should not be eaten.", "subject": "EVS", "topic": "Food", "subtopic": "Food Hygiene", "gradeBands": [1, 2] }
+]
