@@ -89,7 +89,8 @@ describe('offline progress persistence', () => {
     expect(summary.accuracy).toBe(1);
     expect(summary.practicedKnowledge).toBe(1);
     expect(summary.masteredKnowledge).toBe(1);
-    expect(summary.topics).toHaveLength(4);
+    expect(summary.topics).toHaveLength(17);
+    expect(summary.recommendedTopics).toHaveLength(0);
   });
 
   it('summarizes practised evidence into topic-level learning signals', () => {
@@ -110,9 +111,37 @@ describe('offline progress persistence', () => {
     const animals = topics.find((topic) => topic.id === 'animals');
     const plants = topics.find((topic) => topic.id === 'plants');
     const human = topics.find((topic) => topic.id === 'human');
+    const summary = summarizeProgress(snapshot);
 
     expect(animals).toMatchObject({ practicedKnowledge: 3, strongKnowledge: 3, accuracy: 1, status: 'strong' });
     expect(plants).toMatchObject({ practicedKnowledge: 1, strongKnowledge: 0, accuracy: 0.5, status: 'needs_practice' });
     expect(human).toMatchObject({ practicedKnowledge: 0, strongKnowledge: 0, accuracy: null, status: 'not_started' });
+    expect(summary.recommendedTopics.map((topic) => topic.id)).toEqual(['plants']);
+  });
+
+  it('recognizes the broadened topic prefixes and prioritizes the weakest practised topic', () => {
+    const snapshot: ProgressSnapshot = {
+      version: 1,
+      attempts: [],
+      knowledge: {
+        'kr.safety.one': counter(3, 1),
+        'kr.reasoning.one': counter(3, 2),
+        'kr.universe.one': counter(3, 3),
+        'kr.universe.two': counter(3, 3),
+        'kr.universe.three': counter(3, 3)
+      },
+      concepts: {},
+      updatedAt: null
+    };
+
+    const summary = summarizeProgress(snapshot);
+    const safety = summary.topics.find((topic) => topic.id === 'safety');
+    const reasoning = summary.topics.find((topic) => topic.id === 'reasoning');
+    const universe = summary.topics.find((topic) => topic.id === 'universe');
+
+    expect(safety?.status).toBe('needs_practice');
+    expect(reasoning?.status).toBe('growing');
+    expect(universe?.status).toBe('strong');
+    expect(summary.recommendedTopics.map((topic) => topic.id)).toEqual(['safety', 'reasoning']);
   });
 });
