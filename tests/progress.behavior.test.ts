@@ -5,7 +5,10 @@ import {
   loadProgress,
   recordAttempt,
   saveChildSettings,
-  summarizeProgress
+  summarizeProgress,
+  summarizeTopicProgress,
+  type MasteryCounter,
+  type ProgressSnapshot
 } from '../src/runtime/localProgress';
 import { createSessionState, submitResponse } from '../src/runtime/session';
 
@@ -34,6 +37,17 @@ function testQuestion(): SingleChoiceQuestion {
       ]
     },
     solution: { type: 'exact_option', correctOptionIds: ['dog'] }
+  };
+}
+
+function counter(attempts: number, correct: number): MasteryCounter {
+  return {
+    attempts,
+    correct,
+    totalWeight: attempts,
+    correctWeight: correct,
+    lastResult: correct === attempts ? 'correct' : 'incorrect',
+    lastSeenAt: '2026-08-29T12:00:00.000Z'
   };
 }
 
@@ -75,5 +89,30 @@ describe('offline progress persistence', () => {
     expect(summary.accuracy).toBe(1);
     expect(summary.practicedKnowledge).toBe(1);
     expect(summary.masteredKnowledge).toBe(1);
+    expect(summary.topics).toHaveLength(4);
+  });
+
+  it('summarizes practised evidence into topic-level learning signals', () => {
+    const snapshot: ProgressSnapshot = {
+      version: 1,
+      attempts: [],
+      knowledge: {
+        'kr.animals.one': counter(2, 2),
+        'kr.animals.two': counter(2, 2),
+        'kr.animals.three': counter(2, 2),
+        'kr.plants.one': counter(2, 1)
+      },
+      concepts: {},
+      updatedAt: null
+    };
+
+    const topics = summarizeTopicProgress(snapshot);
+    const animals = topics.find((topic) => topic.id === 'animals');
+    const plants = topics.find((topic) => topic.id === 'plants');
+    const human = topics.find((topic) => topic.id === 'human');
+
+    expect(animals).toMatchObject({ practicedKnowledge: 3, strongKnowledge: 3, accuracy: 1, status: 'strong' });
+    expect(plants).toMatchObject({ practicedKnowledge: 1, strongKnowledge: 0, accuracy: 0.5, status: 'needs_practice' });
+    expect(human).toMatchObject({ practicedKnowledge: 0, strongKnowledge: 0, accuracy: null, status: 'not_started' });
   });
 });
