@@ -1,0 +1,142 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.housing.types.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Housing and Clothing",
+    "entries": [
+      {
+        "id": "igloo-snow",
+        "rowId": "kr.housing.igloo.material.snow-ice",
+        "subject": { "id": "igloo", "label": "Igloo", "symbol": "🏠" },
+        "relation": "made_from",
+        "object": { "id": "snow-ice", "label": "blocks of hard snow or ice" },
+        "conceptIds": ["housing.types.igloo"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification", "reasoning"] }
+      },
+      {
+        "id": "tent-cloth",
+        "rowId": "kr.housing.tent.material.cloth",
+        "subject": { "id": "tent", "label": "Tent", "symbol": "⛺" },
+        "relation": "made_from",
+        "object": { "id": "cloth-canvas", "label": "cloth or canvas stretched over supports" },
+        "conceptIds": ["housing.types.tent"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] }
+      },
+      {
+        "id": "houseboat-water",
+        "rowId": "kr.housing.houseboat.location.water",
+        "subject": { "id": "houseboat", "label": "Houseboat", "symbol": "🚤" },
+        "relation": "located_on",
+        "object": { "id": "water", "label": "a house built to float or stay on water" },
+        "conceptIds": ["housing.types.houseboat"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification", "reasoning"] }
+      },
+      {
+        "id": "stilt-raised",
+        "rowId": "kr.housing.stilt-house.feature.raised",
+        "subject": { "id": "stilt-house", "label": "Stilt house", "symbol": "🏡" },
+        "relation": "has_feature",
+        "object": { "id": "raised-posts", "label": "raised above the ground on strong posts" },
+        "conceptIds": ["housing.types.stilt-house"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "caravan-wheels",
+        "rowId": "kr.housing.caravan.feature.wheels",
+        "subject": { "id": "caravan", "label": "Caravan", "symbol": "🚐" },
+        "relation": "has_feature",
+        "object": { "id": "wheels", "label": "a movable home with wheels" },
+        "conceptIds": ["housing.types.caravan"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] }
+      },
+      {
+        "id": "pucca-strong",
+        "rowId": "kr.housing.pucca.material.brick-cement",
+        "subject": { "id": "pucca-house", "label": "Pucca house", "symbol": "🏘️" },
+        "relation": "made_from",
+        "object": { "id": "brick-cement", "label": "strong materials such as bricks and cement" },
+        "conceptIds": ["housing.types.pucca-house"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-elementary-science",
+      "scopeNote": "Housing types are general elementary EVS knowledge; exact profile placement remains separately reviewed."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.clothing.weather.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Housing and Clothing",
+    "entries": [
+      {
+        "id": "cotton-summer",
+        "rowId": "kr.clothing.cotton.weather.summer",
+        "subject": { "id": "cotton-clothes", "label": "Cotton clothes", "symbol": "👕" },
+        "relation": "suitable_for",
+        "object": { "id": "summer", "label": "hot weather because cotton is light and absorbs sweat" },
+        "conceptIds": ["clothing.weather.cotton"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "wool-winter",
+        "rowId": "kr.clothing.wool.weather.winter",
+        "subject": { "id": "woollen-clothes", "label": "Woollen clothes", "symbol": "🧥" },
+        "relation": "suitable_for",
+        "object": { "id": "winter", "label": "cold weather because wool helps keep us warm" },
+        "conceptIds": ["clothing.weather.wool"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "raincoat-rain",
+        "rowId": "kr.clothing.raincoat.weather.rain",
+        "subject": { "id": "raincoat", "label": "Raincoat", "symbol": "🧥" },
+        "relation": "suitable_for",
+        "object": { "id": "rain", "label": "rainy weather because it helps keep clothes dry" },
+        "conceptIds": ["clothing.weather.raincoat"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "gumboots-rain",
+        "rowId": "kr.clothing.gumboots.weather.rain",
+        "subject": { "id": "gumboots", "label": "Gumboots", "symbol": "🥾" },
+        "relation": "suitable_for",
+        "object": { "id": "wet-ground", "label": "wet or muddy ground because they help keep feet dry" },
+        "conceptIds": ["clothing.weather.gumboots"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "sunhat-sun",
+        "rowId": "kr.clothing.sunhat.purpose.sun",
+        "subject": { "id": "sun-hat", "label": "Sun hat", "symbol": "🧢" },
+        "relation": "used_for",
+        "object": { "id": "strong-sun", "label": "shading the head and face from strong sunlight" },
+        "conceptIds": ["clothing.weather.sun-hat"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "uniform-school",
+        "rowId": "kr.clothing.uniform.purpose.school",
+        "subject": { "id": "school-uniform", "label": "School uniform", "symbol": "🎒" },
+        "relation": "used_for",
+        "object": { "id": "school", "label": "showing a common school dress for students" },
+        "conceptIds": ["clothing.purpose.uniform"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-elementary-science",
+      "scopeNote": "Clothing choices and purposes are general elementary EVS knowledge; exact profile placement remains separately reviewed."
+    }
+  }
+]
