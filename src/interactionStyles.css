@@ -1,10 +1,8 @@
-.word-search,
 .memory-pairs {
   display: grid;
   gap: 14px;
 }
 
-.word-search__instructions,
 .memory-pairs__instructions {
   margin: 0;
   color: var(--muted);
@@ -13,61 +11,6 @@
   line-height: 1.35;
 }
 
-.word-search__terms {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 8px;
-}
-
-.word-search__term {
-  padding: 7px 10px;
-  border-radius: 999px;
-  background: #f2f4f6;
-  font-weight: 850;
-}
-
-.word-search__term--found {
-  background: var(--good-soft);
-  color: var(--good);
-  text-decoration: line-through;
-}
-
-.word-search__grid {
-  width: min(100%, 430px);
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: repeat(var(--word-search-size), minmax(0, 1fr));
-  gap: 4px;
-  touch-action: none;
-  user-select: none;
-}
-
-.word-search__cell {
-  aspect-ratio: 1;
-  min-width: 0;
-  border: 1px solid #dfe4e8;
-  border-radius: 10px;
-  background: #f8fafb;
-  color: var(--ink);
-  font-size: clamp(0.8rem, 4vw, 1.2rem);
-  font-weight: 900;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.word-search__cell--preview {
-  background: var(--accent-soft);
-  border-color: var(--accent);
-}
-
-.word-search__cell--found {
-  background: var(--good-soft);
-  border-color: #8bd0ad;
-  color: var(--good);
-}
-
-.word-search__status,
 .memory-pairs__status {
   min-height: 24px;
   text-align: center;
