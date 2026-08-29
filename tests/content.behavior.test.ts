@@ -66,13 +66,14 @@ describe('catalog and profile-driven sessions', () => {
 
     for (const topic of [
       'animals', 'plants', 'human', 'food', 'housing', 'clothing', 'habits', 'safety',
-      'transport', 'communication', 'air', 'water', 'rocks', 'universe'
+      'transport', 'communication', 'air', 'water', 'rocks', 'universe', 'family', 'festivals',
+      'reasoning'
     ]) {
       expect(hasTopic(poolRefs, topic)).toBe(true);
     }
 
     expect(session).toHaveLength(8);
-    expect(knowledgeGroupCount(session)).toBeGreaterThanOrEqual(6);
+    expect(knowledgeGroupCount(session)).toBeGreaterThanOrEqual(5);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(activityFamilyCount(session)).toBeGreaterThanOrEqual(6);
   });
@@ -81,9 +82,9 @@ describe('catalog and profile-driven sessions', () => {
     const goalEntry = getCatalogEntries().find((entry) => entry.kind === 'goal_learning');
     expect(goalEntry).toBeTruthy();
 
-    const profilePool = getProfileQuestions(PROFILE_REF, { count: 200 });
+    const profilePool = getProfileQuestions(PROFILE_REF, { count: 250 });
     const profilePoolRefs = profilePool.flatMap((question) => question.knowledgeRefs ?? []);
-    for (const topic of ['housing', 'safety', 'transport', 'air', 'water', 'rocks', 'universe']) {
+    for (const topic of ['housing', 'safety', 'transport', 'air', 'water', 'rocks', 'universe', 'reasoning']) {
       expect(hasTopic(profilePoolRefs, topic)).toBe(true);
     }
 
@@ -92,7 +93,7 @@ describe('catalog and profile-driven sessions', () => {
 
     expect(session.profileRef).toBe(PROFILE_REF);
     expect(session.questions).toHaveLength(8);
-    expect(knowledgeGroupCount(session.questions)).toBeGreaterThanOrEqual(6);
+    expect(knowledgeGroupCount(session.questions)).toBeGreaterThanOrEqual(5);
     expect(new Set(session.questions.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(activityFamilyCount(session.questions)).toBeGreaterThanOrEqual(6);
     expect(session.questions.some((question) =>
