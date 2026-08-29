@@ -1,0 +1,56 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.air.properties.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Air, Water and Rocks",
+    "entries": [
+      { "id": "moving-air", "rowId": "kr.air.moving.name.wind", "subject": { "id": "moving-air", "label": "Moving air", "symbol": "💨" }, "relation": "known_as", "object": { "id": "wind", "label": "wind" }, "conceptIds": ["air.properties.wind"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "vocabulary"] } },
+      { "id": "balloon-air", "rowId": "kr.air.balloon.contains.air", "subject": { "id": "inflated-balloon", "label": "Inflated balloon", "symbol": "🎈" }, "relation": "shows", "object": { "id": "air-space", "label": "that air occupies space inside it" }, "conceptIds": ["air.properties.occupies-space"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "breathing-air", "rowId": "kr.air.breathing.need.air", "subject": { "id": "breathing", "label": "Breathing", "symbol": "🫁" }, "relation": "needs", "object": { "id": "air-life", "label": "air because people and many other living things need it to live" }, "conceptIds": ["air.properties.breathing"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } },
+      { "id": "candle-air", "rowId": "kr.air.candle.need.air", "subject": { "id": "burning-candle", "label": "Burning candle", "symbol": "🕯️" }, "relation": "needs", "object": { "id": "air-burning", "label": "air to keep burning" }, "conceptIds": ["air.properties.burning"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "windmill-air", "rowId": "kr.air.windmill.turned-by.wind", "subject": { "id": "windmill", "label": "Windmill", "symbol": "🌬️" }, "relation": "moved_by", "object": { "id": "wind-power", "label": "moving air that can turn its blades" }, "conceptIds": ["air.properties.windmill"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "air-around", "rowId": "kr.air.environment.around-us", "subject": { "id": "air", "label": "Air", "symbol": "🌫️" }, "relation": "has_property", "object": { "id": "around-us", "label": "is all around us even though we usually cannot see it" }, "conceptIds": ["air.properties.around-us"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Air properties are general elementary science knowledge; exact profile placement remains separately reviewed." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.water.sources.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Air, Water and Rocks",
+    "entries": [
+      { "id": "rain-source", "rowId": "kr.water.rain.source.freshwater", "subject": { "id": "rain", "label": "Rain", "symbol": "🌧️" }, "relation": "water_source", "object": { "id": "natural", "label": "is an important natural source of fresh water" }, "conceptIds": ["water.sources.rain"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "river-flowing", "rowId": "kr.water.river.feature.flowing", "subject": { "id": "river", "label": "River", "symbol": "🏞️" }, "relation": "water_source", "object": { "id": "flowing", "label": "is a natural body of flowing water" }, "conceptIds": ["water.sources.river"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "lake-still", "rowId": "kr.water.lake.feature.surrounded-land", "subject": { "id": "lake", "label": "Lake", "symbol": "🏞️" }, "relation": "water_source", "object": { "id": "land", "label": "is a body of water surrounded by land" }, "conceptIds": ["water.sources.lake"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "well-ground", "rowId": "kr.water.well.source.groundwater", "subject": { "id": "well", "label": "Well", "symbol": "🪣" }, "relation": "water_source", "object": { "id": "groundwater", "label": "can be used to draw water from below the ground" }, "conceptIds": ["water.sources.well"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "tap-supply", "rowId": "kr.water.tap.source.supply", "subject": { "id": "tap", "label": "Tap", "symbol": "🚰" }, "relation": "water_source", "object": { "id": "home-supply", "label": "provides water through a pipe supply in homes and schools" }, "conceptIds": ["water.sources.tap"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "pond-small", "rowId": "kr.water.pond.feature.small", "subject": { "id": "pond", "label": "Pond", "symbol": "🦆" }, "relation": "water_source", "object": { "id": "small-still", "label": "is a relatively small body of still water" }, "conceptIds": ["water.sources.pond"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Water-source concepts are general elementary science knowledge; exact profile placement remains separately reviewed." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.rocks.types.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Air, Water and Rocks",
+    "entries": [
+      { "id": "pebble-small", "rowId": "kr.rocks.pebble.feature.small-smooth", "subject": { "id": "pebble", "label": "Pebble", "symbol": "🪨" }, "relation": "has_feature", "object": { "id": "small-smooth", "label": "a small stone that is often rounded and smooth" }, "conceptIds": ["rocks.types.pebble"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "granite-hard", "rowId": "kr.rocks.granite.feature.hard", "subject": { "id": "granite", "label": "Granite", "symbol": "🪨" }, "relation": "has_feature", "object": { "id": "hard", "label": "a hard rock often used in buildings" }, "conceptIds": ["rocks.types.granite"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "marble-polish", "rowId": "kr.rocks.marble.use.decorative", "subject": { "id": "marble", "label": "Marble", "symbol": "🪨" }, "relation": "has_feature", "object": { "id": "polished", "label": "can be polished and is used for floors, buildings and statues" }, "conceptIds": ["rocks.types.marble"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "sandstone-grains", "rowId": "kr.rocks.sandstone.feature.grains", "subject": { "id": "sandstone", "label": "Sandstone", "symbol": "🪨" }, "relation": "has_feature", "object": { "id": "sand-grains", "label": "is formed from sand-sized grains pressed and cemented together" }, "conceptIds": ["rocks.types.sandstone"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "pumice-light", "rowId": "kr.rocks.pumice.feature.light", "subject": { "id": "pumice", "label": "Pumice", "symbol": "🪨" }, "relation": "has_feature", "object": { "id": "light", "label": "contains many holes and can be light enough to float on water" }, "conceptIds": ["rocks.types.pumice"], "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "reasoning"] } },
+      { "id": "slate-sheets", "rowId": "kr.rocks.slate.feature.sheets", "subject": { "id": "slate", "label": "Slate", "symbol": "🪨" }, "relation": "has_feature", "object": { "id": "thin-sheets", "label": "can split into thin flat sheets" }, "conceptIds": ["rocks.types.slate"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "Rock examples and properties are general elementary science knowledge; exact profile placement remains separately reviewed." }
+  }
+]
