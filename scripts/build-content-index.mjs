@@ -5,6 +5,7 @@ const root = new URL('../', import.meta.url);
 const knowledgeDirectory = new URL('content/knowledge/', root);
 const profileDirectory = new URL('content/profile-memberships/', root);
 const profileRegistryUrl = new URL('content/learning-profiles/registry.json', root);
+const learningTaxonomyUrl = new URL('content/taxonomies/learning.json', root);
 const outputDirectory = new URL('content/index/', root);
 const outputUrl = new URL('__generated-learning-index.json', outputDirectory);
 
@@ -14,10 +15,12 @@ const readObjects = (directory) => readdirSync(directory).filter((name) => name.
   return Array.isArray(value) ? value : [value];
 });
 
-const registry = readJson(profileRegistryUrl);
-const levelById = new Map((registry.knowledgeLevels ?? []).map((level) => [level.id, level]));
-const profileById = new Map((registry.profiles ?? []).map((profile) => [profile.id, profile]));
-const allowedFits = new Set(registry.placementFits ?? []);
+const profileRegistry = readJson(profileRegistryUrl);
+const taxonomy = readJson(learningTaxonomyUrl);
+const levelById = new Map((taxonomy.knowledgeLevels ?? []).map((level) => [level.id, level]));
+const skillIds = new Set((taxonomy.skills ?? []).map((skill) => skill.id));
+const profileById = new Map((profileRegistry.profiles ?? []).map((profile) => [profile.id, profile]));
+const allowedFits = new Set(taxonomy.placementFits ?? []);
 const sources = readObjects(knowledgeDirectory);
 const memberships = readObjects(profileDirectory);
 
@@ -30,6 +33,8 @@ for (const source of sources) {
     if (rowsById.has(unit.rowId)) throw new Error(`Duplicate global knowledge rowId ${unit.rowId}`);
     const level = unit.meta?.knowledgeLevel ?? null;
     if (level && !levelById.has(level)) throw new Error(`${unit.rowId}: unknown knowledgeLevel ${level}`);
+    const skills = [...new Set((unit.meta?.skills ?? []).map(String))];
+    for (const skill of skills) if (!skillIds.has(skill)) throw new Error(`${unit.rowId}: unknown skill ${skill}`);
     const indexed = {
       rowId: unit.rowId,
       sourceRef: normalized.sourceRef,
@@ -40,9 +45,10 @@ for (const source of sources) {
       language: normalized.language ?? null,
       subject: normalized.subject ?? null,
       topic: normalized.topic ?? null,
+      conceptIds: [...new Set(unit.conceptIds ?? [])],
       knowledgeLevel: level,
       knowledgeLevelRank: level ? levelById.get(level).rank : null,
-      skills: [...new Set((unit.meta?.skills ?? []).map(String))],
+      skills,
       profiles: []
     };
     rowsById.set(unit.rowId, indexed);

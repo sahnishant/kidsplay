@@ -21,9 +21,10 @@ if (!filters.profile) {
     knowledgeLevels: filters.levels ? filters.levels.split(',').filter(Boolean) : undefined,
     count: filters.count ? Number(filters.count) : 6,
     allowedEngines: filters.engines ? filters.engines.split(',').filter(Boolean) : undefined,
+    deliveryCategory: filters.category ?? 'interactive',
     difficulty: filters.difficulty ? Number(filters.difficulty) : 2,
     variety: filters.variety ?? 'high'
   });
   console.log(JSON.stringify(plan, null, 2));
-  console.error(`Planned ${plan.length} activity recipe(s).`);
+  console.error(`Planned ${plan.length} ${filters.category ?? 'interactive'} activity recipe(s).`);
 }

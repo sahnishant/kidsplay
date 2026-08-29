@@ -1,41 +1,41 @@
 {
   "schemaVersion": 1,
-  "knowledgeLevels": [
-    { "id": "foundation", "rank": 1, "label": "Very basic" },
-    { "id": "basic", "rank": 2, "label": "Basic" },
-    { "id": "intermediate", "rank": 3, "label": "Intermediate" },
-    { "id": "advanced", "rank": 4, "label": "Advanced" },
-    { "id": "specialist", "rank": 5, "label": "Specialist" }
-  ],
-  "placementFits": ["review", "core", "stretch", "challenge"],
   "profiles": [
     {
       "id": "CBSE_INDIA_CLASS1",
       "country": "IN",
       "pathway": "school",
-      "boardOrGoal": "CBSE",
-      "grade": 1
+      "curriculumRef": "CBSE",
+      "assessmentRef": null,
+      "grade": 1,
+      "alignmentStatus": "prototype_unverified"
     },
     {
       "id": "CBSE_INDIA_CLASS2",
       "country": "IN",
       "pathway": "school",
-      "boardOrGoal": "CBSE",
-      "grade": 2
+      "curriculumRef": "CBSE",
+      "assessmentRef": null,
+      "grade": 2,
+      "alignmentStatus": "prototype_unverified"
     },
     {
       "id": "SOF_INDIA_CLASS2",
       "country": "IN",
       "pathway": "competition",
-      "boardOrGoal": "SOF",
-      "grade": 2
+      "curriculumRef": null,
+      "assessmentRef": "SOF",
+      "grade": 2,
+      "alignmentStatus": "prototype_unverified"
     },
     {
       "id": "CLASS_III_CHINA",
       "country": "CN",
       "pathway": "school",
-      "boardOrGoal": "GENERAL",
-      "grade": 3
+      "curriculumRef": "GENERAL_PROTOTYPE",
+      "assessmentRef": null,
+      "grade": 3,
+      "alignmentStatus": "prototype_unverified"
     }
   ]
 }

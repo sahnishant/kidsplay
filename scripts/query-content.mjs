@@ -11,7 +11,7 @@ const filters = Object.fromEntries(
     })
 );
 
-const profileKeys = new Set(['country', 'pathway', 'boardOrGoal', 'grade', 'profile']);
+const profileKeys = new Set(['country', 'pathway', 'curriculumRef', 'assessmentRef', 'grade', 'profile', 'alignmentStatus']);
 const profileFilters = Object.entries(filters).filter(([key]) => profileKeys.has(key));
 const matchesProfile = (profile) => profileFilters.every(([key, expected]) => {
   if (key === 'profile') return String(profile.profileRef) === expected;
@@ -23,6 +23,7 @@ const matches = index.filter((item) => {
   if (filters.level && item.knowledgeLevel !== filters.level) return false;
   if (filters.datatype && item.datatype !== filters.datatype) return false;
   if (filters.topic && item.topic !== filters.topic) return false;
+  if (filters.concept && !item.conceptIds.includes(filters.concept)) return false;
   if (profileFilters.length && !item.profiles.some(matchesProfile)) return false;
   return true;
 });

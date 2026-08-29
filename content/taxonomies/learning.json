@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "knowledgeLevels": [
+    { "id": "foundation", "rank": 1, "label": "Very basic" },
+    { "id": "basic", "rank": 2, "label": "Basic" },
+    { "id": "intermediate", "rank": 3, "label": "Intermediate" },
+    { "id": "advanced", "rank": 4, "label": "Advanced" },
+    { "id": "specialist", "rank": 5, "label": "Specialist" }
+  ],
+  "placementFits": ["review", "core", "stretch", "challenge"],
+  "skills": [
+    { "id": "vocabulary", "label": "Vocabulary" },
+    { "id": "classification", "label": "Classification" },
+    { "id": "recall", "label": "Recall" },
+    { "id": "reasoning", "label": "Reasoning" }
+  ]
+}

@@ -1,5 +1,6 @@
 import { normalizeData } from '../normalizers/registry.mjs';
 import { getDataType, getUsableEngines } from '../formatters/registry.mjs';
+import { getEngineDefinition } from '../engineManifest.mjs';
 
 const fitRank = new Map([
   ['core', 0],
@@ -11,8 +12,7 @@ const fitRank = new Map([
 const candidateId = (profileRef, engine, index) =>
   `plan.${profileRef.toLowerCase()}.${engine.replace('@', '.v')}.${String(index + 1).padStart(3, '0')}`;
 
-const profileMembershipFor = (row, profileRef) =>
-  (row.profiles ?? []).find((profile) => profile.profileRef === profileRef);
+const profileMembershipFor = (row, profileRef) => (row.profiles ?? []).find((profile) => profile.profileRef === profileRef);
 
 export function planActivities({
   sources,
@@ -22,6 +22,7 @@ export function planActivities({
   knowledgeLevels,
   count = 6,
   allowedEngines,
+  deliveryCategory = 'interactive',
   difficulty = 2,
   variety = 'high'
 }) {
@@ -61,18 +62,15 @@ export function planActivities({
     if (!selected.units.length) continue;
 
     const definition = getDataType(selected);
-    const usableEngines = getUsableEngines(selected).filter((engine) => !allowedEngineSet || allowedEngineSet.has(engine));
+    const usableEngines = getUsableEngines(selected)
+      .filter((engine) => getEngineDefinition(engine)?.category === deliveryCategory)
+      .filter((engine) => !allowedEngineSet || allowedEngineSet.has(engine));
 
     for (const engine of usableEngines) {
       const mode = definition.engineRequirements?.[engine]?.recipeUnitMode ?? 'set';
       if (!['single', 'set', 'all'].includes(mode)) throw new Error(`${selected.datatype}/${engine}: unsupported recipeUnitMode ${mode}`);
-
       if (mode === 'single') {
-        for (const unit of selected.units) {
-          candidates.push({ sourceRef, engine, rowIds: [unit.rowId], difficulty });
-        }
-      } else if (mode === 'all') {
-        candidates.push({ sourceRef, engine, rowIds: selected.units.map((unit) => unit.rowId), difficulty });
+        for (const unit of selected.units) candidates.push({ sourceRef, engine, rowIds: [unit.rowId], difficulty });
       } else {
         candidates.push({ sourceRef, engine, rowIds: selected.units.map((unit) => unit.rowId), difficulty });
       }
@@ -108,6 +106,7 @@ export function planActivities({
     sourceRef: candidate.sourceRef,
     engine: candidate.engine,
     rowIds: candidate.rowIds,
-    difficulty: candidate.difficulty
+    difficulty: candidate.difficulty,
+    deliveryCategory
   }));
 }
