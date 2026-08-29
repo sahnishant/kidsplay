@@ -1,0 +1,42 @@
+import { formatDataForEngine } from './formatters/registry.mjs';
+import { loadPlanningData } from './planning/loadPlanningData.mjs';
+import { planActivities } from './planning/planner.mjs';
+
+const { sources, index } = loadPlanningData();
+const sourceById = new Map(sources.map((source) => [source.id, source]));
+const plan = planActivities({
+  sources,
+  index,
+  profileRef: 'SOF_INDIA_CLASS2',
+  skill: 'vocabulary',
+  count: 6,
+  variety: 'high',
+  difficulty: 2
+});
+
+const errors = [];
+if (plan.length !== 6) errors.push(`Expected 6 planned activities, got ${plan.length}`);
+const engineCount = new Set(plan.map((item) => item.engine)).size;
+if (engineCount < 5) errors.push(`Expected high variety across at least 5 engines, got ${engineCount}`);
+
+for (const recipe of plan) {
+  const source = sourceById.get(recipe.sourceRef);
+  if (!source) {
+    errors.push(`${recipe.id}: missing source ${recipe.sourceRef}`);
+    continue;
+  }
+  try {
+    const result = formatDataForEngine(source, recipe.engine, recipe);
+    if (!(result.questions?.length || result.crosswordAuthoring?.length)) errors.push(`${recipe.id}: formatter produced no delivery authoring output`);
+  } catch (error) {
+    errors.push(`${recipe.id}: ${error instanceof Error ? error.message : String(error)}`);
+  }
+}
+
+if (errors.length) {
+  console.error(`Planner validation failed with ${errors.length} error(s):`);
+  for (const error of errors) console.error(`- ${error}`);
+  process.exitCode = 1;
+} else {
+  console.log(`Planner OK: ${plan.length} recipes across ${engineCount} engines from profile + skill selection.`);
+}
