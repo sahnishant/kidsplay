@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.young-ones.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Animals",
+  "entries": [
+    {
+      "id": "dog-puppy",
+      "rowId": "kr.animals.dog.young.puppy",
+      "subject": { "id": "dog", "label": "Dog", "symbol": "🐶" },
+      "relation": "young_one_is",
+      "object": { "id": "puppy", "label": "puppy" },
+      "conceptIds": ["animals.young-ones.puppy"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "cat-kitten",
+      "rowId": "kr.animals.cat.young.kitten",
+      "subject": { "id": "cat", "label": "Cat", "symbol": "🐱" },
+      "relation": "young_one_is",
+      "object": { "id": "kitten", "label": "kitten" },
+      "conceptIds": ["animals.young-ones.kitten"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "cow-calf",
+      "rowId": "kr.animals.cow.young.calf",
+      "subject": { "id": "cow", "label": "Cow", "symbol": "🐄" },
+      "relation": "young_one_is",
+      "object": { "id": "calf", "label": "calf" },
+      "conceptIds": ["animals.young-ones.calf"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "horse-foal",
+      "rowId": "kr.animals.horse.young.foal",
+      "subject": { "id": "horse", "label": "Horse", "symbol": "🐴" },
+      "relation": "young_one_is",
+      "object": { "id": "foal", "label": "foal" },
+      "conceptIds": ["animals.young-ones.foal"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "sheep-lamb",
+      "rowId": "kr.animals.sheep.young.lamb",
+      "subject": { "id": "sheep", "label": "Sheep", "symbol": "🐑" },
+      "relation": "young_one_is",
+      "object": { "id": "lamb", "label": "lamb" },
+      "conceptIds": ["animals.young-ones.lamb"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "frog-tadpole",
+      "rowId": "kr.animals.frog.young.tadpole",
+      "subject": { "id": "frog", "label": "Frog", "symbol": "🐸" },
+      "relation": "young_one_is",
+      "object": { "id": "tadpole", "label": "tadpole" },
+      "conceptIds": ["animals.young-ones.tadpole"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Class 2 Animals enrichment inside reviewed SOF ISO Animals chapter scope; exact profile fit remains separately reviewed."
+  }
+}
