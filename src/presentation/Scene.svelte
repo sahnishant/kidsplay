@@ -3,7 +3,16 @@
   import SceneIcon from './SceneIcon.svelte';
 
   type Motion = 'bounce' | 'float' | 'pulse' | 'wiggle';
-  type IconName = 'dog-happy' | 'dog-worried' | 'bone' | 'heart' | 'wave' | 'whale';
+  type IconName =
+    | 'dog-happy'
+    | 'dog-worried'
+    | 'bone'
+    | 'heart'
+    | 'wave'
+    | 'whale'
+    | 'balloon'
+    | 'candle'
+    | 'pumice';
   interface SceneEntity {
     id: string;
     kind: 'icon' | 'text';
