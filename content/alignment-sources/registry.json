@@ -36,6 +36,18 @@
       "retrievedOn": "2026-08-29",
       "status": "reviewed",
       "notes": "Official SOF catalog page identifies the workbook as the 2026-27 edition and lists the current Class 2 ISO chapter structure."
+    },
+    {
+      "id": "sof.iso.class2.sample-paper.2026-27",
+      "type": "official_assessment",
+      "authority": "Science Olympiad Foundation",
+      "title": "SOF International Science Olympiad Class 2 Sample Paper 2026-27",
+      "url": "https://sofworld.org/download/file/fid/73690",
+      "versionLabel": "2026-27 sample paper",
+      "academicYear": "2026-27",
+      "retrievedOn": "2026-08-29",
+      "status": "reviewed",
+      "notes": "Official SOF sample paper confirms the 5 logical-reasoning, 25 science and 5 Achievers pattern and demonstrates mixed formats including statement evaluation, visual questions, word manipulation and higher-order inference. It supports assessment-format design, not exact row-level curriculum placement."
     }
   ]
 }
