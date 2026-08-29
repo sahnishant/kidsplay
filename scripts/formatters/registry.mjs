@@ -1,56 +1,68 @@
+import { readFileSync } from 'node:fs';
 import { formatAssociationSet } from './associationSet.mjs';
+import { formatChoiceItem } from './choiceItem.mjs';
 
-const formatterDefinitions = new Map([
-  ['association_set@1', {
-    format: formatAssociationSet,
-    compatibleEngines: [
-      'single_choice@1',
-      'word_bank_fill@1',
-      'drag_to_target@1',
-      'memory_pairs@1',
-      'word_search@1',
-      'crossword@1'
-    ]
-  }]
+const dataTypeRegistry = JSON.parse(
+  readFileSync(new URL('../../content/data-types/registry.json', import.meta.url), 'utf8')
+);
+
+const formatterImplementations = new Map([
+  ['association_set@1', formatAssociationSet],
+  ['choice_item@1', formatChoiceItem]
 ]);
+
+const dataTypes = new Map(
+  (dataTypeRegistry.dataTypes ?? []).map((dataType) => [
+    `${dataType.id}@${dataType.version}`,
+    dataType
+  ])
+);
 
 const sourceKeyFor = (data) => `${data.kind}@${data.version}`;
 
-const definitionFor = (data) => {
+export function getDataType(data) {
   const sourceKey = sourceKeyFor(data);
-  const definition = formatterDefinitions.get(sourceKey);
-  if (!definition) throw new Error(`No formatter registered for ${sourceKey}`);
+  const definition = dataTypes.get(sourceKey);
+  if (!definition) throw new Error(`Unknown data type ${sourceKey}`);
   return definition;
+}
+
+/** Master engine list stored once per datatype, never repeated on every data record. */
+export function getCompatibleEngines(data) {
+  return [...(getDataType(data).compatibleEngines ?? [])];
+}
+
+const meetsRequirements = (data, requirements = {}) => {
+  if (requirements.minEntries !== undefined) {
+    if (!Array.isArray(data.entries) || data.entries.length < requirements.minEntries) return false;
+  }
+  if (requirements.minChoices !== undefined) {
+    if (!Array.isArray(data.choices) || data.choices.length < requirements.minChoices) return false;
+  }
+  return true;
 };
 
-/** Engines the formatter can technically derive from this data shape. */
-export function getCompatibleEngines(data) {
-  return [...definitionFor(data).compatibleEngines];
-}
-
-/** Engines explicitly approved by this specific knowledge record. */
-export function getApprovedEngines(data) {
-  const compatible = new Set(getCompatibleEngines(data));
-  return (Array.isArray(data.canGenerate) ? data.canGenerate : [])
-    .filter((engine) => compatible.has(engine));
-}
-
-/** Newly introduced formatter capabilities that this older data has not approved yet. */
-export function getCandidateEngines(data) {
-  const approved = new Set(Array.isArray(data.canGenerate) ? data.canGenerate : []);
-  return getCompatibleEngines(data).filter((engine) => !approved.has(engine));
+/** Datatype-compatible engines for which this particular record is rich enough. */
+export function getUsableEngines(data) {
+  const definition = getDataType(data);
+  return getCompatibleEngines(data).filter((engine) =>
+    meetsRequirements(data, definition.engineRequirements?.[engine])
+  );
 }
 
 export function formatDataForEngine(data, engine, recipe = {}) {
-  const definition = definitionFor(data);
+  const sourceKey = sourceKeyFor(data);
+  const definition = getDataType(data);
+  const formatter = formatterImplementations.get(sourceKey);
+  if (!formatter) throw new Error(`No formatter implementation registered for ${sourceKey}`);
 
-  if (!definition.compatibleEngines.includes(engine)) {
-    throw new Error(`${data.id}: ${sourceKeyFor(data)} formatter is not compatible with ${engine}`);
+  if (!(definition.compatibleEngines ?? []).includes(engine)) {
+    throw new Error(`${data.id}: datatype ${sourceKey} is not compatible with ${engine}`);
   }
 
-  if (!Array.isArray(data.canGenerate) || !data.canGenerate.includes(engine)) {
-    throw new Error(`${data.id}: ${engine} is formatter-compatible but is not approved in canGenerate`);
+  if (!meetsRequirements(data, definition.engineRequirements?.[engine])) {
+    throw new Error(`${data.id}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
   }
 
-  return definition.format(data, { ...recipe, engine });
+  return formatter(data, { ...recipe, engine });
 }

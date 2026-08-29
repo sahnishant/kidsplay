@@ -1,0 +1,8 @@
+[
+  {
+    "id": "animals.camel.choice-only.generated.001",
+    "sourceRef": "knowledge.animals.camel-choice.001",
+    "engine": "single_choice@1",
+    "difficulty": 1
+  }
+]

@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "dataTypes": [
+    {
+      "id": "choice_item",
+      "version": 1,
+      "description": "A pre-authored prompt with choices and one correct choice.",
+      "compatibleEngines": ["single_choice@1"],
+      "engineRequirements": {
+        "single_choice@1": { "minChoices": 2 }
+      }
+    },
+    {
+      "id": "association_set",
+      "version": 1,
+      "description": "A reusable set of subject-relation-object associations.",
+      "compatibleEngines": [
+        "single_choice@1",
+        "word_bank_fill@1",
+        "drag_to_target@1",
+        "memory_pairs@1",
+        "word_search@1",
+        "crossword@1"
+      ],
+      "engineRequirements": {
+        "single_choice@1": { "minEntries": 2 },
+        "word_bank_fill@1": { "minEntries": 2 },
+        "drag_to_target@1": { "minEntries": 2 },
+        "memory_pairs@1": { "minEntries": 2 },
+        "word_search@1": { "minEntries": 2 },
+        "crossword@1": { "minEntries": 2 }
+      }
+    }
+  ]
+}

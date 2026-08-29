@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.camel-choice.001",
+  "kind": "choice_item",
+  "version": 1,
+  "language": "en",
+  "gradeBands": [1, 2],
+  "subject": "EVS",
+  "topic": "Animals",
+  "prompt": "Which of the following is called the ship of the desert?",
+  "choices": [
+    { "id": "camel", "label": "Camel" },
+    { "id": "dog", "label": "Dog" },
+    { "id": "whale", "label": "Whale" },
+    { "id": "seahorse", "label": "Seahorse" }
+  ],
+  "correctChoiceId": "camel",
+  "conceptIds": ["animals.camel.ship-desert-name"],
+  "authoring": { "status": "reviewed", "source": "internal" }
+}

@@ -7,14 +7,6 @@
   "gradeBands": [1, 2],
   "subject": "EVS",
   "topic": "Animals",
-  "canGenerate": [
-    "single_choice@1",
-    "word_bank_fill@1",
-    "drag_to_target@1",
-    "memory_pairs@1",
-    "word_search@1",
-    "crossword@1"
-  ],
   "entries": [
     {
       "id": "dog-domestic",
