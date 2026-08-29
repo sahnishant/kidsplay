@@ -28,5 +28,25 @@
       { "id": "wave", "kind": "icon", "value": "wave", "label": "ocean wave", "x": 70, "y": 68, "motion": "float" },
       { "id": "bubble", "kind": "text", "value": "○ ○", "label": "bubbles", "x": 55, "y": 25, "motion": "float" }
     ]
+  },
+  {
+    "id": "scene.air.balloon-candle",
+    "theme": "grass",
+    "ariaLabel": "An inflated balloon beside a burning candle, two observations that teach us about air.",
+    "entities": [
+      { "id": "balloon", "kind": "icon", "value": "balloon", "label": "inflated balloon", "x": 34, "y": 47, "motion": "float" },
+      { "id": "candle", "kind": "icon", "value": "candle", "label": "burning candle", "x": 69, "y": 57, "motion": "pulse" },
+      { "id": "air-label", "kind": "text", "value": "AIR", "label": "air", "x": 51, "y": 20, "motion": "float" }
+    ]
+  },
+  {
+    "id": "scene.rocks.pumice-water",
+    "theme": "ocean",
+    "ariaLabel": "A hole-filled piece of pumice shown at the surface of water.",
+    "entities": [
+      { "id": "pumice", "kind": "icon", "value": "pumice", "label": "pumice rock", "x": 45, "y": 44, "motion": "float" },
+      { "id": "wave", "kind": "icon", "value": "wave", "label": "water", "x": 53, "y": 74, "motion": "float" },
+      { "id": "holes", "kind": "text", "value": "holes", "label": "holes in the rock", "x": 74, "y": 28, "motion": "pulse" }
+    ]
   }
 ]
