@@ -152,6 +152,10 @@ function activityFamily(question: Question): string {
   return question.id.split('.').slice(0, 3).join('.');
 }
 
+function isReasoningQuestion(question: Question): boolean {
+  return (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3;
+}
+
 function interleaveByKnowledgeGroup(candidates: Question[]): Question[] {
   const buckets = new Map<string, Question[]>();
   for (const question of candidates) {
@@ -207,6 +211,28 @@ function chooseDiverseSession(candidates: Question[], count: number): Question[]
   return selected;
 }
 
+function ensureReasoningQuestion(selected: Question[], candidates: Question[], count: number): Question[] {
+  if (selected.some(isReasoningQuestion)) return selected;
+  const selectedIds = new Set(selected.map((question) => question.id));
+  const reasoning = candidates.find((question) => isReasoningQuestion(question) && !selectedIds.has(question.id));
+  if (!reasoning) return selected;
+  if (selected.length < count) return [...selected, reasoning];
+  if (!selected.length) return [reasoning];
+
+  let replaceIndex = selected.length - 1;
+  for (let index = selected.length - 1; index >= 0; index -= 1) {
+    const engine = selected[index].interaction.type;
+    if (selected.some((question, otherIndex) => otherIndex !== index && question.interaction.type === engine)) {
+      replaceIndex = index;
+      break;
+    }
+  }
+
+  const result = [...selected];
+  result[replaceIndex] = reasoning;
+  return result;
+}
+
 function questionFitRank(
   question: Question,
   memberByRow: Map<string, ProfileMembershipMember>
@@ -226,7 +252,7 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: freePack.id,
       kind: 'free_explore',
       title: freePack.title,
-      description: 'Short mixed Animals and Plants sessions that keep moving toward unseen and weaker knowledge.',
+      description: 'Short mixed Animals, Plants, Human Body and Food sessions that keep moving toward unseen and weaker knowledge.',
       access: freePack.access,
       status: 'ready',
       actionLabel: 'Play free'
@@ -235,7 +261,7 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: goalPack.id,
       kind: 'goal_learning',
       title: goalPack.title,
-      description: 'SOF Class 2 profile-driven practice with progress tracking. Prototype access is open while purchase flow is not connected.',
+      description: 'SOF Class 2 profile-driven practice with progress tracking and multi-fact reasoning. Prototype access is open while purchase flow is not connected.',
       access: goalPack.access,
       status: goalPack.status === 'reviewed' ? 'ready' : 'prototype',
       profileRef: goalPack.profileRef,
@@ -291,7 +317,8 @@ export function getProfileQuestions(profileRef: string, options: ProfileSessionO
     interleaveByKnowledgeGroup(sorted.filter((question) => questionFitRank(question, memberByRow) === rank))
   );
 
-  return chooseDiverseSession(candidates, count);
+  const selected = chooseDiverseSession(candidates, count);
+  return ensureReasoningQuestion(selected, candidates, count);
 }
 
 export function createSessionForCatalogEntry(
