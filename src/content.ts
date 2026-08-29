@@ -1,4 +1,5 @@
-import questionJson from '../content/questions/animals.json';
+import animalQuestionJson from '../content/questions/animals.json';
+import wordSearchQuestionJson from '../content/questions/word-search.json';
 import freeAnimalsPack from '../content/packs/free-animals.json';
 import type { Question } from './contracts/question';
 
@@ -8,7 +9,7 @@ interface LearningPack {
   questionRefs: string[];
 }
 
-const questionBank = questionJson as unknown as Question[];
+const questionBank = [...animalQuestionJson, ...wordSearchQuestionJson] as unknown as Question[];
 const freePack = freeAnimalsPack as LearningPack;
 
 export function getFreeAnimalsQuestions(): Question[] {

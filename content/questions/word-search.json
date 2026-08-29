@@ -1,0 +1,38 @@
+[
+  {
+    "id": "animals.habitats.word-search.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": [
+      "animals.dog.habitat",
+      "animals.whale.habitat",
+      "animals.land-water.classification"
+    ],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Find the animal and habitat words." },
+    "interaction": {
+      "type": "word_search",
+      "version": 1,
+      "seed": 20260829,
+      "gridSize": 7,
+      "directions": ["right", "down", "down_right"],
+      "terms": [
+        { "id": "dog", "label": "DOG", "word": "DOG" },
+        { "id": "whale", "label": "WHALE", "word": "WHALE" },
+        { "id": "land", "label": "LAND", "word": "LAND" },
+        { "id": "water", "label": "WATER", "word": "WATER" }
+      ]
+    },
+    "solution": {
+      "type": "found_terms",
+      "requiredTermIds": ["dog", "whale", "land", "water"]
+    },
+    "feedback": {
+      "correct": "Excellent. You found all the animal and habitat words.",
+      "incorrect": "Good search. Look again for the words that are still missing."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]

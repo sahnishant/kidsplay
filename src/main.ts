@@ -1,4 +1,5 @@
 import './styles.css';
+import './word-search.css';
 import { getFreeAnimalsPackTitle, getFreeAnimalsQuestions } from './content';
 import { SessionController } from './runtime/session';
 

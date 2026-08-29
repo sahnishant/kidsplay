@@ -1,0 +1,94 @@
+.word-search {
+  display: grid;
+  gap: 14px;
+}
+
+.word-search__instructions {
+  margin: 0;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 700;
+}
+
+.word-search__terms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.word-search__term {
+  padding: 7px 11px;
+  border-radius: 999px;
+  background: #f2f4f5;
+  border: 1px solid #e0e5e8;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+}
+
+.word-search__term--found {
+  background: var(--good-soft);
+  border-color: rgba(23, 122, 76, 0.22);
+  color: var(--good);
+  text-decoration: line-through;
+}
+
+.word-search__grid {
+  --word-search-size: 7;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--word-search-size), minmax(0, 1fr));
+  gap: clamp(2px, 0.7vw, 5px);
+  padding: clamp(6px, 2vw, 12px);
+  border-radius: 20px;
+  background: #eef2f4;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.word-search__cell {
+  min-width: 0;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: clamp(6px, 2vw, 11px);
+  background: white;
+  color: var(--ink);
+  font-size: clamp(0.9rem, 4.2vw, 1.45rem);
+  font-weight: 950;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.word-search__cell--preview {
+  background: var(--accent-soft);
+  color: #3630a3;
+  box-shadow: inset 0 0 0 2px var(--accent);
+}
+
+.word-search__cell--found {
+  background: var(--good-soft);
+  color: var(--good);
+  box-shadow: inset 0 0 0 2px rgba(23, 122, 76, 0.32);
+}
+
+.word-search__status {
+  min-height: 1.5em;
+  color: var(--muted);
+  text-align: center;
+  font-weight: 750;
+}
+
+@media (max-width: 380px) {
+  .word-search__grid {
+    padding: 5px;
+    gap: 2px;
+  }
+
+  .word-search__cell {
+    border-radius: 6px;
+    font-size: 0.86rem;
+  }
+}

@@ -48,6 +48,16 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     score = boundedScore(correctParts, entries.length);
   }
 
+  if (question.solution.type === 'found_terms') {
+    const payload = response as { foundTermIds?: unknown };
+    const found = Array.isArray(payload?.foundTermIds)
+      ? new Set(payload.foundTermIds.filter((value): value is string => typeof value === 'string'))
+      : new Set<string>();
+    const expected = question.solution.requiredTermIds;
+    const correctParts = expected.filter((termId) => found.has(termId)).length;
+    score = boundedScore(correctParts, expected.length);
+  }
+
   const correct = score === 1;
 
   return {

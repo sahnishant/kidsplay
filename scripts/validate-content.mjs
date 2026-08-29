@@ -1,21 +1,55 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
+const errors = [];
+
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
 
-const learnables = readJson('content/learnables/animals.json');
-const scenes = readJson('content/scenes/animals.json');
-const questions = readJson('content/questions/animals.json');
-const packs = [
-  readJson('content/packs/free-animals.json'),
-  readJson('content/packs/class2-evs-olympiad-prototype.json')
-];
+const readArrayDirectory = (directory) => {
+  const files = readdirSync(new URL(directory, root)).filter((name) => name.endsWith('.json')).sort();
+  return files.flatMap((file) => {
+    const value = readJson(`${directory}${file}`);
+    if (!Array.isArray(value)) {
+      errors.push(`${directory}${file}: expected a JSON array`);
+      return [];
+    }
+    return value;
+  });
+};
 
-const errors = [];
+const readObjectDirectory = (directory) => {
+  const files = readdirSync(new URL(directory, root)).filter((name) => name.endsWith('.json')).sort();
+  return files.flatMap((file) => {
+    const value = readJson(`${directory}${file}`);
+    if (!value || Array.isArray(value) || typeof value !== 'object') {
+      errors.push(`${directory}${file}: expected a JSON object`);
+      return [];
+    }
+    return [value];
+  });
+};
+
+const learnables = readArrayDirectory('content/learnables/');
+const scenes = readArrayDirectory('content/scenes/');
+const questions = readArrayDirectory('content/questions/');
+const packs = readObjectDirectory('content/packs/');
+
 const supportedEngines = new Set([
   'single_choice@1',
   'word_bank_fill@1',
-  'drag_to_target@1'
+  'drag_to_target@1',
+  'word_search@1'
+]);
+
+const wordSearchDirections = new Set([
+  'right',
+  'left',
+  'down',
+  'up',
+  'down_right',
+  'down_left',
+  'up_right',
+  'up_left'
 ]);
 
 const duplicateIds = (items, label) => {
@@ -97,6 +131,25 @@ for (const question of questions) {
       if (!question.solution?.assignments?.[itemId]) errors.push(`${prefix}: drag item ${itemId} has no target answer`);
     }
   }
+
+  if (interaction?.type === 'word_search') {
+    const termIds = duplicateIds(interaction.terms ?? [], `${prefix} word-search term`);
+    if (!termIds.size) errors.push(`${prefix}: word search needs at least one term`);
+    if (!Number.isInteger(interaction.seed)) errors.push(`${prefix}: word-search seed must be an integer`);
+    if (interaction.gridSize !== undefined && (!Number.isInteger(interaction.gridSize) || interaction.gridSize < 2)) {
+      errors.push(`${prefix}: word-search gridSize must be an integer >= 2`);
+    }
+    for (const term of interaction.terms ?? []) {
+      const normalized = Array.from(String(term.word ?? '').trim().replace(/[\s-]+/g, ''));
+      if (normalized.length < 2) errors.push(`${prefix}: term ${term.id ?? '<unknown>'} needs at least two letters`);
+    }
+    for (const direction of interaction.directions ?? []) {
+      if (!wordSearchDirections.has(direction)) errors.push(`${prefix}: unsupported word-search direction ${direction}`);
+    }
+    for (const termId of question.solution?.requiredTermIds ?? []) {
+      if (!termIds.has(termId)) errors.push(`${prefix}: solution refers to missing word-search term ${termId}`);
+    }
+  }
 }
 
 for (const pack of packs) {
@@ -110,5 +163,7 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Content OK: ${learnables.length} learnables, ${scenes.length} scenes, ${questions.length} questions, ${packs.length} packs.`);
+  console.log(
+    `Content OK: ${learnables.length} learnables, ${scenes.length} scenes, ${questions.length} questions, ${packs.length} packs.`
+  );
 }

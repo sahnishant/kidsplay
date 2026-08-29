@@ -96,7 +96,40 @@ export interface DragToTargetQuestion extends BaseQuestion {
   };
 }
 
+export type WordSearchDirection =
+  | 'right'
+  | 'left'
+  | 'down'
+  | 'up'
+  | 'down_right'
+  | 'down_left'
+  | 'up_right'
+  | 'up_left';
+
+export interface WordSearchTerm {
+  id: string;
+  label: string;
+  word: string;
+}
+
+export interface WordSearchQuestion extends BaseQuestion {
+  interaction: {
+    type: 'word_search';
+    version: 1;
+    seed: number;
+    gridSize?: number;
+    directions?: WordSearchDirection[];
+    alphabet?: string;
+    terms: WordSearchTerm[];
+  };
+  solution: {
+    type: 'found_terms';
+    requiredTermIds: string[];
+  };
+}
+
 export type Question =
   | SingleChoiceQuestion
   | WordBankFillQuestion
-  | DragToTargetQuestion;
+  | DragToTargetQuestion
+  | WordSearchQuestion;
