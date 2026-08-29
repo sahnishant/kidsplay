@@ -23,13 +23,6 @@
     "prompt": "Find the six animal names."
   },
   {
-    "id": "animals.homes.crossword.generated.001",
-    "sourceRef": "knowledge.animals.homes.001",
-    "engine": "crossword@1",
-    "difficulty": 2,
-    "prompt": "Use the animal homes as clues to solve the crossword."
-  },
-  {
     "id": "animals.homes.mcq.rabbit.generated.001",
     "sourceRef": "knowledge.animals.homes.001",
     "engine": "single_choice@1",
@@ -61,13 +54,6 @@
     "seed": 20260831,
     "difficulty": 2,
     "prompt": "Find the six animal names."
-  },
-  {
-    "id": "animals.young.crossword.generated.001",
-    "sourceRef": "knowledge.animals.young-ones.001",
-    "engine": "crossword@1",
-    "difficulty": 2,
-    "prompt": "Use the young-one names as clues to solve the crossword."
   },
   {
     "id": "animals.young.mcq.frog.generated.001",
@@ -103,13 +89,6 @@
     "prompt": "Find all six animal names."
   },
   {
-    "id": "animals.features.crossword.generated.001",
-    "sourceRef": "knowledge.animals.features.001",
-    "engine": "crossword@1",
-    "difficulty": 3,
-    "prompt": "Use the animal features as clues to solve the crossword."
-  },
-  {
     "id": "animals.features.mcq.duck.generated.001",
     "sourceRef": "knowledge.animals.features.001",
     "engine": "single_choice@1",
@@ -141,13 +120,6 @@
     "seed": 20260902,
     "difficulty": 2,
     "prompt": "Find the six plant-part words."
-  },
-  {
-    "id": "plants.parts.crossword.generated.001",
-    "sourceRef": "knowledge.plants.parts.001",
-    "engine": "crossword@1",
-    "difficulty": 3,
-    "prompt": "Use each plant-part job as a clue to solve the crossword."
   },
   {
     "id": "plants.parts.mcq.leaves.generated.001",
@@ -183,13 +155,6 @@
     "prompt": "Find all six plant names."
   },
   {
-    "id": "plants.types.crossword.generated.001",
-    "sourceRef": "knowledge.plants.types.001",
-    "engine": "crossword@1",
-    "difficulty": 3,
-    "prompt": "Use the plant types as clues to solve the crossword."
-  },
-  {
     "id": "plants.types.mcq.lotus.generated.001",
     "sourceRef": "knowledge.plants.types.001",
     "engine": "single_choice@1",
@@ -221,13 +186,6 @@
     "seed": 20260904,
     "difficulty": 2,
     "prompt": "Find all six useful plant names."
-  },
-  {
-    "id": "plants.uses.crossword.generated.001",
-    "sourceRef": "knowledge.plants.uses.001",
-    "engine": "crossword@1",
-    "difficulty": 3,
-    "prompt": "Use each plant use as a clue to solve the crossword."
   },
   {
     "id": "plants.uses.mcq.cotton.generated.001",
