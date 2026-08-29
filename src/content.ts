@@ -195,7 +195,7 @@ function questionFitRank(
 ): number {
   const refs = question.knowledgeRefs ?? [];
   if (!refs.length) return fitRank.challenge;
-  return Math.min(...refs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
+  return Math.max(...refs.map((rowId) => fitRank[memberByRow.get(rowId)?.fit ?? 'challenge']));
 }
 
 export function getLearningProfiles(): LearningProfile[] {
