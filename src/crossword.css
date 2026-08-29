@@ -1,0 +1,117 @@
+.crossword {
+  display: grid;
+  gap: 14px;
+}
+
+.crossword__instructions {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.crossword__grid {
+  --crossword-cols: 8;
+  width: min(100%, 520px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--crossword-cols), minmax(0, 1fr));
+  gap: 2px;
+  padding: 6px;
+  border-radius: 16px;
+  background: #2f3a43;
+}
+
+.crossword__block,
+.crossword__cell {
+  aspect-ratio: 1;
+  min-width: 0;
+}
+
+.crossword__block {
+  background: #2f3a43;
+}
+
+.crossword__cell {
+  position: relative;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.crossword__cell--active {
+  box-shadow: inset 0 0 0 3px var(--accent);
+  background: var(--accent-soft);
+}
+
+.crossword__number {
+  position: absolute;
+  z-index: 2;
+  left: 3px;
+  top: 1px;
+  font-size: clamp(0.48rem, 1.8vw, 0.66rem);
+  font-weight: 900;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.crossword__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: center;
+  text-transform: uppercase;
+  font-size: clamp(1rem, 4.7vw, 1.55rem);
+  font-weight: 950;
+  padding: 7px 1px 1px;
+}
+
+.crossword__clues {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.crossword__clue-group {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+
+.crossword__clue-group h2 {
+  margin: 0 0 3px;
+  font-size: 1rem;
+}
+
+.crossword__clue {
+  border: 0;
+  border-radius: 12px;
+  padding: 9px 10px;
+  background: #f2f4f6;
+  color: var(--ink);
+  text-align: left;
+  line-height: 1.25;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.crossword__clue--active {
+  background: var(--accent-soft);
+  color: #3630a3;
+}
+
+@media (max-width: 480px) {
+  .crossword__grid {
+    padding: 4px;
+    gap: 1px;
+  }
+
+  .crossword__clues {
+    grid-template-columns: 1fr;
+  }
+}

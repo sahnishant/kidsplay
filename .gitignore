@@ -4,6 +4,9 @@ dist/
 .DS_Store
 *.log
 
+# Build-time generated learning content
+content/questions/__generated-*.json
+
 # Android generated/build state
 android/.gradle/
 android/build/

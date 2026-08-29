@@ -1,4 +1,5 @@
 import type { Question } from '../contracts/question';
+import { crosswordEngine } from '../engines/crossword';
 import { dragToTargetEngine } from '../engines/dragToTarget';
 import { hotspotEngine } from '../engines/hotspot';
 import { memoryPairsEngine } from '../engines/memoryPairs';
@@ -15,7 +16,8 @@ const engines = new Map<string, InteractionEngine>([
   [wordSearchEngine.key, wordSearchEngine],
   [memoryPairsEngine.key, memoryPairsEngine],
   [sequenceOrderEngine.key, sequenceOrderEngine],
-  [hotspotEngine.key, hotspotEngine]
+  [hotspotEngine.key, hotspotEngine],
+  [crosswordEngine.key, crosswordEngine]
 ]);
 
 export function getEngine(question: Question): InteractionEngine {

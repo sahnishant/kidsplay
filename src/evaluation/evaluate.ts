@@ -14,6 +14,8 @@ const boundedScore = (correctParts: number, totalParts: number): number => {
 
 const pairKey = (first: string, second: string): string =>
   first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`;
+const normalizeTextAnswer = (value: unknown): string =>
+  typeof value === 'string' ? value.toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
 
 export function evaluate(question: Question, response: unknown): EvaluationResult {
   let score = 0;
@@ -30,12 +32,10 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     const payload = response as { blankAnswers?: Record<string, unknown> };
     const entries = Object.entries(question.solution.answers);
     let correctParts = 0;
-
     for (const [blankId, acceptedWordIds] of entries) {
       const actual = payload?.blankAnswers?.[blankId];
       if (typeof actual === 'string' && acceptedWordIds.includes(actual)) correctParts += 1;
     }
-
     score = boundedScore(correctParts, entries.length);
   }
 
@@ -43,11 +43,9 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     const payload = response as { assignments?: Record<string, unknown> };
     const entries = Object.entries(question.solution.assignments);
     let correctParts = 0;
-
     for (const [itemId, expectedTargetId] of entries) {
       if (payload?.assignments?.[itemId] === expectedTargetId) correctParts += 1;
     }
-
     score = boundedScore(correctParts, entries.length);
   }
 
@@ -57,26 +55,21 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
       ? new Set(payload.foundTermIds.filter((value): value is string => typeof value === 'string'))
       : new Set<string>();
     const expected = question.solution.requiredTermIds;
-    const correctParts = expected.filter((termId) => found.has(termId)).length;
-    score = boundedScore(correctParts, expected.length);
+    score = boundedScore(expected.filter((termId) => found.has(termId)).length, expected.length);
   }
 
   if (question.solution.type === 'pair_matches') {
     const expected = new Set(question.solution.pairs.map(([first, second]) => pairKey(first, second)));
     const payload = response as { matchedPairs?: unknown };
     const actual = new Set<string>();
-
     if (Array.isArray(payload?.matchedPairs)) {
       for (const value of payload.matchedPairs) {
         if (!Array.isArray(value) || value.length !== 2) continue;
         const [first, second] = value;
-        if (typeof first !== 'string' || typeof second !== 'string') continue;
-        actual.add(pairKey(first, second));
+        if (typeof first === 'string' && typeof second === 'string') actual.add(pairKey(first, second));
       }
     }
-
-    const correctParts = [...expected].filter((expectedPair) => actual.has(expectedPair)).length;
-    score = boundedScore(correctParts, expected.size);
+    score = boundedScore([...expected].filter((expectedPair) => actual.has(expectedPair)).length, expected.size);
   }
 
   if (question.solution.type === 'ordered_items') {
@@ -85,8 +78,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
       ? payload.orderedItemIds.filter((value): value is string => typeof value === 'string')
       : [];
     const expected = question.solution.orderedItemIds;
-    const correctPositions = expected.filter((itemId, index) => actual[index] === itemId).length;
-    score = boundedScore(correctPositions, expected.length);
+    score = boundedScore(expected.filter((itemId, index) => actual[index] === itemId).length, expected.length);
   }
 
   if (question.solution.type === 'selected_regions') {
@@ -98,12 +90,19 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     );
     const expected = new Set(question.solution.correctRegionIds);
     const union = new Set([...actual, ...expected]);
-    const intersection = [...expected].filter((regionId) => actual.has(regionId)).length;
-    score = boundedScore(intersection, union.size);
+    score = boundedScore([...expected].filter((regionId) => actual.has(regionId)).length, union.size);
+  }
+
+  if (question.solution.type === 'crossword_answers') {
+    const payload = response as { answers?: Record<string, unknown> };
+    const expected = Object.entries(question.solution.answers);
+    const correctEntries = expected.filter(
+      ([entryId, answer]) => normalizeTextAnswer(payload?.answers?.[entryId]) === normalizeTextAnswer(answer)
+    ).length;
+    score = boundedScore(correctEntries, expected.length);
   }
 
   const correct = score === 1;
-
   return {
     correct,
     score,

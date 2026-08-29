@@ -1,0 +1,27 @@
+[
+  {
+    "id": "animals.classification.crossword.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": [
+      "animals.dog.pet-classification",
+      "animals.tiger.wild-classification",
+      "animals.whale.habitat"
+    ],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Solve the animal crossword." },
+    "entries": [
+      { "id": "dog", "answer": "DOG", "clue": "A common pet animal that barks" },
+      { "id": "tiger", "answer": "TIGER", "clue": "A wild big cat" },
+      { "id": "whale", "answer": "WHALE", "clue": "A large mammal that lives in water" },
+      { "id": "water", "answer": "WATER", "clue": "Whales live in this" }
+    ],
+    "feedback": {
+      "correct": "Excellent. You solved the animal crossword.",
+      "incorrect": "Use the clues and the crossing letters to finish the words."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]

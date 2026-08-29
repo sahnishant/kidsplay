@@ -15,6 +15,7 @@ export interface Feedback {
 export interface AuthoringMetadata {
   status: 'draft' | 'reviewed';
   source: string;
+  compiledBy?: string;
 }
 
 export interface BaseQuestion {
@@ -134,12 +135,6 @@ export interface MemoryCard {
   symbol?: string;
 }
 
-/**
- * Memory pairs are relationship-based, not equality-based.
- * The cards are independent learner-facing content; the solution defines which
- * two cards belong together. This supports DOG <-> PET ANIMAL just as easily
- * as A <-> a or an identical image pair.
- */
 export interface MemoryPairsQuestion extends BaseQuestion {
   interaction: {
     type: 'memory_pairs';
@@ -173,19 +168,8 @@ export interface SequenceOrderQuestion extends BaseQuestion {
 }
 
 export type HotspotShape =
-  | {
-      type: 'circle';
-      centerX: number;
-      centerY: number;
-      radius: number;
-    }
-  | {
-      type: 'rect';
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    };
+  | { type: 'circle'; centerX: number; centerY: number; radius: number }
+  | { type: 'rect'; x: number; y: number; width: number; height: number };
 
 export interface HotspotRegion {
   id: string;
@@ -211,6 +195,30 @@ export interface HotspotQuestion extends BaseQuestion {
   };
 }
 
+export interface CrosswordEntry {
+  id: string;
+  clue: string;
+  number: number;
+  direction: 'across' | 'down';
+  startRow: number;
+  startCol: number;
+  length: number;
+}
+
+export interface CrosswordQuestion extends BaseQuestion {
+  interaction: {
+    type: 'crossword';
+    version: 1;
+    rows: number;
+    cols: number;
+    entries: CrosswordEntry[];
+  };
+  solution: {
+    type: 'crossword_answers';
+    answers: Record<string, string>;
+  };
+}
+
 export type Question =
   | SingleChoiceQuestion
   | WordBankFillQuestion
@@ -218,4 +226,5 @@ export type Question =
   | WordSearchQuestion
   | MemoryPairsQuestion
   | SequenceOrderQuestion
-  | HotspotQuestion;
+  | HotspotQuestion
+  | CrosswordQuestion;

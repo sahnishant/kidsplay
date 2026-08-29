@@ -12,46 +12,31 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 
 ## Architecture invariants
 
-1. **Learnables define what the child should understand.**
-2. **Questions are data.** They may declare an interaction contract but contain no renderer/component/game implementation.
-3. **Interaction engines implement mechanics only.** They contain no curriculum answers, subject-specific knowledge or free/paid policy.
-4. **Evaluation is separate from rendering.** Engines emit responses; evaluators decide correctness/partial score.
-5. **Packs/paths own access and sequencing.** Free/paid/Olympiad logic must not leak into engines or individual questions.
-6. Prefer reusing a mechanic over adding a new engine. Example: `drag_to_target@1` already covers drag-to-habitat, category sorting and visible semantic matching.
-7. Prefer tiny browser-native DOM/SVG/CSS/Pointer Event primitives. Add canvas/physics/specialist dependencies only when an activity genuinely requires them.
-8. Expensive generation such as crossword/maze layout should run in authoring/build compilation where possible; learner runtime should mostly render prepared data.
-9. Maintain versioned interaction contracts and validate the full question bank before shipping.
-10. Keep desktop development independent of Android Studio/SDK/JDK. GitHub Actions is the default Android APK proof path.
+1. Learnables define what the child should understand.
+2. Questions are data; no renderer/component/game implementation belongs in them.
+3. Interaction engines implement mechanics only; no curriculum answers, topic knowledge or access policy.
+4. Evaluation is separate from rendering.
+5. Packs/paths own access and sequencing.
+6. Reuse mechanics before adding engines; `drag_to_target@1` already covers placement, sorting and visible semantic matching.
+7. Prefer browser-native DOM/SVG/CSS/Pointer Events; add canvas/physics only when justified.
+8. Expensive generation such as crossword/maze layout belongs in authoring/build compilation when possible.
+9. Maintain versioned contracts and validate the full bank.
+10. Desktop development remains Node/npm only; GitHub Actions is the default Android proof path.
 
 ## Implemented interaction/runtime capability
 
 - `single_choice@1`
 - `word_bank_fill@1`
-- `drag_to_target@1`
-  - direct placement
-  - category sorting
-  - visible semantic matching
-- `word_search@1`
-  - seeded deterministic generation
-  - shared grid primitives
-  - drag selection and tap-first/tap-last fallback
-- `memory_pairs@1`
-  - semantic relations, not equality-only pairs
-  - examples: DOG ↔ PET ANIMAL, TIGER ↔ WILD ANIMAL, BUTTERFLY ↔ INSECT
-- `sequence_order@1`
-  - shared reorder/swap/move primitive
-  - tap-two-to-swap and arrow movement
-- `hotspot@1`
-  - normalized hit-region geometry
-  - single/multiple selection contract
-  - scene-like board proof
-- reusable seeded random/shuffle
-- reusable card-deck shuffle primitive
-- reusable grid/line primitives
-- reusable normalized hit-region primitive
+- `drag_to_target@1` — placement, category sorting, visible semantic matching
+- `word_search@1` — seeded generation, grid primitives, drag/tap selection
+- `memory_pairs@1` — semantic relations such as DOG ↔ PET ANIMAL
+- `sequence_order@1` — shared reorder/swap/move primitive
+- `hotspot@1` — normalized hit regions, single/multiple selection
+- `crossword@1` — precompiled layout, tiny learner grid/clue renderer
+- reusable seeded random/shuffle, card-deck, grid/line, reorder and normalized-region mechanics
 - scene renderer with lightweight CSS motion
 - centralized external evaluator
-- question-bank validation and automatic JSON discovery
+- automatic question JSON discovery and content validation
 - Capacitor Android packaging with GitHub Actions APK verification
 
 ## Immediate work targets
@@ -59,14 +44,14 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 ### P1 — mechanics multiplication
 
 - [x] Reorder/swap primitive.
-- [x] `sequence_order@1` using reorder/swap; first proof: butterfly lifecycle ordering.
-- [x] Hit-region primitive using normalized coordinates.
-- [x] `hotspot@1` / interactive-diagram selection; first proof: identify the water animal in a scene-like board.
+- [x] `sequence_order@1`; butterfly lifecycle proof.
+- [x] Hit-region primitive.
+- [x] `hotspot@1`; water-animal proof.
 
 ### P2 — compiled puzzle engines
 
-- [ ] Crossword authoring/compiler layout.
-- [ ] Tiny crossword learner renderer.
+- [x] Crossword authoring/compiler layout.
+- [x] Tiny crossword learner renderer.
 - [ ] Maze compiler producing a cell/wall graph.
 - [ ] Tiny maze/path learner renderer.
 
@@ -95,21 +80,25 @@ Build only when a learning use case exists and reuse primitives first:
 - optional tiny canvas loop for arcade-like activities
 - optional specialist physics only for genuine physics activities
 
+## Compiler/runtime policy
+
+Crossword authoring stores clues + answers. `npm run compile:content` generates the connected grid layout before Vite starts/builds. The generated question file is ignored by git. The learner runtime receives only rows/columns, entry starts/directions/lengths/clue numbers and the solution needed for offline evaluation. The same model should be used for mazes.
+
 ## Engine-admission test
 
-Before creating a new engine, answer in order:
+Before creating a new engine:
 
-1. Can an existing engine express the activity with different question data?
-2. Can a small shared mechanic primitive extend an existing engine?
-3. Is the learner interaction semantically different enough to deserve a new versioned contract?
-4. Can expensive work be moved to the compiler instead of learner runtime?
-5. What APK/web-bundle footprint does the new capability add?
+1. Can an existing engine express it with different question data?
+2. Can a small shared mechanic extend an existing engine?
+3. Is the interaction semantically different enough for a new versioned contract?
+4. Can expensive work move to the compiler?
+5. What bundle/APK footprint does it add?
 
-If questions 1 or 2 are yes, prefer reuse.
+If 1 or 2 is yes, prefer reuse.
 
 ## GitHub project memory
 
 - Canonical branch: `kidsplay`.
-- Canonical tracker issue: #1 — **Kidsplay main work targets**.
+- Canonical tracker issue: #1 — Kidsplay main work targets.
 - Keep this file and issue #1 updated when priorities or architecture decisions materially change.
-- Do not depend on chat history for current project state when GitHub can be read instead.
+- Read GitHub rather than depending on chat history for current state.
