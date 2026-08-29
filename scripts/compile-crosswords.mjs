@@ -86,11 +86,8 @@ function compileCrossword(question) {
     return intersections * 1000 - area - distance;
   };
 
-  const first = orderedForPlacement[0];
-  place(first, CENTER, CENTER - Math.floor(first.answer.length / 2), 'across');
-
-  for (const entry of orderedForPlacement.slice(1)) {
-    let best = null;
+  const findCandidates = (entry) => {
+    const candidates = [];
     const seenCandidates = new Set();
 
     for (let index = 0; index < entry.answer.length; index += 1) {
@@ -107,16 +104,39 @@ function compileCrossword(question) {
           seenCandidates.add(candidateKey);
 
           const score = scorePlacement(entry, row, col, direction);
-          if (score === null) continue;
-          if (!best || score > best.score) best = { row, col, direction, score };
+          if (score !== null) candidates.push({ row, col, direction, score });
         }
       }
     }
 
-    if (!best) {
-      throw new Error(`${question.id}: could not connect crossword entry ${entry.id}; adjust the answer set`);
+    return candidates.sort((left, right) => right.score - left.score);
+  };
+
+  const first = orderedForPlacement[0];
+  place(first, CENTER, CENTER - Math.floor(first.answer.length / 2), 'across');
+
+  const remaining = orderedForPlacement.slice(1);
+  while (remaining.length) {
+    const options = remaining
+      .map((entry) => ({ entry, candidates: findCandidates(entry) }))
+      .filter((option) => option.candidates.length > 0)
+      .sort(
+        (left, right) =>
+          left.candidates.length - right.candidates.length ||
+          right.candidates[0].score - left.candidates[0].score ||
+          left.entry.id.localeCompare(right.entry.id)
+      );
+
+    if (!options.length) {
+      throw new Error(
+        `${question.id}: could not connect remaining crossword entries: ${remaining.map((entry) => entry.id).join(', ')}`
+      );
     }
-    place(entry, best.row, best.col, best.direction);
+
+    const chosen = options[0];
+    const best = chosen.candidates[0];
+    place(chosen.entry, best.row, best.col, best.direction);
+    remaining.splice(remaining.findIndex((entry) => entry.id === chosen.entry.id), 1);
   }
 
   const occupied = [...grid.keys()].map((key) => key.split(',').map(Number));
