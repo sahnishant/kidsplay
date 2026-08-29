@@ -318,7 +318,7 @@ export function getProfileQuestions(profileRef: string, options: ProfileSessionO
   );
 
   const selected = chooseDiverseSession(candidates, count);
-  return ensureReasoningQuestion(selected, candidates, count);
+  return count >= 4 ? ensureReasoningQuestion(selected, candidates, count) : selected;
 }
 
 export function createSessionForCatalogEntry(
