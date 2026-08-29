@@ -1,0 +1,201 @@
+[
+  {
+    "id": "human.senses.memory.generated.001",
+    "sourceRef": "knowledge.human.senses.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260905,
+    "difficulty": 1,
+    "prompt": "Match each sense organ with what it helps you do."
+  },
+  {
+    "id": "human.senses.match.generated.001",
+    "sourceRef": "knowledge.human.senses.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 1,
+    "prompt": "Match each sense organ with its job."
+  },
+  {
+    "id": "human.senses.word-search.generated.001",
+    "sourceRef": "knowledge.human.senses.001",
+    "engine": "word_search@1",
+    "seed": 20260905,
+    "difficulty": 2,
+    "prompt": "Find the five sense organs."
+  },
+  {
+    "id": "human.senses.mcq.tongue.generated.001",
+    "sourceRef": "knowledge.human.senses.001",
+    "engine": "single_choice@1",
+    "entryIds": ["tongue-taste"],
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Which sense organ helps you taste food?"
+  },
+
+  {
+    "id": "human.organs.memory.generated.001",
+    "sourceRef": "knowledge.human.organs.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260906,
+    "difficulty": 2,
+    "prompt": "Match each body part or organ with its main job."
+  },
+  {
+    "id": "human.organs.match.generated.001",
+    "sourceRef": "knowledge.human.organs.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each body part or organ with what it does."
+  },
+  {
+    "id": "human.organs.word-search.generated.001",
+    "sourceRef": "knowledge.human.organs.001",
+    "engine": "word_search@1",
+    "seed": 20260906,
+    "difficulty": 2,
+    "prompt": "Find the six body words."
+  },
+  {
+    "id": "human.organs.mcq.lungs.generated.001",
+    "sourceRef": "knowledge.human.organs.001",
+    "engine": "single_choice@1",
+    "entryIds": ["lungs-breathe"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which organ helps us breathe?"
+  },
+
+  {
+    "id": "human.actions.memory.generated.001",
+    "sourceRef": "knowledge.human.actions.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260907,
+    "difficulty": 1,
+    "prompt": "Match each body part with what it helps us do."
+  },
+  {
+    "id": "human.actions.match.generated.001",
+    "sourceRef": "knowledge.human.actions.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 1,
+    "prompt": "Match each body part with the correct action or job."
+  },
+  {
+    "id": "human.actions.word-search.generated.001",
+    "sourceRef": "knowledge.human.actions.001",
+    "engine": "word_search@1",
+    "seed": 20260907,
+    "difficulty": 2,
+    "prompt": "Find all six body-part words."
+  },
+  {
+    "id": "human.actions.mcq.teeth.generated.001",
+    "sourceRef": "knowledge.human.actions.001",
+    "engine": "single_choice@1",
+    "entryIds": ["teeth-chew"],
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Which body part helps bite and chew food?"
+  },
+
+  {
+    "id": "food.sources.memory.generated.001",
+    "sourceRef": "knowledge.food.sources.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260908,
+    "difficulty": 1,
+    "prompt": "Match each food source with what we get from it."
+  },
+  {
+    "id": "food.sources.match.generated.001",
+    "sourceRef": "knowledge.food.sources.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 1,
+    "prompt": "Match each plant or animal with the food it provides."
+  },
+  {
+    "id": "food.sources.word-search.generated.001",
+    "sourceRef": "knowledge.food.sources.001",
+    "engine": "word_search@1",
+    "seed": 20260908,
+    "difficulty": 2,
+    "prompt": "Find the six food-source words."
+  },
+  {
+    "id": "food.sources.mcq.honey.generated.001",
+    "sourceRef": "knowledge.food.sources.001",
+    "engine": "single_choice@1",
+    "entryIds": ["honeybee-honey"],
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Which of these makes honey?"
+  },
+
+  {
+    "id": "food.groups.memory.generated.001",
+    "sourceRef": "knowledge.food.groups.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260909,
+    "difficulty": 2,
+    "prompt": "Match each food with the description that fits it."
+  },
+  {
+    "id": "food.groups.match.generated.001",
+    "sourceRef": "knowledge.food.groups.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each food with its food-group description."
+  },
+  {
+    "id": "food.groups.word-search.generated.001",
+    "sourceRef": "knowledge.food.groups.001",
+    "engine": "word_search@1",
+    "seed": 20260909,
+    "difficulty": 2,
+    "prompt": "Find all six foods."
+  },
+  {
+    "id": "food.groups.mcq.spinach.generated.001",
+    "sourceRef": "knowledge.food.groups.001",
+    "engine": "single_choice@1",
+    "entryIds": ["spinach-protective"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which food is a protective leafy vegetable?"
+  },
+
+  {
+    "id": "food.habits.memory.generated.001",
+    "sourceRef": "knowledge.food.habits.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260910,
+    "difficulty": 2,
+    "prompt": "Match each healthy food habit with its reason."
+  },
+  {
+    "id": "food.habits.match.generated.001",
+    "sourceRef": "knowledge.food.habits.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each food habit with why it matters."
+  },
+  {
+    "id": "food.habits.fill.generated.001",
+    "sourceRef": "knowledge.food.habits.001",
+    "engine": "word_bank_fill@1",
+    "entryIds": ["cover-food"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "sentenceTemplate": "{subject} {blank}.",
+    "prompt": "Complete the healthy-food rule."
+  },
+  {
+    "id": "food.habits.mcq.spoiled.generated.001",
+    "sourceRef": "knowledge.food.habits.001",
+    "engine": "single_choice@1",
+    "entryIds": ["avoid-spoiled-food"],
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Which food-safety habit helps avoid illness from bad food?"
+  }
+]
