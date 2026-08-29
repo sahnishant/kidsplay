@@ -153,6 +153,20 @@
     { "rowId": "kr.universe.earth.position.third", "fit": "core" },
     { "rowId": "kr.universe.mars.name.red-planet", "fit": "core" },
     { "rowId": "kr.universe.jupiter.property.largest", "fit": "core" },
-    { "rowId": "kr.universe.saturn.feature.rings", "fit": "core" }
+    { "rowId": "kr.universe.saturn.feature.rings", "fit": "core" },
+    { "rowId": "kr.reasoning.pattern.symbols.alternating", "fit": "core" },
+    { "rowId": "kr.reasoning.pattern.numbers.plus-two", "fit": "core" },
+    { "rowId": "kr.reasoning.odd-one-out.shapes.object", "fit": "core" },
+    { "rowId": "kr.reasoning.odd-one-out.transport.communication", "fit": "core" },
+    { "rowId": "kr.reasoning.analogy.bird-nest.bee-hive", "fit": "core" },
+    { "rowId": "kr.reasoning.analogy.eye-see.ear-hear", "fit": "core" },
+    { "rowId": "kr.reasoning.ranking.height.shortest", "fit": "stretch" },
+    { "rowId": "kr.reasoning.ranking.position.between", "fit": "core" },
+    { "rowId": "kr.reasoning.coding.letters.next-letter", "fit": "stretch" },
+    { "rowId": "kr.reasoning.coding.symbol-values.sum", "fit": "stretch" },
+    { "rowId": "kr.reasoning.measurement.pencil.centimetres", "fit": "core" },
+    { "rowId": "kr.reasoning.measurement.room.metres", "fit": "core" },
+    { "rowId": "kr.reasoning.shapes.triangle.three-sides", "fit": "review" },
+    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "stretch" }
   ]
 }
