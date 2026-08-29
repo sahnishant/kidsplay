@@ -2,6 +2,7 @@ import './styles.css';
 import './word-search.css';
 import './interactionStyles.css';
 import './crossword.css';
+import './maze.css';
 import { getFreeAnimalsPackTitle, getFreeAnimalsQuestions } from './content';
 import { SessionController } from './runtime/session';
 

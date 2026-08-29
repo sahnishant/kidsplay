@@ -35,13 +35,17 @@ const packs = readObjectDirectory('content/packs/');
 
 const supportedEngines = new Set([
   'single_choice@1', 'word_bank_fill@1', 'drag_to_target@1', 'word_search@1',
-  'memory_pairs@1', 'sequence_order@1', 'hotspot@1', 'crossword@1'
+  'memory_pairs@1', 'sequence_order@1', 'hotspot@1', 'crossword@1', 'maze_path@1'
 ]);
 const wordSearchDirections = new Set(['right','left','down','up','down_right','down_left','up_right','up_left']);
 const hotspotThemes = new Set(['plain', 'grass', 'ocean', 'sky', 'split-land-water']);
 const pairKey = (first, second) => (first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`);
 const isNormalized = (value) => Number.isFinite(value) && value >= 0 && value <= 1;
 const normalizeText = (value) => String(value ?? '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+const WALL_TOP = 1;
+const WALL_RIGHT = 2;
+const WALL_BOTTOM = 4;
+const WALL_LEFT = 8;
 
 const duplicateIds = (items, label) => {
   const seen = new Set();
@@ -183,6 +187,62 @@ for (const question of questions) {
       }
     }
     for (const answerId of Object.keys(answers)) if (!entryIds.has(answerId)) errors.push(`${prefix}: crossword solution refers to missing entry ${answerId}`);
+  }
+
+  if (interaction?.type === 'maze_path') {
+    const rows = interaction.rows;
+    const cols = interaction.cols;
+    const wallMasks = interaction.wallMasks ?? [];
+    const cellCount = rows * cols;
+
+    if (!Number.isInteger(rows) || !Number.isInteger(cols) || rows < 2 || cols < 2) {
+      errors.push(`${prefix}: maze rows/cols must be integers >= 2`);
+      continue;
+    }
+    if (rows > 20 || cols > 20) errors.push(`${prefix}: maze exceeds the lightweight 20x20 limit`);
+    if (!Array.isArray(wallMasks) || wallMasks.length !== cellCount) errors.push(`${prefix}: maze wallMasks length must equal rows*cols`);
+    for (const [index, mask] of wallMasks.entries()) {
+      if (!Number.isInteger(mask) || mask < 0 || mask > 15) errors.push(`${prefix}: maze wall mask ${index} must be an integer from 0 to 15`);
+    }
+    const startIndex = interaction.startIndex;
+    const goalIndex = interaction.goalIndex;
+    if (!Number.isInteger(startIndex) || startIndex < 0 || startIndex >= cellCount) errors.push(`${prefix}: maze startIndex is outside the grid`);
+    if (!Number.isInteger(goalIndex) || goalIndex < 0 || goalIndex >= cellCount) errors.push(`${prefix}: maze goalIndex is outside the grid`);
+    if (startIndex === goalIndex) errors.push(`${prefix}: maze start and goal must differ`);
+    if (question.solution?.type !== 'maze_goal' || question.solution.goalIndex !== goalIndex) errors.push(`${prefix}: maze_goal solution must match interaction goalIndex`);
+
+    if (wallMasks.length === cellCount && Number.isInteger(startIndex) && Number.isInteger(goalIndex)) {
+      const neighbors = (index) => {
+        const row = Math.floor(index / cols);
+        const col = index % cols;
+        const candidates = [
+          { row: row - 1, col, sourceWall: WALL_TOP, targetWall: WALL_BOTTOM },
+          { row, col: col + 1, sourceWall: WALL_RIGHT, targetWall: WALL_LEFT },
+          { row: row + 1, col, sourceWall: WALL_BOTTOM, targetWall: WALL_TOP },
+          { row, col: col - 1, sourceWall: WALL_LEFT, targetWall: WALL_RIGHT }
+        ];
+        return candidates.flatMap((candidate) => {
+          if (candidate.row < 0 || candidate.col < 0 || candidate.row >= rows || candidate.col >= cols) return [];
+          const target = candidate.row * cols + candidate.col;
+          const sourceOpen = !(wallMasks[index] & candidate.sourceWall);
+          const targetOpen = !(wallMasks[target] & candidate.targetWall);
+          if (sourceOpen !== targetOpen) errors.push(`${prefix}: maze walls are asymmetric between cells ${index} and ${target}`);
+          return sourceOpen && targetOpen ? [target] : [];
+        });
+      };
+
+      const visited = new Set([startIndex]);
+      const queue = [startIndex];
+      while (queue.length) {
+        const current = queue.shift();
+        for (const next of neighbors(current)) {
+          if (visited.has(next)) continue;
+          visited.add(next);
+          queue.push(next);
+        }
+      }
+      if (!visited.has(goalIndex)) errors.push(`${prefix}: maze goal is not reachable from start`);
+    }
   }
 }
 

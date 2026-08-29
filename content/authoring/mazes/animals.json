@@ -1,0 +1,24 @@
+[
+  {
+    "id": "animals.dog.home-maze.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.dog.habitat"],
+    "gradeBands": [1, 2],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Help the dog find its home on land." },
+    "maze": {
+      "rows": 6,
+      "cols": 6,
+      "seed": 290829,
+      "start": { "row": 0, "col": 0, "label": "Dog", "symbol": "🐶" },
+      "goal": { "row": 5, "col": 5, "label": "Home", "symbol": "🏠" }
+    },
+    "feedback": {
+      "correct": "You found the dog's home on land.",
+      "incorrect": "Follow the open path to the dog's home."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]

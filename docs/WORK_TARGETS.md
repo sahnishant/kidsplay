@@ -32,8 +32,9 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 - `memory_pairs@1` — semantic relations such as DOG ↔ PET ANIMAL
 - `sequence_order@1` — shared reorder/swap/move primitive
 - `hotspot@1` — normalized hit regions, single/multiple selection
-- `crossword@1` — precompiled layout, tiny learner grid/clue renderer
-- reusable seeded random/shuffle, card-deck, grid/line, reorder and normalized-region mechanics
+- `crossword@1` — precompiled connected layout + tiny learner grid/clue renderer
+- `maze_path@1` — precompiled seeded wall graph + tiny tap-to-path renderer
+- reusable seeded random/shuffle, card-deck, grid/line, reorder, normalized-region and maze traversal mechanics
 - scene renderer with lightweight CSS motion
 - centralized external evaluator
 - automatic question JSON discovery and content validation
@@ -52,8 +53,8 @@ This file is the durable project-memory checkpoint for work on the `kidsplay` br
 
 - [x] Crossword authoring/compiler layout.
 - [x] Tiny crossword learner renderer.
-- [ ] Maze compiler producing a cell/wall graph.
-- [ ] Tiny maze/path learner renderer.
+- [x] Maze compiler producing a cell/wall graph.
+- [x] Tiny maze/path learner renderer.
 
 ### P3 — reusable presentation assets
 
@@ -82,7 +83,7 @@ Build only when a learning use case exists and reuse primitives first:
 
 ## Compiler/runtime policy
 
-Crossword authoring stores clues + answers. `npm run compile:content` generates the connected grid layout before Vite starts/builds. The generated question file is ignored by git. The learner runtime receives only rows/columns, entry starts/directions/lengths/clue numbers and the solution needed for offline evaluation. The same model should be used for mazes.
+`npm run compile:content` runs before desktop dev/build. Crosswords compile clue/answer sets into entry coordinates and numbering. Mazes compile seeds/dimensions into wall bitmasks. Generated question JSON is ignored by git; the learner runtime only renders prepared geometry and collects responses. This is the default pattern for expensive generation.
 
 ## Engine-admission test
 

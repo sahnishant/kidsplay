@@ -1,0 +1,69 @@
+.maze-path {
+  display: grid;
+  gap: 14px;
+}
+
+.maze-path__instructions,
+.maze-path__status {
+  margin: 0;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.maze-path__status {
+  min-height: 24px;
+}
+
+.maze-path__grid {
+  --maze-cols: 6;
+  width: min(100%, 500px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(var(--maze-cols), minmax(0, 1fr));
+  padding: 8px;
+  border-radius: 18px;
+  background: #eef4e9;
+}
+
+.maze-path__cell {
+  aspect-ratio: 1;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border-style: solid;
+  border-color: #34413c;
+  border-radius: 0;
+  background: #fffdf7;
+  color: var(--ink);
+  font-size: clamp(1.2rem, 7vw, 2.5rem);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.maze-path__cell--path {
+  background: var(--accent-soft);
+}
+
+.maze-path__cell--current {
+  box-shadow: inset 0 0 0 4px var(--accent);
+}
+
+.maze-path__cell--start {
+  background-color: #fff1cb;
+}
+
+.maze-path__cell--goal {
+  background-color: var(--good-soft);
+}
+
+@media (max-width: 420px) {
+  .maze-path__grid {
+    padding: 4px;
+  }
+
+  .maze-path__cell {
+    font-size: 1.45rem;
+  }
+}

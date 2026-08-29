@@ -2,6 +2,7 @@ import type { Question } from '../contracts/question';
 import { crosswordEngine } from '../engines/crossword';
 import { dragToTargetEngine } from '../engines/dragToTarget';
 import { hotspotEngine } from '../engines/hotspot';
+import { mazePathEngine } from '../engines/mazePath';
 import { memoryPairsEngine } from '../engines/memoryPairs';
 import { sequenceOrderEngine } from '../engines/sequenceOrder';
 import { singleChoiceEngine } from '../engines/singleChoice';
@@ -17,7 +18,8 @@ const engines = new Map<string, InteractionEngine>([
   [memoryPairsEngine.key, memoryPairsEngine],
   [sequenceOrderEngine.key, sequenceOrderEngine],
   [hotspotEngine.key, hotspotEngine],
-  [crosswordEngine.key, crosswordEngine]
+  [crosswordEngine.key, crosswordEngine],
+  [mazePathEngine.key, mazePathEngine]
 ]);
 
 export function getEngine(question: Question): InteractionEngine {
