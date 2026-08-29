@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CatalogEntry, GoalReadinessSummary } from '../content';
+  import Avatar from '../presentation/Avatar.svelte';
   import type {
     AvatarId,
     ChildSettings,
@@ -23,11 +24,11 @@
     onStart: (entryId: string) => void;
   } = $props();
 
-  const avatars: Array<{ id: AvatarId; symbol: string; label: string }> = [
-    { id: 'fox', symbol: '🦊', label: 'Fox' },
-    { id: 'owl', symbol: '🦉', label: 'Owl' },
-    { id: 'panda', symbol: '🐼', label: 'Panda' },
-    { id: 'tiger', symbol: '🐯', label: 'Tiger' }
+  const avatars: Array<{ id: AvatarId; label: string }> = [
+    { id: 'fox', label: 'Fox' },
+    { id: 'owl', label: 'Owl' },
+    { id: 'panda', label: 'Panda' },
+    { id: 'tiger', label: 'Tiger' }
   ];
 
   const defaultMapTopics = new Set(['animals', 'plants', 'human', 'food']);
@@ -61,7 +62,9 @@
       <h1>Learn as you play</h1>
       <p>Pick a child, then explore freely or follow a learning goal.</p>
     </div>
-    <div class="home-hero__spark" aria-hidden="true">✦</div>
+    <div class="home-hero__spark" aria-hidden="true">
+      <Avatar avatar={child.avatar} mood="celebrate" motion="bounce" />
+    </div>
   </header>
 
   <section class="child-panel" aria-labelledby="child-heading">
@@ -94,7 +97,9 @@
           aria-pressed={child.avatar === avatar.id}
           onclick={() => onChildChange({ ...child, avatar: avatar.id })}
         >
-          <span aria-hidden="true">{avatar.symbol}</span>
+          <span class="avatar-art" aria-hidden="true">
+            <Avatar avatar={avatar.id} motion={child.avatar === avatar.id ? 'bounce' : 'idle'} />
+          </span>
           <small>{avatar.label}</small>
         </button>
       {/each}
