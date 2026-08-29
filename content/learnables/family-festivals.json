@@ -1,0 +1,14 @@
+[
+  { "id": "family.relationships.family-tree", "statement": "A family tree can show how people in a family are related.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Relationships", "gradeBands": [2] },
+  { "id": "family.relationships.grandparent", "statement": "A grandparent is a parent of one of your parents.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Relationships", "gradeBands": [2] },
+  { "id": "family.relationships.cousin", "statement": "A cousin can be the child of your aunt or uncle.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Relationships", "gradeBands": [2] },
+  { "id": "family.community.shared-work", "statement": "Sharing household work supports cooperation and responsibility at home.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Living Together", "gradeBands": [2] },
+  { "id": "family.community.caregiver", "statement": "A caregiver helps look after and support another person.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Living Together", "gradeBands": [2] },
+  { "id": "family.community.diversity", "statement": "Families can have different sizes and arrangements and should be treated with respect.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Living Together", "gradeBands": [2] },
+  { "id": "festivals.customs.diwali", "statement": "Lighting lamps or diyas is common in many Diwali celebrations.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Festivals", "gradeBands": [2] },
+  { "id": "festivals.customs.holi", "statement": "Playing with colours is common in many Holi celebrations.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Festivals", "gradeBands": [2] },
+  { "id": "festivals.customs.eid", "statement": "Special greetings and sharing food are common in many Eid celebrations.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Festivals", "gradeBands": [2] },
+  { "id": "festivals.customs.christmas", "statement": "Decorating a Christmas tree is common in many Christmas celebrations.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Festivals", "gradeBands": [2] },
+  { "id": "festivals.customs.onam", "statement": "Making floral designs called pookalam is common in many Onam celebrations.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Festivals", "gradeBands": [2] },
+  { "id": "festivals.customs.respect", "statement": "Different traditions can be learned about with curiosity and respect.", "subject": "EVS", "topic": "Family and Community", "subtopic": "Festivals", "gradeBands": [2] }
+]
