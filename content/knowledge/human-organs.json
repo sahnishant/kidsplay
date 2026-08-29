@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.human.organs.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Human Body",
+  "entries": [
+    {
+      "id": "brain-control",
+      "rowId": "kr.human.brain.function.control",
+      "subject": { "id": "brain", "label": "Brain", "symbol": "🧠" },
+      "relation": "function",
+      "object": { "id": "control", "label": "helps control the body and thinking" },
+      "conceptIds": ["human.organs.brain"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "heart-pumps",
+      "rowId": "kr.human.heart.function.pump-blood",
+      "subject": { "id": "heart", "label": "Heart", "symbol": "❤️" },
+      "relation": "function",
+      "object": { "id": "pump-blood", "label": "pumps blood around the body" },
+      "conceptIds": ["human.organs.heart"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "lungs-breathe",
+      "rowId": "kr.human.lungs.function.breathe",
+      "subject": { "id": "lungs", "label": "Lungs", "symbol": "🫁" },
+      "relation": "function",
+      "object": { "id": "breathe", "label": "help us breathe" },
+      "conceptIds": ["human.organs.lungs"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "stomach-digests",
+      "rowId": "kr.human.stomach.function.digest-food",
+      "subject": { "id": "stomach", "label": "Stomach", "symbol": "🍽️" },
+      "relation": "function",
+      "object": { "id": "digest-food", "label": "helps digest food" },
+      "conceptIds": ["human.organs.stomach"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "bones-support",
+      "rowId": "kr.human.bones.function.support",
+      "subject": { "id": "bones", "label": "Bones", "symbol": "🦴" },
+      "relation": "function",
+      "object": { "id": "support", "label": "give the body support and shape" },
+      "conceptIds": ["human.body.bones"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "muscles-move",
+      "rowId": "kr.human.muscles.function.move",
+      "subject": { "id": "muscles", "label": "Muscles", "symbol": "💪" },
+      "relation": "function",
+      "object": { "id": "move", "label": "help body parts move" },
+      "conceptIds": ["human.body.muscles"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Human Body enrichment inside reviewed SOF ISO Human Body chapter scope; exact SOF profile fit remains separately reviewed."
+  }
+}
