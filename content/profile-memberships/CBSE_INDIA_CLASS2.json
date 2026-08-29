@@ -1,5 +1,15 @@
 {
   "profileRef": "CBSE_INDIA_CLASS2",
+  "provenance": {
+    "status": "prototype_unverified",
+    "sourceRefs": ["kidsplay.editorial.prototype.v1"],
+    "versionLabel": "prototype-1",
+    "academicYear": null,
+    "effectiveFrom": null,
+    "effectiveTo": null,
+    "reviewedAt": null,
+    "placementBasis": "editorial_prototype"
+  },
   "members": [
     { "rowId": "kr.animals.dog.domestic", "fit": "review" },
     { "rowId": "kr.animals.seahorse.water-animal", "fit": "core" },
