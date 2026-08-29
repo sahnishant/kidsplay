@@ -1,0 +1,50 @@
+[
+  {
+    "id": "animals.associations.memory.generated.001",
+    "sourceRef": "knowledge.animals.associations.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260829,
+    "difficulty": 2,
+    "prompt": "Find the animal and description cards that belong together."
+  },
+  {
+    "id": "animals.associations.match.generated.001",
+    "sourceRef": "knowledge.animals.associations.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each animal to the description that belongs with it."
+  },
+  {
+    "id": "animals.associations.word-search.generated.001",
+    "sourceRef": "knowledge.animals.associations.001",
+    "engine": "word_search@1",
+    "seed": 20260829,
+    "difficulty": 2,
+    "prompt": "Find all five animal names."
+  },
+  {
+    "id": "animals.associations.crossword.generated.001",
+    "sourceRef": "knowledge.animals.associations.001",
+    "engine": "crossword@1",
+    "difficulty": 3,
+    "prompt": "Use each description as a clue and solve the animal crossword."
+  },
+  {
+    "id": "animals.associations.mcq.camel.generated.001",
+    "sourceRef": "knowledge.animals.associations.001",
+    "engine": "single_choice@1",
+    "entryIds": ["camel-ship-desert"],
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "animals.associations.fill.mammoth.generated.001",
+    "sourceRef": "knowledge.animals.associations.001",
+    "engine": "word_bank_fill@1",
+    "entryIds": ["mammoth-extinct"],
+    "distractorCount": 3,
+    "sentenceTemplate": "{subject} is an {blank}.",
+    "difficulty": 1,
+    "prompt": "Complete the sentence."
+  }
+]
