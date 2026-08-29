@@ -11,7 +11,7 @@ This is the durable project-work checkpoint for branch `kidsplay`. For the small
 
 ## Architecture mandate — complete
 
-Canonical build/runtime flow:
+Canonical flow:
 
 ```text
 stored data
@@ -23,109 +23,90 @@ stored data
 → generated/cache delivery questions with knowledgeRefs
 → runtime catalog/profile selector
 → interactive/output delivery
-→ evaluator/progress
+→ evaluator/persisted progress
 ```
 
-### Core invariants
-
-- [x] Versioned datatypes centrally own compatible engine lists; records do not repeat them.
-- [x] Every addressable knowledge unit has globally stable `rowId`.
-- [x] Datatype normalizers are the single interpreters of stored schemas.
-- [x] Learning profiles own country/curriculum/assessment/grade membership through row-ID collections.
-- [x] `knowledgeLevel`, profile `fit`, and generated activity `difficulty` are independent axes.
-- [x] Planner/connector selects rows + engines; formatter only transforms; engine only delivers.
-- [x] Generated question JSON is a disposable build/cache artifact, not knowledge truth.
-- [x] Evaluation is separate from rendering; access/commercial policy is separate from knowledge.
-- [x] Stable `knowledgeRefs` survive formatter/compiler boundaries and evaluation emits row-level `knowledgeEvidence`.
+Core invariants remain complete: stable `rowId`, shared normalizers, profile-owned curriculum placement, independent knowledge/profile/activity difficulty axes, build/cache questions, reusable engines, and row-level traceability.
 
 ## First product vertical slice — complete
 
-Verified product code head: `7498fd91337fd3ce99a8da787f0fda5f730f8a99`.
-Android debug APK workflow run `33250347492`: passed through artifact upload.
-
-- [x] Svelte home/catalog replaces direct hard-coded Animals-pack bootstrap.
-- [x] Child name and lightweight avatar choice are persisted locally.
-- [x] Free Explore and Goal Learning are distinct product entry points.
-- [x] Class 2 EVS Olympiad prototype is linked to `SOF_INDIA_CLASS2` through `profileRef`.
-- [x] Runtime goal selection uses generated knowledge-backed questions and stable `knowledgeRefs` rather than duplicating curriculum facts in UI/engines.
-- [x] A goal question is admitted only when all of its `knowledgeRefs` belong to the profile membership.
-- [x] Goal selection prioritizes profile fit, unseen/weaker row mastery and engine variety.
-- [x] Attempts, row-level knowledge evidence and concept mastery are stored offline in local storage.
+- [x] Svelte home/catalog replaces hard-coded pack bootstrap.
+- [x] Player name/avatar stored locally.
+- [x] Free Explore and Goal Learning are distinct entry points.
+- [x] SOF Class 2 goal is profile-driven through `SOF_INDIA_CLASS2`.
+- [x] Runtime admits only generated questions whose complete `knowledgeRefs` set belongs to the profile.
+- [x] Goal selection uses profile fit, unseen/weaker mastery and engine variety.
+- [x] Attempts, row evidence and concept mastery persist offline.
 - [x] Progress summary is visible on home.
-- [x] Free-vs-purchase access policy is visible; prototype goal remains tryable while payment/account infrastructure is deliberately deferred.
-- [x] CI validates that every goal path points to a real profile/membership and has runnable generated knowledge-backed content.
-- [ ] Add behavioral tests for catalog/profile selection, session progression, persistence and mastery updates.
+- [x] Free-vs-purchase policy is visible without premature payment/account infrastructure.
+- [x] Product/catalog CI validates real profile/membership links and runnable knowledge-backed goal content.
 
-## Implemented datatypes
+## Behavioral protection — complete for current slice
 
-- `choice_item@1` → `single_choice@1`
-- `association_set@1` → `single_choice@1`, `word_bank_fill@1`, `drag_to_target@1`, `memory_pairs@1`, `word_search@1`, `crossword@1`, `print_cards@1`
+Behavior tests now run inside `npm run check` using Vitest + Svelte Testing Library + jsdom.
 
-## Implemented delivery engines
+- [x] Free-vs-goal catalog behavior.
+- [x] Profile isolation via complete `knowledgeRefs` membership.
+- [x] Mastery feedback into later profile selection.
+- [x] Session single-submit, advance and replay state.
+- [x] Runtime engine registry coverage across all nine shipped interactive engine types.
+- [x] Local player/attempt/mastery persistence and mastery summary.
+- [x] Svelte home → goal session → home behavior.
+- [x] Engine submission → feedback → completion behavior.
 
-### Interactive
-- `single_choice@1`
-- `word_bank_fill@1`
-- `drag_to_target@1`
-- `word_search@1`
-- `memory_pairs@1`
-- `sequence_order@1`
-- `hotspot@1`
-- `crossword@1`
-- `maze_path@1`
+Verified behavioral-test head: `184c5d0e9a075df10eb1c71afdba607c3f1051dd`; Android run `33254579606` passed through APK artifact upload.
 
-### Output
-- `print_cards@1`
+## Alignment provenance — infrastructure complete
+
+- [x] Central alignment-source registry.
+- [x] Every profile has explicit source refs/version applicability metadata.
+- [x] Every membership collection has provenance and placement-basis metadata.
+- [x] `reviewed` profile status requires a reviewed official source + version + review date + applicability.
+- [x] `reviewed` membership status independently requires equivalent evidence.
+- [x] SOF Class 2 profile scope reviewed against official current ISO syllabus plus official 2026-27 reference.
+- [x] Keep existing SOF row placements `prototype_unverified`; reviewed syllabus scope does not automatically validate individual row fits.
+
+Detailed contract: `docs/CURRICULUM_METADATA.md`.
 
 ## Current profile/index capability
 
 - [x] Central profile registry.
-- [x] Separate many-to-many profile membership collections using stable row IDs.
-- [x] Membership `fit`: review/core/stretch/challenge.
-- [x] Cross-datatype generated learning index.
-- [x] Query by profile/country/grade/curriculum/assessment/skill/level/datatype/topic/concept.
-- [x] Profile planner with delivery category (`interactive` vs `output`) and engine variety.
-- [x] Runtime goal session can select generated cache activities by profile row membership and mastery.
-- [ ] Add profile/membership provenance, reviewed syllabus/assessment version and effective dates before official-alignment claims.
-- [ ] Reject `reviewed`/official alignment unless provenance/version/effective-date evidence is present.
+- [x] Many-to-many row-ID membership collections.
+- [x] Membership fit: review/core/stretch/challenge.
+- [x] Cross-datatype learning index/query.
+- [x] Profile planner with engine variety.
+- [x] Runtime profile sessions driven by generated knowledge references + mastery.
+- [x] Profile and membership provenance model.
+- [x] Reviewed-alignment evidence gate.
+- [ ] Review real row-level SOF memberships/fits against sources before marking membership provenance reviewed.
 
-## Next product/content targets
+## Next P0 — build real reviewed SOF Class 2 content
 
-### P0 — protect and feed the product
+The current knowledge bank is still a proof set. The next pass should be content-first rather than architecture-first.
 
-- [ ] Add behavioral tests around the new home/catalog/profile/progress vertical slice.
-- [ ] Add a meaningful reviewed Class 2 EVS/SOF content slice using the current datatypes first.
-- [ ] Add source/provenance metadata and syllabus/assessment versions before official alignment language.
-- [ ] Exercise the same reusable knowledge in both free exploration and structured goal sessions without copying facts.
+- [ ] Expand reusable Class 2 science/EVS knowledge across the reviewed SOF 2026-27 scope, starting with current datatypes.
+- [ ] Start with high-reuse areas such as Animals and Plants, then Human Body, Food, Housing/Clothing, Safety, Transport/Communication, Air/Water/Rocks, Earth/Universe.
+- [ ] Attach source/provenance evidence to row placement decisions.
+- [ ] Review `fit` (`review/core/stretch/challenge`) rather than inferring it from the broad syllabus heading.
+- [ ] Reuse the same knowledge rows in free exploration and SOF goal preparation.
+- [ ] Add representative logical-reasoning/HOTS recipes only after the underlying knowledge slice is broad enough.
+- [ ] Observe real schema pressure before adding new datatypes.
 
-### P1 — add semantic datatypes only when real content needs them
+## P1 — semantic datatypes only when real content needs them
 
-- [ ] `passage@1` with reviewed claims/spans/entities.
+- [ ] `passage@1` for comprehension/claim reuse.
 - [ ] `entity_table@1` for attributes/classification/compare.
-- [ ] `ordered_process@1` for lifecycle/procedure/timeline reuse.
-- [ ] `labeled_diagram@1` for hotspot/label/matching reuse.
-- [ ] Better generic distractor policies using category/type/misconception metadata.
-- [ ] Stable media/asset refs on canonical units.
+- [ ] `ordered_process@1` for lifecycle/procedure/timeline.
+- [ ] `labeled_diagram@1` for hotspot/label/matching.
+- [ ] Better distractor policies using category/type/misconception metadata.
+- [ ] Stable media/asset refs on canonical knowledge units.
 - [ ] Source revision/provenance policy for generated item families.
-
-## Future engine expansion rule
-
-When adding an engine:
-
-1. add its versioned manifest entry and delivery/output implementation;
-2. add it once to every compatible datatype;
-3. extend generic formatter edges once;
-4. manifest validation must stay green;
-5. existing rows automatically become eligible when datatype requirements are met;
-6. profile/session planning decides where the output is actually used.
-
-Do not mass-edit knowledge rows to add an engine.
 
 ## Presentation assets — separate workstream
 
 - [x] Asset/license admission registry.
-- [x] Build-time third-party notice generation.
-- [ ] Find/admit a permissively licensed modular character/animal source with exact per-asset provenance.
+- [x] Build-time third-party notices.
+- [ ] Admit a permissively licensed modular character/animal source with exact per-asset provenance.
 - [ ] Build reusable poses/parts and cheap expression/action variants.
 - [ ] Replace platform emoji scenes incrementally without coupling art to question types.
 
@@ -134,13 +115,13 @@ Do not mass-edit knowledge rows to add an engine.
 - Canonical branch: `kidsplay`.
 - `kidsplay-work` is temporary/divergent; do not merge wholesale; delete when convenient (issue #2).
 - `main` remains the repository-initialization baseline.
-- [ ] Add behavioral tests, then decide whether this first end-to-end product baseline is ready to promote to `main`.
+- Do not promote to `main` merely because architecture/tests are green; first land a meaningful reviewed content slice so the promoted baseline represents a useful product rather than a proof bank.
 
 ## GitHub project memory
 
 - Compact current state: `docs/ARCHITECTURE_STATUS.md`.
 - Canonical live tracker: issue #1.
+- Profile/alignment contract: `docs/CURRICULUM_METADATA.md`.
 - Detailed architecture review: `docs/DATA_CONNECTOR_ENGINE_REVIEW.md`.
 - Formatter rationale: `docs/KNOWLEDGE_FORMATTERS.md`.
-- Profile/index rationale: `docs/CURRICULUM_METADATA.md`.
 - Keep static GitHub checkpoints current so future sessions do not depend on chat history.
