@@ -1,19 +1,20 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { MemoryPairsQuestion } from '../contracts/question';
   import { createShuffledDeck } from '../mechanics/cards';
   import type { EngineProps } from './types';
 
   let { question, onSubmit, checkResponse }: EngineProps<MemoryPairsQuestion> = $props();
 
-  const deck = createShuffledDeck(question.interaction.cards, question.interaction.seed);
-  const cardsById = new Map(question.interaction.cards.map((card) => [card.id, card]));
-  const totalPairs = question.interaction.cards.length / 2;
+  let deck = $derived(createShuffledDeck(question.interaction.cards, question.interaction.seed));
+  let cardsById = $derived(new Map(question.interaction.cards.map((card) => [card.id, card])));
+  let totalPairs = $derived(question.interaction.cards.length / 2);
   let faceUp = $state<string[]>([]);
   let matchedCardIds = $state<string[]>([]);
   let matchedPairs = $state<Array<[string, string]>>([]);
   let checking = $state(false);
   let locked = $state(false);
-  let status = $state(`${totalPairs} pairs to find.`);
+  let status = $state(untrack(() => `${question.interaction.cards.length / 2} pairs to find.`));
 
   function isFaceUp(cardId: string): boolean {
     return faceUp.includes(cardId) || matchedCardIds.includes(cardId);
