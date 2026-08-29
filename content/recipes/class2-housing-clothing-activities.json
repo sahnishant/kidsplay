@@ -1,0 +1,48 @@
+[
+  {
+    "id": "housing.types.memory.generated.001",
+    "sourceRef": "knowledge.housing.types.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260911,
+    "difficulty": 2,
+    "prompt": "Match each type of home with the description that belongs with it."
+  },
+  {
+    "id": "housing.types.match.generated.001",
+    "sourceRef": "knowledge.housing.types.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each type of home with the correct description."
+  },
+  {
+    "id": "housing.types.mcq.generated.001",
+    "sourceRef": "knowledge.housing.types.001",
+    "engine": "single_choice@1",
+    "entryIds": ["stilt-raised"],
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "clothing.weather.memory.generated.001",
+    "sourceRef": "knowledge.clothing.weather.001",
+    "engine": "memory_pairs@1",
+    "seed": 20260912,
+    "difficulty": 2,
+    "prompt": "Match each clothing item with the description that belongs with it."
+  },
+  {
+    "id": "clothing.weather.match.generated.001",
+    "sourceRef": "knowledge.clothing.weather.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2,
+    "prompt": "Match each clothing item with the correct description."
+  },
+  {
+    "id": "clothing.weather.mcq.generated.001",
+    "sourceRef": "knowledge.clothing.weather.001",
+    "engine": "single_choice@1",
+    "entryIds": ["raincoat-rain"],
+    "distractorCount": 3,
+    "difficulty": 1
+  }
+]
