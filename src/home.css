@@ -41,7 +41,8 @@
 }
 
 .child-panel,
-.catalog-section {
+.catalog-section,
+.topic-progress-panel {
   padding: 22px;
   border-radius: 26px;
   background: rgba(255, 255, 255, 0.92);
@@ -161,6 +162,62 @@
 .progress-strip span {
   color: var(--muted);
   font-size: 0.75rem;
+  font-weight: 750;
+}
+
+.topic-progress-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.topic-progress-card {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  padding: 14px;
+  border-radius: 18px;
+  background: #f8fafb;
+  border: 1px solid #e4eaed;
+}
+
+.topic-progress-card[data-status='strong'] {
+  background: var(--good-soft);
+  border-color: rgba(32, 124, 85, 0.18);
+}
+
+.topic-progress-card[data-status='needs_practice'] {
+  background: var(--try-soft);
+  border-color: rgba(177, 91, 22, 0.18);
+}
+
+.topic-progress-card__topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 7px;
+}
+
+.topic-progress-card h3 {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.topic-status {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 0.64rem;
+  font-weight: 900;
+}
+
+.topic-score {
+  font-size: 1.45rem;
+  line-height: 1;
+}
+
+.topic-meta {
+  color: var(--muted);
+  font-size: 0.72rem;
   font-weight: 750;
 }
 
@@ -327,7 +384,8 @@
 @media (max-width: 650px) {
   .home-hero,
   .child-panel,
-  .catalog-section {
+  .catalog-section,
+  .topic-progress-panel {
     padding: 18px;
     border-radius: 24px;
   }
@@ -340,7 +398,8 @@
     grid-template-columns: 1fr;
   }
 
-  .progress-strip {
+  .progress-strip,
+  .topic-progress-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
