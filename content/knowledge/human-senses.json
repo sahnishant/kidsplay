@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.human.senses.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Human Body",
+  "entries": [
+    {
+      "id": "eyes-see",
+      "rowId": "kr.human.eyes.sense.sight",
+      "subject": { "id": "eyes", "label": "Eyes", "symbol": "👀" },
+      "relation": "sense_function",
+      "object": { "id": "sight", "label": "help us see" },
+      "conceptIds": ["human.senses.eyes"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "ears-hear",
+      "rowId": "kr.human.ears.sense.hearing",
+      "subject": { "id": "ears", "label": "Ears", "symbol": "👂" },
+      "relation": "sense_function",
+      "object": { "id": "hearing", "label": "help us hear sounds" },
+      "conceptIds": ["human.senses.ears"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "nose-smell",
+      "rowId": "kr.human.nose.sense.smell",
+      "subject": { "id": "nose", "label": "Nose", "symbol": "👃" },
+      "relation": "sense_function",
+      "object": { "id": "smell", "label": "helps us smell" },
+      "conceptIds": ["human.senses.nose"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "tongue-taste",
+      "rowId": "kr.human.tongue.sense.taste",
+      "subject": { "id": "tongue", "label": "Tongue", "symbol": "👅" },
+      "relation": "sense_function",
+      "object": { "id": "taste", "label": "helps us taste food" },
+      "conceptIds": ["human.senses.tongue"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "skin-touch",
+      "rowId": "kr.human.skin.sense.touch",
+      "subject": { "id": "skin", "label": "Skin", "symbol": "🖐️" },
+      "relation": "sense_function",
+      "object": { "id": "touch", "label": "helps us feel touch" },
+      "conceptIds": ["human.senses.skin"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Human Body enrichment inside reviewed SOF ISO Human Body chapter scope; exact SOF profile fit remains separately reviewed."
+  }
+}
