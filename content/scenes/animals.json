@@ -4,9 +4,9 @@
     "theme": "grass",
     "ariaLabel": "A happy dog beside a bone and a heart on grass.",
     "entities": [
-      { "id": "dog", "kind": "emoji", "value": "🐶", "label": "happy dog", "x": 28, "y": 58, "motion": "bounce" },
-      { "id": "bone", "kind": "emoji", "value": "🦴", "label": "bone", "x": 61, "y": 63, "motion": "float" },
-      { "id": "heart", "kind": "emoji", "value": "❤", "label": "heart", "x": 46, "y": 24, "motion": "pulse" }
+      { "id": "dog", "kind": "icon", "value": "dog-happy", "label": "happy dog", "x": 28, "y": 58, "motion": "bounce" },
+      { "id": "bone", "kind": "icon", "value": "bone", "label": "bone", "x": 61, "y": 63, "motion": "float" },
+      { "id": "heart", "kind": "icon", "value": "heart", "label": "heart", "x": 46, "y": 24, "motion": "pulse" }
     ]
   },
   {
@@ -14,9 +14,9 @@
     "theme": "ocean",
     "ariaLabel": "A worried dog near water, showing that this is not its normal habitat.",
     "entities": [
-      { "id": "dog", "kind": "emoji", "value": "🐕", "label": "worried dog", "x": 30, "y": 48, "motion": "wiggle" },
+      { "id": "dog", "kind": "icon", "value": "dog-worried", "label": "worried dog", "x": 30, "y": 48, "motion": "wiggle" },
       { "id": "worry", "kind": "text", "value": "?", "label": "question mark", "x": 47, "y": 22, "motion": "pulse" },
-      { "id": "wave", "kind": "emoji", "value": "🌊", "label": "water", "x": 68, "y": 65, "motion": "float" }
+      { "id": "wave", "kind": "icon", "value": "wave", "label": "water", "x": 68, "y": 65, "motion": "float" }
     ]
   },
   {
@@ -24,8 +24,8 @@
     "theme": "ocean",
     "ariaLabel": "A whale swimming happily in the ocean.",
     "entities": [
-      { "id": "whale", "kind": "emoji", "value": "🐋", "label": "whale", "x": 42, "y": 50, "motion": "float" },
-      { "id": "wave", "kind": "emoji", "value": "🌊", "label": "ocean wave", "x": 70, "y": 68, "motion": "float" },
+      { "id": "whale", "kind": "icon", "value": "whale", "label": "whale", "x": 42, "y": 50, "motion": "float" },
+      { "id": "wave", "kind": "icon", "value": "wave", "label": "ocean wave", "x": 70, "y": 68, "motion": "float" },
       { "id": "bubble", "kind": "text", "value": "○ ○", "label": "bubbles", "x": 55, "y": 25, "motion": "float" }
     ]
   }
