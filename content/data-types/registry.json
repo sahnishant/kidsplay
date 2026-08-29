@@ -20,7 +20,8 @@
         "drag_to_target@1",
         "memory_pairs@1",
         "word_search@1",
-        "crossword@1"
+        "crossword@1",
+        "print_cards@1"
       ],
       "engineRequirements": {
         "single_choice@1": { "minUnits": 2, "recipeUnitMode": "single" },
@@ -28,7 +29,8 @@
         "drag_to_target@1": { "minUnits": 2, "recipeUnitMode": "set" },
         "memory_pairs@1": { "minUnits": 2, "recipeUnitMode": "set" },
         "word_search@1": { "minUnits": 2, "recipeUnitMode": "set" },
-        "crossword@1": { "minUnits": 2, "recipeUnitMode": "set" }
+        "crossword@1": { "minUnits": 2, "recipeUnitMode": "set" },
+        "print_cards@1": { "minUnits": 1, "recipeUnitMode": "set" }
       }
     }
   ]

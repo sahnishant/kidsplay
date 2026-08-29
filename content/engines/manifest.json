@@ -1,88 +1,15 @@
 {
   "schemaVersion": 1,
   "engines": [
-    {
-      "key": "single_choice@1",
-      "id": "single_choice",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "single_choice",
-      "solutionType": "exact_option"
-    },
-    {
-      "key": "word_bank_fill@1",
-      "id": "word_bank_fill",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "word_bank_fill",
-      "solutionType": "blank_answers"
-    },
-    {
-      "key": "drag_to_target@1",
-      "id": "drag_to_target",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "drag_to_target",
-      "solutionType": "target_assignment"
-    },
-    {
-      "key": "word_search@1",
-      "id": "word_search",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "word_search",
-      "solutionType": "found_terms"
-    },
-    {
-      "key": "memory_pairs@1",
-      "id": "memory_pairs",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "memory_pairs",
-      "solutionType": "pair_matches"
-    },
-    {
-      "key": "sequence_order@1",
-      "id": "sequence_order",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "sequence_order",
-      "solutionType": "ordered_items"
-    },
-    {
-      "key": "hotspot@1",
-      "id": "hotspot",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "hotspot",
-      "solutionType": "selected_regions"
-    },
-    {
-      "key": "crossword@1",
-      "id": "crossword",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "crossword",
-      "solutionType": "crossword_answers",
-      "compiler": "crossword"
-    },
-    {
-      "key": "maze_path@1",
-      "id": "maze_path",
-      "version": 1,
-      "category": "interactive",
-      "runtime": true,
-      "interactionType": "maze_path",
-      "solutionType": "maze_goal",
-      "compiler": "maze"
-    }
+    { "key": "single_choice@1", "id": "single_choice", "version": 1, "category": "interactive", "runtime": true, "interactionType": "single_choice", "solutionType": "exact_option" },
+    { "key": "word_bank_fill@1", "id": "word_bank_fill", "version": 1, "category": "interactive", "runtime": true, "interactionType": "word_bank_fill", "solutionType": "blank_answers" },
+    { "key": "drag_to_target@1", "id": "drag_to_target", "version": 1, "category": "interactive", "runtime": true, "interactionType": "drag_to_target", "solutionType": "target_assignment" },
+    { "key": "word_search@1", "id": "word_search", "version": 1, "category": "interactive", "runtime": true, "interactionType": "word_search", "solutionType": "found_terms" },
+    { "key": "memory_pairs@1", "id": "memory_pairs", "version": 1, "category": "interactive", "runtime": true, "interactionType": "memory_pairs", "solutionType": "pair_matches" },
+    { "key": "sequence_order@1", "id": "sequence_order", "version": 1, "category": "interactive", "runtime": true, "interactionType": "sequence_order", "solutionType": "ordered_items" },
+    { "key": "hotspot@1", "id": "hotspot", "version": 1, "category": "interactive", "runtime": true, "interactionType": "hotspot", "solutionType": "selected_regions" },
+    { "key": "crossword@1", "id": "crossword", "version": 1, "category": "interactive", "runtime": true, "interactionType": "crossword", "solutionType": "crossword_answers", "compiler": "crossword" },
+    { "key": "maze_path@1", "id": "maze_path", "version": 1, "category": "interactive", "runtime": true, "interactionType": "maze_path", "solutionType": "maze_goal", "compiler": "maze" },
+    { "key": "print_cards@1", "id": "print_cards", "version": 1, "category": "output", "runtime": false, "contractType": "print_cards" }
   ]
 }

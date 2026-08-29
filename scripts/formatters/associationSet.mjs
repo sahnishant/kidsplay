@@ -67,12 +67,10 @@ const formatMemory = (source, recipe, units) => {
           { id: `${unit.localId}:object`, label: unit.object.label, symbol: unit.object.symbol }
         ])
       },
-      solution: {
-        type: 'pair_matches',
-        pairs: units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`])
-      }
+      solution: { type: 'pair_matches', pairs: units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`]) }
     }],
-    crosswordAuthoring: []
+    crosswordAuthoring: [],
+    outputContracts: []
   };
 };
 
@@ -87,12 +85,10 @@ const formatMatching = (source, recipe, units) => {
         items: units.map((unit) => ({ id: `${unit.localId}:subject`, label: unit.subject.label, symbol: unit.subject.symbol })),
         targets: units.map((unit) => ({ id: `${unit.localId}:object`, label: unit.object.label, symbol: unit.object.symbol }))
       },
-      solution: {
-        type: 'target_assignment',
-        assignments: Object.fromEntries(units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`]))
-      }
+      solution: { type: 'target_assignment', assignments: Object.fromEntries(units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`])) }
     }],
-    crosswordAuthoring: []
+    crosswordAuthoring: [],
+    outputContracts: []
   };
 };
 
@@ -111,7 +107,8 @@ const formatWordSearch = (source, recipe, units) => {
       },
       solution: { type: 'found_terms', requiredTermIds: units.map((unit) => `${unit.localId}:subject`) }
     }],
-    crosswordAuthoring: []
+    crosswordAuthoring: [],
+    outputContracts: []
   };
 };
 
@@ -119,10 +116,8 @@ const formatCrossword = (source, recipe, units) => {
   const base = baseQuestion(source, recipe, units, 'Solve the crossword.');
   return {
     questions: [],
-    crosswordAuthoring: [{
-      ...base,
-      entries: units.map((unit) => ({ id: unit.localId, answer: unit.subject.label, clue: capitalize(unit.object.label) }))
-    }]
+    crosswordAuthoring: [{ ...base, entries: units.map((unit) => ({ id: unit.localId, answer: unit.subject.label, clue: capitalize(unit.object.label) })) }],
+    outputContracts: []
   };
 };
 
@@ -145,7 +140,8 @@ const formatSingleChoice = (source, recipe, units) => {
       },
       solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:subject`] }
     }],
-    crosswordAuthoring: []
+    crosswordAuthoring: [],
+    outputContracts: []
   };
 };
 
@@ -176,7 +172,37 @@ const formatWordBankFill = (source, recipe, units) => {
       },
       solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
     }],
-    crosswordAuthoring: []
+    crosswordAuthoring: [],
+    outputContracts: []
+  };
+};
+
+const formatPrintCards = (source, recipe, units) => {
+  const direction = recipe.cardDirection ?? 'object_to_subject';
+  if (!['object_to_subject', 'subject_to_object'].includes(direction)) throw new Error(`${recipe.id}: unsupported cardDirection ${direction}`);
+  const cards = units.map((unit) => {
+    const subjectSide = { text: unit.subject.label, symbol: unit.subject.symbol ?? null };
+    const objectSide = { text: capitalize(unit.object.label), symbol: unit.object.symbol ?? null };
+    return {
+      id: unit.rowId,
+      rowId: unit.rowId,
+      front: direction === 'object_to_subject' ? objectSide : subjectSide,
+      back: direction === 'object_to_subject' ? subjectSide : objectSide
+    };
+  });
+  return {
+    questions: [],
+    crosswordAuthoring: [],
+    outputContracts: [{
+      id: recipe.id,
+      type: 'print_cards',
+      version: 1,
+      engine: 'print_cards@1',
+      title: recipe.title ?? `${source.topic ?? 'Learning'} memory cards`,
+      sourceRef: source.sourceRef,
+      rowIds: units.map((unit) => unit.rowId),
+      cards
+    }]
   };
 };
 
@@ -186,7 +212,8 @@ export const associationSetSupportedEngines = [
   'drag_to_target@1',
   'memory_pairs@1',
   'word_search@1',
-  'crossword@1'
+  'crossword@1',
+  'print_cards@1'
 ];
 
 export function formatAssociationSet(source, recipe) {
@@ -199,6 +226,7 @@ export function formatAssociationSet(source, recipe) {
     case 'crossword@1': return formatCrossword(source, recipe, units);
     case 'single_choice@1': return formatSingleChoice(source, recipe, units);
     case 'word_bank_fill@1': return formatWordBankFill(source, recipe, units);
+    case 'print_cards@1': return formatPrintCards(source, recipe, units);
     default: throw new Error(`${recipe.id}: association_set formatter does not support ${recipe.engine}`);
   }
 }
