@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.plants.parts.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "EVS",
+  "topic": "Plants",
+  "entries": [
+    {
+      "id": "roots-absorb-water",
+      "rowId": "kr.plants.roots.function.absorb-water",
+      "subject": { "id": "roots", "label": "Roots", "symbol": "🌱" },
+      "relation": "function",
+      "object": { "id": "absorb-water", "label": "absorb water from soil" },
+      "conceptIds": ["plants.parts.roots"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "stem-supports-plant",
+      "rowId": "kr.plants.stem.function.support",
+      "subject": { "id": "stem", "label": "Stem", "symbol": "🌿" },
+      "relation": "function",
+      "object": { "id": "support-plant", "label": "supports the plant" },
+      "conceptIds": ["plants.parts.stem"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "leaves-make-food",
+      "rowId": "kr.plants.leaves.function.make-food",
+      "subject": { "id": "leaves", "label": "Leaves", "symbol": "🍃" },
+      "relation": "function",
+      "object": { "id": "make-food", "label": "make food for the plant" },
+      "conceptIds": ["plants.parts.leaves"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "flower-makes-seeds",
+      "rowId": "kr.plants.flower.function.make-seeds",
+      "subject": { "id": "flower", "label": "Flower", "symbol": "🌼" },
+      "relation": "function",
+      "object": { "id": "helps-make-seeds", "label": "helps the plant make seeds" },
+      "conceptIds": ["plants.parts.flower"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "fruit-protects-seeds",
+      "rowId": "kr.plants.fruit.function.protect-seeds",
+      "subject": { "id": "fruit", "label": "Fruit", "symbol": "🍎" },
+      "relation": "function",
+      "object": { "id": "protect-seeds", "label": "protects seeds" },
+      "conceptIds": ["plants.parts.fruit"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "seed-new-plant",
+      "rowId": "kr.plants.seed.function.new-plant",
+      "subject": { "id": "seed", "label": "Seed", "symbol": "🌰" },
+      "relation": "function",
+      "object": { "id": "grow-new-plant", "label": "can grow into a new plant" },
+      "conceptIds": ["plants.parts.seed"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science",
+    "scopeNote": "Class 2 Plants enrichment inside reviewed SOF ISO Plants chapter scope; exact profile fit remains separately reviewed."
+  }
+}
