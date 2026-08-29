@@ -1,0 +1,38 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.family.relationships.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Family and Community",
+    "entries": [
+      { "id": "family-tree", "rowId": "kr.family.family-tree.purpose.relationships", "subject": { "id": "family-tree", "label": "Family tree", "symbol": "🌳" }, "relation": "used_for", "object": { "id": "relationships", "label": "showing how people in a family are related" }, "conceptIds": ["family.relationships.family-tree"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "grandparent", "rowId": "kr.family.grandparent.relationship.parent-parent", "subject": { "id": "grandparent", "label": "Grandparent", "symbol": "👵" }, "relation": "relationship", "object": { "id": "parent-parent", "label": "a parent of one of your parents" }, "conceptIds": ["family.relationships.grandparent"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "vocabulary"] } },
+      { "id": "cousin", "rowId": "kr.family.cousin.relationship.aunt-uncle-child", "subject": { "id": "cousin", "label": "Cousin", "symbol": "🧒" }, "relation": "relationship", "object": { "id": "aunt-uncle-child", "label": "a child of your aunt or uncle" }, "conceptIds": ["family.relationships.cousin"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "vocabulary"] } },
+      { "id": "shared-work", "rowId": "kr.family.shared-work.purpose.cooperation", "subject": { "id": "shared-housework", "label": "Sharing household work", "symbol": "🧹" }, "relation": "supports", "object": { "id": "cooperation", "label": "cooperation and responsibility at home" }, "conceptIds": ["family.community.shared-work"], "meta": { "knowledgeLevel": "foundation", "skills": ["reasoning"] } },
+      { "id": "caregiver", "rowId": "kr.family.caregiver.role.care", "subject": { "id": "caregiver", "label": "Caregiver", "symbol": "🤝" }, "relation": "role", "object": { "id": "care", "label": "a person who helps look after and support another person" }, "conceptIds": ["family.community.caregiver"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "vocabulary"] } },
+      { "id": "family-differences", "rowId": "kr.family.forms.value.respect", "subject": { "id": "families", "label": "Families", "symbol": "🏠" }, "relation": "have_property", "object": { "id": "different-forms", "label": "can have different sizes and arrangements and should be treated with respect" }, "conceptIds": ["family.community.diversity"], "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-evs", "scopeNote": "General family-relationship and cooperation concepts; not used to prescribe one family structure." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.festivals.customs.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "EVS",
+    "topic": "Family and Community",
+    "entries": [
+      { "id": "diwali-lamps", "rowId": "kr.festivals.diwali.custom.lamps", "subject": { "id": "diwali", "label": "Diwali", "symbol": "🪔" }, "relation": "commonly_associated_with", "object": { "id": "lamps", "label": "lighting lamps or diyas in many celebrations" }, "conceptIds": ["festivals.customs.diwali"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "holi-colours", "rowId": "kr.festivals.holi.custom.colours", "subject": { "id": "holi", "label": "Holi", "symbol": "🎨" }, "relation": "commonly_associated_with", "object": { "id": "colours", "label": "playing with colours in many celebrations" }, "conceptIds": ["festivals.customs.holi"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "eid-greetings", "rowId": "kr.festivals.eid.custom.greetings", "subject": { "id": "eid", "label": "Eid", "symbol": "🌙" }, "relation": "commonly_associated_with", "object": { "id": "greetings-sharing", "label": "special greetings and sharing food with family or community in many celebrations" }, "conceptIds": ["festivals.customs.eid"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "christmas-tree", "rowId": "kr.festivals.christmas.custom.tree", "subject": { "id": "christmas", "label": "Christmas", "symbol": "🎄" }, "relation": "commonly_associated_with", "object": { "id": "tree", "label": "decorating a Christmas tree in many celebrations" }, "conceptIds": ["festivals.customs.christmas"], "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "classification"] } },
+      { "id": "onam-pookalam", "rowId": "kr.festivals.onam.custom.pookalam", "subject": { "id": "onam", "label": "Onam", "symbol": "🌼" }, "relation": "commonly_associated_with", "object": { "id": "pookalam", "label": "making floral designs called pookalam in many celebrations" }, "conceptIds": ["festivals.customs.onam"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "celebration-respect", "rowId": "kr.festivals.diversity.value.respect", "subject": { "id": "different-festivals", "label": "Different festivals", "symbol": "🎉" }, "relation": "support", "object": { "id": "respect", "label": "learning about different traditions with curiosity and respect" }, "conceptIds": ["festivals.customs.respect"], "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-evs", "scopeNote": "Examples describe common customs without implying every family observes them in the same way." }
+  }
+]
