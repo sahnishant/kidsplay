@@ -1,0 +1,338 @@
+[
+  {
+    "id": "human.hots.classroom-senses.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["human.senses.eyes", "human.senses.ears"],
+    "knowledgeRefs": ["kr.human.eyes.sense.sight", "kr.human.ears.sense.hearing"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "A teacher rings a bell and then points to a word on the board. Which two sense organs help a child get both clues?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "ears-eyes", "label": "Ears and eyes" },
+        { "id": "nose-tongue", "label": "Nose and tongue" },
+        { "id": "skin-nose", "label": "Skin and nose" },
+        { "id": "tongue-eyes", "label": "Tongue and eyes" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["ears-eyes"] },
+    "feedback": {
+      "correct": "Correct. Ears hear the bell and eyes see the word.",
+      "incorrect": "Think about one clue you hear and one clue you see."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "human.hots.running-body.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["human.organs.lungs", "human.body.muscles"],
+    "knowledgeRefs": ["kr.human.lungs.function.breathe", "kr.human.muscles.function.move"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Ravi runs across the playground. Which pair directly helps him move his body and keep breathing?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "muscles-lungs", "label": "Muscles and lungs" },
+        { "id": "tongue-nose", "label": "Tongue and nose" },
+        { "id": "teeth-ears", "label": "Teeth and ears" },
+        { "id": "skin-tongue", "label": "Skin and tongue" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["muscles-lungs"] },
+    "feedback": {
+      "correct": "Yes. Muscles help movement and lungs help breathing.",
+      "incorrect": "Choose one body part for movement and one organ for breathing."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "human.hots.chew-digest.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["human.body.teeth", "human.organs.stomach"],
+    "knowledgeRefs": ["kr.human.teeth.action.chew", "kr.human.stomach.function.digest-food"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which pair correctly shows a job done before swallowing food and another job done later inside the body?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "teeth-stomach", "label": "Teeth chew — stomach helps digest" },
+        { "id": "ears-heart", "label": "Ears chew — heart digests" },
+        { "id": "lungs-teeth", "label": "Lungs chew — teeth digest" },
+        { "id": "skin-eyes", "label": "Skin chews — eyes digest" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["teeth-stomach"] },
+    "feedback": {
+      "correct": "Correct. Teeth chew food first; the stomach later helps digest it.",
+      "incorrect": "Think about what happens in the mouth first and in the stomach later."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "human.hots.bend-move.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["human.body.joints", "human.body.muscles"],
+    "knowledgeRefs": ["kr.human.joints.function.bend", "kr.human.muscles.function.move"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Mira bends her elbow to lift a book. Which two body structures work together most directly for bending and movement?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "joints-muscles", "label": "Joints and muscles" },
+        { "id": "ears-teeth", "label": "Ears and teeth" },
+        { "id": "nose-tongue", "label": "Nose and tongue" },
+        { "id": "eyes-skin", "label": "Eyes and skin" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["joints-muscles"] },
+    "feedback": {
+      "correct": "Correct. Joints allow bending and muscles help create movement.",
+      "incorrect": "Look for the structures linked with bending and moving."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "food.hots.balanced-plate.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["food.groups.energy.rice", "food.groups.body-building.pulses", "food.groups.protective.spinach"],
+    "knowledgeRefs": ["kr.food.rice.group.energy", "kr.food.pulses.group.body-building", "kr.food.spinach.group.protective"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which meal combines an energy-giving cereal, a body-building pulse and a protective leafy vegetable?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "rice-dal-spinach", "label": "Rice + dal + spinach" },
+        { "id": "butter-rice", "label": "Butter + rice" },
+        { "id": "orange-spinach", "label": "Orange + spinach" },
+        { "id": "rice-butter", "label": "Rice + butter" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["rice-dal-spinach"] },
+    "feedback": {
+      "correct": "Correct. Rice gives energy, pulses support body building, and spinach is a protective food.",
+      "incorrect": "Look for one food from each of the three groups named in the question."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "food.hots.safe-lunch.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["food.habits.clean-hands", "food.habits.cover-food"],
+    "knowledgeRefs": ["kr.food.habit.wash-hands", "kr.food.habit.cover-food"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which child follows two good food-safety habits before lunch?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "safe", "label": "Asha washes her hands and keeps her lunch covered until she eats." },
+        { "id": "dusty", "label": "Bina leaves food open and eats without washing her hands." },
+        { "id": "open", "label": "Kabir washes his hands but leaves food open near flies." },
+        { "id": "dirty", "label": "Rohan covers his food but handles it with dirty hands." }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["safe"] },
+    "feedback": {
+      "correct": "Correct. Clean hands and covered food both reduce contamination.",
+      "incorrect": "Choose the child who follows both habits, not just one."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "food.hots.source-pairs.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["food.sources.wheat", "food.sources.honey"],
+    "knowledgeRefs": ["kr.food.wheat.source.flour", "kr.food.honeybee.source.honey"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which option contains two correct food-source relationships?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "correct", "label": "Wheat → flour; honeybee → honey" },
+        { "id": "wrong1", "label": "Wheat → eggs; honeybee → flour" },
+        { "id": "wrong2", "label": "Wheat → milk; honeybee → rice" },
+        { "id": "wrong3", "label": "Wheat → honey; honeybee → oil" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": {
+      "correct": "Correct. Wheat can be ground into flour and honeybees make honey.",
+      "incorrect": "Check both relationships; both must be correct."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "food.hots.energy-growth.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["food.groups.energy.rice", "food.groups.body-building.pulses"],
+    "knowledgeRefs": ["kr.food.rice.group.energy", "kr.food.pulses.group.body-building"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "A child wants one food mainly for energy and one food that helps body building. Which pair fits best?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "rice-pulses", "label": "Rice and pulses" },
+        { "id": "spinach-orange", "label": "Spinach and orange" },
+        { "id": "butter-rice", "label": "Butter and rice" },
+        { "id": "orange-spinach", "label": "Orange and spinach" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["rice-pulses"] },
+    "feedback": {
+      "correct": "Yes. Rice mainly supplies energy while pulses are body-building foods.",
+      "incorrect": "The pair needs one energy food and one body-building food."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "human-food.hots.taste-chew.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["human.senses.tongue", "human.body.teeth"],
+    "knowledgeRefs": ["kr.human.tongue.sense.taste", "kr.human.teeth.action.chew"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "While eating an apple, which pair is directly responsible for tasting it and chewing it?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "tongue-teeth", "label": "Tongue and teeth" },
+        { "id": "ears-lungs", "label": "Ears and lungs" },
+        { "id": "nose-legs", "label": "Nose and legs" },
+        { "id": "skin-heart", "label": "Skin and heart" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["tongue-teeth"] },
+    "feedback": {
+      "correct": "Correct. The tongue helps taste and the teeth help chew.",
+      "incorrect": "Find one body part for taste and one for chewing."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "food.hots.protective-pair.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["food.groups.protective.spinach", "food.groups.protective.orange"],
+    "knowledgeRefs": ["kr.food.spinach.group.protective", "kr.food.orange.group.protective"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Which pair contains two foods that are both commonly grouped as protective foods?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "spinach-orange", "label": "Spinach and orange" },
+        { "id": "rice-butter", "label": "Rice and butter" },
+        { "id": "rice-pulses", "label": "Rice and pulses" },
+        { "id": "butter-milk", "label": "Butter and milk" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["spinach-orange"] },
+    "feedback": {
+      "correct": "Correct. Spinach and orange both provide vitamins and minerals associated with protective foods.",
+      "incorrect": "Look for the leafy vegetable and fruit pair."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "plants.hots.climber-creeper.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["plants.types.climber", "plants.types.creeper"],
+    "knowledgeRefs": ["kr.plants.pea.type.climber", "kr.plants.pumpkin.type.creeper"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Plant P has a weak stem and grows upward using support. Plant Q has a weak stem and spreads along the ground. Which identification is correct?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "correct", "label": "P is like a pea climber; Q is like a pumpkin creeper." },
+        { "id": "swap", "label": "P is a creeper; Q is a climber." },
+        { "id": "trees", "label": "Both are trees." },
+        { "id": "shrubs", "label": "Both are shrubs." }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": {
+      "correct": "Correct. Climbers use support to grow upward; creepers spread along the ground.",
+      "incorrect": "Compare how each weak stem grows."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  },
+  {
+    "id": "animals.hots.swimming-features.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.adaptations.webbed-feet", "animals.body-coverings.scales"],
+    "knowledgeRefs": ["kr.animals.duck.feature.webbed-feet", "kr.animals.fish.covering.scales"],
+    "gradeBands": [2],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "A duck and a fish can both move in water. Which feature listed below directly helps a duck push against water while swimming?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "webbed", "label": "Webbed feet" },
+        { "id": "scales", "label": "Fish scales" },
+        { "id": "wool", "label": "Wool" },
+        { "id": "shell", "label": "A hard shell" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["webbed"] },
+    "feedback": {
+      "correct": "Correct. A duck's webbed feet help push water while swimming.",
+      "incorrect": "Compare the duck's movement feature with the fish's body covering."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots" }
+  }
+]
