@@ -48,6 +48,14 @@
     "gradeBands": [1, 2]
   },
   {
+    "id": "animals.butterfly.life-cycle",
+    "statement": "A butterfly develops through egg, caterpillar, chrysalis and adult butterfly stages.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Life Cycles",
+    "gradeBands": [1, 2]
+  },
+  {
     "id": "animals.dog.domestic-classification",
     "statement": "A dog is a domestic animal.",
     "subject": "EVS",
