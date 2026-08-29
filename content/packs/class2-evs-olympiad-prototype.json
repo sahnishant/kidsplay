@@ -1,0 +1,18 @@
+{
+  "id": "goal.class2-evs-olympiad.prototype",
+  "kind": "goal_path",
+  "status": "prototype",
+  "title": "Class 2 EVS Olympiad Prototype",
+  "access": {
+    "type": "purchase",
+    "productId": "class2-evs-olympiad"
+  },
+  "questionRefs": [
+    "animals.dog.habitat.mcq.001",
+    "animals.whale.habitat.mcq.001"
+  ],
+  "masteryPolicy": {
+    "requiredAccuracy": 0.8,
+    "minimumIndependentAttempts": 3
+  }
+}

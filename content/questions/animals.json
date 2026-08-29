@@ -1,0 +1,170 @@
+[
+  {
+    "id": "animals.dog.habitat.mcq.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.dog.habitat", "animals.land-water.classification"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Where should the dog live?" },
+    "stimulus": { "type": "scene", "sceneId": "scene.dog.wrong-water" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": false,
+      "options": [
+        { "id": "land", "label": "On land" },
+        { "id": "water", "label": "Under water" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["land"] },
+    "feedback": {
+      "correct": "Correct. Dogs live and move mainly on land.",
+      "incorrect": "Look at how a dog walks and runs. Its usual home is on land."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.whale.habitat.fill.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.whale.habitat"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Complete the sentence." },
+    "stimulus": { "type": "scene", "sceneId": "scene.whale.swimming" },
+    "interaction": {
+      "type": "word_bank_fill",
+      "version": 1,
+      "segments": [
+        { "type": "text", "value": "A whale lives in " },
+        { "type": "blank", "id": "habitat" },
+        { "type": "text", "value": "." }
+      ],
+      "wordBank": [
+        { "id": "water", "label": "water" },
+        { "id": "land", "label": "land" }
+      ]
+    },
+    "solution": { "type": "blank_answers", "answers": { "habitat": ["water"] } },
+    "feedback": {
+      "correct": "Correct. Whales live in water.",
+      "incorrect": "A whale swims and spends its life in water."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.dog.habitat.drag.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.dog.habitat", "animals.land-water.classification"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Move the dog to the place where it belongs." },
+    "stimulus": { "type": "scene", "sceneId": "scene.dog.happy-bone" },
+    "interaction": {
+      "type": "drag_to_target",
+      "version": 1,
+      "items": [
+        { "id": "dog", "label": "Dog", "symbol": "🐶" }
+      ],
+      "targets": [
+        { "id": "land", "label": "Land", "symbol": "🌳" },
+        { "id": "water", "label": "Water", "symbol": "🌊" }
+      ]
+    },
+    "solution": { "type": "target_assignment", "assignments": { "dog": "land" } },
+    "feedback": {
+      "correct": "Yes. The dog belongs on land.",
+      "incorrect": "Dogs can enter water, but their normal habitat is on land."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.whale.habitat.mcq.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.whale.habitat", "animals.land-water.classification"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Which place is the whale's home?" },
+    "stimulus": { "type": "scene", "sceneId": "scene.whale.swimming" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": false,
+      "options": [
+        { "id": "forest", "label": "Forest" },
+        { "id": "ocean", "label": "Ocean" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["ocean"] },
+    "feedback": {
+      "correct": "Correct. A whale's habitat is the ocean.",
+      "incorrect": "Whales need water to live and move."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.dog.habitat.fill.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.dog.habitat"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Complete the sentence." },
+    "stimulus": { "type": "scene", "sceneId": "scene.dog.happy-bone" },
+    "interaction": {
+      "type": "word_bank_fill",
+      "version": 1,
+      "segments": [
+        { "type": "text", "value": "A dog lives mainly on " },
+        { "type": "blank", "id": "habitat" },
+        { "type": "text", "value": "." }
+      ],
+      "wordBank": [
+        { "id": "land", "label": "land" },
+        { "id": "water", "label": "water" }
+      ]
+    },
+    "solution": { "type": "blank_answers", "answers": { "habitat": ["land"] } },
+    "feedback": {
+      "correct": "Correct. A dog lives mainly on land.",
+      "incorrect": "Think about where dogs walk, run, sleep and play."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  },
+  {
+    "id": "animals.whale.habitat.drag.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["animals.whale.habitat", "animals.land-water.classification"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Move the whale to the place where it belongs." },
+    "stimulus": { "type": "scene", "sceneId": "scene.whale.swimming" },
+    "interaction": {
+      "type": "drag_to_target",
+      "version": 1,
+      "items": [
+        { "id": "whale", "label": "Whale", "symbol": "🐋" }
+      ],
+      "targets": [
+        { "id": "land", "label": "Land", "symbol": "🌳" },
+        { "id": "water", "label": "Water", "symbol": "🌊" }
+      ]
+    },
+    "solution": { "type": "target_assignment", "assignments": { "whale": "water" } },
+    "feedback": {
+      "correct": "Yes. The whale belongs in water.",
+      "incorrect": "Whales are mammals, but they live in water."
+    },
+    "authoring": { "status": "reviewed", "source": "internal" }
+  }
+]

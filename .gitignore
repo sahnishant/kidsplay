@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.vite/
+.DS_Store
+*.log
+
+# Android generated/build state
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+
+# IDE
+.idea/
+.vscode/

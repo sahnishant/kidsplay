@@ -1,0 +1,26 @@
+[
+  {
+    "id": "animals.dog.habitat",
+    "statement": "A dog lives and moves primarily on land.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Habitats",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.whale.habitat",
+    "statement": "A whale lives and moves in water.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Habitats",
+    "gradeBands": [1, 2]
+  },
+  {
+    "id": "animals.land-water.classification",
+    "statement": "Animals can be classified by whether they live mainly on land or in water.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Habitats",
+    "gradeBands": [1, 2]
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "id": "free.animals-foundation.1",
+  "kind": "learning_pack",
+  "title": "Animals: Land and Water",
+  "access": { "type": "free" },
+  "questionRefs": [
+    "animals.dog.habitat.mcq.001",
+    "animals.whale.habitat.fill.001",
+    "animals.dog.habitat.drag.001",
+    "animals.whale.habitat.mcq.001",
+    "animals.dog.habitat.fill.001",
+    "animals.whale.habitat.drag.001"
+  ]
+}
