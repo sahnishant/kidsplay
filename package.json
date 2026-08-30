@@ -10,7 +10,7 @@
     "plan:profile": "npm run compile:index && node scripts/plan-profile.mjs",
     "render:profile-output": "npm run compile:index && node scripts/render-profile-output.mjs",
     "report:coverage": "node scripts/report-learning-coverage.mjs",
-    "report:visual-coverage": "node scripts/report-visual-coverage.mjs",
+    "report:visual-coverage": "node scripts/report-visual-coverage.mjs --fail-under=30",
     "validate:engines": "node scripts/validate-engine-registry.mjs",
     "validate:scenes": "node scripts/validate-scenes.mjs",
     "validate:visuals": "node scripts/validate-visuals.mjs",

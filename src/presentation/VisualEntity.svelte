@@ -6,6 +6,7 @@
   import EverydayIcon from './EverydayIcon.svelte';
   import ProcessIcon from './ProcessIcon.svelte';
   import AnimalExpansionIcon from './AnimalExpansionIcon.svelte';
+  import ConceptIcon from './ConceptIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -51,6 +52,8 @@
         <ProcessIcon icon={visual.glyph} />
       {:else if visual.renderer === 'animal-expansion-icon'}
         <AnimalExpansionIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'concept-icon'}
+        <ConceptIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
