@@ -49,7 +49,9 @@
   let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
   let question = $derived(questions[sessionState.index]);
-  let questionSceneId = $derived(question ? resolveQuestionSceneId(question) : null);
+  let questionSceneId = $derived(
+    question ? resolveQuestionSceneId(question, sections.length === 0) : null
+  );
   let correctCount = $derived(sessionState.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
   let reasoningQuestion = $derived(
