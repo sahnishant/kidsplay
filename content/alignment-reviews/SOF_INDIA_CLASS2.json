@@ -264,16 +264,14 @@
     },
     {
       "rowId": "kr.animals.rhinoceros.threat.killed-for-horns",
-      "sourceRef": "sof.nso.class2.sample-paper.2025-26",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
       "locator": "PDF page 2, question 5 and answer key: Rhinoceros is the animal identified as killed for its horns",
       "evidenceType": "direct_fact",
-      "temporalBasis": "historical_class2",
-      "currentScopeSourceRef": "sof.iso.class2.syllabus.current",
-      "currentScopeLocator": "2026-27 syllabus Section 2: Animals",
+      "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
       "fitBasis": "editorial_retained",
-      "note": "The official 2025-26 Class 2 sample directly identifies rhinoceros as an animal killed for its horns. Current 2026-27 scope separately retains Animals; the core fit remains editorial and no annual recurrence is implied."
+      "note": "The official 2026-27 Class 2 sample directly identifies rhinoceros as the animal killed for its horns. The core fit remains Kidsplay's editorial planning choice rather than an SOF difficulty label."
     },
     {
       "rowId": "kr.air.kite.moved-by.wind",
@@ -303,16 +301,14 @@
     },
     {
       "rowId": "kr.safety.road-sign.steep-descent",
-      "sourceRef": "sof.nso.class2.sample-paper.2025-26",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
       "locator": "PDF page 2, question 7 and answer key: the pictured road sign is identified as Steep descent ahead",
       "evidenceType": "direct_fact",
-      "temporalBasis": "historical_class2",
-      "currentScopeSourceRef": "sof.iso.class2.syllabus.current",
-      "currentScopeLocator": "2026-27 syllabus Section 2: Good Habits and Safety Rules",
+      "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
       "fitBasis": "editorial_retained",
-      "note": "The official 2025-26 Class 2 sample directly identifies the pictured steep-descent road sign. Current 2026-27 scope separately retains Good Habits and Safety Rules; the core fit remains editorial."
+      "note": "The official 2026-27 Class 2 sample directly identifies the pictured road sign as steep descent ahead. The core fit remains Kidsplay's editorial planning choice rather than an SOF difficulty label."
     },
     {
       "rowId": "kr.plants.leaves.function.make-food",
