@@ -31,9 +31,7 @@
   {"id":"sof3.animals.omnivores","statement":"Omnivores eat both plant food and animal food.","subject":"Science","topic":"Plants and Animals","subtopic":"Animal diets","gradeBands":[3]},
   {"id":"sof3.animals.features-habitat","statement":"An animal's body features can help it survive and move in its habitat.","subject":"Science","topic":"Plants and Animals","subtopic":"Features and habitat","gradeBands":[3]},
 
-  {"id":"sof3.human.skeleton","statement":"The skeleton supports the body and gives it shape.","subject":"Science","topic":"Human Body","subtopic":"Skeleton","gradeBands":[3]},
   {"id":"sof3.human.muscles","statement":"Muscles work with bones to move body parts.","subject":"Science","topic":"Human Body","subtopic":"Muscles","gradeBands":[3]},
-  {"id":"sof3.human.brain","statement":"The brain helps control many activities and responses of the body.","subject":"Science","topic":"Human Body","subtopic":"Brain","gradeBands":[3]},
   {"id":"sof3.human.lungs-gases","statement":"The lungs help take oxygen into the body and remove carbon dioxide.","subject":"Science","topic":"Human Body","subtopic":"Lungs and breathing","gradeBands":[3]},
   {"id":"sof3.human.digestion","statement":"The digestive system breaks food down so the body can use it.","subject":"Science","topic":"Human Body","subtopic":"Digestion","gradeBands":[3]},
   {"id":"sof3.human.exercise","statement":"Regular exercise helps keep muscles and the heart working well.","subject":"Science","topic":"Human Body","subtopic":"Exercise","gradeBands":[3]},
@@ -41,7 +39,5 @@
   {"id":"sof3.earth.axis","statement":"Earth's axis is an imaginary line through Earth about which Earth rotates.","subject":"Science","topic":"Earth and Universe","subtopic":"Earth's axis","gradeBands":[3]},
   {"id":"sof3.earth.rotation-time","statement":"One rotation of Earth takes about one day.","subject":"Science","topic":"Earth and Universe","subtopic":"Rotation","gradeBands":[3]},
   {"id":"sof3.earth.revolution","statement":"Earth revolves around the Sun in about one year.","subject":"Science","topic":"Earth and Universe","subtopic":"Revolution","gradeBands":[3]},
-  {"id":"sof3.universe.moon-light","statement":"The Moon appears bright because it reflects light from the Sun.","subject":"Science","topic":"Earth and Universe","subtopic":"Moonlight","gradeBands":[3]},
-  {"id":"sof3.earth.atmosphere","statement":"Earth's atmosphere is the layer of gases surrounding Earth.","subject":"Science","topic":"Earth and Universe","subtopic":"Atmosphere","gradeBands":[3]},
-  {"id":"sof3.universe.earth-position","statement":"Earth is the third planet from the Sun.","subject":"Science","topic":"Earth and Universe","subtopic":"Solar system order","gradeBands":[3]}
+  {"id":"sof3.earth.atmosphere","statement":"Earth's atmosphere is the layer of gases surrounding Earth.","subject":"Science","topic":"Earth and Universe","subtopic":"Atmosphere","gradeBands":[3]}
 ]
