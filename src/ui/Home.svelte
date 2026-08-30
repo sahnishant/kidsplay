@@ -93,6 +93,7 @@
     childAvatar={child.avatar}
     {storyProgress}
     recommendedTopics={progress.recommendedTopics}
+    topicProgress={progress.topics}
     {onStartMission}
     {onExploreLocation}
   />

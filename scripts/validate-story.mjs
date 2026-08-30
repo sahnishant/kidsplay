@@ -50,7 +50,8 @@ requireCondition(Array.isArray(missionsDoc.missions), 'missions must be an array
 
 const characterIds = uniqueIds(charactersDoc.characters, 'characters');
 const locationIds = uniqueIds(locationsDoc.locations, 'locations');
-uniqueIds(missionsDoc.missions, 'missions');
+const missionIds = uniqueIds(missionsDoc.missions, 'missions');
+const missionById = new Map(missionsDoc.missions.map((mission) => [mission.id, mission]));
 
 for (const id of ['dheu', 'scientu', 'shaitanu']) {
   requireCondition(characterIds.has(id), `required character ${id} is missing`);
@@ -61,6 +62,13 @@ for (const location of locationsDoc.locations) {
   requireCondition(location.position && Number.isFinite(location.position.x) && Number.isFinite(location.position.y), `location ${location.id} needs numeric position`);
   requireCondition(location.position.x >= 0 && location.position.x <= 100, `location ${location.id} x must be 0..100`);
   requireCondition(location.position.y >= 0 && location.position.y <= 100, `location ${location.id} y must be 0..100`);
+  requireCondition(location.unlock && typeof location.unlock === 'object', `location ${location.id} needs a story unlock rule`);
+  requireCondition(location.unlock.type === 'start' || location.unlock.type === 'mission', `location ${location.id} has invalid unlock type`);
+  if (location.unlock.type === 'mission') {
+    requireCondition(typeof location.unlock.missionRef === 'string' && location.unlock.missionRef.length > 0, `location ${location.id} needs unlock missionRef`);
+    requireCondition(missionIds.has(location.unlock.missionRef), `location ${location.id} has unknown unlock mission ${location.unlock.missionRef}`);
+    requireCondition(missionById.get(location.unlock.missionRef)?.access === 'free', `location ${location.id} cannot depend on a non-free mission`);
+  }
 }
 
 const knowledgeRowIds = new Set();
@@ -116,4 +124,35 @@ for (const mission of missionsDoc.missions) {
 
 requireCondition(freeMissionCount > 0, 'story world needs at least one directly playable free mission');
 
-console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free map missions)`);
+// Prove the story-only unlock graph is reachable without consulting curriculum/mastery state.
+const reachableLocations = new Set(
+  locationsDoc.locations.filter((location) => location.unlock.type === 'start').map((location) => location.id)
+);
+const completableMissions = new Set();
+let changed = true;
+while (changed) {
+  changed = false;
+  for (const mission of missionsDoc.missions) {
+    if (mission.access !== 'free' || completableMissions.has(mission.id)) continue;
+    if (reachableLocations.has(mission.locationRef)) {
+      completableMissions.add(mission.id);
+      changed = true;
+    }
+  }
+  for (const location of locationsDoc.locations) {
+    if (reachableLocations.has(location.id) || location.unlock.type !== 'mission') continue;
+    if (completableMissions.has(location.unlock.missionRef)) {
+      reachableLocations.add(location.id);
+      changed = true;
+    }
+  }
+}
+
+for (const location of locationsDoc.locations) {
+  requireCondition(reachableLocations.has(location.id), `location ${location.id} is unreachable in the story unlock graph`);
+}
+for (const mission of missionsDoc.missions.filter((mission) => mission.access === 'free')) {
+  requireCondition(completableMissions.has(mission.id), `free mission ${mission.id} is unreachable in the story unlock graph`);
+}
+
+console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free map missions; story unlock graph reachable)`);

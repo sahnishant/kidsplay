@@ -4,15 +4,19 @@
     type StoryCharacterMood,
     type StoryCharacterMotion
   } from '../presentation/StoryCharacter.svelte';
-  import type { AvatarId, TopicProgressSummary } from '../runtime/localProgress';
+  import type { AvatarId, TopicProgressStatus, TopicProgressSummary } from '../runtime/localProgress';
   import {
     getHeroDisplayName,
+    getStoryMission,
+    getStoryMissionAverageDifficulty,
     getStoryLocations,
     getStoryMissions
   } from '../story/storyDirector';
   import {
+    isStoryLocationUnlocked,
     isStoryMissionComplete,
     storyStarTotal,
+    storyUnlockedLocationCount,
     type StoryProgressSnapshot
   } from '../story/storyProgress';
   import type { StoryCharacterId, StoryLocation, StoryMission } from '../story/storyTypes';
@@ -22,6 +26,7 @@
     childAvatar,
     storyProgress,
     recommendedTopics = [],
+    topicProgress = [],
     onStartMission,
     onExploreLocation = () => {}
   }: {
@@ -29,6 +34,7 @@
     childAvatar: AvatarId;
     storyProgress: StoryProgressSnapshot;
     recommendedTopics?: TopicProgressSummary[];
+    topicProgress?: TopicProgressSummary[];
     onStartMission: (missionId: string) => void;
     onExploreLocation?: (locationId: string) => void;
   } = $props();
@@ -41,6 +47,15 @@
   );
   let heroName = $derived(getHeroDisplayName(childName));
   let stars = $derived(storyStarTotal(storyProgress));
+  let unlockedPlaces = $derived(storyUnlockedLocationCount(storyProgress, locations));
+  let selectedChallenge = $derived(selectedMission ? challengeForMission(selectedMission) : null);
+
+  const topicStatusScore: Record<TopicProgressStatus, number> = {
+    not_started: 0,
+    needs_practice: 0.8,
+    growing: 1.7,
+    strong: 2.7
+  };
 
   function missionForLocation(locationId: string): StoryMission | undefined {
     return missions.find((mission) => mission.locationRef === locationId);
@@ -48,6 +63,23 @@
 
   function recommendationForLocation(location: StoryLocation): TopicProgressSummary | undefined {
     return recommendedTopics.find((topic) => location.topicGroups.includes(topic.id));
+  }
+
+  function unlockMissionTitle(location: StoryLocation): string | null {
+    if (location.unlock.type !== 'mission') return null;
+    return getStoryMission(location.unlock.missionRef).title;
+  }
+
+  function locationIcon(locationId: string): string {
+    return locationId === 'river-pond' ? '🌊'
+      : locationId === 'farm' ? '🐄'
+      : locationId === 'forest' ? '🌳'
+      : locationId === 'observatory' ? '🔭'
+      : locationId === 'scientu-lab' ? '🔬'
+      : locationId === 'road-school' ? '🚌'
+      : locationId === 'home-garden' ? '🏡'
+      : locationId === 'shaitanu-hideout' ? '🪨'
+      : '🏘️';
   }
 
   function speakerName(speakerRef: StoryCharacterId): string {
@@ -68,6 +100,42 @@
     if (mood === 'celebrate') return 'bounce';
     return 'idle';
   }
+
+  function challengeForMission(mission: StoryMission): {
+    level: 'gentle' | 'tricky' | 'clever';
+    label: string;
+    note: string;
+  } {
+    const location = locations.find((item) => item.id === mission.locationRef);
+    const relevantTopics = location
+      ? topicProgress.filter((topic) => location.topicGroups.includes(topic.id))
+      : [];
+    const masterySignal = relevantTopics.length
+      ? relevantTopics.reduce((sum, topic) => sum + topicStatusScore[topic.status], 0) / relevantTopics.length
+      : 0;
+    const difficulty = getStoryMissionAverageDifficulty(mission.id);
+    const challengeSignal = masterySignal + Math.max(0, difficulty - 1) * 0.35;
+
+    if (challengeSignal >= 2.25) {
+      return {
+        level: 'clever',
+        label: 'Clever trap',
+        note: 'Shaitanu is combining clues now. Check each claim before you accept it.'
+      };
+    }
+    if (challengeSignal >= 1.2) {
+      return {
+        level: 'tricky',
+        label: 'Tricky twist',
+        note: 'Shaitanu is mixing a true clue with a tempting guess. Compare the evidence.'
+      };
+    }
+    return {
+      level: 'gentle',
+      label: 'Warm-up tease',
+      note: 'Shaitanu is starting with one plausible guess. Look for the clearest clue.'
+    };
+  }
 </script>
 
 <section class="story-world" aria-labelledby="story-world-heading">
@@ -77,9 +145,12 @@
       <h2 id="story-world-heading">Where should {heroName} explore?</h2>
       <p>Help Scientu investigate ideas and catch Shaitanu's tricky guesses.</p>
     </div>
-    <div class="story-stars" aria-label={`${stars} story stars`}>
-      <span aria-hidden="true">⭐</span>
-      <strong>{stars}</strong>
+    <div class="story-world__status">
+      <div class="story-stars" aria-label={`${stars} story stars`}>
+        <span aria-hidden="true">⭐</span>
+        <strong>{stars}</strong>
+      </div>
+      <small>{unlockedPlaces}/{locations.length} places open</small>
     </div>
   </header>
 
@@ -117,29 +188,43 @@
       {@const mission = missionForLocation(location.id)}
       {@const completed = mission ? isStoryMissionComplete(storyProgress, mission.id) : false}
       {@const recommendation = recommendationForLocation(location)}
+      {@const unlocked = isStoryLocationUnlocked(storyProgress, location)}
+      {@const unlockTitle = unlockMissionTitle(location)}
       <button
         class:world-place--mission={Boolean(mission)}
         class:world-place--complete={completed}
-        class:world-place--recommended={Boolean(recommendation)}
+        class:world-place--recommended={unlocked && Boolean(recommendation)}
+        class:world-place--locked={!unlocked}
         class="world-place"
         style={`--world-x:${location.position.x}%;--world-y:${location.position.y}%`}
         type="button"
-        aria-label={mission ? `${location.label}: ${mission.title}` : `${location.label}: explore`}
-        onclick={() => mission ? (selectedMissionId = mission.id) : onExploreLocation(location.id)}
+        disabled={!unlocked}
+        aria-label={!unlocked
+          ? `${location.label}: locked until ${unlockTitle ?? 'the previous story mission'}`
+          : mission ? `${location.label}: ${mission.title}` : `${location.label}: explore`}
+        onclick={() => {
+          if (!unlocked) return;
+          if (mission) selectedMissionId = mission.id;
+          else onExploreLocation(location.id);
+        }}
       >
         <span class="world-place__icon" aria-hidden="true">
-          {location.id === 'river-pond' ? '🌊' : location.id === 'farm' ? '🐄' : location.id === 'forest' ? '🌳' : location.id === 'observatory' ? '🔭' : location.id === 'scientu-lab' ? '🔬' : location.id === 'road-school' ? '🚌' : location.id === 'home-garden' ? '🏡' : location.id === 'shaitanu-hideout' ? '🪨' : '🏘️'}
+          {unlocked ? locationIcon(location.id) : '🔒'}
         </span>
         <strong>{location.label}</strong>
-        <small>{mission ? (completed ? 'Mission complete · replay' : 'New mission') : 'Explore this place'}</small>
-        {#if recommendation}
+        <small>
+          {!unlocked
+            ? `Finish ${unlockTitle ?? 'the previous mission'}`
+            : mission ? (completed ? 'Mission complete · replay' : 'New mission') : 'Explore this place'}
+        </small>
+        {#if unlocked && recommendation}
           <small class="world-place__recommendation">Scientu suggests · {recommendation.label}</small>
         {/if}
       </button>
     {/each}
   </div>
 
-  {#if selectedMission}
+  {#if selectedMission && selectedChallenge}
     <article class="mission-intro" aria-labelledby="mission-intro-heading">
       <div class="mission-intro__scene">
         {#if selectedMission.openingSceneRef}
@@ -149,6 +234,19 @@
       <div class="mission-intro__copy">
         <span class="eyebrow">STORY MISSION</span>
         <h3 id="mission-intro-heading">{selectedMission.title}</h3>
+        <div class={`shaitanu-challenge shaitanu-challenge--${selectedChallenge.level}`}>
+          <span class="shaitanu-challenge__actor" aria-hidden="true">
+            <StoryCharacter
+              character="shaitanu"
+              mood="mischievous"
+              motion={selectedChallenge.level === 'clever' ? 'bounce' : selectedChallenge.level === 'tricky' ? 'wiggle' : 'idle'}
+            />
+          </span>
+          <span>
+            <strong>Shaitanu · {selectedChallenge.label}</strong>
+            <small>{selectedChallenge.note}</small>
+          </span>
+        </div>
         <div class="mission-dialogue">
           {#each selectedMission.beats as beat}
             <p data-speaker={beat.speakerRef}>
@@ -207,8 +305,19 @@
     font-weight: 650;
   }
 
-  .story-stars {
+  .story-world__status {
     flex: 0 0 auto;
+    display: grid;
+    justify-items: end;
+    gap: 4px;
+  }
+
+  .story-world__status > small {
+    color: var(--muted);
+    font-weight: 750;
+  }
+
+  .story-stars {
     display: flex;
     align-items: center;
     gap: 6px;
@@ -329,6 +438,14 @@
     background: var(--good-soft);
   }
 
+  .world-place--locked {
+    opacity: 0.62;
+    border-style: dashed;
+    box-shadow: none;
+    cursor: not-allowed;
+    filter: saturate(0.65);
+  }
+
   .world-place__icon {
     font-size: 1.45rem;
   }
@@ -369,6 +486,47 @@
   .mission-intro__copy h3 {
     margin: 4px 0 10px;
     font-size: 1.45rem;
+  }
+
+  .shaitanu-challenge {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 10px;
+    padding: 8px 10px 8px 7px;
+    border-radius: 14px;
+    background: #f5f0ff;
+    border: 1px solid rgba(128, 101, 200, 0.2);
+  }
+
+  .shaitanu-challenge--clever {
+    border-color: rgba(128, 101, 200, 0.5);
+    box-shadow: inset 0 0 0 2px rgba(128, 101, 200, 0.08);
+  }
+
+  .shaitanu-challenge__actor {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: #fff;
+  }
+
+  .shaitanu-challenge > span:last-child {
+    display: grid;
+    gap: 2px;
+  }
+
+  .shaitanu-challenge strong {
+    font-size: 0.76rem;
+  }
+
+  .shaitanu-challenge small {
+    color: var(--muted);
+    font-weight: 700;
+    line-height: 1.35;
   }
 
   .mission-dialogue {

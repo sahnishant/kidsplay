@@ -32,6 +32,8 @@ Hard rules:
 4. Story completion may award world/story rewards, but normal learning attempts remain the only source of mastery evidence.
 5. Structured mocks remain assessment experiences and do not receive pre-answer story hints.
 6. Story content can change without changing canonical facts; canonical facts can be refreshed without rewriting the world arc.
+7. Story-map unlocks depend only on stable story mission IDs/completions, never curriculum membership, mastery thresholds or payment state.
+8. Locking a story-map place does not paywall its foundational knowledge; the ordinary free-learning catalog remains available independently.
 
 ## Data layout
 
@@ -41,23 +43,61 @@ content/story/locations.json
 content/story/missions.json
 ```
 
-`characters.json` defines stable story identities and pedagogical roles. `locations.json` defines the navigable world and topic affinities. `missions.json` defines short authored narrative wrappers around reusable learning goals.
+`characters.json` defines stable story identities and pedagogical roles. `locations.json` defines the navigable world, topic affinities and story-only unlock rules. `missions.json` defines short authored narrative wrappers around reusable learning goals.
 
 The runtime story director is responsible for resolving mission knowledge refs to current runnable questions. If a mission cannot obtain enough suitable current questions, it must fail closed rather than inventing content or silently changing its learning goals.
+
+The story validator additionally proves that the free-map unlock graph is reachable from `start` locations. A location may unlock after a directly playable free mission; cyclic/unreachable paths and unlock dependencies on goal/paid missions fail validation.
 
 ## Story scales
 
 ### Micro-story
 
-A short reaction around a suitable individual question: setup → decision → character reaction. Use only where the story does not leak the answer.
+A short reaction around a suitable individual question: setup → decision → character reaction. Use only where the story does not leak the answer. This remains optional rather than wrapping every question in repetitive dialogue.
 
 ### Mission
 
-A 5–10 minute problem containing several interactions and potentially several engines. Missions request learning goals and question count; the director selects from the current reusable bank.
+A multi-question problem containing several interactions and potentially several engines. Missions request learning goals and question count; the director selects from the current reusable bank. The current missions use 5–6 clues and may cover more canonical rows than clue cards when one question legitimately combines several facts.
 
 ### World arc
 
 Long-lived progression across weeks/months. World unlocks and story beats are independent of a specific curriculum version so the bank can evolve without invalidating the narrative.
+
+Current free-map arc:
+
+```text
+START
+├─ Home & Garden
+├─ Farm
+├─ Forest
+├─ Road & School
+└─ River & Pond → Puppy by the Pond
+                   ↓
+             Scientu's Lab → Invisible Air Mystery
+                   ↓
+          Shaitanu's Hideout → Rock Look-Alike Case
+                   ↓
+               Observatory → Night-Sky Mix-Up
+                   ↓
+               Town Square
+```
+
+The five `start` places remain immediately explorable. Completing each curated story mission reveals the next narrative location. The unlock state is derived from separate story progress, so curriculum/profile revisions do not erase or reinterpret the world arc.
+
+## Adaptive Shaitanu framing
+
+Shaitanu's presentation challenge is separate from question scoring. Before a curated mission, the UI combines:
+
+- current topic-progress status for the mission location; and
+- the actual average difficulty of the mission's current reusable question set.
+
+It selects one of three presentation bands:
+
+- **Warm-up tease** — one plausible misconception and a clear evidence cue.
+- **Tricky twist** — mixes a true clue with a tempting guess.
+- **Clever trap** — asks the child to separate or combine several clues carefully.
+
+This only changes story framing/motion. It never changes answer keys, evaluation, mastery rules or mock behavior. Curated mission question selection separately remains mastery-aware while preserving complete declared row coverage.
 
 ## Initial world
 
@@ -68,31 +108,25 @@ Long-lived progression across weeks/months. World unlocks and story beats are in
 - Road & School — transport, communication, safety and reasoning.
 - Scientu's Lab — experiments, body, air/water and deeper reasoning.
 - Observatory — Earth, Moon, Sun and space.
-- Shaitanu's Hideout — puzzles, misconceptions and revision challenges.
+- Shaitanu's Hideout — puzzles, rocks, misconceptions and revision challenges.
 - Town Square — family, community, festivals and mixed exploration.
 
 Locations are narrative navigation, not hard curriculum partitions. A mission may mix learning goals from several topic groups when the story naturally supports them.
 
-## First vertical slice
+## Curated missions
 
-**The Puppy by the Pond** proves the architecture end to end.
+- **The Puppy by the Pond** — 6 clues.
+- **The Invisible Air Mystery** — 5 clues covering 6 declared air rows.
+- **The Rock Look-Alike Case** — 6 clues covering 7 declared rock/mineral rows.
+- **The Night-Sky Mix-Up** — 6 clues.
 
-Opening idea: Shaitanu suggests that because some animals live in water, the puppy should jump into the pond. Scientu asks Dheu to investigate rather than simply accepting the claim. The mission uses current reusable knowledge about dogs, puppies, animal homes/classification and water places, then returns to a success beat.
-
-Acceptance boundary:
-
-1. Story world appears on app home.
-2. Mission starts from story data.
-3. Mission resolves 4–6 current questions through existing engines.
-4. Normal attempts update normal mastery/progress.
-5. Mission completion is persisted separately as story progress.
-6. The child returns to the world and sees the mission completed/rewarded.
+All four resolve through the current free question bank and existing engines. Director-level tests require the declared clue count, unique question IDs and full declared canonical-row coverage. Replays accept existing mastery and prefer weak/unseen rows without losing mission coverage.
 
 ## Character/art policy
 
 Dheu, Scientu and Shaitanu should form coherent Kidsplay-owned character IP. Build them from reusable SVG/CSS parts and states rather than dozens of bespoke full-frame illustrations.
 
-Useful state/motion vocabulary includes `idle`, `happy`, `thinking`, `worried`, `celebrate`, `point`, `bounce`, `shake`, `blink`, `walk` and `float`. Reduced-motion behavior remains mandatory.
+Current shared story vocabulary includes moods `happy`, `thinking`, `mischievous`, `celebrate`, `worried`, `ready` and motions `idle`, `think`, `bounce`, `wiggle`, `float`. Add `point`, `walk`, `shake` or other states only when a concrete scene needs them. Reduced-motion behavior remains mandatory.
 
 Generic entities (animals, food, vehicles, objects, weather) may use exact-provenance permissive open-source assets when that materially lowers production cost. Runtime should consume only selected/admitted assets, not giant external packs.
 
