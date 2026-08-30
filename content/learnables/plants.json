@@ -47,7 +47,6 @@
     "subtopic": "Plant Parts",
     "gradeBands": [1, 2]
   },
-
   {
     "id": "plants.types.tree",
     "statement": "A mango plant is a tree with a strong woody trunk.",
@@ -96,7 +95,6 @@
     "subtopic": "Plant Types",
     "gradeBands": [1, 2]
   },
-
   {
     "id": "plants.uses.fibre",
     "statement": "Cotton plants provide fibre that is spun into yarn and used to make cloth.",
@@ -140,6 +138,38 @@
   {
     "id": "plants.uses.materials",
     "statement": "Bamboo is used to make baskets and many other useful objects.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.importance.animals",
+    "statement": "Plants provide food and shelter for many animals.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Importance of Plants",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.uses.dyes",
+    "statement": "Plants can provide dyes; indigo is an example used for making dye.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Uses of Plants",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.importance.air",
+    "statement": "Plants help keep the air cool and fresh.",
+    "subject": "EVS",
+    "topic": "Plants",
+    "subtopic": "Importance of Plants",
+    "gradeBands": [2]
+  },
+  {
+    "id": "plants.uses.spices",
+    "statement": "Cardamom is a spice used to add flavour to food.",
     "subject": "EVS",
     "topic": "Plants",
     "subtopic": "Uses of Plants",
