@@ -1,0 +1,14 @@
+[
+  { "id": "entity.habit.exercise", "renderer": "class2-concept-icon", "glyph": "exercise", "label": "Exercise and play actively", "motion": "wiggle", "aliases": ["exercise", "exercise and play actively"] },
+  { "id": "entity.air.air-pollution", "renderer": "class2-concept-icon", "glyph": "air-pollution", "label": "Air pollution", "motion": "drift", "aliases": ["air pollution"] },
+  { "id": "entity.food.balanced-diet", "renderer": "class2-concept-icon", "glyph": "balanced-diet", "label": "Balanced diet", "motion": "pulse", "aliases": ["balanced diet"] },
+  { "id": "entity.animal-part.bird-beak", "renderer": "class2-concept-icon", "glyph": "bird-beak", "label": "A bird's beak", "motion": "idle", "aliases": ["bird beak", "a bird's beak"] },
+  { "id": "entity.animal-part.bird-feathers", "renderer": "class2-concept-icon", "glyph": "bird-feathers", "label": "Bird feathers", "motion": "sway", "aliases": ["bird feathers", "feathers on birds"] },
+  { "id": "entity.animal-part.bird-wings", "renderer": "class2-concept-icon", "glyph": "bird-wings", "label": "Bird wings", "motion": "flap", "aliases": ["bird wings", "wings"] },
+  { "id": "entity.nutrient.carbohydrates", "renderer": "class2-concept-icon", "glyph": "carbohydrates", "label": "Carbohydrates", "motion": "pulse", "aliases": ["carbohydrates"] },
+  { "id": "entity.communication.email", "renderer": "class2-concept-icon", "glyph": "email", "label": "Email", "motion": "float", "aliases": ["email"] },
+  { "id": "entity.process.evaporation-separation", "renderer": "class2-concept-icon", "glyph": "evaporation", "label": "Evaporation", "motion": "drift", "aliases": ["evaporation", "evaporation separation"] },
+  { "id": "entity.people.farmer", "renderer": "class2-concept-icon", "glyph": "farmer", "label": "Farmer", "motion": "sway", "aliases": ["farmer"] },
+  { "id": "entity.nutrient.fats", "renderer": "class2-concept-icon", "glyph": "fats", "label": "Fats", "motion": "float", "aliases": ["fats", "dietary fats"] },
+  { "id": "entity.process.filtration", "renderer": "class2-concept-icon", "glyph": "filtration", "label": "Filtration", "motion": "drift", "aliases": ["filtration"] }
+]
