@@ -122,7 +122,8 @@ export function getStoryLocations(): StoryLocation[] {
   return locations.map((location) => ({
     ...location,
     topicGroups: [...location.topicGroups],
-    position: { ...location.position }
+    position: { ...location.position },
+    unlock: { ...location.unlock }
   }));
 }
 
@@ -140,6 +141,14 @@ export function getStoryMission(missionId: string): StoryMission {
   const mission = missions.find((item) => item.id === missionId);
   if (!mission) throw new Error(`Unknown story mission ${missionId}`);
   return cloneMission(mission);
+}
+
+/** Baseline activity difficulty for story framing; this does not affect scoring or selection policy. */
+export function getStoryMissionAverageDifficulty(missionId: string): number {
+  const mission = getStoryMission(missionId);
+  const questions = chooseMissionQuestions(mission);
+  if (!questions.length) return 1;
+  return questions.reduce((sum, question) => sum + question.difficulty, 0) / questions.length;
 }
 
 export function getHeroDisplayName(savedChildName: string): string {
