@@ -82,6 +82,12 @@
     { "rowId": "kr.reasoning.measurement.pencil.centimetres", "fit": "review" },
     { "rowId": "kr.reasoning.measurement.room.metres", "fit": "review" },
     { "rowId": "kr.reasoning.shapes.triangle.three-sides", "fit": "review" },
-    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "review" }
+    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "review" },
+    { "rowId": "kr.reasoning.alphabet.arrange.mango-first", "fit": "review" },
+    { "rowId": "kr.reasoning.figure-matrix.alternating.symbols", "fit": "review" },
+    { "rowId": "kr.reasoning.mirror.word-nearest.right", "fit": "review" },
+    { "rowId": "kr.reasoning.combinations.outfits.two-by-two", "fit": "review" },
+    { "rowId": "kr.reasoning.clock.elapsed.school-four-hours", "fit": "review" },
+    { "rowId": "kr.reasoning.calendar.days-after.monday", "fit": "review" }
   ]
 }
