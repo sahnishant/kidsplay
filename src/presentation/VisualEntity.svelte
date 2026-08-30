@@ -11,6 +11,7 @@
   import LearningIcon from './LearningIcon.svelte';
   import PropertyIcon from './PropertyIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
+  import { resolveBundledAsset } from './assetRegistry';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
   let {
@@ -25,11 +26,21 @@
     label?: string;
   } = $props();
 
+  let failedAssetRef = $state<string | null>(null);
   let visual = $derived(resolveVisualDefinition(visualRef));
+  let bundledAsset = $derived(
+    visual?.assetRef && failedAssetRef !== visual.assetRef
+      ? resolveBundledAsset(visual.assetRef)
+      : null
+  );
   let accessibleLabel = $derived(label ?? visual?.label ?? '');
 
   function sceneIcon(value: string): SceneIconId {
     return value as SceneIconId;
+  }
+
+  function markAssetFailed(): void {
+    if (visual?.assetRef) failedAssetRef = visual.assetRef;
   }
 </script>
 
@@ -38,12 +49,22 @@
     class={`visual-entity visual-entity--${context} visual-motion--${visual.motion}`}
     data-visual-ref={visual.id}
     data-glyph={visual.glyph}
+    data-asset-ref={bundledAsset?.id}
     role={decorative ? undefined : 'img'}
     aria-label={decorative ? undefined : accessibleLabel}
     aria-hidden={decorative ? 'true' : undefined}
   >
     <span class="visual-entity__art">
-      {#if visual.renderer === 'scene-icon'}
+      {#if bundledAsset}
+        <img
+          class="visual-entity__asset"
+          src={bundledAsset.url}
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+          onerror={markAssetFailed}
+        />
+      {:else if visual.renderer === 'scene-icon'}
         <SceneIcon icon={sceneIcon(visual.glyph)} />
       {:else if visual.renderer === 'utility-icon'}
         <UtilityIcon icon={visual.glyph} />
@@ -86,6 +107,13 @@
     width: 100%;
     height: 100%;
     transform-origin: 50% 72%;
+  }
+
+  .visual-entity__asset {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   .visual-motion--idle .visual-entity__art,
