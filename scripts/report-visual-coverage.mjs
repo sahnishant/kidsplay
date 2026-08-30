@@ -10,6 +10,18 @@ const normalize = (value) => String(value ?? '')
   .replace(/\s+/g, ' ')
   .trim();
 
+const args = process.argv.slice(2);
+const jsonMode = args.includes('--json');
+const limitArg = args.find((arg) => arg.startsWith('--limit='));
+const failUnderArg = args.find((arg) => arg.startsWith('--fail-under='));
+const unresolvedLimit = Math.max(1, Number(limitArg?.split('=')[1] ?? 20) || 20);
+const failUnder = failUnderArg === undefined ? null : Number(failUnderArg.split('=')[1]);
+
+if (failUnder !== null && (!Number.isFinite(failUnder) || failUnder < 0 || failUnder > 100)) {
+  console.error('--fail-under must be a percentage between 0 and 100.');
+  process.exit(2);
+}
+
 const visualFiles = readdirSync(new URL('content/visuals/', root)).filter((name) => name.endsWith('.json')).sort();
 const visuals = visualFiles.flatMap((file) => readJson(`content/visuals/${file}`));
 const visualIds = new Set(visuals.map((visual) => visual.id));
@@ -103,22 +115,48 @@ const summarize = (values) => {
 
 const overall = summarize(totals);
 const friendly = summarize(visualFriendlyTotals);
+const engineReport = Object.fromEntries(
+  [...byEngine.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([engine, values]) => [
+    engine,
+    { ...summarize(values), ...values, policy: engine === 'drag_to_target' ? 'explicit_visual_only' : 'visual_friendly' }
+  ])
+);
+const unresolvedReport = Object.fromEntries(
+  [...unresolvedByEngine.entries()].sort(([left], [right]) => left.localeCompare(right)).map(([engine, entries]) => [
+    engine,
+    entries.slice(0, unresolvedLimit)
+  ])
+);
 
-console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s).`);
-console.log(`Visual-friendly question items (excluding match/drag policy): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals.`);
-console.log(`All supported card/region items including matching: ${overall.visual}/${overall.total} (${overall.percent}%).`);
-console.log(`Resolution on visual-friendly surfaces: authored ${visualFriendlyTotals.authored}, semantic ${visualFriendlyTotals.semantic}, exact-label ${visualFriendlyTotals.label}, text-only ${visualFriendlyTotals.text}.`);
+if (jsonMode) {
+  console.log(JSON.stringify({
+    library: { entities: visuals.length, packs: visualFiles.length },
+    visualFriendly: { ...friendly, ...visualFriendlyTotals },
+    overall: { ...overall, ...totals },
+    byEngine: engineReport,
+    unresolved: unresolvedReport
+  }, null, 2));
+} else {
+  console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s).`);
+  console.log(`Visual-friendly question items (excluding match/drag policy): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals.`);
+  console.log(`All supported card/region items including matching: ${overall.visual}/${overall.total} (${overall.percent}%).`);
+  console.log(`Resolution on visual-friendly surfaces: authored ${visualFriendlyTotals.authored}, semantic ${visualFriendlyTotals.semantic}, exact-label ${visualFriendlyTotals.label}, text-only ${visualFriendlyTotals.text}.`);
 
-for (const [engine, values] of [...byEngine.entries()].sort(([left], [right]) => left.localeCompare(right))) {
-  const summary = summarize(values);
-  const policy = engine === 'drag_to_target' ? ' (matching is explicit-visual only)' : '';
-  console.log(`- ${engine}: ${summary.visual}/${summary.total} (${summary.percent}%) visual; ${values.text} text-only${policy}.`);
+  for (const [engine, values] of Object.entries(engineReport)) {
+    const policy = engine === 'drag_to_target' ? ' (matching is explicit-visual only)' : '';
+    console.log(`- ${engine}: ${values.visual}/${values.total} (${values.percent}%) visual; ${values.text} text-only${policy}.`);
+  }
+
+  for (const [engine, entries] of Object.entries(unresolvedReport)) {
+    if (!entries.length || engine === 'drag_to_target') continue;
+    console.log(`Top unresolved ${engine} items:`);
+    for (const entry of entries) {
+      console.log(`- ${entry.questionId}/${entry.itemId}: ${entry.label}${entry.semanticRef ? ` [${entry.semanticRef}]` : ''}`);
+    }
+  }
 }
 
-for (const [engine, entries] of [...unresolvedByEngine.entries()].sort(([left], [right]) => left.localeCompare(right))) {
-  if (!entries.length || engine === 'drag_to_target') continue;
-  console.log(`Top unresolved ${engine} items:`);
-  for (const entry of entries.slice(0, 10)) {
-    console.log(`- ${entry.questionId}/${entry.itemId}: ${entry.label}${entry.semanticRef ? ` [${entry.semanticRef}]` : ''}`);
-  }
+if (failUnder !== null && friendly.percent < failUnder) {
+  console.error(`Visual-friendly coverage ${friendly.percent}% is below required ${failUnder}%.`);
+  process.exit(1);
 }
