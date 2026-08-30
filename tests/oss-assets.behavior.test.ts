@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/svelte';
 import { tick } from 'svelte';
 import { describe, expect, it } from 'vitest';
 import registry from '../content/assets/registry.json';
-import { validateAssetRegistry } from '../scripts/validate-assets.mjs';
+import { sourceBlobSha, validateAssetRegistry } from '../scripts/validate-assets.mjs';
 import VisualEntity from '../src/presentation/VisualEntity.svelte';
 import {
   getBundledAssetDefinitions,
@@ -17,6 +17,19 @@ describe('OSS semantic asset integration', () => {
     expect(result.errors).toEqual([]);
     expect(result.assetCount).toBe(10);
     expect(result.sourceCount).toBe(1);
+  });
+
+  it('treats Windows CRLF materialization of SVGs as the same pinned Git blob content', () => {
+    const lf = Buffer.from('<svg>\n<path/>\n</svg>\n', 'utf8');
+    const crlf = Buffer.from('<svg>\r\n<path/>\r\n</svg>\r\n', 'utf8');
+    const svgPath = 'public/assets/open/fluent/example.svg';
+
+    expect(sourceBlobSha(crlf, svgPath)).toBe(sourceBlobSha(lf, svgPath));
+
+    const binaryPath = 'public/assets/open/kenney/example.png';
+    expect(sourceBlobSha(Buffer.from([13, 10]), binaryPath)).not.toBe(
+      sourceBlobSha(Buffer.from([10]), binaryPath)
+    );
   });
 
   it('fails closed when provenance, source approval, revision pinning, or registration is tampered with', () => {
