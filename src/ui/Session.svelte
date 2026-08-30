@@ -45,45 +45,45 @@
   }
 
   const seededState = seedSessionState();
-  let state: SessionState = $state(seededState);
+  let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
-  let question = $derived(questions[state.index]);
-  let correctCount = $derived(state.results.filter((result) => result.correct).length);
+  let question = $derived(questions[sessionState.index]);
+  let correctCount = $derived(sessionState.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
   let reasoningQuestion = $derived(
     Boolean(question && (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3)
   );
   let currentSection = $derived(
-    sections.find((section) => state.index >= section.startIndex && state.index < section.startIndex + section.count)
+    sections.find((section) => sessionState.index >= section.startIndex && sessionState.index < section.startIndex + section.count)
   );
-  let sectionScores = $derived(summarizeSectionResults(sections, state.results));
+  let sectionScores = $derived(summarizeSectionResults(sections, sessionState.results));
   let earnedMarks = $derived(sectionScores.reduce((sum, section) => sum + section.earnedMarks, 0));
   let maxMarks = $derived(sectionScores.reduce((sum, section) => sum + section.maxMarks, 0));
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
-    const result = submitResponse(state, question, response);
-    const storedResponse = state.responses[state.responses.length - 1];
+    const result = submitResponse(sessionState, question, response);
+    const storedResponse = sessionState.responses[sessionState.responses.length - 1];
     if (result && storedResponse) {
       onAttempt?.({ question, response: storedResponse, result });
-      onCheckpoint?.(state);
+      onCheckpoint?.(sessionState);
     }
   }
 
   function handleAdvance(): void {
-    advanceSession(state);
+    advanceSession(sessionState);
     restoredSubmitted = false;
-    if (state.index >= questions.length) {
-      onComplete?.(state);
+    if (sessionState.index >= questions.length) {
+      onComplete?.(sessionState);
     } else {
-      onCheckpoint?.(state);
+      onCheckpoint?.(sessionState);
     }
   }
 
   function handleReplay(): void {
-    replaySession(state);
+    replaySession(sessionState);
     restoredSubmitted = false;
-    onCheckpoint?.(state);
+    onCheckpoint?.(sessionState);
   }
 </script>
 
@@ -102,7 +102,7 @@
           <div class="pack-title">{title}</div>
         </div>
       </div>
-      <div class="progress-pill">{state.index + 1} / {questions.length}</div>
+      <div class="progress-pill">{sessionState.index + 1} / {questions.length}</div>
     </header>
 
     <article class="question-card">
@@ -140,16 +140,16 @@
         </div>
       {/if}
 
-      {#if state.submitted && state.lastResult}
+      {#if sessionState.submitted && sessionState.lastResult}
         <div
-          class={`feedback feedback--${state.lastResult.correct ? 'correct' : 'incorrect'}`}
+          class={`feedback feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}`}
           role="status"
         >
-          <strong>{state.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
-          <span>{question.feedback[state.lastResult.feedbackKey]}</span>
+          <strong>{sessionState.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
+          <span>{question.feedback[sessionState.lastResult.feedbackKey]}</span>
         </div>
         <button class="next-button" type="button" onclick={handleAdvance}>
-          {state.index + 1 < questions.length ? 'Next' : 'See result'}
+          {sessionState.index + 1 < questions.length ? 'Next' : 'See result'}
         </button>
       {/if}
     </article>
@@ -160,7 +160,7 @@
       <Avatar avatar={childAvatar} mood="celebrate" motion="bounce" />
     </div>
     <h1>Nice work, {displayName}</h1>
-    <p>You solved {correctCount} of {state.results.length} questions correctly.</p>
+    <p>You solved {correctCount} of {sessionState.results.length} questions correctly.</p>
     {#if maxMarks > 0}
       <p><strong>{earnedMarks} / {maxMarks} practice marks</strong></p>
     {/if}
