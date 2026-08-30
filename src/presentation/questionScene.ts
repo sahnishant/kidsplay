@@ -18,7 +18,8 @@ const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.air.sailboat.moved-by.wind', 'scene.air.sailboat-wind'],
   ['kr.water.sea.feature.salty', 'scene.water.sea-salty'],
   ['kr.rocks.pumice.feature.light', 'scene.rocks.pumice-water'],
-  ['kr.plants.general.air.cool-fresh', 'scene.plants.air-fresh']
+  ['kr.plants.general.air.cool-fresh', 'scene.plants.air-fresh'],
+  ['kr.universe.earth.rotation.day-night', 'scene.universe.earth-rotation']
 ]);
 
 const sceneByConceptId = new Map<string, string>([
@@ -31,7 +32,8 @@ const sceneByConceptId = new Map<string, string>([
   ['air.properties.sailboat', 'scene.air.sailboat-wind'],
   ['water.sources.sea', 'scene.water.sea-salty'],
   ['rocks.types.pumice', 'scene.rocks.pumice-water'],
-  ['plants.importance.air', 'scene.plants.air-fresh']
+  ['plants.importance.air', 'scene.plants.air-fresh'],
+  ['universe.earth.rotation', 'scene.universe.earth-rotation']
 ]);
 
 const dashboardSceneByTopic = new Map<string, string>([
@@ -40,7 +42,8 @@ const dashboardSceneByTopic = new Map<string, string>([
   ['human', 'scene.human.lungs-breathing'],
   ['air', 'scene.air.windmill'],
   ['water', 'scene.water.sea-salty'],
-  ['rocks', 'scene.rocks.pumice-water']
+  ['rocks', 'scene.rocks.pumice-water'],
+  ['universe', 'scene.universe.earth-rotation']
 ]);
 
 /**
