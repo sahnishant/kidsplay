@@ -11,6 +11,7 @@
     "render:profile-output": "npm run compile:index && node scripts/render-profile-output.mjs",
     "report:coverage": "node scripts/report-learning-coverage.mjs",
     "report:visual-coverage": "node scripts/report-visual-coverage.mjs --fail-under=40",
+    "report:visual-opportunities": "node scripts/report-visual-opportunities.mjs",
     "validate:engines": "node scripts/validate-engine-registry.mjs",
     "validate:scenes": "node scripts/validate-scenes.mjs",
     "validate:visuals": "node scripts/validate-visuals.mjs",
