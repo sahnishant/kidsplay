@@ -47,6 +47,10 @@ describe('semantic visual registry', () => {
       renderer: 'concept-icon',
       glyph: 'domestic-animal'
     });
+    expect(resolveVisualDefinition('entity.universe.jupiter')).toMatchObject({
+      renderer: 'curriculum-icon',
+      glyph: 'jupiter'
+    });
   });
 
   it('resolves canonical semantic ids independently of display wording', () => {
@@ -55,6 +59,12 @@ describe('semantic visual registry', () => {
     expect(resolveSemanticVisualRefs('domestic-animal')).toEqual(['entity.concept.domestic-animal']);
     expect(resolveSemanticVisualRefs('air-space')).toEqual(['entity.concept.air-space']);
     expect(resolveSemanticVisualRefs('wash-produce')).toEqual(['entity.hygiene.wash-produce']);
+    expect(resolveSemanticVisualRefs('earth-rotation')).toEqual(['entity.universe.earth-rotation']);
+    expect(resolveSemanticVisualRefs('family-tree')).toEqual(['entity.family.family-tree']);
+    expect(resolveSemanticVisualRefs('steep-descent-sign')).toEqual(['entity.safety.steep-descent-sign']);
+    expect(resolveSemanticVisualRefs('sight')).toEqual(['entity.body.eyes']);
+    expect(resolveSemanticVisualRefs('hearing')).toEqual(['entity.body.ears']);
+    expect(resolveSemanticVisualRefs('smell')).toEqual(['entity.body.nose']);
     expect(resolveItemVisualRefs({ label: 'Caballito', semanticRef: 'seahorse' })).toEqual([
       'entity.animal.seahorse'
     ]);
@@ -71,6 +81,8 @@ describe('semantic visual registry', () => {
     expect(resolveLabelVisualRefs('Seahorse')).toEqual(['entity.animal.seahorse']);
     expect(resolveLabelVisualRefs('Kennel')).toEqual(['entity.animal-home.kennel']);
     expect(resolveLabelVisualRefs('Avoid spoiled food')).toEqual(['entity.hygiene.avoid-spoiled']);
+    expect(resolveLabelVisualRefs('Reach a marked zebra crossing')).toEqual(['entity.safety.zebra-reach']);
+    expect(resolveLabelVisualRefs('Check that traffic has stopped and it is safe')).toEqual(['entity.safety.traffic-check']);
     expect(resolveLabelVisualRefs('A dog runs beside a school bus')).toEqual([]);
   });
 
@@ -102,7 +114,7 @@ describe('semantic visual registry', () => {
   it('keeps the registry unique and broad enough for reusable Class 2 EVS coverage', () => {
     const refs = getRegisteredVisualRefs();
     expect(new Set(refs).size).toBe(refs.length);
-    expect(refs.length).toBeGreaterThanOrEqual(160);
+    expect(refs.length).toBeGreaterThanOrEqual(190);
     expect(getVisualDefinitions().every((visual) => visual.aliases.length > 0)).toBe(true);
   });
 });
