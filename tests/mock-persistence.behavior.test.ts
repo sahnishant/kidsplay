@@ -54,8 +54,8 @@ describe('offline mock persistence', () => {
     expect(loadMockCheckpoint()).toBeNull();
   });
 
-  it('stores bounded compact completion summaries and computes latest/best trend signals', () => {
-    recordMockCompletion({
+  it('stores internally consistent completion summaries and deduplicates the same session result', () => {
+    const completion = {
       sessionId: 'session.saved',
       entryId: 'goal.pattern.2026-27',
       title: '35-Question Pattern Mock',
@@ -65,17 +65,40 @@ describe('offline mock persistence', () => {
       maxMarks: 40,
       sections: [
         {
+          id: 'logical_reasoning',
+          title: 'Logical Reasoning',
+          correct: 4,
+          answered: 5,
+          total: 5,
+          accuracy: 0.8,
+          earnedMarks: 4,
+          maxMarks: 5
+        },
+        {
           id: 'science',
           title: 'Science',
-          correct: 21,
+          correct: 20,
           answered: 25,
           total: 25,
-          accuracy: 21 / 25,
-          earnedMarks: 21,
+          accuracy: 0.8,
+          earnedMarks: 20,
           maxMarks: 25
+        },
+        {
+          id: 'achievers',
+          title: 'Achievers',
+          correct: 4,
+          answered: 5,
+          total: 5,
+          accuracy: 0.8,
+          earnedMarks: 7,
+          maxMarks: 10
         }
       ]
-    });
+    };
+
+    recordMockCompletion(completion);
+    recordMockCompletion(completion);
 
     const history = loadMockHistory();
     expect(history).toHaveLength(1);
@@ -85,20 +108,34 @@ describe('offline mock persistence', () => {
       earnedMarks: 31,
       maxMarks: 40
     });
-    expect(history[0].sections[0].title).toBe('Science');
+    expect(history[0].sections[1].title).toBe('Science');
+  });
 
+  it('computes latest, best and previous score movement by mock', () => {
     const trendInput: MockHistoryRecord[] = [
       {
-        ...history[0],
+        version: 1,
         sessionId: 'session.older',
+        entryId: 'goal.pattern.2026-27',
+        title: '35-Question Pattern Mock',
         completedAt: '2026-08-29T10:00:00.000Z',
-        earnedMarks: 24
+        questionCount: 35,
+        correct: 22,
+        earnedMarks: 24,
+        maxMarks: 40,
+        sections: []
       },
       {
-        ...history[0],
+        version: 1,
         sessionId: 'session.latest',
+        entryId: 'goal.pattern.2026-27',
+        title: '35-Question Pattern Mock',
         completedAt: '2026-08-30T10:00:00.000Z',
-        earnedMarks: 32
+        questionCount: 35,
+        correct: 28,
+        earnedMarks: 32,
+        maxMarks: 40,
+        sections: []
       }
     ];
     const [trend] = summarizeMockHistory(trendInput);
