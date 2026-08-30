@@ -4,6 +4,7 @@ import {
   getVisualDefinitions,
   resolveItemVisualRefs,
   resolveLabelVisualRefs,
+  resolveSemanticVisualRefs,
   resolveVisualDefinition
 } from '../src/presentation/visualRegistry';
 
@@ -44,6 +45,17 @@ describe('semantic visual registry', () => {
     });
   });
 
+  it('resolves canonical semantic ids independently of display wording', () => {
+    expect(resolveSemanticVisualRefs('seahorse')).toEqual(['entity.animal.seahorse']);
+    expect(resolveSemanticVisualRefs('kennel')).toEqual(['entity.animal-home.kennel']);
+    expect(resolveItemVisualRefs({ label: 'Caballito', semanticRef: 'seahorse' })).toEqual([
+      'entity.animal.seahorse'
+    ]);
+    expect(resolveItemVisualRefs({ label: 'Not a dog', semanticRef: 'dog' })).toEqual([
+      'entity.animal.dog'
+    ]);
+  });
+
   it('uses exact aliases for legacy option labels instead of fuzzy matching', () => {
     expect(resolveLabelVisualRefs('Dog')).toEqual(['entity.animal.dog']);
     expect(resolveLabelVisualRefs('Moving air')).toEqual(['entity.nature.wind']);
@@ -73,6 +85,7 @@ describe('semantic visual registry', () => {
   it('keeps authored refs authoritative and can disable label inference', () => {
     expect(resolveItemVisualRefs({
       label: 'Dog',
+      semanticRef: 'dog',
       visualRefs: ['entity.animal.whale']
     })).toEqual(['entity.animal.whale']);
     expect(resolveItemVisualRefs({ label: 'Dog' }, false)).toEqual([]);
