@@ -21,7 +21,7 @@ afterEach(() => {
 });
 
 describe('Dheu story-world presentation', () => {
-  it('personalizes Dheu, opens the authored pond story and launches the mission by id', async () => {
+  it('personalizes Dheu, renders the original story cast, opens the pond story and launches the mission by id', async () => {
     const onStartMission = vi.fn();
     render(StoryWorld, {
       props: {
@@ -34,6 +34,9 @@ describe('Dheu story-world presentation', () => {
 
     expect(screen.getByRole('heading', { name: 'Where should Mira explore?' })).toBeTruthy();
     expect(screen.getByLabelText('0 story stars')).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'Mira, story explorer' })).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'Scientu, curious science guide' })).toBeTruthy();
+    expect(screen.getByRole('img', { name: 'Shaitanu, playful challenger' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
 

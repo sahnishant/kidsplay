@@ -1,6 +1,9 @@
 <script lang="ts">
-  import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
+  import StoryCharacter, {
+    type StoryCharacterMood,
+    type StoryCharacterMotion
+  } from '../presentation/StoryCharacter.svelte';
   import type { AvatarId } from '../runtime/localProgress';
   import {
     getHeroDisplayName,
@@ -43,6 +46,20 @@
     if (speakerRef === 'dheu') return heroName;
     return speakerRef === 'scientu' ? 'Scientu' : 'Shaitanu';
   }
+
+  function beatMood(mood: string): StoryCharacterMood {
+    if (mood === 'thinking' || mood === 'mischievous' || mood === 'celebrate' || mood === 'worried' || mood === 'ready') {
+      return mood;
+    }
+    return 'happy';
+  }
+
+  function beatMotion(mood: string): StoryCharacterMotion {
+    if (mood === 'mischievous') return 'wiggle';
+    if (mood === 'thinking' || mood === 'worried') return 'think';
+    if (mood === 'celebrate') return 'bounce';
+    return 'idle';
+  }
 </script>
 
 <section class="story-world" aria-labelledby="story-world-heading">
@@ -60,17 +77,27 @@
 
   <div class="story-cast" aria-label="Story characters">
     <div class="story-cast__hero">
-      <span class="story-cast__avatar" aria-hidden="true">
-        <Avatar avatar={childAvatar} mood="happy" motion="idle" />
+      <span class="story-cast__avatar">
+        <StoryCharacter
+          character="dheu"
+          heroAvatar={childAvatar}
+          mood="happy"
+          motion="idle"
+          label={`${heroName}, story explorer`}
+        />
       </span>
       <span><strong>{heroName}</strong><small>Explorer</small></span>
     </div>
     <div class="story-cast__character story-cast__character--scientu">
-      <span class="story-cast__mark" aria-hidden="true">🧪</span>
+      <span class="story-cast__avatar">
+        <StoryCharacter character="scientu" mood="thinking" motion="float" label="Scientu, curious science guide" />
+      </span>
       <span><strong>Scientu</strong><small>Ask why</small></span>
     </div>
     <div class="story-cast__character story-cast__character--shaitanu">
-      <span class="story-cast__mark" aria-hidden="true">🌀</span>
+      <span class="story-cast__avatar">
+        <StoryCharacter character="shaitanu" mood="mischievous" motion="wiggle" label="Shaitanu, playful challenger" />
+      </span>
       <span><strong>Shaitanu</strong><small>Spot the trick</small></span>
     </div>
   </div>
@@ -113,8 +140,18 @@
         <div class="mission-dialogue">
           {#each selectedMission.beats as beat}
             <p data-speaker={beat.speakerRef}>
-              <strong>{speakerName(beat.speakerRef)}</strong>
-              <span>{beat.text.replaceAll('Dheu', heroName)}</span>
+              <span class="mission-dialogue__actor" aria-hidden="true">
+                <StoryCharacter
+                  character={beat.speakerRef}
+                  heroAvatar={childAvatar}
+                  mood={beatMood(beat.mood)}
+                  motion={beatMotion(beat.mood)}
+                />
+              </span>
+              <span class="mission-dialogue__copy">
+                <strong>{speakerName(beat.speakerRef)}</strong>
+                <span>{beat.text.replaceAll('Dheu', heroName)}</span>
+              </span>
             </p>
           {/each}
         </div>
@@ -189,19 +226,14 @@
     background: rgba(255, 255, 255, 0.82);
   }
 
-  .story-cast__avatar,
-  .story-cast__mark {
+  .story-cast__avatar {
     flex: 0 0 auto;
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     display: grid;
     place-items: center;
     border-radius: 15px;
     background: #fff;
-  }
-
-  .story-cast__mark {
-    font-size: 1.55rem;
   }
 
   .story-cast__hero > span:last-child,
@@ -329,9 +361,11 @@
 
   .mission-dialogue p {
     display: grid;
-    gap: 2px;
+    grid-template-columns: 46px minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
     margin: 0;
-    padding: 9px 11px;
+    padding: 8px 10px 8px 7px;
     border-radius: 14px;
     background: #f6f7f8;
   }
@@ -341,14 +375,29 @@
   }
 
   .mission-dialogue p[data-speaker='shaitanu'] {
-    background: #fff4e6;
+    background: #f5f0ff;
+  }
+
+  .mission-dialogue__actor {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  .mission-dialogue__copy {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
   }
 
   .mission-dialogue strong {
     font-size: 0.75rem;
   }
 
-  .mission-dialogue span {
+  .mission-dialogue__copy > span {
     font-weight: 650;
     line-height: 1.4;
   }
