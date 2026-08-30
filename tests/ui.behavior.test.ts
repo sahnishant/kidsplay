@@ -62,7 +62,8 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: 'How each topic is going' })).toBeTruthy();
     expect(screen.getByText('Human Body')).toBeTruthy();
     expect(screen.getByText('Food')).toBeTruthy();
-    expect(screen.getAllByText('Profile: SOF_INDIA_CLASS2')).toHaveLength(2);
+    expect(screen.getAllByText('Profile: SOF_INDIA_CLASS2')).toHaveLength(3);
+    expect(screen.getByRole('button', { name: 'Try 35-question mock' })).toBeTruthy();
 
     const nameInput = screen.getByLabelText('Child name') as HTMLInputElement;
     await fireEvent.input(nameInput, { target: { value: 'Dheu' } });
@@ -113,5 +114,19 @@ describe('user-facing product flow', () => {
 
     expect(screen.getByText('Think it through')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Use two ideas to solve this.' })).toBeTruthy();
+  });
+
+  it('shows the active section inside a structured mock', () => {
+    render(Session, {
+      props: {
+        title: 'Pattern Mock',
+        questions: [testQuestion()],
+        sections: [{ id: 'science', title: 'Science', startIndex: 0, count: 1 }],
+        childName: 'Dheu',
+        childAvatar: 'tiger'
+      }
+    });
+
+    expect(screen.getByText('Section: Science')).toBeTruthy();
   });
 });
