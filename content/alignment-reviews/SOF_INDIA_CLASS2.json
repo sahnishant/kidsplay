@@ -32,7 +32,8 @@
       "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
-      "note": "The official 2026-27 sample directly uses the concept that Earth's movement causes day and night."
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly uses the concept that Earth's movement causes day and night. The core fit remains Kidsplay's editorial planning choice rather than an SOF difficulty label."
     },
     {
       "rowId": "kr.reasoning.ranking.position.between",
@@ -42,7 +43,8 @@
       "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
-      "note": "The exact names differ because the canonical row is an authored instance, but the same position/ranking skill is directly assessed in the official 2026-27 sample."
+      "fitBasis": "editorial_retained",
+      "note": "The exact names differ because the canonical row is an authored instance, but the same position/ranking skill is directly assessed in the official 2026-27 sample. The core fit remains editorial."
     },
     {
       "rowId": "kr.air.windmill.turned-by.wind",
@@ -52,7 +54,8 @@
       "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
-      "note": "The official 2026-27 sample treats the windmill as one of the pictured objects that requires moving air, directly supporting the canonical wind-turns-windmill fact."
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample treats the windmill as one of the pictured objects that requires moving air, directly supporting the canonical wind-turns-windmill fact. The core fit remains editorial."
     },
     {
       "rowId": "kr.reasoning.ranking.height.shortest",
@@ -62,7 +65,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "stretch",
-      "note": "Historical official Class 2 SOF assessment directly exercises the same transitive height-ranking skill. Current 2026-27 syllabus separately retains Ranking Test in Logical Reasoning; this anchor does not imply the same item recurs this year."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly exercises the same transitive height-ranking skill. Current 2026-27 syllabus separately retains Ranking Test in Logical Reasoning; this anchor does not imply the same item recurs this year or that SOF labels it stretch."
     },
     {
       "rowId": "kr.human.skin.sense.touch",
@@ -72,7 +76,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "stretch",
-      "note": "Historical official Class 2 SOF assessment directly uses skin as the sense organ for tactile properties. Current 2026-27 scope separately retains Human Body."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly uses skin as the sense organ for tactile properties. Current 2026-27 scope separately retains Human Body; stretch remains an editorial fit."
     },
     {
       "rowId": "kr.family.cousin.relationship.aunt-uncle-child",
@@ -82,7 +87,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "core",
-      "note": "Historical official Class 2 SOF assessment directly tests the cousin relationship. Current 2026-27 scope separately retains Family and Festivals."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly tests the cousin relationship. Current 2026-27 scope separately retains Family and Festivals; core remains an editorial fit."
     },
     {
       "rowId": "kr.clothing.wool.weather.winter",
@@ -92,7 +98,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "review",
-      "note": "Historical official Class 2 SOF assessment directly supports the woollen-clothes/winter relationship. Current 2026-27 scope separately retains Housing and Clothing."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly supports the woollen-clothes/winter relationship. Current 2026-27 scope separately retains Housing and Clothing; review remains an editorial fit."
     },
     {
       "rowId": "kr.plants.cotton.use.fibre",
@@ -102,7 +109,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "core",
-      "note": "Historical official Class 2 SOF assessment directly supports cotton as a fibre-yielding plant. Current 2026-27 scope separately retains Plants."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly supports cotton as a fibre-yielding plant. Current 2026-27 scope separately retains Plants; core remains an editorial fit."
     },
     {
       "rowId": "kr.universe.mercury.position.closest-sun",
@@ -112,7 +120,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "core",
-      "note": "Historical official Class 2 SOF assessment directly places Mercury nearest the Sun among the listed planets. Current 2026-27 scope separately retains Earth and Universe."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly places Mercury nearest the Sun among the listed planets. Current 2026-27 scope separately retains Earth and Universe; core remains an editorial fit."
     },
     {
       "rowId": "kr.universe.earth.position.third",
@@ -122,7 +131,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "core",
-      "note": "Historical official Class 2 SOF assessment directly places Earth third from the Sun in the ordered sequence. Current 2026-27 scope separately retains Earth and Universe."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly places Earth third from the Sun in the ordered sequence. Current 2026-27 scope separately retains Earth and Universe; core remains an editorial fit."
     },
     {
       "rowId": "kr.family.family-tree.purpose.relationships",
@@ -132,7 +142,8 @@
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "core",
-      "note": "Historical official Class 2 SOF assessment directly uses a family tree to infer relationships, supporting the canonical family-tree interpretation skill. Current 2026-27 scope separately retains Family and Festivals."
+      "fitBasis": "editorial_retained",
+      "note": "Historical official Class 2 SOF assessment directly uses a family tree to infer relationships, supporting the canonical family-tree interpretation skill. Current 2026-27 scope separately retains Family and Festivals; core remains an editorial fit."
     }
   ]
 }
