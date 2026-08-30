@@ -3,6 +3,7 @@ import locationsJson from '../../content/story/locations.json';
 import missionsJson from '../../content/story/missions.json';
 import { getFreeAnimalsQuestions, type SessionLaunch } from '../content';
 import type { Question } from '../contracts/question';
+import type { MasteryCounter } from '../runtime/localProgress';
 import type {
   StoryCharacter,
   StoryCharacterDocument,
@@ -41,7 +42,24 @@ function cloneMission(mission: StoryMission): StoryMission {
   };
 }
 
-function chooseMissionQuestions(mission: StoryMission): Question[] {
+function rowMasteryScore(rowId: string, mastery: Record<string, MasteryCounter>): number {
+  const counter = mastery[rowId];
+  if (!counter || counter.totalWeight <= 0) return -0.5;
+  return counter.correctWeight / counter.totalWeight;
+}
+
+function missionQuestionMasteryScore(
+  refs: string[],
+  mastery: Record<string, MasteryCounter>
+): number {
+  if (!refs.length) return 0;
+  return Math.min(...refs.map((rowId) => rowMasteryScore(rowId, mastery)));
+}
+
+function chooseMissionQuestions(
+  mission: StoryMission,
+  mastery: Record<string, MasteryCounter> = {}
+): Question[] {
   const desired = new Set(mission.knowledgeRefs);
   const candidates = getFreeAnimalsQuestions()
     .filter((question) => desiredRefsCovered(question, desired).length > 0);
@@ -57,17 +75,19 @@ function chooseMissionQuestions(mission: StoryMission): Question[] {
       .filter((question) => !selectedIds.has(question.id))
       .map((question) => {
         const refs = desiredRefsCovered(question, desired);
-        const coverageGain = refs.filter((rowId) => !covered.has(rowId)).length;
+        const uncoveredRefs = refs.filter((rowId) => !covered.has(rowId));
         return {
           question,
           refs,
-          coverageGain,
+          coverageGain: uncoveredRefs.length,
+          masteryScore: missionQuestionMasteryScore(uncoveredRefs.length ? uncoveredRefs : refs, mastery),
           engineNovelty: usedEngines.has(question.interaction.type) ? 0 : 1,
           familyNovelty: usedFamilies.has(questionFamily(question)) ? 0 : 1
         };
       })
       .sort((left, right) =>
         right.coverageGain - left.coverageGain
+        || left.masteryScore - right.masteryScore
         || right.familyNovelty - left.familyNovelty
         || right.engineNovelty - left.engineNovelty
         || right.refs.length - left.refs.length
@@ -127,7 +147,10 @@ export function getHeroDisplayName(savedChildName: string): string {
   return normalized || characters.find((character) => character.id === 'dheu')?.personalization.fallbackName || 'Dheu';
 }
 
-export function createStoryMissionLaunch(missionId: string): StoryMissionLaunch {
+export function createStoryMissionLaunch(
+  missionId: string,
+  mastery: Record<string, MasteryCounter> = {}
+): StoryMissionLaunch {
   const mission = getStoryMission(missionId);
   if (mission.access !== 'free') {
     throw new Error(`Story mission ${mission.id} is not available through the free story-world director`);
@@ -139,7 +162,7 @@ export function createStoryMissionLaunch(missionId: string): StoryMissionLaunch 
       id: `session.${mission.id}`,
       mode: 'free_explore',
       title: mission.title,
-      questions: chooseMissionQuestions(mission)
+      questions: chooseMissionQuestions(mission, mastery)
     }
   };
 }

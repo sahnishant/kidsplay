@@ -1,10 +1,22 @@
 import { describe, expect, it } from 'vitest';
+import type { MasteryCounter } from '../src/runtime/localProgress';
 import {
   createStoryMissionLaunch,
   getAllStoryMissions,
   getStoryLocations,
   getStoryMissions
 } from '../src/story/storyDirector';
+
+function masteredCounter(): MasteryCounter {
+  return {
+    attempts: 4,
+    correct: 4,
+    totalWeight: 4,
+    correctWeight: 4,
+    lastResult: 'correct',
+    lastSeenAt: '2026-08-30T00:00:00.000Z'
+  };
+}
 
 describe('story mission director', () => {
   it('keeps the free story world broad, location-distinct and buildable from shipped questions', () => {
@@ -32,6 +44,21 @@ describe('story mission director', () => {
       const coveredRefs = new Set(
         launch.session.questions.flatMap((question) => question.knowledgeRefs ?? [])
       );
+      for (const rowId of mission.knowledgeRefs) expect(coveredRefs.has(rowId)).toBe(true);
+    }
+  });
+
+  it('accepts prior mastery on replay without sacrificing any declared mission coverage', () => {
+    for (const mission of getStoryMissions()) {
+      const mastery = Object.fromEntries(
+        mission.knowledgeRefs.slice(1).map((rowId) => [rowId, masteredCounter()])
+      );
+      const launch = createStoryMissionLaunch(mission.id, mastery);
+      const coveredRefs = new Set(
+        launch.session.questions.flatMap((question) => question.knowledgeRefs ?? [])
+      );
+
+      expect(launch.session.questions).toHaveLength(mission.questionCount);
       for (const rowId of mission.knowledgeRefs) expect(coveredRefs.has(rowId)).toBe(true);
     }
   });
