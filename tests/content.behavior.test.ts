@@ -6,6 +6,7 @@ import {
   getFreeExploreQuestions,
   getGoalReadiness,
   getProfileMockQuestions,
+  getProfilePatternMockQuestions,
   getProfileQuestions
 } from '../src/content';
 import type { Question } from '../src/contracts/question';
@@ -52,12 +53,18 @@ function hasTopic(refs: string[], topic: string): boolean {
   return refs.some((rowId) => rowId.startsWith(`kr.${topic}.`));
 }
 
+function isLogicalReasoning(question: Question): boolean {
+  const refs = question.knowledgeRefs ?? [];
+  return refs.length > 0 && refs.every((rowId) => knowledgeGroupForRow(rowId) === 'reasoning');
+}
+
 describe('catalog and profile-driven sessions', () => {
-  it('separates broad free exploration from profile-driven practice and a mixed mock', () => {
+  it('separates broad free exploration from profile-driven practice and two mock depths', () => {
     const catalog = getCatalogEntries();
     const freeEntry = catalog.find((entry) => entry.kind === 'free_explore');
     const practiceEntry = catalog.find((entry) => entry.id === 'goal.class2-evs-olympiad.prototype');
-    const mockEntry = catalog.find((entry) => entry.id.endsWith('.mixed-mock'));
+    const mixedMockEntry = catalog.find((entry) => entry.id.endsWith('.mixed-mock'));
+    const patternMockEntry = catalog.find((entry) => entry.id.includes('.pattern-mock-'));
 
     expect(freeEntry?.access.type).toBe('free');
     expect(freeEntry?.title).toContain('Class 2 Science');
@@ -66,12 +73,20 @@ describe('catalog and profile-driven sessions', () => {
     expect(practiceEntry?.title).toContain('Core Science');
     expect(practiceEntry?.profileRef).toBe(PROFILE_REF);
     expect(practiceEntry?.status).toBe('prototype');
-    expect(mockEntry).toMatchObject({
+    expect(mixedMockEntry).toMatchObject({
       kind: 'goal_learning',
       profileRef: PROFILE_REF,
       status: 'prototype',
       actionLabel: 'Try mixed mock'
     });
+    expect(patternMockEntry).toMatchObject({
+      kind: 'goal_learning',
+      profileRef: PROFILE_REF,
+      status: 'prototype',
+      actionLabel: 'Try 35-question mock'
+    });
+    expect(patternMockEntry?.description).toContain('5 Logical Reasoning, 25 Science and 5 Achievers');
+    expect(patternMockEntry?.description).toContain('not an official SOF paper');
   });
 
   it('keeps every current profile fact in free exploration while launching short diverse sessions', () => {
@@ -156,6 +171,33 @@ describe('catalog and profile-driven sessions', () => {
     const launched = createSessionForCatalogEntry(mockEntry!.id, {});
     expect(launched.mode).toBe('goal_mock');
     expect(launched.questions).toHaveLength(20);
+  });
+
+  it('builds the published 2026-27 section counts without presenting Kidsplay questions as an official paper', () => {
+    const questions = getProfilePatternMockQuestions(PROFILE_REF);
+    const logical = questions.slice(0, 5);
+    const science = questions.slice(5, 30);
+    const achievers = questions.slice(30, 35);
+
+    expect(questions).toHaveLength(35);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(35);
+    expect(logical).toHaveLength(5);
+    expect(logical.every(isLogicalReasoning)).toBe(true);
+    expect(science).toHaveLength(25);
+    expect(science.every((question) => !isLogicalReasoning(question) && question.authoring.source !== 'kidsplay-editorial-hots')).toBe(true);
+    expect(achievers).toHaveLength(5);
+    expect(achievers.every((question) => question.authoring.source === 'kidsplay-editorial-hots')).toBe(true);
+
+    const mockEntry = getCatalogEntries().find((entry) => entry.id.includes('.pattern-mock-'));
+    expect(mockEntry).toBeTruthy();
+    const launched = createSessionForCatalogEntry(mockEntry!.id, {});
+    expect(launched.mode).toBe('goal_pattern_mock');
+    expect(launched.questions).toHaveLength(35);
+    expect(launched.sections).toEqual([
+      { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 5 },
+      { id: 'science', title: 'Science', startIndex: 5, count: 25 },
+      { id: 'achievers', title: 'Achievers', startIndex: 30, count: 5 }
+    ]);
   });
 
   it('derives practice readiness from repeated evidence and broad profile coverage', () => {
