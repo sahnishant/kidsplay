@@ -24,11 +24,11 @@
   }
 
   function itemVisualRefs(item: DragItem): string[] {
-    return resolveItemVisualRefs(item, true);
+    return resolveItemVisualRefs(item, false);
   }
 
   function targetVisualRefs(target: DragTarget): string[] {
-    return resolveItemVisualRefs(target, true);
+    return resolveItemVisualRefs(target, false);
   }
 
   function assignedLabel(targetId: string): string {
