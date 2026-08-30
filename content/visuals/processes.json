@@ -1,0 +1,8 @@
+[
+  { "id": "entity.lifecycle.egg", "renderer": "process-icon", "glyph": "egg", "label": "Egg", "motion": "pulse", "aliases": ["egg"] },
+  { "id": "entity.lifecycle.caterpillar", "renderer": "process-icon", "glyph": "caterpillar", "label": "Caterpillar", "motion": "wiggle", "aliases": ["caterpillar"] },
+  { "id": "entity.lifecycle.chrysalis", "renderer": "process-icon", "glyph": "chrysalis", "label": "Chrysalis", "motion": "sway", "aliases": ["chrysalis", "pupa"] },
+  { "id": "entity.plant.sprout", "renderer": "process-icon", "glyph": "sprout", "label": "Sprout", "motion": "sway", "aliases": ["sprout", "germinating seed"] },
+  { "id": "entity.plant.sapling", "renderer": "process-icon", "glyph": "sapling", "label": "Sapling", "motion": "sway", "aliases": ["sapling", "young plant"] },
+  { "id": "entity.plant.adult", "renderer": "process-icon", "glyph": "adult-plant", "label": "Grown plant", "motion": "sway", "aliases": ["grown plant", "adult plant"] }
+]
