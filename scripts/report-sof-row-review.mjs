@@ -41,11 +41,23 @@ const fitCounts = members.reduce((counts, member) => {
 }, {});
 const evidenceRows = members.filter((member) => evidenceByRow.has(member.rowId));
 const pendingRows = members.filter((member) => !evidenceByRow.has(member.rowId)).sort(sortByPriority);
+const temporalCounts = evidenceRows.reduce((counts, member) => {
+  const basis = evidenceByRow.get(member.rowId)?.temporalBasis ?? 'unknown';
+  counts[basis] = (counts[basis] ?? 0) + 1;
+  return counts;
+}, {});
+const fitBasisCounts = evidenceRows.reduce((counts, member) => {
+  const basis = evidenceByRow.get(member.rowId)?.fitBasis ?? 'unknown';
+  counts[basis] = (counts[basis] ?? 0) + 1;
+  return counts;
+}, {});
 const topicCounts = [...groups.entries()]
   .map(([topic, topicMembers]) => ({
     topic,
     total: topicMembers.length,
     evidenced: topicMembers.filter((member) => evidenceByRow.has(member.rowId)).length,
+    currentYear: topicMembers.filter((member) => evidenceByRow.get(member.rowId)?.temporalBasis === 'current_year').length,
+    historical: topicMembers.filter((member) => evidenceByRow.get(member.rowId)?.temporalBasis === 'historical_class2').length,
     pending: topicMembers.filter((member) => !evidenceByRow.has(member.rowId)).length
   }))
   .sort((left, right) => left.topic.localeCompare(right.topic));
@@ -57,6 +69,8 @@ if (process.argv.includes('--json')) {
     totalRows: members.length,
     evidencedRows: evidenceRows.length,
     pendingRows: pendingRows.length,
+    temporalCounts,
+    fitBasisCounts,
     fitCounts,
     topicCounts,
     evidenced: evidenceRows.map((member) => ({
@@ -80,8 +94,14 @@ console.log(`Profile: \`${membership.profileRef}\``);
 console.log(`Profile provenance: \`${membership.provenance?.status ?? 'unknown'}\``);
 console.log(`Rows in prototype membership: **${members.length}**`);
 console.log(`Rows with reproducible row/skill evidence recorded: **${evidenceRows.length}**`);
+console.log(`- current-year direct evidence: **${temporalCounts.current_year ?? 0}**`);
+console.log(`- historical Class 2 direct evidence with current-year scope retained: **${temporalCounts.historical_class2 ?? 0}**`);
 console.log(`Rows still pending row/skill evidence: **${pendingRows.length}**`);
+console.log(`Recorded fit basis: ${Object.entries(fitBasisCounts).map(([basis, count]) => `${basis}=${count}`).join(', ') || 'none'}`);
 console.log(`Fit distribution: ${Object.entries(fitCounts).map(([fit, count]) => `${fit}=${count}`).join(', ')}`);
+console.log('');
+console.log('Evidence anchors support row/skill inclusion. Unless `fitBasis=source_supported`, the stored core/review/stretch/challenge fit remains a Kidsplay editorial planning choice.');
+console.log('Historical Class 2 evidence proves prior SOF Class 2 assessment use only; current-year scope must be anchored separately and no recurrence is implied.');
 console.log('');
 console.log('## Scope sources');
 console.log('');
@@ -94,10 +114,10 @@ for (const sourceRef of membership.provenance?.sourceRefs ?? []) {
 console.log('');
 console.log('## Topic evidence coverage');
 console.log('');
-console.log('| Topic | Evidenced | Pending | Total |');
-console.log('| --- | ---: | ---: | ---: |');
+console.log('| Topic | Current year | Historical | Evidenced | Pending | Total |');
+console.log('| --- | ---: | ---: | ---: | ---: | ---: |');
 for (const item of topicCounts) {
-  console.log(`| ${item.topic} | ${item.evidenced} | ${item.pending} | ${item.total} |`);
+  console.log(`| ${item.topic} | ${item.currentYear} | ${item.historical} | ${item.evidenced} | ${item.pending} | ${item.total} |`);
 }
 console.log('');
 console.log('## Recorded row/skill evidence');
@@ -107,7 +127,7 @@ if (!evidenceRows.length) {
 } else {
   for (const member of [...evidenceRows].sort(sortByPriority)) {
     const evidence = evidenceByRow.get(member.rowId);
-    console.log(`- [x] \`${member.rowId}\` — fit: \`${member.fit}\`; ${evidence.evidenceType}; ${evidence.sourceRef}; ${evidence.locator}`);
+    console.log(`- [x] \`${member.rowId}\` — fit: \`${member.fit}\` (${evidence.fitBasis}); ${evidence.evidenceType}; ${evidence.temporalBasis}; ${evidence.sourceRef}; ${evidence.locator}`);
   }
 }
 console.log('');
@@ -121,7 +141,7 @@ for (const member of pendingRows.slice(0, 25)) {
 console.log('');
 console.log('## Remaining row-level review queue');
 console.log('');
-console.log('The profile itself remains prototype-unverified. A checked row means reproducible evidence has been recorded; it does not automatically promote the whole profile.');
+console.log('The profile itself remains prototype-unverified. A checked row means reproducible inclusion evidence has been recorded; it does not automatically promote the whole profile or certify the editorial fit.');
 console.log('');
 for (const [topic, topicMembers] of [...groups.entries()].sort(([a], [b]) => a.localeCompare(b))) {
   const pendingTopicMembers = topicMembers.filter((member) => !evidenceByRow.has(member.rowId)).sort(sortByPriority);
