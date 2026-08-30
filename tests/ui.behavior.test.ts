@@ -53,6 +53,26 @@ function reasoningQuestion(): SingleChoiceQuestion {
   };
 }
 
+function motionQuestion(): SingleChoiceQuestion {
+  return {
+    ...testQuestion(),
+    id: 'test.air.kite.choice.001',
+    conceptIds: ['air.properties.kite'],
+    knowledgeRefs: ['kr.air.kite.moved-by.wind'],
+    prompt: { text: 'What helps a kite fly?' },
+    interaction: {
+      type: 'single_choice',
+      version: 1,
+      shuffleOptions: false,
+      options: [
+        { id: 'wind', label: 'Moving air' },
+        { id: 'stone', label: 'A stone' }
+      ]
+    },
+    solution: { type: 'exact_option', correctOptionIds: ['wind'] }
+  };
+}
+
 beforeEach(() => {
   window.localStorage.clear();
 });
@@ -62,10 +82,11 @@ afterEach(() => {
 });
 
 describe('user-facing product flow', () => {
-  it('shows the learning map, saves the player and enters and leaves a profile-driven goal session', async () => {
+  it('shows the learning map and motion moment, saves the player and enters and leaves a profile-driven goal session', async () => {
     render(App);
 
     expect(screen.getByRole('heading', { name: 'Learn as you play' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'See an idea move' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'How each topic is going' })).toBeTruthy();
     expect(screen.getByText('Human Body')).toBeTruthy();
     expect(screen.getByText('Food')).toBeTruthy();
@@ -217,6 +238,32 @@ describe('user-facing product flow', () => {
 
     expect(screen.getByText('Think it through')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Use two ideas to solve this.' })).toBeTruthy();
+  });
+
+  it('shows inferred learning motion in practice but suppresses it in a structured mock', () => {
+    const first = render(Session, {
+      props: {
+        title: 'Motion Practice',
+        questions: [motionQuestion()],
+        childName: 'Dheu',
+        childAvatar: 'fox'
+      }
+    });
+
+    expect(screen.getByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeTruthy();
+    first.unmount();
+
+    render(Session, {
+      props: {
+        title: 'Motion Mock',
+        questions: [motionQuestion()],
+        sections: [{ id: 'science', title: 'Science', startIndex: 0, count: 1, marksPerQuestion: 1 }],
+        childName: 'Dheu',
+        childAvatar: 'fox'
+      }
+    });
+
+    expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
   });
 
   it('shows the active section and mark weight inside a structured mock', () => {
