@@ -55,6 +55,7 @@ function normalizeLabel(value: string): string {
   return value
     .toLowerCase()
     .replace(/[’']/g, '')
+    .replace(/[-_]+/g, ' ')
     .replace(/[.,!?;:()]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
