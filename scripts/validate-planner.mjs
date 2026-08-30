@@ -4,7 +4,7 @@ import { planActivities } from './planning/planner.mjs';
 
 const { sources, index } = loadPlanningData();
 const sourceById = new Map(sources.map((source) => [source.id, source]));
-const plan = planActivities({
+const request = {
   sources,
   index,
   profileRef: 'SOF_INDIA_CLASS2',
@@ -12,10 +12,14 @@ const plan = planActivities({
   count: 6,
   variety: 'high',
   difficulty: 2
-});
+};
+const plan = planActivities(request);
+const repeatedPlan = planActivities(request);
 
 const errors = [];
 if (plan.length !== 6) errors.push(`Expected 6 planned activities, got ${plan.length}`);
+if (JSON.stringify(plan) !== JSON.stringify(repeatedPlan)) errors.push('Repeated planner request did not produce deterministic output');
+if (new Set(plan.map((item) => item.id)).size !== plan.length) errors.push('Planner produced duplicate recipe ids');
 const engineCount = new Set(plan.map((item) => item.engine)).size;
 if (engineCount < 5) errors.push(`Expected high variety across at least 5 engines, got ${engineCount}`);
 
@@ -40,10 +44,25 @@ for (const recipe of plan) {
   }
 }
 
+for (const badRequest of [
+  { ...request, profileRef: 'NOT_A_PROFILE' },
+  { ...request, allowedEngines: ['not-an-engine@1'] },
+  { ...request, deliveryCategory: 'mystery' },
+  { ...request, difficulty: 0 }
+]) {
+  let rejected = false;
+  try {
+    planActivities(badRequest);
+  } catch {
+    rejected = true;
+  }
+  if (!rejected) errors.push(`Planner failed to reject invalid request ${JSON.stringify(badRequest)}`);
+}
+
 if (errors.length) {
   console.error(`Planner validation failed with ${errors.length} error(s):`);
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Planner OK: ${plan.length} recipes across ${engineCount} engines with stable row traceability.`);
+  console.log(`Planner OK: ${plan.length} deterministic recipes across ${engineCount} engines with stable row traceability and fail-fast input guards.`);
 }
