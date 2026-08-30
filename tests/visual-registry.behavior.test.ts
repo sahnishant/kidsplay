@@ -43,11 +43,18 @@ describe('semantic visual registry', () => {
       renderer: 'animal-expansion-icon',
       glyph: 'rhinoceros'
     });
+    expect(resolveVisualDefinition('entity.concept.domestic-animal')).toMatchObject({
+      renderer: 'concept-icon',
+      glyph: 'domestic-animal'
+    });
   });
 
   it('resolves canonical semantic ids independently of display wording', () => {
     expect(resolveSemanticVisualRefs('seahorse')).toEqual(['entity.animal.seahorse']);
     expect(resolveSemanticVisualRefs('kennel')).toEqual(['entity.animal-home.kennel']);
+    expect(resolveSemanticVisualRefs('domestic-animal')).toEqual(['entity.concept.domestic-animal']);
+    expect(resolveSemanticVisualRefs('air-space')).toEqual(['entity.concept.air-space']);
+    expect(resolveSemanticVisualRefs('wash-produce')).toEqual(['entity.hygiene.wash-produce']);
     expect(resolveItemVisualRefs({ label: 'Caballito', semanticRef: 'seahorse' })).toEqual([
       'entity.animal.seahorse'
     ]);
@@ -63,6 +70,7 @@ describe('semantic visual registry', () => {
     expect(resolveLabelVisualRefs('Covered food')).toEqual(['entity.food.covered']);
     expect(resolveLabelVisualRefs('Seahorse')).toEqual(['entity.animal.seahorse']);
     expect(resolveLabelVisualRefs('Kennel')).toEqual(['entity.animal-home.kennel']);
+    expect(resolveLabelVisualRefs('Avoid spoiled food')).toEqual(['entity.hygiene.avoid-spoiled']);
     expect(resolveLabelVisualRefs('A dog runs beside a school bus')).toEqual([]);
   });
 
@@ -94,7 +102,7 @@ describe('semantic visual registry', () => {
   it('keeps the registry unique and broad enough for reusable Class 2 EVS coverage', () => {
     const refs = getRegisteredVisualRefs();
     expect(new Set(refs).size).toBe(refs.length);
-    expect(refs.length).toBeGreaterThanOrEqual(130);
+    expect(refs.length).toBeGreaterThanOrEqual(160);
     expect(getVisualDefinitions().every((visual) => visual.aliases.length > 0)).toBe(true);
   });
 });
