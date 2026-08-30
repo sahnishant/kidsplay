@@ -48,6 +48,18 @@
       "retrievedOn": "2026-08-29",
       "status": "reviewed",
       "notes": "Official SOF sample paper confirms 35 questions: 5 Logical Reasoning at 1 mark each, 25 Science at 1 mark each, and 5 Achievers at 2 marks each, for 40 marks total. It also demonstrates mixed formats including statement evaluation, visual questions, word manipulation and higher-order inference. It supports assessment-format design, not exact row-level curriculum placement."
+    },
+    {
+      "id": "sof.nso.class2.sample-paper.2019-20",
+      "type": "official_assessment",
+      "authority": "Science Olympiad Foundation",
+      "title": "SOF National Science Olympiad Class 2 Sample Paper 2019-20",
+      "url": "https://sofworld.org/download/file/fid/29287",
+      "versionLabel": "2019-20 sample paper (historical)",
+      "academicYear": "2019-20",
+      "retrievedOn": "2026-08-30",
+      "status": "reviewed",
+      "notes": "Historical official SOF Class 2 science sample paper. It may support direct evidence that a fact or skill has been assessed at Class 2 in SOF only when current-year official scope separately retains the relevant topic family. It does not by itself prove 2026-27 row placement or recurrence."
     }
   ]
 }
