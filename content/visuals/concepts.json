@@ -1,0 +1,39 @@
+[
+  { "id": "entity.concept.domestic-animal", "renderer": "concept-icon", "glyph": "domestic-animal", "label": "Domestic animal", "motion": "pulse", "aliases": ["domestic animal"] },
+  { "id": "entity.concept.water-animal", "renderer": "concept-icon", "glyph": "water-animal", "label": "Water animal", "motion": "float", "aliases": ["water animal"] },
+  { "id": "entity.concept.ship-of-desert", "renderer": "concept-icon", "glyph": "ship-of-desert", "label": "Ship of the desert", "motion": "sway", "aliases": ["ship of the desert"] },
+  { "id": "entity.concept.extinct-animal", "renderer": "concept-icon", "glyph": "extinct-animal", "label": "Extinct animal", "motion": "idle", "aliases": ["extinct animal"] },
+
+  { "id": "entity.concept.air-space", "renderer": "concept-icon", "glyph": "air-space", "label": "Air occupies space", "motion": "float", "aliases": ["air space", "air occupies space"] },
+  { "id": "entity.concept.air-life", "renderer": "concept-icon", "glyph": "air-life", "label": "Air supports life", "motion": "breathe", "aliases": ["air life", "air supports life"] },
+  { "id": "entity.concept.air-burning", "renderer": "concept-icon", "glyph": "air-burning", "label": "Air supports burning", "motion": "flicker", "aliases": ["air burning", "air supports burning"] },
+  { "id": "entity.concept.wind-power", "renderer": "concept-icon", "glyph": "wind-power", "label": "Wind power", "motion": "spin", "aliases": ["wind power"] },
+  { "id": "entity.concept.wind-kite", "renderer": "concept-icon", "glyph": "wind-kite", "label": "Wind moves a kite", "motion": "float", "aliases": ["wind kite"] },
+  { "id": "entity.concept.wind-sail", "renderer": "concept-icon", "glyph": "wind-sail", "label": "Wind pushes a sail", "motion": "float", "aliases": ["wind sail"] },
+
+  { "id": "entity.water.lake", "renderer": "concept-icon", "glyph": "lake", "label": "Lake", "motion": "float", "aliases": ["lake"] },
+  { "id": "entity.rock.pebble", "renderer": "concept-icon", "glyph": "pebble", "label": "Pebble", "motion": "idle", "aliases": ["pebble"] },
+  { "id": "entity.rock.granite", "renderer": "concept-icon", "glyph": "granite", "label": "Granite", "motion": "idle", "aliases": ["granite"] },
+  { "id": "entity.rock.marble", "renderer": "concept-icon", "glyph": "marble", "label": "Marble", "motion": "idle", "aliases": ["marble"] },
+
+  { "id": "entity.body.brain", "renderer": "concept-icon", "glyph": "brain", "label": "Brain", "motion": "pulse", "aliases": ["brain"] },
+  { "id": "entity.body.legs", "renderer": "concept-icon", "glyph": "legs", "label": "Legs", "motion": "wiggle", "aliases": ["leg", "legs"] },
+  { "id": "entity.body.neck", "renderer": "concept-icon", "glyph": "neck", "label": "Neck", "motion": "sway", "aliases": ["neck"] },
+
+  { "id": "entity.hygiene.avoid-spoiled", "renderer": "concept-icon", "glyph": "avoid-spoiled", "label": "Avoid spoiled food", "motion": "idle", "aliases": ["avoid spoiled", "avoid spoiled food"] },
+  { "id": "entity.hygiene.wash-hands", "renderer": "concept-icon", "glyph": "wash-hands", "label": "Wash hands", "motion": "wiggle", "aliases": ["wash hands", "washing hands"] },
+  { "id": "entity.hygiene.wash-produce", "renderer": "concept-icon", "glyph": "wash-produce", "label": "Wash fruits and vegetables", "motion": "float", "aliases": ["wash produce", "wash fruits and vegetables", "washing fruits and vegetables"] },
+  { "id": "entity.hygiene.keep-clean", "renderer": "concept-icon", "glyph": "keep-clean", "label": "Keep food clean", "motion": "pulse", "aliases": ["keep clean", "keep food clean"] },
+  { "id": "entity.hygiene.before-eating", "renderer": "concept-icon", "glyph": "before-eating", "label": "Before eating", "motion": "pulse", "aliases": ["before eating"] },
+  { "id": "entity.hygiene.before-eating-produce", "renderer": "concept-icon", "glyph": "before-eating-produce", "label": "Before eating produce", "motion": "pulse", "aliases": ["before eating produce"] },
+  { "id": "entity.hygiene.eat-slowly", "renderer": "concept-icon", "glyph": "eat-slowly", "label": "Eat slowly", "motion": "pulse", "aliases": ["eat slowly"] },
+
+  { "id": "entity.safety.zebra-reach", "renderer": "concept-icon", "glyph": "zebra-reach", "label": "Reach a zebra crossing", "motion": "drift", "aliases": ["reach zebra crossing"] },
+  { "id": "entity.safety.traffic-stop", "renderer": "concept-icon", "glyph": "traffic-stop", "label": "Stop at red", "motion": "pulse", "aliases": ["traffic stop", "stop at red"] },
+  { "id": "entity.safety.traffic-check", "renderer": "concept-icon", "glyph": "traffic-check", "label": "Check traffic", "motion": "blink", "aliases": ["check traffic", "traffic check"] },
+  { "id": "entity.safety.zebra-cross", "renderer": "concept-icon", "glyph": "zebra-cross", "label": "Cross on the zebra crossing", "motion": "wiggle", "aliases": ["zebra cross", "cross zebra crossing"] },
+
+  { "id": "entity.food-group.energy", "renderer": "concept-icon", "glyph": "energy-food", "label": "Energy-giving food", "motion": "pulse", "aliases": ["energy", "energy giving", "energy-giving food"] },
+  { "id": "entity.food-group.body-building", "renderer": "concept-icon", "glyph": "body-building-food", "label": "Body-building food", "motion": "flex", "aliases": ["body building", "body-building food"] },
+  { "id": "entity.food-group.protective", "renderer": "concept-icon", "glyph": "protective-food", "label": "Protective food", "motion": "pulse", "aliases": ["protective", "protective food"] }
+]
