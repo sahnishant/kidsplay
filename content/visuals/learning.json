@@ -1,0 +1,17 @@
+[
+  { "id": "entity.plant.mango", "renderer": "learning-icon", "glyph": "mango", "label": "Mango tree", "motion": "sway", "aliases": ["mango", "mango tree"] },
+  { "id": "entity.plant.rose", "renderer": "learning-icon", "glyph": "rose", "label": "Rose", "motion": "sway", "aliases": ["rose", "rose shrub"] },
+  { "id": "entity.plant.mint", "renderer": "learning-icon", "glyph": "mint", "label": "Mint", "motion": "sway", "aliases": ["mint", "mint herb"] },
+  { "id": "entity.plant.sugarcane", "renderer": "learning-icon", "glyph": "sugarcane", "label": "Sugarcane", "motion": "sway", "aliases": ["sugarcane"] },
+  { "id": "entity.plant.rubber-tree", "renderer": "learning-icon", "glyph": "rubber-tree", "label": "Rubber tree", "motion": "sway", "aliases": ["rubber tree"] },
+  { "id": "entity.plant.tea-plant", "renderer": "learning-icon", "glyph": "tea-plant", "label": "Tea plant", "motion": "sway", "aliases": ["tea plant"] },
+
+  { "id": "entity.food.banana", "renderer": "learning-icon", "glyph": "banana", "label": "Banana", "motion": "sway", "aliases": ["banana"] },
+  { "id": "entity.animal-home.hive", "renderer": "learning-icon", "glyph": "hive", "label": "Hive", "motion": "idle", "aliases": ["hive", "beehive", "bee hive"] },
+  { "id": "entity.body.skin", "renderer": "learning-icon", "glyph": "skin", "label": "Skin", "motion": "pulse", "aliases": ["skin", "touch", "feel touch"] },
+
+  { "id": "entity.shape.triangle", "renderer": "learning-icon", "glyph": "triangle", "label": "Triangle", "motion": "pulse", "aliases": ["triangle"] },
+  { "id": "entity.shape.square", "renderer": "learning-icon", "glyph": "square", "label": "Square", "motion": "pulse", "aliases": ["square"] },
+  { "id": "entity.shape.circle", "renderer": "learning-icon", "glyph": "circle", "label": "Circle", "motion": "pulse", "aliases": ["circle"] },
+  { "id": "entity.shape.star", "renderer": "learning-icon", "glyph": "star", "label": "Star", "motion": "pulse", "aliases": ["star"] }
+]
