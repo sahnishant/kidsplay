@@ -1,0 +1,18 @@
+{
+  "id": "free-class3-foundation",
+  "kind": "learning_pack",
+  "title": "Class 3 Science Foundation",
+  "access": { "type": "free" },
+  "profileRef": "SOF_INDIA_CLASS3",
+  "questionRefs": [
+    "sof3.life-community.memory.generated.001",
+    "sof3.life-community.match.generated.001",
+    "sof3.life-community.mcq.generated.001",
+    "sof3.materials-forces.memory.generated.001",
+    "sof3.materials-forces.match.generated.001",
+    "sof3.materials-forces.mcq.generated.001",
+    "sof3.environment-safety.memory.generated.001",
+    "sof3.environment-safety.match.generated.001",
+    "sof3.environment-safety.mcq.generated.001"
+  ]
+}
