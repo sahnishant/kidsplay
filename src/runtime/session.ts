@@ -153,6 +153,7 @@ export function advanceSession(state: SessionState): void {
 }
 
 export function replaySession(state: SessionState): void {
+  state.sessionId = crypto.randomUUID();
   state.index = 0;
   state.responses.splice(0);
   state.results.splice(0);
