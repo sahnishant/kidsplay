@@ -13,10 +13,10 @@
       "version": 1,
       "seed": 290826,
       "items": [
-        { "id": "egg", "label": "Egg", "symbol": "🥚" },
-        { "id": "caterpillar", "label": "Caterpillar", "symbol": "🐛" },
-        { "id": "chrysalis", "label": "Chrysalis", "symbol": "🟤" },
-        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋" }
+        { "id": "egg", "label": "Egg", "symbol": "🥚", "visualRefs": ["entity.lifecycle.egg"] },
+        { "id": "caterpillar", "label": "Caterpillar", "symbol": "🐛", "visualRefs": ["entity.lifecycle.caterpillar"] },
+        { "id": "chrysalis", "label": "Chrysalis", "symbol": "🟤", "visualRefs": ["entity.lifecycle.chrysalis"] },
+        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋", "visualRefs": ["entity.animal.butterfly"] }
       ]
     },
     "solution": {
@@ -50,12 +50,14 @@
             "id": "dog",
             "label": "Dog",
             "symbol": "🐶",
+            "visualRefs": ["entity.animal.dog"],
             "shape": { "type": "circle", "centerX": 0.27, "centerY": 0.58, "radius": 0.16 }
           },
           {
             "id": "whale",
             "label": "Whale",
             "symbol": "🐋",
+            "visualRefs": ["entity.animal.whale"],
             "shape": { "type": "circle", "centerX": 0.73, "centerY": 0.58, "radius": 0.17 }
           }
         ]
