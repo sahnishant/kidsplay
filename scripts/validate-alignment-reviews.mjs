@@ -44,6 +44,7 @@ const allowedDecisions = new Set(['keep', 'remove', 'refit']);
 const allowedTemporalBases = new Set(['current_year', 'historical_class2']);
 const allowedFitBases = new Set(['editorial_retained', 'source_supported']);
 const officialSourceTypes = new Set(['official_syllabus', 'official_assessment', 'official_reference']);
+const officialScopeSourceTypes = new Set(['official_syllabus', 'official_reference']);
 
 for (const fileName of reviewFiles) {
   const review = readJson(`content/alignment-reviews/${fileName}`);
@@ -69,8 +70,12 @@ for (const fileName of reviewFiles) {
       if (!officialSourceTypes.has(source.type) || source.status !== 'reviewed') {
         errors.push(`${evidencePrefix}: evidence source must be a reviewed official source`);
       }
+      if (evidence.evidenceType === 'official_scope' && !officialScopeSourceTypes.has(source.type)) {
+        errors.push(`${evidencePrefix}: official_scope evidence must come from an official syllabus/reference source`);
+      }
       if (
         evidence.evidenceType === 'official_scope'
+        && officialScopeSourceTypes.has(source.type)
         && hasText(currentAcademicYear)
         && source.academicYear === currentAcademicYear
       ) {
@@ -89,12 +94,14 @@ for (const fileName of reviewFiles) {
   }
 
   const seenRows = new Set();
+  const evidenceByRow = new Map();
   for (const [index, evidence] of (review.rowEvidence ?? []).entries()) {
     const evidencePrefix = `${prefix}/rowEvidence[${index}]`;
     const source = sourceById.get(evidence.sourceRef);
     if (!hasText(evidence.rowId)) errors.push(`${evidencePrefix}: rowId is required`);
     if (seenRows.has(evidence.rowId)) errors.push(`${prefix}: duplicate reviewed row ${evidence.rowId}`);
     seenRows.add(evidence.rowId);
+    evidenceByRow.set(evidence.rowId, evidence);
     if (hasText(evidence.rowId) && !canonicalRowIds.has(evidence.rowId)) {
       errors.push(`${evidencePrefix}: rowId is not a known canonical knowledge row`);
     }
@@ -159,9 +166,12 @@ for (const fileName of reviewFiles) {
   }
 
   if (review.status === 'completed' && membership) {
-    const missingCurrentMembers = [...memberByRow.keys()].filter((rowId) => !seenRows.has(rowId));
-    if (missingCurrentMembers.length > 0) {
-      errors.push(`${prefix}: completed review must contain evidence for every current membership row (${missingCurrentMembers.length} missing)`);
+    const incompleteCurrentMembers = [...memberByRow.keys()].filter((rowId) => {
+      const evidence = evidenceByRow.get(rowId);
+      return !evidence || (evidence.decision !== 'keep' && evidence.decision !== 'refit');
+    });
+    if (incompleteCurrentMembers.length > 0) {
+      errors.push(`${prefix}: completed review must retain/refit evidence for every current membership row (${incompleteCurrentMembers.length} incomplete)`);
     }
   }
 }
