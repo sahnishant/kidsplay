@@ -10,10 +10,10 @@ The current profile may be used for prototype practice and product testing. It m
 
 - Broad Class 2 scope is backed by the reviewed current SOF syllabus/workbook source registry.
 - Profile membership currently contains **182 canonical rows**.
-- The partial evidence file at `content/alignment-reviews/SOF_INDIA_CLASS2.json` records **24 reproducible row/skill anchors**.
+- The partial evidence file at `content/alignment-reviews/SOF_INDIA_CLASS2.json` records **26 reproducible row/skill anchors**.
 - **11** anchors use current-year direct evidence.
-- **13** anchors use historical official Class 2 assessment evidence with an explicit per-row current-year scope source and locator.
-- **158** profile rows remain pending exact row/skill evidence.
+- **15** anchors use historical official Class 2 assessment evidence with an explicit per-row current-year scope source and locator.
+- **156** profile rows remain pending exact row/skill evidence.
 - All currently retained evidence uses `fitBasis: editorial_retained`; none of Kidsplay's `core`, `review`, `stretch` or `challenge` labels are represented as SOF-supplied difficulty labels.
 - Goal sessions, diagnostics, readiness and mixed mocks may use the profile only while the product remains explicitly prototype.
 - The readiness score is a local practice signal, not an official SOF score or certification.
@@ -99,7 +99,7 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 - `kr.earth.plateau.alias.tableland`
 - `kr.universe.orbit.definition.planet-path`
 
-### Historical official Class 2 anchors — 13
+### Historical official Class 2 anchors — 15
 
 - `kr.reasoning.ranking.height.shortest`
 - `kr.human.skin.sense.touch`
@@ -114,8 +114,10 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 - `kr.air.kite.moved-by.wind`
 - `kr.air.sailboat.moved-by.wind`
 - `kr.safety.road-sign.steep-descent`
+- `kr.plants.leaves.function.make-food`
+- `kr.plants.flower.function.make-seeds`
 
-The historical source set currently uses reviewed official Class 2 samples from 2025–26, 2024–25 and 2019–20. The 2024–25 source supersedes the removed 2023–24 registry reference for the skin/cousin/wool/tonga anchors.
+The historical source set currently uses reviewed official Class 2 samples from 2025–26, 2024–25, 2022–23 and 2019–20. The 2024–25 source supersedes the removed 2023–24 registry reference for the skin/cousin/wool/tonga anchors.
 
 ## Promotion rule
 
