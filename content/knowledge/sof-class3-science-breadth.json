@@ -66,7 +66,7 @@
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-open-scope",
-      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Plants and Animals topic family; these are not claimed as exact official SOF row mappings."
+      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Plants and Animals topic family; these are not claimed as exact official SOF row mappings. Existing canonical Class 2 facts are reused instead of duplicated where equivalent."
     }
   },
   {
@@ -79,30 +79,12 @@
     "topic": "Class 3 - Human Body",
     "entries": [
       {
-        "id": "skeleton-support",
-        "rowId": "kr.sof3.human.skeleton.support.shape",
-        "subject": { "id": "skeleton-support", "label": "The skeleton" },
-        "relation": "helps_with",
-        "object": { "id": "skeleton-support-object", "label": "supporting the body and giving it shape" },
-        "conceptIds": ["sof3.human.skeleton"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
-      },
-      {
         "id": "muscles-movement",
         "rowId": "kr.sof3.human.muscles.bones.movement",
-        "subject": { "id": "muscles-movement", "label": "Muscles" },
+        "subject": { "id": "muscles-movement", "label": "Muscles working with bones" },
         "relation": "help_with",
-        "object": { "id": "muscles-movement-object", "label": "moving body parts by working with bones" },
+        "object": { "id": "muscles-movement-object", "label": "moving body parts" },
         "conceptIds": ["sof3.human.muscles"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
-      },
-      {
-        "id": "brain-control",
-        "rowId": "kr.sof3.human.brain.control.activities",
-        "subject": { "id": "brain-control", "label": "The brain" },
-        "relation": "helps_control",
-        "object": { "id": "brain-control-object", "label": "many activities and responses of the body" },
-        "conceptIds": ["sof3.human.brain"],
         "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
       },
       {
@@ -136,7 +118,7 @@
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-open-scope",
-      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Human Body topic family; these are not claimed as exact official SOF row mappings."
+      "scopeNote": "Editorial current-Class-3 Human Body depth that extends beyond reused canonical brain/bones basics; exact official row placement is not claimed."
     }
   },
   {
@@ -176,15 +158,6 @@
         "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "reasoning"] }
       },
       {
-        "id": "moon-reflects",
-        "rowId": "kr.sof3.universe.moon.reflects.sunlight",
-        "subject": { "id": "moon-reflects", "label": "The Moon" },
-        "relation": "appears_bright_because",
-        "object": { "id": "moon-reflects-object", "label": "it reflects light from the Sun" },
-        "conceptIds": ["sof3.universe.moon-light"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
-      },
-      {
         "id": "atmosphere",
         "rowId": "kr.sof3.earth.atmosphere.air.surrounds",
         "subject": { "id": "atmosphere", "label": "Earth's atmosphere" },
@@ -192,21 +165,12 @@
         "object": { "id": "atmosphere-object", "label": "the layer of gases surrounding Earth" },
         "conceptIds": ["sof3.earth.atmosphere"],
         "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
-      },
-      {
-        "id": "earth-third-planet",
-        "rowId": "kr.sof3.universe.earth.third-planet",
-        "subject": { "id": "earth-third-planet", "label": "Earth's position" },
-        "relation": "is",
-        "object": { "id": "earth-third-planet-object", "label": "third planet from the Sun" },
-        "conceptIds": ["sof3.universe.earth-position"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
       }
     ],
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-open-scope",
-      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Earth and Universe topic family; these are not claimed as exact official SOF row mappings."
+      "scopeNote": "Editorial current-Class-3 Earth and Universe depth that extends beyond reused canonical Moon-reflection and Earth-position facts; exact official row placement is not claimed."
     }
   }
 ]
