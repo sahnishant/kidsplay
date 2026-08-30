@@ -38,8 +38,8 @@ describe('Dheu story-world presentation', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
 
     expect(screen.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeTruthy();
-    expect(screen.getByText('Shaitanu')).toBeTruthy();
-    expect(screen.getByText('Scientu')).toBeTruthy();
+    expect(screen.getAllByText('Shaitanu').length).toBeGreaterThanOrEqual(2);
+    expect(screen.getAllByText('Scientu').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByText(/Mira, can you investigate where different animals belong/)).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Start investigation · 6 clues' }));
