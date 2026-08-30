@@ -15,6 +15,10 @@
     type ChildSettings
   } from './runtime/localProgress';
   import {
+    getPatternMockContractSignature,
+    getQuestionContractSignature
+  } from './runtime/mockContract';
+  import {
     clearMockCheckpoint,
     loadMockCheckpoint,
     loadMockHistory,
@@ -52,15 +56,6 @@
     child = saveChildSettings(settings);
   }
 
-  function sectionSignature(session: SessionLaunch): string {
-    return JSON.stringify((session.sections ?? []).map((section) => ({
-      id: section.id,
-      startIndex: section.startIndex,
-      count: section.count,
-      marksPerQuestion: section.marksPerQuestion
-    })));
-  }
-
   function startSession(entryId: string): void {
     try {
       activeSession = createSessionForCatalogEntry(entryId, progress.knowledge);
@@ -79,12 +74,15 @@
       if (launch.mode !== 'goal_pattern_mock') {
         throw new Error('Only structured long mocks can be resumed');
       }
-      if (sectionSignature(launch) !== resumableMock.sectionSignature) {
-        throw new Error('The assessment blueprint changed since this mock was saved');
+      if (getPatternMockContractSignature(launch.profileRef) !== resumableMock.sectionSignature) {
+        throw new Error('The assessment or learning-profile contract changed since this mock was saved');
       }
       const questions = resolveQuestionIds(resumableMock.questionIds);
       if (questions.length !== launch.questions.length) {
         throw new Error('The saved mock no longer matches the current assessment length');
+      }
+      if (getQuestionContractSignature(questions) !== resumableMock.questionSignature) {
+        throw new Error('One or more saved questions changed since this mock was saved');
       }
 
       activeSession = { ...launch, questions };
@@ -110,7 +108,8 @@
       entryId: activeEntryId,
       title: activeSession.title,
       questionIds: activeSession.questions.map((question) => question.id),
-      sectionSignature: sectionSignature(activeSession),
+      sectionSignature: getPatternMockContractSignature(activeSession.profileRef),
+      questionSignature: getQuestionContractSignature(activeSession.questions),
       state: createSessionCheckpoint(state)
     });
   }
