@@ -23,6 +23,16 @@ function increment(map, key, amount = 1) {
   map.set(key, (map.get(key) ?? 0) + amount);
 }
 
+function prioritizedRows(rows) {
+  const fitPriority = { core: 0, review: 1, stretch: 2, challenge: 3 };
+  return [...rows].sort((left, right) => {
+    const fitDelta = (fitPriority[left.fit] ?? 99) - (fitPriority[right.fit] ?? 99);
+    if (fitDelta) return fitDelta;
+    const topicDelta = left.topic.localeCompare(right.topic);
+    return topicDelta || left.rowId.localeCompare(right.rowId);
+  });
+}
+
 const questionById = new Map(questions.map((question) => [question.id, question]));
 const memberByRow = new Map((membership.members ?? []).map((member) => [member.rowId, member]));
 const profileRows = new Set(memberByRow.keys());
@@ -57,6 +67,7 @@ const rows = [...memberByRow.values()].map((member) => ({
 const coveredRows = rows.filter((row) => row.profileQuestions > 0);
 const uncoveredRows = rows.filter((row) => row.profileQuestions === 0);
 const freeCoveredRows = rows.filter((row) => row.freeQuestions > 0);
+const freeUncoveredRows = rows.filter((row) => row.freeQuestions === 0);
 
 const topicStats = [...new Set(rows.map((row) => row.topic))]
   .sort((left, right) => left.localeCompare(right))
@@ -73,6 +84,9 @@ const topicStats = [...new Set(rows.map((row) => row.topic))]
     };
   });
 
+const summarizeRows = (items) => prioritizedRows(items)
+  .map(({ rowId, fit, topic }) => ({ rowId, fit, topic }));
+
 const summary = {
   profileRef: membership.profileRef,
   membershipRows: rows.length,
@@ -81,18 +95,12 @@ const summary = {
   uncoveredProfileRows: uncoveredRows.length,
   freePackQuestions: freeQuestions.length,
   freeCoveredProfileRows: freeCoveredRows.length,
+  freeUncoveredProfileRows: freeUncoveredRows.length,
   engineCounts: Object.fromEntries([...engineCounts.entries()].sort()),
   difficultyCounts: Object.fromEntries([...difficultyCounts.entries()].sort()),
   topicStats,
-  uncoveredRows: uncoveredRows
-    .sort((left, right) => {
-      const fitPriority = { core: 0, review: 1, stretch: 2, challenge: 3 };
-      const fitDelta = (fitPriority[left.fit] ?? 99) - (fitPriority[right.fit] ?? 99);
-      if (fitDelta) return fitDelta;
-      const topicDelta = left.topic.localeCompare(right.topic);
-      return topicDelta || left.rowId.localeCompare(right.rowId);
-    })
-    .map(({ rowId, fit, topic }) => ({ rowId, fit, topic }))
+  uncoveredRows: summarizeRows(uncoveredRows),
+  freeUncoveredRows: summarizeRows(freeUncoveredRows)
 };
 
 if (process.argv.includes('--json')) {
@@ -108,6 +116,7 @@ console.log(`Profile rows exercised by at least one runnable question: ${summary
 console.log(`Profile rows without a runnable question: ${summary.uncoveredProfileRows}`);
 console.log(`Free-pack questions: ${summary.freePackQuestions}`);
 console.log(`Profile rows exercised in free explore: ${summary.freeCoveredProfileRows}/${summary.membershipRows}`);
+console.log(`Profile rows absent from free explore: ${summary.freeUncoveredProfileRows}`);
 console.log(`Engine mix: ${Object.entries(summary.engineCounts).map(([engine, count]) => `${engine}=${count}`).join(', ')}`);
 console.log(`Difficulty mix: ${Object.entries(summary.difficultyCounts).map(([difficulty, count]) => `${difficulty}=${count}`).join(', ')}`);
 console.log('');
@@ -125,6 +134,16 @@ if (!summary.uncoveredRows.length) {
   console.log('- None. Every profile row is exercised by at least one runnable question.');
 } else {
   for (const row of summary.uncoveredRows.slice(0, 40)) {
+    console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}`);
+  }
+}
+console.log('');
+console.log('## Profile rows absent from free exploration');
+console.log('');
+if (!summary.freeUncoveredRows.length) {
+  console.log('- None. Every current profile row is exercised in the free pack; paid value can stay in structure, diagnostics and goal sequencing.');
+} else {
+  for (const row of summary.freeUncoveredRows.slice(0, 40)) {
     console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}`);
   }
 }
