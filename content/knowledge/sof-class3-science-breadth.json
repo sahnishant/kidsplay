@@ -200,7 +200,7 @@
         "relation": "is",
         "object": { "id": "earth-third-planet-object", "label": "third planet from the Sun" },
         "conceptIds": ["sof3.universe.earth-position"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "ordering"] }
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
       }
     ],
     "authoring": {
