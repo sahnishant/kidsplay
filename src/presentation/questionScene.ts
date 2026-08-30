@@ -8,8 +8,10 @@ import type { Question } from '../contracts/question';
  */
 const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.animals.dog.domestic', 'scene.dog.happy-bone'],
+  ['kr.human.lungs.function.breathe', 'scene.human.lungs-breathing'],
   ['kr.air.moving.name.wind', 'scene.air.kite-wind'],
   ['kr.air.balloon.contains.air', 'scene.air.balloon-candle'],
+  ['kr.air.breathing.need.air', 'scene.human.lungs-breathing'],
   ['kr.air.candle.need.air', 'scene.air.balloon-candle'],
   ['kr.air.windmill.turned-by.wind', 'scene.air.windmill'],
   ['kr.air.kite.moved-by.wind', 'scene.air.kite-wind'],
@@ -22,6 +24,7 @@ const sceneByKnowledgeRef = new Map<string, string>([
 const sceneByConceptId = new Map<string, string>([
   ['animals.dog.habitat', 'scene.dog.happy-bone'],
   ['animals.whale.habitat', 'scene.whale.swimming'],
+  ['human.organs.lungs', 'scene.human.lungs-breathing'],
   ['air.properties.wind', 'scene.air.kite-wind'],
   ['air.properties.windmill', 'scene.air.windmill'],
   ['air.properties.kite', 'scene.air.kite-wind'],
@@ -34,6 +37,7 @@ const sceneByConceptId = new Map<string, string>([
 const dashboardSceneByTopic = new Map<string, string>([
   ['animals', 'scene.dog.happy-bone'],
   ['plants', 'scene.plants.air-fresh'],
+  ['human', 'scene.human.lungs-breathing'],
   ['air', 'scene.air.windmill'],
   ['water', 'scene.water.sea-salty'],
   ['rocks', 'scene.rocks.pumice-water']
