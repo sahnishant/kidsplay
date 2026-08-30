@@ -1,4 +1,4 @@
-export type SceneMotion = 'bounce' | 'float' | 'pulse' | 'wiggle';
+export type SceneMotion = 'bounce' | 'float' | 'pulse' | 'wiggle' | 'spin';
 
 export type SceneIconId =
   | 'dog-happy'
@@ -6,6 +6,7 @@ export type SceneIconId =
   | 'bone'
   | 'heart'
   | 'lungs'
+  | 'earth'
   | 'wave'
   | 'whale'
   | 'balloon'
