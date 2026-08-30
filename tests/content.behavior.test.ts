@@ -173,7 +173,7 @@ describe('catalog and profile-driven sessions', () => {
     expect(launched.questions).toHaveLength(20);
   });
 
-  it('builds the published 2026-27 section counts without presenting Kidsplay questions as an official paper', () => {
+  it('builds the published 2026-27 section counts and marks without presenting Kidsplay questions as an official paper', () => {
     const questions = getProfilePatternMockQuestions(PROFILE_REF);
     const logical = questions.slice(0, 5);
     const science = questions.slice(5, 30);
@@ -194,10 +194,11 @@ describe('catalog and profile-driven sessions', () => {
     expect(launched.mode).toBe('goal_pattern_mock');
     expect(launched.questions).toHaveLength(35);
     expect(launched.sections).toEqual([
-      { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 5 },
-      { id: 'science', title: 'Science', startIndex: 5, count: 25 },
-      { id: 'achievers', title: 'Achievers', startIndex: 30, count: 5 }
+      { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 5, marksPerQuestion: 1 },
+      { id: 'science', title: 'Science', startIndex: 5, count: 25, marksPerQuestion: 1 },
+      { id: 'achievers', title: 'Achievers', startIndex: 30, count: 5, marksPerQuestion: 2 }
     ]);
+    expect(launched.sections?.reduce((sum, section) => sum + section.count * section.marksPerQuestion, 0)).toBe(40);
   });
 
   it('derives practice readiness from repeated evidence and broad profile coverage', () => {
