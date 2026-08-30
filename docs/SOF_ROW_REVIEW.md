@@ -10,10 +10,10 @@ The current profile may be used for prototype practice and product testing. It m
 
 - Broad Class 2 scope is backed by the reviewed current SOF syllabus/workbook source registry.
 - Profile membership currently contains **182 canonical rows**.
-- The partial evidence file at `content/alignment-reviews/SOF_INDIA_CLASS2.json` records **26 reproducible row/skill anchors**.
+- The partial evidence file at `content/alignment-reviews/SOF_INDIA_CLASS2.json` records **27 reproducible row/skill anchors**.
 - **13** anchors use current-year direct evidence.
-- **13** anchors use historical official Class 2 assessment evidence with an explicit per-row current-year scope source and locator.
-- **156** profile rows remain pending exact row/skill evidence.
+- **14** anchors use historical official Class 2 assessment evidence with an explicit per-row current-year scope source and locator.
+- **155** profile rows remain pending exact row/skill evidence.
 - All currently retained evidence uses `fitBasis: editorial_retained`; none of Kidsplay's `core`, `review`, `stretch` or `challenge` labels are represented as SOF-supplied difficulty labels.
 - Goal sessions, diagnostics, readiness and mixed mocks may use the profile only while the product remains explicitly prototype.
 - The readiness score is a local practice signal, not an official SOF score or certification.
@@ -74,6 +74,8 @@ Historical evidence means: “SOF has directly assessed this fact/skill at Class
 
 If current-year scope drops a topic family, historical evidence must not be used to keep that row in a verified current profile merely because it appeared in the past.
 
+An official archive document without a named academic year may be registered as reviewed source material, but it cannot support `historical_class2` row evidence because the temporal contract requires a distinct named year.
+
 ## Fit evidence rule
 
 `fit` is a Kidsplay planning axis used by selectors and learning-product design; it is not assumed to be an SOF taxonomy.
@@ -101,7 +103,7 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 - `kr.animals.rhinoceros.threat.killed-for-horns`
 - `kr.safety.road-sign.steep-descent`
 
-### Historical official Class 2 anchors — 13
+### Historical official Class 2 anchors — 14
 
 - `kr.reasoning.ranking.height.shortest`
 - `kr.human.skin.sense.touch`
@@ -111,13 +113,31 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 - `kr.plants.cotton.use.fibre`
 - `kr.universe.mercury.position.closest-sun`
 - `kr.universe.earth.position.third`
+- `kr.universe.earth.type.planet`
 - `kr.family.family-tree.purpose.relationships`
 - `kr.air.kite.moved-by.wind`
 - `kr.air.sailboat.moved-by.wind`
 - `kr.plants.leaves.function.make-food`
 - `kr.plants.flower.function.make-seeds`
 
-The historical source set currently uses reviewed official Class 2 samples from 2025–26, 2024–25, 2022–23 and 2019–20. Two rows previously using the 2025–26 paper (rhinoceros/horns and steep-descent sign) now use direct 2026–27 sample-paper anchors instead.
+Historical row anchors currently use reviewed official Class 2 samples from 2025-26, 2024-25, 2022-23 and 2019-20. Additional reviewed official samples from 2023-24, 2016-17, 2015-16 and 2014-15 are registered as source-coverage findings but add no distinct exact rows. The undated Level-II Class 2 sample is also registered for rediscovery prevention but is temporally ineligible for historical row evidence.
+
+## Issue #19 evidence pass findings
+
+The pass re-read the operational queue and then performed several source-review rounds rather than treating broad topic coverage as row evidence.
+
+The one new exact anchor is `kr.universe.earth.type.planet`: the official 2019-20 Class 2 NSO paper, page 2 question 13, asks for the correct order of **planets** and includes Earth in the correct Mercury–Venus–Earth–Mars sequence. The current 2026-27 syllabus independently retains `Earth and Universe`. The row remains `fit: review` with `fitBasis: editorial_retained`; this does not make the fit an SOF label.
+
+Several tempting near-matches were deliberately rejected:
+
+- The 2015-16 NSO visual pattern cycles through three figure states; it is not recorded as proof of the narrower two-symbol `kr.reasoning.pattern.symbols.alternating` instance.
+- The 2015-16 statement that air fills space is not recorded as proof of the balloon-specific `kr.air.balloon.contains.air` row.
+- The 2014-15 monsoon illustration is not recorded as proof of raincoat/gumboots rows.
+- The 2014-15 and later “cycle has no engine / is not animal-pulled” item is not recorded as proof that a bicycle is pedal-powered.
+- The undated official Level-II paper is not used for historical placement because it lacks a named academic year.
+- Third-party mirrors, answer-key-only hits, cross-olympiad questions and inaccessible paid material are not admitted as exact NSO/ISO Class 2 row evidence.
+
+Repeated sample questions across years remain one underlying evidence theme rather than a mechanism to inflate the row count.
 
 ## Promotion rule
 
