@@ -1,0 +1,50 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class4.digestion-needs.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Class 4 - Food, Digestion and Human Needs",
+    "entries": [
+      {"id":"mouth-digestion","rowId":"kr.sof4.digestion.mouth.starts","subject":{"id":"mouth-digestion","label":"Digestion"},"relation":"starts_in","object":{"id":"mouth-digestion-object","label":"the mouth, where food is chewed and mixed with saliva"},"conceptIds":["sof4.digestion.mouth"],"meta":{"knowledgeLevel":"basic","skills":["recall","reasoning"]}},
+      {"id":"stomach-digestion","rowId":"kr.sof4.digestion.stomach.mixes","subject":{"id":"stomach-digestion","label":"Stomach"},"relation":"does","object":{"id":"stomach-digestion-object","label":"mixes food with digestive juices"},"conceptIds":["sof4.digestion.stomach"],"meta":{"knowledgeLevel":"basic","skills":["recall","reasoning"]}},
+      {"id":"small-intestine","rowId":"kr.sof4.digestion.small-intestine.absorbs","subject":{"id":"small-intestine","label":"Small intestine"},"relation":"does","object":{"id":"small-intestine-object","label":"absorbs much of the digested nutrients"},"conceptIds":["sof4.digestion.intestine"],"meta":{"knowledgeLevel":"intermediate","skills":["recall","reasoning"]}},
+      {"id":"teeth-chewing","rowId":"kr.sof4.digestion.teeth.chew","subject":{"id":"teeth-chewing","label":"Teeth"},"relation":"help_with","object":{"id":"teeth-chewing-object","label":"breaking food into smaller pieces"},"conceptIds":["sof4.digestion.teeth"],"meta":{"knowledgeLevel":"foundation","skills":["recall","reasoning"]}},
+      {"id":"food-energy","rowId":"kr.sof4.human-needs.food.energy","subject":{"id":"food-energy","label":"Food"},"relation":"provides","object":{"id":"food-energy-object","label":"materials and energy the body needs"},"conceptIds":["sof4.needs.food"],"meta":{"knowledgeLevel":"foundation","skills":["recall","reasoning"]}},
+      {"id":"water-need","rowId":"kr.sof4.human-needs.water.body","subject":{"id":"water-need","label":"Clean water"},"relation":"is_needed_for","object":{"id":"water-need-object","label":"healthy body functions"},"conceptIds":["sof4.needs.water"],"meta":{"knowledgeLevel":"foundation","skills":["recall","reasoning"]}},
+      {"id":"shelter-need","rowId":"kr.sof4.human-needs.shelter.protection","subject":{"id":"shelter-need","label":"Shelter"},"relation":"provides","object":{"id":"shelter-need-object","label":"protection from weather and danger"},"conceptIds":["sof4.needs.shelter"],"meta":{"knowledgeLevel":"foundation","skills":["recall","reasoning"]}},
+      {"id":"clothing-need","rowId":"kr.sof4.human-needs.clothing.protection","subject":{"id":"clothing-need","label":"Clothing"},"relation":"helps","object":{"id":"clothing-need-object","label":"protect the body and suit weather conditions"},"conceptIds":["sof4.needs.clothing"],"meta":{"knowledgeLevel":"foundation","skills":["recall","reasoning"]}}
+    ],
+    "authoring":{"status":"reviewed","source":"kidsplay-editorial-open-scope","scopeNote":"Seed rows inside current official SOF Class 4 Food and Digestion and Human Needs topic families."}
+  },
+  {
+    "schemaVersion":1,"id":"knowledge.sof.class4.matter-energy.001","kind":"association_set","version":1,"language":"en","subject":"Science","topic":"Class 4 - Matter, Force, Work and Energy",
+    "entries":[
+      {"id":"solid","rowId":"kr.sof4.matter.solid.fixed-shape","subject":{"id":"solid","label":"Solid"},"relation":"usually_has","object":{"id":"solid-object","label":"a fixed shape and fixed volume"},"conceptIds":["sof4.matter.solid"],"meta":{"knowledgeLevel":"basic","skills":["classification","recall"]}},
+      {"id":"liquid","rowId":"kr.sof4.matter.liquid.fixed-volume","subject":{"id":"liquid","label":"Liquid"},"relation":"usually_has","object":{"id":"liquid-object","label":"a fixed volume but takes the shape of its container"},"conceptIds":["sof4.matter.liquid"],"meta":{"knowledgeLevel":"basic","skills":["classification","recall"]}},
+      {"id":"gas","rowId":"kr.sof4.matter.gas.fills-container","subject":{"id":"gas","label":"Gas"},"relation":"does","object":{"id":"gas-object","label":"spreads to fill its container"},"conceptIds":["sof4.matter.gas"],"meta":{"knowledgeLevel":"basic","skills":["classification","recall"]}},
+      {"id":"force-speed","rowId":"kr.sof4.force.change.speed","subject":{"id":"force-speed","label":"Force"},"relation":"can_change","object":{"id":"force-speed-object","label":"the speed of a moving object"},"conceptIds":["sof4.force.speed"],"meta":{"knowledgeLevel":"basic","skills":["reasoning"]}},
+      {"id":"force-direction","rowId":"kr.sof4.force.change.direction","subject":{"id":"force-direction","label":"Force"},"relation":"can_change","object":{"id":"force-direction-object","label":"the direction of motion"},"conceptIds":["sof4.force.direction"],"meta":{"knowledgeLevel":"basic","skills":["reasoning"]}},
+      {"id":"work-force","rowId":"kr.sof4.work.force.movement","subject":{"id":"work-force","label":"Work in simple science examples"},"relation":"involves","object":{"id":"work-force-object","label":"a force causing movement through a distance"},"conceptIds":["sof4.work.movement"],"meta":{"knowledgeLevel":"intermediate","skills":["reasoning"]}},
+      {"id":"solar-energy","rowId":"kr.sof4.energy.solar.sun","subject":{"id":"solar-energy","label":"Solar energy"},"relation":"comes_from","object":{"id":"solar-energy-object","label":"the Sun"},"conceptIds":["sof4.energy.solar"],"meta":{"knowledgeLevel":"foundation","skills":["recall","classification"]}},
+      {"id":"food-energy","rowId":"kr.sof4.energy.food.body","subject":{"id":"food-energy","label":"Food"},"relation":"stores","object":{"id":"food-energy-object","label":"chemical energy the body can use"},"conceptIds":["sof4.energy.food"],"meta":{"knowledgeLevel":"basic","skills":["recall","reasoning"]}}
+    ],
+    "authoring":{"status":"reviewed","source":"kidsplay-editorial-open-scope","scopeNote":"Seed rows inside current SOF Class 4 Matter and Materials, Force, Work and Energy scope."}
+  },
+  {
+    "schemaVersion":1,"id":"knowledge.sof.class4.environment-earth.001","kind":"association_set","version":1,"language":"en","subject":"Science","topic":"Class 4 - Environment, Earth and Universe",
+    "entries":[
+      {"id":"renewable","rowId":"kr.sof4.environment.renewable.replenished","subject":{"id":"renewable","label":"Renewable resource"},"relation":"can_be","object":{"id":"renewable-object","label":"naturally replenished on a human timescale"},"conceptIds":["sof4.environment.renewable"],"meta":{"knowledgeLevel":"intermediate","skills":["vocabulary","classification"]}},
+      {"id":"nonrenewable","rowId":"kr.sof4.environment.nonrenewable.limited","subject":{"id":"nonrenewable","label":"Non-renewable resource"},"relation":"is","object":{"id":"nonrenewable-object","label":"limited and forms much more slowly than we use it"},"conceptIds":["sof4.environment.nonrenewable"],"meta":{"knowledgeLevel":"intermediate","skills":["vocabulary","classification"]}},
+      {"id":"air-pollution","rowId":"kr.sof4.environment.air-pollution.harmful","subject":{"id":"air-pollution","label":"Air pollution"},"relation":"means","object":{"id":"air-pollution-object","label":"harmful substances are present in the air"},"conceptIds":["sof4.environment.air-pollution"],"meta":{"knowledgeLevel":"basic","skills":["vocabulary","reasoning"]}},
+      {"id":"water-pollution","rowId":"kr.sof4.environment.water-pollution.harmful","subject":{"id":"water-pollution","label":"Water pollution"},"relation":"means","object":{"id":"water-pollution-object","label":"water is contaminated by harmful substances or waste"},"conceptIds":["sof4.environment.water-pollution"],"meta":{"knowledgeLevel":"basic","skills":["vocabulary","reasoning"]}},
+      {"id":"earth-rotation","rowId":"kr.sof4.earth.rotation.day-night","subject":{"id":"earth-rotation","label":"Earth's rotation"},"relation":"causes","object":{"id":"earth-rotation-object","label":"the regular cycle of day and night"},"conceptIds":["sof4.earth.rotation"],"meta":{"knowledgeLevel":"basic","skills":["recall","reasoning"]}},
+      {"id":"earth-revolution","rowId":"kr.sof4.earth.revolution.year","subject":{"id":"earth-revolution","label":"Earth's revolution around the Sun"},"relation":"takes","object":{"id":"earth-revolution-object","label":"about one year"},"conceptIds":["sof4.earth.revolution"],"meta":{"knowledgeLevel":"basic","skills":["recall","reasoning"]}},
+      {"id":"moon-orbit","rowId":"kr.sof4.earth.moon.orbits-earth","subject":{"id":"moon-orbit","label":"Moon"},"relation":"orbits","object":{"id":"moon-orbit-object","label":"Earth"},"conceptIds":["sof4.earth.moon"],"meta":{"knowledgeLevel":"foundation","skills":["recall"]}},
+      {"id":"gravity","rowId":"kr.sof4.earth.gravity.pulls","subject":{"id":"gravity","label":"Gravity"},"relation":"pulls","object":{"id":"gravity-object","label":"objects toward Earth"},"conceptIds":["sof4.earth.gravity"],"meta":{"knowledgeLevel":"basic","skills":["recall","reasoning"]}}
+    ],
+    "authoring":{"status":"reviewed","source":"kidsplay-editorial-open-scope","scopeNote":"Seed rows inside current SOF Class 4 environment and Earth/Universe topic families."}
+  }
+]
