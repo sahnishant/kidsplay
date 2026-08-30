@@ -55,6 +55,7 @@
   <Session
     title={activeSession.title}
     questions={activeSession.questions}
+    sections={activeSession.sections}
     childName={child.name}
     childAvatar={child.avatar}
     onAttempt={handleAttempt}
