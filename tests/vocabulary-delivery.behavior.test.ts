@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest';
 import generatedQuestionsJson from '../content/questions/__generated-from-knowledge.json';
 import freeVocabularyPack from '../content/packs/free-vocabulary.json';
+import {
+  createSessionForCatalogEntry,
+  getCatalogEntries,
+  getFreeVocabularyExploreQuestions,
+  getFreeVocabularyQuestions
+} from '../src/content';
 import type { Question } from '../src/contracts/question';
 import { evaluate } from '../src/evaluation/evaluate';
 import { createShuffledOrder } from '../src/mechanics/reorder';
@@ -63,5 +69,30 @@ describe('vocabulary delivery', () => {
       expect(refs.has(ref)).toBe(true);
       expect(byId.has(ref)).toBe(true);
     }
+  });
+
+  it('exposes vocabulary as a launchable free student catalog session', () => {
+    const entry = getCatalogEntries().find((candidate) => candidate.id === freeVocabularyPack.id);
+    expect(entry).toMatchObject({
+      kind: 'free_explore',
+      access: { type: 'free' },
+      status: 'ready',
+      actionLabel: 'Play words'
+    });
+
+    const pool = getFreeVocabularyQuestions();
+    const selected = getFreeVocabularyExploreQuestions({ count: 8 });
+    const launch = createSessionForCatalogEntry(freeVocabularyPack.id);
+
+    expect(pool).toHaveLength(freeVocabularyPack.questionRefs.length);
+    expect(selected).toHaveLength(8);
+    expect(new Set(selected.map((item) => item.interaction.type)).size).toBeGreaterThanOrEqual(3);
+    expect(launch).toMatchObject({
+      id: `session.${freeVocabularyPack.id}`,
+      mode: 'free_explore',
+      title: freeVocabularyPack.title
+    });
+    expect(launch.questions).toHaveLength(8);
+    expect(launch.questions.every((item) => freeVocabularyPack.questionRefs.includes(item.id))).toBe(true);
   });
 });
