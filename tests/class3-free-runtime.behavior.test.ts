@@ -5,6 +5,7 @@ import {
   getFreeExploreQuestionsForPack,
   getFreePackQuestions
 } from '../src/content';
+import class2Membership from '../content/profile-memberships/SOF_INDIA_CLASS2.json';
 import class3Membership from '../content/profile-memberships/SOF_INDIA_CLASS3.json';
 
 const PACK_ID = 'free.sof-class3-science-foundation.1';
@@ -25,15 +26,16 @@ describe('Class 3 free runtime', () => {
     expect(entry?.title).toContain('Class 3 Science');
   });
 
-  it('keeps every current Class 3 membership row inside the free canonical bank', () => {
+  it('keeps every direct Class 3 row in free content while reusing the Class 2 free bank by composition', () => {
     const pool = getFreePackQuestions(PACK_ID);
     const freeRows = new Set(pool.flatMap((question) => question.knowledgeRefs ?? []));
-    const membershipRows = class3Membership.members.map((member) => member.rowId);
+    const directMembershipRows = class3Membership.members.map((member) => member.rowId);
 
-    expect(pool.length).toBeGreaterThan(class3Membership.members.length);
-    expect(membershipRows.filter((rowId) => !freeRows.has(rowId))).toEqual([]);
+    expect(pool.length).toBeGreaterThan(100);
+    expect(pool.some((question) => question.id === 'plants.parts.memory.generated.001')).toBe(true);
+    expect(directMembershipRows.filter((rowId) => !freeRows.has(rowId))).toEqual([]);
 
-    const class3ScienceRows = membershipRows.filter((rowId) => rowId.startsWith('kr.sof3.'));
+    const class3ScienceRows = directMembershipRows.filter((rowId) => rowId.startsWith('kr.sof3.'));
     for (const rowId of class3ScienceRows) {
       expect(pool.some((question) =>
         question.interaction.type === 'single_choice'
@@ -43,8 +45,11 @@ describe('Class 3 free runtime', () => {
     }
   });
 
-  it('launches an eight-question Class 3 free session without escaping its profile membership', () => {
-    const allowedRows = new Set(class3Membership.members.map((member) => member.rowId));
+  it('launches an eight-question Class 3 free session inside its effective composed profile membership', () => {
+    const allowedRows = new Set([
+      ...class2Membership.members.map((member) => member.rowId),
+      ...class3Membership.members.map((member) => member.rowId)
+    ]);
     const launch = createSessionForCatalogEntry(PACK_ID, {});
 
     expect(launch.mode).toBe('free_explore');
