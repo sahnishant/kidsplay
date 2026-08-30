@@ -58,16 +58,25 @@ jobs:
 
       - name: Install emulator system image
         run: |
-          yes | sdkmanager --licenses >/dev/null || true
-          sdkmanager "platform-tools" "emulator" "system-images;android-35;google_apis;x86_64"
-          echo no | avdmanager create avd --force --name kidsplay-ci --package "system-images;android-35;google_apis;x86_64"
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          AVDMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/avdmanager"
+          test -x "$SDKMANAGER"
+          test -x "$AVDMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "emulator" "system-images;android-35;google_apis;x86_64"
+          echo no | "$AVDMANAGER" create avd --force --name kidsplay-ci --package "system-images;android-35;google_apis;x86_64"
+          echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
+          echo "$SDK_ROOT/emulator" >> "$GITHUB_PATH"
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
 
       - name: Packaged offline relaunch and rotation smoke
         timeout-minutes: 12
         run: |
           set -euo pipefail
           mkdir -p android-smoke
-          emulator -avd kidsplay-ci -no-window -no-audio -no-snapshot -no-boot-anim -gpu swiftshader_indirect >android-smoke/emulator.log 2>&1 &
+          emulator -avd kidsplay-ci -no-window -no-audio -no-snapshot -no-boot-anim -no-metrics -gpu swiftshader_indirect >android-smoke/emulator.log 2>&1 &
           adb wait-for-device
 
           booted=""
