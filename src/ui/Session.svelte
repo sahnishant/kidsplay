@@ -49,8 +49,13 @@
   let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
   let question = $derived(questions[sessionState.index]);
-  let questionSceneId = $derived(
-    question ? resolveQuestionSceneId(question, sections.length === 0 && sessionState.submitted) : null
+  let authoredSceneId = $derived(
+    question?.stimulus?.type === 'scene' ? question.stimulus.sceneId : null
+  );
+  let reinforcementSceneId = $derived(
+    question && !authoredSceneId && sections.length === 0 && sessionState.submitted
+      ? resolveQuestionSceneId(question)
+      : null
   );
   let correctCount = $derived(sessionState.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
@@ -128,8 +133,8 @@
         <div class="saved-session-note">Mock progress saves on this device</div>
       {/if}
 
-      {#if questionSceneId}
-        <Scene sceneId={questionSceneId} />
+      {#if authoredSceneId}
+        <Scene sceneId={authoredSceneId} />
       {/if}
 
       {#if reasoningQuestion}
@@ -160,6 +165,11 @@
           <strong>{sessionState.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
           <span>{question.feedback[sessionState.lastResult.feedbackKey]}</span>
         </div>
+        {#if reinforcementSceneId}
+          <div class="reinforcement-scene">
+            <Scene sceneId={reinforcementSceneId} />
+          </div>
+        {/if}
         <button class="next-button" type="button" onclick={handleAdvance}>
           {sessionState.index + 1 < questions.length ? 'Next' : 'See result'}
         </button>
@@ -211,6 +221,14 @@
     padding: 10px 12px;
     border: 1px solid var(--border, #d9d9d9);
     border-radius: 12px;
+  }
+
+  .reinforcement-scene {
+    margin-top: 12px;
+  }
+
+  .reinforcement-scene :global(.scene) {
+    height: clamp(150px, 24vh, 190px);
   }
 
   .completion-avatar {
