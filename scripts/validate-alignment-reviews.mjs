@@ -10,6 +10,21 @@ const isDate = (value) => {
   return Number.isFinite(parsed) && new Date(parsed).toISOString().slice(0, 10) === value;
 };
 
+function collectRowIds(value, rowIds) {
+  if (Array.isArray(value)) {
+    for (const item of value) collectRowIds(item, rowIds);
+    return;
+  }
+  if (!value || typeof value !== 'object') return;
+  if (hasText(value.rowId)) rowIds.add(value.rowId);
+  for (const nested of Object.values(value)) collectRowIds(nested, rowIds);
+}
+
+const canonicalRowIds = new Set();
+for (const fileName of readdirSync(new URL('content/knowledge/', root)).filter((name) => name.endsWith('.json'))) {
+  collectRowIds(readJson(`content/knowledge/${fileName}`), canonicalRowIds);
+}
+
 const sourceRegistry = readJson('content/alignment-sources/registry.json');
 const sourceById = new Map((sourceRegistry.sources ?? []).map((source) => [source.id, source]));
 const membershipByProfile = new Map(
@@ -80,7 +95,12 @@ for (const fileName of reviewFiles) {
     if (!hasText(evidence.rowId)) errors.push(`${evidencePrefix}: rowId is required`);
     if (seenRows.has(evidence.rowId)) errors.push(`${prefix}: duplicate reviewed row ${evidence.rowId}`);
     seenRows.add(evidence.rowId);
-    if (!memberByRow.has(evidence.rowId)) errors.push(`${evidencePrefix}: rowId is not in the profile membership`);
+    if (hasText(evidence.rowId) && !canonicalRowIds.has(evidence.rowId)) {
+      errors.push(`${evidencePrefix}: rowId is not a known canonical knowledge row`);
+    }
+    if ((evidence.decision === 'keep' || evidence.decision === 'refit') && !memberByRow.has(evidence.rowId)) {
+      errors.push(`${evidencePrefix}: ${evidence.decision} rowId must remain in the profile membership`);
+    }
     if (!source) errors.push(`${evidencePrefix}: unknown sourceRef ${evidence.sourceRef}`);
     else if (!officialSourceTypes.has(source.type) || source.status !== 'reviewed') {
       errors.push(`${evidencePrefix}: evidence source must be a reviewed official source`);
@@ -138,8 +158,11 @@ for (const fileName of reviewFiles) {
     }
   }
 
-  if (review.status === 'completed' && membership && seenRows.size !== memberByRow.size) {
-    errors.push(`${prefix}: completed review must contain row evidence for every membership row`);
+  if (review.status === 'completed' && membership) {
+    const missingCurrentMembers = [...memberByRow.keys()].filter((rowId) => !seenRows.has(rowId));
+    if (missingCurrentMembers.length > 0) {
+      errors.push(`${prefix}: completed review must contain evidence for every current membership row (${missingCurrentMembers.length} missing)`);
+    }
   }
 }
 
