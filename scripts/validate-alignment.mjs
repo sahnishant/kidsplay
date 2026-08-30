@@ -29,6 +29,13 @@ const isDate = (value) => {
   return Number.isFinite(parsed) && new Date(parsed).toISOString().slice(0, 10) === value;
 };
 const hasText = (value) => typeof value === 'string' && value.trim().length > 0;
+const isAcademicYear = (value) => {
+  if (typeof value !== 'string' || !/^(\d{4})-(\d{2})$/.test(value)) return false;
+  const [, startYearText, endYearText] = value.match(/^(\d{4})-(\d{2})$/) ?? [];
+  const startYear = Number(startYearText);
+  const expectedEnd = String((startYear + 1) % 100).padStart(2, '0');
+  return endYearText === expectedEnd;
+};
 const sourceById = new Map();
 
 for (const source of sourceRegistry.sources ?? []) {
@@ -45,6 +52,9 @@ for (const source of sourceRegistry.sources ?? []) {
   if (!hasText(source.authority)) errors.push(`${prefix}: authority is required`);
   if (!hasText(source.title)) errors.push(`${prefix}: title is required`);
   if (!hasText(source.versionLabel)) errors.push(`${prefix}: versionLabel is required`);
+  if (source.academicYear !== null && !isAcademicYear(source.academicYear)) {
+    errors.push(`${prefix}: academicYear must be YYYY-YY or null`);
+  }
   if (source.retrievedOn !== null && !isDate(source.retrievedOn)) errors.push(`${prefix}: retrievedOn must be YYYY-MM-DD or null`);
 
   if (source.status === 'reviewed') {
@@ -86,6 +96,9 @@ for (const profile of profiles) {
   }
 
   if (!hasText(alignment.versionLabel)) errors.push(`${prefix}: alignment.versionLabel is required`);
+  if (alignment.academicYear !== null && alignment.academicYear !== undefined && !isAcademicYear(alignment.academicYear)) {
+    errors.push(`${prefix}: alignment.academicYear must be YYYY-YY or null`);
+  }
   if (alignment.reviewedAt !== null && !isDate(alignment.reviewedAt)) errors.push(`${prefix}: alignment.reviewedAt must be YYYY-MM-DD or null`);
   if (alignment.effectiveFrom !== null && !isDate(alignment.effectiveFrom)) errors.push(`${prefix}: alignment.effectiveFrom must be YYYY-MM-DD or null`);
   if (alignment.effectiveTo !== null && !isDate(alignment.effectiveTo)) errors.push(`${prefix}: alignment.effectiveTo must be YYYY-MM-DD or null`);
@@ -95,7 +108,7 @@ for (const profile of profiles) {
 
   if (profile.alignmentStatus === 'reviewed') {
     if (!isDate(alignment.reviewedAt)) errors.push(`${prefix}: reviewed alignment requires reviewedAt`);
-    const hasApplicability = hasText(alignment.academicYear) || (isDate(alignment.effectiveFrom) && isDate(alignment.effectiveTo));
+    const hasApplicability = isAcademicYear(alignment.academicYear) || (isDate(alignment.effectiveFrom) && isDate(alignment.effectiveTo));
     if (!hasApplicability) errors.push(`${prefix}: reviewed alignment requires academicYear or effective date range`);
     const hasReviewedOfficialSource = resolvedSources.some(
       (source) => officialSourceTypes.has(source.type) && source.status === 'reviewed'
@@ -132,13 +145,16 @@ for (const { name, value: membership } of memberships) {
   }
   if (!hasText(provenance.versionLabel)) errors.push(`${prefix}: provenance.versionLabel is required`);
   if (!hasText(provenance.placementBasis)) errors.push(`${prefix}: provenance.placementBasis is required`);
+  if (provenance.academicYear !== null && provenance.academicYear !== undefined && !isAcademicYear(provenance.academicYear)) {
+    errors.push(`${prefix}: provenance.academicYear must be YYYY-YY or null`);
+  }
   if (provenance.reviewedAt !== null && !isDate(provenance.reviewedAt)) errors.push(`${prefix}: provenance.reviewedAt must be YYYY-MM-DD or null`);
   if (provenance.effectiveFrom !== null && !isDate(provenance.effectiveFrom)) errors.push(`${prefix}: provenance.effectiveFrom must be YYYY-MM-DD or null`);
   if (provenance.effectiveTo !== null && !isDate(provenance.effectiveTo)) errors.push(`${prefix}: provenance.effectiveTo must be YYYY-MM-DD or null`);
 
   if (provenance.status === 'reviewed') {
     if (!isDate(provenance.reviewedAt)) errors.push(`${prefix}: reviewed membership requires reviewedAt`);
-    const hasApplicability = hasText(provenance.academicYear) || (isDate(provenance.effectiveFrom) && isDate(provenance.effectiveTo));
+    const hasApplicability = isAcademicYear(provenance.academicYear) || (isDate(provenance.effectiveFrom) && isDate(provenance.effectiveTo));
     if (!hasApplicability) errors.push(`${prefix}: reviewed membership requires academicYear or effective date range`);
     const hasReviewedOfficialSource = resolvedSources.some(
       (source) => officialSourceTypes.has(source.type) && source.status === 'reviewed'
