@@ -20,6 +20,18 @@ describe('semantic visual registry', () => {
     });
   });
 
+  it('loads independent utility SVG packs through the same semantic contract', () => {
+    expect(resolveVisualDefinition('entity.transport.ambulance')).toMatchObject({
+      renderer: 'utility-icon',
+      glyph: 'ambulance'
+    });
+    expect(resolveVisualDefinition('entity.communication.telephone')).toMatchObject({
+      renderer: 'utility-icon',
+      glyph: 'telephone',
+      motion: 'wiggle'
+    });
+  });
+
   it('uses exact aliases for legacy option labels instead of fuzzy matching', () => {
     expect(resolveLabelVisualRefs('Dog')).toEqual(['entity.animal.dog']);
     expect(resolveLabelVisualRefs('Moving air')).toEqual(['entity.nature.wind']);
@@ -36,6 +48,10 @@ describe('semantic visual registry', () => {
       'entity.food.pulses',
       'entity.food.spinach'
     ]);
+    expect(resolveLabelVisualRefs('Telephone and ambulance')).toEqual([
+      'entity.communication.telephone',
+      'entity.transport.ambulance'
+    ]);
   });
 
   it('keeps authored refs authoritative and can disable label inference', () => {
@@ -46,10 +62,10 @@ describe('semantic visual registry', () => {
     expect(resolveItemVisualRefs({ label: 'Dog' }, false)).toEqual([]);
   });
 
-  it('keeps the registry unique and large enough to be a reusable first pack', () => {
+  it('keeps the registry unique and large enough to be a reusable first set', () => {
     const refs = getRegisteredVisualRefs();
     expect(new Set(refs).size).toBe(refs.length);
-    expect(refs.length).toBeGreaterThanOrEqual(45);
+    expect(refs.length).toBeGreaterThanOrEqual(70);
     expect(getVisualDefinitions().every((visual) => visual.aliases.length > 0)).toBe(true);
   });
 });
