@@ -42,6 +42,7 @@ const ACTIVE_MOCK_KEY = 'kidsplay.activeMock.v1';
 const MOCK_HISTORY_KEY = 'kidsplay.mockHistory.v1';
 const MAX_QUESTION_IDS = 100;
 const MAX_HISTORY = 20;
+const NUMBER_EPSILON = 1e-9;
 
 function canUseStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
@@ -72,6 +73,10 @@ function isTimestamp(value: unknown): value is string {
 
 function isNonEmptyString(value: unknown): value is string {
   return typeof value === 'string' && value.length > 0;
+}
+
+function nearlyEqual(left: number, right: number): boolean {
+  return Math.abs(left - right) <= NUMBER_EPSILON;
 }
 
 function isQuestionResponse(value: unknown): value is QuestionResponseEnvelope {
@@ -155,24 +160,36 @@ function isSectionSummary(value: unknown): value is SectionScoreSummary {
 function isMockHistoryRecord(value: unknown): value is MockHistoryRecord {
   if (!value || typeof value !== 'object') return false;
   const item = value as Partial<MockHistoryRecord>;
-  return item.version === 1
-    && isNonEmptyString(item.sessionId)
-    && isNonEmptyString(item.entryId)
-    && isNonEmptyString(item.title)
-    && isTimestamp(item.completedAt)
-    && Number.isInteger(item.questionCount)
-    && Number(item.questionCount) > 0
-    && Number(item.questionCount) <= MAX_QUESTION_IDS
-    && Number.isInteger(item.correct)
-    && Number(item.correct) >= 0
-    && Number(item.correct) <= Number(item.questionCount)
-    && Number.isFinite(item.earnedMarks)
-    && Number(item.earnedMarks) >= 0
-    && Number.isFinite(item.maxMarks)
-    && Number(item.maxMarks) > 0
-    && Number(item.earnedMarks) <= Number(item.maxMarks)
-    && Array.isArray(item.sections)
-    && item.sections.every(isSectionSummary);
+  if (item.version !== 1
+    || !isNonEmptyString(item.sessionId)
+    || !isNonEmptyString(item.entryId)
+    || !isNonEmptyString(item.title)
+    || !isTimestamp(item.completedAt)
+    || !Number.isInteger(item.questionCount)
+    || Number(item.questionCount) <= 0
+    || Number(item.questionCount) > MAX_QUESTION_IDS
+    || !Number.isInteger(item.correct)
+    || Number(item.correct) < 0
+    || Number(item.correct) > Number(item.questionCount)
+    || !Number.isFinite(item.earnedMarks)
+    || Number(item.earnedMarks) < 0
+    || !Number.isFinite(item.maxMarks)
+    || Number(item.maxMarks) <= 0
+    || Number(item.earnedMarks) > Number(item.maxMarks)
+    || !Array.isArray(item.sections)
+    || !item.sections.every(isSectionSummary)) {
+    return false;
+  }
+
+  if (!item.sections.length) return true;
+  const totalQuestions = item.sections.reduce((sum, section) => sum + section.total, 0);
+  const totalCorrect = item.sections.reduce((sum, section) => sum + section.correct, 0);
+  const earnedMarks = item.sections.reduce((sum, section) => sum + section.earnedMarks, 0);
+  const maxMarks = item.sections.reduce((sum, section) => sum + section.maxMarks, 0);
+  return totalQuestions === item.questionCount
+    && totalCorrect === item.correct
+    && nearlyEqual(earnedMarks, item.earnedMarks)
+    && nearlyEqual(maxMarks, item.maxMarks);
 }
 
 function cloneCheckpoint(checkpoint: StoredMockCheckpoint): StoredMockCheckpoint {
@@ -240,7 +257,9 @@ export function recordMockCompletion(input: Omit<MockHistoryRecord, 'version' | 
   };
   if (!isMockHistoryRecord(record)) throw new Error('Refusing to persist an invalid mock result');
 
-  const history = loadMockHistory();
+  const history = loadMockHistory().filter((item) =>
+    item.sessionId !== record.sessionId || item.entryId !== record.entryId
+  );
   history.push(record);
   const bounded = history
     .sort((left, right) => Date.parse(left.completedAt) - Date.parse(right.completedAt))
