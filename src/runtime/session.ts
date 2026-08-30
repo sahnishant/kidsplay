@@ -13,6 +13,22 @@ export interface SessionState {
   startedAtIso: string;
 }
 
+export interface ScoredSessionSection {
+  id: string;
+  title: string;
+  startIndex: number;
+  count: number;
+}
+
+export interface SectionScoreSummary {
+  id: string;
+  title: string;
+  correct: number;
+  answered: number;
+  total: number;
+  accuracy: number | null;
+}
+
 function resetClock(state: SessionState): void {
   state.startedAtEpoch = Date.now();
   state.startedAtIso = new Date(state.startedAtEpoch).toISOString();
@@ -70,4 +86,22 @@ export function replaySession(state: SessionState): void {
   state.submitted = false;
   state.lastResult = null;
   resetClock(state);
+}
+
+export function summarizeSectionResults(
+  sections: ScoredSessionSection[],
+  results: EvaluationResult[]
+): SectionScoreSummary[] {
+  return sections.map((section) => {
+    const sectionResults = results.slice(section.startIndex, section.startIndex + section.count);
+    const correct = sectionResults.filter((result) => result.correct).length;
+    return {
+      id: section.id,
+      title: section.title,
+      correct,
+      answered: sectionResults.length,
+      total: section.count,
+      accuracy: sectionResults.length ? correct / sectionResults.length : null
+    };
+  });
 }
