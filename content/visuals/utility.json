@@ -1,0 +1,29 @@
+[
+  { "id": "entity.transport.bicycle", "renderer": "utility-icon", "glyph": "bicycle", "label": "Bicycle", "motion": "idle", "aliases": ["bicycle", "cycle"] },
+  { "id": "entity.transport.car", "renderer": "utility-icon", "glyph": "car", "label": "Car", "motion": "idle", "aliases": ["car"] },
+  { "id": "entity.transport.bus", "renderer": "utility-icon", "glyph": "bus", "label": "Bus", "motion": "idle", "aliases": ["bus", "school bus"] },
+  { "id": "entity.transport.train", "renderer": "utility-icon", "glyph": "train", "label": "Train", "motion": "idle", "aliases": ["train"] },
+  { "id": "entity.transport.aeroplane", "renderer": "utility-icon", "glyph": "aeroplane", "label": "Aeroplane", "motion": "float", "aliases": ["aeroplane", "airplane", "plane"] },
+  { "id": "entity.transport.ship", "renderer": "utility-icon", "glyph": "ship", "label": "Ship", "motion": "float", "aliases": ["ship"] },
+  { "id": "entity.transport.ambulance", "renderer": "utility-icon", "glyph": "ambulance", "label": "Ambulance", "motion": "idle", "aliases": ["ambulance"] },
+
+  { "id": "entity.communication.telephone", "renderer": "utility-icon", "glyph": "telephone", "label": "Telephone", "motion": "wiggle", "aliases": ["telephone", "phone"] },
+  { "id": "entity.communication.letter", "renderer": "utility-icon", "glyph": "letter", "label": "Letter", "motion": "float", "aliases": ["letter"] },
+  { "id": "entity.communication.radio", "renderer": "utility-icon", "glyph": "radio", "label": "Radio", "motion": "pulse", "aliases": ["radio"] },
+  { "id": "entity.communication.newspaper", "renderer": "utility-icon", "glyph": "newspaper", "label": "Newspaper", "motion": "idle", "aliases": ["newspaper"] },
+
+  { "id": "entity.safety.helmet", "renderer": "utility-icon", "glyph": "helmet", "label": "Helmet", "motion": "idle", "aliases": ["helmet"] },
+  { "id": "entity.safety.seatbelt", "renderer": "utility-icon", "glyph": "seatbelt", "label": "Seat belt", "motion": "pulse", "aliases": ["seat belt", "seatbelt"] },
+  { "id": "entity.safety.zebra-crossing", "renderer": "utility-icon", "glyph": "zebra-crossing", "label": "Zebra crossing", "motion": "idle", "aliases": ["zebra crossing", "pedestrian crossing"] },
+  { "id": "entity.safety.traffic-light", "renderer": "utility-icon", "glyph": "traffic-light", "label": "Traffic light", "motion": "pulse", "aliases": ["traffic light", "traffic signal"] },
+
+  { "id": "entity.clothing.raincoat", "renderer": "utility-icon", "glyph": "raincoat", "label": "Raincoat", "motion": "sway", "aliases": ["raincoat", "rain coat"] },
+  { "id": "entity.clothing.sunhat", "renderer": "utility-icon", "glyph": "sunhat", "label": "Sun hat", "motion": "sway", "aliases": ["sun hat", "sunhat"] },
+  { "id": "entity.clothing.wool", "renderer": "utility-icon", "glyph": "wool", "label": "Woollen clothes", "motion": "idle", "aliases": ["woollen clothes", "woolen clothes", "wool"] },
+  { "id": "entity.clothing.cotton", "renderer": "utility-icon", "glyph": "cotton", "label": "Cotton clothes", "motion": "sway", "aliases": ["cotton clothes", "cotton"] },
+
+  { "id": "entity.housing.pucca", "renderer": "utility-icon", "glyph": "pucca-house", "label": "Pucca house", "motion": "idle", "aliases": ["pucca house"] },
+  { "id": "entity.housing.kutcha", "renderer": "utility-icon", "glyph": "kutcha-house", "label": "Kutcha house", "motion": "idle", "aliases": ["kutcha house", "kuccha house"] },
+  { "id": "entity.housing.tent", "renderer": "utility-icon", "glyph": "tent", "label": "Tent", "motion": "sway", "aliases": ["tent"] },
+  { "id": "entity.housing.houseboat", "renderer": "utility-icon", "glyph": "houseboat", "label": "Houseboat", "motion": "float", "aliases": ["houseboat", "house boat"] }
+]
