@@ -31,6 +31,16 @@ function desiredRefsCovered(question: Question, desired: Set<string>): string[] 
   return (question.knowledgeRefs ?? []).filter((rowId) => desired.has(rowId));
 }
 
+function cloneMission(mission: StoryMission): StoryMission {
+  return {
+    ...mission,
+    knowledgeRefs: [...mission.knowledgeRefs],
+    beats: mission.beats.map((beat) => ({ ...beat })),
+    successBeat: { ...mission.successBeat },
+    reward: { ...mission.reward }
+  };
+}
+
 function chooseMissionQuestions(mission: StoryMission): Question[] {
   const desired = new Set(mission.knowledgeRefs);
   const candidates = getFreeAnimalsQuestions()
@@ -96,20 +106,20 @@ export function getStoryLocations(): StoryLocation[] {
   }));
 }
 
+/** All authored missions, including future paid/goal-specific story content. */
+export function getAllStoryMissions(): StoryMission[] {
+  return missions.map(cloneMission);
+}
+
+/** Missions that the free Dheu world map may launch directly. */
 export function getStoryMissions(): StoryMission[] {
-  return missions.map((mission) => ({
-    ...mission,
-    knowledgeRefs: [...mission.knowledgeRefs],
-    beats: mission.beats.map((beat) => ({ ...beat })),
-    successBeat: { ...mission.successBeat },
-    reward: { ...mission.reward }
-  }));
+  return getAllStoryMissions().filter((mission) => mission.access === 'free');
 }
 
 export function getStoryMission(missionId: string): StoryMission {
   const mission = missions.find((item) => item.id === missionId);
   if (!mission) throw new Error(`Unknown story mission ${missionId}`);
-  return getStoryMissions().find((item) => item.id === missionId)!;
+  return cloneMission(mission);
 }
 
 export function getHeroDisplayName(savedChildName: string): string {
