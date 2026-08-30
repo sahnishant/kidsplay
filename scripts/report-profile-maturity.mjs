@@ -2,12 +2,13 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const readArrays = (directory) => readdirSync(new URL(directory, root))
+const readItems = (directory) => readdirSync(new URL(directory, root))
   .filter((name) => name.endsWith('.json'))
   .sort()
   .flatMap((name) => {
     const value = readJson(`${directory}${name}`);
-    return Array.isArray(value) ? value : [];
+    if (Array.isArray(value)) return value;
+    return value && typeof value === 'object' ? [value] : [];
   });
 const increment = (map, key) => map.set(key, (map.get(key) ?? 0) + 1);
 const percent = (part, total) => total ? Math.round((part / total) * 1000) / 10 : 0;
@@ -46,12 +47,12 @@ const rawMemberships = readdirSync(new URL('content/profile-memberships/', root)
 const rawMembershipByProfile = new Map(rawMemberships.map((item) => [item.profileRef, item]));
 const membershipByProfile = new Map(resolvedMemberships.map((item) => [item.profileRef, item]));
 const indexByRow = new Map(index.map((row) => [row.rowId, row]));
-const questions = readArrays('content/questions/');
-const blueprints = readArrays('content/assessment-blueprints/');
+const questions = readItems('content/questions/');
+const blueprints = readItems('content/assessment-blueprints/');
 const blueprintByProfile = new Map(blueprints.map((item) => [item.profileRef, item]));
 
 const freeQuestionIds = new Set();
-for (const pack of readArrays('content/packs/')) {
+for (const pack of readItems('content/packs/')) {
   if (pack?.access?.type !== 'free') continue;
   for (const id of pack.questionRefs ?? []) freeQuestionIds.add(id);
 }
@@ -59,7 +60,7 @@ for (const pack of readArrays('content/packs/')) {
 const visualIds = new Set();
 const visualByAlias = new Map();
 const visualBySemantic = new Map();
-for (const visual of readArrays('content/visuals/')) {
+for (const visual of readItems('content/visuals/')) {
   if (!visual?.id) continue;
   visualIds.add(visual.id);
   for (const alias of visual.aliases ?? []) {
@@ -114,6 +115,7 @@ function assessmentSignals(profileQuestions, blueprint) {
     blueprintId: blueprint.id,
     totalQuestions: blueprint.totalQuestions,
     totalMarks: blueprint.totalMarks,
+    selectionPolicy: blueprint.selectionPolicy ?? null,
     sections: (blueprint.sections ?? []).map((section) => ({
       id: section.id,
       selector: section.selector,
