@@ -79,7 +79,7 @@
 
   function startStoryMission(missionId: string): void {
     try {
-      const launch = createStoryMissionLaunch(missionId);
+      const launch = createStoryMissionLaunch(missionId, progress.knowledge);
       activeSession = launch.session;
       activeStoryMission = launch.mission;
       activeEntryId = null;
