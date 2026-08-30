@@ -121,6 +121,7 @@
     { "rowId": "kr.transport.aeroplane.mode.air", "fit": "core" },
     { "rowId": "kr.transport.ship.mode.water", "fit": "core" },
     { "rowId": "kr.transport.bicycle.feature.pedal", "fit": "review" },
+    { "rowId": "kr.transport.tonga.power.animal-pulled", "fit": "core" },
     { "rowId": "kr.transport.ambulance.role.emergency", "fit": "core" },
     { "rowId": "kr.communication.telephone.use.voice", "fit": "review" },
     { "rowId": "kr.communication.letter.use.post", "fit": "review" },
