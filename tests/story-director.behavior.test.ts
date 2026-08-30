@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   createStoryMissionLaunch,
+  getAllStoryMissions,
   getStoryLocations,
   getStoryMissions
 } from '../src/story/storyDirector';
@@ -11,11 +12,13 @@ describe('story mission director', () => {
     const locationIds = new Set(getStoryLocations().map((location) => location.id));
 
     expect(missions.length).toBeGreaterThanOrEqual(4);
+    expect(missions.every((mission) => mission.access === 'free')).toBe(true);
+    expect(getAllStoryMissions().length).toBeGreaterThanOrEqual(missions.length);
     expect(new Set(missions.map((mission) => mission.id)).size).toBe(missions.length);
     expect(new Set(missions.map((mission) => mission.locationRef)).size).toBe(missions.length);
+    expect(new Set(missions.map((mission) => mission.reward.id)).size).toBe(missions.length);
 
     for (const mission of missions) {
-      expect(mission.access).toBe('free');
       expect(locationIds.has(mission.locationRef)).toBe(true);
       expect(mission.knowledgeRefs.length).toBeGreaterThanOrEqual(4);
       expect(new Set(mission.knowledgeRefs).size).toBe(mission.knowledgeRefs.length);
@@ -34,7 +37,7 @@ describe('story mission director', () => {
   });
 
   it('uses story scenes only as presentation references, never as answer contracts', () => {
-    for (const mission of getStoryMissions()) {
+    for (const mission of getAllStoryMissions()) {
       expect(mission.openingSceneRef?.startsWith('scene.')).toBe(true);
       expect(mission.successSceneRef?.startsWith('scene.')).toBe(true);
       expect(mission.reward.stars).toBeGreaterThan(0);

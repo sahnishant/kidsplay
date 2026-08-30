@@ -77,9 +77,18 @@ for (const path of await jsonFiles('content/scenes')) {
   });
 }
 
+const rewardIds = new Set();
+const freeMissionLocations = new Set();
+let freeMissionCount = 0;
+
 for (const mission of missionsDoc.missions) {
   requireCondition(locationIds.has(mission.locationRef), `mission ${mission.id} has unknown location ${mission.locationRef}`);
   requireCondition(mission.access === 'free' || mission.access === 'goal', `mission ${mission.id} has invalid access`);
+  if (mission.access === 'free') {
+    freeMissionCount += 1;
+    requireCondition(!freeMissionLocations.has(mission.locationRef), `free story map has multiple missions at location ${mission.locationRef}`);
+    freeMissionLocations.add(mission.locationRef);
+  }
   requireCondition(Number.isInteger(mission.questionCount) && mission.questionCount >= 4 && mission.questionCount <= 12, `mission ${mission.id} questionCount must be 4..12`);
   requireCondition(Array.isArray(mission.knowledgeRefs) && mission.knowledgeRefs.length >= 2, `mission ${mission.id} needs multiple knowledgeRefs`);
   requireCondition(new Set(mission.knowledgeRefs).size === mission.knowledgeRefs.length, `mission ${mission.id} has duplicate knowledgeRefs`);
@@ -99,8 +108,12 @@ for (const mission of missionsDoc.missions) {
     requireCondition(speakers.has(requiredSpeaker), `mission ${mission.id} opening must include ${requiredSpeaker}`);
   }
   requireCondition(characterIds.has(mission.successBeat?.speakerRef), `mission ${mission.id} has invalid success speaker`);
-  requireCondition(typeof mission.reward?.id === 'string' && typeof mission.reward?.label === 'string', `mission ${mission.id} needs a reward`);
+  requireCondition(typeof mission.reward?.id === 'string' && mission.reward.id.length > 0 && typeof mission.reward?.label === 'string' && mission.reward.label.length > 0, `mission ${mission.id} needs a reward`);
+  requireCondition(!rewardIds.has(mission.reward.id), `missions contain duplicate reward id ${mission.reward.id}`);
+  rewardIds.add(mission.reward.id);
   requireCondition(Number.isInteger(mission.reward?.stars) && mission.reward.stars >= 0, `mission ${mission.id} reward stars must be a non-negative integer`);
 }
 
-console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions`);
+requireCondition(freeMissionCount > 0, 'story world needs at least one directly playable free mission');
+
+console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free map missions)`);
