@@ -42,6 +42,42 @@
     { "rowId": "kr.sof3.safety.emergency.ask-adult", "fit": "core" },
     { "rowId": "kr.sof3.safety.road.look-both-ways", "fit": "core" },
     { "rowId": "kr.sof3.communication.message.sender-receiver", "fit": "core" },
-    { "rowId": "kr.sof3.communication.internet.adult-guidance", "fit": "core" }
+    { "rowId": "kr.sof3.communication.internet.adult-guidance", "fit": "core" },
+
+    { "rowId": "kr.sof3.living.need.food", "fit": "core" },
+    { "rowId": "kr.sof3.living.need.water", "fit": "core" },
+    { "rowId": "kr.sof3.living.characteristic.grow", "fit": "core" },
+    { "rowId": "kr.sof3.living.characteristic.reproduce", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.herbivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.carnivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.omnivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.adaptation.camouflage", "fit": "core" },
+
+    { "rowId": "kr.sof3.plants.roots.absorb-water", "fit": "core" },
+    { "rowId": "kr.sof3.plants.stem.carries-water", "fit": "core" },
+    { "rowId": "kr.sof3.plants.leaves.make-food", "fit": "core" },
+    { "rowId": "kr.sof3.plants.flower.seed-formation", "fit": "core" },
+    { "rowId": "kr.sof3.body.brain.control", "fit": "core" },
+    { "rowId": "kr.sof3.body.heart.pumps-blood", "fit": "core" },
+    { "rowId": "kr.sof3.body.lungs.breathing", "fit": "core" },
+    { "rowId": "kr.sof3.health.handwashing.germs", "fit": "core" },
+
+    { "rowId": "kr.sof3.soil.humus.decayed-matter", "fit": "core" },
+    { "rowId": "kr.sof3.soil.sandy.drains-fast", "fit": "core" },
+    { "rowId": "kr.sof3.soil.clay.holds-water", "fit": "core" },
+    { "rowId": "kr.sof3.soil.loam.plants", "fit": "core" },
+    { "rowId": "kr.sof3.water.evaporation.vapour", "fit": "core" },
+    { "rowId": "kr.sof3.water.condensation.droplets", "fit": "core" },
+    { "rowId": "kr.sof3.weather.rain.cloud-drops", "fit": "core" },
+    { "rowId": "kr.sof3.water.cycle.repeats", "fit": "core" },
+
+    { "rowId": "kr.sof3.measurement.length.cm-m", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.mass.g-kg", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.capacity.ml-l", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.temperature.thermometer", "fit": "core" },
+    { "rowId": "kr.sof3.earth.rotation.day-night", "fit": "core" },
+    { "rowId": "kr.sof3.moon.light.reflected-sun", "fit": "core" },
+    { "rowId": "kr.sof3.sun.type.star", "fit": "core" },
+    { "rowId": "kr.sof3.planets.orbit.sun", "fit": "core" }
   ]
 }
