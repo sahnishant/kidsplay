@@ -16,12 +16,12 @@
       "type": "drag_to_target",
       "version": 1,
       "items": [
-        { "id": "dog", "label": "Dog", "symbol": "🐶" },
-        { "id": "whale", "label": "Whale", "symbol": "🐋" }
+        { "id": "dog", "label": "Dog", "symbol": "🐶", "visualRefs": ["entity.animal.dog"] },
+        { "id": "whale", "label": "Whale", "symbol": "🐋", "visualRefs": ["entity.animal.whale"] }
       ],
       "targets": [
-        { "id": "land", "label": "Land", "symbol": "🌳" },
-        { "id": "water", "label": "Water", "symbol": "🌊" }
+        { "id": "land", "label": "Land", "symbol": "🌳", "visualRefs": ["entity.habitat.land"] },
+        { "id": "water", "label": "Water", "symbol": "🌊", "visualRefs": ["entity.habitat.water"] }
       ]
     },
     "solution": {
