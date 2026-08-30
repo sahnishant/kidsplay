@@ -1,6 +1,3 @@
-import visualJson from '../../content/visuals/entities.json';
-import utilityJson from '../../content/visuals/utility.json';
-
 export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon';
 export type VisualMotion =
   | 'idle'
@@ -36,10 +33,19 @@ export interface PresentableVisualItem {
   visualRefs?: string[];
 }
 
-const definitions: VisualDefinition[] = [
-  ...(visualJson as VisualDefinition[]),
-  ...(utilityJson as VisualDefinition[])
-];
+/**
+ * Visual packs are content, not engine code. Any JSON array dropped into
+ * content/visuals is discovered automatically, so extending a topic does not
+ * require modifying this registry or an interaction engine.
+ */
+const visualModules = import.meta.glob('../../content/visuals/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+
+const definitions = Object.values(visualModules).flatMap((value) =>
+  Array.isArray(value) ? (value as VisualDefinition[]) : []
+);
 const visualById = new Map(definitions.map((definition) => [definition.id, definition]));
 const visualRefByAlias = new Map<string, string>();
 

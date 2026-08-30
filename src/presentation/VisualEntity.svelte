@@ -1,6 +1,7 @@
 <script lang="ts">
   import SceneIcon from './SceneIcon.svelte';
   import EntityIcon from './EntityIcon.svelte';
+  import UtilityIcon from './UtilityIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -36,6 +37,8 @@
     <span class="visual-entity__art">
       {#if visual.renderer === 'scene-icon'}
         <SceneIcon icon={sceneIcon(visual.glyph)} />
+      {:else if visual.renderer === 'utility-icon'}
+        <UtilityIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
@@ -85,6 +88,10 @@
 
   .visual-motion--sway .visual-entity__art {
     animation: visual-sway 2.6s ease-in-out infinite;
+  }
+
+  .visual-motion--wiggle .visual-entity__art {
+    animation: visual-wiggle 1.8s ease-in-out infinite;
   }
 
   .visual-motion--pulse .visual-entity__art,
@@ -179,6 +186,11 @@
   @keyframes visual-sway {
     0%, 100% { transform: rotate(-2deg); }
     50% { transform: rotate(2deg); }
+  }
+
+  @keyframes visual-wiggle {
+    0%, 100% { transform: rotate(-3deg); }
+    50% { transform: rotate(3deg); }
   }
 
   @keyframes visual-pulse {
