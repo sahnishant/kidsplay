@@ -73,6 +73,7 @@ export interface SessionSection {
   title: string;
   startIndex: number;
   count: number;
+  marksPerQuestion: number;
 }
 
 type AssessmentSelector = 'logical_reasoning' | 'science_core' | 'achiever_hots';
@@ -81,6 +82,7 @@ interface AssessmentBlueprintSection {
   id: SessionSection['id'];
   title: string;
   count: number;
+  marksPerQuestion: number;
   selector: AssessmentSelector;
 }
 
@@ -95,6 +97,7 @@ interface AssessmentBlueprint {
   description: string;
   actionLabel: string;
   totalQuestions: number;
+  totalMarks: number;
   sections: AssessmentBlueprintSection[];
 }
 
@@ -157,7 +160,13 @@ const goalMockEntryId = `${goalPack.id}.mixed-mock`;
 const goalPatternMockEntryId = `${goalPack.id}.pattern-mock-${patternBlueprint.academicYear}`;
 const patternSessionSections: SessionSection[] = patternBlueprint.sections.reduce<SessionSection[]>((sections, section) => {
   const startIndex = sections.reduce((sum, item) => sum + item.count, 0);
-  sections.push({ id: section.id, title: section.title, startIndex, count: section.count });
+  sections.push({
+    id: section.id,
+    title: section.title,
+    startIndex,
+    count: section.count,
+    marksPerQuestion: section.marksPerQuestion
+  });
   return sections;
 }, []);
 
