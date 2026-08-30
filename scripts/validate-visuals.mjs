@@ -25,6 +25,7 @@ const allowedMotions = new Set([
 ]);
 const visualIds = new Set();
 const aliasOwners = new Map();
+const semanticOwners = new Map();
 
 const normalizeAlias = (value) => String(value ?? '')
   .toLowerCase()
@@ -32,6 +33,14 @@ const normalizeAlias = (value) => String(value ?? '')
   .replace(/[.,!?;:()]/g, ' ')
   .replace(/\s+/g, ' ')
   .trim();
+
+const registerSemanticOwner = (rawKey, visualId) => {
+  const key = normalizeAlias(rawKey);
+  if (!key) return;
+  const existing = semanticOwners.get(key);
+  if (existing && existing !== visualId) errors.push(`Semantic visual key "${rawKey}" is owned by both ${existing} and ${visualId}`);
+  else semanticOwners.set(key, visualId);
+};
 
 for (const visual of visuals) {
   const prefix = visual?.id ?? '<unknown visual>';
@@ -44,6 +53,9 @@ for (const visual of visuals) {
   if (!visual.label || typeof visual.label !== 'string') errors.push(`${prefix}: label must be a non-empty string`);
   if (!Array.isArray(visual.aliases) || !visual.aliases.length) errors.push(`${prefix}: aliases must be a non-empty array`);
 
+  const idParts = String(visual.id ?? '').split('.');
+  registerSemanticOwner(idParts[idParts.length - 1], visual.id);
+
   for (const alias of visual.aliases ?? []) {
     const normalized = normalizeAlias(alias);
     if (!normalized) {
@@ -53,6 +65,7 @@ for (const visual of visuals) {
     const existing = aliasOwners.get(normalized);
     if (existing && existing !== visual.id) errors.push(`Visual alias "${alias}" is owned by both ${existing} and ${visual.id}`);
     aliasOwners.set(normalized, visual.id);
+    registerSemanticOwner(alias, visual.id);
   }
 }
 
@@ -96,4 +109,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`Visual validation passed (${visualIds.size} entities, ${aliasOwners.size} aliases).`);
+console.log(`Visual validation passed (${visualIds.size} entities, ${aliasOwners.size} aliases, ${semanticOwners.size} semantic keys).`);
