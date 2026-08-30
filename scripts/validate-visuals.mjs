@@ -30,6 +30,7 @@ const semanticOwners = new Map();
 const normalizeAlias = (value) => String(value ?? '')
   .toLowerCase()
   .replace(/[’']/g, '')
+  .replace(/[-_]+/g, ' ')
   .replace(/[.,!?;:()]/g, ' ')
   .replace(/\s+/g, ' ')
   .trim();
