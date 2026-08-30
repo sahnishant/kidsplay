@@ -4,25 +4,7 @@
     "sourceRef": "knowledge.sof.class3.life-community.001",
     "engine": "single_choice@1",
     "forEachEntry": true,
-    "excludeEntryIds": ["bird-feathers"],
-    "distractorCount": 3,
-    "difficulty": 2
-  },
-  {
-    "id": "sof3.materials-forces.mcq.each.generated.001",
-    "sourceRef": "knowledge.sof.class3.materials-forces.001",
-    "engine": "single_choice@1",
-    "forEachEntry": true,
-    "excludeEntryIds": ["transparent"],
-    "distractorCount": 3,
-    "difficulty": 2
-  },
-  {
-    "id": "sof3.environment-safety.mcq.each.generated.001",
-    "sourceRef": "knowledge.sof.class3.environment-safety.001",
-    "engine": "single_choice@1",
-    "forEachEntry": true,
-    "excludeEntryIds": ["reduce"],
+    "includeEntryIds": ["bird-beak", "bird-wings"],
     "distractorCount": 3,
     "difficulty": 2
   }
