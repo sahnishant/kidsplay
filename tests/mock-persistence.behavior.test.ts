@@ -114,6 +114,36 @@ describe('offline mock persistence', () => {
     expect(history[0].sections[1].title).toBe('Science');
   });
 
+  it('drops persisted section summaries whose displayed accuracy contradicts their counts', () => {
+    window.localStorage.setItem('kidsplay.mockHistory.v1', JSON.stringify([
+      {
+        version: 1,
+        sessionId: 'session.bad-accuracy',
+        entryId: 'goal.pattern.2026-27',
+        title: '35-Question Pattern Mock',
+        completedAt: '2026-08-30T10:00:00.000Z',
+        questionCount: 5,
+        correct: 4,
+        earnedMarks: 4,
+        maxMarks: 5,
+        sections: [
+          {
+            id: 'logical_reasoning',
+            title: 'Logical Reasoning',
+            correct: 4,
+            answered: 5,
+            total: 5,
+            accuracy: 1,
+            earnedMarks: 4,
+            maxMarks: 5
+          }
+        ]
+      }
+    ]));
+
+    expect(loadMockHistory()).toEqual([]);
+  });
+
   it('computes latest, best and previous score movement by mock', () => {
     const trendInput: MockHistoryRecord[] = [
       {
