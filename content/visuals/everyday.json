@@ -1,0 +1,26 @@
+[
+  { "id": "entity.hygiene.toothbrush", "renderer": "everyday-icon", "glyph": "toothbrush", "label": "Toothbrush", "motion": "wiggle", "aliases": ["toothbrush", "brush teeth"] },
+  { "id": "entity.hygiene.soap", "renderer": "everyday-icon", "glyph": "soap", "label": "Soap", "motion": "float", "aliases": ["soap"] },
+  { "id": "entity.body.hands", "renderer": "everyday-icon", "glyph": "hands", "label": "Hands", "motion": "wiggle", "aliases": ["hand", "hands", "clean hands"] },
+  { "id": "entity.hygiene.nails", "renderer": "everyday-icon", "glyph": "nails", "label": "Clean nails", "motion": "idle", "aliases": ["nails", "clean nails", "trimmed nails"] },
+  { "id": "entity.hygiene.dustbin", "renderer": "everyday-icon", "glyph": "dustbin", "label": "Dustbin", "motion": "idle", "aliases": ["dustbin", "bin"] },
+  { "id": "entity.water.tap", "renderer": "everyday-icon", "glyph": "tap", "label": "Tap", "motion": "drift", "aliases": ["tap", "water tap"] },
+  { "id": "entity.water.bucket", "renderer": "everyday-icon", "glyph": "bucket", "label": "Bucket", "motion": "idle", "aliases": ["bucket"] },
+
+  { "id": "entity.place.school", "renderer": "everyday-icon", "glyph": "school", "label": "School", "motion": "idle", "aliases": ["school"] },
+  { "id": "entity.place.hospital", "renderer": "everyday-icon", "glyph": "hospital", "label": "Hospital", "motion": "pulse", "aliases": ["hospital"] },
+  { "id": "entity.place.post-office", "renderer": "everyday-icon", "glyph": "post-office", "label": "Post office", "motion": "idle", "aliases": ["post office", "post-office"] },
+
+  { "id": "entity.school.book", "renderer": "everyday-icon", "glyph": "book", "label": "Book", "motion": "float", "aliases": ["book"] },
+  { "id": "entity.school.bell", "renderer": "everyday-icon", "glyph": "bell", "label": "Bell", "motion": "wiggle", "aliases": ["bell", "school bell"] },
+
+  { "id": "entity.food.apple", "renderer": "everyday-icon", "glyph": "apple", "label": "Apple", "motion": "idle", "aliases": ["apple"] },
+  { "id": "entity.food.lunchbox", "renderer": "everyday-icon", "glyph": "lunchbox", "label": "Lunch box", "motion": "idle", "aliases": ["lunch box", "lunchbox"] },
+  { "id": "entity.food.covered", "renderer": "everyday-icon", "glyph": "covered-food", "label": "Covered food", "motion": "idle", "aliases": ["covered food", "cover food", "food covered"] },
+  { "id": "entity.hygiene.cover-cough", "renderer": "everyday-icon", "glyph": "cough-cover", "label": "Cover a cough", "motion": "wiggle", "aliases": ["cover a cough", "cover cough", "covers a cough", "covers a cough or sneeze"] },
+
+  { "id": "entity.home.bed", "renderer": "everyday-icon", "glyph": "bed", "label": "Bed", "motion": "idle", "aliases": ["bed", "sleep"] },
+  { "id": "entity.time.clock", "renderer": "everyday-icon", "glyph": "clock", "label": "Clock", "motion": "pulse", "aliases": ["clock"] },
+  { "id": "entity.festival.diya", "renderer": "everyday-icon", "glyph": "diya", "label": "Diya", "motion": "flicker", "aliases": ["diya", "lamp"] },
+  { "id": "entity.festival.gift", "renderer": "everyday-icon", "glyph": "gift", "label": "Gift", "motion": "pulse", "aliases": ["gift", "present"] }
+]
