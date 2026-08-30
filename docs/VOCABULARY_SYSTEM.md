@@ -90,6 +90,27 @@ Do not bundle a 100k+ entry dictionary into the child app.
 7. Compile the selected knowledge rows through activity recipes.
 8. Ship only the rows/questions needed by the installed/free/goal-based packs.
 
+### Offline Open English WordNet extraction
+
+The repository now has `scripts/lexicon/extract-oewn-candidates.mjs`. It deliberately does **not** download a dictionary during the app build and does **not** write directly into reviewed knowledge files.
+
+1. Download and unzip an Open English WordNet hierarchical JSON release outside the shipped app. The canonical stable release currently used by the seed review list is the 2025 JSON release from `https://en-word.net/static/english-wordnet-2025-json.zip`.
+2. Maintain small curriculum/profile review lists such as `content/lexicon/wordlists/foundation-meanings.json`.
+3. Extract candidate senses into a temporary/editorial review file:
+
+```bash
+npm run lexicon:extract:oewn -- \
+  --input .cache/oewn/oewn-2025.json \
+  --wordlist content/lexicon/wordlists/foundation-meanings.json \
+  --output .cache/oewn/foundation-meaning-candidates.json \
+  --source-version 2025 \
+  --max-senses 5
+```
+
+Each candidate carries the source sense/synset IDs, source version, `CC-BY-4.0` license marker, source definition/examples/synonyms and a `review.status: pending` block. The extractor marks imported text as `reference_candidate_only`; an editor must select the intended sense and author/review the child-facing definition before it becomes a Kidsplay knowledge row.
+
+Do not commit the full downloaded WordNet JSON into the application repository or app bundle. Only curated word lists, reviewed Kidsplay rows and necessary provenance belong in product content.
+
 ## Difficulty and profiles
 
 Dictionary membership is not grade placement. Grade/class/exam placement belongs in Kidsplay learning profiles and profile memberships. Vocabulary difficulty should be derived from signals such as:
