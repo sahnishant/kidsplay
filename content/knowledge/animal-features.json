@@ -60,6 +60,15 @@
       "object": { "id": "webbed-feet", "label": "webbed feet" },
       "conceptIds": ["animals.adaptations.webbed-feet"],
       "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "rhinoceros-horn-threat",
+      "rowId": "kr.animals.rhinoceros.threat.killed-for-horns",
+      "subject": { "id": "rhinoceros", "label": "Rhinoceros", "symbol": "🦏" },
+      "relation": "is_threatened_by",
+      "object": { "id": "horn-poaching", "label": "people killing it for its horns" },
+      "conceptIds": ["animals.conservation.rhino-horns"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
     }
   ],
   "authoring": {
