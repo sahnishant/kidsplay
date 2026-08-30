@@ -313,6 +313,32 @@
       "fit": "core",
       "fitBasis": "editorial_retained",
       "note": "The official 2025-26 Class 2 sample directly identifies the pictured steep-descent road sign. Current 2026-27 scope separately retains Good Habits and Safety Rules; the core fit remains editorial."
+    },
+    {
+      "rowId": "kr.plants.leaves.function.make-food",
+      "sourceRef": "sof.nso.class2.sample-paper.2022-23",
+      "locator": "PDF page 2, question 7 and answer key: plant diagram labels Q as a leaf and correct option C selects Q as the part that makes food",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "currentScopeSourceRef": "sof.iso.class2.syllabus.current",
+      "currentScopeLocator": "2026-27 syllabus Section 2: Plants",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2022-23 Class 2 sample visually labels a leaf and directly assesses that the leaf makes food. Current 2026-27 scope separately retains Plants; the core fit remains editorial."
+    },
+    {
+      "rowId": "kr.plants.flower.function.make-seeds",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 2, question 7 and answer key: plant diagram labels P at the top flower/fruiting part and correct option A selects P as the part that produces seeds",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "currentScopeSourceRef": "sof.iso.class2.syllabus.current",
+      "currentScopeLocator": "2026-27 syllabus Section 2: Plants",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2019-20 Class 2 sample visually identifies the flower/upper plant part as the part that produces seeds. Current 2026-27 scope separately retains Plants; the core fit remains editorial."
     }
   ]
 }
