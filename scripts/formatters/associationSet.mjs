@@ -142,6 +142,7 @@ const singleChoiceQuestion = (source, recipe, target) => {
   const base = baseQuestion(source, recipe, [target], questionPromptFor(target));
   return {
     ...base,
+    knowledgeRefs: [target.rowId],
     interaction: {
       type: 'single_choice',
       version: 1,
@@ -192,6 +193,7 @@ const wordBankFillQuestion = (source, recipe, target) => {
   const base = baseQuestion(source, recipe, [target], 'Complete the sentence.');
   return {
     ...base,
+    knowledgeRefs: [target.rowId],
     interaction: {
       type: 'word_bank_fill',
       version: 1,
