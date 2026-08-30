@@ -16,12 +16,13 @@ const alignmentRegistry = readJson('content/alignment-sources/registry.json');
 const alignmentSourceIds = new Set((alignmentRegistry.sources ?? []).map((source) => source.id));
 const files = readdirSync(directory).filter((name) => name.endsWith('.json')).sort();
 let familyCount = 0;
+let groupCount = 0;
 
 for (const file of files) {
   const target = readJson(`content/profile-scope-targets/${file}`);
   const prefix = target.profileRef ?? file;
   if (!profileIds.has(target.profileRef)) errors.push(`${prefix}: unknown profileRef ${target.profileRef}`);
-  if (target.schemaVersion !== 2) errors.push(`${prefix}: schemaVersion must be 2`);
+  if (target.schemaVersion !== 3) errors.push(`${prefix}: schemaVersion must be 3`);
   if (!String(target.academicYear ?? '').trim()) errors.push(`${prefix}: academicYear is required`);
   if (target.provenance?.status !== 'reviewed_scope_only') {
     errors.push(`${prefix}: provenance.status must be reviewed_scope_only`);
@@ -70,6 +71,28 @@ for (const file of files) {
         errors.push(`${prefix}/${family.id}: invalid row prefix ${String(rowPrefix)}`);
       }
     }
+
+    if (!Array.isArray(family.requiredGroups) || family.requiredGroups.length === 0) {
+      errors.push(`${prefix}/${family.id}: requiredGroups must be a non-empty array`);
+      continue;
+    }
+    const groupIds = new Set();
+    for (const group of family.requiredGroups) {
+      groupCount += 1;
+      if (!String(group.id ?? '').trim()) errors.push(`${prefix}/${family.id}: group id is required`);
+      if (groupIds.has(group.id)) errors.push(`${prefix}/${family.id}: duplicate group id ${group.id}`);
+      groupIds.add(group.id);
+      if (!String(group.label ?? '').trim()) errors.push(`${prefix}/${family.id}/${group.id}: label is required`);
+      if (!Array.isArray(group.prefixes) || group.prefixes.length === 0) {
+        errors.push(`${prefix}/${family.id}/${group.id}: prefixes must be a non-empty array`);
+        continue;
+      }
+      for (const rowPrefix of group.prefixes) {
+        if (typeof rowPrefix !== 'string' || !rowPrefix.startsWith('kr.')) {
+          errors.push(`${prefix}/${family.id}/${group.id}: invalid row prefix ${String(rowPrefix)}`);
+        }
+      }
+    }
   }
 }
 
@@ -78,5 +101,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Profile scope targets OK: ${files.length} target file(s), ${familyCount} declared topic family/families, provenance and Level-I mix guarded.`);
+  console.log(`Profile scope targets OK: ${files.length} target file(s), ${familyCount} topic family/families, ${groupCount} required subgroup(s), provenance and Level-I mix guarded.`);
 }
