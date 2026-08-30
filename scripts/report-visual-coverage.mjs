@@ -69,44 +69,56 @@ const questions = questionFiles.flatMap((file) => {
   return Array.isArray(value) ? value : [];
 });
 
-const totals = { authored: 0, semantic: 0, label: 0, text: 0 };
+const emptyTotals = () => ({ authored: 0, semantic: 0, label: 0, text: 0 });
+const totals = emptyTotals();
+const visualFriendlyTotals = emptyTotals();
 const byEngine = new Map();
-const unresolved = [];
+const unresolvedByEngine = new Map();
 
 for (const question of questions) {
   const entries = visibleItems(question);
   if (!entries.length) continue;
   const engine = question.interaction.type;
-  const engineTotals = byEngine.get(engine) ?? { authored: 0, semantic: 0, label: 0, text: 0 };
+  const engineTotals = byEngine.get(engine) ?? emptyTotals();
+  const engineUnresolved = unresolvedByEngine.get(engine) ?? [];
   for (const { item, allowLabelInference } of entries) {
     const resolution = resolveItem(item, allowLabelInference);
     totals[resolution] += 1;
     engineTotals[resolution] += 1;
+    if (engine !== 'drag_to_target') visualFriendlyTotals[resolution] += 1;
     if (resolution === 'text') {
-      unresolved.push({ questionId: question.id, engine, itemId: item.id, label: item.label, semanticRef: item.semanticRef ?? null });
+      engineUnresolved.push({ questionId: question.id, itemId: item.id, label: item.label, semanticRef: item.semanticRef ?? null });
     }
   }
   byEngine.set(engine, engineTotals);
+  unresolvedByEngine.set(engine, engineUnresolved);
 }
 
-const visibleTotal = Object.values(totals).reduce((sum, value) => sum + value, 0);
-const visualTotal = visibleTotal - totals.text;
-const percent = visibleTotal ? Math.round((visualTotal / visibleTotal) * 1000) / 10 : 0;
-
-console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s).`);
-console.log(`Renderable question items: ${visualTotal}/${visibleTotal} (${percent}%) resolve to SVG visuals.`);
-console.log(`Resolution: authored ${totals.authored}, semantic ${totals.semantic}, exact-label ${totals.label}, text-only ${totals.text}.`);
-
-for (const [engine, values] of [...byEngine.entries()].sort(([left], [right]) => left.localeCompare(right))) {
+const summarize = (values) => {
   const total = Object.values(values).reduce((sum, value) => sum + value, 0);
   const visual = total - values.text;
-  const enginePercent = total ? Math.round((visual / total) * 1000) / 10 : 0;
-  console.log(`- ${engine}: ${visual}/${total} (${enginePercent}%) visual; ${values.text} text-only.`);
+  const percent = total ? Math.round((visual / total) * 1000) / 10 : 0;
+  return { total, visual, percent };
+};
+
+const overall = summarize(totals);
+const friendly = summarize(visualFriendlyTotals);
+
+console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s).`);
+console.log(`Visual-friendly question items (excluding match/drag policy): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals.`);
+console.log(`All supported card/region items including matching: ${overall.visual}/${overall.total} (${overall.percent}%).`);
+console.log(`Resolution on visual-friendly surfaces: authored ${visualFriendlyTotals.authored}, semantic ${visualFriendlyTotals.semantic}, exact-label ${visualFriendlyTotals.label}, text-only ${visualFriendlyTotals.text}.`);
+
+for (const [engine, values] of [...byEngine.entries()].sort(([left], [right]) => left.localeCompare(right))) {
+  const summary = summarize(values);
+  const policy = engine === 'drag_to_target' ? ' (matching is explicit-visual only)' : '';
+  console.log(`- ${engine}: ${summary.visual}/${summary.total} (${summary.percent}%) visual; ${values.text} text-only${policy}.`);
 }
 
-if (unresolved.length) {
-  console.log('Highest-priority unresolved labels (first 30):');
-  for (const entry of unresolved.slice(0, 30)) {
-    console.log(`- ${entry.engine} ${entry.questionId}/${entry.itemId}: ${entry.label}${entry.semanticRef ? ` [${entry.semanticRef}]` : ''}`);
+for (const [engine, entries] of [...unresolvedByEngine.entries()].sort(([left], [right]) => left.localeCompare(right))) {
+  if (!entries.length || engine === 'drag_to_target') continue;
+  console.log(`Top unresolved ${engine} items:`);
+  for (const entry of entries.slice(0, 10)) {
+    console.log(`- ${entry.questionId}/${entry.itemId}: ${entry.label}${entry.semanticRef ? ` [${entry.semanticRef}]` : ''}`);
   }
 }
