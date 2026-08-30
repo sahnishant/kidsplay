@@ -41,6 +41,7 @@
   } = $props();
 
   let state = $state(initialState ?? createSessionState());
+  let restoredSubmitted = $state(Boolean(initialState?.submitted));
   let question = $derived(questions[state.index]);
   let correctCount = $derived(state.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
@@ -66,6 +67,7 @@
 
   function handleAdvance(): void {
     advanceSession(state);
+    restoredSubmitted = false;
     if (state.index >= questions.length) {
       onComplete?.(state);
     } else {
@@ -75,6 +77,7 @@
 
   function handleReplay(): void {
     replaySession(state);
+    restoredSubmitted = false;
     onCheckpoint?.(state);
   }
 </script>
@@ -118,13 +121,19 @@
 
       <h1 class="question-prompt">{question.prompt.text}</h1>
 
-      <div class="interaction-host">
-        <EngineHost
-          {question}
-          onSubmit={handleSubmit}
-          checkResponse={(response) => evaluate(question, response)}
-        />
-      </div>
+      {#if restoredSubmitted}
+        <div class="restored-answer-note" role="note">
+          Your saved answer is restored. Review the feedback below, then continue.
+        </div>
+      {:else}
+        <div class="interaction-host">
+          <EngineHost
+            {question}
+            onSubmit={handleSubmit}
+            checkResponse={(response) => evaluate(question, response)}
+          />
+        </div>
+      {/if}
 
       {#if state.submitted && state.lastResult}
         <div
@@ -174,10 +183,17 @@
 {/if}
 
 <style>
-  .saved-session-note {
+  .saved-session-note,
+  .restored-answer-note {
     margin: 4px 0 12px;
     font-size: 0.8rem;
-    opacity: 0.68;
+    opacity: 0.74;
+  }
+
+  .restored-answer-note {
+    padding: 10px 12px;
+    border: 1px solid var(--border, #d9d9d9);
+    border-radius: 12px;
   }
 
   .completion-avatar {
