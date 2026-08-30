@@ -10,5 +10,14 @@
   { "id": "entity.process.evaporation-separation", "renderer": "class2-concept-icon", "glyph": "evaporation", "label": "Evaporation", "motion": "drift", "aliases": ["evaporation", "evaporation separation"] },
   { "id": "entity.people.farmer", "renderer": "class2-concept-icon", "glyph": "farmer", "label": "Farmer", "motion": "sway", "aliases": ["farmer"] },
   { "id": "entity.nutrient.fats", "renderer": "class2-concept-icon", "glyph": "fats", "label": "Fats", "motion": "float", "aliases": ["fats", "dietary fats"] },
-  { "id": "entity.process.filtration", "renderer": "class2-concept-icon", "glyph": "filtration", "label": "Filtration", "motion": "drift", "aliases": ["filtration"] }
+  { "id": "entity.process.filtration", "renderer": "class2-concept-icon", "glyph": "filtration", "label": "Filtration", "motion": "drift", "aliases": ["filtration"] },
+
+  { "id": "entity.plant.bamboo", "renderer": "class2-concept-icon", "glyph": "bamboo", "label": "Bamboo", "motion": "sway", "aliases": ["bamboo"] },
+  { "id": "entity.plant.cardamom", "renderer": "class2-concept-icon", "glyph": "cardamom", "label": "Cardamom", "motion": "sway", "aliases": ["cardamom"] },
+  { "id": "entity.plant.indigo", "renderer": "class2-concept-icon", "glyph": "indigo", "label": "Indigo", "motion": "sway", "aliases": ["indigo"] },
+  { "id": "entity.people.caregiver", "renderer": "class2-concept-icon", "glyph": "caregiver", "label": "Caregiver", "motion": "pulse", "aliases": ["caregiver"] },
+  { "id": "entity.water.clean-water", "renderer": "class2-concept-icon", "glyph": "clean-water", "label": "Drink clean water", "motion": "float", "aliases": ["clean-water", "clean water", "drink clean water"] },
+  { "id": "entity.family.families", "renderer": "class2-concept-icon", "glyph": "family", "label": "Families", "motion": "idle", "aliases": ["families", "family"] },
+  { "id": "entity.festival.christmas", "renderer": "class2-concept-icon", "glyph": "christmas", "label": "Christmas", "motion": "pulse", "aliases": ["christmas"] },
+  { "id": "entity.universe.mars", "renderer": "class2-concept-icon", "glyph": "mars", "label": "Mars", "motion": "spin", "aliases": ["mars"] }
 ]
