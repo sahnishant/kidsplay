@@ -2,11 +2,12 @@
   "id": "free.sof-class3-science-foundation.1",
   "kind": "learning_pack",
   "title": "Science Explorer: Class 3 Science",
-  "description": "Short free Class 3 science and logical-reasoning sessions built from the same canonical knowledge used by goal preparation.",
+  "description": "Short free Class 3 science and logical-reasoning sessions that reuse the previous-class free foundation where the current Level-I scope includes previous-class syllabus.",
   "profileRef": "SOF_INDIA_CLASS3",
   "access": { "type": "free" },
   "status": "prototype",
   "actionLabel": "Explore Class 3",
+  "includePackRefs": ["free.animals-foundation.1"],
   "questionRefs": [
     "sof3.life-community.memory.generated.001",
     "sof3.life-community.match.generated.001",
