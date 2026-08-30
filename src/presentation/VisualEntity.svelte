@@ -5,6 +5,7 @@
   import NatureSpaceIcon from './NatureSpaceIcon.svelte';
   import EverydayIcon from './EverydayIcon.svelte';
   import ProcessIcon from './ProcessIcon.svelte';
+  import AnimalExpansionIcon from './AnimalExpansionIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -48,6 +49,8 @@
         <EverydayIcon icon={visual.glyph} />
       {:else if visual.renderer === 'process-icon'}
         <ProcessIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'animal-expansion-icon'}
+        <AnimalExpansionIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
@@ -151,7 +154,8 @@
   }
 
   .visual-motion--swim :global(.whale-tail),
-  .visual-motion--swim :global(.entity-tail) {
+  .visual-motion--swim :global(.entity-tail),
+  .visual-motion--swim :global(.tadpole-tail) {
     animation: visual-tail 1s ease-in-out infinite alternate;
     transform-origin: 82% 55%;
   }
