@@ -116,17 +116,17 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: 'Use two ideas to solve this.' })).toBeTruthy();
   });
 
-  it('shows the active section inside a structured mock', () => {
+  it('shows the active section and mark weight inside a structured mock', () => {
     render(Session, {
       props: {
         title: 'Pattern Mock',
         questions: [testQuestion()],
-        sections: [{ id: 'science', title: 'Science', startIndex: 0, count: 1 }],
+        sections: [{ id: 'science', title: 'Science', startIndex: 0, count: 1, marksPerQuestion: 1 }],
         childName: 'Dheu',
         childAvatar: 'tiger'
       }
     });
 
-    expect(screen.getByText('Section: Science')).toBeTruthy();
+    expect(screen.getByText(/Section: Science/).textContent).toContain('1 mark each');
   });
 });
