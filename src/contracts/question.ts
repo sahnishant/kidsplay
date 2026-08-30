@@ -20,40 +20,51 @@ export interface BaseQuestion {
   authoring: AuthoringMetadata;
 }
 
-export interface ChoiceOption { id: string; label: string; }
+/**
+ * Semantic presentation hook shared by choice, fill, drag, memory and sequence
+ * content. Questions name the thing being shown; the presentation layer owns
+ * the SVG artwork and motion used for that thing.
+ */
+export interface PresentableItem {
+  id: string;
+  label: string;
+  visualRefs?: string[];
+}
+
+export interface ChoiceOption extends PresentableItem {}
 export interface SingleChoiceQuestion extends BaseQuestion {
   interaction: { type: 'single_choice'; version: 1; shuffleOptions?: boolean; options: ChoiceOption[]; };
   solution: { type: 'exact_option'; correctOptionIds: string[]; };
 }
 
 export type FillSegment = { type: 'text'; value: string } | { type: 'blank'; id: string };
-export interface WordBankItem { id: string; label: string; }
+export interface WordBankItem extends PresentableItem {}
 export interface WordBankFillQuestion extends BaseQuestion {
   interaction: { type: 'word_bank_fill'; version: 1; segments: FillSegment[]; wordBank: WordBankItem[]; };
   solution: { type: 'blank_answers'; answers: Record<string, string[]>; };
 }
 
-export interface DragItem { id: string; label: string; symbol?: string; }
-export interface DragTarget { id: string; label: string; symbol?: string; }
+export interface DragItem extends PresentableItem { symbol?: string; }
+export interface DragTarget extends PresentableItem { symbol?: string; }
 export interface DragToTargetQuestion extends BaseQuestion {
   interaction: { type: 'drag_to_target'; version: 1; items: DragItem[]; targets: DragTarget[]; };
   solution: { type: 'target_assignment'; assignments: Record<string, string>; };
 }
 
 export type WordSearchDirection = 'right' | 'left' | 'down' | 'up' | 'down_right' | 'down_left' | 'up_right' | 'up_left';
-export interface WordSearchTerm { id: string; label: string; word: string; }
+export interface WordSearchTerm extends PresentableItem { word: string; }
 export interface WordSearchQuestion extends BaseQuestion {
   interaction: { type: 'word_search'; version: 1; seed: number; gridSize?: number; directions?: WordSearchDirection[]; alphabet?: string; terms: WordSearchTerm[]; };
   solution: { type: 'found_terms'; requiredTermIds: string[]; };
 }
 
-export interface MemoryCard { id: string; label: string; symbol?: string; }
+export interface MemoryCard extends PresentableItem { symbol?: string; }
 export interface MemoryPairsQuestion extends BaseQuestion {
   interaction: { type: 'memory_pairs'; version: 1; seed: number; cards: MemoryCard[]; };
   solution: { type: 'pair_matches'; pairs: Array<[string, string]>; };
 }
 
-export interface SequenceItem { id: string; label: string; symbol?: string; }
+export interface SequenceItem extends PresentableItem { symbol?: string; }
 export interface SequenceOrderQuestion extends BaseQuestion {
   interaction: { type: 'sequence_order'; version: 1; seed: number; items: SequenceItem[]; };
   solution: { type: 'ordered_items'; orderedItemIds: string[]; };
@@ -62,7 +73,7 @@ export interface SequenceOrderQuestion extends BaseQuestion {
 export type HotspotShape =
   | { type: 'circle'; centerX: number; centerY: number; radius: number }
   | { type: 'rect'; x: number; y: number; width: number; height: number };
-export interface HotspotRegion { id: string; label: string; symbol?: string; shape: HotspotShape; }
+export interface HotspotRegion extends PresentableItem { symbol?: string; shape: HotspotShape; }
 export interface HotspotQuestion extends BaseQuestion {
   interaction: {
     type: 'hotspot';
