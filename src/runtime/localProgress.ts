@@ -124,19 +124,23 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string' && item.length > 0);
 }
 
+function normalizedChildName(value: unknown): string {
+  return typeof value === 'string' ? value.trim().slice(0, 24) : '';
+}
+
 export function loadChildSettings(): ChildSettings {
   const value = readJson(CHILD_KEY);
   if (!value || typeof value !== 'object') return { ...DEFAULT_CHILD };
   const candidate = value as Partial<ChildSettings>;
   return {
-    name: typeof candidate.name === 'string' ? candidate.name.slice(0, 24) : '',
+    name: normalizedChildName(candidate.name),
     avatar: isAvatarId(candidate.avatar) ? candidate.avatar : DEFAULT_CHILD.avatar
   };
 }
 
 export function saveChildSettings(settings: ChildSettings): ChildSettings {
   const normalized: ChildSettings = {
-    name: settings.name.slice(0, 24),
+    name: normalizedChildName(settings.name),
     avatar: isAvatarId(settings.avatar) ? settings.avatar : DEFAULT_CHILD.avatar
   };
   writeJson(CHILD_KEY, normalized);
@@ -241,8 +245,16 @@ function applyEvidence(
   counters[id] = current;
 }
 
+function sameStoredAttempt(stored: StoredAttempt, attempt: SessionAttempt): boolean {
+  return stored.sessionId === attempt.response.sessionId
+    && stored.questionId === attempt.question.id
+    && stored.submittedAt === attempt.response.submittedAt;
+}
+
 export function recordAttempt(attempt: SessionAttempt): ProgressSnapshot {
   const snapshot = loadProgress();
+  if (snapshot.attempts.some((stored) => sameStoredAttempt(stored, attempt))) return snapshot;
+
   const seenAt = attempt.response.submittedAt;
 
   snapshot.attempts.push({
