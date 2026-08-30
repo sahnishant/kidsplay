@@ -19,7 +19,8 @@ describe('offline mock persistence', () => {
       entryId: 'goal.pattern.2026-27',
       title: '35-Question Pattern Mock',
       questionIds: ['q.one', 'q.two', 'q.three'],
-      sectionSignature: '[{"id":"science","count":3}]',
+      sectionSignature: 'assessment-contract-v1',
+      questionSignature: 'question-contract-v1',
       state: {
         sessionId: 'session.one',
         index: 0,
@@ -30,6 +31,7 @@ describe('offline mock persistence', () => {
 
     expect(loadMockCheckpoint()).toEqual(saved);
     expect(loadMockCheckpoint()?.questionIds).toEqual(['q.one', 'q.two', 'q.three']);
+    expect(loadMockCheckpoint()?.questionSignature).toBe('question-contract-v1');
 
     clearMockCheckpoint();
     expect(loadMockCheckpoint()).toBeNull();
@@ -42,6 +44,7 @@ describe('offline mock persistence', () => {
       title: 'Broken Mock',
       questionIds: ['q.one', 'q.one'],
       sectionSignature: '',
+      questionSignature: '',
       state: {
         sessionId: 'session.bad',
         index: 2,
