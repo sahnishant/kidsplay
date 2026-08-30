@@ -1,0 +1,6 @@
+[
+  { "id": "entity.body.digest-food", "renderer": "entity-icon", "glyph": "stomach", "label": "Digest food", "motion": "breathe", "aliases": ["digest food", "digestion"] },
+  { "id": "entity.body.bones", "renderer": "scene-icon", "glyph": "bone", "label": "Bones", "motion": "float", "aliases": ["bones", "body bones"] },
+  { "id": "entity.body.walk-run", "renderer": "concept-icon", "glyph": "legs", "label": "Walk and run", "motion": "wiggle", "aliases": ["walk and run", "walking and running"] },
+  { "id": "entity.body.turn-head", "renderer": "concept-icon", "glyph": "neck", "label": "Turn the head", "motion": "sway", "aliases": ["turn head", "turn the head"] }
+]
