@@ -1,18 +1,1 @@
-{
-  "profileRef": "CBSE_INDIA_CLASS2",
-  "provenance": {
-    "status": "prototype_unverified",
-    "sourceRefs": ["kidsplay.editorial.prototype.v1"],
-    "versionLabel": "prototype-1",
-    "academicYear": null,
-    "effectiveFrom": null,
-    "effectiveTo": null,
-    "reviewedAt": null,
-    "placementBasis": "editorial_prototype"
-  },
-  "members": [
-    { "rowId": "kr.animals.dog.domestic", "fit": "review" },
-    { "rowId": "kr.animals.seahorse.water-animal", "fit": "core" },
-    { "rowId": "kr.animals.camel.ship-of-desert", "fit": "review" }
-  ]
-}
+{"profileRef":"CBSE_INDIA_CLASS2","provenance":{"status":"prototype_unverified","sourceRefs":["ncert.ncf.foundational.2022","ncert.foundational.learning-outcomes.current","ncert.textbooks.i-xii.current","kidsplay.editorial.prototype.v1"],"versionLabel":"CBSE/NCERT Class 2 vocabulary database seed","academicYear":null,"effectiveFrom":null,"effectiveTo":null,"reviewedAt":null,"placementBasis":"editorial_seed_against_foundational_outcomes"},"members":[{"rowId":"kr.animals.dog.domestic","fit":"core"},{"rowId":"kr.animals.camel.ship-of-desert","fit":"core"},{"rowId":"kr.choice.animals.camel.ship-of-desert","fit":"core"},{"rowId":"kr.vocab.meaning.enormous.very-large","fit":"review"},{"rowId":"kr.vocab.meaning.fragile.easily-broken","fit":"review"},{"rowId":"kr.vocab.meaning.rapid.very-fast","fit":"review"},{"rowId":"kr.vocab.meaning.ancient.very-old","fit":"review"},{"rowId":"kr.vocab.meaning.cheerful.happy-positive","fit":"review"},{"rowId":"kr.vocab.meaning.scarce.hard-to-find","fit":"review"},{"rowId":"kr.vocab.meaning.silent.no-sound","fit":"review"},{"rowId":"kr.vocab.meaning.observe.watch-carefully","fit":"review"},{"rowId":"kr.vocab.synonym.happy.glad","fit":"core"},{"rowId":"kr.vocab.synonym.begin.start","fit":"core"},{"rowId":"kr.vocab.synonym.quick.fast","fit":"core"},{"rowId":"kr.vocab.synonym.small.tiny","fit":"core"},{"rowId":"kr.vocab.synonym.large.big","fit":"core"},{"rowId":"kr.vocab.synonym.clever.smart","fit":"core"},{"rowId":"kr.vocab.synonym.quiet.silent","fit":"core"},{"rowId":"kr.vocab.synonym.reply.answer","fit":"core"},{"rowId":"kr.vocab.antonym.hot.cold","fit":"core"},{"rowId":"kr.vocab.antonym.early.late","fit":"core"},{"rowId":"kr.vocab.antonym.narrow.wide","fit":"core"},{"rowId":"kr.vocab.antonym.accept.reject","fit":"core"},{"rowId":"kr.vocab.antonym.include.exclude","fit":"core"},{"rowId":"kr.vocab.antonym.smooth.rough","fit":"core"},{"rowId":"kr.vocab.antonym.victory.defeat","fit":"core"},{"rowId":"kr.vocab.antonym.ancient.modern","fit":"core"},{"rowId":"kr.vocab.homophone.sea.see","fit":"core"},{"rowId":"kr.vocab.homophone.sun.son","fit":"core"},{"rowId":"kr.vocab.homophone.flower.flour","fit":"core"},{"rowId":"kr.vocab.homophone.right.write","fit":"core"},{"rowId":"kr.vocab.homophone.one.won","fit":"core"},{"rowId":"kr.vocab.homophone.hear.here","fit":"core"},{"rowId":"kr.vocab.homophone.pair.pear","fit":"core"},{"rowId":"kr.vocab.homophone.night.knight","fit":"core"}]}
