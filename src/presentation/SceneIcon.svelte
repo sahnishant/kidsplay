@@ -8,7 +8,13 @@
     | 'whale'
     | 'balloon'
     | 'candle'
-    | 'pumice';
+    | 'pumice'
+    | 'wind'
+    | 'windmill'
+    | 'kite'
+    | 'sailboat'
+    | 'plant'
+    | 'sun';
 
   let { icon }: { icon: SceneIconId } = $props();
 </script>
@@ -79,6 +85,50 @@
       <circle class="pumice-hole" cx="61" cy="67" r="8" />
       <circle class="pumice-hole" cx="88" cy="61" r="4" />
       <circle class="pumice-hole" cx="37" cy="68" r="4" />
+    </g>
+  {:else if icon === 'wind'}
+    <g class="wind">
+      <path d="M8 31h56c14 0 18-17 7-22-8-4-15 1-15 8" />
+      <path d="M8 51h88c18 0 20 22 5 28-12 5-21-2-21-12" />
+      <path d="M8 70h46c13 0 15 17 5 22-8 4-15-1-15-8" />
+    </g>
+  {:else if icon === 'windmill'}
+    <g class="windmill">
+      <path class="windmill-tower" d="M51 45h18l11 51H40Z" />
+      <circle class="windmill-hub" cx="60" cy="39" r="7" />
+      <g class="windmill-blades">
+        <path d="M60 36 48 6 57 3 65 34Z" />
+        <path d="M63 39 94 27 97 36 66 44Z" />
+        <path d="M60 42 72 73 63 76 55 45Z" />
+        <path d="M57 39 26 51 23 42 54 34Z" />
+      </g>
+    </g>
+  {:else if icon === 'kite'}
+    <g class="kite">
+      <path class="kite-body" d="m60 7 30 34-30 31-30-31Z" />
+      <path class="kite-frame" d="M60 7v65M30 41h60" />
+      <path class="kite-string" d="M60 72c-4 9 8 8 3 16-3 5-9 5-11 10" />
+      <path class="kite-bow" d="m59 84-10-6-1 11Zm4 6 10-5-1 11Z" />
+    </g>
+  {:else if icon === 'sailboat'}
+    <g class="sailboat">
+      <path class="sailboat-hull" d="M19 69h82L89 88H34Z" />
+      <path class="sailboat-mast" d="M59 15v55" />
+      <path class="sailboat-sail sailboat-sail--left" d="M56 20 25 63h31Z" />
+      <path class="sailboat-sail sailboat-sail--right" d="m63 20 29 43H63Z" />
+    </g>
+  {:else if icon === 'plant'}
+    <g class="plant">
+      <path class="plant-stem" d="M60 91V35" />
+      <path class="plant-leaf" d="M59 61C42 58 30 48 29 35c17 0 29 8 31 22Z" />
+      <path class="plant-leaf" d="M61 50c15-3 26-12 28-25-16 0-27 8-29 21Z" />
+      <path class="plant-leaf" d="M60 75c14-2 25-10 29-21-15-2-27 5-29 17Z" />
+      <path class="plant-pot" d="M39 78h42l-6 18H45Z" />
+    </g>
+  {:else if icon === 'sun'}
+    <g class="sun">
+      <circle cx="60" cy="50" r="23" />
+      <path d="M60 5v14M60 81v14M15 50h14M91 50h14M28 18l10 10m44 44 10 10M92 18 82 28M38 72 28 82" />
     </g>
   {/if}
 </svg>
@@ -213,5 +263,127 @@
   .pumice-hole {
     fill: #786f68;
     opacity: 0.78;
+  }
+
+  .wind path {
+    fill: none;
+    stroke: #dff7ff;
+    stroke-width: 7;
+    stroke-linecap: round;
+  }
+
+  .windmill-tower {
+    fill: #f1e1c2;
+    stroke: #8c6b4d;
+    stroke-width: 2.5;
+  }
+
+  .windmill-hub {
+    fill: #d88943;
+    stroke: #825229;
+    stroke-width: 2.5;
+  }
+
+  .windmill-blades {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: spin-scene-icon 3.2s linear infinite;
+  }
+
+  .windmill-blades path {
+    fill: #fff8e9;
+    stroke: #8c6b4d;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  .kite-body {
+    fill: #f25f76;
+    stroke: #8e3850;
+    stroke-width: 2.5;
+  }
+
+  .kite-frame,
+  .kite-string {
+    fill: none;
+    stroke: #5d4b49;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  .kite-bow {
+    fill: #f4bf4f;
+    stroke: #a9791c;
+    stroke-width: 1.5;
+  }
+
+  .sailboat-hull {
+    fill: #c66d41;
+    stroke: #754229;
+    stroke-width: 2.5;
+  }
+
+  .sailboat-mast {
+    fill: none;
+    stroke: #654b38;
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  .sailboat-sail {
+    stroke: #4f6c78;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  .sailboat-sail--left {
+    fill: #fff3c9;
+  }
+
+  .sailboat-sail--right {
+    fill: #e5f4ff;
+  }
+
+  .plant-stem {
+    fill: none;
+    stroke: #397d45;
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+
+  .plant-leaf {
+    fill: #5bbf62;
+    stroke: #2f7b3a;
+    stroke-width: 2;
+    stroke-linejoin: round;
+  }
+
+  .plant-pot {
+    fill: #d98255;
+    stroke: #8c5133;
+    stroke-width: 2.5;
+  }
+
+  .sun circle {
+    fill: #ffd35c;
+    stroke: #dd9b25;
+    stroke-width: 3;
+  }
+
+  .sun path {
+    fill: none;
+    stroke: #f4b42f;
+    stroke-width: 5;
+    stroke-linecap: round;
+  }
+
+  @keyframes spin-scene-icon {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .windmill-blades {
+      animation: none;
+    }
   }
 </style>
