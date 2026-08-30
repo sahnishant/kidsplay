@@ -55,9 +55,7 @@
     { "rowId": "kr.sof3.animals.diet.omnivore.both", "fit": "core" },
     { "rowId": "kr.sof3.animals.features.habitat.survival", "fit": "stretch" },
 
-    { "rowId": "kr.sof3.human.skeleton.support.shape", "fit": "core" },
     { "rowId": "kr.sof3.human.muscles.bones.movement", "fit": "core" },
-    { "rowId": "kr.sof3.human.brain.control.activities", "fit": "core" },
     { "rowId": "kr.sof3.human.lungs.oxygen.carbon-dioxide", "fit": "stretch" },
     { "rowId": "kr.sof3.human.digestion.food.usable", "fit": "core" },
     { "rowId": "kr.sof3.human.exercise.muscles-heart", "fit": "core" },
@@ -65,9 +63,7 @@
     { "rowId": "kr.sof3.earth.axis.imaginary", "fit": "stretch" },
     { "rowId": "kr.sof3.earth.rotation.about-day", "fit": "core" },
     { "rowId": "kr.sof3.earth.revolution.sun.year", "fit": "stretch" },
-    { "rowId": "kr.sof3.universe.moon.reflects.sunlight", "fit": "core" },
     { "rowId": "kr.sof3.earth.atmosphere.air.surrounds", "fit": "core" },
-    { "rowId": "kr.sof3.universe.earth.third-planet", "fit": "core" },
 
     { "rowId": "kr.reasoning.pattern.symbols.alternating", "fit": "review" },
     { "rowId": "kr.reasoning.pattern.numbers.plus-two", "fit": "review" },
