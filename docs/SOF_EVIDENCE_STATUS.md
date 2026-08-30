@@ -57,8 +57,9 @@ Current reviewed named-year historical source set:
 - `sof.nso.class2.sample-paper.2016-17`
 - `sof.nso.class2.sample-paper.2015-16`
 - `sof.nso.class2.sample-paper.2014-15`
+- `sof.nso.class2.sample-paper.2013-14`
 
-`sof.nso.class2.level2.sample.undated` is also registered as reviewed official archive material, but it has no named academic year and therefore cannot be used as `historical_class2` row evidence.
+`sof.nso.class2.level2.sample.undated` and `sof.nso.class2.sample-paper.legacy-undated-class2-7` are also registered as reviewed official archive material, but they have no named academic year and therefore cannot be used as `historical_class2` row evidence.
 
 ### Public sample-source saturation
 
@@ -67,6 +68,10 @@ The official 2023-24 Class 2 paper was reviewed and registered even though it ad
 The legacy official SOF-hosted **2016-17** Class 2 sample has also been reviewed and registered with **zero new exact rows**. Its useful questions overlap already-evidenced ranking, skin/touch, cousin, flower/seed, cotton/fibre, planet-order and family-tree themes. Other items either do not match a currently pending canonical row exactly or would require broadening a row beyond what the source actually states.
 
 Issue #19 added reproducible archive review of the official **2015-16** and **2014-15** Class 2 samples and the undated official Level-II Class 2 sample. These archive sources add **zero new exact rows** by themselves. The 2015-16 three-state repeating-figure question is not promoted to the narrower two-symbol alternating-pattern row; its generic air-property statement is not promoted to the balloon-specific row. The 2014-15 monsoon-season image is not promoted to rainwear rows, and its cycle-without-engine question does not prove the canonical bicycle-pedal fact. The undated Level-II sample cannot satisfy the named-year historical contract.
+
+Evidence pass #31 extends that saturation record with two further official SOF-hosted artifacts. The named **2013-14** Class 2 sample adds zero new exact anchors: its inspectable skin/touch, cousin, flower/seed, cotton/fibre and Mercury/Venus/Earth/Mars items repeat rows already evidenced from other years. Its cycle item establishes only that a cycle has no engine and is not animal-pulled; it does not prove the narrower canonical `kr.transport.bicycle.feature.pedal` fact. Its season figure likewise does not exactly prove current raincoat/gumboots rows.
+
+The separate official legacy `Class-2_7.pdf` sample contains a strong semantic match for pending `kr.human.lungs.function.breathe` (the organ that helps in breathing is lungs), plus other familiar Class 2 items. However, the PDF exposes no named academic year. The validator therefore correctly blocks it as `historical_class2` evidence until the year is established reproducibly from an official source. The source is registered as reviewed so a future pass does not rediscover the lungs item and incorrectly weaken the temporal contract.
 
 A separate re-review of the already registered 2019-20 paper did produce one genuinely missed exact claim: question 13 explicitly asks for the order of **planets** and includes Earth in the correct Mercury–Venus–Earth–Mars sequence. That directly anchors `kr.universe.earth.type.planet`; the same question was already used for Mercury-nearest and Earth-third facts, so this is a distinct explicit fact from one source, not a duplicate-year count.
 
@@ -125,7 +130,7 @@ Evidence-backed facts are stored as ordinary reusable canonical knowledge rather
 - wind pushes a sailboat's sail;
 - a steep-descent road sign warns of a steep downhill road ahead.
 
-This pass adds exact evidence to the already-canonical `kr.universe.earth.type.planet` row. No knowledge row, profile membership or editorial fit was changed, so the profile denominator remains 182.
+The latest source-saturation pass adds **no row evidence**. No knowledge row, profile membership or editorial fit was changed, so the profile denominator remains 182 and exact evidence remains 27.
 
 All reuse the existing canonical data → formatter → engine pipeline.
 
@@ -150,4 +155,4 @@ Normal `npm run validate:alignment` rejects, among other things:
 
 ## Next evidence target
 
-**155 rows remain pending.** Continue source review without relaxing the distinction between topic scope, exact row inclusion and Kidsplay editorial fit. The profile must remain `prototype_unverified` until the intended verified scope has a reproducible row-level trail.
+**155 rows remain pending.** Highest-value source work now is to locate named-year official Class 2 artifacts for 2017-18, 2018-19, 2020-21 and 2021-22, or an official year binding for `Class-2_7.pdf`. Continue without relaxing the distinction between topic scope, exact row inclusion and Kidsplay editorial fit. The profile must remain `prototype_unverified` until the intended verified scope has a reproducible row-level trail.
