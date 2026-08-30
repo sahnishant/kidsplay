@@ -141,7 +141,7 @@ function isStoredMockCheckpoint(value: unknown): value is StoredMockCheckpoint {
 function isSectionSummary(value: unknown): value is SectionScoreSummary {
   if (!value || typeof value !== 'object') return false;
   const item = value as Partial<SectionScoreSummary>;
-  return isNonEmptyString(item.id)
+  const structurallyValid = isNonEmptyString(item.id)
     && isNonEmptyString(item.title)
     && Number.isInteger(item.correct)
     && Number(item.correct) >= 0
@@ -157,6 +157,13 @@ function isSectionSummary(value: unknown): value is SectionScoreSummary {
     && Number.isFinite(item.maxMarks)
     && Number(item.maxMarks) >= 0
     && Number(item.earnedMarks) <= Number(item.maxMarks);
+  if (!structurallyValid) return false;
+
+  const answered = Number(item.answered);
+  const expectedAccuracy = answered > 0 ? Number(item.correct) / answered : null;
+  return expectedAccuracy === null
+    ? item.accuracy === null
+    : item.accuracy !== null && nearlyEqual(Number(item.accuracy), expectedAccuracy);
 }
 
 function isMockHistoryRecord(value: unknown): value is MockHistoryRecord {
