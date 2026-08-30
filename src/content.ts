@@ -139,11 +139,16 @@ const membershipModules = import.meta.glob('../content/profile-memberships/*.jso
   import: 'default'
 }) as Record<string, unknown>;
 
+const resolvedMembershipModules = import.meta.glob('../content/index/__generated-profile-memberships.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+
 const questionBank = Object.values(questionModules).flatMap((value) =>
   Array.isArray(value) ? (value as Question[]) : []
 );
 const questionById = new Map(questionBank.map((question) => [question.id, question]));
-const memberships = Object.values(membershipModules).filter(
+const authoredMemberships = Object.values(membershipModules).filter(
   (value): value is ProfileMembership => Boolean(
     value
       && typeof value === 'object'
@@ -151,6 +156,10 @@ const memberships = Object.values(membershipModules).filter(
       && Array.isArray((value as ProfileMembership).members)
   )
 );
+const resolvedMemberships = Object.values(resolvedMembershipModules).flatMap((value) =>
+  Array.isArray(value) ? (value as ProfileMembership[]) : []
+);
+const memberships = resolvedMemberships.length > 0 ? resolvedMemberships : authoredMemberships;
 
 const profiles = (profileRegistry as ProfileRegistry).profiles;
 const freePack = freeAnimalsPack as LearningPack;
