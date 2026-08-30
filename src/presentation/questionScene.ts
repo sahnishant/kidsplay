@@ -51,6 +51,6 @@ export function resolveQuestionSceneId(question: Question): string | null {
   return null;
 }
 
-export function resolveDashboardSceneId(topicId?: string): string {
-  return (topicId && dashboardSceneByTopic.get(topicId)) || 'scene.dog.happy-bone';
+export function resolveDashboardSceneId(topicId?: string): string | null {
+  return topicId ? dashboardSceneByTopic.get(topicId) ?? null : null;
 }
