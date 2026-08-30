@@ -1,0 +1,17 @@
+[
+  { "id": "sof3.life-adaptations.memory.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "memory_pairs@1", "difficulty": 2 },
+  { "id": "sof3.life-adaptations.match.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "drag_to_target@1", "difficulty": 2 },
+  { "id": "sof3.life-adaptations.mcq.each.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "single_choice@1", "forEachEntry": true, "distractorCount": 3, "difficulty": 2 },
+
+  { "id": "sof3.plants-body.memory.generated.001", "sourceRef": "knowledge.sof.class3.plants-body.001", "engine": "memory_pairs@1", "difficulty": 2 },
+  { "id": "sof3.plants-body.match.generated.001", "sourceRef": "knowledge.sof.class3.plants-body.001", "engine": "drag_to_target@1", "difficulty": 2 },
+  { "id": "sof3.plants-body.mcq.each.generated.001", "sourceRef": "knowledge.sof.class3.plants-body.001", "engine": "single_choice@1", "forEachEntry": true, "distractorCount": 3, "difficulty": 2 },
+
+  { "id": "sof3.soil-water-weather.memory.generated.001", "sourceRef": "knowledge.sof.class3.soil-water-weather.001", "engine": "memory_pairs@1", "difficulty": 2 },
+  { "id": "sof3.soil-water-weather.match.generated.001", "sourceRef": "knowledge.sof.class3.soil-water-weather.001", "engine": "drag_to_target@1", "difficulty": 2 },
+  { "id": "sof3.soil-water-weather.mcq.each.generated.001", "sourceRef": "knowledge.sof.class3.soil-water-weather.001", "engine": "single_choice@1", "forEachEntry": true, "distractorCount": 3, "difficulty": 2 },
+
+  { "id": "sof3.measurement-space.memory.generated.001", "sourceRef": "knowledge.sof.class3.measurement-space.001", "engine": "memory_pairs@1", "difficulty": 2 },
+  { "id": "sof3.measurement-space.match.generated.001", "sourceRef": "knowledge.sof.class3.measurement-space.001", "engine": "drag_to_target@1", "difficulty": 2 },
+  { "id": "sof3.measurement-space.mcq.each.generated.001", "sourceRef": "knowledge.sof.class3.measurement-space.001", "engine": "single_choice@1", "forEachEntry": true, "distractorCount": 3, "difficulty": 2 }
+]
