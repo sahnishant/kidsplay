@@ -13,6 +13,15 @@
     "sof3.materials-forces.mcq.generated.001",
     "sof3.environment-safety.memory.generated.001",
     "sof3.environment-safety.match.generated.001",
-    "sof3.environment-safety.mcq.generated.001"
+    "sof3.environment-safety.mcq.generated.001",
+
+    "sof3.life-adaptations.memory.generated.001",
+    "sof3.life-adaptations.match.generated.001",
+    "sof3.plants-body.memory.generated.001",
+    "sof3.plants-body.match.generated.001",
+    "sof3.soil-water-weather.memory.generated.001",
+    "sof3.soil-water-weather.match.generated.001",
+    "sof3.measurement-space.memory.generated.001",
+    "sof3.measurement-space.match.generated.001"
   ]
 }
