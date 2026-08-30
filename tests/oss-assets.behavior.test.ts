@@ -1,6 +1,9 @@
+import { fireEvent, render } from '@testing-library/svelte';
+import { tick } from 'svelte';
 import { describe, expect, it } from 'vitest';
 import registry from '../content/assets/registry.json';
 import { validateAssetRegistry } from '../scripts/validate-assets.mjs';
+import VisualEntity from '../src/presentation/VisualEntity.svelte';
 import {
   getBundledAssetDefinitions,
   resolveAssetRefForVisualRef,
@@ -55,6 +58,29 @@ describe('OSS semantic asset integration', () => {
     expect(cat?.assetRef).toBeUndefined();
     expect(cat?.renderer).toBe('entity-icon');
     expect(cat?.glyph).toBe('cat');
+  });
+
+  it('renders bundled artwork first and falls back to the existing SVG renderer after an image failure', async () => {
+    const { container } = render(VisualEntity, { visualRef: 'entity.animal.dog' });
+    const image = container.querySelector<HTMLImageElement>('img.visual-entity__asset');
+
+    expect(image?.getAttribute('src')).toBe('/assets/open/fluent/dog.svg');
+    expect(container.querySelector('[data-asset-ref="fluent.dog.flat"]')).not.toBeNull();
+
+    if (!image) throw new Error('expected bundled dog image');
+    await fireEvent.error(image);
+    await tick();
+
+    expect(container.querySelector('img.visual-entity__asset')).toBeNull();
+    expect(container.querySelector('svg')).not.toBeNull();
+  });
+
+  it('renders the existing SVG path directly when no assetRef exists', () => {
+    const { container } = render(VisualEntity, { visualRef: 'entity.animal.cat' });
+
+    expect(container.querySelector('img.visual-entity__asset')).toBeNull();
+    expect(container.querySelector('[data-visual-ref="entity.animal.cat"]')).not.toBeNull();
+    expect(container.querySelector('svg')).not.toBeNull();
   });
 
   it('keeps proof assets pinned to exact approved source revisions', () => {
