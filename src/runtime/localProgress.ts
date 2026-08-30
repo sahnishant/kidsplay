@@ -281,6 +281,8 @@ export function summarizeTopicProgress(snapshot: ProgressSnapshot): TopicProgres
 }
 
 function recommendTopics(topics: TopicProgressSummary[]): TopicProgressSummary[] {
+  if (!topics.some((topic) => topic.practicedKnowledge > 0)) return [];
+
   const priority: Record<TopicProgressStatus, number> = {
     needs_practice: 0,
     growing: 1,
@@ -289,14 +291,17 @@ function recommendTopics(topics: TopicProgressSummary[]): TopicProgressSummary[]
   };
 
   return topics
-    .filter((topic) => topic.practicedKnowledge > 0 && topic.status !== 'strong')
+    .filter((topic) => topic.status !== 'strong')
     .sort((left, right) => {
       const statusDelta = priority[left.status] - priority[right.status];
       if (statusDelta) return statusDelta;
       const leftAccuracy = left.accuracy ?? 1;
       const rightAccuracy = right.accuracy ?? 1;
       if (leftAccuracy !== rightAccuracy) return leftAccuracy - rightAccuracy;
-      return right.practicedKnowledge - left.practicedKnowledge;
+      if (left.practicedKnowledge !== right.practicedKnowledge) {
+        return right.practicedKnowledge - left.practicedKnowledge;
+      }
+      return TOPIC_IDS.indexOf(left.id) - TOPIC_IDS.indexOf(right.id);
     })
     .slice(0, 3);
 }
