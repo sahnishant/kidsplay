@@ -5,12 +5,26 @@ import { fileURLToPath } from 'node:url';
 
 const defaultRootDir = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
 const defaultRegistryPath = path.join(defaultRootDir, 'content', 'assets', 'registry.json');
+const gitTextExtensions = new Set(['.svg']);
 
 export function gitBlobSha(buffer) {
   return createHash('sha1')
     .update(`blob ${buffer.length}\0`)
     .update(buffer)
     .digest('hex');
+}
+
+/**
+ * Git may materialize text files with CRLF on Windows even though the stored
+ * repository blob is LF-only. Provenance is pinned to the upstream Git blob,
+ * so compare the Git-clean form for known text artwork while leaving binary
+ * assets byte-exact.
+ */
+export function sourceBlobSha(buffer, repoPath) {
+  const extension = path.posix.extname(repoPath).toLowerCase();
+  if (!gitTextExtensions.has(extension)) return gitBlobSha(buffer);
+  const normalized = Buffer.from(buffer.toString('utf8').replace(/\r\n/g, '\n'), 'utf8');
+  return gitBlobSha(normalized);
 }
 
 function isSafeRepoPath(value, prefix) {
@@ -193,7 +207,7 @@ export function validateAssetRegistry(options = {}) {
     }
 
     const bytes = readFileSync(absolutePath);
-    const actualBlobSha = gitBlobSha(bytes);
+    const actualBlobSha = sourceBlobSha(bytes, asset.localPath);
     if (actualBlobSha !== asset.sourceBlobSha) {
       errors.push(`${asset.id}: provenance hash mismatch for ${asset.localPath}; expected ${asset.sourceBlobSha}, got ${actualBlobSha}`);
     }
