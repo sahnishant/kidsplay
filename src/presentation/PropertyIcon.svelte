@@ -21,6 +21,22 @@
     <g><path class="sheet-a" d="M18 55 38 22l69-5-18 31Z"/><path class="sheet-b" d="M14 70 34 37l69-5-18 31Z"/><path class="sheet-c" d="M10 85 30 52l69-5-18 31Z"/></g>
   {:else if icon === 'gemstone'}
     <g><path class="gem" d="M60 8 101 34 89 79 60 94 30 79 19 34Z"/><path class="gem-line" d="m19 34 41 60 41-60M30 79 60 8l29 71M19 34h82"/><path class="spark" d="M12 12v12m-6-6h12M106 72v13m-6-7h12"/></g>
+  {:else if icon === 'eggs'}
+    <g><path class="nest" d="M17 67q43 35 86 0-12 28-43 28T17 67Z"/><ellipse class="egg" cx="43" cy="49" rx="16" ry="23"/><ellipse class="egg egg-b" cx="72" cy="47" rx="16" ry="24"/><path class="nest-line" d="M22 72q38 16 76 0M29 82q31 11 62 0"/></g>
+  {:else if icon === 'flour'}
+    <g><path class="flour-bag" d="M31 22h58l10 67H21Z"/><path class="bag-tie" d="M39 22q21-15 42 0M49 12h22"/><ellipse class="flour" cx="60" cy="65" rx="23" ry="12"/><path class="grain-stalk" d="M60 61V34m0 8-9-7m9 14 10-8m-10 14-9-7"/></g>
+  {:else if icon === 'rice-plant'}
+    <g><path class="plant-stem" d="M60 96V24M60 51 42 34m18 29 20-19m-20 31-24-16"/><path class="rice-head" d="M60 24q10-13 18 0M60 31q-12-12-19 1M72 27q9 7 10 17M48 31q-9 7-10 17"/><circle class="seed" cx="79" cy="25" r="4"/><circle class="seed" cx="82" cy="37" r="4"/><circle class="seed" cx="41" cy="31" r="4"/><circle class="seed" cx="38" cy="43" r="4"/><path class="field" d="M9 94q25-13 51 0 25-13 51 0"/></g>
+  {:else if icon === 'mustard'}
+    <g><path class="plant-stem" d="M60 95V29m0 22-20-15m20 30 22-18"/><path class="mustard-pod" d="M35 29q11-8 20 1-10 8-20-1Zm31 10q13-9 22 3-12 8-22-3Z"/><circle class="mustard-seed" cx="31" cy="69" r="6"/><circle class="mustard-seed" cx="48" cy="76" r="6"/><circle class="mustard-seed" cx="67" cy="72" r="6"/><circle class="mustard-seed" cx="86" cy="78" r="6"/></g>
+  {:else if icon === 'oil'}
+    <g><path class="bottle" d="M43 13h34v16l9 10v50H34V39l9-10Z"/><path class="bottle-neck" d="M44 13h32M42 29h36"/><path class="oil-fill" d="M38 58h44v27H38Z"/><path class="oil-drop" d="M100 34q13 18 0 29-13-11 0-29Z"/></g>
+  {:else if icon === 'energy-cereal'}
+    <g><path class="bowl" d="M20 57h80q-5 34-40 34T20 57Z"/><circle class="cereal" cx="37" cy="50" r="6"/><circle class="cereal" cx="52" cy="46" r="6"/><circle class="cereal" cx="68" cy="49" r="6"/><circle class="cereal" cx="83" cy="45" r="6"/><path class="energy" d="m61 8-14 26h13l-7 20 25-31H64Z"/></g>
+  {:else if icon === 'body-building-pulse'}
+    <g><path class="bowl" d="M18 58h65q-5 31-32 31T18 58Z"/><circle class="pulse" cx="31" cy="50" r="6"/><circle class="pulse" cx="47" cy="46" r="6"/><circle class="pulse" cx="63" cy="51" r="6"/><path class="dumbbell" d="M84 28v28m-9-23v18m18-18v18m-18-9h18"/></g>
+  {:else if icon === 'body-building-dairy'}
+    <g><path class="milk" d="M28 20h42l8 68H20Z"/><path class="milk-top" d="M29 20h40M34 32h38"/><path class="dumbbell" d="M88 29v34m-9-27v20m18-20v20m-18-10h18"/><circle class="milk-dot" cx="49" cy="62" r="9"/></g>
   {:else}
     <g><circle class="outline" cx="60" cy="50" r="38"/><path class="line" d="M60 24v33m0 15v4"/></g>
   {/if}
@@ -29,7 +45,7 @@
 <style>
   .property-icon { width: 100%; height: 100%; overflow: visible; }
   .person { fill: #efbe93; stroke: #9c6f50; stroke-width: 2.5; }
-  .person-line, .orbit, .soil-line, .arrow, .pipe, .tap, .reeds, .leaf, .spark, .shine-line, .size, .gem-line, .line { fill: none; stroke: #4f6d7a; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .person-line, .orbit, .soil-line, .arrow, .pipe, .tap, .reeds, .leaf, .spark, .shine-line, .size, .gem-line, .line, .nest-line, .bag-tie, .grain-stalk, .plant-stem, .rice-head, .field, .bottle-neck, .dumbbell, .milk-top { fill: none; stroke: #4f6d7a; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
   .air { fill: #8fd4e8; }
   .ground { fill: #c59b6b; stroke: #87603a; stroke-width: 2; }
   .soil-line { stroke: #9c754e; stroke-width: 2; }
@@ -52,5 +68,25 @@
   .sheet-c { fill: #919da2; stroke: #536067; stroke-width: 2.5; }
   .gem { fill: #47ad78; stroke: #267149; stroke-width: 3; }
   .gem-line { stroke: #a0e2ba; stroke-width: 2.5; }
+  .nest { fill: #b7834e; stroke: #79532f; stroke-width: 2.5; }
+  .nest-line { stroke: #8d6036; stroke-width: 2; }
+  .egg { fill: #fff9e7; stroke: #b8aa8a; stroke-width: 2.5; }
+  .egg-b { fill: #f8efd5; }
+  .flour-bag { fill: #e8d6aa; stroke: #9a7f50; stroke-width: 2.5; }
+  .flour { fill: #fffdf2; stroke: #c8bea4; stroke-width: 2; }
+  .grain-stalk, .plant-stem, .rice-head { stroke: #5f963f; }
+  .seed { fill: #d8bd67; stroke: #927b3d; stroke-width: 1.5; }
+  .field { stroke: #70a64e; }
+  .mustard-pod { fill: #78a64d; stroke: #4d7431; stroke-width: 2; }
+  .mustard-seed { fill: #a97928; stroke: #6e4d1c; stroke-width: 1.5; }
+  .bottle { fill: #f2e0a1; stroke: #8c7643; stroke-width: 2.5; }
+  .oil-fill, .oil-drop { fill: #e7bd3c; stroke: #a77d19; stroke-width: 2; }
+  .bowl { fill: #8fc1d9; stroke: #4f8098; stroke-width: 2.5; }
+  .cereal { fill: #d7b35b; stroke: #927435; stroke-width: 1.5; }
+  .energy { fill: #f2c444; stroke: #b0811e; stroke-width: 2; }
+  .pulse { fill: #ad6c45; stroke: #76472c; stroke-width: 1.5; }
+  .dumbbell { stroke: #667078; stroke-width: 5; }
+  .milk { fill: #f3f7f7; stroke: #718b96; stroke-width: 2.5; }
+  .milk-dot { fill: #8ebcd0; }
   .outline { fill: #fffdf5; stroke: #53636c; stroke-width: 3; }
 </style>

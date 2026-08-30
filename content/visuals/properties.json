@@ -7,5 +7,13 @@
   { "id": "entity.property.small-smooth", "renderer": "property-icon", "glyph": "small-smooth", "label": "Small and smooth", "motion": "idle", "aliases": ["small smooth", "small and smooth"] },
   { "id": "entity.property.sand-grains", "renderer": "property-icon", "glyph": "sand-grains", "label": "Made of sand grains", "motion": "idle", "aliases": ["sand grains", "made of sand grains"] },
   { "id": "entity.property.thin-sheets", "renderer": "property-icon", "glyph": "thin-sheets", "label": "Thin sheets", "motion": "idle", "aliases": ["thin sheets", "splits into thin sheets"] },
-  { "id": "entity.property.gemstone", "renderer": "property-icon", "glyph": "gemstone", "label": "Gemstone", "motion": "pulse", "aliases": ["gemstone", "gem stone"] }
+  { "id": "entity.property.gemstone", "renderer": "property-icon", "glyph": "gemstone", "label": "Gemstone", "motion": "pulse", "aliases": ["gemstone", "gem stone"] },
+  { "id": "entity.property.eggs", "renderer": "property-icon", "glyph": "eggs", "label": "Eggs", "motion": "idle", "aliases": ["eggs", "egg source"] },
+  { "id": "entity.property.flour", "renderer": "property-icon", "glyph": "flour", "label": "Flour", "motion": "idle", "aliases": ["flour"] },
+  { "id": "entity.property.rice-plant", "renderer": "property-icon", "glyph": "rice-plant", "label": "Rice plant", "motion": "sway", "aliases": ["rice plant"] },
+  { "id": "entity.property.mustard", "renderer": "property-icon", "glyph": "mustard", "label": "Mustard seeds", "motion": "sway", "aliases": ["mustard", "mustard seeds"] },
+  { "id": "entity.property.oil", "renderer": "property-icon", "glyph": "oil", "label": "Cooking oil", "motion": "float", "aliases": ["oil", "cooking oil"] },
+  { "id": "entity.property.energy-cereal", "renderer": "property-icon", "glyph": "energy-cereal", "label": "Energy-giving cereal", "motion": "pulse", "aliases": ["energy cereal", "energy-giving cereal"] },
+  { "id": "entity.property.body-building-pulse", "renderer": "property-icon", "glyph": "body-building-pulse", "label": "Body-building pulses", "motion": "flex", "aliases": ["body building pulse", "body-building pulses"] },
+  { "id": "entity.property.body-building-dairy", "renderer": "property-icon", "glyph": "body-building-dairy", "label": "Body-building dairy", "motion": "flex", "aliases": ["body building dairy", "body-building dairy"] }
 ]
