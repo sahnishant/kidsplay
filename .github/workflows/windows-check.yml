@@ -1,0 +1,38 @@
+name: Windows Check
+
+on:
+  push:
+    branches:
+      - kidsplay
+      - ci/windows-latest-head-gate
+  pull_request:
+    branches:
+      - kidsplay
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Windows / npm run check
+    runs-on: windows-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        shell: pwsh
+        run: npm ci --no-audit --no-fund
+
+      - name: Run full validation
+        shell: pwsh
+        run: npm run check
