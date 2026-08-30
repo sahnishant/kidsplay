@@ -80,6 +80,16 @@
     ]
   },
   {
+    "id": "scene.human.lungs-breathing",
+    "theme": "paper",
+    "ariaLabel": "A pair of lungs with air moving in and out to reinforce that lungs help us breathe.",
+    "entities": [
+      { "id": "lungs", "kind": "icon", "value": "lungs", "label": "lungs", "x": 50, "y": 52, "motion": "pulse" },
+      { "id": "air", "kind": "text", "value": "AIR", "label": "air", "x": 21, "y": 28, "motion": "float" },
+      { "id": "breathe", "kind": "text", "value": "in ↔ out", "label": "air moves in and out", "x": 75, "y": 76, "motion": "float" }
+    ]
+  },
+  {
     "id": "scene.water.sea-salty",
     "theme": "ocean",
     "ariaLabel": "Ocean waves with a salt label, showing that sea water is salty.",
