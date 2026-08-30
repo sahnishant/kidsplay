@@ -29,7 +29,7 @@ function report(): ScopeReport {
 }
 
 describe('SOF Class 3 scope breadth', () => {
-  it('closes all current science topic-family gaps without pretending reasoning breadth is complete', () => {
+  it('represents every declared current/shared topic family while preserving previous-class composition separately', () => {
     const summary = report();
     const science = summary.sections.find((section) => section.section === 'science');
     const reasoning = summary.sections.find((section) => section.section === 'logical_reasoning');
@@ -42,8 +42,8 @@ describe('SOF Class 3 scope breadth', () => {
     expect(science?.missingCurrentClassFamilies).toEqual([]);
     expect(science?.familiesWithIncludedPreviousClassRows).toBeGreaterThan(0);
 
-    expect(reasoning?.currentClassRepresentedFamilies).toBeLessThan(reasoning?.totalFamilies ?? 0);
-    expect(reasoning?.missingCurrentClassFamilies).toContain('alphabet_test');
-    expect(summary.missingCurrentClassFamilies.some((family) => family.section === 'logical_reasoning')).toBe(true);
+    expect(reasoning?.currentClassRepresentedFamilies).toBe(reasoning?.totalFamilies);
+    expect(reasoning?.missingCurrentClassFamilies).toEqual([]);
+    expect(summary.missingCurrentClassFamilies).toEqual([]);
   });
 });
