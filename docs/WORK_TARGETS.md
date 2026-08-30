@@ -59,7 +59,7 @@ Current authored inventory remains:
 - **154** runnable questions total, including earlier engine demonstrations.
 - **10** registered engines: 9 interactive runtime engines + 1 output engine.
 
-The new coverage audit (`npm run report:coverage`) proves the more important runtime facts:
+The coverage audit (`npm run report:coverage`) proves the more important runtime facts:
 
 - **169/169** SOF prototype profile rows are exercised by at least one runnable question.
 - **169/169** current SOF prototype profile rows are also represented in Free Explore.
@@ -137,6 +137,11 @@ Current practice entry: **Class 2 Science Olympiad: Core Science & EVS**.
 - [x] Current reviewed pattern: 5 Logical Reasoning × 1 mark, 25 Science × 1 mark, 5 Achievers × 2 marks = **35 questions / 40 marks**.
 - [x] Structured mock shows the active section and mark weight while playing.
 - [x] Completion diagnostics report correct answers, accuracy and marks separately for Logical Reasoning, Science and Achievers.
+- [x] The 35-question pattern mock is resumable offline with exact selected question order, response position and already-submitted feedback preserved.
+- [x] Saved mocks are contract-bound: incompatible blueprint selectors/marks/provenance, profile memberships/fits, question revisions or interaction versions invalidate and clear the stale checkpoint instead of silently resuming it.
+- [x] Replaying a completed session receives a fresh session identity so attempt/history records do not collide.
+- [x] Compact mock history persists locally and reports latest score, best score, previous-attempt movement and latest section marks without requiring a backend.
+- [x] Duplicate completion callbacks for the same session do not double-count mock history.
 - [x] UI copy explicitly says Kidsplay-authored mocks/readiness are practice tools, not official SOF papers, scores or certification.
 - [ ] Exact row memberships/fits remain `prototype_unverified` until reproducible row-level official evidence review exists.
 
@@ -170,6 +175,8 @@ Row-review protocol: `docs/SOF_ROW_REVIEW.md`.
 - [x] Statuses: Not started / Practise next / Growing / Strong so far.
 - [x] NEXT FOCUS is weak-first, then recommends new topic breadth.
 - [x] Goal readiness is deliberately described as a local practice signal rather than syllabus mastery/certification.
+- [x] One active long-mock checkpoint is stored locally with bounded, validated data rather than storing runtime components or derived scores.
+- [x] Mock history is bounded to compact completion summaries and trend signals, keeping the offline-first product usable without a server account.
 
 ## Evaluator / engine integrity
 
@@ -179,6 +186,9 @@ Row-review protocol: `docs/SOF_ROW_REVIEW.md`.
 - [x] Maze evaluation validates the start cell, target and every legal wall-respecting step; jumping straight to the goal is rejected.
 - [x] One-response-per-question session behavior remains protected.
 - [x] Structured mock section boundaries and mark-weighted scoring have pure runtime tests.
+- [x] Resume restores results by re-evaluating saved raw responses against the current question contract rather than trusting persisted score objects.
+- [x] The post-submit/pre-Next reload boundary restores feedback while keeping the answer engine locked, preventing duplicate responses.
+- [x] Corrupt, impossible and stale mock checkpoints fail closed and return the child to a safe Home state.
 
 ## Presentation / engagement — current mandate met without asset bloat
 
@@ -207,24 +217,31 @@ Normal `npm run check` now covers:
 - content validation;
 - Svelte typecheck;
 - Vite production build;
-- behavior tests for catalog/content, progress, evaluator, sessions, assessment blueprints and UI.
+- behavior tests for catalog/content, progress, evaluator, sessions, assessment blueprints, mock persistence, stale-resume integrity and UI.
 
 The GitHub Android workflow has also moved off older action majors to current supported checkout/setup-node/setup-java/upload-artifact actions while retaining Node 22, Java 21, locked npm install and native-binding repair.
 
 ## Release state after this batch
 
 - [x] Stable `main` remains the user-validated Windows checkpoint at `a2b0586`.
-- [x] Current `kidsplay` code has passed the full Linux `npm run check` stage and Capacitor generation on the latest 2026-08-30 batch; final Android packaging is the release gate for the exact documented head.
+- [x] Resumable long mocks and compact local mock-history/trend diagnostics are implemented and protected on `kidsplay`.
+- [x] The exact resumability/history code head has passed the full Linux `npm run check` stage and Capacitor generation on 2026-08-30; the immediately preceding code head also produced and uploaded a successful Android debug APK.
+- [ ] Complete Android packaging for the final tracker/documentation head and retain the resulting artifact as the exact-head CI proof.
 - [ ] Pull the final `kidsplay` head locally on Windows and rerun `npm run check` before the next deliberate `main` promotion.
 - [ ] Advance `main` only after that deliberate latest-head validation decision.
 
 ## Next high-value work
 
-1. **Exact SOF row-level evidence review — 166 rows pending.** This is the largest substantive alignment task and should proceed core-first using the generated queue.
-2. **Resumable long mocks.** The new 35-question format makes persisted in-progress session/resume behavior worthwhile; implement this without changing the question/engine contracts.
-3. **Mock history / trend diagnostics.** After resumable mocks, retain compact attempt summaries so structured goal value can include progress over multiple mocks without introducing a backend prematurely.
-4. **Latest-head Windows certification and deliberate `main` promotion.**
-5. **Optional asset expansion only on demonstrated need.**
+1. **Exact SOF row-level evidence review — 166 rows pending.** This is now the largest substantive product-truth task and should proceed core-first using the generated queue. Keep `SOF_INDIA_CLASS2` explicitly `prototype_unverified` until the intended verified scope has reproducible evidence.
+2. **Latest-head Windows certification and deliberate `main` promotion.** Linux/browser/Android CI is strong, but `main` should not move until the latest head is deliberately rechecked on Windows.
+3. **Evidence-driven goal refinement.** As exact row evidence accumulates, adjust profile membership/fits where sources justify it; do not manufacture paid-only facts or silently promote editorial placement.
+4. **Optional engagement/asset expansion only on demonstrated need.** Prefer the current reusable vector primitives and engine system over asset bloat.
+
+Completed in the 2026-08-30 passes and therefore removed from the active queue:
+
+- [x] Resumable 35-question long mocks with safe offline checkpointing.
+- [x] Compact mock history and latest/best/previous trend diagnostics.
+- [x] Stale assessment/profile/question contract invalidation and resume-integrity regression coverage.
 
 ## Branch/release hygiene
 
