@@ -1,0 +1,11 @@
+[
+  { "id": "entity.property.around-us", "renderer": "property-icon", "glyph": "around-us", "label": "All around us", "motion": "float", "aliases": ["around us", "all around us"] },
+  { "id": "entity.property.groundwater", "renderer": "property-icon", "glyph": "groundwater", "label": "Groundwater", "motion": "drift", "aliases": ["groundwater", "ground water"] },
+  { "id": "entity.property.home-supply", "renderer": "property-icon", "glyph": "home-supply", "label": "Home water supply", "motion": "drift", "aliases": ["home supply", "home water supply"] },
+  { "id": "entity.property.small-still", "renderer": "property-icon", "glyph": "small-still", "label": "Small still water body", "motion": "float", "aliases": ["small still", "small still water body"] },
+  { "id": "entity.property.salty-water", "renderer": "property-icon", "glyph": "salty-water", "label": "Salty water", "motion": "float", "aliases": ["salty water", "salt water"] },
+  { "id": "entity.property.small-smooth", "renderer": "property-icon", "glyph": "small-smooth", "label": "Small and smooth", "motion": "idle", "aliases": ["small smooth", "small and smooth"] },
+  { "id": "entity.property.sand-grains", "renderer": "property-icon", "glyph": "sand-grains", "label": "Made of sand grains", "motion": "idle", "aliases": ["sand grains", "made of sand grains"] },
+  { "id": "entity.property.thin-sheets", "renderer": "property-icon", "glyph": "thin-sheets", "label": "Thin sheets", "motion": "idle", "aliases": ["thin sheets", "splits into thin sheets"] },
+  { "id": "entity.property.gemstone", "renderer": "property-icon", "glyph": "gemstone", "label": "Gemstone", "motion": "pulse", "aliases": ["gemstone", "gem stone"] }
+]
