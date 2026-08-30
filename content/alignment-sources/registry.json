@@ -74,6 +74,18 @@
       "notes": "Historical official SOF Class 2 science sample paper. It supersedes the redundant 2023-24 evidence source for repeated text-verifiable skin, cousin, wool/winter and tonga items while current-year scope is anchored separately."
     },
     {
+      "id": "sof.nso.class2.sample-paper.2022-23",
+      "type": "official_assessment",
+      "authority": "Science Olympiad Foundation",
+      "title": "SOF National Science Olympiad Class 2 Sample Paper 2022-23",
+      "url": "https://sofworld.org/download/file/fid/34554",
+      "versionLabel": "2022-23 sample paper (historical)",
+      "academicYear": "2022-23",
+      "retrievedOn": "2026-08-30",
+      "status": "reviewed",
+      "notes": "Historical official SOF Class 2 science sample paper. Its plant diagram directly labels a leaf and asks which plant part makes food; historical evidence remains bound to current 2026-27 Plants scope."
+    },
+    {
       "id": "sof.nso.class2.sample-paper.2019-20",
       "type": "official_assessment",
       "authority": "Science Olympiad Foundation",
