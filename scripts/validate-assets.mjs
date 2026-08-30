@@ -4,7 +4,6 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const defaultRootDir = path.resolve(fileURLToPath(new URL('../', import.meta.url)));
-const defaultRegistryPath = path.join(defaultRootDir, 'content', 'assets', 'registry.json');
 const gitTextExtensions = new Set(['.svg']);
 
 export function gitBlobSha(buffer) {
@@ -64,7 +63,7 @@ function loadRegistry(registryPath) {
 
 export function validateAssetRegistry(options = {}) {
   const rootDir = path.resolve(options.rootDir ?? defaultRootDir);
-  const registryPath = path.resolve(options.registryPath ?? defaultRegistryPath);
+  const registryPath = path.resolve(options.registryPath ?? path.join(rootDir, 'content', 'assets', 'registry.json'));
   const registry = options.registry ?? loadRegistry(registryPath);
   const errors = [];
 
@@ -229,8 +228,38 @@ export function validateAssetRegistry(options = {}) {
   };
 }
 
+function parseCliOptions(argv) {
+  const options = {};
+  for (let index = 0; index < argv.length; index += 1) {
+    const argument = argv[index];
+    if (argument === '--root') {
+      const value = argv[index + 1];
+      if (!value) throw new Error('--root requires a directory');
+      options.rootDir = value;
+      index += 1;
+    } else if (argument === '--registry') {
+      const value = argv[index + 1];
+      if (!value) throw new Error('--registry requires a JSON file path');
+      options.registryPath = value;
+      index += 1;
+    } else {
+      throw new Error(`unknown argument: ${argument}`);
+    }
+  }
+  return options;
+}
+
 function runCli() {
-  const result = validateAssetRegistry();
+  let options;
+  try {
+    options = parseCliOptions(process.argv.slice(2));
+  } catch (error) {
+    console.error(`Asset validation failed: ${error instanceof Error ? error.message : String(error)}`);
+    process.exitCode = 1;
+    return;
+  }
+
+  const result = validateAssetRegistry(options);
   if (result.errors.length) {
     console.error(`Asset validation failed with ${result.errors.length} error(s):`);
     for (const error of result.errors) console.error(`- ${error}`);
