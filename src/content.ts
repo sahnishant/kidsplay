@@ -2,6 +2,7 @@ import patternBlueprintJson from '../content/assessment-blueprints/SOF_INDIA_CLA
 import olympiadPrototypePack from '../content/packs/class2-evs-olympiad-prototype.json';
 import profileRegistry from '../content/learning-profiles/registry.json';
 import type { Question } from './contracts/question';
+import { resolveRuntimeMembership, resolveRuntimePackQuestionRefs } from './contentComposition';
 import type { MasteryCounter } from './runtime/localProgress';
 
 interface AccessPolicy {
@@ -364,9 +365,7 @@ function questionFitRank(
 }
 
 function getMembership(profileRef: string): ProfileMembership {
-  const membership = memberships.find((item) => item.profileRef === profileRef);
-  if (!membership) throw new Error(`Unknown profile membership ${profileRef}`);
-  return membership;
+  return resolveRuntimeMembership(memberships, profileRef);
 }
 
 function getProfileCandidates(
@@ -459,7 +458,8 @@ export function getCatalogEntries(): CatalogEntry[] {
 
 export function getFreePackQuestions(packId: string): Question[] {
   const pack = getFreePack(packId);
-  return resolveQuestionRefs(pack.questionRefs, pack.id);
+  const questionRefs = resolveRuntimePackQuestionRefs(freePacks, pack.id);
+  return resolveQuestionRefs(questionRefs, pack.id);
 }
 
 export function getFreeAnimalsQuestions(): Question[] {
