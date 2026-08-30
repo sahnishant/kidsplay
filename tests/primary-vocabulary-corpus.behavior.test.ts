@@ -28,23 +28,34 @@ describe('grade-aware primary vocabulary corpus', () => {
     expect(serialized).not.toContain('"gutenberg_examples"');
   });
 
-  it('builds prioritized, unique OEWN review queues for every introduction grade', () => {
+  it('separates semantic enrichment from spelling/recognition selection', () => {
+    const meaning = selectGradeReviewWordlist(corpus, 2, 80, 'introduced', 'meaning');
+    const spelling = selectGradeReviewWordlist(corpus, 2, 80, 'introduced', 'spelling');
+    expect(meaning.sourceId).toBe('open-english-wordnet');
+    expect(spelling.sourceId).toBe('grundwortschatz-voc-en');
+    expect(meaning.selection.purpose).toBe('meaning');
+    expect(spelling.selection.purpose).toBe('spelling');
+    expect(meaning.items).toHaveLength(80);
+    expect(spelling.items).toHaveLength(80);
+    expect(meaning.items.some((item: any) => item.lemma.toLowerCase() === 'here')).toBe(false);
+  });
+
+  it('builds prioritized, unique meaning-review queues for every introduction grade', () => {
     for (let grade = 1; grade <= 6; grade += 1) {
-      const wordlist = selectGradeReviewWordlist(corpus, grade, 60, 'introduced');
-      expect(wordlist.sourceId).toBe('open-english-wordnet');
+      const wordlist = selectGradeReviewWordlist(corpus, grade, 40, 'introduced', 'meaning');
       expect(wordlist.sourceGradeCorpus.license).toBe('CC-BY-SA-4.0');
-      expect(wordlist.selection).toMatchObject({ grade, mode: 'introduced', selected: 60 });
-      expect(wordlist.items).toHaveLength(60);
-      expect(new Set(wordlist.items.map((item: any) => item.lemma.toLowerCase())).size).toBe(60);
+      expect(wordlist.selection).toMatchObject({ grade, mode: 'introduced', purpose: 'meaning', selected: 40 });
+      expect(wordlist.items).toHaveLength(40);
+      expect(new Set(wordlist.items.map((item: any) => item.lemma.toLowerCase())).size).toBe(40);
       expect(wordlist.items.every((item: any) => item.sourceGrade === grade)).toBe(true);
       expect(wordlist.items.every((item: any) => item.priorityScore > 0)).toBe(true);
     }
   });
 
-  it('can build cumulative by-grade pools without treating the source grade as board alignment', () => {
+  it('can build cumulative by-grade meaning pools without treating source grade as board alignment', () => {
     let previousPool = 0;
     for (let grade = 1; grade <= 6; grade += 1) {
-      const wordlist = selectGradeReviewWordlist(corpus, grade, 60, 'cumulative');
+      const wordlist = selectGradeReviewWordlist(corpus, grade, 40, 'cumulative', 'meaning');
       expect(wordlist.selection.mode).toBe('cumulative');
       expect(wordlist.items.every((item: any) => item.sourceGrade <= grade)).toBe(true);
       expect(wordlist.selection.candidatePool).toBeGreaterThanOrEqual(previousPool);

@@ -32,8 +32,13 @@ jobs:
       - name: Validate committed corpus
         run: npm run validate:lexicon-corpus
 
-      - name: Build introduction-grade review queues
-        run: npm run lexicon:select:primary -- --per-grade 400 --mode introduced
+      - name: Rebuild grade review queues
+        shell: bash
+        run: |
+          rm -rf content/lexicon/open/review-wordlists
+          mkdir -p content/lexicon/open/review-wordlists
+          npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose meaning
+          npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose spelling
 
       - name: Report corpus distribution
         run: npm run report:lexicon-corpus
@@ -41,14 +46,14 @@ jobs:
       - name: Commit review queues if changed
         shell: bash
         run: |
-          git add content/lexicon/open/review-wordlists/
+          git add -A content/lexicon/open/review-wordlists/
           if git diff --cached --quiet; then
             echo "Review queues already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "data: curate primary vocabulary review queues"
+          git commit -m "data: split vocabulary meaning and spelling queues"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Run full existing validation
