@@ -44,6 +44,16 @@ describe('lightweight question presentation', () => {
     ).toBe('scene.air.windmill');
     expect(
       resolveQuestionSceneId(
+        question({ conceptIds: ['air.properties.kite'], knowledgeRefs: ['kr.air.kite.moved-by.wind'] })
+      )
+    ).toBe('scene.air.kite-wind');
+    expect(
+      resolveQuestionSceneId(
+        question({ conceptIds: ['air.properties.sailboat'], knowledgeRefs: ['kr.air.sailboat.moved-by.wind'] })
+      )
+    ).toBe('scene.air.sailboat-wind');
+    expect(
+      resolveQuestionSceneId(
         question({ conceptIds: ['water.sources.sea'], knowledgeRefs: ['kr.water.sea.feature.salty'] })
       )
     ).toBe('scene.water.sea-salty');
