@@ -5,6 +5,8 @@
   { "id": "universe.stars.light", "statement": "Stars are huge hot bodies that give out their own light.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Earth and Sky", "gradeBands": [2] },
   { "id": "universe.moonlight.reflection", "statement": "Moonlight is sunlight reflected from the Moon.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Earth and Sky", "gradeBands": [2] },
   { "id": "universe.earth.rotation", "statement": "Earth's rotation causes the regular change between day and night.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Earth and Sky", "gradeBands": [2] },
+  { "id": "earth.landforms.plateau", "statement": "A plateau is also called a tableland.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Landforms", "gradeBands": [2] },
+  { "id": "universe.planets.orbit", "statement": "An orbit is the fixed path along which a planet moves around the Sun.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Solar System", "gradeBands": [2] },
   { "id": "universe.planets.mercury", "statement": "Mercury is the planet closest to the Sun.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Solar System", "gradeBands": [2] },
   { "id": "universe.planets.venus", "statement": "Venus is the hottest planet in the solar system.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Solar System", "gradeBands": [2] },
   { "id": "universe.planets.earth-position", "statement": "Earth is the third planet from the Sun.", "subject": "EVS", "topic": "Earth and Universe", "subtopic": "Solar System", "gradeBands": [2] },
