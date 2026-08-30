@@ -1,0 +1,31 @@
+[
+  { "id": "entity.universe.earth-rotation", "renderer": "curriculum-icon", "glyph": "earth-rotation", "label": "Earth's rotation", "motion": "spin", "aliases": ["earth rotation", "earth's rotation"] },
+  { "id": "entity.universe.mercury", "renderer": "curriculum-icon", "glyph": "mercury", "label": "Mercury", "motion": "float", "aliases": ["mercury"] },
+  { "id": "entity.universe.venus", "renderer": "curriculum-icon", "glyph": "venus", "label": "Venus", "motion": "float", "aliases": ["venus"] },
+  { "id": "entity.universe.jupiter", "renderer": "curriculum-icon", "glyph": "jupiter", "label": "Jupiter", "motion": "spin", "aliases": ["jupiter"] },
+
+  { "id": "entity.family.family-tree", "renderer": "curriculum-icon", "glyph": "family-tree", "label": "Family tree", "motion": "pulse", "aliases": ["family tree"] },
+  { "id": "entity.family.grandparent", "renderer": "curriculum-icon", "glyph": "grandparent", "label": "Grandparent", "motion": "idle", "aliases": ["grandparent", "grandparents"] },
+  { "id": "entity.family.cousin", "renderer": "curriculum-icon", "glyph": "cousin", "label": "Cousin", "motion": "idle", "aliases": ["cousin", "cousins"] },
+  { "id": "entity.family.shared-housework", "renderer": "curriculum-icon", "glyph": "shared-housework", "label": "Sharing household work", "motion": "wiggle", "aliases": ["shared housework", "sharing household work", "sharing housework"] },
+
+  { "id": "entity.festival.diwali", "renderer": "curriculum-icon", "glyph": "diwali", "label": "Diwali", "motion": "flicker", "aliases": ["diwali"] },
+  { "id": "entity.festival.holi", "renderer": "curriculum-icon", "glyph": "holi", "label": "Holi", "motion": "pulse", "aliases": ["holi"] },
+  { "id": "entity.festival.eid", "renderer": "curriculum-icon", "glyph": "eid", "label": "Eid", "motion": "float", "aliases": ["eid"] },
+  { "id": "entity.festival.onam", "renderer": "curriculum-icon", "glyph": "onam", "label": "Onam", "motion": "spin", "aliases": ["onam"] },
+
+  { "id": "entity.hygiene.bathe", "renderer": "curriculum-icon", "glyph": "bathe", "label": "Bathe", "motion": "drift", "aliases": ["bathe", "bathing", "take a bath"] },
+  { "id": "entity.hygiene.trim-nails", "renderer": "curriculum-icon", "glyph": "trim-nails", "label": "Trim nails", "motion": "wiggle", "aliases": ["trim nails", "keep nails short and clean"] },
+
+  { "id": "entity.safety.electric-socket", "renderer": "curriculum-icon", "glyph": "electric-socket", "label": "Electric socket", "motion": "pulse", "aliases": ["electric socket", "electrical socket"] },
+  { "id": "entity.safety.red-light", "renderer": "curriculum-icon", "glyph": "red-light", "label": "Red traffic light", "motion": "pulse", "aliases": ["red light", "red traffic light", "red traffic signal"] },
+  { "id": "entity.safety.steep-descent-sign", "renderer": "curriculum-icon", "glyph": "steep-descent", "label": "Steep-descent road sign", "motion": "idle", "aliases": ["steep descent sign", "steep-descent road sign", "steep descent road sign"] },
+
+  { "id": "entity.housing.stilt-house", "renderer": "curriculum-icon", "glyph": "stilt-house", "label": "Stilt house", "motion": "sway", "aliases": ["stilt house", "stilt-house"] },
+  { "id": "entity.housing.igloo", "renderer": "curriculum-icon", "glyph": "igloo", "label": "Igloo", "motion": "idle", "aliases": ["igloo"] },
+  { "id": "entity.clothing.gumboots", "renderer": "curriculum-icon", "glyph": "gumboots", "label": "Gumboots", "motion": "wiggle", "aliases": ["gumboots", "gum boots"] },
+
+  { "id": "entity.rock.sandstone", "renderer": "curriculum-icon", "glyph": "sandstone", "label": "Sandstone", "motion": "idle", "aliases": ["sandstone"] },
+  { "id": "entity.rock.slate", "renderer": "curriculum-icon", "glyph": "slate", "label": "Slate", "motion": "idle", "aliases": ["slate"] },
+  { "id": "entity.rock.emerald", "renderer": "curriculum-icon", "glyph": "emerald", "label": "Emerald", "motion": "pulse", "aliases": ["emerald"] }
+]
