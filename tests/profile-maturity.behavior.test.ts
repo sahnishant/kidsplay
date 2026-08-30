@@ -12,6 +12,7 @@ type ProfileMaturity = {
   gradeSpecificSourceRows: number;
   sharedCanonicalSourceRows: number;
   multiFormatRows: number;
+  hotsQuestions: number;
   assessmentBlueprints: Array<{
     id: string;
     ready: boolean;
@@ -50,9 +51,10 @@ describe('profile maturity reporting', () => {
     expect(summary.assessmentBlueprints.length).toBeGreaterThan(0);
   });
 
-  it('turns Class 3 seeds into fully free/runnable rows while exposing remaining mock-depth gaps', () => {
+  it('turns Class 3 seeds into fully free/runnable rows with a blueprint-ready question bank', () => {
     const summary = report('SOF_INDIA_CLASS3');
     const blueprint = summary.assessmentBlueprints[0];
+    const logical = blueprint?.sections.find((section) => section.id === 'logical_reasoning');
     const science = blueprint?.sections.find((section) => section.id === 'science');
     const achievers = blueprint?.sections.find((section) => section.id === 'achievers');
 
@@ -69,10 +71,13 @@ describe('profile maturity reporting', () => {
     expect(summary.sharedCanonicalSourceRows).toBeGreaterThan(0);
     expect(summary.multiFormatRows).toBeGreaterThan(0);
     expect(summary.runnableProfileQuestions).toBeGreaterThan(summary.membershipRows);
+    expect(summary.hotsQuestions).toBeGreaterThanOrEqual(5);
 
+    expect(logical?.ready).toBe(true);
     expect(science?.availableQuestions).toBeGreaterThanOrEqual(science?.requiredQuestions ?? 25);
     expect(science?.ready).toBe(true);
-    expect(achievers?.ready).toBe(false);
-    expect(blueprint?.ready).toBe(false);
+    expect(achievers?.availableQuestions).toBeGreaterThanOrEqual(achievers?.requiredQuestions ?? 5);
+    expect(achievers?.ready).toBe(true);
+    expect(blueprint?.ready).toBe(true);
   });
 });
