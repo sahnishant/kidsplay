@@ -9,7 +9,7 @@ function argValue(name, fallback = null) {
   return match ? match.slice(prefix.length) : fallback;
 }
 
-function matchesPrefixes(rowId, prefixes) {
+function matchesPrefixes(rowId, prefixes = []) {
   return prefixes.some((prefix) => rowId.startsWith(prefix));
 }
 
@@ -26,18 +26,32 @@ const memberRows = new Set((membership.members ?? []).map((member) => member.row
 const allRows = new Set(index.map((row) => row.rowId));
 
 const families = (target.families ?? []).map((family) => {
-  const profileRows = [...memberRows].filter((rowId) => matchesPrefixes(rowId, family.rowPrefixes));
-  const reuseCandidates = [...allRows]
-    .filter((rowId) => !memberRows.has(rowId) && matchesPrefixes(rowId, family.rowPrefixes))
+  const currentPrefixes = [...(family.currentClassPrefixes ?? []), ...(family.sharedPrefixes ?? [])];
+  const previousPrefixes = family.previousClassPrefixes ?? [];
+  const currentRows = [...memberRows]
+    .filter((rowId) => matchesPrefixes(rowId, currentPrefixes))
     .sort();
+  const previousClassRows = [...memberRows]
+    .filter((rowId) => matchesPrefixes(rowId, previousPrefixes))
+    .sort();
+  const currentReuseCandidates = [...allRows]
+    .filter((rowId) => !memberRows.has(rowId) && matchesPrefixes(rowId, currentPrefixes))
+    .sort();
+  const previousClassReuseCandidates = [...allRows]
+    .filter((rowId) => !memberRows.has(rowId) && matchesPrefixes(rowId, previousPrefixes))
+    .sort();
+
   return {
     section: family.section,
     id: family.id,
     label: family.label,
-    represented: profileRows.length > 0,
-    profileRows: profileRows.sort(),
-    reuseCandidateCount: reuseCandidates.length,
-    reuseCandidates
+    currentClassRepresented: currentRows.length > 0,
+    currentRows,
+    previousClassRows,
+    currentReuseCandidateCount: currentReuseCandidates.length,
+    currentReuseCandidates,
+    previousClassReuseCandidateCount: previousClassReuseCandidates.length,
+    previousClassReuseCandidates
   };
 });
 
@@ -45,12 +59,28 @@ const sections = [...new Set(families.map((family) => family.section))].map((sec
   const sectionFamilies = families.filter((family) => family.section === section);
   return {
     section,
-    representedFamilies: sectionFamilies.filter((family) => family.represented).length,
+    currentClassRepresentedFamilies: sectionFamilies.filter((family) => family.currentClassRepresented).length,
     totalFamilies: sectionFamilies.length,
-    missingFamilies: sectionFamilies.filter((family) => !family.represented).map((family) => family.id),
-    reuseCandidateFamilies: sectionFamilies.filter((family) => family.reuseCandidateCount > 0).length
+    missingCurrentClassFamilies: sectionFamilies
+      .filter((family) => !family.currentClassRepresented)
+      .map((family) => family.id),
+    familiesWithPreviousClassRows: sectionFamilies.filter((family) => family.previousClassRows.length > 0).length,
+    familiesWithPreviousClassReuseCandidates: sectionFamilies
+      .filter((family) => family.previousClassReuseCandidateCount > 0).length
   };
 });
+
+const missingCurrentClassFamilies = families
+  .filter((family) => !family.currentClassRepresented)
+  .map((family) => ({
+    section: family.section,
+    id: family.id,
+    label: family.label,
+    currentReuseCandidateCount: family.currentReuseCandidateCount,
+    currentReuseCandidates: family.currentReuseCandidates,
+    previousClassReuseCandidateCount: family.previousClassReuseCandidateCount,
+    previousClassReuseCandidates: family.previousClassReuseCandidates
+  }));
 
 const summary = {
   profileRef,
@@ -59,13 +89,7 @@ const summary = {
   level1Mix: target.level1Mix,
   sections,
   families,
-  missingFamilies: families.filter((family) => !family.represented).map((family) => ({
-    section: family.section,
-    id: family.id,
-    label: family.label,
-    reuseCandidateCount: family.reuseCandidateCount,
-    reuseCandidates: family.reuseCandidates
-  }))
+  missingCurrentClassFamilies
 };
 
 if (process.argv.includes('--json')) {
@@ -84,29 +108,34 @@ if (target.level1Mix) {
     `${target.level1Mix.achieversCurrentClassOnly ? '; Achievers current-class only' : ''}`
   );
 }
+console.log('Previous-class rows are tracked separately and never close a current-class scope gap.');
 console.log('');
 
 for (const section of sections) {
   console.log(`## ${section.section}`);
   console.log('');
-  console.log(`Represented families: ${section.representedFamilies}/${section.totalFamilies}`);
-  console.log('| Family | Profile rows | Reuse candidates outside profile | State |');
-  console.log('| --- | ---: | ---: | --- |');
+  console.log(`Current-class represented families: ${section.currentClassRepresentedFamilies}/${section.totalFamilies}`);
+  console.log('| Family | Current rows | Previous-class rows | Previous-class candidates | Current state |');
+  console.log('| --- | ---: | ---: | ---: | --- |');
   for (const family of families.filter((item) => item.section === section.section)) {
     console.log(
-      `| ${family.label} | ${family.profileRows.length} | ${family.reuseCandidateCount} | ${family.represented ? 'represented' : 'GAP'} |`
+      `| ${family.label} | ${family.currentRows.length} | ${family.previousClassRows.length} | ${family.previousClassReuseCandidateCount} | ${family.currentClassRepresented ? 'represented' : 'CURRENT GAP'} |`
     );
   }
   console.log('');
 }
 
-console.log('## Missing families and cheapest reuse candidates');
+console.log('## Missing current-class families and cheapest reuse opportunities');
 console.log('');
-if (!summary.missingFamilies.length) {
-  console.log('- None. Every declared scope family has at least one profile row.');
+if (!missingCurrentClassFamilies.length) {
+  console.log('- None. Every declared current-class scope family has at least one profile row.');
 } else {
-  for (const family of summary.missingFamilies) {
-    console.log(`- ${family.label} (${family.section}) — ${family.reuseCandidateCount} existing canonical candidate(s)`);
-    for (const rowId of family.reuseCandidates.slice(0, 12)) console.log(`  - ${rowId}`);
+  for (const family of missingCurrentClassFamilies) {
+    console.log(
+      `- ${family.label} (${family.section}) — current-class candidates=${family.currentReuseCandidateCount}; ` +
+      `previous-class reuse candidates=${family.previousClassReuseCandidateCount}`
+    );
+    for (const rowId of family.previousClassReuseCandidates.slice(0, 12)) console.log(`  - previous-class reuse: ${rowId}`);
+    for (const rowId of family.currentReuseCandidates.slice(0, 12)) console.log(`  - current-class candidate: ${rowId}`);
   }
 }
