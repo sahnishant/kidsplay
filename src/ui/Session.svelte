@@ -17,6 +17,13 @@
   } from '../runtime/session';
   import EngineHost from './EngineHost.svelte';
 
+  export interface StoryCompletionView {
+    sceneId?: string;
+    text: string;
+    rewardLabel: string;
+    stars: number;
+  }
+
   let {
     title,
     questions,
@@ -24,6 +31,7 @@
     childName = '',
     childAvatar = 'fox',
     initialState,
+    storyCompletion,
     onAttempt,
     onCheckpoint,
     onComplete,
@@ -35,6 +43,7 @@
     childName?: string;
     childAvatar?: AvatarId;
     initialState?: SessionState;
+    storyCompletion?: StoryCompletionView;
     onAttempt?: (attempt: SessionAttempt) => void;
     onCheckpoint?: (state: SessionState) => void;
     onComplete?: (state: SessionState) => void;
@@ -183,6 +192,20 @@
     </div>
     <h1>Nice work, {displayName}</h1>
     <p>You solved {correctCount} of {sessionState.results.length} questions correctly.</p>
+
+    {#if storyCompletion}
+      <div class="story-completion" aria-label="Story mission complete">
+        {#if storyCompletion.sceneId}
+          <div class="story-completion__scene">
+            <Scene sceneId={storyCompletion.sceneId} />
+          </div>
+        {/if}
+        <span class="eyebrow">MISSION COMPLETE</span>
+        <p>{storyCompletion.text}</p>
+        <strong>⭐ {storyCompletion.stars} · {storyCompletion.rewardLabel}</strong>
+      </div>
+    {/if}
+
     {#if maxMarks > 0}
       <p><strong>{earnedMarks} / {maxMarks} practice marks</strong></p>
     {/if}
@@ -203,7 +226,9 @@
     <div class="completion-actions">
       <button class="primary-button" type="button" onclick={handleReplay}>Play again</button>
       {#if onExit}
-        <button class="secondary-button" type="button" onclick={onExit}>Back home</button>
+        <button class="secondary-button" type="button" onclick={onExit}>
+          {storyCompletion ? 'Back to Dheu’s world' : 'Back home'}
+        </button>
       {/if}
     </div>
   </section>
@@ -235,6 +260,26 @@
     width: 110px;
     height: 110px;
     margin: 0 auto 4px;
+  }
+
+  .story-completion {
+    display: grid;
+    gap: 7px;
+    width: min(100%, 620px);
+    margin: 16px auto;
+    padding: 15px;
+    border: 2px solid rgba(90, 82, 213, 0.16);
+    border-radius: 20px;
+    background: linear-gradient(160deg, #f4f0ff, #fff9e9);
+  }
+
+  .story-completion p {
+    margin: 0;
+    line-height: 1.45;
+  }
+
+  .story-completion__scene :global(.scene) {
+    height: clamp(140px, 22vh, 180px);
   }
 
   .section-results {

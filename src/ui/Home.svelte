@@ -10,6 +10,8 @@
     TopicProgressStatus
   } from '../runtime/localProgress';
   import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
+  import type { StoryProgressSnapshot } from '../story/storyProgress';
+  import StoryWorld from './StoryWorld.svelte';
 
   let {
     child,
@@ -18,8 +20,10 @@
     goalReadiness,
     resumableMock,
     mockTrends,
+    storyProgress,
     onChildChange,
     onStart,
+    onStartMission,
     onResumeMock
   }: {
     child: ChildSettings;
@@ -28,8 +32,10 @@
     goalReadiness: GoalReadinessSummary | null;
     resumableMock: StoredMockCheckpoint | null;
     mockTrends: MockTrendSummary[];
+    storyProgress: StoryProgressSnapshot;
     onChildChange: (settings: ChildSettings) => void;
     onStart: (entryId: string) => void;
+    onStartMission: (missionId: string) => void;
     onResumeMock: () => void;
   } = $props();
 
@@ -72,13 +78,20 @@
   <header class="home-hero">
     <div>
       <div class="brand">Kidsplay</div>
-      <h1>Learn as you play</h1>
-      <p>Pick a child, then explore freely or follow a learning goal.</p>
+      <h1>{child.name.trim() || 'Dheu'}'s science world</h1>
+      <p>Explore places, help Scientu investigate, and catch Shaitanu's tricky guesses.</p>
     </div>
     <div class="home-hero__spark" aria-hidden="true">
       <Avatar avatar={child.avatar} mood="celebrate" motion="bounce" />
     </div>
   </header>
+
+  <StoryWorld
+    childName={child.name}
+    childAvatar={child.avatar}
+    {storyProgress}
+    {onStartMission}
+  />
 
   <section class="child-panel" aria-labelledby="child-heading">
     <div class="section-heading">
@@ -281,8 +294,8 @@
   <section class="catalog-section" aria-labelledby="catalog-heading">
     <div class="section-heading">
       <div>
-        <span class="eyebrow">PLAY & LEARN</span>
-        <h2 id="catalog-heading">Choose what to do</h2>
+        <span class="eyebrow">MORE WAYS TO LEARN</span>
+        <h2 id="catalog-heading">Practice and goal programmes</h2>
       </div>
     </div>
 

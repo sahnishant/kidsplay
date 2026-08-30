@@ -33,6 +33,12 @@
     summarizeSectionResults,
     type SessionState
   } from './runtime/session';
+  import { createStoryMissionLaunch } from './story/storyDirector';
+  import {
+    loadStoryProgress,
+    recordStoryMissionCompletion
+  } from './story/storyProgress';
+  import type { StoryMission } from './story/storyTypes';
   import Home from './ui/Home.svelte';
   import Session from './ui/Session.svelte';
 
@@ -40,8 +46,10 @@
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
+  let storyProgress = $state(loadStoryProgress());
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
+  let activeStoryMission = $state<StoryMission | null>(null);
   let initialSessionState = $state<SessionState | undefined>(undefined);
   let resumableMock = $state(loadMockCheckpoint());
   let mockHistory = $state(loadMockHistory());
@@ -60,10 +68,24 @@
     try {
       activeSession = createSessionForCatalogEntry(entryId, progress.knowledge);
       activeEntryId = entryId;
+      activeStoryMission = null;
       initialSessionState = undefined;
       startError = null;
     } catch (error) {
       startError = error instanceof Error ? error.message : 'This learning session could not be started.';
+    }
+  }
+
+  function startStoryMission(missionId: string): void {
+    try {
+      const launch = createStoryMissionLaunch(missionId);
+      activeSession = launch.session;
+      activeStoryMission = launch.mission;
+      activeEntryId = null;
+      initialSessionState = undefined;
+      startError = null;
+    } catch (error) {
+      startError = error instanceof Error ? error.message : 'This story mission could not be started.';
     }
   }
 
@@ -87,6 +109,7 @@
 
       activeSession = { ...launch, questions };
       activeEntryId = resumableMock.entryId;
+      activeStoryMission = null;
       initialSessionState = restoreSessionState(questions, resumableMock.state);
       startError = null;
     } catch (error) {
@@ -115,7 +138,14 @@
   }
 
   function handleSessionComplete(state: SessionState): void {
-    if (!activeSession || !activeEntryId) return;
+    if (!activeSession) return;
+
+    if (activeStoryMission) {
+      storyProgress = recordStoryMissionCompletion(activeStoryMission, state.sessionId);
+      return;
+    }
+
+    if (!activeEntryId) return;
     if (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock') return;
 
     const sections = summarizeSectionResults(activeSession.sections ?? [], state.results);
@@ -147,6 +177,7 @@
   function returnHome(): void {
     activeSession = null;
     activeEntryId = null;
+    activeStoryMission = null;
     initialSessionState = undefined;
     startError = null;
   }
@@ -160,6 +191,14 @@
     childName={child.name}
     childAvatar={child.avatar}
     initialState={initialSessionState}
+    storyCompletion={activeStoryMission
+      ? {
+        sceneId: activeStoryMission.successSceneRef,
+        text: activeStoryMission.successBeat.text,
+        rewardLabel: activeStoryMission.reward.label,
+        stars: activeStoryMission.reward.stars
+      }
+      : undefined}
     onAttempt={handleAttempt}
     onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
     onComplete={handleSessionComplete}
@@ -173,8 +212,10 @@
     {goalReadiness}
     {resumableMock}
     {mockTrends}
+    {storyProgress}
     onChildChange={handleChildChange}
     onStart={startSession}
+    onStartMission={startStoryMission}
     onResumeMock={resumeMock}
   />
 
