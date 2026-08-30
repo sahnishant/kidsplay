@@ -1,0 +1,54 @@
+name: Browser Smoke
+
+on:
+  push:
+    branches: [kidsplay]
+  pull_request:
+    branches: [kidsplay]
+  workflow_dispatch:
+
+jobs:
+  child-journeys:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: |
+          npm ci --no-audit --no-fund
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          LIGHTNINGCSS_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          NATIVE_DIR="$(mktemp -d)"
+          npm install --prefix "$NATIVE_DIR" --no-save --package-lock=false --no-audit --no-fund \
+            "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION" \
+            "lightningcss-linux-x64-gnu@$LIGHTNINGCSS_VERSION"
+          mkdir -p node_modules/@rolldown
+          rm -rf node_modules/@rolldown/binding-linux-x64-gnu node_modules/lightningcss-linux-x64-gnu
+          cp -R "$NATIVE_DIR/node_modules/@rolldown/binding-linux-x64-gnu" node_modules/@rolldown/
+          cp -R "$NATIVE_DIR/node_modules/lightningcss-linux-x64-gnu" node_modules/
+          rm -rf "$NATIVE_DIR"
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run existing checks
+        run: npm run check
+
+      - name: Run browser child journeys
+        run: npm run test:e2e:ci
+
+      - name: Upload Playwright diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-browser-smoke-diagnostics
+          path: node_modules/.cache/kidsplay-playwright/results
+          if-no-files-found: ignore
