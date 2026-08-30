@@ -6,6 +6,7 @@ import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content'
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import type { SessionAttempt } from '../src/contracts/runtime';
 import { recordMockCompletion, saveMockCheckpoint } from '../src/runtime/mockPersistence';
+import { createSessionState, submitResponse } from '../src/runtime/session';
 
 const CHILD_KEY = 'kidsplay.child.v1';
 
@@ -156,6 +157,29 @@ describe('user-facing product flow', () => {
     expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
     expect(screen.getByText('1 / 35')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
+  });
+
+  it('restores submitted feedback without reopening the answer engine', async () => {
+    const question = testQuestion();
+    const initialState = createSessionState();
+    submitResponse(initialState, question, { selectedOptionIds: ['dog'] });
+
+    render(Session, {
+      props: {
+        title: 'Saved Mock Boundary',
+        questions: [question],
+        childName: 'Dheu',
+        childAvatar: 'owl',
+        initialState
+      }
+    });
+
+    expect(screen.getByRole('note').textContent).toContain('Your saved answer is restored');
+    expect(screen.getByRole('status').textContent).toContain('Yes, a dog is a common pet.');
+    expect(screen.queryByRole('button', { name: 'Check answer' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'See result' }));
+    expect(screen.getByRole('heading', { name: 'Nice work, Dheu' })).toBeTruthy();
   });
 
   it('submits through the engine host, emits one attempt and reaches completion', async () => {
