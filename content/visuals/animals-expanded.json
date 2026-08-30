@@ -1,0 +1,24 @@
+[
+  { "id": "entity.animal.seahorse", "renderer": "animal-expansion-icon", "glyph": "seahorse", "label": "Seahorse", "motion": "swim", "aliases": ["seahorse", "sea horse"] },
+  { "id": "entity.animal.emu", "renderer": "animal-expansion-icon", "glyph": "emu", "label": "Emu", "motion": "idle", "aliases": ["emu"] },
+  { "id": "entity.animal.mammoth", "renderer": "animal-expansion-icon", "glyph": "mammoth", "label": "Mammoth", "motion": "sway", "aliases": ["mammoth"] },
+  { "id": "entity.animal.sheep", "renderer": "animal-expansion-icon", "glyph": "sheep", "label": "Sheep", "motion": "idle", "aliases": ["sheep"] },
+  { "id": "entity.animal.tortoise", "renderer": "animal-expansion-icon", "glyph": "tortoise", "label": "Tortoise", "motion": "idle", "aliases": ["tortoise"] },
+  { "id": "entity.animal.polar-bear", "renderer": "animal-expansion-icon", "glyph": "polar-bear", "label": "Polar bear", "motion": "sway", "aliases": ["polar bear"] },
+  { "id": "entity.animal.rhinoceros", "renderer": "animal-expansion-icon", "glyph": "rhinoceros", "label": "Rhinoceros", "motion": "idle", "aliases": ["rhinoceros", "rhino"] },
+  { "id": "entity.animal.horse", "renderer": "animal-expansion-icon", "glyph": "horse", "label": "Horse", "motion": "sway", "aliases": ["horse"] },
+  { "id": "entity.animal.hen", "renderer": "animal-expansion-icon", "glyph": "hen", "label": "Hen", "motion": "wiggle", "aliases": ["hen"] },
+  { "id": "entity.animal.lion", "renderer": "animal-expansion-icon", "glyph": "lion", "label": "Lion", "motion": "sway", "aliases": ["lion"] },
+  { "id": "entity.animal.tadpole", "renderer": "animal-expansion-icon", "glyph": "tadpole", "label": "Tadpole", "motion": "swim", "aliases": ["tadpole"] },
+
+  { "id": "entity.animal.calf", "renderer": "animal-expansion-icon", "glyph": "calf", "label": "Calf", "motion": "idle", "aliases": ["calf"] },
+  { "id": "entity.animal.foal", "renderer": "animal-expansion-icon", "glyph": "foal", "label": "Foal", "motion": "sway", "aliases": ["foal"] },
+  { "id": "entity.animal.lamb", "renderer": "animal-expansion-icon", "glyph": "lamb", "label": "Lamb", "motion": "idle", "aliases": ["lamb"] },
+
+  { "id": "entity.animal-home.kennel", "renderer": "animal-expansion-icon", "glyph": "kennel", "label": "Kennel", "motion": "idle", "aliases": ["kennel"] },
+  { "id": "entity.animal-home.stable", "renderer": "animal-expansion-icon", "glyph": "stable", "label": "Stable", "motion": "idle", "aliases": ["stable"] },
+  { "id": "entity.animal-home.cowshed", "renderer": "animal-expansion-icon", "glyph": "cowshed", "label": "Cowshed", "motion": "idle", "aliases": ["cowshed", "cow shed"] },
+  { "id": "entity.animal-home.coop", "renderer": "animal-expansion-icon", "glyph": "coop", "label": "Coop", "motion": "idle", "aliases": ["coop", "hen coop"] },
+  { "id": "entity.animal-home.burrow", "renderer": "animal-expansion-icon", "glyph": "burrow", "label": "Burrow", "motion": "idle", "aliases": ["burrow"] },
+  { "id": "entity.animal-home.den", "renderer": "animal-expansion-icon", "glyph": "den", "label": "Den", "motion": "idle", "aliases": ["den"] }
+]
