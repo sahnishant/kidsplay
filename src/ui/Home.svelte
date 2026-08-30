@@ -7,21 +7,28 @@
     ProgressSummary,
     TopicProgressStatus
   } from '../runtime/localProgress';
+  import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
 
   let {
     child,
     catalog,
     progress,
     goalReadiness,
+    resumableMock,
+    mockTrends,
     onChildChange,
-    onStart
+    onStart,
+    onResumeMock
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
     progress: ProgressSummary;
     goalReadiness: GoalReadinessSummary | null;
+    resumableMock: StoredMockCheckpoint | null;
+    mockTrends: MockTrendSummary[];
     onChildChange: (settings: ChildSettings) => void;
     onStart: (entryId: string) => void;
+    onResumeMock: () => void;
   } = $props();
 
   const avatars: Array<{ id: AvatarId; label: string }> = [
@@ -193,6 +200,60 @@
       <p class="saved-note">
         This local practice signal rewards breadth, repeated evidence and accuracy. It is not an official SOF score or syllabus certification, and row placement is still prototype-unverified.
       </p>
+    </section>
+  {/if}
+
+  {#if resumableMock}
+    <section class="child-panel" aria-labelledby="resume-mock-heading">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">CONTINUE MOCK</span>
+          <h2 id="resume-mock-heading">Resume your saved mock</h2>
+        </div>
+        <span class="saved-note">Saved on this device</span>
+      </div>
+      <h3>{resumableMock.title}</h3>
+      <p class="saved-note">
+        {resumableMock.state.responses.length} of {resumableMock.questionIds.length} answered · your exact question order is preserved.
+      </p>
+      <button class="catalog-action" type="button" onclick={onResumeMock}>Resume saved mock</button>
+    </section>
+  {/if}
+
+  {#if mockTrends.length > 0}
+    <section class="topic-progress-panel" aria-labelledby="mock-history-heading">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">MOCK HISTORY</span>
+          <h2 id="mock-history-heading">How mock practice is moving</h2>
+        </div>
+        <span class="saved-note">Last {Math.min(20, mockTrends.reduce((sum, trend) => sum + trend.attempts, 0))} saved results</span>
+      </div>
+
+      <div class="topic-progress-grid">
+        {#each mockTrends as trend}
+          <article class="topic-progress-card">
+            <div class="topic-progress-card__topline">
+              <h3>{trend.title}</h3>
+              <span class="topic-status">{trend.attempts} {trend.attempts === 1 ? 'attempt' : 'attempts'}</span>
+            </div>
+            <strong class="topic-score">{trend.latestEarnedMarks} / {trend.latestMaxMarks}</strong>
+            <span class="topic-meta">
+              Latest {Math.round(trend.latestPercent * 100)}% · best {Math.round(trend.bestPercent * 100)}%
+            </span>
+            <span class="topic-meta">
+              {trend.deltaPoints === null
+                ? 'First saved result'
+                : `${trend.deltaPoints >= 0 ? '+' : ''}${trend.deltaPoints} points vs previous`}
+            </span>
+            {#if trend.latestSections.length > 0}
+              <small class="saved-note">
+                {trend.latestSections.map((section) => `${section.title} ${section.earnedMarks}/${section.maxMarks}`).join(' · ')}
+              </small>
+            {/if}
+          </article>
+        {/each}
+      </div>
     </section>
   {/if}
 
