@@ -3,6 +3,9 @@ import { describe, expect, it } from 'vitest';
 
 type ProfileMaturity = {
   profileRef: string;
+  directMembershipRows: number;
+  includedProfileRefs: string[];
+  includedMembershipRows: number;
   membershipRows: number;
   runnableProfileQuestions: number;
   coveredProfileRows: number;
@@ -44,14 +47,15 @@ describe('profile maturity reporting', () => {
     const summary = report('SOF_INDIA_CLASS2');
 
     expect(summary.profileRef).toBe('SOF_INDIA_CLASS2');
-    expect(summary.membershipRows).toBeGreaterThan(0);
+    expect(summary.directMembershipRows).toBe(summary.membershipRows);
+    expect(summary.includedMembershipRows).toBe(0);
     expect(summary.coveredProfileRows).toBe(summary.membershipRows);
     expect(summary.gaps.uncoveredRows).toEqual([]);
     expect(summary.multiFormatRows).toBeGreaterThan(0);
     expect(summary.assessmentBlueprints.length).toBeGreaterThan(0);
   });
 
-  it('turns Class 3 seeds into fully free/runnable rows with a blueprint-ready question bank', () => {
+  it('keeps Class 3 direct depth visible while composing previous-class review material at zero row duplication', () => {
     const summary = report('SOF_INDIA_CLASS3');
     const blueprint = summary.assessmentBlueprints[0];
     const logical = blueprint?.sections.find((section) => section.id === 'logical_reasoning');
@@ -59,16 +63,20 @@ describe('profile maturity reporting', () => {
     const achievers = blueprint?.sections.find((section) => section.id === 'achievers');
 
     expect(summary.profileRef).toBe('SOF_INDIA_CLASS3');
-    expect(summary.membershipRows).toBeGreaterThan(0);
+    expect(summary.includedProfileRefs).toContain('SOF_INDIA_CLASS2');
+    expect(summary.directMembershipRows).toBeGreaterThan(0);
+    expect(summary.includedMembershipRows).toBeGreaterThan(100);
+    expect(summary.membershipRows).toBeGreaterThan(summary.directMembershipRows);
+
     expect(summary.coveredProfileRows).toBe(summary.membershipRows);
     expect(summary.freeCoveredProfileRows).toBe(summary.membershipRows);
     expect(summary.gaps.uncoveredRows).toEqual([]);
     expect(summary.gaps.freeUncoveredRows).toEqual([]);
 
-    expect(summary.reusedAcrossProfilesRows).toBeGreaterThan(0);
+    expect(summary.reusedAcrossProfilesRows).toBeGreaterThan(summary.directMembershipRows);
     expect(summary.exclusiveToProfileRows).toBeGreaterThan(0);
     expect(summary.gradeSpecificSourceRows).toBeGreaterThan(0);
-    expect(summary.sharedCanonicalSourceRows).toBeGreaterThan(0);
+    expect(summary.sharedCanonicalSourceRows).toBeGreaterThan(100);
     expect(summary.multiFormatRows).toBeGreaterThan(0);
     expect(summary.runnableProfileQuestions).toBeGreaterThan(summary.membershipRows);
     expect(summary.hotsQuestions).toBeGreaterThanOrEqual(5);
