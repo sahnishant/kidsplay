@@ -1,0 +1,69 @@
+name: Resolve Primary Vocabulary Senses
+
+on:
+  push:
+    branches:
+      - content/primary-vocabulary-corpus
+
+permissions:
+  contents: write
+
+jobs:
+  resolve:
+    name: Resolve grade meaning queues against OEWN
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Download pinned Open English WordNet 2025 JSON
+        shell: bash
+        run: |
+          mkdir -p /tmp/oewn
+          curl --fail --location --retry 5 --retry-delay 2 \
+            --output /tmp/oewn/english-wordnet-2025-json.zip \
+            https://github.com/globalwordnet/english-wordnet/releases/download/2025-edition/english-wordnet-2025-json.zip
+          echo "7d749f6e2c39e6970e4997839dcf6e42fd281f3c2fae0171d2192bae8cfa4b51  /tmp/oewn/english-wordnet-2025-json.zip" | sha256sum --check --strict
+          unzip -q /tmp/oewn/english-wordnet-2025-json.zip -d /tmp/oewn/unpacked
+          mapfile -t JSON_FILES < <(find /tmp/oewn/unpacked -type f -name '*.json' | sort)
+          printf 'OEWN JSON files:\n%s\n' "${JSON_FILES[@]}"
+          if [ "${#JSON_FILES[@]}" -ne 1 ]; then
+            echo "Expected exactly one JSON file in the official OEWN JSON release, found ${#JSON_FILES[@]}" >&2
+            exit 1
+          fi
+          echo "OEWN_JSON=${JSON_FILES[0]}" >> "$GITHUB_ENV"
+
+      - name: Build grade sense-review candidates
+        run: npm run lexicon:resolve:primary -- --input "$OEWN_JSON" --source-version 2025 --max-senses 3
+
+      - name: Validate sense-review provenance
+        run: npm run validate:lexicon-senses
+
+      - name: Commit sense-review files if changed
+        shell: bash
+        run: |
+          git add content/lexicon/open/sense-review/
+          if git diff --cached --quiet; then
+            echo "Sense-review data already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: resolve primary vocabulary against OEWN 2025"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Run content and type checks
+        run: npm run validate:content && npm run typecheck
