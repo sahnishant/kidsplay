@@ -22,12 +22,14 @@ export interface BaseQuestion {
 
 /**
  * Semantic presentation hook shared by choice, fill, drag, memory and sequence
- * content. Questions name the thing being shown; the presentation layer owns
- * the SVG artwork and motion used for that thing.
+ * content. semanticRef names the underlying content entity (for example dog,
+ * seahorse or kennel); visualRefs is an optional authored presentation override.
+ * The presentation layer owns SVG artwork and motion for both forms.
  */
 export interface PresentableItem {
   id: string;
   label: string;
+  semanticRef?: string;
   visualRefs?: string[];
 }
 
