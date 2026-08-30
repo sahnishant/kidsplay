@@ -53,6 +53,7 @@ for (const { file, pack } of packs) {
     seenPackIds.add(pack.id);
   }
 
+  const packQuestions = [];
   if (!Array.isArray(pack.questionRefs)) {
     errors.push(`${prefix}: questionRefs must be an array`);
   } else {
@@ -60,12 +61,17 @@ for (const { file, pack } of packs) {
     for (const questionId of pack.questionRefs) {
       if (refs.has(questionId)) errors.push(`${prefix}: duplicate questionRef ${questionId}`);
       refs.add(questionId);
-      if (!questionById.has(questionId)) errors.push(`${prefix}: unknown questionRef ${questionId}`);
+      const question = questionById.get(questionId);
+      if (!question) errors.push(`${prefix}: unknown questionRef ${questionId}`);
+      else packQuestions.push(question);
     }
   }
 
   if (pack.kind === 'goal_path') {
     goalCount += 1;
+    if (!Array.isArray(pack.questionRefs) || pack.questionRefs.length === 0) {
+      errors.push(`${prefix}: goal_path requires at least one questionRef`);
+    }
     if (!allowedKnowledgePolicies.has(pack.knowledgeAccessPolicy)) {
       errors.push(
         `${prefix}: goal_path requires knowledgeAccessPolicy ` +
@@ -82,12 +88,16 @@ for (const { file, pack } of packs) {
         errors.push(`${prefix}: profile ${pack.profileRef} has no membership collection`);
       } else {
         const memberRows = new Set((membership.members ?? []).map((member) => member.rowId));
-        const runnableQuestions = questions.filter((question) => {
+        for (const question of packQuestions) {
           const refs = question.knowledgeRefs ?? [];
-          return refs.length > 0 && refs.every((rowId) => memberRows.has(rowId));
-        });
-        if (!runnableQuestions.length) {
-          errors.push(`${prefix}: profile ${pack.profileRef} has no generated knowledge-backed questions`);
+          if (!refs.length) {
+            errors.push(`${prefix}/${question.id}: goal question requires knowledgeRefs for profile traceability`);
+            continue;
+          }
+          const outsideRows = refs.filter((rowId) => !memberRows.has(rowId));
+          if (outsideRows.length) {
+            errors.push(`${prefix}/${question.id}: knowledgeRefs outside profile ${pack.profileRef}: ${outsideRows.join(', ')}`);
+          }
         }
 
         if (pack.knowledgeAccessPolicy === 'reuse_free_knowledge') {
@@ -120,6 +130,6 @@ if (errors.length) {
 } else {
   console.log(
     `Product catalog OK: ${packFiles.length} pack(s), ${goalCount} profile-driven goal(s), ` +
-    `${sharedKnowledgeGoalCount} goal(s) reusing free knowledge, ${profileIds.size} learning profile(s).`
+    `${sharedKnowledgeGoalCount} goal(s) reusing free knowledge, ${profileIds.size} learning profile(s); goal questions remain profile-traceable.`
   );
 }
