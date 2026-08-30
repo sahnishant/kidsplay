@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { membershipMap, resolveMembership } from './profileMemberships.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -20,25 +21,39 @@ if (!existsSync(new URL(targetPath, root))) {
 }
 
 const target = readJson(targetPath);
-const membership = readJson(`content/profile-memberships/${profileRef}.json`);
+const rawMemberships = readdirSync(new URL('content/profile-memberships/', root))
+  .filter((name) => name.endsWith('.json'))
+  .sort()
+  .map((name) => readJson(`content/profile-memberships/${name}`));
+const membershipByRef = membershipMap(rawMemberships);
+const rawMembership = membershipByRef.get(profileRef);
+if (!rawMembership) throw new Error(`Unknown profile membership ${profileRef}`);
+const membership = resolveMembership(membershipByRef, profileRef);
 const index = readJson('content/index/__generated-learning-index.json');
-const memberRows = new Set((membership.members ?? []).map((member) => member.rowId));
+const directMemberRows = new Set((rawMembership.members ?? []).map((member) => member.rowId));
+const effectiveMembersByRow = new Map((membership.members ?? []).map((member) => [member.rowId, member]));
+const effectiveMemberRows = new Set(effectiveMembersByRow.keys());
 const allRows = new Set(index.map((row) => row.rowId));
 
 const families = (target.families ?? []).map((family) => {
   const currentPrefixes = [...(family.currentClassPrefixes ?? []), ...(family.sharedPrefixes ?? [])];
   const previousPrefixes = family.previousClassPrefixes ?? [];
-  const currentRows = [...memberRows]
+  const currentRows = [...effectiveMemberRows]
     .filter((rowId) => matchesPrefixes(rowId, currentPrefixes))
     .sort();
-  const previousClassRows = [...memberRows]
+  const directCurrentRows = currentRows.filter((rowId) => directMemberRows.has(rowId));
+  const includedCurrentRows = currentRows.filter((rowId) => !directMemberRows.has(rowId));
+  const previousClassRows = [...effectiveMemberRows]
     .filter((rowId) => matchesPrefixes(rowId, previousPrefixes))
     .sort();
+  const includedPreviousClassRows = previousClassRows.filter((rowId) =>
+    effectiveMembersByRow.get(rowId)?.membershipOrigin === 'included'
+  );
   const currentReuseCandidates = [...allRows]
-    .filter((rowId) => !memberRows.has(rowId) && matchesPrefixes(rowId, currentPrefixes))
+    .filter((rowId) => !effectiveMemberRows.has(rowId) && matchesPrefixes(rowId, currentPrefixes))
     .sort();
   const previousClassReuseCandidates = [...allRows]
-    .filter((rowId) => !memberRows.has(rowId) && matchesPrefixes(rowId, previousPrefixes))
+    .filter((rowId) => !effectiveMemberRows.has(rowId) && matchesPrefixes(rowId, previousPrefixes))
     .sort();
 
   return {
@@ -47,7 +62,10 @@ const families = (target.families ?? []).map((family) => {
     label: family.label,
     currentClassRepresented: currentRows.length > 0,
     currentRows,
+    directCurrentRows,
+    includedCurrentRows,
     previousClassRows,
+    includedPreviousClassRows,
     currentReuseCandidateCount: currentReuseCandidates.length,
     currentReuseCandidates,
     previousClassReuseCandidateCount: previousClassReuseCandidates.length,
@@ -65,6 +83,8 @@ const sections = [...new Set(families.map((family) => family.section))].map((sec
       .filter((family) => !family.currentClassRepresented)
       .map((family) => family.id),
     familiesWithPreviousClassRows: sectionFamilies.filter((family) => family.previousClassRows.length > 0).length,
+    familiesWithIncludedPreviousClassRows: sectionFamilies
+      .filter((family) => family.includedPreviousClassRows.length > 0).length,
     familiesWithPreviousClassReuseCandidates: sectionFamilies
       .filter((family) => family.previousClassReuseCandidateCount > 0).length
   };
@@ -78,6 +98,7 @@ const missingCurrentClassFamilies = families
     label: family.label,
     currentReuseCandidateCount: family.currentReuseCandidateCount,
     currentReuseCandidates: family.currentReuseCandidates,
+    previousClassRows: family.previousClassRows,
     previousClassReuseCandidateCount: family.previousClassReuseCandidateCount,
     previousClassReuseCandidates: family.previousClassReuseCandidates
   }));
@@ -87,6 +108,9 @@ const summary = {
   academicYear: target.academicYear,
   provenance: target.provenance,
   level1Mix: target.level1Mix,
+  directMembershipRows: directMemberRows.size,
+  effectiveMembershipRows: effectiveMemberRows.size,
+  includedProfileRefs: (rawMembership.includeProfiles ?? []).map((include) => include.profileRef),
   sections,
   families,
   missingCurrentClassFamilies
@@ -101,6 +125,9 @@ console.log('# Profile scope breadth report');
 console.log('');
 console.log(`Profile: ${profileRef}`);
 console.log(`Academic year: ${target.academicYear}`);
+console.log(`Direct membership rows: ${summary.directMembershipRows}`);
+console.log(`Effective membership rows: ${summary.effectiveMembershipRows}`);
+console.log(`Included profiles: ${summary.includedProfileRefs.join(', ') || 'none'}`);
 console.log(`Provenance: ${target.provenance?.status ?? 'unknown'} — ${target.provenance?.placementBasis ?? 'unspecified'}`);
 if (target.level1Mix) {
   console.log(
@@ -108,34 +135,36 @@ if (target.level1Mix) {
     `${target.level1Mix.achieversCurrentClassOnly ? '; Achievers current-class only' : ''}`
   );
 }
-console.log('Previous-class rows are tracked separately and never close a current-class scope gap.');
+console.log('Previous-class rows are tracked separately and never close a current-class science scope gap.');
 console.log('');
 
 for (const section of sections) {
   console.log(`## ${section.section}`);
   console.log('');
   console.log(`Current-class represented families: ${section.currentClassRepresentedFamilies}/${section.totalFamilies}`);
-  console.log('| Family | Current rows | Previous-class rows | Previous-class candidates | Current state |');
-  console.log('| --- | ---: | ---: | ---: | --- |');
+  console.log('| Family | Direct current | Included/shared current | Previous-class rows | Previous candidates | Current state |');
+  console.log('| --- | ---: | ---: | ---: | ---: | --- |');
   for (const family of families.filter((item) => item.section === section.section)) {
     console.log(
-      `| ${family.label} | ${family.currentRows.length} | ${family.previousClassRows.length} | ${family.previousClassReuseCandidateCount} | ${family.currentClassRepresented ? 'represented' : 'CURRENT GAP'} |`
+      `| ${family.label} | ${family.directCurrentRows.length} | ${family.includedCurrentRows.length} | ` +
+      `${family.previousClassRows.length} | ${family.previousClassReuseCandidateCount} | ` +
+      `${family.currentClassRepresented ? 'represented' : 'CURRENT GAP'} |`
     );
   }
   console.log('');
 }
 
-console.log('## Missing current-class families and cheapest reuse opportunities');
+console.log('## Missing current-class families and reuse context');
 console.log('');
 if (!missingCurrentClassFamilies.length) {
-  console.log('- None. Every declared current-class scope family has at least one profile row.');
+  console.log('- None. Every declared current-class scope family has at least one effective current/shared row.');
 } else {
   for (const family of missingCurrentClassFamilies) {
     console.log(
-      `- ${family.label} (${family.section}) — current-class candidates=${family.currentReuseCandidateCount}; ` +
-      `previous-class reuse candidates=${family.previousClassReuseCandidateCount}`
+      `- ${family.label} (${family.section}) — previous-class rows already included=${family.previousClassRows.length}; ` +
+      `current-class candidates=${family.currentReuseCandidateCount}; remaining previous-class candidates=${family.previousClassReuseCandidateCount}`
     );
-    for (const rowId of family.previousClassReuseCandidates.slice(0, 12)) console.log(`  - previous-class reuse: ${rowId}`);
     for (const rowId of family.currentReuseCandidates.slice(0, 12)) console.log(`  - current-class candidate: ${rowId}`);
+    for (const rowId of family.previousClassReuseCandidates.slice(0, 12)) console.log(`  - unused previous-class candidate: ${rowId}`);
   }
 }
