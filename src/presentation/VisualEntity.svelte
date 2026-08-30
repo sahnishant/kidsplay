@@ -8,6 +8,7 @@
   import AnimalExpansionIcon from './AnimalExpansionIcon.svelte';
   import ConceptIcon from './ConceptIcon.svelte';
   import CurriculumIcon from './CurriculumIcon.svelte';
+  import LearningIcon from './LearningIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -57,6 +58,8 @@
         <ConceptIcon icon={visual.glyph} />
       {:else if visual.renderer === 'curriculum-icon'}
         <CurriculumIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'learning-icon'}
+        <LearningIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
