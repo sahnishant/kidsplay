@@ -23,6 +23,7 @@ const definitions = (assetManifest.assets as BundledAssetDefinition[]).map((defi
 }));
 const assetById = new Map(definitions.map((definition) => [definition.id, definition]));
 const assetRefByVisualRef = new Map<string, string>();
+const bundledPathPrefix = assetManifest.policy.bundledPathPrefix;
 
 for (const definition of definitions) {
   for (const visualRef of definition.visualRefs) {
@@ -31,7 +32,14 @@ for (const definition of definitions) {
 }
 
 function toPublicUrl(localPath: string): string | null {
-  if (!localPath.startsWith('public/')) return null;
+  if (
+    !localPath.startsWith(bundledPathPrefix) ||
+    !localPath.startsWith('public/') ||
+    localPath.includes('..') ||
+    localPath.includes('\\')
+  ) {
+    return null;
+  }
   const relativePath = localPath.slice('public/'.length);
   return relativePath ? `/${relativePath}` : null;
 }

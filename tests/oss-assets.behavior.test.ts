@@ -16,7 +16,7 @@ describe('OSS semantic asset integration', () => {
     expect(result.sourceCount).toBe(1);
   });
 
-  it('fails closed when provenance, source approval, or registration is tampered with', () => {
+  it('fails closed when provenance, source approval, revision pinning, or registration is tampered with', () => {
     const hashTampered = structuredClone(registry);
     hashTampered.assets[0].sourceBlobSha = '0000000000000000000000000000000000000000';
     expect(validateAssetRegistry({ registry: hashTampered }).errors.some((error) => error.includes('provenance hash mismatch'))).toBe(true);
@@ -26,6 +26,12 @@ describe('OSS semantic asset integration', () => {
     if (!fluentSource) throw new Error('missing Fluent source fixture');
     fluentSource.status = 'candidate';
     expect(validateAssetRegistry({ registry: sourceTampered }).errors.some((error) => error.includes('not approved for bundling'))).toBe(true);
+
+    const revisionTampered = structuredClone(registry);
+    const unpinnedSource = revisionTampered.sources.find((source) => source.id === 'microsoft-fluent-emoji');
+    if (!unpinnedSource) throw new Error('missing Fluent source fixture');
+    unpinnedSource.revision = '';
+    expect(validateAssetRegistry({ registry: revisionTampered }).errors.some((error) => error.includes('has no immutable revision'))).toBe(true);
 
     const registrationTampered = structuredClone(registry);
     registrationTampered.assets = registrationTampered.assets.slice(1);

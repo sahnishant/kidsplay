@@ -128,6 +128,10 @@ export function validateAssetRegistry(options = {}) {
       }
     }
 
+    if (!isSafeRepoPath(asset.sourcePathOrName)) {
+      errors.push(`${asset.id}: unsafe sourcePathOrName ${asset.sourcePathOrName}`);
+    }
+
     const source = sourceById.get(asset.sourceId);
     if (!source) {
       errors.push(`${asset.id}: unknown asset source ${asset.sourceId}`);
@@ -136,8 +140,18 @@ export function validateAssetRegistry(options = {}) {
       if (!allowedSourceStatuses.has(source.status)) {
         errors.push(`${asset.id}: source ${source.id} is not approved for bundling`);
       }
-      if (source.revision && asset.sourceRevision !== source.revision) {
-        errors.push(`${asset.id}: source revision does not match pinned source ${source.revision}`);
+      if (typeof source.revision !== 'string' || !source.revision.trim()) {
+        errors.push(`${asset.id}: source ${source.id} has no immutable revision`);
+      } else {
+        if (asset.sourceRevision !== source.revision) {
+          errors.push(`${asset.id}: source revision does not match pinned source ${source.revision}`);
+        }
+        if (
+          String(source.repository ?? '').startsWith('https://github.com/') &&
+          !/^[0-9a-f]{40}$/.test(source.revision)
+        ) {
+          errors.push(`${asset.id}: GitHub source ${source.id} must be pinned to a full commit SHA`);
+        }
       }
       if (source.license && asset.license !== source.license) {
         errors.push(`${asset.id}: asset license ${asset.license} does not match source license ${source.license}`);

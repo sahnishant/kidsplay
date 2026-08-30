@@ -27,9 +27,18 @@ function download(url, redirects = 0) {
   });
 }
 
+function isSafeSourcePath(value) {
+  if (typeof value !== 'string' || !value || value.includes('\\') || path.posix.isAbsolute(value)) return false;
+  const normalized = path.posix.normalize(value);
+  return normalized === value && normalized !== '..' && !normalized.startsWith('../');
+}
+
 function githubRawUrl(source, asset) {
   const match = /^https:\/\/github\.com\/([^/]+)\/([^/]+?)(?:\.git)?$/.exec(String(source.repository ?? ''));
   if (!match) throw new Error(`${asset.id}: sync currently supports pinned GitHub sources only`);
+  if (!isSafeSourcePath(asset.sourcePathOrName)) {
+    throw new Error(`${asset.id}: unsafe source path ${asset.sourcePathOrName}`);
+  }
   const [, owner, repository] = match;
   const encodedPath = asset.sourcePathOrName.split('/').map(encodeURIComponent).join('/');
   return new URL(`https://raw.githubusercontent.com/${owner}/${repository}/${asset.sourceRevision}/${encodedPath}`);
