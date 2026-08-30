@@ -1,0 +1,5671 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.primary.grade6.introduced.spelling.review",
+  "language": "en",
+  "sourceId": "grundwortschatz-voc-en",
+  "sourceVersion": "004977ae2c475fcf12f8b73a02dbb9552e3b6577",
+  "purpose": "Prioritized grade-6 introduced spelling/recognition candidates; no meaning or board placement is implied by this selection.",
+  "sourceGradeCorpus": {
+    "id": "lexicon.primary.english.grade-candidates.001",
+    "sourceId": "grundwortschatz-voc-en",
+    "sourceRevision": "004977ae2c475fcf12f8b73a02dbb9552e3b6577",
+    "license": "CC-BY-SA-4.0"
+  },
+  "selection": {
+    "grade": 6,
+    "mode": "introduced",
+    "purpose": "spelling",
+    "requested": 400,
+    "selected": 400,
+    "rawGradeRows": 1094,
+    "candidatePool": 1093,
+    "excludedOrDeduplicated": 1,
+    "algorithm": "clean lemma + dedupe + curriculum/frequency/spelling-difficulty score",
+    "reviewStatus": "pending_spelling_profile_review"
+  },
+  "items": [
+    {
+      "lemma": "misspelled",
+      "sourceCorpusId": "word_en_10755",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.99,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.48,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10755."
+    },
+    {
+      "lemma": "buoyant",
+      "sourceCorpusId": "word_en_10152",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.98,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.46,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10152."
+    },
+    {
+      "lemma": "growling",
+      "sourceCorpusId": "word_en_06387",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06387."
+    },
+    {
+      "lemma": "untill",
+      "sourceCorpusId": "word_en_09818",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09818."
+    },
+    {
+      "lemma": "archetype",
+      "sourceCorpusId": "word_en_10095",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.96,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10095."
+    },
+    {
+      "lemma": "strat",
+      "sourceCorpusId": "word_en_09369",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.96,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09369."
+    },
+    {
+      "lemma": "delirious",
+      "sourceCorpusId": "word_en_10311",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.95,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10311."
+    },
+    {
+      "lemma": "payed",
+      "sourceCorpusId": "word_en_08437",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08437."
+    },
+    {
+      "lemma": "anomalous",
+      "sourceCorpusId": "word_en_10079",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.94,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10079."
+    },
+    {
+      "lemma": "censure",
+      "sourceCorpusId": "word_en_10182",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.94,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10182."
+    },
+    {
+      "lemma": "holliday",
+      "sourceCorpusId": "word_en_06770",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.9,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.3,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06770."
+    },
+    {
+      "lemma": "conceited",
+      "sourceCorpusId": "word_en_10234",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.88,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.26,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10234."
+    },
+    {
+      "lemma": "chirping",
+      "sourceCorpusId": "word_en_03267",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.87,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03267."
+    },
+    {
+      "lemma": "accidently",
+      "sourceCorpusId": "word_en_01187",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01187."
+    },
+    {
+      "lemma": "prairies",
+      "sourceCorpusId": "word_en_10979",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.85,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10979."
+    },
+    {
+      "lemma": "strictest",
+      "sourceCorpusId": "word_en_11303",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.84,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.18,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11303."
+    },
+    {
+      "lemma": "heros",
+      "sourceCorpusId": "word_en_06687",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.16,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06687."
+    },
+    {
+      "lemma": "seperate",
+      "sourceCorpusId": "word_en_09190",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.82,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09190."
+    },
+    {
+      "lemma": "aggravate",
+      "sourceCorpusId": "word_en_10046",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.8,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10046."
+    },
+    {
+      "lemma": "creaking",
+      "sourceCorpusId": "word_en_04051",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.8,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04051."
+    },
+    {
+      "lemma": "occured",
+      "sourceCorpusId": "word_en_08298",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.8,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08298."
+    },
+    {
+      "lemma": "belive",
+      "sourceCorpusId": "word_en_02391",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02391."
+    },
+    {
+      "lemma": "happend",
+      "sourceCorpusId": "word_en_06522",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06522."
+    },
+    {
+      "lemma": "shriek",
+      "sourceCorpusId": "word_en_11238",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.76,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16.02,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11238."
+    },
+    {
+      "lemma": "decompose",
+      "sourceCorpusId": "word_en_10302",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.75,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 16,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10302."
+    },
+    {
+      "lemma": "toke",
+      "sourceCorpusId": "word_en_09657",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.74,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09657."
+    },
+    {
+      "lemma": "truely",
+      "sourceCorpusId": "word_en_09709",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.7,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09709."
+    },
+    {
+      "lemma": "publically",
+      "sourceCorpusId": "word_en_08796",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.69,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08796."
+    },
+    {
+      "lemma": "grammer",
+      "sourceCorpusId": "word_en_06313",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.67,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06313."
+    },
+    {
+      "lemma": "altho",
+      "sourceCorpusId": "word_en_01584",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.65,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.8,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01584."
+    },
+    {
+      "lemma": "frome",
+      "sourceCorpusId": "word_en_06019",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.65,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.8,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06019."
+    },
+    {
+      "lemma": "indented",
+      "sourceCorpusId": "word_en_10593",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.65,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.8,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10593."
+    },
+    {
+      "lemma": "inbetween",
+      "sourceCorpusId": "word_en_07067",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.62,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07067."
+    },
+    {
+      "lemma": "wierd",
+      "sourceCorpusId": "word_en_09942",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.61,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09942."
+    },
+    {
+      "lemma": "millenium",
+      "sourceCorpusId": "word_en_08090",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.6,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08090."
+    },
+    {
+      "lemma": "comming",
+      "sourceCorpusId": "word_en_03560",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.58,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03560."
+    },
+    {
+      "lemma": "malcom",
+      "sourceCorpusId": "word_en_07998",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07998."
+    },
+    {
+      "lemma": "vermillion",
+      "sourceCorpusId": "word_en_09867",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09867."
+    },
+    {
+      "lemma": "guttural",
+      "sourceCorpusId": "word_en_10519",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.55,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10519."
+    },
+    {
+      "lemma": "sherif",
+      "sourceCorpusId": "word_en_09220",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.53,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09220."
+    },
+    {
+      "lemma": "emanate",
+      "sourceCorpusId": "word_en_10381",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.51,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10381."
+    },
+    {
+      "lemma": "wass",
+      "sourceCorpusId": "word_en_09913",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.51,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09913."
+    },
+    {
+      "lemma": "aircrafts",
+      "sourceCorpusId": "word_en_01473",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.48,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.46,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01473."
+    },
+    {
+      "lemma": "clattering",
+      "sourceCorpusId": "word_en_03370",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.48,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 15.46,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03370."
+    },
+    {
+      "lemma": "propagates",
+      "sourceCorpusId": "word_en_11036",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.48,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.46,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11036."
+    },
+    {
+      "lemma": "seceded",
+      "sourceCorpusId": "word_en_11218",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.47,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11218."
+    },
+    {
+      "lemma": "layed",
+      "sourceCorpusId": "word_en_07829",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.46,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07829."
+    },
+    {
+      "lemma": "momento",
+      "sourceCorpusId": "word_en_08140",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.44,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08140."
+    },
+    {
+      "lemma": "creedence",
+      "sourceCorpusId": "word_en_04061",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04061."
+    },
+    {
+      "lemma": "morissette",
+      "sourceCorpusId": "word_en_10767",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.43,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10767."
+    },
+    {
+      "lemma": "planed",
+      "sourceCorpusId": "word_en_08541",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08541."
+    },
+    {
+      "lemma": "sence",
+      "sourceCorpusId": "word_en_09187",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.38,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.26,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09187."
+    },
+    {
+      "lemma": "vell",
+      "sourceCorpusId": "word_en_09860",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.38,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.26,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09860."
+    },
+    {
+      "lemma": "prefered",
+      "sourceCorpusId": "word_en_08643",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08643."
+    },
+    {
+      "lemma": "transfered",
+      "sourceCorpusId": "word_en_09693",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09693."
+    },
+    {
+      "lemma": "inspite",
+      "sourceCorpusId": "word_en_07251",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.36,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07251."
+    },
+    {
+      "lemma": "pharoah",
+      "sourceCorpusId": "word_en_08509",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.36,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08509."
+    },
+    {
+      "lemma": "clas",
+      "sourceCorpusId": "word_en_03359",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03359."
+    },
+    {
+      "lemma": "confides",
+      "sourceCorpusId": "word_en_10238",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.35,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10238."
+    },
+    {
+      "lemma": "gnawed",
+      "sourceCorpusId": "word_en_10503",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.35,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10503."
+    },
+    {
+      "lemma": "beng",
+      "sourceCorpusId": "word_en_02417",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.34,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.18,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02417."
+    },
+    {
+      "lemma": "ukranian",
+      "sourceCorpusId": "word_en_09730",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.33,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.16,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09730."
+    },
+    {
+      "lemma": "abundances",
+      "sourceCorpusId": "word_en_10007",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.32,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10007."
+    },
+    {
+      "lemma": "slippy",
+      "sourceCorpusId": "word_en_09270",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.29,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09270."
+    },
+    {
+      "lemma": "agin",
+      "sourceCorpusId": "word_en_01427",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.28,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01427."
+    },
+    {
+      "lemma": "peice",
+      "sourceCorpusId": "word_en_08446",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.27,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08446."
+    },
+    {
+      "lemma": "sargeant",
+      "sourceCorpusId": "word_en_09137",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.27,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09137."
+    },
+    {
+      "lemma": "mariage",
+      "sourceCorpusId": "word_en_08022",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.26,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15.02,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08022."
+    },
+    {
+      "lemma": "beeing",
+      "sourceCorpusId": "word_en_02342",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.25,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02342."
+    },
+    {
+      "lemma": "millenia",
+      "sourceCorpusId": "word_en_08087",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.25,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08087."
+    },
+    {
+      "lemma": "usefull",
+      "sourceCorpusId": "word_en_09830",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.25,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 15,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09830."
+    },
+    {
+      "lemma": "powerfull",
+      "sourceCorpusId": "word_en_08615",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.24,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08615."
+    },
+    {
+      "lemma": "guage",
+      "sourceCorpusId": "word_en_06402",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.23,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.96,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06402."
+    },
+    {
+      "lemma": "litterally",
+      "sourceCorpusId": "word_en_07964",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.23,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.96,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07964."
+    },
+    {
+      "lemma": "nickle",
+      "sourceCorpusId": "word_en_08225",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.23,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.96,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08225."
+    },
+    {
+      "lemma": "pavillion",
+      "sourceCorpusId": "word_en_08436",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.22,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08436."
+    },
+    {
+      "lemma": "carribean",
+      "sourceCorpusId": "word_en_02997",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.21,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02997."
+    },
+    {
+      "lemma": "seperated",
+      "sourceCorpusId": "word_en_09191",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.21,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09191."
+    },
+    {
+      "lemma": "troup",
+      "sourceCorpusId": "word_en_09707",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.21,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09707."
+    },
+    {
+      "lemma": "carefull",
+      "sourceCorpusId": "word_en_02964",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02964."
+    },
+    {
+      "lemma": "grat",
+      "sourceCorpusId": "word_en_06331",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06331."
+    },
+    {
+      "lemma": "refering",
+      "sourceCorpusId": "word_en_08928",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08928."
+    },
+    {
+      "lemma": "roomate",
+      "sourceCorpusId": "word_en_09109",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09109."
+    },
+    {
+      "lemma": "targetted",
+      "sourceCorpusId": "word_en_09553",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09553."
+    },
+    {
+      "lemma": "wonderfull",
+      "sourceCorpusId": "word_en_09964",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09964."
+    },
+    {
+      "lemma": "develope",
+      "sourceCorpusId": "word_en_04520",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.18,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04520."
+    },
+    {
+      "lemma": "targetting",
+      "sourceCorpusId": "word_en_09554",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.18,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09554."
+    },
+    {
+      "lemma": "arguement",
+      "sourceCorpusId": "word_en_01875",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.17,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01875."
+    },
+    {
+      "lemma": "knifes",
+      "sourceCorpusId": "word_en_07717",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.17,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07717."
+    },
+    {
+      "lemma": "throughly",
+      "sourceCorpusId": "word_en_09633",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.17,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09633."
+    },
+    {
+      "lemma": "liek",
+      "sourceCorpusId": "word_en_07945",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07945."
+    },
+    {
+      "lemma": "busines",
+      "sourceCorpusId": "word_en_02823",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02823."
+    },
+    {
+      "lemma": "ceasar",
+      "sourceCorpusId": "word_en_03087",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03087."
+    },
+    {
+      "lemma": "earnt",
+      "sourceCorpusId": "word_en_04972",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04972."
+    },
+    {
+      "lemma": "portugese",
+      "sourceCorpusId": "word_en_08581",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.12,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08581."
+    },
+    {
+      "lemma": "wille",
+      "sourceCorpusId": "word_en_09946",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.12,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09946."
+    },
+    {
+      "lemma": "tounge",
+      "sourceCorpusId": "word_en_09671",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.11,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09671."
+    },
+    {
+      "lemma": "apennines",
+      "sourceCorpusId": "word_en_10084",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.1,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10084."
+    },
+    {
+      "lemma": "cemetary",
+      "sourceCorpusId": "word_en_03106",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.1,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03106."
+    },
+    {
+      "lemma": "exemple",
+      "sourceCorpusId": "word_en_05433",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05433."
+    },
+    {
+      "lemma": "harrassed",
+      "sourceCorpusId": "word_en_06558",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06558."
+    },
+    {
+      "lemma": "nowe",
+      "sourceCorpusId": "word_en_08253",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08253."
+    },
+    {
+      "lemma": "speach",
+      "sourceCorpusId": "word_en_09312",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09312."
+    },
+    {
+      "lemma": "villian",
+      "sourceCorpusId": "word_en_09875",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09875."
+    },
+    {
+      "lemma": "dosen't",
+      "sourceCorpusId": "word_en_04826",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.08,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04826."
+    },
+    {
+      "lemma": "rediculous",
+      "sourceCorpusId": "word_en_08912",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.08,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08912."
+    },
+    {
+      "lemma": "autor",
+      "sourceCorpusId": "word_en_02114",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02114."
+    },
+    {
+      "lemma": "refered",
+      "sourceCorpusId": "word_en_08920",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08920."
+    },
+    {
+      "lemma": "fourty",
+      "sourceCorpusId": "word_en_05957",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.06,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05957."
+    },
+    {
+      "lemma": "quitted",
+      "sourceCorpusId": "word_en_08836",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.06,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08836."
+    },
+    {
+      "lemma": "soley",
+      "sourceCorpusId": "word_en_09285",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.06,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09285."
+    },
+    {
+      "lemma": "seige",
+      "sourceCorpusId": "word_en_09182",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09182."
+    },
+    {
+      "lemma": "seperately",
+      "sourceCorpusId": "word_en_09192",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09192."
+    },
+    {
+      "lemma": "tatoo",
+      "sourceCorpusId": "word_en_09557",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09557."
+    },
+    {
+      "lemma": "heared",
+      "sourceCorpusId": "word_en_06618",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.04,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.58,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06618."
+    },
+    {
+      "lemma": "withing",
+      "sourceCorpusId": "word_en_09953",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.03,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09953."
+    },
+    {
+      "lemma": "immediatly",
+      "sourceCorpusId": "word_en_07013",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.01,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07013."
+    },
+    {
+      "lemma": "sergent",
+      "sourceCorpusId": "word_en_09202",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.01,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09202."
+    },
+    {
+      "lemma": "excell",
+      "sourceCorpusId": "word_en_05400",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05400."
+    },
+    {
+      "lemma": "propoganda",
+      "sourceCorpusId": "word_en_08763",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08763."
+    },
+    {
+      "lemma": "nowdays",
+      "sourceCorpusId": "word_en_08252",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.99,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08252."
+    },
+    {
+      "lemma": "cheif",
+      "sourceCorpusId": "word_en_03223",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03223."
+    },
+    {
+      "lemma": "lieing",
+      "sourceCorpusId": "word_en_07944",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07944."
+    },
+    {
+      "lemma": "monts",
+      "sourceCorpusId": "word_en_08149",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08149."
+    },
+    {
+      "lemma": "sandwhich",
+      "sourceCorpusId": "word_en_09133",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09133."
+    },
+    {
+      "lemma": "whereever",
+      "sourceCorpusId": "word_en_09929",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09929."
+    },
+    {
+      "lemma": "fiel",
+      "sourceCorpusId": "word_en_05717",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.96,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05717."
+    },
+    {
+      "lemma": "larg",
+      "sourceCorpusId": "word_en_07791",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.96,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07791."
+    },
+    {
+      "lemma": "rarified",
+      "sourceCorpusId": "word_en_08844",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.94,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08844."
+    },
+    {
+      "lemma": "seperation",
+      "sourceCorpusId": "word_en_09195",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.94,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09195."
+    },
+    {
+      "lemma": "harrassing",
+      "sourceCorpusId": "word_en_06560",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06560."
+    },
+    {
+      "lemma": "theif",
+      "sourceCorpusId": "word_en_09601",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09601."
+    },
+    {
+      "lemma": "existant",
+      "sourceCorpusId": "word_en_05457",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05457."
+    },
+    {
+      "lemma": "forseeable",
+      "sourceCorpusId": "word_en_05931",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05931."
+    },
+    {
+      "lemma": "knowlege",
+      "sourceCorpusId": "word_en_07730",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07730."
+    },
+    {
+      "lemma": "stong",
+      "sourceCorpusId": "word_en_09358",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09358."
+    },
+    {
+      "lemma": "florescent",
+      "sourceCorpusId": "word_en_05831",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.91,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05831."
+    },
+    {
+      "lemma": "whith",
+      "sourceCorpusId": "word_en_09932",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.91,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09932."
+    },
+    {
+      "lemma": "alltime",
+      "sourceCorpusId": "word_en_01559",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.9,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01559."
+    },
+    {
+      "lemma": "mistery",
+      "sourceCorpusId": "word_en_08128",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.9,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08128."
+    },
+    {
+      "lemma": "unforseen",
+      "sourceCorpusId": "word_en_09761",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.9,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09761."
+    },
+    {
+      "lemma": "neice",
+      "sourceCorpusId": "word_en_08212",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.88,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08212."
+    },
+    {
+      "lemma": "broady",
+      "sourceCorpusId": "word_en_02730",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02730."
+    },
+    {
+      "lemma": "heathy",
+      "sourceCorpusId": "word_en_06627",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06627."
+    },
+    {
+      "lemma": "priviledge",
+      "sourceCorpusId": "word_en_08701",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08701."
+    },
+    {
+      "lemma": "resistence",
+      "sourceCorpusId": "word_en_09042",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09042."
+    },
+    {
+      "lemma": "stange",
+      "sourceCorpusId": "word_en_09342",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09342."
+    },
+    {
+      "lemma": "nuremburg",
+      "sourceCorpusId": "word_en_08261",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.85,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08261."
+    },
+    {
+      "lemma": "imagin",
+      "sourceCorpusId": "word_en_06994",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06994."
+    },
+    {
+      "lemma": "acheive",
+      "sourceCorpusId": "word_en_01231",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01231."
+    },
+    {
+      "lemma": "controll",
+      "sourceCorpusId": "word_en_03863",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03863."
+    },
+    {
+      "lemma": "helpfull",
+      "sourceCorpusId": "word_en_06660",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.82,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06660."
+    },
+    {
+      "lemma": "seperating",
+      "sourceCorpusId": "word_en_09194",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.82,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09194."
+    },
+    {
+      "lemma": "teached",
+      "sourceCorpusId": "word_en_09561",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.81,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09561."
+    },
+    {
+      "lemma": "propper",
+      "sourceCorpusId": "word_en_08769",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.8,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08769."
+    },
+    {
+      "lemma": "surprize",
+      "sourceCorpusId": "word_en_09503",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09503."
+    },
+    {
+      "lemma": "tast",
+      "sourceCorpusId": "word_en_09555",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09555."
+    },
+    {
+      "lemma": "withdrawl",
+      "sourceCorpusId": "word_en_09950",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09950."
+    },
+    {
+      "lemma": "everyting",
+      "sourceCorpusId": "word_en_05355",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05355."
+    },
+    {
+      "lemma": "lybia",
+      "sourceCorpusId": "word_en_07979",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07979."
+    },
+    {
+      "lemma": "somtimes",
+      "sourceCorpusId": "word_en_09290",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09290."
+    },
+    {
+      "lemma": "febuary",
+      "sourceCorpusId": "word_en_05667",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05667."
+    },
+    {
+      "lemma": "liquify",
+      "sourceCorpusId": "word_en_07955",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07955."
+    },
+    {
+      "lemma": "muhammadan",
+      "sourceCorpusId": "word_en_08168",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08168."
+    },
+    {
+      "lemma": "specif",
+      "sourceCorpusId": "word_en_09315",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09315."
+    },
+    {
+      "lemma": "exept",
+      "sourceCorpusId": "word_en_05434",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.76,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05434."
+    },
+    {
+      "lemma": "hinderance",
+      "sourceCorpusId": "word_en_06730",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.76,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06730."
+    },
+    {
+      "lemma": "sophmore",
+      "sourceCorpusId": "word_en_09293",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.76,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09293."
+    },
+    {
+      "lemma": "faught",
+      "sourceCorpusId": "word_en_05649",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05649."
+    },
+    {
+      "lemma": "offred",
+      "sourceCorpusId": "word_en_08322",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08322."
+    },
+    {
+      "lemma": "alos",
+      "sourceCorpusId": "word_en_01569",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.74,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01569."
+    },
+    {
+      "lemma": "amoung",
+      "sourceCorpusId": "word_en_01626",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.74,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01626."
+    },
+    {
+      "lemma": "doub",
+      "sourceCorpusId": "word_en_04829",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.74,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04829."
+    },
+    {
+      "lemma": "calenders",
+      "sourceCorpusId": "word_en_02879",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.73,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.96,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02879."
+    },
+    {
+      "lemma": "paraphernalia",
+      "sourceCorpusId": "word_en_10882",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.97,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10882."
+    },
+    {
+      "lemma": "dependance",
+      "sourceCorpusId": "word_en_04427",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.72,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04427."
+    },
+    {
+      "lemma": "valetta",
+      "sourceCorpusId": "word_en_09841",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.72,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09841."
+    },
+    {
+      "lemma": "desireable",
+      "sourceCorpusId": "word_en_04469",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04469."
+    },
+    {
+      "lemma": "governer",
+      "sourceCorpusId": "word_en_06282",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06282."
+    },
+    {
+      "lemma": "psuedo",
+      "sourceCorpusId": "word_en_08790",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08790."
+    },
+    {
+      "lemma": "foreward",
+      "sourceCorpusId": "word_en_05901",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.7,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05901."
+    },
+    {
+      "lemma": "persue",
+      "sourceCorpusId": "word_en_08500",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.7,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08500."
+    },
+    {
+      "lemma": "grafitti",
+      "sourceCorpusId": "word_en_06308",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.69,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06308."
+    },
+    {
+      "lemma": "tomatos",
+      "sourceCorpusId": "word_en_09660",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.68,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09660."
+    },
+    {
+      "lemma": "arguements",
+      "sourceCorpusId": "word_en_01876",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.66,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.82,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01876."
+    },
+    {
+      "lemma": "threshhold",
+      "sourceCorpusId": "word_en_09630",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.66,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.82,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09630."
+    },
+    {
+      "lemma": "athiest",
+      "sourceCorpusId": "word_en_02027",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.65,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.8,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02027."
+    },
+    {
+      "lemma": "bandwith",
+      "sourceCorpusId": "word_en_02219",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.64,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02219."
+    },
+    {
+      "lemma": "seeked",
+      "sourceCorpusId": "word_en_09179",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.64,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09179."
+    },
+    {
+      "lemma": "sheild",
+      "sourceCorpusId": "word_en_09219",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.64,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09219."
+    },
+    {
+      "lemma": "succeded",
+      "sourceCorpusId": "word_en_09423",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.63,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09423."
+    },
+    {
+      "lemma": "surprized",
+      "sourceCorpusId": "word_en_09504",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.63,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09504."
+    },
+    {
+      "lemma": "devided",
+      "sourceCorpusId": "word_en_04532",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.62,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04532."
+    },
+    {
+      "lemma": "harras",
+      "sourceCorpusId": "word_en_06552",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.62,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06552."
+    },
+    {
+      "lemma": "proove",
+      "sourceCorpusId": "word_en_08758",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.62,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08758."
+    },
+    {
+      "lemma": "thrid",
+      "sourceCorpusId": "word_en_09631",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.62,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09631."
+    },
+    {
+      "lemma": "accessable",
+      "sourceCorpusId": "word_en_01184",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.61,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01184."
+    },
+    {
+      "lemma": "aginst",
+      "sourceCorpusId": "word_en_01429",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.61,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01429."
+    },
+    {
+      "lemma": "cannister",
+      "sourceCorpusId": "word_en_02927",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.61,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02927."
+    },
+    {
+      "lemma": "conquerer",
+      "sourceCorpusId": "word_en_03740",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.61,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03740."
+    },
+    {
+      "lemma": "diety",
+      "sourceCorpusId": "word_en_04583",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.6,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04583."
+    },
+    {
+      "lemma": "necessitate",
+      "sourceCorpusId": "word_en_10794",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.84,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10794."
+    },
+    {
+      "lemma": "theives",
+      "sourceCorpusId": "word_en_09602",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.59,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09602."
+    },
+    {
+      "lemma": "satisfactorily",
+      "sourceCorpusId": "word_en_11198",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.83,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11198."
+    },
+    {
+      "lemma": "futhermore",
+      "sourceCorpusId": "word_en_06070",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.58,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06070."
+    },
+    {
+      "lemma": "maked",
+      "sourceCorpusId": "word_en_07996",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.58,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07996."
+    },
+    {
+      "lemma": "earlies",
+      "sourceCorpusId": "word_en_04967",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04967."
+    },
+    {
+      "lemma": "incidently",
+      "sourceCorpusId": "word_en_07074",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07074."
+    },
+    {
+      "lemma": "markes",
+      "sourceCorpusId": "word_en_08024",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08024."
+    },
+    {
+      "lemma": "mear",
+      "sourceCorpusId": "word_en_08048",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08048."
+    },
+    {
+      "lemma": "spreaded",
+      "sourceCorpusId": "word_en_09332",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.57,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09332."
+    },
+    {
+      "lemma": "pronouncements",
+      "sourceCorpusId": "word_en_11035",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.81,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11035."
+    },
+    {
+      "lemma": "annointed",
+      "sourceCorpusId": "word_en_01681",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.56,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01681."
+    },
+    {
+      "lemma": "resistent",
+      "sourceCorpusId": "word_en_09043",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.56,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09043."
+    },
+    {
+      "lemma": "dessicated",
+      "sourceCorpusId": "word_en_04485",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.55,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04485."
+    },
+    {
+      "lemma": "likelyhood",
+      "sourceCorpusId": "word_en_07952",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.55,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07952."
+    },
+    {
+      "lemma": "embarras",
+      "sourceCorpusId": "word_en_05103",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.54,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.58,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05103."
+    },
+    {
+      "lemma": "scaleable",
+      "sourceCorpusId": "word_en_09152",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.54,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.58,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09152."
+    },
+    {
+      "lemma": "brittish",
+      "sourceCorpusId": "word_en_02722",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.53,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02722."
+    },
+    {
+      "lemma": "miliary",
+      "sourceCorpusId": "word_en_08083",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.53,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08083."
+    },
+    {
+      "lemma": "rised",
+      "sourceCorpusId": "word_en_09105",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.53,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09105."
+    },
+    {
+      "lemma": "tabacco",
+      "sourceCorpusId": "word_en_09549",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.53,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09549."
+    },
+    {
+      "lemma": "yatch",
+      "sourceCorpusId": "word_en_09984",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.53,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09984."
+    },
+    {
+      "lemma": "pich",
+      "sourceCorpusId": "word_en_08533",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.52,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.54,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08533."
+    },
+    {
+      "lemma": "accordian",
+      "sourceCorpusId": "word_en_01211",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.51,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01211."
+    },
+    {
+      "lemma": "debateable",
+      "sourceCorpusId": "word_en_04284",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.51,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04284."
+    },
+    {
+      "lemma": "consummated",
+      "sourceCorpusId": "word_en_10265",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.75,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10265."
+    },
+    {
+      "lemma": "incompatibility",
+      "sourceCorpusId": "word_en_10582",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.75,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10582."
+    },
+    {
+      "lemma": "absorbtion",
+      "sourceCorpusId": "word_en_01157",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01157."
+    },
+    {
+      "lemma": "alledged",
+      "sourceCorpusId": "word_en_01530",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01530."
+    },
+    {
+      "lemma": "commandoes",
+      "sourceCorpusId": "word_en_03548",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03548."
+    },
+    {
+      "lemma": "dispair",
+      "sourceCorpusId": "word_en_04696",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04696."
+    },
+    {
+      "lemma": "sieze",
+      "sourceCorpusId": "word_en_09233",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09233."
+    },
+    {
+      "lemma": "stroy",
+      "sourceCorpusId": "word_en_09386",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09386."
+    },
+    {
+      "lemma": "useage",
+      "sourceCorpusId": "word_en_09829",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09829."
+    },
+    {
+      "lemma": "devasted",
+      "sourceCorpusId": "word_en_04518",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.49,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.48,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04518."
+    },
+    {
+      "lemma": "positon",
+      "sourceCorpusId": "word_en_08591",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.49,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.48,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08591."
+    },
+    {
+      "lemma": "siezed",
+      "sourceCorpusId": "word_en_09234",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.49,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.48,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09234."
+    },
+    {
+      "lemma": "shiping",
+      "sourceCorpusId": "word_en_09223",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.48,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.46,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09223."
+    },
+    {
+      "lemma": "torpedos",
+      "sourceCorpusId": "word_en_09668",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.48,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.46,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09668."
+    },
+    {
+      "lemma": "bretheren",
+      "sourceCorpusId": "word_en_02696",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.47,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02696."
+    },
+    {
+      "lemma": "tolkein",
+      "sourceCorpusId": "word_en_09659",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.47,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.44,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09659."
+    },
+    {
+      "lemma": "cannisters",
+      "sourceCorpusId": "word_en_02928",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.46,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02928."
+    },
+    {
+      "lemma": "ninty",
+      "sourceCorpusId": "word_en_08229",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.46,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08229."
+    },
+    {
+      "lemma": "persuing",
+      "sourceCorpusId": "word_en_08502",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.46,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08502."
+    },
+    {
+      "lemma": "seperates",
+      "sourceCorpusId": "word_en_09193",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.46,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09193."
+    },
+    {
+      "lemma": "withold",
+      "sourceCorpusId": "word_en_09954",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.46,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.42,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09954."
+    },
+    {
+      "lemma": "grammatically",
+      "sourceCorpusId": "word_en_10510",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.7,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10510."
+    },
+    {
+      "lemma": "ophthalmologist",
+      "sourceCorpusId": "word_en_10845",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.7,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10845."
+    },
+    {
+      "lemma": "percieved",
+      "sourceCorpusId": "word_en_08466",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.45,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08466."
+    },
+    {
+      "lemma": "sargant",
+      "sourceCorpusId": "word_en_09136",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.45,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09136."
+    },
+    {
+      "lemma": "spred",
+      "sourceCorpusId": "word_en_09334",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.45,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.4,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09334."
+    },
+    {
+      "lemma": "surreptitiously",
+      "sourceCorpusId": "word_en_11365",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.69,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11365."
+    },
+    {
+      "lemma": "dalmation",
+      "sourceCorpusId": "word_en_04198",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.44,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04198."
+    },
+    {
+      "lemma": "dependancy",
+      "sourceCorpusId": "word_en_04428",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.44,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04428."
+    },
+    {
+      "lemma": "heroe",
+      "sourceCorpusId": "word_en_06682",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.44,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06682."
+    },
+    {
+      "lemma": "intrusted",
+      "sourceCorpusId": "word_en_07351",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.44,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07351."
+    },
+    {
+      "lemma": "recompence",
+      "sourceCorpusId": "word_en_08899",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.44,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08899."
+    },
+    {
+      "lemma": "restaurateur",
+      "sourceCorpusId": "word_en_11167",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.68,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11167."
+    },
+    {
+      "lemma": "devide",
+      "sourceCorpusId": "word_en_04531",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04531."
+    },
+    {
+      "lemma": "embargos",
+      "sourceCorpusId": "word_en_05102",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05102."
+    },
+    {
+      "lemma": "fightings",
+      "sourceCorpusId": "word_en_05729",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05729."
+    },
+    {
+      "lemma": "managable",
+      "sourceCorpusId": "word_en_08002",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08002."
+    },
+    {
+      "lemma": "missen",
+      "sourceCorpusId": "word_en_08122",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08122."
+    },
+    {
+      "lemma": "seldomly",
+      "sourceCorpusId": "word_en_09185",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.43,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.36,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09185."
+    },
+    {
+      "lemma": "dispicable",
+      "sourceCorpusId": "word_en_04702",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.42,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04702."
+    },
+    {
+      "lemma": "expell",
+      "sourceCorpusId": "word_en_05484",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.42,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05484."
+    },
+    {
+      "lemma": "indite",
+      "sourceCorpusId": "word_en_07144",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.42,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.34,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07144."
+    },
+    {
+      "lemma": "sponser",
+      "sourceCorpusId": "word_en_09326",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.41,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.32,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09326."
+    },
+    {
+      "lemma": "threatning",
+      "sourceCorpusId": "word_en_09628",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.41,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.32,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09628."
+    },
+    {
+      "lemma": "omlette",
+      "sourceCorpusId": "word_en_08329",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.4,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.3,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08329."
+    },
+    {
+      "lemma": "maneuverability",
+      "sourceCorpusId": "word_en_10689",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.64,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.28,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10689."
+    },
+    {
+      "lemma": "copywrite",
+      "sourceCorpusId": "word_en_03924",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.39,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.28,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03924."
+    },
+    {
+      "lemma": "referal",
+      "sourceCorpusId": "word_en_08917",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.39,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.28,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08917."
+    },
+    {
+      "lemma": "belives",
+      "sourceCorpusId": "word_en_02393",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.38,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.26,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02393."
+    },
+    {
+      "lemma": "percieve",
+      "sourceCorpusId": "word_en_08465",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.38,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.26,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08465."
+    },
+    {
+      "lemma": "criterias",
+      "sourceCorpusId": "word_en_04082",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04082."
+    },
+    {
+      "lemma": "forbad",
+      "sourceCorpusId": "word_en_05882",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05882."
+    },
+    {
+      "lemma": "geneology",
+      "sourceCorpusId": "word_en_06148",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06148."
+    },
+    {
+      "lemma": "insistance",
+      "sourceCorpusId": "word_en_07240",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07240."
+    },
+    {
+      "lemma": "morrisette",
+      "sourceCorpusId": "word_en_08154",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08154."
+    },
+    {
+      "lemma": "procede",
+      "sourceCorpusId": "word_en_08714",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08714."
+    },
+    {
+      "lemma": "hypocrit",
+      "sourceCorpusId": "word_en_06932",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.36,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06932."
+    },
+    {
+      "lemma": "shamen",
+      "sourceCorpusId": "word_en_09217",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.36,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.22,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09217."
+    },
+    {
+      "lemma": "allthough",
+      "sourceCorpusId": "word_en_01558",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01558."
+    },
+    {
+      "lemma": "negociate",
+      "sourceCorpusId": "word_en_08208",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08208."
+    },
+    {
+      "lemma": "nonsence",
+      "sourceCorpusId": "word_en_08234",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08234."
+    },
+    {
+      "lemma": "proceded",
+      "sourceCorpusId": "word_en_08715",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08715."
+    },
+    {
+      "lemma": "processer",
+      "sourceCorpusId": "word_en_08722",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08722."
+    },
+    {
+      "lemma": "oftenly",
+      "sourceCorpusId": "word_en_08323",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.34,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.18,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08323."
+    },
+    {
+      "lemma": "rythmic",
+      "sourceCorpusId": "word_en_09122",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.34,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.18,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09122."
+    },
+    {
+      "lemma": "temperment",
+      "sourceCorpusId": "word_en_09579",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.34,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.18,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09579."
+    },
+    {
+      "lemma": "paide",
+      "sourceCorpusId": "word_en_08391",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.33,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.16,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08391."
+    },
+    {
+      "lemma": "wholy",
+      "sourceCorpusId": "word_en_09936",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.32,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.14,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09936."
+    },
+    {
+      "lemma": "hippopotamus",
+      "sourceCorpusId": "word_en_10540",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.56,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.12,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10540."
+    },
+    {
+      "lemma": "calander",
+      "sourceCorpusId": "word_en_02874",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.31,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.12,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02874."
+    },
+    {
+      "lemma": "idealogy",
+      "sourceCorpusId": "word_en_06950",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.31,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.12,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06950."
+    },
+    {
+      "lemma": "pasttime",
+      "sourceCorpusId": "word_en_08432",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.31,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.12,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08432."
+    },
+    {
+      "lemma": "stateman",
+      "sourceCorpusId": "word_en_09346",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.31,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.12,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09346."
+    },
+    {
+      "lemma": "casette",
+      "sourceCorpusId": "word_en_03018",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.3,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03018."
+    },
+    {
+      "lemma": "plagarism",
+      "sourceCorpusId": "word_en_08539",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.3,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08539."
+    },
+    {
+      "lemma": "troups",
+      "sourceCorpusId": "word_en_09708",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.3,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09708."
+    },
+    {
+      "lemma": "ministery",
+      "sourceCorpusId": "word_en_08099",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.29,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.08,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08099."
+    },
+    {
+      "lemma": "fleed",
+      "sourceCorpusId": "word_en_05808",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.28,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05808."
+    },
+    {
+      "lemma": "knive",
+      "sourceCorpusId": "word_en_07720",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.28,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07720."
+    },
+    {
+      "lemma": "noteable",
+      "sourceCorpusId": "word_en_08240",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.28,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08240."
+    },
+    {
+      "lemma": "tahn",
+      "sourceCorpusId": "word_en_09550",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.28,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.06,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09550."
+    },
+    {
+      "lemma": "caligraphy",
+      "sourceCorpusId": "word_en_02881",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.27,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02881."
+    },
+    {
+      "lemma": "triology",
+      "sourceCorpusId": "word_en_09705",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.27,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.04,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09705."
+    },
+    {
+      "lemma": "reknown",
+      "sourceCorpusId": "word_en_08953",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.26,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.02,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08953."
+    },
+    {
+      "lemma": "fouth",
+      "sourceCorpusId": "word_en_05958",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.25,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05958."
+    },
+    {
+      "lemma": "prefering",
+      "sourceCorpusId": "word_en_08644",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.25,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08644."
+    },
+    {
+      "lemma": "sheat",
+      "sourceCorpusId": "word_en_09218",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.25,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09218."
+    },
+    {
+      "lemma": "perturbations",
+      "sourceCorpusId": "word_en_10917",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.49,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10917."
+    },
+    {
+      "lemma": "resevoir",
+      "sourceCorpusId": "word_en_09038",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.24,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09038."
+    },
+    {
+      "lemma": "rigourous",
+      "sourceCorpusId": "word_en_09103",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.24,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.98,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09103."
+    },
+    {
+      "lemma": "valueable",
+      "sourceCorpusId": "word_en_09843",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.23,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.96,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09843."
+    },
+    {
+      "lemma": "infinit",
+      "sourceCorpusId": "word_en_07170",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.22,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07170."
+    },
+    {
+      "lemma": "openess",
+      "sourceCorpusId": "word_en_08340",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.22,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08340."
+    },
+    {
+      "lemma": "reknowned",
+      "sourceCorpusId": "word_en_08954",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.22,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08954."
+    },
+    {
+      "lemma": "reversable",
+      "sourceCorpusId": "word_en_09090",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.22,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.94,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09090."
+    },
+    {
+      "lemma": "marmelade",
+      "sourceCorpusId": "word_en_08026",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.21,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08026."
+    },
+    {
+      "lemma": "persued",
+      "sourceCorpusId": "word_en_08501",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.21,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.92,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08501."
+    },
+    {
+      "lemma": "restaurateurs",
+      "sourceCorpusId": "word_en_11168",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.45,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11168."
+    },
+    {
+      "lemma": "arised",
+      "sourceCorpusId": "word_en_01883",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01883."
+    },
+    {
+      "lemma": "ficticious",
+      "sourceCorpusId": "word_en_05713",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05713."
+    },
+    {
+      "lemma": "upcomming",
+      "sourceCorpusId": "word_en_09826",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.2,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09826."
+    },
+    {
+      "lemma": "slaughterhouses",
+      "sourceCorpusId": "word_en_11253",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.44,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11253."
+    },
+    {
+      "lemma": "antartic",
+      "sourceCorpusId": "word_en_01708",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01708."
+    },
+    {
+      "lemma": "ingenius",
+      "sourceCorpusId": "word_en_07183",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07183."
+    },
+    {
+      "lemma": "residental",
+      "sourceCorpusId": "word_en_09039",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09039."
+    },
+    {
+      "lemma": "weild",
+      "sourceCorpusId": "word_en_09919",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.19,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.88,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09919."
+    },
+    {
+      "lemma": "admissable",
+      "sourceCorpusId": "word_en_01338",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.18,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01338."
+    },
+    {
+      "lemma": "midwifes",
+      "sourceCorpusId": "word_en_08078",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.18,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08078."
+    },
+    {
+      "lemma": "reenforced",
+      "sourceCorpusId": "word_en_08914",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.18,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08914."
+    },
+    {
+      "lemma": "witheld",
+      "sourceCorpusId": "word_en_09951",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.18,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.86,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09951."
+    },
+    {
+      "lemma": "hypocrits",
+      "sourceCorpusId": "word_en_06934",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.17,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06934."
+    },
+    {
+      "lemma": "impedence",
+      "sourceCorpusId": "word_en_07029",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.17,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07029."
+    },
+    {
+      "lemma": "nestin",
+      "sourceCorpusId": "word_en_08222",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.17,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.84,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08222."
+    },
+    {
+      "lemma": "extraterrestrials",
+      "sourceCorpusId": "word_en_10455",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.4,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.8,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_10455."
+    },
+    {
+      "lemma": "varient",
+      "sourceCorpusId": "word_en_09845",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.15,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.8,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09845."
+    },
+    {
+      "lemma": "beleagured",
+      "sourceCorpusId": "word_en_02379",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02379."
+    },
+    {
+      "lemma": "diaster",
+      "sourceCorpusId": "word_en_04558",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04558."
+    },
+    {
+      "lemma": "inbalance",
+      "sourceCorpusId": "word_en_07065",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07065."
+    },
+    {
+      "lemma": "nineth",
+      "sourceCorpusId": "word_en_08227",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08227."
+    },
+    {
+      "lemma": "prooved",
+      "sourceCorpusId": "word_en_08759",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08759."
+    },
+    {
+      "lemma": "shrinked",
+      "sourceCorpusId": "word_en_09230",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09230."
+    },
+    {
+      "lemma": "translater",
+      "sourceCorpusId": "word_en_09697",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.14,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09697."
+    },
+    {
+      "lemma": "convertion",
+      "sourceCorpusId": "word_en_03889",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03889."
+    },
+    {
+      "lemma": "journies",
+      "sourceCorpusId": "word_en_07572",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07572."
+    },
+    {
+      "lemma": "planation",
+      "sourceCorpusId": "word_en_08540",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08540."
+    },
+    {
+      "lemma": "prevelant",
+      "sourceCorpusId": "word_en_08674",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08674."
+    },
+    {
+      "lemma": "surprizing",
+      "sourceCorpusId": "word_en_09505",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09505."
+    },
+    {
+      "lemma": "tormenters",
+      "sourceCorpusId": "word_en_09665",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.76,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09665."
+    },
+    {
+      "lemma": "accomodation",
+      "sourceCorpusId": "word_en_01202",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.37,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01202."
+    },
+    {
+      "lemma": "yuo",
+      "sourceCorpusId": "word_en_09998",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.87,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09998."
+    },
+    {
+      "lemma": "perogative",
+      "sourceCorpusId": "word_en_08485",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.12,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08485."
+    },
+    {
+      "lemma": "surviver",
+      "sourceCorpusId": "word_en_09519",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.12,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09519."
+    },
+    {
+      "lemma": "venemous",
+      "sourceCorpusId": "word_en_09861",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.12,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09861."
+    },
+    {
+      "lemma": "formost",
+      "sourceCorpusId": "word_en_05927",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.11,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05927."
+    },
+    {
+      "lemma": "sorceror",
+      "sourceCorpusId": "word_en_09294",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.11,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09294."
+    },
+    {
+      "lemma": "studdy",
+      "sourceCorpusId": "word_en_09392",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.11,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.72,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09392."
+    },
+    {
+      "lemma": "independant",
+      "sourceCorpusId": "word_en_07120",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.35,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07120."
+    },
+    {
+      "lemma": "primative",
+      "sourceCorpusId": "word_en_08681",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.1,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08681."
+    },
+    {
+      "lemma": "substract",
+      "sourceCorpusId": "word_en_09412",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.1,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09412."
+    },
+    {
+      "lemma": "symetrical",
+      "sourceCorpusId": "word_en_09531",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.1,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.7,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09531."
+    },
+    {
+      "lemma": "amoungst",
+      "sourceCorpusId": "word_en_01627",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01627."
+    },
+    {
+      "lemma": "benificial",
+      "sourceCorpusId": "word_en_02418",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02418."
+    },
+    {
+      "lemma": "binominal",
+      "sourceCorpusId": "word_en_02476",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02476."
+    },
+    {
+      "lemma": "conneticut",
+      "sourceCorpusId": "word_en_03733",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03733."
+    },
+    {
+      "lemma": "conquerers",
+      "sourceCorpusId": "word_en_03741",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03741."
+    },
+    {
+      "lemma": "morgage",
+      "sourceCorpusId": "word_en_08152",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08152."
+    },
+    {
+      "lemma": "passerbys",
+      "sourceCorpusId": "word_en_08431",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08431."
+    },
+    {
+      "lemma": "relized",
+      "sourceCorpusId": "word_en_08974",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.68,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08974."
+    },
+    {
+      "lemma": "europian",
+      "sourceCorpusId": "word_en_05334",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.08,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05334."
+    },
+    {
+      "lemma": "marketting",
+      "sourceCorpusId": "word_en_08025",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.08,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08025."
+    },
+    {
+      "lemma": "procedes",
+      "sourceCorpusId": "word_en_08716",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.08,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.66,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08716."
+    },
+    {
+      "lemma": "camoflage",
+      "sourceCorpusId": "word_en_02902",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_02902."
+    },
+    {
+      "lemma": "excells",
+      "sourceCorpusId": "word_en_05405",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.64,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05405."
+    },
+    {
+      "lemma": "spects",
+      "sourceCorpusId": "word_en_09320",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.06,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.62,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09320."
+    },
+    {
+      "lemma": "annointing",
+      "sourceCorpusId": "word_en_01682",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01682."
+    },
+    {
+      "lemma": "aquitted",
+      "sourceCorpusId": "word_en_01829",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01829."
+    },
+    {
+      "lemma": "inmigrants",
+      "sourceCorpusId": "word_en_07212",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07212."
+    },
+    {
+      "lemma": "terrestial",
+      "sourceCorpusId": "word_en_09589",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.6,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09589."
+    },
+    {
+      "lemma": "albiet",
+      "sourceCorpusId": "word_en_01489",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.04,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.58,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01489."
+    },
+    {
+      "lemma": "flourine",
+      "sourceCorpusId": "word_en_05834",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.04,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.58,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05834."
+    },
+    {
+      "lemma": "alotted",
+      "sourceCorpusId": "word_en_01571",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.03,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01571."
+    },
+    {
+      "lemma": "fictious",
+      "sourceCorpusId": "word_en_05715",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.03,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05715."
+    },
+    {
+      "lemma": "surreptitious",
+      "sourceCorpusId": "word_en_11364",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.28,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.56,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_11364."
+    },
+    {
+      "lemma": "aquaduct",
+      "sourceCorpusId": "word_en_01821",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.02,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.54,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01821."
+    },
+    {
+      "lemma": "explaning",
+      "sourceCorpusId": "word_en_05508",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.02,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.54,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_05508."
+    },
+    {
+      "lemma": "wensday",
+      "sourceCorpusId": "word_en_09922",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.02,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.54,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_09922."
+    },
+    {
+      "lemma": "appealling",
+      "sourceCorpusId": "word_en_01765",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.01,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_01765."
+    },
+    {
+      "lemma": "originall",
+      "sourceCorpusId": "word_en_08372",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.01,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.52,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_08372."
+    },
+    {
+      "lemma": "gya",
+      "sourceCorpusId": "word_en_06453",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.5,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_06453."
+    },
+    {
+      "lemma": "developement",
+      "sourceCorpusId": "word_en_04522",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.15,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.3,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_04522."
+    },
+    {
+      "lemma": "irregardless",
+      "sourceCorpusId": "word_en_07410",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 2.05,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 12.1,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07410."
+    },
+    {
+      "lemma": "independance",
+      "sourceCorpusId": "word_en_07119",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 11.9,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07119."
+    },
+    {
+      "lemma": "causalities",
+      "sourceCorpusId": "word_en_03075",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.89,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 11.78,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_03075."
+    },
+    {
+      "lemma": "kindergarden",
+      "sourceCorpusId": "word_en_07688",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.87,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 11.74,
+      "notes": "Source grade 6; selected for grade-6 introduced spelling review from word_en_07688."
+    }
+  ]
+}
