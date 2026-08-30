@@ -93,7 +93,7 @@ describe('offline progress persistence', () => {
     expect(summary.recommendedTopics).toHaveLength(0);
   });
 
-  it('summarizes practised evidence into topic-level learning signals', () => {
+  it('summarizes practised evidence into topic-level learning signals and fills next focus with new breadth', () => {
     const snapshot: ProgressSnapshot = {
       version: 1,
       attempts: [],
@@ -116,10 +116,10 @@ describe('offline progress persistence', () => {
     expect(animals).toMatchObject({ practicedKnowledge: 3, strongKnowledge: 3, accuracy: 1, status: 'strong' });
     expect(plants).toMatchObject({ practicedKnowledge: 1, strongKnowledge: 0, accuracy: 0.5, status: 'needs_practice' });
     expect(human).toMatchObject({ practicedKnowledge: 0, strongKnowledge: 0, accuracy: null, status: 'not_started' });
-    expect(summary.recommendedTopics.map((topic) => topic.id)).toEqual(['plants']);
+    expect(summary.recommendedTopics.map((topic) => topic.id)).toEqual(['plants', 'human', 'food']);
   });
 
-  it('recognizes the broadened topic prefixes and prioritizes the weakest practised topic', () => {
+  it('prioritizes weak and growing topics before suggesting an unpractised topic', () => {
     const snapshot: ProgressSnapshot = {
       version: 1,
       attempts: [],
@@ -142,6 +142,6 @@ describe('offline progress persistence', () => {
     expect(safety?.status).toBe('needs_practice');
     expect(reasoning?.status).toBe('growing');
     expect(universe?.status).toBe('strong');
-    expect(summary.recommendedTopics.map((topic) => topic.id)).toEqual(['safety', 'reasoning']);
+    expect(summary.recommendedTopics.map((topic) => topic.id)).toEqual(['safety', 'reasoning', 'animals']);
   });
 });
