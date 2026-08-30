@@ -1,0 +1,49 @@
+name: Sync Primary Vocabulary Corpus
+
+on:
+  push:
+    branches:
+      - content/primary-vocabulary-corpus
+
+permissions:
+  contents: write
+
+jobs:
+  sync-and-check:
+    name: Sync open corpus and run full check
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Sync compact grade corpus
+        run: node scripts/lexicon/sync-primary-grade-corpus.mjs
+
+      - name: Run full existing validation
+        run: npm run check
+
+      - name: Commit corpus snapshot if changed
+        shell: bash
+        run: |
+          git add content/lexicon/open/primary-grade-corpus.json
+          if git diff --cached --quiet; then
+            echo "Corpus snapshot already current."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: sync open primary vocabulary corpus"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
