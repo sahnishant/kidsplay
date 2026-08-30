@@ -4,6 +4,16 @@ dist/
 .DS_Store
 *.log
 
+# Local secrets / signing material
+.env
+.env.*
+!.env.example
+*.jks
+*.keystore
+android/key.properties
+*.apk
+*.aab
+
 # Build-time generated learning content
 content/questions/__generated-*.json
 content/authoring/crosswords/__generated-*.json
