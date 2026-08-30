@@ -40,6 +40,56 @@
     ]
   },
   {
+    "id": "scene.air.windmill",
+    "theme": "grass",
+    "ariaLabel": "Moving air blows toward a windmill whose blades are turning.",
+    "entities": [
+      { "id": "wind", "kind": "icon", "value": "wind", "label": "moving air", "x": 25, "y": 37, "motion": "float" },
+      { "id": "windmill", "kind": "icon", "value": "windmill", "label": "turning windmill", "x": 67, "y": 54, "motion": "wiggle" },
+      { "id": "wind-label", "kind": "text", "value": "WIND", "label": "wind", "x": 39, "y": 78, "motion": "pulse" }
+    ]
+  },
+  {
+    "id": "scene.air.kite-wind",
+    "theme": "grass",
+    "ariaLabel": "A kite moving in the air while wind blows across the sky.",
+    "entities": [
+      { "id": "wind", "kind": "icon", "value": "wind", "label": "wind", "x": 24, "y": 34, "motion": "float" },
+      { "id": "kite", "kind": "icon", "value": "kite", "label": "kite", "x": 68, "y": 40, "motion": "wiggle" },
+      { "id": "moving-air", "kind": "text", "value": "moving air", "label": "moving air", "x": 45, "y": 78, "motion": "float" }
+    ]
+  },
+  {
+    "id": "scene.air.sailboat-wind",
+    "theme": "ocean",
+    "ariaLabel": "Wind pushes a sailboat across water.",
+    "entities": [
+      { "id": "wind", "kind": "icon", "value": "wind", "label": "wind", "x": 24, "y": 29, "motion": "float" },
+      { "id": "boat", "kind": "icon", "value": "sailboat", "label": "sailboat", "x": 63, "y": 49, "motion": "float" },
+      { "id": "wave", "kind": "icon", "value": "wave", "label": "water", "x": 58, "y": 76, "motion": "float" }
+    ]
+  },
+  {
+    "id": "scene.plants.air-fresh",
+    "theme": "grass",
+    "ariaLabel": "A green plant in sunlight with gentle air moving past its leaves.",
+    "entities": [
+      { "id": "plant", "kind": "icon", "value": "plant", "label": "green plant", "x": 48, "y": 58, "motion": "wiggle" },
+      { "id": "sun", "kind": "icon", "value": "sun", "label": "sun", "x": 78, "y": 24, "motion": "pulse" },
+      { "id": "wind", "kind": "icon", "value": "wind", "label": "moving air", "x": 20, "y": 35, "motion": "float" }
+    ]
+  },
+  {
+    "id": "scene.water.sea-salty",
+    "theme": "ocean",
+    "ariaLabel": "Ocean waves with a salt label, showing that sea water is salty.",
+    "entities": [
+      { "id": "wave", "kind": "icon", "value": "wave", "label": "sea water", "x": 45, "y": 64, "motion": "float" },
+      { "id": "salt", "kind": "text", "value": "SALT", "label": "salt", "x": 69, "y": 29, "motion": "pulse" },
+      { "id": "sea", "kind": "text", "value": "SEA", "label": "sea", "x": 25, "y": 27, "motion": "float" }
+    ]
+  },
+  {
     "id": "scene.rocks.pumice-water",
     "theme": "ocean",
     "ariaLabel": "A hole-filled piece of pumice shown at the surface of water.",
