@@ -1,8 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
+import type { EvaluationResult } from '../src/contracts/runtime';
 import { getFreeAnimalsQuestions } from '../src/content';
 import { getEngineComponent } from '../src/runtime/engineRegistry';
-import { advanceSession, createSessionState, replaySession, submitResponse } from '../src/runtime/session';
+import {
+  advanceSession,
+  createSessionState,
+  replaySession,
+  submitResponse,
+  summarizeSectionResults
+} from '../src/runtime/session';
 
 function testQuestion(): SingleChoiceQuestion {
   return {
@@ -29,6 +36,17 @@ function testQuestion(): SingleChoiceQuestion {
       ]
     },
     solution: { type: 'exact_option', correctOptionIds: ['dog'] }
+  };
+}
+
+function result(correct: boolean): EvaluationResult {
+  return {
+    correct,
+    score: correct ? 1 : 0,
+    maxScore: 1,
+    feedbackKey: correct ? 'correct' : 'incorrect',
+    masteryEvidence: [],
+    knowledgeEvidence: []
   };
 }
 
@@ -64,5 +82,22 @@ describe('session state and engine hosting', () => {
 
     expect(interactionTypes.size).toBe(9);
     for (const question of questions) expect(() => getEngineComponent(question)).not.toThrow();
+  });
+
+  it('summarizes structured mock performance without mixing section boundaries', () => {
+    const summary = summarizeSectionResults(
+      [
+        { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 2 },
+        { id: 'science', title: 'Science', startIndex: 2, count: 3 },
+        { id: 'achievers', title: 'Achievers', startIndex: 5, count: 1 }
+      ],
+      [result(true), result(false), result(true), result(true), result(false), result(true)]
+    );
+
+    expect(summary).toEqual([
+      { id: 'logical_reasoning', title: 'Logical Reasoning', correct: 1, answered: 2, total: 2, accuracy: 0.5 },
+      { id: 'science', title: 'Science', correct: 2, answered: 3, total: 3, accuracy: 2 / 3 },
+      { id: 'achievers', title: 'Achievers', correct: 1, answered: 1, total: 1, accuracy: 1 }
+    ]);
   });
 });
