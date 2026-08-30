@@ -116,6 +116,14 @@ function isAvatarId(value: unknown): value is AvatarId {
   return value === 'fox' || value === 'owl' || value === 'panda' || value === 'tiger';
 }
 
+function isTimestamp(value: unknown): value is string {
+  return typeof value === 'string' && value.length > 0 && Number.isFinite(Date.parse(value));
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return Array.isArray(value) && value.every((item) => typeof item === 'string' && item.length > 0);
+}
+
 export function loadChildSettings(): ChildSettings {
   const value = readJson(CHILD_KEY);
   if (!value || typeof value !== 'object') return { ...DEFAULT_CHILD };
@@ -148,19 +156,45 @@ function emptyProgress(): ProgressSnapshot {
 function isMasteryCounter(value: unknown): value is MasteryCounter {
   if (!value || typeof value !== 'object') return false;
   const item = value as Partial<MasteryCounter>;
-  return Number.isFinite(item.attempts)
-    && Number.isFinite(item.correct)
+  return Number.isInteger(item.attempts)
+    && Number(item.attempts) >= 0
+    && Number.isInteger(item.correct)
+    && Number(item.correct) >= 0
+    && Number(item.correct) <= Number(item.attempts)
     && Number.isFinite(item.totalWeight)
+    && Number(item.totalWeight) >= 0
     && Number.isFinite(item.correctWeight)
+    && Number(item.correctWeight) >= 0
+    && Number(item.correctWeight) <= Number(item.totalWeight)
     && (item.lastResult === 'correct' || item.lastResult === 'incorrect')
-    && typeof item.lastSeenAt === 'string';
+    && isTimestamp(item.lastSeenAt);
+}
+
+function isStoredAttempt(value: unknown): value is StoredAttempt {
+  if (!value || typeof value !== 'object') return false;
+  const item = value as Partial<StoredAttempt>;
+  return typeof item.sessionId === 'string'
+    && item.sessionId.length > 0
+    && typeof item.questionId === 'string'
+    && item.questionId.length > 0
+    && isTimestamp(item.submittedAt)
+    && Number.isFinite(item.durationMs)
+    && Number(item.durationMs) >= 0
+    && typeof item.correct === 'boolean'
+    && Number.isFinite(item.score)
+    && Number(item.score) >= 0
+    && Number.isFinite(item.maxScore)
+    && Number(item.maxScore) >= 0
+    && Number(item.score) <= Number(item.maxScore)
+    && isStringArray(item.knowledgeRefs)
+    && isStringArray(item.conceptIds);
 }
 
 function sanitizeCounters(value: unknown): Record<string, MasteryCounter> {
   if (!value || typeof value !== 'object') return {};
   const counters: Record<string, MasteryCounter> = {};
   for (const [id, counter] of Object.entries(value as Record<string, unknown>)) {
-    if (isMasteryCounter(counter)) counters[id] = counter;
+    if (id && isMasteryCounter(counter)) counters[id] = counter;
   }
   return counters;
 }
@@ -172,11 +206,11 @@ export function loadProgress(): ProgressSnapshot {
   return {
     version: 1,
     attempts: Array.isArray(candidate.attempts)
-      ? (candidate.attempts as StoredAttempt[]).slice(-MAX_STORED_ATTEMPTS)
+      ? candidate.attempts.filter(isStoredAttempt).slice(-MAX_STORED_ATTEMPTS)
       : [],
     knowledge: sanitizeCounters(candidate.knowledge),
     concepts: sanitizeCounters(candidate.concepts),
-    updatedAt: typeof candidate.updatedAt === 'string' ? candidate.updatedAt : null
+    updatedAt: isTimestamp(candidate.updatedAt) ? candidate.updatedAt : null
   };
 }
 
