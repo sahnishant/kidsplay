@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest';
+import sceneJson from '../content/scenes/animals.json';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import {
+  getReferencedPresentationSceneIds,
   resolveDashboardSceneId,
   resolveQuestionSceneId
 } from '../src/presentation/questionScene';
@@ -89,5 +91,13 @@ describe('lightweight question presentation', () => {
     expect(resolveDashboardSceneId('animals')).toBe('scene.dog.happy-bone');
     expect(resolveDashboardSceneId('air')).toBe('scene.air.windmill');
     expect(resolveDashboardSceneId('human')).toBeNull();
+  });
+
+  it('keeps every inferred/dashboard mapping attached to a registered scene definition', () => {
+    const registeredSceneIds = new Set(sceneJson.map((scene) => scene.id));
+    expect(getReferencedPresentationSceneIds().length).toBeGreaterThan(0);
+    for (const sceneId of getReferencedPresentationSceneIds()) {
+      expect(registeredSceneIds.has(sceneId), `missing scene definition for ${sceneId}`).toBe(true);
+    }
   });
 });
