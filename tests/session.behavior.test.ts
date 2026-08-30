@@ -5,8 +5,10 @@ import { getFreeAnimalsQuestions } from '../src/content';
 import { getEngineComponent } from '../src/runtime/engineRegistry';
 import {
   advanceSession,
+  createSessionCheckpoint,
   createSessionState,
   replaySession,
+  restoreSessionState,
   submitResponse,
   summarizeSectionResults
 } from '../src/runtime/session';
@@ -74,6 +76,42 @@ describe('session state and engine hosting', () => {
     expect(state.index).toBe(0);
     expect(state.responses).toHaveLength(0);
     expect(state.results).toHaveLength(0);
+  });
+
+  it('restores submitted feedback from a compact checkpoint without trusting stored scores', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+    submitResponse(state, question, { selectedOptionIds: ['dog'] });
+
+    const checkpoint = createSessionCheckpoint(state);
+    const restored = restoreSessionState([question], checkpoint);
+
+    expect(restored.sessionId).toBe(state.sessionId);
+    expect(restored.index).toBe(0);
+    expect(restored.submitted).toBe(true);
+    expect(restored.responses).toEqual(state.responses);
+    expect(restored.results).toHaveLength(1);
+    expect(restored.results[0].correct).toBe(true);
+    expect(restored.lastResult?.correct).toBe(true);
+    expect(restored.startedAtEpoch).toBeGreaterThan(0);
+  });
+
+  it('rejects checkpoints whose position or response contract does not match the question set', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+    submitResponse(state, question, { selectedOptionIds: ['dog'] });
+    const checkpoint = createSessionCheckpoint(state);
+
+    expect(() => restoreSessionState([question], {
+      ...checkpoint,
+      index: 1,
+      submitted: true
+    })).toThrow(/completed session checkpoint/i);
+
+    expect(() => restoreSessionState([question], {
+      ...checkpoint,
+      responses: [{ ...checkpoint.responses[0], questionRevision: 999 }]
+    })).toThrow(/does not match the current question contract/i);
   });
 
   it('keeps every shipped interactive question connected to a runtime engine', () => {
