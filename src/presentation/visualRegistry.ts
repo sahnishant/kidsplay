@@ -1,3 +1,5 @@
+import { resolveAssetRefForVisualRef } from './assetRegistry';
+
 export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon' | 'nature-space-icon' | 'everyday-icon' | 'process-icon' | 'animal-expansion-icon' | 'concept-icon' | 'curriculum-icon' | 'learning-icon' | 'property-icon';
 export type VisualMotion =
   | 'idle'
@@ -26,6 +28,7 @@ export interface VisualDefinition {
   label: string;
   motion: VisualMotion;
   aliases: string[];
+  assetRef?: string;
 }
 
 export interface PresentableVisualItem {
@@ -44,9 +47,12 @@ const visualModules = import.meta.glob('../../content/visuals/*.json', {
   import: 'default'
 }) as Record<string, unknown>;
 
-const definitions = Object.values(visualModules).flatMap((value) =>
-  Array.isArray(value) ? (value as VisualDefinition[]) : []
-);
+const definitions = Object.values(visualModules)
+  .flatMap((value) => (Array.isArray(value) ? (value as VisualDefinition[]) : []))
+  .map((definition) => {
+    const assetRef = definition.assetRef ?? resolveAssetRefForVisualRef(definition.id);
+    return assetRef ? { ...definition, assetRef } : definition;
+  });
 const visualById = new Map(definitions.map((definition) => [definition.id, definition]));
 const visualRefByAlias = new Map<string, string>();
 const visualRefBySemanticKey = new Map<string, string>();
