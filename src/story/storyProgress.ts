@@ -1,4 +1,4 @@
-import type { StoryMission } from './storyTypes';
+import type { StoryLocation, StoryMission } from './storyTypes';
 
 export interface StoryMissionProgress {
   missionId: string;
@@ -122,6 +122,19 @@ export function recordStoryMissionCompletion(
 
 export function isStoryMissionComplete(snapshot: StoryProgressSnapshot, missionId: string): boolean {
   return Boolean(snapshot.completedMissions[missionId]);
+}
+
+/** Story-map unlocks depend only on stable story mission ids, never curriculum/mastery state. */
+export function isStoryLocationUnlocked(snapshot: StoryProgressSnapshot, location: StoryLocation): boolean {
+  return location.unlock.type === 'start'
+    || isStoryMissionComplete(snapshot, location.unlock.missionRef);
+}
+
+export function storyUnlockedLocationCount(
+  snapshot: StoryProgressSnapshot,
+  locations: StoryLocation[]
+): number {
+  return locations.filter((location) => isStoryLocationUnlocked(snapshot, location)).length;
 }
 
 export function storyStarTotal(snapshot: StoryProgressSnapshot): number {
