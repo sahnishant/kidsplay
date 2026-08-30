@@ -27,6 +27,7 @@ const allowedEvidenceTypes = new Set(['official_scope', 'assessment_format', 'di
 const rowEvidenceTypes = new Set(['direct_fact', 'direct_skill']);
 const allowedDecisions = new Set(['keep', 'remove', 'refit']);
 const allowedTemporalBases = new Set(['current_year', 'historical_class2']);
+const allowedFitBases = new Set(['editorial_retained', 'source_supported']);
 const officialSourceTypes = new Set(['official_syllabus', 'official_assessment', 'official_reference']);
 
 for (const fileName of reviewFiles) {
@@ -85,6 +86,12 @@ for (const fileName of reviewFiles) {
     if (!allowedTemporalBases.has(evidence.temporalBasis)) {
       errors.push(`${evidencePrefix}: temporalBasis must be current_year or historical_class2`);
     }
+    if ((evidence.decision === 'keep' || evidence.decision === 'refit') && !allowedFitBases.has(evidence.fitBasis)) {
+      errors.push(`${evidencePrefix}: fitBasis must be editorial_retained or source_supported`);
+    }
+    if (evidence.decision === 'remove' && evidence.fitBasis !== undefined) {
+      errors.push(`${evidencePrefix}: remove evidence must not declare fitBasis`);
+    }
     if (!hasText(evidence.locator)) errors.push(`${evidencePrefix}: locator is required`);
     if (!hasText(evidence.note)) errors.push(`${evidencePrefix}: note is required`);
 
@@ -127,5 +134,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Alignment review OK: ${reviewFiles.length} review file(s) with validated official evidence references and temporal basis.`);
+  console.log(`Alignment review OK: ${reviewFiles.length} review file(s) with validated official evidence references, temporal basis and fit basis.`);
 }
