@@ -29,27 +29,110 @@
       "sourceRef": "sof.iso.class2.sample-paper.2026-27",
       "locator": "PDF page 3, question 10, option A concept",
       "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
-      "note": "The official sample directly uses the concept that Earth's movement causes day and night."
+      "note": "The official 2026-27 sample directly uses the concept that Earth's movement causes day and night."
     },
     {
       "rowId": "kr.reasoning.ranking.position.between",
       "sourceRef": "sof.iso.class2.sample-paper.2026-27",
       "locator": "PDF page 1, question 2 queue-order clues; syllabus Section 1 Ranking Test",
       "evidenceType": "direct_skill",
+      "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
-      "note": "The exact names differ because the canonical row is an authored instance, but the same position/ranking skill is directly assessed."
+      "note": "The exact names differ because the canonical row is an authored instance, but the same position/ranking skill is directly assessed in the official 2026-27 sample."
     },
     {
       "rowId": "kr.air.windmill.turned-by.wind",
       "sourceRef": "sof.iso.class2.sample-paper.2026-27",
       "locator": "PDF page 2, question 6, windmill option C; answer key D (None of these)",
       "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
       "decision": "keep",
       "fit": "core",
-      "note": "The official sample treats the windmill as one of the pictured objects that requires moving air, directly supporting the canonical wind-turns-windmill fact."
+      "note": "The official 2026-27 sample treats the windmill as one of the pictured objects that requires moving air, directly supporting the canonical wind-turns-windmill fact."
+    },
+    {
+      "rowId": "kr.reasoning.ranking.height.shortest",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 1, question 2 and answer key: taller-than chain asks for the smallest person",
+      "evidenceType": "direct_skill",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "stretch",
+      "note": "Historical official Class 2 SOF assessment directly exercises the same transitive height-ranking skill. Current 2026-27 syllabus separately retains Ranking Test in Logical Reasoning; this anchor does not imply the same item recurs this year."
+    },
+    {
+      "rowId": "kr.human.skin.sense.touch",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 1, question 4 and answer key: cold/rough/hard object is identified using Skin",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "stretch",
+      "note": "Historical official Class 2 SOF assessment directly uses skin as the sense organ for tactile properties. Current 2026-27 scope separately retains Human Body."
+    },
+    {
+      "rowId": "kr.family.cousin.relationship.aunt-uncle-child",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 1, question 5 and answer key: father's nephew or niece is identified as Cousin",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "core",
+      "note": "Historical official Class 2 SOF assessment directly tests the cousin relationship. Current 2026-27 scope separately retains Family and Festivals."
+    },
+    {
+      "rowId": "kr.clothing.wool.weather.winter",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 1, question 6 and answer key: woollen clothes are chosen in winter to keep warm",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "review",
+      "note": "Historical official Class 2 SOF assessment directly supports the woollen-clothes/winter relationship. Current 2026-27 scope separately retains Housing and Clothing."
+    },
+    {
+      "rowId": "kr.plants.cotton.use.fibre",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 2, question 10 and answer key: Cotton is the plant that yields fibre",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "core",
+      "note": "Historical official Class 2 SOF assessment directly supports cotton as a fibre-yielding plant. Current 2026-27 scope separately retains Plants."
+    },
+    {
+      "rowId": "kr.universe.mercury.position.closest-sun",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 2, question 13 and answer key: correct increasing-distance order begins Mercury, Venus, Earth, Mars",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "core",
+      "note": "Historical official Class 2 SOF assessment directly places Mercury nearest the Sun among the listed planets. Current 2026-27 scope separately retains Earth and Universe."
+    },
+    {
+      "rowId": "kr.universe.earth.position.third",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 2, question 13 and answer key: correct increasing-distance order is Mercury, Venus, Earth, Mars",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "core",
+      "note": "Historical official Class 2 SOF assessment directly places Earth third from the Sun in the ordered sequence. Current 2026-27 scope separately retains Earth and Universe."
+    },
+    {
+      "rowId": "kr.family.family-tree.purpose.relationships",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 2, question 14 and answer key: a family-tree diagram is used to infer a nephew relationship",
+      "evidenceType": "direct_skill",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "core",
+      "note": "Historical official Class 2 SOF assessment directly uses a family tree to infer relationships, supporting the canonical family-tree interpretation skill. Current 2026-27 scope separately retains Family and Festivals."
     }
   ]
 }
