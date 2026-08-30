@@ -3,6 +3,7 @@
   import EntityIcon from './EntityIcon.svelte';
   import UtilityIcon from './UtilityIcon.svelte';
   import NatureSpaceIcon from './NatureSpaceIcon.svelte';
+  import EverydayIcon from './EverydayIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -42,6 +43,8 @@
         <UtilityIcon icon={visual.glyph} />
       {:else if visual.renderer === 'nature-space-icon'}
         <NatureSpaceIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'everyday-icon'}
+        <EverydayIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
@@ -132,7 +135,8 @@
     animation: visual-idle 2.8s ease-in-out infinite;
   }
 
-  .visual-motion--flicker :global(.candle-flame) {
+  .visual-motion--flicker :global(.candle-flame),
+  .visual-motion--flicker :global(.flame) {
     animation: visual-flame .8s ease-in-out infinite;
     transform-origin: 60px 43px;
   }
