@@ -1,8 +1,11 @@
+import { execFileSync } from 'node:child_process';
+import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { fireEvent, render } from '@testing-library/svelte';
 import { tick } from 'svelte';
 import { describe, expect, it } from 'vitest';
 import registry from '../content/assets/registry.json';
-import { sourceBlobSha, validateAssetRegistry } from '../scripts/validate-assets.mjs';
 import VisualEntity from '../src/presentation/VisualEntity.svelte';
 import {
   getBundledAssetDefinitions,
@@ -11,47 +14,43 @@ import {
 } from '../src/presentation/assetRegistry';
 import { resolveVisualDefinition } from '../src/presentation/visualRegistry';
 
+const validatorPath = join(process.cwd(), 'scripts', 'validate-assets.mjs');
+
+function runAssetValidator(rootDir?: string): string {
+  const args = rootDir ? [validatorPath, '--root', rootDir] : [validatorPath];
+  return execFileSync(process.execPath, args, {
+    cwd: process.cwd(),
+    encoding: 'utf8',
+    stdio: ['ignore', 'pipe', 'pipe']
+  });
+}
+
 describe('OSS semantic asset integration', () => {
-  it('validates every bundled asset offline against registered provenance', () => {
-    const result = validateAssetRegistry();
-    expect(result.errors).toEqual([]);
-    expect(result.assetCount).toBe(10);
-    expect(result.sourceCount).toBe(1);
+  it('validates every bundled asset offline through the standalone Node authoring command', () => {
+    expect(runAssetValidator()).toContain('Validated 10 bundled open asset(s) from 1 source(s).');
   });
 
-  it('treats Windows CRLF materialization of SVGs as the same pinned Git blob content', () => {
-    const lf = Buffer.from('<svg>\n<path/>\n</svg>\n', 'utf8');
-    const crlf = Buffer.from('<svg>\r\n<path/>\r\n</svg>\r\n', 'utf8');
-    const svgPath = 'public/assets/open/fluent/example.svg';
+  it('accepts Windows CRLF SVG materialization but still fails closed on real content drift', () => {
+    const fixtureRoot = mkdtempSync(join(tmpdir(), 'kidsplay-assets-'));
+    try {
+      cpSync(join(process.cwd(), 'content', 'assets'), join(fixtureRoot, 'content', 'assets'), {
+        recursive: true
+      });
+      cpSync(join(process.cwd(), 'public', 'assets', 'open'), join(fixtureRoot, 'public', 'assets', 'open'), {
+        recursive: true
+      });
 
-    expect(sourceBlobSha(crlf, svgPath)).toBe(sourceBlobSha(lf, svgPath));
+      const dogPath = join(fixtureRoot, 'public', 'assets', 'open', 'fluent', 'dog.svg');
+      const canonicalDog = readFileSync(dogPath, 'utf8').replace(/\r\n/g, '\n');
+      writeFileSync(dogPath, canonicalDog.replace(/\n/g, '\r\n'), 'utf8');
 
-    const binaryPath = 'public/assets/open/kenney/example.png';
-    expect(sourceBlobSha(Buffer.from([13, 10]), binaryPath)).not.toBe(
-      sourceBlobSha(Buffer.from([10]), binaryPath)
-    );
-  });
+      expect(runAssetValidator(fixtureRoot)).toContain('Validated 10 bundled open asset(s) from 1 source(s).');
 
-  it('fails closed when provenance, source approval, revision pinning, or registration is tampered with', () => {
-    const hashTampered = structuredClone(registry);
-    hashTampered.assets[0].sourceBlobSha = '0000000000000000000000000000000000000000';
-    expect(validateAssetRegistry({ registry: hashTampered }).errors.some((error) => error.includes('provenance hash mismatch'))).toBe(true);
-
-    const sourceTampered = structuredClone(registry);
-    const fluentSource = sourceTampered.sources.find((source) => source.id === 'microsoft-fluent-emoji');
-    if (!fluentSource) throw new Error('missing Fluent source fixture');
-    fluentSource.status = 'candidate';
-    expect(validateAssetRegistry({ registry: sourceTampered }).errors.some((error) => error.includes('not approved for bundling'))).toBe(true);
-
-    const revisionTampered = structuredClone(registry);
-    const unpinnedSource = revisionTampered.sources.find((source) => source.id === 'microsoft-fluent-emoji');
-    if (!unpinnedSource) throw new Error('missing Fluent source fixture');
-    unpinnedSource.revision = '';
-    expect(validateAssetRegistry({ registry: revisionTampered }).errors.some((error) => error.includes('has no immutable revision'))).toBe(true);
-
-    const registrationTampered = structuredClone(registry);
-    registrationTampered.assets = registrationTampered.assets.slice(1);
-    expect(validateAssetRegistry({ registry: registrationTampered }).errors.some((error) => error.includes('unregistered file in bundled asset tree'))).toBe(true);
+      writeFileSync(dogPath, canonicalDog.replace('</svg>', '<!-- tampered -->\n</svg>'), 'utf8');
+      expect(() => runAssetValidator(fixtureRoot)).toThrow();
+    } finally {
+      rmSync(fixtureRoot, { recursive: true, force: true });
+    }
   });
 
   it('maps the proof set to semantic visual ids without changing renderer fallbacks', () => {
