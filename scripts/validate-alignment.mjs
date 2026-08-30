@@ -36,6 +36,22 @@ const isAcademicYear = (value) => {
   const expectedEnd = String((startYear + 1) % 100).padStart(2, '0');
   return endYearText === expectedEnd;
 };
+const collectRowIds = (value, rowIds) => {
+  if (Array.isArray(value)) {
+    for (const item of value) collectRowIds(item, rowIds);
+    return;
+  }
+  if (!value || typeof value !== 'object') return;
+  if (hasText(value.rowId)) rowIds.add(value.rowId);
+  for (const nested of Object.values(value)) collectRowIds(nested, rowIds);
+};
+const hasDuplicates = (values) => Array.isArray(values) && new Set(values).size !== values.length;
+
+const canonicalRowIds = new Set();
+for (const fileName of readdirSync(new URL('content/knowledge/', root)).filter((name) => name.endsWith('.json'))) {
+  collectRowIds(readJson(`content/knowledge/${fileName}`), canonicalRowIds);
+}
+
 const sourceById = new Map();
 
 for (const source of sourceRegistry.sources ?? []) {
@@ -88,6 +104,7 @@ for (const profile of profiles) {
   if (!Array.isArray(alignment.sourceRefs) || alignment.sourceRefs.length === 0) {
     errors.push(`${prefix}: alignment.sourceRefs must contain at least one source`);
   }
+  if (hasDuplicates(alignment.sourceRefs)) errors.push(`${prefix}: alignment.sourceRefs contains duplicates`);
   const resolvedSources = [];
   for (const sourceRef of alignment.sourceRefs ?? []) {
     const source = sourceById.get(sourceRef);
@@ -126,7 +143,8 @@ for (const { name, value: membership } of memberships) {
   }
   if (membershipProfileRefs.has(membership.profileRef)) errors.push(`Duplicate membership collection for ${membership.profileRef}`);
   membershipProfileRefs.add(membership.profileRef);
-  if (!profileById.has(membership.profileRef)) errors.push(`${prefix}: membership references unknown profile`);
+  const profile = profileById.get(membership.profileRef);
+  if (!profile) errors.push(`${prefix}: membership references unknown profile`);
 
   const provenance = membership.provenance;
   if (!provenance || typeof provenance !== 'object') {
@@ -137,6 +155,7 @@ for (const { name, value: membership } of memberships) {
   if (!Array.isArray(provenance.sourceRefs) || provenance.sourceRefs.length === 0) {
     errors.push(`${prefix}: provenance.sourceRefs must contain at least one source`);
   }
+  if (hasDuplicates(provenance.sourceRefs)) errors.push(`${prefix}: provenance.sourceRefs contains duplicates`);
   const resolvedSources = [];
   for (const sourceRef of provenance.sourceRefs ?? []) {
     const source = sourceById.get(sourceRef);
@@ -148,9 +167,15 @@ for (const { name, value: membership } of memberships) {
   if (provenance.academicYear !== null && provenance.academicYear !== undefined && !isAcademicYear(provenance.academicYear)) {
     errors.push(`${prefix}: provenance.academicYear must be YYYY-YY or null`);
   }
+  if (profile?.alignment?.academicYear && provenance.academicYear && profile.alignment.academicYear !== provenance.academicYear) {
+    errors.push(`${prefix}: membership academicYear ${provenance.academicYear} differs from profile alignment ${profile.alignment.academicYear}`);
+  }
   if (provenance.reviewedAt !== null && !isDate(provenance.reviewedAt)) errors.push(`${prefix}: provenance.reviewedAt must be YYYY-MM-DD or null`);
   if (provenance.effectiveFrom !== null && !isDate(provenance.effectiveFrom)) errors.push(`${prefix}: provenance.effectiveFrom must be YYYY-MM-DD or null`);
   if (provenance.effectiveTo !== null && !isDate(provenance.effectiveTo)) errors.push(`${prefix}: provenance.effectiveTo must be YYYY-MM-DD or null`);
+  if (provenance.effectiveFrom && provenance.effectiveTo && provenance.effectiveFrom > provenance.effectiveTo) {
+    errors.push(`${prefix}: provenance effectiveFrom must not be after effectiveTo`);
+  }
 
   if (provenance.status === 'reviewed') {
     if (!isDate(provenance.reviewedAt)) errors.push(`${prefix}: reviewed membership requires reviewedAt`);
@@ -162,6 +187,9 @@ for (const { name, value: membership } of memberships) {
     if (!hasReviewedOfficialSource) errors.push(`${prefix}: reviewed membership requires a reviewed official source`);
   }
 
+  if (!Array.isArray(membership.members) || membership.members.length === 0) {
+    errors.push(`${prefix}: membership must contain at least one row`);
+  }
   const seenRows = new Set();
   for (const member of membership.members ?? []) {
     if (!hasText(member.rowId)) {
@@ -170,7 +198,9 @@ for (const { name, value: membership } of memberships) {
     }
     if (seenRows.has(member.rowId)) errors.push(`${prefix}: duplicate membership rowId ${member.rowId}`);
     seenRows.add(member.rowId);
+    if (!canonicalRowIds.has(member.rowId)) errors.push(`${prefix}/${member.rowId}: membership row is not canonical knowledge`);
     if (!allowedFits.has(member.fit)) errors.push(`${prefix}/${member.rowId}: unsupported fit ${member.fit}`);
+    if (hasDuplicates(member.sourceRefs)) errors.push(`${prefix}/${member.rowId}: member sourceRefs contains duplicates`);
     for (const sourceRef of member.sourceRefs ?? []) {
       if (!sourceById.has(sourceRef)) errors.push(`${prefix}/${member.rowId}: unknown member source ${sourceRef}`);
     }
@@ -186,6 +216,6 @@ if (errors.length) {
   const reviewedMemberships = memberships.filter(({ value }) => value.provenance?.status === 'reviewed').length;
   console.log(
     `Alignment OK: ${sourceById.size} source(s), ${profiles.length} profile(s) (${reviewedProfiles} reviewed scope), ` +
-    `${memberships.length} membership collection(s) (${reviewedMemberships} reviewed row mappings).`
+    `${memberships.length} membership collection(s) (${reviewedMemberships} reviewed row mappings), ${canonicalRowIds.size} canonical row id(s) cross-checked.`
   );
 }
