@@ -12,12 +12,16 @@ export interface StoryCharacter {
   visualPolicy: 'kidsplay_original';
 }
 
+export type StoryLocationUnlock =
+  | { type: 'start' }
+  | { type: 'mission'; missionRef: string };
+
 export interface StoryLocation {
   id: string;
   label: string;
   topicGroups: string[];
   position: { x: number; y: number };
-  unlock: 'start';
+  unlock: StoryLocationUnlock;
 }
 
 export interface StoryBeat {
