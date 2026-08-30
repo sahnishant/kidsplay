@@ -67,12 +67,20 @@ export interface CatalogEntry {
   actionLabel: string;
 }
 
+export interface SessionSection {
+  id: 'logical_reasoning' | 'science' | 'achievers';
+  title: string;
+  startIndex: number;
+  count: number;
+}
+
 export interface SessionLaunch {
   id: string;
-  mode: 'free_explore' | 'goal_learning' | 'goal_mock';
+  mode: 'free_explore' | 'goal_learning' | 'goal_mock' | 'goal_pattern_mock';
   title: string;
   profileRef?: string;
   questions: Question[];
+  sections?: SessionSection[];
 }
 
 export interface ProfileSessionOptions {
@@ -121,6 +129,7 @@ const profiles = (profileRegistry as ProfileRegistry).profiles;
 const freePack = freeAnimalsPack as LearningPack;
 const goalPack = olympiadPrototypePack as GoalPath;
 const goalMockEntryId = `${goalPack.id}.mixed-mock`;
+const goalPatternMockEntryId = `${goalPack.id}.pattern-mock-2026-27`;
 
 const fitRank: Record<ProfileMembershipMember['fit'], number> = {
   core: 0,
@@ -169,6 +178,15 @@ function activityFamily(question: Question): string {
 
 function isReasoningQuestion(question: Question): boolean {
   return (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3;
+}
+
+function isLogicalReasoningQuestion(question: Question): boolean {
+  const refs = question.knowledgeRefs ?? [];
+  return refs.length > 0 && refs.every((rowId) => rowKnowledgeGroup(rowId) === 'reasoning');
+}
+
+function isAchieverQuestion(question: Question): boolean {
+  return question.authoring.source === 'kidsplay-editorial-hots' && !isLogicalReasoningQuestion(question);
 }
 
 function interleaveByKnowledgeGroup(candidates: Question[]): Question[] {
@@ -339,11 +357,21 @@ export function getCatalogEntries(): CatalogEntry[] {
       id: goalMockEntryId,
       kind: 'goal_learning',
       title: 'Class 2 Science Olympiad: 20-Question Mixed Mock',
-      description: 'A 20-question mixed practice mock assembled from the same profile-selected bank, with several multi-fact reasoning items. It is not an official-length SOF paper.',
+      description: 'A quick 20-question mixed practice mock assembled from the same profile-selected bank, with several multi-fact reasoning items. It is not an official SOF paper.',
       access: goalPack.access,
       status: 'prototype',
       profileRef: goalPack.profileRef,
       actionLabel: 'Try mixed mock'
+    },
+    {
+      id: goalPatternMockEntryId,
+      kind: 'goal_learning',
+      title: 'Class 2 Science Olympiad: 35-Question Pattern Mock',
+      description: 'Practice the published 2026–27 section counts: 5 Logical Reasoning, 25 Science and 5 Achievers questions. Questions are Kidsplay-authored, not an official SOF paper.',
+      access: goalPack.access,
+      status: 'prototype',
+      profileRef: goalPack.profileRef,
+      actionLabel: 'Try 35-question mock'
     }
   ];
 }
@@ -384,6 +412,31 @@ export function getProfileMockQuestions(profileRef: string, options: ProfileSess
   const selected = chooseDiverseSession(candidates, count);
   const reasoningTarget = Math.max(2, Math.min(4, Math.floor(count / 5)));
   return ensureReasoningQuota(selected, candidates, count, reasoningTarget);
+}
+
+export function getProfilePatternMockQuestions(
+  profileRef: string,
+  options: Omit<ProfileSessionOptions, 'count'> = {}
+): Question[] {
+  const mastery = options.mastery ?? {};
+  const candidates = getProfileCandidates(profileRef, mastery);
+  const logicalCandidates = candidates.filter(isLogicalReasoningQuestion);
+  const achieverCandidates = candidates.filter(isAchieverQuestion);
+  const scienceCandidates = candidates.filter((question) =>
+    !isLogicalReasoningQuestion(question) && !isAchieverQuestion(question)
+  );
+
+  const logical = chooseDiverseSession(logicalCandidates, 5);
+  const science = chooseDiverseSession(scienceCandidates, 25);
+  const achievers = chooseDiverseSession(achieverCandidates, 5);
+
+  if (logical.length !== 5 || science.length !== 25 || achievers.length !== 5) {
+    throw new Error(
+      `Profile ${profileRef} cannot build the 2026-27 pattern mock: logical=${logical.length}, science=${science.length}, achievers=${achievers.length}`
+    );
+  }
+
+  return [...logical, ...science, ...achievers];
 }
 
 export function getGoalReadiness(
@@ -488,6 +541,21 @@ export function createSessionForCatalogEntry(
       title: 'Class 2 Science Olympiad: 20-Question Mixed Mock',
       profileRef: goalPack.profileRef,
       questions: getProfileMockQuestions(goalPack.profileRef, { count: 20, mastery })
+    };
+  }
+
+  if (entryId === goalPatternMockEntryId && goalPack.profileRef) {
+    return {
+      id: `session.${goalPatternMockEntryId}`,
+      mode: 'goal_pattern_mock',
+      title: 'Class 2 Science Olympiad: 35-Question Pattern Mock',
+      profileRef: goalPack.profileRef,
+      questions: getProfilePatternMockQuestions(goalPack.profileRef, { mastery }),
+      sections: [
+        { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 5 },
+        { id: 'science', title: 'Science', startIndex: 5, count: 25 },
+        { id: 'achievers', title: 'Achievers', startIndex: 30, count: 5 }
+      ]
     };
   }
 
