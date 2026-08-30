@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "sof.iso.class2.2026-27.pattern",
+  "profileRef": "SOF_INDIA_CLASS2",
+  "academicYear": "2026-27",
+  "status": "prototype_from_reviewed_format",
+  "sourceRefs": [
+    "sof.iso.class2.sample-paper.2026-27"
+  ],
+  "title": "Class 2 Science Olympiad: 35-Question Pattern Mock",
+  "description": "Practice the published 2026–27 section counts: 5 Logical Reasoning, 25 Science and 5 Achievers questions. Questions are Kidsplay-authored, not an official SOF paper.",
+  "actionLabel": "Try 35-question mock",
+  "sections": [
+    {
+      "id": "logical_reasoning",
+      "title": "Logical Reasoning",
+      "count": 5,
+      "selector": "logical_reasoning"
+    },
+    {
+      "id": "science",
+      "title": "Science",
+      "count": 25,
+      "selector": "science_core"
+    },
+    {
+      "id": "achievers",
+      "title": "Achievers",
+      "count": 5,
+      "selector": "achiever_hots"
+    }
+  ]
+}
