@@ -2,7 +2,7 @@ name: Android Debug APK
 
 on:
   push:
-    branches: [kidsplay]
+    branches: [kidsplay, content/curriculum-expansion-ci]
   pull_request:
     branches: [main]
   workflow_dispatch:
