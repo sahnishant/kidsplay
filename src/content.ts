@@ -87,6 +87,8 @@ export interface GoalReadinessSummary {
   practicedRows: number;
   readyRows: number;
   totalRows: number;
+  practicedGroups: number;
+  totalGroups: number;
   accuracy: number | null;
   score: number;
   status: GoalReadinessStatus;
@@ -143,7 +145,7 @@ function masteryScore(question: Question, mastery: Record<string, MasteryCounter
     if (!counter || counter.totalWeight <= 0) return -0.5;
     return counter.correctWeight / counter.totalWeight;
   });
-  return scores.reduce((sum, score) => sum + score, 0) / scores.length;
+  return Math.min(...scores);
 }
 
 function rowKnowledgeGroup(rowId: string): string {
@@ -359,7 +361,8 @@ export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Qu
     if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
     return left.id.localeCompare(right.id);
   });
-  return chooseDiverseSession(interleaveByKnowledgeGroup(candidates), count);
+  const selected = chooseDiverseSession(interleaveByKnowledgeGroup(candidates), count);
+  return count >= 4 ? ensureReasoningQuota(selected, candidates, count, 1) : selected;
 }
 
 export function getFreeAnimalsPackTitle(): string {
@@ -391,25 +394,47 @@ export function getGoalReadiness(
   const policy = goalPack.profileRef === profileRef && goalPack.masteryPolicy
     ? goalPack.masteryPolicy
     : { requiredAccuracy: 0.8, minimumIndependentAttempts: 3 };
-  const counters = membership.members
-    .map((member) => mastery[member.rowId])
-    .filter((counter): counter is MasteryCounter => Boolean(counter && counter.totalWeight > 0));
+  const practiced = membership.members
+    .map((member) => ({ member, counter: mastery[member.rowId] }))
+    .filter((item): item is { member: ProfileMembershipMember; counter: MasteryCounter } =>
+      Boolean(item.counter && item.counter.totalWeight > 0)
+    );
+  const counters = practiced.map((item) => item.counter);
   const practicedRows = counters.length;
   const readyRows = counters.filter((counter) =>
     counter.attempts >= policy.minimumIndependentAttempts
       && counter.correctWeight / counter.totalWeight >= policy.requiredAccuracy
   ).length;
+  const practicedGroups = new Set(practiced.map(({ member }) => rowKnowledgeGroup(member.rowId))).size;
+  const totalGroups = new Set(membership.members.map((member) => rowKnowledgeGroup(member.rowId))).size;
   const totalWeight = counters.reduce((sum, counter) => sum + counter.totalWeight, 0);
   const correctWeight = counters.reduce((sum, counter) => sum + counter.correctWeight, 0);
   const accuracy = totalWeight > 0 ? correctWeight / totalWeight : null;
 
-  const evidenceCoverage = Math.min(1, practicedRows / 20);
+  const practiceTargetRows = Math.min(
+    membership.members.length,
+    Math.max(24, Math.ceil(membership.members.length * 0.2))
+  );
+  const breadthTargetGroups = Math.min(totalGroups, Math.max(8, Math.ceil(totalGroups * 0.6)));
+  const readyTargetRows = Math.min(practiceTargetRows, Math.max(12, Math.ceil(practiceTargetRows * 0.5)));
+  const rowCoverage = practiceTargetRows ? Math.min(1, practicedRows / practiceTargetRows) : 0;
+  const breadthCoverage = breadthTargetGroups ? Math.min(1, practicedGroups / breadthTargetGroups) : 0;
+  const readyCoverage = readyTargetRows ? Math.min(1, readyRows / readyTargetRows) : 0;
   const accuracyFactor = accuracy ?? 0;
-  const score = Math.round((evidenceCoverage * 0.5 + accuracyFactor * 0.5) * 100);
+  const score = Math.round(
+    (rowCoverage * 0.25 + breadthCoverage * 0.25 + readyCoverage * 0.2 + accuracyFactor * 0.3) * 100
+  );
+
   let status: GoalReadinessStatus = 'getting_started';
-  if (practicedRows >= 20 && accuracy !== null && accuracy >= policy.requiredAccuracy) {
+  if (
+    practicedRows >= practiceTargetRows
+      && practicedGroups >= breadthTargetGroups
+      && readyRows >= readyTargetRows
+      && accuracy !== null
+      && accuracy >= policy.requiredAccuracy
+  ) {
     status = 'mock_ready';
-  } else if (practicedRows >= 8) {
+  } else if (practicedRows >= 8 || practicedGroups >= 3) {
     status = 'building';
   }
 
@@ -418,6 +443,8 @@ export function getGoalReadiness(
     practicedRows,
     readyRows,
     totalRows: membership.members.length,
+    practicedGroups,
+    totalGroups,
     accuracy,
     score,
     status
