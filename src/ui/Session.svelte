@@ -40,8 +40,13 @@
     onExit?: () => void;
   } = $props();
 
-  let state = $state(initialState ?? createSessionState());
-  let restoredSubmitted = $state(Boolean(initialState?.submitted));
+  function seedSessionState(): SessionState {
+    return initialState ?? createSessionState();
+  }
+
+  const seededState = seedSessionState();
+  let state: SessionState = $state(seededState);
+  let restoredSubmitted = $state(seededState.submitted);
   let question = $derived(questions[state.index]);
   let correctCount = $derived(state.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
