@@ -83,6 +83,12 @@
     "reasoning.units.pencil.generated.001",
     "reasoning.units.room.generated.001",
     "reasoning.shapes.triangle.generated.001",
-    "reasoning.embedded.symbols.generated.001"
+    "reasoning.embedded.symbols.generated.001",
+    "reasoning.alphabet.arrange.generated.001",
+    "reasoning.figure-matrix.symbols.generated.001",
+    "reasoning.mirror.right.generated.001",
+    "reasoning.combinations.outfits.generated.001",
+    "reasoning.clock.elapsed.generated.001",
+    "reasoning.calendar.days-after.generated.001"
   ]
 }
