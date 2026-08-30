@@ -61,4 +61,19 @@
     height: clamp(64px, 18vw, 112px);
     filter: drop-shadow(0 8px 8px rgba(23, 48, 63, 0.14));
   }
+
+  .motion--spin {
+    animation: scene-spin 7s linear infinite;
+  }
+
+  @keyframes scene-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .motion--spin {
+      animation: none;
+    }
+  }
 </style>
