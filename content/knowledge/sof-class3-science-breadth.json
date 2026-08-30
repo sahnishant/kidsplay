@@ -1,0 +1,212 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.plants-animals-breadth.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Class 3 - Plants and Animals",
+    "entries": [
+      {
+        "id": "leaves-food-sunlight",
+        "rowId": "kr.sof3.plants.leaves.food.sunlight",
+        "subject": { "id": "leaves-food-sunlight", "label": "Leaves" },
+        "relation": "help_with",
+        "object": { "id": "leaves-food-sunlight-object", "label": "using sunlight to help the plant make food" },
+        "conceptIds": ["sof3.plants.leaves-food"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "seed-germination",
+        "rowId": "kr.sof3.plants.seed.germination.conditions",
+        "subject": { "id": "seed-germination", "label": "A germinating seed" },
+        "relation": "needs",
+        "object": { "id": "seed-germination-object", "label": "suitable water, air and warmth to begin growing" },
+        "conceptIds": ["sof3.plants.germination"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "herbivores",
+        "rowId": "kr.sof3.animals.diet.herbivore.plants",
+        "subject": { "id": "herbivores", "label": "Herbivores" },
+        "relation": "eat",
+        "object": { "id": "herbivores-object", "label": "plants or plant parts as their food" },
+        "conceptIds": ["sof3.animals.herbivores"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "carnivores",
+        "rowId": "kr.sof3.animals.diet.carnivore.animals",
+        "subject": { "id": "carnivores", "label": "Carnivores" },
+        "relation": "eat",
+        "object": { "id": "carnivores-object", "label": "other animals as their food" },
+        "conceptIds": ["sof3.animals.carnivores"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "omnivores",
+        "rowId": "kr.sof3.animals.diet.omnivore.both",
+        "subject": { "id": "omnivores", "label": "Omnivores" },
+        "relation": "eat",
+        "object": { "id": "omnivores-object", "label": "both plant food and animal food" },
+        "conceptIds": ["sof3.animals.omnivores"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "animal-features-habitat",
+        "rowId": "kr.sof3.animals.features.habitat.survival",
+        "subject": { "id": "animal-features-habitat", "label": "An animal's body features" },
+        "relation": "can_help_with",
+        "object": { "id": "animal-features-habitat-object", "label": "surviving and moving in its habitat" },
+        "conceptIds": ["sof3.animals.features-habitat"],
+        "meta": { "knowledgeLevel": "intermediate", "skills": ["reasoning", "classification"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-open-scope",
+      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Plants and Animals topic family; these are not claimed as exact official SOF row mappings."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.human-body-breadth.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Class 3 - Human Body",
+    "entries": [
+      {
+        "id": "skeleton-support",
+        "rowId": "kr.sof3.human.skeleton.support.shape",
+        "subject": { "id": "skeleton-support", "label": "The skeleton" },
+        "relation": "helps_with",
+        "object": { "id": "skeleton-support-object", "label": "supporting the body and giving it shape" },
+        "conceptIds": ["sof3.human.skeleton"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "muscles-movement",
+        "rowId": "kr.sof3.human.muscles.bones.movement",
+        "subject": { "id": "muscles-movement", "label": "Muscles" },
+        "relation": "help_with",
+        "object": { "id": "muscles-movement-object", "label": "moving body parts by working with bones" },
+        "conceptIds": ["sof3.human.muscles"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "brain-control",
+        "rowId": "kr.sof3.human.brain.control.activities",
+        "subject": { "id": "brain-control", "label": "The brain" },
+        "relation": "helps_control",
+        "object": { "id": "brain-control-object", "label": "many activities and responses of the body" },
+        "conceptIds": ["sof3.human.brain"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "lungs-gas-exchange",
+        "rowId": "kr.sof3.human.lungs.oxygen.carbon-dioxide",
+        "subject": { "id": "lungs-gas-exchange", "label": "The lungs" },
+        "relation": "help_with",
+        "object": { "id": "lungs-gas-exchange-object", "label": "taking oxygen into the body and removing carbon dioxide" },
+        "conceptIds": ["sof3.human.lungs-gases"],
+        "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "digestion",
+        "rowId": "kr.sof3.human.digestion.food.usable",
+        "subject": { "id": "digestion", "label": "The digestive system" },
+        "relation": "helps_with",
+        "object": { "id": "digestion-object", "label": "breaking food down so the body can use it" },
+        "conceptIds": ["sof3.human.digestion"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "exercise-body",
+        "rowId": "kr.sof3.human.exercise.muscles-heart",
+        "subject": { "id": "exercise-body", "label": "Regular exercise" },
+        "relation": "helps",
+        "object": { "id": "exercise-body-object", "label": "keep muscles and the heart working well" },
+        "conceptIds": ["sof3.human.exercise"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-open-scope",
+      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Human Body topic family; these are not claimed as exact official SOF row mappings."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.earth-universe-breadth.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Class 3 - Earth and Universe",
+    "entries": [
+      {
+        "id": "earth-axis",
+        "rowId": "kr.sof3.earth.axis.imaginary",
+        "subject": { "id": "earth-axis", "label": "Earth's axis" },
+        "relation": "is",
+        "object": { "id": "earth-axis-object", "label": "an imaginary line through Earth about which Earth rotates" },
+        "conceptIds": ["sof3.earth.axis"],
+        "meta": { "knowledgeLevel": "intermediate", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "earth-rotation-time",
+        "rowId": "kr.sof3.earth.rotation.about-day",
+        "subject": { "id": "earth-rotation-time", "label": "One Earth rotation" },
+        "relation": "takes",
+        "object": { "id": "earth-rotation-time-object", "label": "about one day" },
+        "conceptIds": ["sof3.earth.rotation-time"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "earth-revolution",
+        "rowId": "kr.sof3.earth.revolution.sun.year",
+        "subject": { "id": "earth-revolution", "label": "Earth's revolution" },
+        "relation": "is",
+        "object": { "id": "earth-revolution-object", "label": "Earth's journey around the Sun, taking about one year" },
+        "conceptIds": ["sof3.earth.revolution"],
+        "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "moon-reflects",
+        "rowId": "kr.sof3.universe.moon.reflects.sunlight",
+        "subject": { "id": "moon-reflects", "label": "The Moon" },
+        "relation": "appears_bright_because",
+        "object": { "id": "moon-reflects-object", "label": "it reflects light from the Sun" },
+        "conceptIds": ["sof3.universe.moon-light"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+      },
+      {
+        "id": "atmosphere",
+        "rowId": "kr.sof3.earth.atmosphere.air.surrounds",
+        "subject": { "id": "atmosphere", "label": "Earth's atmosphere" },
+        "relation": "is",
+        "object": { "id": "atmosphere-object", "label": "the layer of gases surrounding Earth" },
+        "conceptIds": ["sof3.earth.atmosphere"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+      },
+      {
+        "id": "earth-third-planet",
+        "rowId": "kr.sof3.universe.earth.third-planet",
+        "subject": { "id": "earth-third-planet", "label": "Earth's position" },
+        "relation": "is",
+        "object": { "id": "earth-third-planet-object", "label": "third planet from the Sun" },
+        "conceptIds": ["sof3.universe.earth-position"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "ordering"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-open-scope",
+      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Earth and Universe topic family; these are not claimed as exact official SOF row mappings."
+    }
+  }
+]
