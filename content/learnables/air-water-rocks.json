@@ -4,6 +4,8 @@
   { "id": "air.properties.breathing", "statement": "People and many other living things need air for breathing.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Air", "gradeBands": [2] },
   { "id": "air.properties.burning", "statement": "A candle flame needs air to keep burning.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Air", "gradeBands": [2] },
   { "id": "air.properties.windmill", "statement": "Moving air can turn the blades of a windmill.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Air", "gradeBands": [2] },
+  { "id": "air.properties.kite", "statement": "Moving air helps a kite fly.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Air", "gradeBands": [2] },
+  { "id": "air.properties.sailboat", "statement": "Wind can move a sailboat by pushing its sail.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Air", "gradeBands": [2] },
   { "id": "air.properties.around-us", "statement": "Air is all around us even though we usually cannot see it.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Air", "gradeBands": [2] },
   { "id": "water.sources.rain", "statement": "Rain is an important natural source of fresh water.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Water", "gradeBands": [2] },
   { "id": "water.sources.river", "statement": "A river is a natural body of flowing water.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Water", "gradeBands": [2] },
