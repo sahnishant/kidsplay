@@ -54,6 +54,14 @@ describe('vocabulary delivery', () => {
 
     expect(evaluate(value, { orderedItemIds: value.solution.orderedItemIds })).toMatchObject({ correct: true, score: 1 });
     expect(evaluate(value, { orderedItemIds: firstShuffle.map((item) => item.id) }).correct).toBe(false);
+
+    const repeatedOIds = value.interaction.items.filter((item) => item.label === 'O').map((item) => item.id);
+    expect(repeatedOIds).toHaveLength(2);
+    const equivalentOrder = [...value.solution.orderedItemIds];
+    const firstO = equivalentOrder.indexOf(repeatedOIds[0]);
+    const secondO = equivalentOrder.indexOf(repeatedOIds[1]);
+    [equivalentOrder[firstO], equivalentOrder[secondO]] = [equivalentOrder[secondO], equivalentOrder[firstO]];
+    expect(evaluate(value, { orderedItemIds: equivalentOrder })).toMatchObject({ correct: true, score: 1 });
   });
 
   it('keeps the expanded vocabulary activities in the free pack', () => {
