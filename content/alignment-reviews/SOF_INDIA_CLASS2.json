@@ -158,36 +158,47 @@
     },
     {
       "rowId": "kr.human.skin.sense.touch",
-      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
-      "locator": "PDF page 1, question 4 and answer key: cold/rough/hard object is identified using Skin",
+      "sourceRef": "sof.nso.class2.sample-paper.2023-24",
+      "locator": "PDF page 1, question 4 and answer key: cold, rough and hard properties are identified using Skin",
       "evidenceType": "direct_fact",
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "stretch",
       "fitBasis": "editorial_retained",
-      "note": "Historical official Class 2 SOF assessment directly uses skin as the sense organ for tactile properties. Current 2026-27 scope separately retains Human Body; stretch remains an editorial fit."
+      "note": "The official 2023-24 Class 2 sample directly uses skin as the sense organ for tactile properties. Current 2026-27 scope separately retains Human Body; stretch remains an editorial fit and no annual recurrence is implied."
     },
     {
       "rowId": "kr.family.cousin.relationship.aunt-uncle-child",
-      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
-      "locator": "PDF page 1, question 5 and answer key: father's nephew or niece is identified as Cousin",
+      "sourceRef": "sof.nso.class2.sample-paper.2023-24",
+      "locator": "PDF page 2, question 5 and answer key: father's nephew or niece is identified as Cousin",
       "evidenceType": "direct_fact",
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "core",
       "fitBasis": "editorial_retained",
-      "note": "Historical official Class 2 SOF assessment directly tests the cousin relationship. Current 2026-27 scope separately retains Family and Festivals; core remains an editorial fit."
+      "note": "The official 2023-24 Class 2 sample directly tests the cousin relationship. Current 2026-27 scope separately retains Family and Festivals; core remains an editorial fit and no annual recurrence is implied."
     },
     {
       "rowId": "kr.clothing.wool.weather.winter",
-      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
-      "locator": "PDF page 1, question 6 and answer key: woollen clothes are chosen in winter to keep warm",
+      "sourceRef": "sof.nso.class2.sample-paper.2023-24",
+      "locator": "PDF page 2, question 6 and answer key: woollen clothes are chosen in winter to keep warm",
       "evidenceType": "direct_fact",
       "temporalBasis": "historical_class2",
       "decision": "keep",
       "fit": "review",
       "fitBasis": "editorial_retained",
-      "note": "Historical official Class 2 SOF assessment directly supports the woollen-clothes/winter relationship. Current 2026-27 scope separately retains Housing and Clothing; review remains an editorial fit."
+      "note": "The official 2023-24 Class 2 sample directly supports the woollen-clothes/winter relationship. Current 2026-27 scope separately retains Housing and Clothing; review remains an editorial fit and no annual recurrence is implied."
+    },
+    {
+      "rowId": "kr.transport.tonga.power.animal-pulled",
+      "sourceRef": "sof.nso.class2.sample-paper.2023-24",
+      "locator": "PDF page 2, question 8 and answer key: Tonga is the mode of transport pulled by animals",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2023-24 Class 2 sample directly identifies a tonga as animal-pulled transport. Current 2026-27 scope separately retains Transport and Communication; core remains editorial and the historical item does not imply current-year recurrence."
     },
     {
       "rowId": "kr.plants.cotton.use.fibre",
