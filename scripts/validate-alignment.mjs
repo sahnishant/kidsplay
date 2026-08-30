@@ -187,8 +187,10 @@ for (const { name, value: membership } of memberships) {
     if (!hasReviewedOfficialSource) errors.push(`${prefix}: reviewed membership requires a reviewed official source`);
   }
 
-  if (!Array.isArray(membership.members) || membership.members.length === 0) {
-    errors.push(`${prefix}: membership must contain at least one row`);
+  if (!Array.isArray(membership.members)) {
+    errors.push(`${prefix}: membership members must be an array`);
+  } else if (provenance.status === 'reviewed' && membership.members.length === 0) {
+    errors.push(`${prefix}: reviewed membership must contain at least one row`);
   }
   const seenRows = new Set();
   for (const member of membership.members ?? []) {
