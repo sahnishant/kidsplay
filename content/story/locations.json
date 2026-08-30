@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "locations": [
+    { "id": "home-garden", "label": "Home & Garden", "topicGroups": ["animals", "plants", "family", "food", "habits"], "position": { "x": 45, "y": 68 }, "unlock": "start" },
+    { "id": "farm", "label": "Farm", "topicGroups": ["animals", "plants", "food"], "position": { "x": 18, "y": 58 }, "unlock": "start" },
+    { "id": "forest", "label": "Forest", "topicGroups": ["animals", "plants"], "position": { "x": 12, "y": 28 }, "unlock": "start" },
+    { "id": "river-pond", "label": "River & Pond", "topicGroups": ["water", "animals", "safety"], "position": { "x": 75, "y": 58 }, "unlock": "start" },
+    { "id": "road-school", "label": "Road & School", "topicGroups": ["transport", "communication", "safety", "reasoning"], "position": { "x": 67, "y": 82 }, "unlock": "start" },
+    { "id": "scientu-lab", "label": "Scientu's Lab", "topicGroups": ["human", "air", "water", "rocks", "reasoning"], "position": { "x": 54, "y": 22 }, "unlock": "start" },
+    { "id": "observatory", "label": "Observatory", "topicGroups": ["universe", "air"], "position": { "x": 80, "y": 20 }, "unlock": "start" },
+    { "id": "shaitanu-hideout", "label": "Shaitanu's Hideout", "topicGroups": ["reasoning"], "position": { "x": 32, "y": 18 }, "unlock": "start" },
+    { "id": "town-square", "label": "Town Square", "topicGroups": ["family", "festivals", "communication", "food"], "position": { "x": 44, "y": 88 }, "unlock": "start" }
+  ]
+}

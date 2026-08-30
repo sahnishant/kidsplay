@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "characters": [
+    {
+      "id": "dheu",
+      "role": "hero",
+      "displayName": "Dheu",
+      "personalization": { "useSavedChildName": true, "fallbackName": "Dheu" },
+      "pedagogy": "decision_maker",
+      "visualPolicy": "kidsplay_original"
+    },
+    {
+      "id": "scientu",
+      "role": "guide",
+      "displayName": "Scientu",
+      "personalization": { "useSavedChildName": false, "fallbackName": "Scientu" },
+      "pedagogy": "observe_explain_hint",
+      "visualPolicy": "kidsplay_original"
+    },
+    {
+      "id": "shaitanu",
+      "role": "challenger",
+      "displayName": "Shaitanu",
+      "personalization": { "useSavedChildName": false, "fallbackName": "Shaitanu" },
+      "pedagogy": "misconception_and_challenge",
+      "visualPolicy": "kidsplay_original"
+    }
+  ]
+}

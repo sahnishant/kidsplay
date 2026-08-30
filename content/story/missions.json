@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "missions": [
+    {
+      "id": "mission.puppy-by-pond",
+      "title": "The Puppy by the Pond",
+      "locationRef": "river-pond",
+      "status": "prototype",
+      "access": "free",
+      "questionCount": 6,
+      "knowledgeRefs": [
+        "kr.animals.dog.domestic",
+        "kr.animals.dog.home.kennel",
+        "kr.animals.dog.young.puppy",
+        "kr.animals.seahorse.water-animal",
+        "kr.water.pond.feature.small",
+        "kr.water.sea.feature.salty"
+      ],
+      "openingSceneRef": "scene.dog.wrong-water",
+      "successSceneRef": "scene.dog.happy-bone",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "Some animals live in water, so maybe this puppy should jump straight into the pond!" },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "That sounds like a claim worth checking. Dheu, can you investigate where different animals belong?" },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will look for clues and help the puppy safely." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Good investigation. You checked the idea instead of guessing, and the puppy is safe." },
+      "reward": { "id": "badge.pond-helper", "label": "Pond Helper", "stars": 3 }
+    }
+  ]
+}
