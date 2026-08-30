@@ -33,9 +33,9 @@
   { "id": "entity.food.wheat", "renderer": "entity-icon", "glyph": "wheat", "label": "Wheat", "motion": "sway", "aliases": ["wheat"] },
   { "id": "entity.food.honey", "renderer": "entity-icon", "glyph": "honey", "label": "Honey", "motion": "pulse", "aliases": ["honey"] },
 
-  { "id": "entity.body.eyes", "renderer": "entity-icon", "glyph": "eyes", "label": "Eyes", "motion": "blink", "aliases": ["eye", "eyes"] },
-  { "id": "entity.body.ears", "renderer": "entity-icon", "glyph": "ears", "label": "Ears", "motion": "idle", "aliases": ["ear", "ears"] },
-  { "id": "entity.body.nose", "renderer": "entity-icon", "glyph": "nose", "label": "Nose", "motion": "idle", "aliases": ["nose"] },
+  { "id": "entity.body.eyes", "renderer": "entity-icon", "glyph": "eyes", "label": "Eyes", "motion": "blink", "aliases": ["eye", "eyes", "sight"] },
+  { "id": "entity.body.ears", "renderer": "entity-icon", "glyph": "ears", "label": "Ears", "motion": "idle", "aliases": ["ear", "ears", "hearing"] },
+  { "id": "entity.body.nose", "renderer": "entity-icon", "glyph": "nose", "label": "Nose", "motion": "idle", "aliases": ["nose", "smell"] },
   { "id": "entity.body.tongue", "renderer": "entity-icon", "glyph": "tongue", "label": "Tongue", "motion": "idle", "aliases": ["tongue"] },
   { "id": "entity.body.teeth", "renderer": "entity-icon", "glyph": "teeth", "label": "Teeth", "motion": "chomp", "aliases": ["tooth", "teeth"] },
   { "id": "entity.body.lungs", "renderer": "scene-icon", "glyph": "lungs", "label": "Lungs", "motion": "breathe", "aliases": ["lung", "lungs", "breathing"] },
