@@ -1,18 +1,1 @@
-{
-  "profileRef": "CBSE_INDIA_CLASS1",
-  "provenance": {
-    "status": "prototype_unverified",
-    "sourceRefs": ["kidsplay.editorial.prototype.v1"],
-    "versionLabel": "prototype-1",
-    "academicYear": null,
-    "effectiveFrom": null,
-    "effectiveTo": null,
-    "reviewedAt": null,
-    "placementBasis": "editorial_prototype"
-  },
-  "members": [
-    { "rowId": "kr.animals.dog.domestic", "fit": "core" },
-    { "rowId": "kr.animals.camel.ship-of-desert", "fit": "core" },
-    { "rowId": "kr.choice.animals.camel.ship-of-desert", "fit": "core" }
-  ]
-}
+{"profileRef":"CBSE_INDIA_CLASS1","provenance":{"status":"prototype_unverified","sourceRefs":["ncert.ncf.foundational.2022","ncert.foundational.learning-outcomes.current","kidsplay.editorial.prototype.v1"],"versionLabel":"CBSE/NCERT Class 1 cross-board vocabulary seed","academicYear":null,"effectiveFrom":null,"effectiveTo":null,"reviewedAt":null,"placementBasis":"editorial_seed_against_foundational_outcomes"},"members":[{"rowId":"kr.animals.dog.domestic","fit":"core"},{"rowId":"kr.animals.camel.ship-of-desert","fit":"stretch"},{"rowId":"kr.choice.animals.camel.ship-of-desert","fit":"stretch"},{"rowId":"kr.vocab.synonym.happy.glad","fit":"core"},{"rowId":"kr.vocab.synonym.begin.start","fit":"core"},{"rowId":"kr.vocab.synonym.quick.fast","fit":"core"},{"rowId":"kr.vocab.synonym.small.tiny","fit":"core"},{"rowId":"kr.vocab.synonym.large.big","fit":"core"},{"rowId":"kr.vocab.antonym.hot.cold","fit":"core"},{"rowId":"kr.vocab.antonym.early.late","fit":"core"},{"rowId":"kr.vocab.antonym.smooth.rough","fit":"core"},{"rowId":"kr.vocab.homophone.sea.see","fit":"core"},{"rowId":"kr.vocab.homophone.sun.son","fit":"core"},{"rowId":"kr.vocab.homophone.flower.flour","fit":"core"},{"rowId":"kr.vocab.homophone.right.write","fit":"core"},{"rowId":"kr.vocab.homophone.one.won","fit":"core"},{"rowId":"kr.vocab.homophone.hear.here","fit":"core"},{"rowId":"kr.vocab.meaning.rapid.very-fast","fit":"review"},{"rowId":"kr.vocab.meaning.cheerful.happy-positive","fit":"review"},{"rowId":"kr.vocab.meaning.silent.no-sound","fit":"review"},{"rowId":"kr.vocab.meaning.observe.watch-carefully","fit":"review"}]}
