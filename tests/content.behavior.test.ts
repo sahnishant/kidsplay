@@ -43,6 +43,11 @@ function knowledgeGroupCount(questions: Question[]): number {
   ).size;
 }
 
+function knowledgeGroupForRow(rowId: string): string {
+  const parts = rowId.split('.');
+  return parts[1] === 'choice' && parts[2] ? parts[2] : parts[1] ?? 'general';
+}
+
 function hasTopic(refs: string[], topic: string): boolean {
   return refs.some((rowId) => rowId.startsWith(`kr.${topic}.`));
 }
@@ -90,6 +95,9 @@ describe('catalog and profile-driven sessions', () => {
     expect(knowledgeGroupCount(session)).toBeGreaterThanOrEqual(5);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
     expect(activityFamilyCount(session)).toBeGreaterThanOrEqual(6);
+    expect(session.some((question) =>
+      (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3
+    )).toBe(true);
   });
 
   it('only launches diverse profile-safe questions, covers the complete prototype scope and includes genuine multi-row reasoning', () => {
@@ -147,17 +155,42 @@ describe('catalog and profile-driven sessions', () => {
     expect(launched.questions).toHaveLength(20);
   });
 
-  it('derives a transparent practice-readiness signal from profile evidence', () => {
+  it('derives practice readiness from repeated evidence and broad profile coverage', () => {
     const empty = getGoalReadiness(PROFILE_REF, {});
-    expect(empty).toMatchObject({ practicedRows: 0, readyRows: 0, score: 0, status: 'getting_started' });
+    expect(empty).toMatchObject({
+      practicedRows: 0,
+      readyRows: 0,
+      practicedGroups: 0,
+      score: 0,
+      status: 'getting_started'
+    });
     expect(empty.totalRows).toBe(sofMembership.members.length);
+    expect(empty.totalGroups).toBeGreaterThanOrEqual(10);
 
-    const mastery: Record<string, MasteryCounter> = {};
-    for (const member of sofMembership.members.slice(0, 20)) mastery[member.rowId] = masteredCounter();
-    const ready = getGoalReadiness(PROFILE_REF, mastery);
+    const narrowMastery: Record<string, MasteryCounter> = {};
+    for (const member of sofMembership.members.slice(0, 20)) narrowMastery[member.rowId] = masteredCounter();
+    const narrow = getGoalReadiness(PROFILE_REF, narrowMastery);
 
-    expect(ready.practicedRows).toBe(20);
-    expect(ready.readyRows).toBe(20);
+    expect(narrow.practicedRows).toBe(20);
+    expect(narrow.readyRows).toBe(20);
+    expect(narrow.accuracy).toBe(1);
+    expect(narrow.score).toBeLessThan(100);
+    expect(narrow.status).toBe('building');
+
+    const broadMastery: Record<string, MasteryCounter> = {};
+    const rowsPerGroup = new Map<string, number>();
+    for (const member of sofMembership.members) {
+      const group = knowledgeGroupForRow(member.rowId);
+      const used = rowsPerGroup.get(group) ?? 0;
+      if (used >= 3) continue;
+      rowsPerGroup.set(group, used + 1);
+      broadMastery[member.rowId] = masteredCounter();
+    }
+    const ready = getGoalReadiness(PROFILE_REF, broadMastery);
+
+    expect(ready.practicedGroups).toBe(ready.totalGroups);
+    expect(ready.practicedRows).toBeGreaterThanOrEqual(40);
+    expect(ready.readyRows).toBe(ready.practicedRows);
     expect(ready.accuracy).toBe(1);
     expect(ready.score).toBe(100);
     expect(ready.status).toBe('mock_ready');
