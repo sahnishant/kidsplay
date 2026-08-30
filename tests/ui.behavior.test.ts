@@ -5,6 +5,10 @@ import Session from '../src/ui/Session.svelte';
 import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import type { SessionAttempt } from '../src/contracts/runtime';
+import {
+  getPatternMockContractSignature,
+  getQuestionContractSignature
+} from '../src/runtime/mockContract';
 import { recordMockCompletion, saveMockCheckpoint } from '../src/runtime/mockPersistence';
 import { createSessionState, submitResponse } from '../src/runtime/session';
 
@@ -85,18 +89,13 @@ describe('user-facing product flow', () => {
     const patternEntry = getCatalogEntries().find((entry) => entry.actionLabel === 'Try 35-question mock');
     expect(patternEntry).toBeTruthy();
     const launch = createSessionForCatalogEntry(patternEntry!.id, {});
-    const sectionSignature = JSON.stringify((launch.sections ?? []).map((section) => ({
-      id: section.id,
-      startIndex: section.startIndex,
-      count: section.count,
-      marksPerQuestion: section.marksPerQuestion
-    })));
 
     saveMockCheckpoint({
       entryId: patternEntry!.id,
       title: launch.title,
       questionIds: launch.questions.map((question) => question.id),
-      sectionSignature,
+      sectionSignature: getPatternMockContractSignature(launch.profileRef),
+      questionSignature: getQuestionContractSignature(launch.questions),
       state: {
         sessionId: 'session.saved-pattern',
         index: 0,
