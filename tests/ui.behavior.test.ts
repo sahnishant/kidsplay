@@ -85,7 +85,8 @@ describe('user-facing product flow', () => {
   it('shows the learning map and motion moment, saves the player and enters and leaves a profile-driven goal session', async () => {
     render(App);
 
-    expect(screen.getByRole('heading', { name: 'Learn as you play' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Where should Dheu explore?' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'See an idea move' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'How each topic is going' })).toBeTruthy();
     expect(screen.getByText('Human Body')).toBeTruthy();
@@ -103,7 +104,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
-    expect(screen.getByRole('heading', { name: 'Choose what to do' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
   });
 
   it('surfaces and resumes an exact saved pattern mock and shows saved mock history', async () => {

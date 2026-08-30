@@ -70,6 +70,6 @@ describe('mock resume contract integrity', () => {
     expect(screen.getByRole('alert').textContent).toMatch(/one or more saved questions changed/i);
     expect(screen.queryByRole('heading', { name: 'Resume your saved mock' })).toBeNull();
     expect(loadMockCheckpoint()).toBeNull();
-    expect(screen.getByRole('heading', { name: 'Choose what to do' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
   });
 });
