@@ -44,6 +44,7 @@ for (const fileName of reviewFiles) {
   const memberByRow = new Map((membership?.members ?? []).map((member) => [member.rowId, member]));
   const currentAcademicYear = membership?.provenance?.academicYear;
   let hasCurrentYearScopeEvidence = false;
+  const currentYearScopeRefs = new Set();
 
   for (const [index, evidence] of (review.scopeEvidence ?? []).entries()) {
     const evidencePrefix = `${prefix}/scopeEvidence[${index}]`;
@@ -59,6 +60,7 @@ for (const fileName of reviewFiles) {
         && source.academicYear === currentAcademicYear
       ) {
         hasCurrentYearScopeEvidence = true;
+        currentYearScopeRefs.add(evidence.sourceRef);
       }
     }
     if (!allowedEvidenceTypes.has(evidence.evidenceType)) {
@@ -116,6 +118,14 @@ for (const fileName of reviewFiles) {
       }
       if (!hasCurrentYearScopeEvidence) {
         errors.push(`${evidencePrefix}: historical_class2 evidence requires current-year official_scope evidence in the same review`);
+      }
+      if (!hasText(evidence.currentScopeSourceRef)) {
+        errors.push(`${evidencePrefix}: historical_class2 evidence requires currentScopeSourceRef`);
+      } else if (!currentYearScopeRefs.has(evidence.currentScopeSourceRef)) {
+        errors.push(`${evidencePrefix}: currentScopeSourceRef must point to current-year official_scope evidence in this review`);
+      }
+      if (!hasText(evidence.currentScopeLocator)) {
+        errors.push(`${evidencePrefix}: historical_class2 evidence requires currentScopeLocator`);
       }
     }
 
