@@ -14,8 +14,8 @@
       "version": 1,
       "shuffleOptions": false,
       "options": [
-        { "id": "land", "label": "On land" },
-        { "id": "water", "label": "Under water" }
+        { "id": "land", "label": "On land", "visualRefs": ["entity.habitat.land"] },
+        { "id": "water", "label": "Under water", "visualRefs": ["entity.habitat.water"] }
       ]
     },
     "solution": { "type": "exact_option", "correctOptionIds": ["land"] },
@@ -44,8 +44,8 @@
         { "type": "text", "value": "." }
       ],
       "wordBank": [
-        { "id": "water", "label": "water" },
-        { "id": "land", "label": "land" }
+        { "id": "water", "label": "water", "visualRefs": ["entity.habitat.water"] },
+        { "id": "land", "label": "land", "visualRefs": ["entity.habitat.land"] }
       ]
     },
     "solution": { "type": "blank_answers", "answers": { "habitat": ["water"] } },
@@ -69,11 +69,11 @@
       "type": "drag_to_target",
       "version": 1,
       "items": [
-        { "id": "dog", "label": "Dog", "symbol": "🐶" }
+        { "id": "dog", "label": "Dog", "symbol": "🐶", "visualRefs": ["entity.animal.dog"] }
       ],
       "targets": [
-        { "id": "land", "label": "Land", "symbol": "🌳" },
-        { "id": "water", "label": "Water", "symbol": "🌊" }
+        { "id": "land", "label": "Land", "symbol": "🌳", "visualRefs": ["entity.habitat.land"] },
+        { "id": "water", "label": "Water", "symbol": "🌊", "visualRefs": ["entity.habitat.water"] }
       ]
     },
     "solution": { "type": "target_assignment", "assignments": { "dog": "land" } },
@@ -98,8 +98,8 @@
       "version": 1,
       "shuffleOptions": false,
       "options": [
-        { "id": "forest", "label": "Forest" },
-        { "id": "ocean", "label": "Ocean" }
+        { "id": "forest", "label": "Forest", "visualRefs": ["entity.habitat.forest"] },
+        { "id": "ocean", "label": "Ocean", "visualRefs": ["entity.habitat.ocean"] }
       ]
     },
     "solution": { "type": "exact_option", "correctOptionIds": ["ocean"] },
@@ -128,8 +128,8 @@
         { "type": "text", "value": "." }
       ],
       "wordBank": [
-        { "id": "land", "label": "land" },
-        { "id": "water", "label": "water" }
+        { "id": "land", "label": "land", "visualRefs": ["entity.habitat.land"] },
+        { "id": "water", "label": "water", "visualRefs": ["entity.habitat.water"] }
       ]
     },
     "solution": { "type": "blank_answers", "answers": { "habitat": ["land"] } },
@@ -153,11 +153,11 @@
       "type": "drag_to_target",
       "version": 1,
       "items": [
-        { "id": "whale", "label": "Whale", "symbol": "🐋" }
+        { "id": "whale", "label": "Whale", "symbol": "🐋", "visualRefs": ["entity.animal.whale"] }
       ],
       "targets": [
-        { "id": "land", "label": "Land", "symbol": "🌳" },
-        { "id": "water", "label": "Water", "symbol": "🌊" }
+        { "id": "land", "label": "Land", "symbol": "🌳", "visualRefs": ["entity.habitat.land"] },
+        { "id": "water", "label": "Water", "symbol": "🌊", "visualRefs": ["entity.habitat.water"] }
       ]
     },
     "solution": { "type": "target_assignment", "assignments": { "whale": "water" } },
