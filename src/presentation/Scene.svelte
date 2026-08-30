@@ -1,18 +1,8 @@
 <script lang="ts">
   import sceneJson from '../../content/scenes/animals.json';
-  import SceneIcon from './SceneIcon.svelte';
+  import SceneIcon, { type SceneIconId } from './SceneIcon.svelte';
 
   type Motion = 'bounce' | 'float' | 'pulse' | 'wiggle';
-  type IconName =
-    | 'dog-happy'
-    | 'dog-worried'
-    | 'bone'
-    | 'heart'
-    | 'wave'
-    | 'whale'
-    | 'balloon'
-    | 'candle'
-    | 'pumice';
   interface SceneEntity {
     id: string;
     kind: 'icon' | 'text';
@@ -34,8 +24,8 @@
   const byId = new Map(scenes.map((scene) => [scene.id, scene]));
   let scene = $derived(byId.get(sceneId));
 
-  function iconName(value: string): IconName {
-    return value as IconName;
+  function iconName(value: string): SceneIconId {
+    return value as SceneIconId;
   }
 </script>
 
