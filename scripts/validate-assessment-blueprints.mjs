@@ -47,7 +47,7 @@ for (const file of blueprintFiles) {
   if (!Array.isArray(blueprint.sourceRefs) || !blueprint.sourceRefs.length) fail(`${file} needs sourceRefs`);
   const uniqueSourceRefs = new Set(blueprint.sourceRefs);
   if (uniqueSourceRefs.size !== blueprint.sourceRefs.length) fail(`${file} has duplicate sourceRefs`);
-  let hasOfficialAssessment = false;
+  let hasCurrentYearOfficialAssessment = false;
   for (const sourceRef of blueprint.sourceRefs) {
     const source = sourceById.get(sourceRef);
     if (!source) fail(`${file} refers to unknown source ${sourceRef}`);
@@ -55,12 +55,17 @@ for (const file of blueprintFiles) {
     if (source.academicYear && source.academicYear !== blueprint.academicYear) {
       fail(`${file} source ${sourceRef} academicYear ${source.academicYear} does not match ${blueprint.academicYear}`);
     }
-    if (source.type === 'official_assessment') hasOfficialAssessment = true;
+    if (source.type === 'official_assessment' && source.academicYear === blueprint.academicYear) {
+      hasCurrentYearOfficialAssessment = true;
+    }
   }
-  if (!hasOfficialAssessment) fail(`${file} must cite at least one reviewed official_assessment source`);
+  if (!hasCurrentYearOfficialAssessment) {
+    fail(`${file} must cite a reviewed official_assessment explicitly dated ${blueprint.academicYear}`);
+  }
 
   if (!Array.isArray(blueprint.sections) || !blueprint.sections.length) fail(`${file} needs sections`);
   const sectionIds = new Set();
+  const selectors = new Set();
   let sectionTotal = 0;
   let sectionMarksTotal = 0;
   for (const section of blueprint.sections) {
@@ -73,6 +78,8 @@ for (const file of blueprintFiles) {
       fail(`${file} section ${section.id} needs a positive integer marksPerQuestion`);
     }
     if (!allowedSelectors.has(section.selector)) fail(`${file} section ${section.id} has unsupported selector ${section.selector}`);
+    if (selectors.has(section.selector)) fail(`${file} repeats selector ${section.selector}; sections must be independently addressable`);
+    selectors.add(section.selector);
     sectionTotal += section.count;
     sectionMarksTotal += section.count * section.marksPerQuestion;
   }
@@ -88,5 +95,5 @@ for (const file of blueprintFiles) {
 
 console.log(
   `Assessment blueprint OK: ${blueprintFiles.length} blueprint(s), ` +
-  `${totalSlots} validated question slot(s), ${totalMarks} validated mark(s).`
+  `${totalSlots} validated question slot(s), ${totalMarks} validated mark(s), current-year official format provenance confirmed.`
 );
