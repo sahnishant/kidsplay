@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import lexiconSources from '../content/lexicon/sources.json';
 import generatedQuestionsJson from '../content/questions/__generated-from-knowledge.json';
 import freeVocabularyPack from '../content/packs/free-vocabulary.json';
 import {
@@ -94,5 +95,21 @@ describe('vocabulary delivery', () => {
     });
     expect(launch.questions).toHaveLength(8);
     expect(launch.questions.every((item) => freeVocabularyPack.questionRefs.includes(item.id))).toBe(true);
+  });
+
+  it('keeps lexical source licensing explicit and machine-readable', () => {
+    expect(lexiconSources.policy.primarySourceId).toBe('open-english-wordnet');
+    expect(lexiconSources.policy.shipCuratedSlicesOnly).toBe(true);
+    expect(lexiconSources.policy.requireFieldLevelProvenanceForImportedText).toBe(true);
+
+    const bySourceId = new Map(lexiconSources.sources.map((source) => [source.id, source]));
+    expect(bySourceId.get('open-english-wordnet')).toMatchObject({
+      license: 'CC-BY-4.0',
+      adoption: 'preferred'
+    });
+    expect(bySourceId.get('wiktionary-kaikki')).toMatchObject({
+      license: 'CC-BY-SA-4.0-and-GFDL',
+      adoption: 'isolated_only'
+    });
   });
 });

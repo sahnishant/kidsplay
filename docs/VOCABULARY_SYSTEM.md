@@ -4,7 +4,7 @@ Vocabulary is a content domain, not a single question type. Kidsplay stores lexi
 
 ## Current model
 
-The existing `association_set@1` datatype already fits most vocabulary relationships:
+The existing `association_set@1` datatype fits most vocabulary relationships:
 
 - word `means` child-friendly definition
 - word `synonym_of` word
@@ -13,21 +13,33 @@ The existing `association_set@1` datatype already fits most vocabulary relations
 
 A stable knowledge row remains the mastery/evidence unit. Activity recipes select rows and format them into runtime questions; packs decide free/paid placement. Do not copy the same vocabulary fact into engine-specific question banks.
 
+## Student delivery path
+
+Vocabulary is a real free student mode, not only a content file:
+
+1. `content/knowledge/english-vocabulary-foundation.json` stores reusable lexical rows.
+2. Activity recipes compile those rows into several question mechanics.
+3. `content/packs/free-vocabulary.json` selects the activities in the free Vocabulary Playground.
+4. `src/content.ts` exposes that pack in the home catalog as `Play words` and builds short mixed vocabulary sessions.
+5. The normal `Session` runtime dispatches each question to its generic engine and records mastery against the original `knowledgeRefs`.
+
+This keeps content growth independent of UI growth: adding 500 reviewed words does not require 500 hand-authored Svelte questions, and adding a genuinely new interaction engine does not require restructuring the dictionary.
+
 ## Delivery matrix
 
 | Learning action | Engine | Example | Status |
 | --- | --- | --- | --- |
 | Meaning -> choose word | `single_choice@1` | “Which word means very large?” | supported |
-| Word -> choose meaning | `single_choice@1` | “What does enormous mean?” | supported by direction recipe |
+| Word -> choose meaning | `single_choice@1` | “What does enormous mean?” | supported via `choiceDirection` |
 | Word <-> meaning match | `drag_to_target@1` | enormous -> very large | supported |
 | Recall pairs | `memory_pairs@1` | word card + meaning card | supported |
-| Definition fill | `word_bank_fill@1` | enormous — ___ | supported |
+| Definition fill | `word_bank_fill@1` | enormous means ___ | supported |
 | Find spelling | `word_search@1` | locate ENORMOUS | supported |
 | Definition crossword | `crossword@1` | clue -> word | supported |
-| Unscramble letters | `letter_unscramble@1` | MROOUSNE -> ENORMOUS | vocabulary expansion |
+| Unscramble letters | `sequence_order@1` | MROOUSNE -> ENORMOUS | supported via `subject_letters` recipe |
 | Physical revision | `print_cards@1` | definition front / word back | supported |
 
-The same pattern applies to synonyms, antonyms and homophones. Later engines such as missing-letter, syllable-build, audio spelling and contextual cloze should consume the same lexical rows rather than introduce a new vocabulary database.
+The same pattern applies to synonyms, antonyms and homophones. An anagram is deliberately a vocabulary formatting mode on the existing sequence mechanic rather than a separate runtime engine. Later mechanics such as missing-letter, syllable-build, audio spelling and contextual cloze should consume the same lexical rows rather than introduce another vocabulary database.
 
 ## Lexical record direction
 
@@ -55,15 +67,15 @@ The machine-readable registry is `content/lexicon/sources.json`.
 
 ### Preferred semantic backbone: Open English WordNet
 
-Use Open English WordNet as the first-choice structured English lexical source. It is actively maintained, derived from Princeton WordNet and published under CC BY 4.0. Import only the selected senses/relations needed by curated learning lists. Preserve attribution and upstream IDs.
+Use Open English WordNet as the first-choice structured English lexical source. It is maintained separately from the app, derived from Princeton WordNet and published under CC BY 4.0. Import only the selected senses/relations needed by curated learning lists. Preserve attribution and upstream IDs.
 
 ### Secondary source: Princeton WordNet
 
-Princeton WordNet can be used as a fallback/reference source under its own permissive WordNet license. Preserve the required copyright/license notices when redistributing derived database material.
+Princeton WordNet can be used as a fallback/reference source under its own WordNet license. Preserve the required copyright/license notices when redistributing covered database material.
 
 ### Optional enrichment: Wiktionary / Kaikki
 
-Kaikki provides convenient machine-readable Wiktionary extraction. Wiktionary text is CC BY-SA 4.0 and GFDL. Treat imported Wiktionary/Kaikki text as a separately traceable source; do not silently mix verbatim/adapted BY-SA definitions into Kidsplay-authored proprietary editorial fields. If those fields are redistributed, satisfy the relevant attribution/share-alike terms.
+Kaikki provides convenient machine-readable Wiktionary extraction. Wiktionary text is CC BY-SA 4.0 and GFDL. Treat imported Wiktionary/Kaikki text as a separately traceable source; do not silently mix verbatim/adapted BY-SA definitions into Kidsplay-authored editorial fields. If those fields are redistributed, satisfy the relevant attribution/share-alike terms.
 
 ## Collection pipeline
 
@@ -101,6 +113,6 @@ Avoid assigning every vocabulary word to every class merely because the dictiona
 - A puzzle must never accidentally reveal the answer through an unrelated semantic image.
 - Pack access policy remains outside questions and engines.
 
-## Near-term expansion
+## Next high-value formats
 
-After `letter_unscramble@1`, the next high-value vocabulary formats are contextual cloze, missing-letter spelling, category/odd-one-out and audio-to-word. Prefer adding them only when they introduce a genuinely different learning action; otherwise reuse the existing engines with new recipes.
+After the current choice, match, memory, fill, search, crossword and letter-ordering modes, the highest-value additions are contextual cloze, missing-letter spelling, category/odd-one-out and audio-to-word. Prefer a new engine only when it introduces a genuinely different learning action; otherwise add a formatter/recipe on an existing mechanic.
