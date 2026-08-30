@@ -134,37 +134,49 @@ const formatCrossword = (source, recipe, units) => {
   };
 };
 
-const formatSingleChoice = (source, recipe, units) => {
-  if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit`);
-  const target = units[0];
+const singleChoiceQuestion = (source, recipe, target) => {
   const distractorCount = recipe.distractorCount ?? 3;
   const distractors = source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount);
   if (distractors.length < distractorCount) throw new Error(`${recipe.id}: not enough distractors in ${source.sourceRef}`);
   const optionUnits = [target, ...distractors];
-  const base = baseQuestion(source, recipe, units, questionPromptFor(target));
+  const base = baseQuestion(source, recipe, [target], questionPromptFor(target));
   return {
-    questions: [{
-      ...base,
-      interaction: {
-        type: 'single_choice',
-        version: 1,
-        shuffleOptions: true,
-        options: optionUnits.map((unit) => ({
-          id: `${unit.localId}:subject`,
-          label: unit.subject.label,
-          semanticRef: semanticRefFor(unit.subject)
-        }))
-      },
-      solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:subject`] }
-    }],
+    ...base,
+    interaction: {
+      type: 'single_choice',
+      version: 1,
+      shuffleOptions: true,
+      options: optionUnits.map((unit) => ({
+        id: `${unit.localId}:subject`,
+        label: unit.subject.label,
+        semanticRef: semanticRefFor(unit.subject)
+      }))
+    },
+    solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:subject`] }
+  };
+};
+
+const formatSingleChoice = (source, recipe, units) => {
+  if (recipe.perEntry === true) {
+    return {
+      questions: units.map((target) => singleChoiceQuestion(
+        source,
+        { ...recipe, id: `${recipe.id}.${target.localId}` },
+        target
+      )),
+      crosswordAuthoring: [],
+      outputContracts: []
+    };
+  }
+  if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit unless perEntry=true`);
+  return {
+    questions: [singleChoiceQuestion(source, recipe, units[0])],
     crosswordAuthoring: [],
     outputContracts: []
   };
 };
 
-const formatWordBankFill = (source, recipe, units) => {
-  if (units.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one unit`);
-  const target = units[0];
+const wordBankFillQuestion = (source, recipe, target) => {
   const template = recipe.sentenceTemplate ?? '{subject} — {blank}';
   const parts = template.split('{blank}');
   if (parts.length !== 2) throw new Error(`${recipe.id}: sentenceTemplate must contain {blank} exactly once`);
@@ -177,22 +189,38 @@ const formatWordBankFill = (source, recipe, units) => {
   if (before) segments.push({ type: 'text', value: before });
   segments.push({ type: 'blank', id: 'answer' });
   if (after) segments.push({ type: 'text', value: after });
-  const base = baseQuestion(source, recipe, units, 'Complete the sentence.');
+  const base = baseQuestion(source, recipe, [target], 'Complete the sentence.');
   return {
-    questions: [{
-      ...base,
-      interaction: {
-        type: 'word_bank_fill',
-        version: 1,
-        segments,
-        wordBank: bankUnits.map((unit) => ({
-          id: `${unit.localId}:object`,
-          label: unit.object.label,
-          semanticRef: semanticRefFor(unit.object)
-        }))
-      },
-      solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
-    }],
+    ...base,
+    interaction: {
+      type: 'word_bank_fill',
+      version: 1,
+      segments,
+      wordBank: bankUnits.map((unit) => ({
+        id: `${unit.localId}:object`,
+        label: unit.object.label,
+        semanticRef: semanticRefFor(unit.object)
+      }))
+    },
+    solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
+  };
+};
+
+const formatWordBankFill = (source, recipe, units) => {
+  if (recipe.perEntry === true) {
+    return {
+      questions: units.map((target) => wordBankFillQuestion(
+        source,
+        { ...recipe, id: `${recipe.id}.${target.localId}` },
+        target
+      )),
+      crosswordAuthoring: [],
+      outputContracts: []
+    };
+  }
+  if (units.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one unit unless perEntry=true`);
+  return {
+    questions: [wordBankFillQuestion(source, recipe, units[0])],
     crosswordAuthoring: [],
     outputContracts: []
   };
