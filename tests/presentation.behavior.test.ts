@@ -41,6 +41,11 @@ describe('lightweight question presentation', () => {
   it('maps additional exact canonical facts to reusable motion scenes', () => {
     expect(
       resolveQuestionSceneId(
+        question({ conceptIds: ['human.organs.lungs'], knowledgeRefs: ['kr.human.lungs.function.breathe'] })
+      )
+    ).toBe('scene.human.lungs-breathing');
+    expect(
+      resolveQuestionSceneId(
         question({ conceptIds: ['air.properties.windmill'], knowledgeRefs: ['kr.air.windmill.turned-by.wind'] })
       )
     ).toBe('scene.air.windmill');
@@ -64,6 +69,14 @@ describe('lightweight question presentation', () => {
         question({ conceptIds: ['plants.importance.air'], knowledgeRefs: ['kr.plants.general.air.cool-fresh'] })
       )
     ).toBe('scene.plants.air-fresh');
+  });
+
+  it('reuses the lungs visual for breathing-air reinforcement', () => {
+    expect(
+      resolveQuestionSceneId(
+        question({ conceptIds: ['air.properties.breathing'], knowledgeRefs: ['kr.air.breathing.need.air'] })
+      )
+    ).toBe('scene.human.lungs-breathing');
   });
 
   it('can suppress inferred learning cues for assessment surfaces', () => {
@@ -90,7 +103,8 @@ describe('lightweight question presentation', () => {
   it('only exposes dashboard scenes for topics with a meaningful reusable visual', () => {
     expect(resolveDashboardSceneId('animals')).toBe('scene.dog.happy-bone');
     expect(resolveDashboardSceneId('air')).toBe('scene.air.windmill');
-    expect(resolveDashboardSceneId('human')).toBeNull();
+    expect(resolveDashboardSceneId('human')).toBe('scene.human.lungs-breathing');
+    expect(resolveDashboardSceneId('food')).toBeNull();
   });
 
   it('keeps every inferred/dashboard mapping attached to a registered scene definition', () => {
