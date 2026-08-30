@@ -30,6 +30,7 @@ export interface VisualDefinition {
 
 export interface PresentableVisualItem {
   label: string;
+  semanticRef?: string;
   visualRefs?: string[];
 }
 
@@ -48,6 +49,7 @@ const definitions = Object.values(visualModules).flatMap((value) =>
 );
 const visualById = new Map(definitions.map((definition) => [definition.id, definition]));
 const visualRefByAlias = new Map<string, string>();
+const visualRefBySemanticKey = new Map<string, string>();
 
 function normalizeLabel(value: string): string {
   return value
@@ -58,14 +60,30 @@ function normalizeLabel(value: string): string {
     .trim();
 }
 
+function registerSemanticKey(key: string, visualRef: string): void {
+  const normalized = normalizeLabel(key);
+  if (!normalized || visualRefBySemanticKey.has(normalized)) return;
+  visualRefBySemanticKey.set(normalized, visualRef);
+}
+
 for (const definition of definitions) {
   for (const alias of definition.aliases) {
     visualRefByAlias.set(normalizeLabel(alias), definition.id);
+    registerSemanticKey(alias, definition.id);
   }
+  const idParts = definition.id.split('.');
+  registerSemanticKey(idParts[idParts.length - 1] ?? '', definition.id);
 }
 
 export function resolveVisualDefinition(visualRef: string): VisualDefinition | null {
   return visualById.get(visualRef) ?? null;
+}
+
+/** Resolve a canonical content entity id without relying on display wording. */
+export function resolveSemanticVisualRefs(semanticRef?: string): string[] {
+  if (!semanticRef) return [];
+  const visualRef = visualRefBySemanticKey.get(normalizeLabel(semanticRef));
+  return visualRef ? [visualRef] : [];
 }
 
 /**
@@ -92,12 +110,14 @@ export function resolveLabelVisualRefs(label: string): string[] {
   return [...new Set(refs as string[])];
 }
 
-/** Explicit authored refs win. Exact-label inference is only a migration aid. */
+/** Explicit authored refs win; semantic ids beat display-label inference. */
 export function resolveItemVisualRefs(
   item: PresentableVisualItem,
   allowLabelInference = true
 ): string[] {
   if (item.visualRefs?.length) return [...item.visualRefs];
+  const semanticRefs = resolveSemanticVisualRefs(item.semanticRef);
+  if (semanticRefs.length) return semanticRefs;
   return allowLabelInference ? resolveLabelVisualRefs(item.label) : [];
 }
 
