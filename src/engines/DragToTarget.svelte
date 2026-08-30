@@ -1,5 +1,7 @@
 <script lang="ts">
-  import type { DragToTargetQuestion } from '../contracts/question';
+  import type { DragItem, DragTarget, DragToTargetQuestion } from '../contracts/question';
+  import VisualEntity from '../presentation/VisualEntity.svelte';
+  import { resolveItemVisualRefs } from '../presentation/visualRegistry';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<DragToTargetQuestion> = $props();
@@ -19,6 +21,14 @@
 
   function targetLabel(targetId: string): string {
     return question.interaction.targets.find((target) => target.id === targetId)?.label ?? targetId;
+  }
+
+  function itemVisualRefs(item: DragItem): string[] {
+    return resolveItemVisualRefs(item, true);
+  }
+
+  function targetVisualRefs(target: DragTarget): string[] {
+    return resolveItemVisualRefs(target, true);
   }
 
   function assignedLabel(targetId: string): string {
@@ -94,9 +104,10 @@
 <div class="drag-stage">
   <div class="drag-items" aria-label="Things to move">
     {#each question.interaction.items as item (item.id)}
+      {@const visualRefs = itemVisualRefs(item)}
       <button
         type="button"
-        class={`drag-item${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
+        class={`drag-item${visualRefs.length ? ' drag-item--visual' : ''}${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
         aria-pressed={selectedItemId === item.id}
         disabled={locked}
         onclick={() => clickItem(item.id)}
@@ -105,22 +116,41 @@
         onpointerup={(event) => pointerEnd(item.id, event)}
         onpointercancel={(event) => pointerEnd(item.id, event)}
       >
-        {`${item.symbol ?? ''} ${item.label}${assignments[item.id] ? ` → ${targetLabel(assignments[item.id])}` : ''}`.trim()}
+        {#if visualRefs.length}
+          <span class="drag-visuals" aria-hidden="true">
+            {#each visualRefs as visualRef (visualRef)}
+              <span class="drag-visual"><VisualEntity {visualRef} context="drag-item" /></span>
+            {/each}
+          </span>
+        {:else if item.symbol}
+          <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
+        {/if}
+        <span>{item.label}{assignments[item.id] ? ` → ${targetLabel(assignments[item.id])}` : ''}</span>
       </button>
     {/each}
   </div>
 
   <div class="target-grid">
     {#each question.interaction.targets as target (target.id)}
+      {@const visualRefs = targetVisualRefs(target)}
       <button
         type="button"
-        class="drop-target"
+        class={`drop-target${visualRefs.length ? ' drop-target--visual' : ''}`}
         data-drop-target="true"
         data-target-id={target.id}
         disabled={locked}
         onclick={() => selectedItemId && assign(selectedItemId, target.id)}
       >
-        <strong>{`${target.symbol ?? ''} ${target.label}`.trim()}</strong>
+        {#if visualRefs.length}
+          <span class="target-visuals" aria-hidden="true">
+            {#each visualRefs as visualRef (visualRef)}
+              <span class="target-visual"><VisualEntity {visualRef} context="drag-target" /></span>
+            {/each}
+          </span>
+        {:else if target.symbol}
+          <span class="drag-symbol" aria-hidden="true">{target.symbol}</span>
+        {/if}
+        <strong>{target.label}</strong>
         <span class="drop-target__slot">{assignedLabel(target.id)}</span>
       </button>
     {/each}
@@ -130,3 +160,40 @@
 <button class="primary-button" type="button" disabled={locked || !complete} onclick={submit}>
   Check answer
 </button>
+
+<style>
+  .drag-item--visual {
+    min-width: 142px;
+    min-height: 110px;
+    display: grid;
+    place-items: center;
+    gap: 3px;
+  }
+
+  .drag-visuals,
+  .target-visuals {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .drag-visual {
+    width: 68px;
+    height: 58px;
+  }
+
+  .target-visual {
+    width: 76px;
+    height: 62px;
+  }
+
+  .drag-symbol {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  .drop-target--visual {
+    min-height: 150px;
+  }
+</style>
