@@ -1,0 +1,5702 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.primary.grade4.introduced.oewn-review",
+  "language": "en",
+  "sourceId": "open-english-wordnet",
+  "sourceVersion": "2025",
+  "purpose": "Prioritized grade-4 introduced primary vocabulary candidates for OEWN sense review; no imported definition is approved by this selection.",
+  "sourceGradeCorpus": {
+    "id": "lexicon.primary.english.grade-candidates.001",
+    "sourceId": "grundwortschatz-voc-en",
+    "sourceRevision": "004977ae2c475fcf12f8b73a02dbb9552e3b6577",
+    "license": "CC-BY-SA-4.0"
+  },
+  "selection": {
+    "grade": 4,
+    "mode": "introduced",
+    "requested": 400,
+    "selected": 400,
+    "rawGradeRows": 896,
+    "candidatePool": 894,
+    "excludedOrDeduplicated": 2,
+    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum-anchor/frequency score + coarse POS balancing",
+    "reviewStatus": "pending_sense_and_editorial_review"
+  },
+  "items": [
+    {
+      "lemma": "harbour",
+      "sourceCorpusId": "word_en_06541",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 26.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06541; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "puzzle",
+      "sourceCorpusId": "word_en_13612",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 26.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13612; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ballet",
+      "sourceCorpusId": "word_en_02204",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 26.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02204; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fierce",
+      "sourceCorpusId": "word_en_05720",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 26.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05720; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "voyage",
+      "sourceCorpusId": "word_en_15041",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 26.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15041; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "candle",
+      "sourceCorpusId": "word_en_02923",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 26.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02923; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bark",
+      "sourceCorpusId": "word_en_02244",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 26.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02244; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "humour",
+      "sourceCorpusId": "word_en_06885",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 26.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06885; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sunrise",
+      "sourceCorpusId": "word_en_14483",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 26.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14483; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "volcano",
+      "sourceCorpusId": "word_en_15035",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 26.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15035; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "dolphin",
+      "sourceCorpusId": "word_en_04793",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 25.84,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04793; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "chimney",
+      "sourceCorpusId": "word_en_03261",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 25.6,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03261; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "graceful",
+      "sourceCorpusId": "word_en_12356",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.39,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 25.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12356; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "beak",
+      "sourceCorpusId": "word_en_11725",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.3,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 25.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11725; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "curiosity",
+      "sourceCorpusId": "word_en_04159",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04159; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "thorough",
+      "sourceCorpusId": "word_en_09625",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_09625; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "conscience",
+      "sourceCorpusId": "word_en_03745",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03745; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "occupy",
+      "sourceCorpusId": "word_en_08294",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08294; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "recognise",
+      "sourceCorpusId": "word_en_08892",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08892; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "interfere",
+      "sourceCorpusId": "word_en_07310",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07310; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sincere",
+      "sourceCorpusId": "word_en_09258",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_09258; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "persuade",
+      "sourceCorpusId": "word_en_08498",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08498; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "yacht",
+      "sourceCorpusId": "word_en_09980",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_09980; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "accompany",
+      "sourceCorpusId": "word_en_01205",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01205; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "prejudice",
+      "sourceCorpusId": "word_en_08648",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08648; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "definite",
+      "sourceCorpusId": "word_en_04359",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04359; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "queue",
+      "sourceCorpusId": "word_en_08833",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 23.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08833; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "disastrous",
+      "sourceCorpusId": "word_en_04651",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.86,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04651; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "interrupt",
+      "sourceCorpusId": "word_en_07325",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.61,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.72,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07325; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "rhyme",
+      "sourceCorpusId": "word_en_09096",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.56,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.62,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_09096; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "correspond",
+      "sourceCorpusId": "word_en_03950",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.5,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.5,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03950; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "equip",
+      "sourceCorpusId": "word_en_05262",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.5,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.5,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05262; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "nuisance",
+      "sourceCorpusId": "word_en_08257",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.5,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.5,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08257; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "embarrass",
+      "sourceCorpusId": "word_en_05107",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.41,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 22.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05107; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "homemade",
+      "sourceCorpusId": "word_en_06780",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:hermit"
+      ],
+      "priorityScore": 22.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06780; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "exaggerate",
+      "sourceCorpusId": "word_en_05381",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.19,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 21.88,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05381; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bruise",
+      "sourceCorpusId": "word_en_02747",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.18,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 21.86,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02747; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "twelfth",
+      "sourceCorpusId": "word_en_09715",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 18.52,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_09715; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "harass",
+      "sourceCorpusId": "word_en_06537",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.28,
+      "sourceTags": [
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 18.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06537; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hindrance",
+      "sourceCorpusId": "word_en_06732",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.01,
+      "sourceTags": [
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 17.52,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06732; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "advertise",
+      "sourceCorpusId": "word_en_01018",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.66,
+      "sourceTags": [
+        "fry_b10",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry"
+      ],
+      "priorityScore": 16.82,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01018; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "mischievous",
+      "sourceCorpusId": "word_en_08111",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.15,
+      "sourceTags": [
+        "often_misspelled",
+        "source:common_misspelled",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 16.8,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_08111; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fax",
+      "sourceCorpusId": "word_en_00757",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "fry_b7",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry",
+        "source:hermit"
+      ],
+      "priorityScore": 16.76,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_00757; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "browse",
+      "sourceCorpusId": "word_en_00662",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.59,
+      "sourceTags": [
+        "fry_b7",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry"
+      ],
+      "priorityScore": 16.68,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_00662; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "accurately",
+      "sourceCorpusId": "word_en_11575",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11575; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bent",
+      "sourceCorpusId": "word_en_02425",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02425; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "deaf",
+      "sourceCorpusId": "word_en_04271",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04271; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "evident",
+      "sourceCorpusId": "word_en_12199",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12199; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "honesty",
+      "sourceCorpusId": "word_en_06793",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06793; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "negotiate",
+      "sourceCorpusId": "word_en_13008",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13008; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "propose",
+      "sourceCorpusId": "word_en_13568",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13568; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sore",
+      "sourceCorpusId": "word_en_14274",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14274; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "steep",
+      "sourceCorpusId": "word_en_14375",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14375; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "straw",
+      "sourceCorpusId": "word_en_14412",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14412; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "upload",
+      "sourceCorpusId": "word_en_14955",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.99,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.48,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14955; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "absent",
+      "sourceCorpusId": "word_en_01152",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01152; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "adapt",
+      "sourceCorpusId": "word_en_01292",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01292; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "atomic",
+      "sourceCorpusId": "word_en_02035",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02035; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bump",
+      "sourceCorpusId": "word_en_02789",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02789; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "circus",
+      "sourceCorpusId": "word_en_03327",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03327; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "construct",
+      "sourceCorpusId": "word_en_11927",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11927; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "expose",
+      "sourceCorpusId": "word_en_05522",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05522; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "freshman",
+      "sourceCorpusId": "word_en_06006",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06006; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "geography",
+      "sourceCorpusId": "word_en_12332",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12332; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "habitat",
+      "sourceCorpusId": "word_en_12384",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12384; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hazard",
+      "sourceCorpusId": "word_en_06596",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06596; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "needle",
+      "sourceCorpusId": "word_en_13002",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13002; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "whale",
+      "sourceCorpusId": "word_en_15108",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.98,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15108; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "caution",
+      "sourceCorpusId": "word_en_03080",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03080; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "delight",
+      "sourceCorpusId": "word_en_04382",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04382; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fortunate",
+      "sourceCorpusId": "word_en_05936",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05936; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "handy",
+      "sourceCorpusId": "word_en_06507",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06507; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "memorable",
+      "sourceCorpusId": "word_en_12806",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12806; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "suspicion",
+      "sourceCorpusId": "word_en_14516",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14516; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "circular",
+      "sourceCorpusId": "word_en_11855",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11855; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "comedian",
+      "sourceCorpusId": "word_en_03517",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03517; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "countless",
+      "sourceCorpusId": "word_en_03994",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03994; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "flu",
+      "sourceCorpusId": "word_en_05843",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05843; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "forbidden",
+      "sourceCorpusId": "word_en_05884",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05884; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "lightly",
+      "sourceCorpusId": "word_en_12661",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12661; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "marble",
+      "sourceCorpusId": "word_en_12755",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12755; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "melt",
+      "sourceCorpusId": "word_en_12804",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12804; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "pillow",
+      "sourceCorpusId": "word_en_13392",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13392; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "scholar",
+      "sourceCorpusId": "word_en_13999",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13999; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "socially",
+      "sourceCorpusId": "word_en_14246",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14246; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "stir",
+      "sourceCorpusId": "word_en_14392",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14392; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "stuffed",
+      "sourceCorpusId": "word_en_14437",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14437; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "supposedly",
+      "sourceCorpusId": "word_en_11351",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11351; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "tendency",
+      "sourceCorpusId": "word_en_11404",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11404; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "triumph",
+      "sourceCorpusId": "word_en_14788",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.96,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.42,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14788; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ambitious",
+      "sourceCorpusId": "word_en_01604",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01604; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "annoyed",
+      "sourceCorpusId": "word_en_01689",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01689; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "blend",
+      "sourceCorpusId": "word_en_02521",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02521; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "correction",
+      "sourceCorpusId": "word_en_11946",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11946; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "cough",
+      "sourceCorpusId": "word_en_03976",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03976; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "critic",
+      "sourceCorpusId": "word_en_11966",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11966; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "feast",
+      "sourceCorpusId": "word_en_05663",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05663; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "frost",
+      "sourceCorpusId": "word_en_06023",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06023; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "meditation",
+      "sourceCorpusId": "word_en_12800",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12800; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "punish",
+      "sourceCorpusId": "word_en_13602",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13602; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "purse",
+      "sourceCorpusId": "word_en_13610",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13610; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sigh",
+      "sourceCorpusId": "word_en_14141",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14141; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "tense",
+      "sourceCorpusId": "word_en_14611",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14611; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "adviser",
+      "sourceCorpusId": "word_en_11599",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11599; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "dull",
+      "sourceCorpusId": "word_en_04929",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04929; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "idol",
+      "sourceCorpusId": "word_en_06966",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06966; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "incorrect",
+      "sourceCorpusId": "word_en_12499",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12499; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "leap",
+      "sourceCorpusId": "word_en_07852",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07852; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "locate",
+      "sourceCorpusId": "word_en_12689",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12689; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "motive",
+      "sourceCorpusId": "word_en_12932",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12932; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "refund",
+      "sourceCorpusId": "word_en_13744",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13744; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "spice",
+      "sourceCorpusId": "word_en_14313",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14313; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "terrified",
+      "sourceCorpusId": "word_en_14619",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14619; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "arise",
+      "sourceCorpusId": "word_en_01882",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01882; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bore",
+      "sourceCorpusId": "word_en_02604",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02604; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "dial",
+      "sourceCorpusId": "word_en_04547",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04547; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ginger",
+      "sourceCorpusId": "word_en_06207",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06207; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "jar",
+      "sourceCorpusId": "word_en_07473",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07473; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "monk",
+      "sourceCorpusId": "word_en_12902",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12902; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sleeve",
+      "sourceCorpusId": "word_en_14199",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14199; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "thankful",
+      "sourceCorpusId": "word_en_14627",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14627; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "translate",
+      "sourceCorpusId": "word_en_14755",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14755; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unclear",
+      "sourceCorpusId": "word_en_14851",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14851; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "wizard",
+      "sourceCorpusId": "word_en_15156",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.93,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.36,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15156; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "affection",
+      "sourceCorpusId": "word_en_01388",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01388; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "debris",
+      "sourceCorpusId": "word_en_04287",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04287; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "educate",
+      "sourceCorpusId": "word_en_12136",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12136; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "gratitude",
+      "sourceCorpusId": "word_en_06333",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06333; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "outline",
+      "sourceCorpusId": "word_en_13178",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13178; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "researcher",
+      "sourceCorpusId": "word_en_13811",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13811; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "runway",
+      "sourceCorpusId": "word_en_13935",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13935; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sculpture",
+      "sourceCorpusId": "word_en_14020",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14020; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "wax",
+      "sourceCorpusId": "word_en_15074",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15074; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "alcoholic",
+      "sourceCorpusId": "word_en_01497",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01497; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "amazed",
+      "sourceCorpusId": "word_en_01598",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01598; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "compliment",
+      "sourceCorpusId": "word_en_03642",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03642; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "enjoyable",
+      "sourceCorpusId": "word_en_12172",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12172; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fountain",
+      "sourceCorpusId": "word_en_05953",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05953; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "glance",
+      "sourceCorpusId": "word_en_06218",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06218; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "liberation",
+      "sourceCorpusId": "word_en_07937",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07937; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "nickname",
+      "sourceCorpusId": "word_en_13033",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13033; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "prosperity",
+      "sourceCorpusId": "word_en_13574",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13574; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "shortage",
+      "sourceCorpusId": "word_en_14125",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14125; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sphere",
+      "sourceCorpusId": "word_en_14312",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14312; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "stare",
+      "sourceCorpusId": "word_en_14360",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14360; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "terribly",
+      "sourceCorpusId": "word_en_14617",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14617; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "thriller",
+      "sourceCorpusId": "word_en_14659",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14659; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "toss",
+      "sourceCorpusId": "word_en_14721",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14721; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "turtle",
+      "sourceCorpusId": "word_en_14823",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14823; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "conclude",
+      "sourceCorpusId": "word_en_11915",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11915; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "gesture",
+      "sourceCorpusId": "word_en_06183",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06183; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "historian",
+      "sourceCorpusId": "word_en_12426",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12426; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "moisture",
+      "sourceCorpusId": "word_en_10758",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10758; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "monument",
+      "sourceCorpusId": "word_en_12906",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12906; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "peanut",
+      "sourceCorpusId": "word_en_13315",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13315; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "rebuild",
+      "sourceCorpusId": "word_en_13699",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13699; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "relaxing",
+      "sourceCorpusId": "word_en_13770",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13770; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sensation",
+      "sourceCorpusId": "word_en_14056",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14056; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "slope",
+      "sourceCorpusId": "word_en_14207",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14207; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "terrific",
+      "sourceCorpusId": "word_en_14618",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14618; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unemployed",
+      "sourceCorpusId": "word_en_14880",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14880; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unite",
+      "sourceCorpusId": "word_en_14909",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14909; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vet",
+      "sourceCorpusId": "word_en_15001",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15001; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "wagon",
+      "sourceCorpusId": "word_en_15043",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.9,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.3,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15043; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "biography",
+      "sourceCorpusId": "word_en_11739",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11739; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "cod",
+      "sourceCorpusId": "word_en_11876",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11876; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "counseling",
+      "sourceCorpusId": "word_en_03984",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03984; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "emerge",
+      "sourceCorpusId": "word_en_05115",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05115; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "farewell",
+      "sourceCorpusId": "word_en_05628",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05628; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fond",
+      "sourceCorpusId": "word_en_05866",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05866; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "foolish",
+      "sourceCorpusId": "word_en_05874",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05874; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "gifted",
+      "sourceCorpusId": "word_en_06196",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06196; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "landlord",
+      "sourceCorpusId": "word_en_07779",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07779; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "misery",
+      "sourceCorpusId": "word_en_12864",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12864; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "moss",
+      "sourceCorpusId": "word_en_12923",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12923; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "positively",
+      "sourceCorpusId": "word_en_13460",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13460; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "trim",
+      "sourceCorpusId": "word_en_14785",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.89,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.28,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14785; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "attachment",
+      "sourceCorpusId": "word_en_11689",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11689; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "choir",
+      "sourceCorpusId": "word_en_03276",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03276; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "consume",
+      "sourceCorpusId": "word_en_11928",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11928; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "gossip",
+      "sourceCorpusId": "word_en_06268",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06268; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "mankind",
+      "sourceCorpusId": "word_en_12748",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12748; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sadness",
+      "sourceCorpusId": "word_en_13943",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13943; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "shiny",
+      "sourceCorpusId": "word_en_14107",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14107; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sour",
+      "sourceCorpusId": "word_en_14278",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14278; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "stressful",
+      "sourceCorpusId": "word_en_14417",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14417; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "whistle",
+      "sourceCorpusId": "word_en_15121",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.88,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.26,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15121; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "appetite",
+      "sourceCorpusId": "word_en_01778",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01778; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "calculate",
+      "sourceCorpusId": "word_en_10157",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10157; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "dynasty",
+      "sourceCorpusId": "word_en_04957",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04957; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "forehead",
+      "sourceCorpusId": "word_en_05891",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05891; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "illegally",
+      "sourceCorpusId": "word_en_06982",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06982; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "messy",
+      "sourceCorpusId": "word_en_12822",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12822; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "pharmacy",
+      "sourceCorpusId": "word_en_13368",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13368; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "rubbish",
+      "sourceCorpusId": "word_en_13920",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13920; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "systematic",
+      "sourceCorpusId": "word_en_14548",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14548; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vague",
+      "sourceCorpusId": "word_en_14979",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14979; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "abundance",
+      "sourceCorpusId": "word_en_10006",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10006; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ant",
+      "sourceCorpusId": "word_en_01707",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01707; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "antique",
+      "sourceCorpusId": "word_en_01716",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01716; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "booking",
+      "sourceCorpusId": "word_en_11759",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11759; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "curtain",
+      "sourceCorpusId": "word_en_04168",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04168; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fade",
+      "sourceCorpusId": "word_en_05585",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05585; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "judgement",
+      "sourceCorpusId": "word_en_07586",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07586; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "maple",
+      "sourceCorpusId": "word_en_12753",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12753; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "referee",
+      "sourceCorpusId": "word_en_13731",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.86,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13731; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "allowance",
+      "sourceCorpusId": "word_en_01553",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01553; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "blogger",
+      "sourceCorpusId": "word_en_11748",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11748; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "builder",
+      "sourceCorpusId": "word_en_11789",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11789; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "carriage",
+      "sourceCorpusId": "word_en_02995",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02995; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "constitute",
+      "sourceCorpusId": "word_en_11926",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11926; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "diagram",
+      "sourceCorpusId": "word_en_12038",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12038; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "farther",
+      "sourceCorpusId": "word_en_05635",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05635; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "favorable",
+      "sourceCorpusId": "word_en_12244",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12244; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ivory",
+      "sourceCorpusId": "word_en_12595",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12595; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "necklace",
+      "sourceCorpusId": "word_en_13000",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13000; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "spiral",
+      "sourceCorpusId": "word_en_14319",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14319; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "timely",
+      "sourceCorpusId": "word_en_14686",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14686; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "yell",
+      "sourceCorpusId": "word_en_15205",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.85,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15205; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "analyze",
+      "sourceCorpusId": "word_en_01639",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01639; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "elbow",
+      "sourceCorpusId": "word_en_05041",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05041; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "genetics",
+      "sourceCorpusId": "word_en_12329",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12329; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "grill",
+      "sourceCorpusId": "word_en_06370",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06370; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "heel",
+      "sourceCorpusId": "word_en_06639",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06639; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hut",
+      "sourceCorpusId": "word_en_06910",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06910; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "steadily",
+      "sourceCorpusId": "word_en_14369",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14369; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "tasty",
+      "sourceCorpusId": "word_en_14577",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14577; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "teammate",
+      "sourceCorpusId": "word_en_14586",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.84,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.18,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14586; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "afterward",
+      "sourceCorpusId": "word_en_11605",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11605; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "applause",
+      "sourceCorpusId": "word_en_01780",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01780; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bald",
+      "sourceCorpusId": "word_en_02202",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02202; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "convey",
+      "sourceCorpusId": "word_en_11940",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11940; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "depressing",
+      "sourceCorpusId": "word_en_04433",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04433; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "entertain",
+      "sourceCorpusId": "word_en_05217",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05217; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "isle",
+      "sourceCorpusId": "word_en_12591",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12591; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "notorious",
+      "sourceCorpusId": "word_en_13069",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13069; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "reef",
+      "sourceCorpusId": "word_en_13729",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13729; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "refusal",
+      "sourceCorpusId": "word_en_11107",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11107; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "shave",
+      "sourceCorpusId": "word_en_14095",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14095; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sickness",
+      "sourceCorpusId": "word_en_14139",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.83,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.16,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14139; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "accidental",
+      "sourceCorpusId": "word_en_11572",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11572; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "certainty",
+      "sourceCorpusId": "word_en_11834",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11834; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "despair",
+      "sourceCorpusId": "word_en_04476",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04476; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "electron",
+      "sourceCorpusId": "word_en_12145",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12145; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "endure",
+      "sourceCorpusId": "word_en_05181",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05181; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hatch",
+      "sourceCorpusId": "word_en_06577",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06577; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "murderer",
+      "sourceCorpusId": "word_en_12959",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12959; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "nap",
+      "sourceCorpusId": "word_en_12977",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12977; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "niece",
+      "sourceCorpusId": "word_en_13034",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13034; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "rainfall",
+      "sourceCorpusId": "word_en_13655",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13655; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "remedy",
+      "sourceCorpusId": "word_en_13784",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13784; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "revision",
+      "sourceCorpusId": "word_en_13857",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13857; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "tornado",
+      "sourceCorpusId": "word_en_14718",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14718; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "absorb",
+      "sourceCorpusId": "word_en_11567",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11567; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "competitor",
+      "sourceCorpusId": "word_en_11895",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11895; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "dioxide",
+      "sourceCorpusId": "word_en_12051",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12051; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "enjoyment",
+      "sourceCorpusId": "word_en_12173",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12173; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "glimpse",
+      "sourceCorpusId": "word_en_06224",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06224; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "pupil",
+      "sourceCorpusId": "word_en_13604",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13604; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "rotten",
+      "sourceCorpusId": "word_en_13910",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13910; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "spoil",
+      "sourceCorpusId": "word_en_14325",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14325; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "submarine",
+      "sourceCorpusId": "word_en_14448",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14448; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "temper",
+      "sourceCorpusId": "word_en_14602",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14602; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "undergo",
+      "sourceCorpusId": "word_en_14861",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.81,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.12,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14861; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "coffin",
+      "sourceCorpusId": "word_en_03452",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03452; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "crow",
+      "sourceCorpusId": "word_en_04107",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04107; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "eternity",
+      "sourceCorpusId": "word_en_05325",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05325; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "luggage",
+      "sourceCorpusId": "word_en_12718",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12718; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "minimize",
+      "sourceCorpusId": "word_en_12853",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12853; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "performer",
+      "sourceCorpusId": "word_en_13344",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13344; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "primitive",
+      "sourceCorpusId": "word_en_13531",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13531; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "restrict",
+      "sourceCorpusId": "word_en_13833",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13833; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "seize",
+      "sourceCorpusId": "word_en_14043",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14043; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "skeleton",
+      "sourceCorpusId": "word_en_14172",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14172; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "spicy",
+      "sourceCorpusId": "word_en_14314",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14314; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "sticky",
+      "sourceCorpusId": "word_en_14385",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14385; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "tick",
+      "sourceCorpusId": "word_en_14670",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14670; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unrelated",
+      "sourceCorpusId": "word_en_14927",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14927; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "wardrobe",
+      "sourceCorpusId": "word_en_11537",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11537; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "warmth",
+      "sourceCorpusId": "word_en_15060",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.8,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15060; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bulletin",
+      "sourceCorpusId": "word_en_11791",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11791; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "cautious",
+      "sourceCorpusId": "word_en_03081",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03081; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "distribute",
+      "sourceCorpusId": "word_en_12085",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12085; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "goalkeeper",
+      "sourceCorpusId": "word_en_12349",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12349; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hesitate",
+      "sourceCorpusId": "word_en_06694",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06694; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hopeful",
+      "sourceCorpusId": "word_en_12433",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12433; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "imaginary",
+      "sourceCorpusId": "word_en_06995",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06995; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "mechanic",
+      "sourceCorpusId": "word_en_12791",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12791; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "modify",
+      "sourceCorpusId": "word_en_12891",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12891; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "oppression",
+      "sourceCorpusId": "word_en_10851",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10851; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "shrimp",
+      "sourceCorpusId": "word_en_14133",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14133; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "stall",
+      "sourceCorpusId": "word_en_14353",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14353; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "surround",
+      "sourceCorpusId": "word_en_11366",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.79,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.08,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11366; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "allergic",
+      "sourceCorpusId": "word_en_01541",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01541; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "backpack",
+      "sourceCorpusId": "word_en_02176",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02176; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "daisy",
+      "sourceCorpusId": "word_en_04195",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04195; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ecological",
+      "sourceCorpusId": "word_en_12126",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12126; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "ecosystem",
+      "sourceCorpusId": "word_en_12133",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12133; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "faint",
+      "sourceCorpusId": "word_en_05595",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05595; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "greenhouse",
+      "sourceCorpusId": "word_en_12371",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12371; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "jade",
+      "sourceCorpusId": "word_en_07455",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_07455; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "newborn",
+      "sourceCorpusId": "word_en_13024",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13024; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "parental",
+      "sourceCorpusId": "word_en_13270",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13270; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "phantom",
+      "sourceCorpusId": "word_en_13366",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13366; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unwanted",
+      "sourceCorpusId": "word_en_14946",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14946; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vegetarian",
+      "sourceCorpusId": "word_en_11513",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.78,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 14.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11513; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "abundant",
+      "sourceCorpusId": "word_en_10008",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10008; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "complement",
+      "sourceCorpusId": "word_en_11897",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11897; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "conquer",
+      "sourceCorpusId": "word_en_03737",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03737; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "delightful",
+      "sourceCorpusId": "word_en_04384",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04384; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hearted",
+      "sourceCorpusId": "word_en_12413",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12413; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "herd",
+      "sourceCorpusId": "word_en_06676",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06676; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "interval",
+      "sourceCorpusId": "word_en_12569",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12569; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "objection",
+      "sourceCorpusId": "word_en_13093",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13093; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vein",
+      "sourceCorpusId": "word_en_14992",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.77,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14992; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "accountant",
+      "sourceCorpusId": "word_en_01214",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01214; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "amusing",
+      "sourceCorpusId": "word_en_01633",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01633; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "extinction",
+      "sourceCorpusId": "word_en_12225",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12225; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "geology",
+      "sourceCorpusId": "word_en_12333",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12333; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "heavenly",
+      "sourceCorpusId": "word_en_06630",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06630; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "recycling",
+      "sourceCorpusId": "word_en_13723",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13723; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "stubborn",
+      "sourceCorpusId": "word_en_14433",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14433; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "tightly",
+      "sourceCorpusId": "word_en_14679",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14679; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unusually",
+      "sourceCorpusId": "word_en_14944",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14944; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "attach",
+      "sourceCorpusId": "word_en_11688",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11688; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "butcher",
+      "sourceCorpusId": "word_en_02835",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02835; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "deed",
+      "sourceCorpusId": "word_en_04330",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04330; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "gallon",
+      "sourceCorpusId": "word_en_12317",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12317; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "lifelong",
+      "sourceCorpusId": "word_en_12655",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12655; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "noticeable",
+      "sourceCorpusId": "word_en_10811",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10811; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vivid",
+      "sourceCorpusId": "word_en_15030",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15030; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "auxiliary",
+      "sourceCorpusId": "word_en_10122",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.98,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10122; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vain",
+      "sourceCorpusId": "word_en_14980",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.98,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14980; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "worthwhile",
+      "sourceCorpusId": "word_en_15189",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.98,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15189; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "owing",
+      "sourceCorpusId": "word_en_13221",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.96,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13221; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "regain",
+      "sourceCorpusId": "word_en_13747",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.96,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13747; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "renew",
+      "sourceCorpusId": "word_en_13789",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.96,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13789; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "resemble",
+      "sourceCorpusId": "word_en_11153",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.96,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11153; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bleed",
+      "sourceCorpusId": "word_en_02518",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 13.94,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02518; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "choke",
+      "sourceCorpusId": "word_en_03277",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.94,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03277; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "abnormal",
+      "sourceCorpusId": "word_en_11561",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11561; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "accuse",
+      "sourceCorpusId": "word_en_01224",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01224; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "downward",
+      "sourceCorpusId": "word_en_12099",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12099; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "hopeless",
+      "sourceCorpusId": "word_en_06815",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06815; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "indirectly",
+      "sourceCorpusId": "word_en_12508",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12508; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "outdoors",
+      "sourceCorpusId": "word_en_13171",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13171; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "wildly",
+      "sourceCorpusId": "word_en_15131",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15131; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "appoint",
+      "sourceCorpusId": "word_en_11664",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.9,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11664; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "emphasize",
+      "sourceCorpusId": "word_en_12154",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.69,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.88,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12154; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "drown",
+      "sourceCorpusId": "word_en_04904",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 13.86,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04904; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "greeting",
+      "sourceCorpusId": "word_en_06356",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.86,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06356; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "visually",
+      "sourceCorpusId": "word_en_15027",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.86,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15027; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "depart",
+      "sourceCorpusId": "word_en_04424",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.84,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04424; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "disappoint",
+      "sourceCorpusId": "word_en_04644",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 13.84,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_04644; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "govern",
+      "sourceCorpusId": "word_en_12355",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.84,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12355; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "strangely",
+      "sourceCorpusId": "word_en_14409",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.84,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14409; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "assign",
+      "sourceCorpusId": "word_en_11679",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.66,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.82,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11679; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "knit",
+      "sourceCorpusId": "word_en_12616",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.66,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.82,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12616; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "remark",
+      "sourceCorpusId": "word_en_13781",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.66,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.82,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13781; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "repay",
+      "sourceCorpusId": "word_en_13796",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.66,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.82,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13796; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "evenly",
+      "sourceCorpusId": "word_en_12197",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.65,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.8,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12197; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "fetch",
+      "sourceCorpusId": "word_en_05705",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.65,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 13.8,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_05705; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "swell",
+      "sourceCorpusId": "word_en_14530",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.78,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14530; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "thirst",
+      "sourceCorpusId": "word_en_14646",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.78,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14646; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "reproduce",
+      "sourceCorpusId": "word_en_13805",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.76,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13805; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "violently",
+      "sourceCorpusId": "word_en_15019",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.62,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.74,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15019; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "attain",
+      "sourceCorpusId": "word_en_10111",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.6,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.7,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10111; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "indoors",
+      "sourceCorpusId": "word_en_12510",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.6,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.7,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12510; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "motivate",
+      "sourceCorpusId": "word_en_12930",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.6,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.7,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12930; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "discourage",
+      "sourceCorpusId": "word_en_12061",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.57,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12061; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "undo",
+      "sourceCorpusId": "word_en_14873",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.57,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.64,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14873; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "mash",
+      "sourceCorpusId": "word_en_12762",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.6,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12762; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "haunt",
+      "sourceCorpusId": "word_en_06587",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.54,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.58,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_06587; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "distinctly",
+      "sourceCorpusId": "word_en_12081",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.53,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.56,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12081; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "cherish",
+      "sourceCorpusId": "word_en_03236",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.54,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_03236; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "disable",
+      "sourceCorpusId": "word_en_12056",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.54,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12056; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "aloud",
+      "sourceCorpusId": "word_en_11613",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.52,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11613; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "boast",
+      "sourceCorpusId": "word_en_11754",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.52,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11754; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "dedicate",
+      "sourceCorpusId": "word_en_12008",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.52,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12008; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "anyhow",
+      "sourceCorpusId": "word_en_01727",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.48,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.46,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_01727; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "continuously",
+      "sourceCorpusId": "word_en_10275",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.97,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10275; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "politely",
+      "sourceCorpusId": "word_en_13441",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.47,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.44,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13441; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "internationally",
+      "sourceCorpusId": "word_en_12564",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.95,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12564; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "brightly",
+      "sourceCorpusId": "word_en_11780",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.44,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11780; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "consequently",
+      "sourceCorpusId": "word_en_10250",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.94,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.38,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10250; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "beautifully",
+      "sourceCorpusId": "word_en_02317",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.92,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 13.34,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_02317; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "continually",
+      "sourceCorpusId": "word_en_10273",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.91,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 13.32,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_10273; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "extensively",
+      "sourceCorpusId": "word_en_12224",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.87,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.24,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12224; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unfairly",
+      "sourceCorpusId": "word_en_14887",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.36,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.22,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14887; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "pleasantly",
+      "sourceCorpusId": "word_en_13418",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.35,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13418; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "westward",
+      "sourceCorpusId": "word_en_15105",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.35,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.2,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15105; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "intentionally",
+      "sourceCorpusId": "word_en_12558",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.82,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.14,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_12558; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "boldly",
+      "sourceCorpusId": "word_en_11755",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.28,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.06,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11755; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "bravely",
+      "sourceCorpusId": "word_en_11773",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.27,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.04,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11773; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "vividly",
+      "sourceCorpusId": "word_en_15031",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.26,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 13.02,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15031; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "warmly",
+      "sourceCorpusId": "word_en_15059",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.24,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 12.98,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15059; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "unexpectedly",
+      "sourceCorpusId": "word_en_14885",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 12.92,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_14885; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "curiously",
+      "sourceCorpusId": "word_en_11980",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 4,
+      "sourceZipf": 3.2,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 12.9,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_11980; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "whichever",
+      "sourceCorpusId": "word_en_15116",
+      "sourcePartOfSpeech": "other",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 12.4,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_15116; sense and child-facing meaning require review."
+    },
+    {
+      "lemma": "oneself",
+      "sourceCorpusId": "word_en_13127",
+      "sourcePartOfSpeech": "other",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 12.1,
+      "notes": "Source grade 4; selected for grade-4 introduced review from word_en_13127; sense and child-facing meaning require review."
+    }
+  ]
+}
