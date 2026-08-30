@@ -1,49 +1,81 @@
-# Open-source research notes
+# Kidsplay open-source leverage
 
-Research date: 2026-08-29.
+Open-source projects are used to reduce production cost where they fit the existing architecture. They are not a reason to replace working Kidsplay runtime systems.
 
-We are using these projects for **architecture/product inspiration first**, not copying code or assets blindly. Every imported dependency or asset must have its own license checked.
+## Adopted artwork path
 
-| Project | License signal | What is useful for Kidsplay | Decision |
-| --- | --- | --- | --- |
-| [Oppia Android](https://github.com/oppia/oppia-android) | Apache-2.0 | Offline-first learning, interactive lesson state, household learner profiles, Android discipline | Study interaction/state/testing patterns. Do not adopt its heavy native stack for MVP. |
-| [H5P](https://github.com/h5p) | H5P aims for MIT where possible; some components have GPL constraints | Strong separation of content types from host/runtime; reusable interactive content contracts | Strong architectural inspiration. Only reuse code after checking the exact repository/package license. |
-| [Sugarizer](https://github.com/sugarlabs/sugarizer) | Apache-2.0 | HTML/JS activities, activity distribution, packaging web learning activities for Android | Strong validation of web-first Android approach. Avoid its large all-in-one media footprint. |
-| [GCompris](https://github.com/gcompris/GCompris-qt) | AGPLv3/GPL-family project | Huge catalogue of child-friendly educational activity patterns and difficulty progression | Inspiration only unless we intentionally accept copyleft obligations. Do not copy code/art into this product. |
-| [Phaser](https://github.com/phaserjs/phaser) | MIT | Battle-tested 2D HTML5 mechanics, touch/canvas/WebGL, Android wrapping through third-party runtimes | Keep as an optional engine for mechanics that need it; not an MVP dependency. |
-| [KAPLAY](https://github.com/kaplayjs/kaplay) | MIT | Smaller approachable JS/TS game-library model and composable game objects | Optional experiment for mini-games; not an MVP dependency. |
-| [Capacitor](https://github.com/ionic-team/capacitor) | MIT | Modern Android container for HTML/CSS/JS with native access later | Selected for Android packaging. |
+### Microsoft Fluent Emoji
 
-## Specific lessons
+Primary external semantic-art source for common animals/objects.
 
-### 1. Plugin/activity registries scale
+- License: MIT.
+- Imported only through the exact-provenance asset registry.
+- Upstream revision is pinned.
+- Only actually used files are vendored under `public/assets/open/`.
+- Existing Kidsplay SVGs remain fallback.
 
-H5P and Sugarizer both reinforce the idea that a host/runtime should discover reusable interaction/activity implementations through contracts instead of embedding each activity into curriculum content.
+The current proof set includes dog, whale, cow, camel, rabbit, bird, fish, tree, sun and bone.
 
-### 2. Offline matters for children
+### Kenney
 
-Oppia Android and GCompris demonstrate the value of lessons/activities that remain useful without a live network connection. Kidsplay should make foundational packs downloadable and runnable offline.
+Approved secondary source for scene/animal/object gaps where an exact pack/item has clear CC0 provenance. Do not bulk-import a pack merely to increase visual coverage.
 
-### 3. Media bloat is a real risk
+### Other artwork sources
 
-Sugarizer documents a very large package footprint driven by media-heavy activities. Kidsplay should keep the base APK small and treat richer asset packs as separately downloadable content where practical.
+Twemoji, Noto Emoji, Game Icons and similar collections remain candidates/reference material according to `content/assets/registry.json`. An external repository is never implicitly approved; artwork licensing and exact file provenance must be checked separately from code licensing.
 
-### 4. Do not add a game engine by default
+## Runtime principle
 
-Phaser is permissively licensed and mature, while KAPLAY is approachable and MIT-licensed. Neither is needed for MCQ, fill, sorting, matching or simple animated scenes. We can introduce one behind the presentation/mini-game boundary later without changing the question bank.
+```text
+question / canonical entity
+→ semanticRef
+→ visual registry
+→ admitted local asset when useful
+   OR Kidsplay SVG fallback
+→ existing lightweight motion
+```
 
-### 5. Asset licensing is separate from code licensing
+Question files do not store upstream URLs and engines do not know which art source produced a visual.
 
-A permissive engine license does not automatically license example graphics/audio. Any external character, sound or sprite pack needs a separate asset inventory with source, author, license and attribution requirements.
+Normal builds are offline/deterministic. `scripts/sync-open-assets.mjs` is an explicit authoring operation, not a build-time network dependency. `scripts/validate-assets.mjs` and generated third-party notices fail closed around provenance/licensing mistakes.
 
-## Initial technology choice
+## Interaction/reference projects
 
-**TypeScript + Vite + browser-native UI + Capacitor Android.**
+### H5P
 
-Reasons:
+Use as reference material for mature interaction edge cases, accessibility, retry/show-solution behavior and authoring patterns. Do not embed H5P or replace Kidsplay's engines merely for feature parity.
 
-- cheapest iteration path for a JS-heavy interactive product;
-- Android packaging without maintaining two UI codebases;
-- SVG/CSS/Pointer Events are sufficient for the first interaction engines;
-- keeps content and question data portable;
-- leaves Phaser/KAPLAY/Pixi-like rendering as replaceable presentation modules rather than architectural foundations.
+### QuML / Sunbird inQuiry
+
+Useful reference for question-bank metadata concepts such as provenance, concepts/competencies, versioning, curriculum tags, author/reviewer state and reusable question sets. Kidsplay already has a lighter canonical-row/profile/blueprint model; borrow a concept only when a concrete interoperability/metadata gap appears.
+
+### NROER / NCERT OER
+
+Useful for curriculum corroboration, Indian-school context and broadly free learning material. OER evidence is not SOF exam evidence and must never upgrade `SOF_INDIA_CLASS2` row provenance.
+
+## Test tooling
+
+### Playwright
+
+Adopted for browser child journeys and Android-like layout/touch proxies. Current browser smoke includes persistence, Story World, long-mock resume, reduced motion, 360px layout pressure, minimum core target sizes and rotation stress.
+
+### Android packaged testing
+
+The debug APK is built by GitHub Actions. Physical-device/child acceptance remains observational because browser emulation cannot certify packaged offline behavior, OS safe areas, a real soft keyboard, process killing or actual young-child comprehension.
+
+A heavier mobile automation framework should only be added when it can exercise a real available device/emulator in CI and closes a demonstrated gap that the current Android build + Playwright + manual beta loop cannot cover.
+
+## Deferred animation runtimes
+
+Rive/Lottie-style runtimes remain deliberately deferred. Existing static SVG/OSS art plus CSS/SVG motion already covers the product's lightweight-animation mandate. Add a new runtime only for a concrete interaction/state-machine requirement that cannot be implemented cleanly with current primitives.
+
+## Selection rules
+
+Prefer, in order:
+
+1. existing reusable Kidsplay visual if it is clear and consistent;
+2. admitted Fluent asset for a common semantic entity;
+3. exact-provenance Kenney/other permissive asset for a real gap;
+4. small original Kidsplay SVG/composition for concepts external libraries do not represent well.
+
+Do not chase a visual percentage by illustrating numeric answers, codes, person names or ambiguous predicates. The goal is recognition and learning value, not decorative coverage.
