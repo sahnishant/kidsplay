@@ -250,6 +250,19 @@
       "note": "Historical official Class 2 SOF assessment directly places Earth third from the Sun in the ordered sequence. Current 2026-27 scope separately retains Earth and Universe; core remains an editorial fit."
     },
     {
+      "rowId": "kr.universe.earth.type.planet",
+      "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+      "locator": "PDF page 2, question 13 and answer key: the item asks for the order of planets and includes Earth in the correct sequence Mercury, Venus, Earth, Mars",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "historical_class2",
+      "currentScopeSourceRef": "sof.iso.class2.syllabus.current",
+      "currentScopeLocator": "2026-27 syllabus Section 2: Earth and Universe",
+      "decision": "keep",
+      "fit": "review",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2019-20 Class 2 NSO item explicitly treats Earth as one of the planets in the ordered sequence. Current 2026-27 scope separately retains Earth and Universe; review remains a Kidsplay editorial fit, and the historical item does not imply annual recurrence."
+    },
+    {
       "rowId": "kr.family.family-tree.purpose.relationships",
       "sourceRef": "sof.nso.class2.sample-paper.2024-25",
       "locator": "PDF page 2, question 9 and answer key: a family-tree diagram is used to infer a nephew relationship",
