@@ -90,6 +90,16 @@
     ]
   },
   {
+    "id": "scene.universe.earth-rotation",
+    "theme": "paper",
+    "ariaLabel": "Earth rotating beside the Sun to reinforce that Earth's rotation causes day and night.",
+    "entities": [
+      { "id": "earth", "kind": "icon", "value": "earth", "label": "rotating Earth", "x": 42, "y": 52, "motion": "spin" },
+      { "id": "sun", "kind": "icon", "value": "sun", "label": "Sun", "x": 78, "y": 27, "motion": "pulse" },
+      { "id": "rotation-label", "kind": "text", "value": "rotate", "label": "rotation", "x": 71, "y": 76, "motion": "float" }
+    ]
+  },
+  {
     "id": "scene.water.sea-salty",
     "theme": "ocean",
     "ariaLabel": "Ocean waves with a salt label, showing that sea water is salty.",
