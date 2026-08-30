@@ -66,6 +66,13 @@
     "sof3.earth-universe-breadth.mcq-bank.generated.001.earth-revolution",
     "sof3.earth-universe-breadth.mcq-bank.generated.001.atmosphere",
 
+    "sof3.matter.memory.generated.001",
+    "sof3.matter.match.generated.001",
+    "sof3.matter.mcq-bank.generated.001.matter-space",
+    "sof3.matter.mcq-bank.generated.001.solid-shape",
+    "sof3.matter.mcq-bank.generated.001.liquid-shape",
+    "sof3.matter.mcq-bank.generated.001.gas-spreads",
+
     "reasoning.pattern.symbols.generated.001",
     "reasoning.pattern.numbers.generated.001",
     "reasoning.odd-one-out.shapes.generated.001",
@@ -82,6 +89,7 @@
     "reasoning.embedded.symbols.generated.001",
     "reasoning.alphabet.arrange.generated.001",
     "reasoning.figure-matrix.symbols.generated.001",
+    "reasoning.grouping.figures.generated.001",
     "reasoning.mirror.right.generated.001",
     "reasoning.combinations.outfits.generated.001",
     "reasoning.clock.elapsed.generated.001",
