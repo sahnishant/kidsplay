@@ -1,8 +1,8 @@
 <script lang="ts">
   import sceneJson from '../../content/scenes/animals.json';
-  import SceneIcon, { type SceneIconId } from './SceneIcon.svelte';
+  import type { SceneIconId, SceneMotion } from './sceneTypes';
+  import SceneIcon from './SceneIcon.svelte';
 
-  type Motion = 'bounce' | 'float' | 'pulse' | 'wiggle';
   interface SceneEntity {
     id: string;
     kind: 'icon' | 'text';
@@ -10,7 +10,7 @@
     label: string;
     x: number;
     y: number;
-    motion?: Motion;
+    motion?: SceneMotion;
   }
   interface SceneDefinition {
     id: string;
