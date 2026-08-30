@@ -38,6 +38,10 @@ describe('semantic visual registry', () => {
       glyph: 'caterpillar',
       motion: 'wiggle'
     });
+    expect(resolveVisualDefinition('entity.animal.rhinoceros')).toMatchObject({
+      renderer: 'animal-expansion-icon',
+      glyph: 'rhinoceros'
+    });
   });
 
   it('uses exact aliases for legacy option labels instead of fuzzy matching', () => {
@@ -45,6 +49,8 @@ describe('semantic visual registry', () => {
     expect(resolveLabelVisualRefs('Moving air')).toEqual(['entity.nature.wind']);
     expect(resolveLabelVisualRefs('Moon')).toEqual(['entity.universe.moon']);
     expect(resolveLabelVisualRefs('Covered food')).toEqual(['entity.food.covered']);
+    expect(resolveLabelVisualRefs('Seahorse')).toEqual(['entity.animal.seahorse']);
+    expect(resolveLabelVisualRefs('Kennel')).toEqual(['entity.animal-home.kennel']);
     expect(resolveLabelVisualRefs('A dog runs beside a school bus')).toEqual([]);
   });
 
@@ -75,7 +81,7 @@ describe('semantic visual registry', () => {
   it('keeps the registry unique and broad enough for reusable Class 2 EVS coverage', () => {
     const refs = getRegisteredVisualRefs();
     expect(new Set(refs).size).toBe(refs.length);
-    expect(refs.length).toBeGreaterThanOrEqual(110);
+    expect(refs.length).toBeGreaterThanOrEqual(130);
     expect(getVisualDefinitions().every((visual) => visual.aliases.length > 0)).toBe(true);
   });
 });
