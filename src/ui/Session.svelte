@@ -6,7 +6,9 @@
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
+  import StoryCharacter from '../presentation/StoryCharacter.svelte';
   import { resolveQuestionSceneId } from '../presentation/questionScene';
+  import { resolveStoryReaction } from '../story/storyReaction';
   import {
     advanceSession,
     createSessionState,
@@ -77,6 +79,18 @@
   let sectionScores = $derived(summarizeSectionResults(sections, sessionState.results));
   let earnedMarks = $derived(sectionScores.reduce((sum, section) => sum + section.earnedMarks, 0));
   let maxMarks = $derived(sectionScores.reduce((sum, section) => sum + section.maxMarks, 0));
+  let storyReaction = $derived(
+    storyCompletion && question && sessionState.submitted && sessionState.lastResult
+      ? resolveStoryReaction({
+          correct: sessionState.lastResult.correct,
+          difficulty: question.difficulty,
+          knowledgeRefCount: question.knowledgeRefs?.length ?? 0,
+          isFinalQuestion: sessionState.index + 1 >= questions.length,
+          incorrectCount: sessionState.results.filter((result) => !result.correct).length,
+          previousCorrect: sessionState.results[sessionState.results.length - 2]?.correct
+        })
+      : null
+  );
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
@@ -174,6 +188,26 @@
           <strong>{sessionState.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
           <span>{question.feedback[sessionState.lastResult.feedbackKey]}</span>
         </div>
+        {#if storyReaction}
+          <div
+            class="story-reaction"
+            role="note"
+            aria-label={`Story reaction from ${storyReaction.speaker}`}
+            data-trigger={storyReaction.trigger}
+          >
+            <span class="story-reaction__actor" aria-hidden="true">
+              <StoryCharacter
+                character={storyReaction.character}
+                mood={storyReaction.mood}
+                motion={storyReaction.motion}
+              />
+            </span>
+            <span class="story-reaction__copy">
+              <strong>{storyReaction.speaker}</strong>
+              <span>{storyReaction.text}</span>
+            </span>
+          </div>
+        {/if}
         {#if reinforcementSceneId}
           <div class="reinforcement-scene">
             <Scene sceneId={reinforcementSceneId} />
@@ -246,6 +280,42 @@
     padding: 10px 12px;
     border: 1px solid var(--border, #d9d9d9);
     border-radius: 12px;
+  }
+
+  .story-reaction {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    padding: 9px 11px 9px 8px;
+    border: 1px solid rgba(90, 82, 213, 0.14);
+    border-radius: 15px;
+    background: linear-gradient(135deg, #f6f7ff, #fffaf0);
+  }
+
+  .story-reaction__actor {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 13px;
+    background: #fff;
+  }
+
+  .story-reaction__copy {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+  }
+
+  .story-reaction__copy strong {
+    font-size: 0.78rem;
+  }
+
+  .story-reaction__copy > span {
+    font-weight: 650;
+    line-height: 1.35;
   }
 
   .reinforcement-scene {
