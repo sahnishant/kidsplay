@@ -4,6 +4,7 @@
   import UtilityIcon from './UtilityIcon.svelte';
   import NatureSpaceIcon from './NatureSpaceIcon.svelte';
   import EverydayIcon from './EverydayIcon.svelte';
+  import ProcessIcon from './ProcessIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -45,6 +46,8 @@
         <NatureSpaceIcon icon={visual.glyph} />
       {:else if visual.renderer === 'everyday-icon'}
         <EverydayIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'process-icon'}
+        <ProcessIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
