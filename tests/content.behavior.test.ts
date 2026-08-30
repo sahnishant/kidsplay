@@ -74,10 +74,12 @@ describe('catalog and profile-driven sessions', () => {
     });
   });
 
-  it('keeps the broadened foundational topic pool free while launching short diverse sessions', () => {
+  it('keeps every current profile fact in free exploration while launching short diverse sessions', () => {
     const pool = getFreeAnimalsQuestions();
     const poolRefs = pool.flatMap((question) => question.knowledgeRefs ?? []);
     const poolIds = new Set(pool.map((question) => question.id));
+    const profileRows = new Set(sofMembership.members.map((member) => member.rowId));
+    const freeRows = new Set(poolRefs);
     const session = getFreeExploreQuestions({ count: 8 });
 
     for (const topic of [
@@ -87,6 +89,7 @@ describe('catalog and profile-driven sessions', () => {
     ]) {
       expect(hasTopic(poolRefs, topic)).toBe(true);
     }
+    expect([...profileRows].filter((rowId) => !freeRows.has(rowId))).toEqual([]);
 
     expect(poolIds.has('plants-water.passage.after-rain.001')).toBe(true);
     expect(poolIds.has('air.visual.balloon-candle.001')).toBe(true);
