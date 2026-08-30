@@ -28,10 +28,10 @@
   { "id": "entity.hygiene.before-eating-produce", "renderer": "concept-icon", "glyph": "before-eating-produce", "label": "Before eating produce", "motion": "pulse", "aliases": ["before eating produce"] },
   { "id": "entity.hygiene.eat-slowly", "renderer": "concept-icon", "glyph": "eat-slowly", "label": "Eat slowly", "motion": "pulse", "aliases": ["eat slowly"] },
 
-  { "id": "entity.safety.zebra-reach", "renderer": "concept-icon", "glyph": "zebra-reach", "label": "Reach a zebra crossing", "motion": "drift", "aliases": ["reach zebra crossing"] },
-  { "id": "entity.safety.traffic-stop", "renderer": "concept-icon", "glyph": "traffic-stop", "label": "Stop at red", "motion": "pulse", "aliases": ["traffic stop", "stop at red"] },
-  { "id": "entity.safety.traffic-check", "renderer": "concept-icon", "glyph": "traffic-check", "label": "Check traffic", "motion": "blink", "aliases": ["check traffic", "traffic check"] },
-  { "id": "entity.safety.zebra-cross", "renderer": "concept-icon", "glyph": "zebra-cross", "label": "Cross on the zebra crossing", "motion": "wiggle", "aliases": ["zebra cross", "cross zebra crossing"] },
+  { "id": "entity.safety.zebra-reach", "renderer": "concept-icon", "glyph": "zebra-reach", "label": "Reach a zebra crossing", "motion": "drift", "aliases": ["reach zebra crossing", "reach a marked zebra crossing"] },
+  { "id": "entity.safety.traffic-stop", "renderer": "concept-icon", "glyph": "traffic-stop", "label": "Stop at red", "motion": "pulse", "aliases": ["traffic stop", "stop at red", "stop and wait when the traffic signal is red for your movement"] },
+  { "id": "entity.safety.traffic-check", "renderer": "concept-icon", "glyph": "traffic-check", "label": "Check traffic", "motion": "blink", "aliases": ["check traffic", "traffic check", "check that traffic has stopped and it is safe"] },
+  { "id": "entity.safety.zebra-cross", "renderer": "concept-icon", "glyph": "zebra-cross", "label": "Cross on the zebra crossing", "motion": "wiggle", "aliases": ["zebra cross", "cross zebra crossing", "cross on the zebra crossing"] },
 
   { "id": "entity.food-group.energy", "renderer": "concept-icon", "glyph": "energy-food", "label": "Energy-giving food", "motion": "pulse", "aliases": ["energy", "energy giving", "energy-giving food"] },
   { "id": "entity.food-group.body-building", "renderer": "concept-icon", "glyph": "body-building-food", "label": "Body-building food", "motion": "flex", "aliases": ["body building", "body-building food"] },
