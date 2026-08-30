@@ -186,10 +186,10 @@ function isMockHistoryRecord(value: unknown): value is MockHistoryRecord {
   const totalCorrect = item.sections.reduce((sum, section) => sum + section.correct, 0);
   const earnedMarks = item.sections.reduce((sum, section) => sum + section.earnedMarks, 0);
   const maxMarks = item.sections.reduce((sum, section) => sum + section.maxMarks, 0);
-  return totalQuestions === item.questionCount
-    && totalCorrect === item.correct
-    && nearlyEqual(earnedMarks, item.earnedMarks)
-    && nearlyEqual(maxMarks, item.maxMarks);
+  return totalQuestions === Number(item.questionCount)
+    && totalCorrect === Number(item.correct)
+    && nearlyEqual(earnedMarks, Number(item.earnedMarks))
+    && nearlyEqual(maxMarks, Number(item.maxMarks));
 }
 
 function cloneCheckpoint(checkpoint: StoredMockCheckpoint): StoredMockCheckpoint {
