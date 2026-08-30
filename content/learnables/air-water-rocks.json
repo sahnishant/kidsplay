@@ -11,10 +11,12 @@
   { "id": "water.sources.well", "statement": "A well can be used to draw groundwater from below the ground.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Water", "gradeBands": [2] },
   { "id": "water.sources.tap", "statement": "A tap provides water through a pipe supply in homes and schools.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Water", "gradeBands": [2] },
   { "id": "water.sources.pond", "statement": "A pond is a relatively small body of still water.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Water", "gradeBands": [2] },
+  { "id": "water.sources.sea", "statement": "Sea water is salty.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Water", "gradeBands": [2] },
   { "id": "rocks.types.pebble", "statement": "A pebble is a small stone that is often rounded and smooth.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] },
   { "id": "rocks.types.granite", "statement": "Granite is a hard rock often used in buildings.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] },
   { "id": "rocks.types.marble", "statement": "Marble can be polished and is used for floors, buildings and statues.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] },
   { "id": "rocks.types.sandstone", "statement": "Sandstone is formed from sand-sized grains pressed and cemented together.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] },
   { "id": "rocks.types.pumice", "statement": "Pumice contains many holes and can be light enough to float on water.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] },
-  { "id": "rocks.types.slate", "statement": "Slate can split into thin flat sheets.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] }
+  { "id": "rocks.types.slate", "statement": "Slate can split into thin flat sheets.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] },
+  { "id": "rocks.types.gemstone", "statement": "Emerald is a gemstone.", "subject": "EVS", "topic": "Air, Water and Rocks", "subtopic": "Rocks", "gradeBands": [2] }
 ]
