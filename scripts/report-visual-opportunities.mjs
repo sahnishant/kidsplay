@@ -13,7 +13,9 @@ const normalize = (value) => String(value ?? '')
 const args = process.argv.slice(2);
 const jsonMode = args.includes('--json');
 const limitArg = args.find((arg) => arg.startsWith('--limit='));
+const profileArg = args.find((arg) => arg.startsWith('--profile='));
 const limit = Math.max(1, Number(limitArg?.split('=')[1] ?? 30) || 30);
+const profileRef = profileArg?.split('=')[1]?.trim() || null;
 
 const visualFiles = readdirSync(new URL('content/visuals/', root))
   .filter((name) => name.endsWith('.json'))
@@ -119,10 +121,26 @@ const semanticCategory = (semanticRef) => {
 const questionFiles = readdirSync(new URL('content/questions/', root))
   .filter((name) => name.endsWith('.json'))
   .sort();
-const questions = questionFiles.flatMap((file) => {
+const allQuestions = questionFiles.flatMap((file) => {
   const value = readJson(`content/questions/${file}`);
   return Array.isArray(value) ? value : [];
 });
+
+let questions = allQuestions;
+if (profileRef) {
+  let membership;
+  try {
+    membership = readJson(`content/profile-memberships/${profileRef}.json`);
+  } catch {
+    console.error(`Unknown profileRef for visual opportunity report: ${profileRef}`);
+    process.exit(2);
+  }
+  const profileRows = new Set((membership.members ?? []).map((member) => member.rowId));
+  questions = allQuestions.filter((question) => {
+    const refs = question.knowledgeRefs ?? [];
+    return refs.length > 0 && refs.every((rowId) => profileRows.has(rowId));
+  });
+}
 
 const opportunities = new Map();
 const skipped = new Map();
@@ -183,6 +201,7 @@ const predicateReview = ranked.filter((entry) => entry.category === 'relationshi
 const labelCandidates = ranked.filter((entry) => entry.category === 'label');
 
 const result = {
+  scope: profileRef ? { type: 'profile', profileRef, questions: questions.length } : { type: 'all_questions', questions: questions.length },
   summary: {
     unresolvedInstances,
     concreteCandidates: concreteCandidates.length,
@@ -203,7 +222,10 @@ if (jsonMode) {
   process.exit(0);
 }
 
-console.log(`Visual opportunity queue: ${unresolvedInstances} unresolved visual-friendly item instance(s).`);
+console.log(profileRef
+  ? `Visual opportunity queue for ${profileRef}: ${questions.length} runnable profile-safe question(s).`
+  : `Visual opportunity queue across all ${questions.length} question(s).`);
+console.log(`${unresolvedInstances} unresolved visual-friendly item instance(s).`);
 console.log(`${concreteCandidates.length} concrete/authored semantic candidate(s); ${vocabularyReview.length} vocabulary concept(s); ${predicateReview.length} relation/predicate concept(s); ${labelCandidates.length} label-only candidate(s); ${notRecommended.length} deliberately skipped.`);
 
 console.log('\nConcrete/authored semantic candidates (highest-value review):');
