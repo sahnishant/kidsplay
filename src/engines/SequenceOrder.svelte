@@ -8,7 +8,11 @@
 
   let { question, onSubmit }: EngineProps<SequenceOrderQuestion> = $props();
 
-  let order = $state(untrack(() => createShuffledOrder(question.interaction.items, question.interaction.seed)));
+  let order = $state(untrack(() => createShuffledOrder(
+    question.interaction.items,
+    question.interaction.seed,
+    (item) => item.label
+  )));
   let selectedId = $state<string | null>(null);
   let status = $state('');
   let locked = $state(false);

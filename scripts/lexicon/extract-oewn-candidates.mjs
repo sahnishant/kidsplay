@@ -54,22 +54,35 @@ const normalizeWordlist = (wordlist) => {
   if (!wordlist || typeof wordlist !== 'object' || !Array.isArray(wordlist.items)) {
     throw new Error('Word list must be an object with an items array');
   }
+  if (wordlist.sourceId && wordlist.sourceId !== OEWN_SOURCE_ID) {
+    throw new Error(`Word list sourceId must be ${OEWN_SOURCE_ID}`);
+  }
+
+  const seen = new Set();
   return wordlist.items.map((item, index) => {
     if (!item || typeof item !== 'object' || !String(item.lemma ?? '').trim()) {
       throw new Error(`Word list item ${index + 1} requires lemma`);
     }
-    return {
+    const normalized = {
       lemma: String(item.lemma).trim(),
       partOfSpeech: item.partOfSpeech ? String(item.partOfSpeech).trim() : null,
       targetRowId: item.targetRowId ? String(item.targetRowId).trim() : null,
       notes: item.notes ? String(item.notes).trim() : null
     };
+    const key = `${normalized.lemma.toLocaleLowerCase('en')}#${normalized.partOfSpeech ?? '*'}`;
+    if (seen.has(key)) throw new Error(`Duplicate word list item ${normalized.lemma} (${normalized.partOfSpeech ?? 'any POS'})`);
+    seen.add(key);
+    return normalized;
   });
 };
 
 export function extractOewnCandidates(data, wordlist, options = {}) {
   const entries = asArray(rootSection(data, 'lexicalEntries'));
   const synsets = asArray(rootSection(data, 'synsets'));
+  if (!entries.length || !synsets.length) {
+    throw new Error('Input does not look like Open English WordNet hierarchical JSON: lexicalEntries and synsets are required');
+  }
+
   const synsetById = new Map(synsets.map((synset) => [String(synset?.id ?? ''), synset]).filter(([id]) => id));
   const requested = normalizeWordlist(wordlist);
   const maxSenses = Number.isInteger(options.maxSenses) && options.maxSenses > 0 ? options.maxSenses : null;
@@ -104,6 +117,9 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
     selectedSenses.forEach(({ entry, sense, pos }, senseIndex) => {
       const synsetId = String(sense?.synset ?? sense?.synsetId ?? '').trim();
       const synset = synsetById.get(synsetId);
+      if (!synsetId || !synset) {
+        throw new Error(`OEWN sense ${String(sense?.id ?? '<unknown>')} for ${request.lemma} references missing synset ${synsetId || '<none>'}`);
+      }
       const senseId = String(sense?.id ?? '').trim() || null;
       candidates.push({
         candidateId: `${request.lemma}#${pos ?? 'u'}#${senseIndex + 1}`,
@@ -113,7 +129,7 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
         sourceSense: {
           entryId: String(entry?.id ?? '').trim() || null,
           senseId,
-          synsetId: synsetId || null,
+          synsetId,
           definition: synsetDefinition(synset),
           examples: synsetExamples(synset),
           synonyms: synsetMembers(synset).filter((member) => member.toLocaleLowerCase('en') !== request.lemma.toLocaleLowerCase('en'))
@@ -175,7 +191,7 @@ function parseArgs(argv) {
 function runCli() {
   const args = parseArgs(process.argv.slice(2));
   if (!args.input || !args.wordlist || !args.output) {
-    console.error('Usage: node scripts/lexicon/extract-oewn-candidates.mjs --input <oewn.json> --wordlist <kidsplay-wordlist.json> --output <review-candidates.json> [--source-version 2026] [--max-senses 3]');
+    console.error('Usage: node scripts/lexicon/extract-oewn-candidates.mjs --input <oewn.json> --wordlist <kidsplay-wordlist.json> --output <review-candidates.json> [--source-version 2025] [--max-senses 3]');
     process.exitCode = 1;
     return;
   }

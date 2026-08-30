@@ -38,7 +38,7 @@ describe('vocabulary delivery', () => {
     expect(reverse.knowledgeRefs).toEqual(['kr.vocab.meaning.enormous.very-large']);
   });
 
-  it('turns a vocabulary subject into deterministic letter-ordering evidence', () => {
+  it('turns a vocabulary subject into deterministic, visibly scrambled letter-ordering evidence', () => {
     const value = question('vocab.meanings.unscramble.enormous.001');
     expect(value.interaction.type).toBe('sequence_order');
     expect(value.solution.type).toBe('ordered_items');
@@ -47,10 +47,17 @@ describe('vocabulary delivery', () => {
     expect(value.interaction.items.map((item) => item.label).join('')).toBe('ENORMOUS');
     expect(value.knowledgeRefs).toEqual(['kr.vocab.meaning.enormous.very-large']);
 
-    const firstShuffle = createShuffledOrder(value.interaction.items, value.interaction.seed);
-    const secondShuffle = createShuffledOrder(value.interaction.items, value.interaction.seed);
+    const visibleKey = (item: (typeof value.interaction.items)[number]) => item.label;
+    const firstShuffle = createShuffledOrder(value.interaction.items, value.interaction.seed, visibleKey);
+    const secondShuffle = createShuffledOrder(value.interaction.items, value.interaction.seed, visibleKey);
     expect(firstShuffle.map((item) => item.id)).toEqual(secondShuffle.map((item) => item.id));
     expect(firstShuffle.map((item) => item.id)).not.toEqual(value.solution.orderedItemIds);
+    expect(firstShuffle.map((item) => item.label).join('')).not.toBe('ENORMOUS');
+
+    for (let seed = 1; seed <= 32; seed += 1) {
+      const shuffled = createShuffledOrder(value.interaction.items, seed, visibleKey);
+      expect(shuffled.map((item) => item.label).join('')).not.toBe('ENORMOUS');
+    }
 
     expect(evaluate(value, { orderedItemIds: value.solution.orderedItemIds })).toMatchObject({ correct: true, score: 1 });
     expect(evaluate(value, { orderedItemIds: firstShuffle.map((item) => item.id) }).correct).toBe(false);
@@ -62,6 +69,10 @@ describe('vocabulary delivery', () => {
     const secondO = equivalentOrder.indexOf(repeatedOIds[1]);
     [equivalentOrder[firstO], equivalentOrder[secondO]] = [equivalentOrder[secondO], equivalentOrder[firstO]];
     expect(evaluate(value, { orderedItemIds: equivalentOrder })).toMatchObject({ correct: true, score: 1 });
+
+    const invalidDuplicateOrder = [...value.solution.orderedItemIds];
+    invalidDuplicateOrder[secondO] = repeatedOIds[0];
+    expect(evaluate(value, { orderedItemIds: invalidDuplicateOrder }).correct).toBe(false);
   });
 
   it('keeps the expanded vocabulary activities in the free pack', () => {

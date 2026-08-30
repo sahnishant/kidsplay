@@ -46,19 +46,24 @@ function isValidMazePath(interaction: MazeInteraction, goalIndex: number, path: 
 function sequenceOrderScore(question: Question, actual: string[]): number {
   if (question.solution.type !== 'ordered_items') return 0;
   const expected = question.solution.orderedItemIds;
-  if (question.interaction.type !== 'sequence_order') {
+  const scoreById = (): number => {
     const correctPositions = expected.filter((id, index) => actual[index] === id).length;
     return boundedScore(correctPositions, Math.max(expected.length, actual.length));
-  }
+  };
+
+  if (question.interaction.type !== 'sequence_order') return scoreById();
 
   const items = question.interaction.items;
   const itemById = new Map(items.map((item) => [item.id, item]));
   const letterSequence = items.length >= 2 && items.every(
     (item) => Array.from(item.label).length === 1 && /^[A-Z0-9]$/i.test(item.label)
   );
+  const actualIdsAreValid = actual.every((id) => itemById.has(id)) && new Set(actual).size === actual.length;
+  if (!letterSequence || !actualIdsAreValid) return scoreById();
+
   const comparableKey = (id: string | undefined): string | undefined => {
-    if (!id || !letterSequence) return id;
-    return itemById.get(id)?.label.toUpperCase() ?? id;
+    if (!id) return undefined;
+    return itemById.get(id)?.label.toUpperCase();
   };
   const correctPositions = expected.filter(
     (id, index) => comparableKey(actual[index]) === comparableKey(id)
