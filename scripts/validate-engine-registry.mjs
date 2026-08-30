@@ -10,6 +10,8 @@ const errors = [];
 
 const manifest = readJson('content/engines/manifest.json');
 const dataTypeRegistry = readJson('content/data-types/registry.json');
+if (manifest.schemaVersion !== 1) errors.push('Engine manifest must use schemaVersion 1');
+if (dataTypeRegistry.schemaVersion !== 1) errors.push('Datatype registry must use schemaVersion 1');
 const engines = manifest.engines ?? [];
 const engineByKey = new Map();
 
@@ -20,18 +22,34 @@ for (const engine of engines) {
   if (engineByKey.has(engine.key)) errors.push(`Duplicate engine manifest key ${engine.key}`);
   engineByKey.set(engine.key, engine);
   if (!['interactive', 'output'].includes(engine.category)) errors.push(`${engine.key}: unsupported category ${engine.category}`);
-  if (engine.category === 'interactive' && !engine.interactionType) errors.push(`${engine.key}: interactive engine requires interactionType`);
-  if (engine.category === 'interactive' && !engine.solutionType) errors.push(`${engine.key}: interactive engine requires solutionType`);
-  if (engine.category === 'output' && !engine.contractType) errors.push(`${engine.key}: output engine requires contractType`);
+  if (typeof engine.runtime !== 'boolean') errors.push(`${engine.key}: runtime must be an explicit boolean`);
+  if (engine.category === 'interactive') {
+    if (!engine.interactionType) errors.push(`${engine.key}: interactive engine requires interactionType`);
+    if (!engine.solutionType) errors.push(`${engine.key}: interactive engine requires solutionType`);
+    if (engine.interactionType && engine.id !== engine.interactionType) {
+      errors.push(`${engine.key}: interactive engine id must match interactionType ${engine.interactionType}`);
+    }
+    if (engine.runtime !== true) errors.push(`${engine.key}: shipped interactive engine must declare runtime true`);
+  }
+  if (engine.category === 'output') {
+    if (!engine.contractType) errors.push(`${engine.key}: output engine requires contractType`);
+    if (engine.runtime !== false) errors.push(`${engine.key}: output engine must declare runtime false`);
+  }
 }
 
 const dataTypeKeys = new Set();
 for (const dataType of dataTypeRegistry.dataTypes ?? []) {
+  if (!dataType?.id || !Number.isInteger(dataType.version)) {
+    errors.push('Every datatype registry entry requires id and integer version');
+    continue;
+  }
   const key = `${dataType.id}@${dataType.version}`;
   if (dataTypeKeys.has(key)) errors.push(`Duplicate datatype ${key}`);
   dataTypeKeys.add(key);
-  for (const engineKey of dataType.compatibleEngines ?? []) if (!engineByKey.has(engineKey)) errors.push(`${key}: unknown compatible engine ${engineKey}`);
-  for (const engineKey of Object.keys(dataType.engineRequirements ?? {})) if (!(dataType.compatibleEngines ?? []).includes(engineKey)) errors.push(`${key}: requirements exist for undeclared engine ${engineKey}`);
+  const declaredEngines = dataType.compatibleEngines ?? [];
+  if (new Set(declaredEngines).size !== declaredEngines.length) errors.push(`${key}: duplicate compatibleEngines entry`);
+  for (const engineKey of declaredEngines) if (!engineByKey.has(engineKey)) errors.push(`${key}: unknown compatible engine ${engineKey}`);
+  for (const engineKey of Object.keys(dataType.engineRequirements ?? {})) if (!declaredEngines.includes(engineKey)) errors.push(`${key}: requirements exist for undeclared engine ${engineKey}`);
 }
 
 const normalizerKeys = new Set(getNormalizerDataTypes());
@@ -48,13 +66,14 @@ for (const key of dataTypeKeys) {
 }
 for (const key of Object.keys(formatterCapabilities)) if (!dataTypeKeys.has(key)) errors.push(`${key}: formatter exists without datatype registry entry`);
 
-const interactiveRuntimeKeys = engines.filter((engine) => engine.category === 'interactive' && engine.runtime).map((engine) => engine.key);
+const interactiveRuntimeKeys = engines.filter((engine) => engine.category === 'interactive' && engine.runtime === true).map((engine) => engine.key);
 const runtimeSource = readText('src/runtime/engineRegistry.ts');
 const runtimeBlock = runtimeSource.match(/const engines = new Map<[^>]+>\(\[([\s\S]*?)\]\);/);
 if (!runtimeBlock) errors.push('Could not inspect src/runtime/engineRegistry.ts engine map');
 else {
   const runtimeKeys = [...runtimeBlock[1].matchAll(/\['([^']+@\d+)',\s*[A-Za-z0-9_]+\]/g)].map((match) => match[1]);
   const runtimeSet = new Set(runtimeKeys);
+  if (runtimeSet.size !== runtimeKeys.length) errors.push('Runtime engine registry contains duplicate engine keys');
   for (const key of interactiveRuntimeKeys) if (!runtimeSet.has(key)) errors.push(`${key}: manifest runtime engine missing from runtime registry`);
   for (const key of runtimeSet) if (!interactiveRuntimeKeys.includes(key)) errors.push(`${key}: runtime registry entry missing from interactive runtime manifest`);
 }
@@ -85,5 +104,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Engine registry OK: ${engines.length} engine(s), ${dataTypeKeys.size} datatype(s), ${interactiveRuntimeKeys.length} interactive runtime engine(s), ${outputManifestKeys.length} output engine(s).`);
+  console.log(`Engine registry OK: ${engines.length} engine(s), ${dataTypeKeys.size} datatype(s), ${interactiveRuntimeKeys.length} interactive runtime engine(s), ${outputManifestKeys.length} output engine(s), category/runtime contracts aligned.`);
 }
