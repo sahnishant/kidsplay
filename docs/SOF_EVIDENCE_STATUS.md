@@ -47,12 +47,19 @@ It does **not** mean:
 3. `currentScopeLocator` naming the specific retained 2026-27 topic/category that keeps the row eligible.
 4. The direct fact/skill itself must be reproducible from the historical source; visual-only assumptions are not admitted when the relevant figure cannot be inspected.
 
-Current historical source set:
+Current reviewed historical source set:
 
 - `sof.nso.class2.sample-paper.2025-26`
 - `sof.nso.class2.sample-paper.2024-25`
+- `sof.nso.class2.sample-paper.2023-24`
 - `sof.nso.class2.sample-paper.2022-23`
 - `sof.nso.class2.sample-paper.2019-20`
+
+### Public sample-source saturation
+
+The official 2023-24 Class 2 paper has now been reviewed and registered even though it adds **zero new exact rows**. Its science/achievers items repeat themes already directly evidenced from other official years: skin/touch, cousin relationships, woollen clothes in winter, leaf makes food, animal-pulled tonga and family-tree reasoning. Recording the source prevents future work from rediscovering it and incorrectly treating repeated sample questions as new evidence.
+
+This is intentional: **reviewed sources and evidenced rows are different metrics**. Public SOF Class 2 samples are small and substantially repetitive. The 156-row backlog must not be closed by counting syllabus headings, duplicate yearly questions, inaccessible paid material or uninspectable visual assumptions as exact row evidence.
 
 ## Current-year direct anchors — 13
 
