@@ -1,6 +1,7 @@
 import visualJson from '../../content/visuals/entities.json';
+import utilityJson from '../../content/visuals/utility.json';
 
-export type VisualRenderer = 'scene-icon' | 'entity-icon';
+export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon';
 export type VisualMotion =
   | 'idle'
   | 'wag'
@@ -16,7 +17,8 @@ export type VisualMotion =
   | 'flex'
   | 'drift'
   | 'spin'
-  | 'flicker';
+  | 'flicker'
+  | 'wiggle';
 
 export type VisualContext = 'option' | 'word-bank' | 'drag-item' | 'drag-target' | 'feedback' | 'dashboard';
 
@@ -34,7 +36,10 @@ export interface PresentableVisualItem {
   visualRefs?: string[];
 }
 
-const definitions = visualJson as VisualDefinition[];
+const definitions: VisualDefinition[] = [
+  ...(visualJson as VisualDefinition[]),
+  ...(utilityJson as VisualDefinition[])
+];
 const visualById = new Map(definitions.map((definition) => [definition.id, definition]));
 const visualRefByAlias = new Map<string, string>();
 
