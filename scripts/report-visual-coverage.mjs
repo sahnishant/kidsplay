@@ -5,6 +5,7 @@ const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'))
 const normalize = (value) => String(value ?? '')
   .toLowerCase()
   .replace(/[’']/g, '')
+  .replace(/[-_]+/g, ' ')
   .replace(/[.,!?;:()]/g, ' ')
   .replace(/\s+/g, ' ')
   .trim();
