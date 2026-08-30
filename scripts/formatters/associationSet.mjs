@@ -5,6 +5,7 @@ const capitalize = (text) => {
   const value = String(text ?? '');
   return value ? value[0].toUpperCase() + value.slice(1) : value;
 };
+const semanticRefFor = (node) => typeof node?.id === 'string' && node.id.trim() ? node.id : undefined;
 
 const selectedUnits = (source, recipe) => {
   const units = Array.isArray(source.units) ? source.units : [];
@@ -63,8 +64,18 @@ const formatMemory = (source, recipe, units) => {
         version: 1,
         seed: recipe.seed ?? 1,
         cards: units.flatMap((unit) => [
-          { id: `${unit.localId}:subject`, label: unit.subject.label, symbol: unit.subject.symbol },
-          { id: `${unit.localId}:object`, label: unit.object.label, symbol: unit.object.symbol }
+          {
+            id: `${unit.localId}:subject`,
+            label: unit.subject.label,
+            symbol: unit.subject.symbol,
+            semanticRef: semanticRefFor(unit.subject)
+          },
+          {
+            id: `${unit.localId}:object`,
+            label: unit.object.label,
+            symbol: unit.object.symbol,
+            semanticRef: semanticRefFor(unit.object)
+          }
         ])
       },
       solution: { type: 'pair_matches', pairs: units.map((unit) => [`${unit.localId}:subject`, `${unit.localId}:object`]) }
@@ -82,6 +93,8 @@ const formatMatching = (source, recipe, units) => {
       interaction: {
         type: 'drag_to_target',
         version: 1,
+        // Matching remains deliberately text/symbol authored. Do not infer
+        // visual cues here: they can turn classification targets into hints.
         items: units.map((unit) => ({ id: `${unit.localId}:subject`, label: unit.subject.label, symbol: unit.subject.symbol })),
         targets: units.map((unit) => ({ id: `${unit.localId}:object`, label: unit.object.label, symbol: unit.object.symbol }))
       },
@@ -136,7 +149,11 @@ const formatSingleChoice = (source, recipe, units) => {
         type: 'single_choice',
         version: 1,
         shuffleOptions: true,
-        options: optionUnits.map((unit) => ({ id: `${unit.localId}:subject`, label: unit.subject.label }))
+        options: optionUnits.map((unit) => ({
+          id: `${unit.localId}:subject`,
+          label: unit.subject.label,
+          semanticRef: semanticRefFor(unit.subject)
+        }))
       },
       solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:subject`] }
     }],
@@ -168,7 +185,11 @@ const formatWordBankFill = (source, recipe, units) => {
         type: 'word_bank_fill',
         version: 1,
         segments,
-        wordBank: bankUnits.map((unit) => ({ id: `${unit.localId}:object`, label: unit.object.label }))
+        wordBank: bankUnits.map((unit) => ({
+          id: `${unit.localId}:object`,
+          label: unit.object.label,
+          semanticRef: semanticRefFor(unit.object)
+        }))
       },
       solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
     }],
