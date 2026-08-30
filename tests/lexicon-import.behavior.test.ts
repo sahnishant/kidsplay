@@ -51,6 +51,39 @@ const wordlist = {
   ]
 };
 
+const globalWordnetJsonLd = {
+  '@context': 'https://globalwordnet.github.io/schemas/wn-json-context-1.4.json',
+  '@graph': [
+    {
+      '@id': 'ewn-test',
+      version: '2025',
+      entry: [
+        {
+          '@id': 'ewn-enormous-a',
+          lemma: { writtenForm: 'enormous' },
+          partOfSpeech: 'adjective',
+          sense: [{ '@id': 'ewn-enormous-a-01', synsetRef: 'ewn-large-a' }]
+        },
+        {
+          '@id': 'ewn-immense-a',
+          lemma: { writtenForm: 'immense' },
+          partOfSpeech: 'adjective',
+          sense: [{ '@id': 'ewn-immense-a-01', synsetRef: 'ewn-large-a' }]
+        }
+      ],
+      synset: [
+        {
+          '@id': 'ewn-large-a',
+          partOfSpeech: 'adjective',
+          definition: [{ gloss: 'Very large in size or amount.' }],
+          example: [{ value: 'A second synthetic extractor example.' }],
+          members: ['ewn-enormous-a-01', 'ewn-immense-a-01']
+        }
+      ]
+    }
+  ]
+};
+
 describe('Open English WordNet candidate extraction', () => {
   it('extracts review-only senses with provenance instead of publishing definitions directly', () => {
     const output = extractOewnCandidates(miniOewn, wordlist, { maxSenses: 1 });
@@ -97,5 +130,41 @@ describe('Open English WordNet candidate extraction', () => {
       'Very serious or important.'
     ]);
     expect(output.candidates.every((candidate) => candidate.review.status === 'pending')).toBe(true);
+  });
+
+  it('accepts the Global WordNet JSON-LD entry/synset shape used by official releases', () => {
+    const output = extractOewnCandidates(globalWordnetJsonLd, {
+      id: 'jsonld-test',
+      sourceId: 'open-english-wordnet',
+      items: [{ lemma: 'enormous', partOfSpeech: 'a' }]
+    });
+
+    expect(output.generatedFrom.sourceVersion).toBe('2025');
+    expect(output.candidates).toHaveLength(1);
+    expect(output.candidates[0]).toMatchObject({
+      lemma: 'enormous',
+      partOfSpeech: 'a',
+      sourceSense: {
+        entryId: 'ewn-enormous-a',
+        senseId: 'ewn-enormous-a-01',
+        synsetId: 'ewn-large-a',
+        definition: 'Very large in size or amount.',
+        examples: ['A second synthetic extractor example.'],
+        synonyms: ['immense']
+      }
+    });
+  });
+
+  it('rejects wrong-source word lists and malformed source graphs', () => {
+    expect(() => extractOewnCandidates(miniOewn, {
+      id: 'wrong-source',
+      sourceId: 'some-other-dictionary',
+      items: [{ lemma: 'enormous' }]
+    })).toThrow(/sourceId/);
+
+    expect(() => extractOewnCandidates({ lexicalEntries: [] }, {
+      id: 'bad-input',
+      items: [{ lemma: 'enormous' }]
+    })).toThrow(/supported Open English WordNet JSON/);
   });
 });

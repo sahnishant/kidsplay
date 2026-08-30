@@ -17,18 +17,54 @@ const textValues = (value) => {
     .map((item) => {
       if (typeof item === 'string') return item.trim();
       if (!item || typeof item !== 'object') return '';
-      const text = item.value ?? item.text ?? item.writtenForm ?? '';
+      const text = item.value ?? item.text ?? item.gloss ?? item.writtenForm ?? item['@id'] ?? '';
       return typeof text === 'string' ? text.trim() : '';
     })
     .filter(Boolean);
 };
 
-const rootSection = (data, key) => {
-  if (data && typeof data === 'object') {
-    if (data[key] != null) return data[key];
-    if (data.lexicon && typeof data.lexicon === 'object' && data.lexicon[key] != null) return data.lexicon[key];
+const entityId = (value) => String(value?.id ?? value?.['@id'] ?? '').trim();
+
+const posCode = (value) => {
+  const raw = String(value ?? '').trim().toLowerCase();
+  const map = {
+    noun: 'n',
+    verb: 'v',
+    adjective: 'a',
+    'adjective satellite': 's',
+    adjective_satellite: 's',
+    satellite: 's',
+    adverb: 'r'
+  };
+  return map[raw] ?? raw;
+};
+
+const extractSections = (data) => {
+  if (!data || typeof data !== 'object') return { entries: [], synsets: [], version: null };
+
+  const directEntries = asArray(data.lexicalEntries);
+  const directSynsets = asArray(data.synsets);
+  if (directEntries.length || directSynsets.length) {
+    return { entries: directEntries, synsets: directSynsets, version: data.version ?? null };
   }
-  return [];
+
+  if (data.lexicon && typeof data.lexicon === 'object') {
+    const entries = asArray(data.lexicon.lexicalEntries ?? data.lexicon.entry);
+    const synsets = asArray(data.lexicon.synsets ?? data.lexicon.synset);
+    if (entries.length || synsets.length) {
+      return { entries, synsets, version: data.lexicon.version ?? data.version ?? null };
+    }
+  }
+
+  const graph = asArray(data['@graph']);
+  if (graph.length) {
+    const entries = graph.flatMap((node) => asArray(node?.entry ?? node?.lexicalEntries));
+    const synsets = graph.flatMap((node) => asArray(node?.synset ?? node?.synsets));
+    const version = graph.map((node) => node?.version).find((value) => value != null) ?? data.version ?? null;
+    return { entries, synsets, version };
+  }
+
+  return { entries: [], synsets: [], version: data.version ?? null };
 };
 
 const entryLemma = (entry) => {
@@ -39,8 +75,12 @@ const entryLemma = (entry) => {
 
 const entryPos = (entry) => {
   const lemma = entry?.lemma;
-  return String(lemma?.partOfSpeech ?? entry?.partOfSpeech ?? '').trim();
+  return posCode(lemma?.partOfSpeech ?? entry?.partOfSpeech);
 };
+
+const entrySenses = (entry) => asArray(entry?.senses ?? entry?.sense);
+const senseId = (sense) => entityId(sense);
+const senseSynsetId = (sense) => String(sense?.synset ?? sense?.synsetId ?? sense?.synsetRef ?? '').trim();
 
 const synsetDefinition = (synset) => {
   const values = textValues(synset?.definition ?? synset?.definitions);
@@ -48,7 +88,6 @@ const synsetDefinition = (synset) => {
 };
 
 const synsetExamples = (synset) => textValues(synset?.examples ?? synset?.example);
-const synsetMembers = (synset) => textValues(synset?.members);
 
 const normalizeWordlist = (wordlist) => {
   if (!wordlist || typeof wordlist !== 'object' || !Array.isArray(wordlist.items)) {
@@ -65,7 +104,7 @@ const normalizeWordlist = (wordlist) => {
     }
     const normalized = {
       lemma: String(item.lemma).trim(),
-      partOfSpeech: item.partOfSpeech ? String(item.partOfSpeech).trim() : null,
+      partOfSpeech: item.partOfSpeech ? posCode(item.partOfSpeech) : null,
       targetRowId: item.targetRowId ? String(item.targetRowId).trim() : null,
       notes: item.notes ? String(item.notes).trim() : null
     };
@@ -77,20 +116,29 @@ const normalizeWordlist = (wordlist) => {
 };
 
 export function extractOewnCandidates(data, wordlist, options = {}) {
-  const entries = asArray(rootSection(data, 'lexicalEntries'));
-  const synsets = asArray(rootSection(data, 'synsets'));
+  const sections = extractSections(data);
+  const entries = sections.entries;
+  const synsets = sections.synsets;
   if (!entries.length || !synsets.length) {
-    throw new Error('Input does not look like Open English WordNet hierarchical JSON: lexicalEntries and synsets are required');
+    throw new Error('Input does not look like supported Open English WordNet JSON: expected hierarchical lexicalEntries/synsets or Global WordNet @graph entry/synset data');
   }
 
-  const synsetById = new Map(synsets.map((synset) => [String(synset?.id ?? ''), synset]).filter(([id]) => id));
+  const synsetById = new Map(synsets.map((synset) => [entityId(synset), synset]).filter(([id]) => id));
+  const lemmaBySenseId = new Map();
+  for (const entry of entries) {
+    const lemma = entryLemma(entry);
+    for (const sense of entrySenses(entry)) {
+      const id = senseId(sense);
+      if (id && lemma) lemmaBySenseId.set(id, lemma);
+    }
+  }
+
   const requested = normalizeWordlist(wordlist);
   const maxSenses = Number.isInteger(options.maxSenses) && options.maxSenses > 0 ? options.maxSenses : null;
   const sourceVersion = String(
     options.sourceVersion
       ?? wordlist.sourceVersion
-      ?? data?.version
-      ?? data?.lexicon?.version
+      ?? sections.version
       ?? 'unknown'
   );
 
@@ -105,7 +153,7 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
 
     const senses = matchingEntries.flatMap((entry) => {
       const pos = entryPos(entry) || request.partOfSpeech || null;
-      return asArray(entry?.senses ?? entry?.sense).map((sense) => ({ entry, sense, pos }));
+      return entrySenses(entry).map((sense) => ({ entry, sense, pos }));
     });
     const selectedSenses = maxSenses ? senses.slice(0, maxSenses) : senses;
 
@@ -115,24 +163,28 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
     }
 
     selectedSenses.forEach(({ entry, sense, pos }, senseIndex) => {
-      const synsetId = String(sense?.synset ?? sense?.synsetId ?? '').trim();
+      const synsetId = senseSynsetId(sense);
       const synset = synsetById.get(synsetId);
+      const upstreamSenseId = senseId(sense);
       if (!synsetId || !synset) {
-        throw new Error(`OEWN sense ${String(sense?.id ?? '<unknown>')} for ${request.lemma} references missing synset ${synsetId || '<none>'}`);
+        throw new Error(`OEWN sense ${upstreamSenseId || '<unknown>'} for ${request.lemma} references missing synset ${synsetId || '<none>'}`);
       }
-      const senseId = String(sense?.id ?? '').trim() || null;
+      const synonyms = textValues(synset?.members)
+        .map((member) => lemmaBySenseId.get(member) ?? member)
+        .filter((member) => member.toLocaleLowerCase('en') !== request.lemma.toLocaleLowerCase('en'));
+
       candidates.push({
         candidateId: `${request.lemma}#${pos ?? 'u'}#${senseIndex + 1}`,
         lemma: request.lemma,
         partOfSpeech: pos,
         targetRowId: request.targetRowId,
         sourceSense: {
-          entryId: String(entry?.id ?? '').trim() || null,
-          senseId,
+          entryId: entityId(entry) || null,
+          senseId: upstreamSenseId || null,
           synsetId,
           definition: synsetDefinition(synset),
           examples: synsetExamples(synset),
-          synonyms: synsetMembers(synset).filter((member) => member.toLocaleLowerCase('en') !== request.lemma.toLocaleLowerCase('en'))
+          synonyms: [...new Set(synonyms)]
         },
         review: {
           status: 'pending',
@@ -146,7 +198,7 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
           sourceVersion,
           license: OEWN_LICENSE,
           importedFieldPolicy: 'reference_candidate_only',
-          upstreamIds: [senseId, synsetId].filter(Boolean)
+          upstreamIds: [upstreamSenseId, synsetId].filter(Boolean)
         }
       });
     });
