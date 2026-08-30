@@ -44,6 +44,8 @@
     sections.find((section) => state.index >= section.startIndex && state.index < section.startIndex + section.count)
   );
   let sectionScores = $derived(summarizeSectionResults(sections, state.results));
+  let earnedMarks = $derived(sectionScores.reduce((sum, section) => sum + section.earnedMarks, 0));
+  let maxMarks = $derived(sectionScores.reduce((sum, section) => sum + section.maxMarks, 0));
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
@@ -75,7 +77,9 @@
 
     <article class="question-card">
       {#if currentSection}
-        <div class="reasoning-cue access-badge">Section: {currentSection.title}</div>
+        <div class="reasoning-cue access-badge">
+          Section: {currentSection.title} · {currentSection.marksPerQuestion} {currentSection.marksPerQuestion === 1 ? 'mark' : 'marks'} each
+        </div>
       {/if}
 
       {#if question.stimulus?.type === 'scene'}
@@ -117,6 +121,9 @@
     </div>
     <h1>Nice work, {displayName}</h1>
     <p>You solved {correctCount} of {state.results.length} questions correctly.</p>
+    {#if maxMarks > 0}
+      <p><strong>{earnedMarks} / {maxMarks} practice marks</strong></p>
+    {/if}
 
     {#if sectionScores.length > 0}
       <div class="section-results" aria-label="Section results">
@@ -124,6 +131,7 @@
           <article class="section-result">
             <strong>{section.title}</strong>
             <span>{section.correct} / {section.total} correct</span>
+            <span>{section.earnedMarks} / {section.maxMarks} marks</span>
             <small>{section.accuracy === null ? 'Not attempted' : `${Math.round(section.accuracy * 100)}% accuracy`}</small>
           </article>
         {/each}
