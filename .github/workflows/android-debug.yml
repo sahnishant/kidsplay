@@ -2,7 +2,7 @@ name: Android Debug APK
 
 on:
   push:
-    branches: [kidsplay, feat/semantic-visuals-expansion-2]
+    branches: [kidsplay]
   pull_request:
     branches: [main]
   workflow_dispatch:
