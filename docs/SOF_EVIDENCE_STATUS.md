@@ -54,6 +54,7 @@ Current reviewed named-year historical source set:
 - `sof.nso.class2.sample-paper.2023-24`
 - `sof.nso.class2.sample-paper.2022-23`
 - `sof.nso.class2.sample-paper.2019-20`
+- `sof.nso.class2.sample-paper.2018-19`
 - `sof.nso.class2.sample-paper.2016-17`
 - `sof.nso.class2.sample-paper.2015-16`
 - `sof.nso.class2.sample-paper.2014-15`
@@ -64,6 +65,8 @@ Current reviewed named-year historical source set:
 ### Public sample-source saturation
 
 The official 2023-24 Class 2 paper was reviewed and registered even though it adds **zero new exact rows**. Its science/achievers items repeat themes already directly evidenced from other official years: skin/touch, cousin relationships, woollen clothes in winter, leaf makes food, animal-pulled tonga and family-tree reasoning.
+
+The official named-year **2018-19** Class 2 paper is now also registered after direct review from SOF's own download endpoint. Its inspectable questions repeat already-evidenced ranking, skin/touch, cousin, flower/seed, cotton/fibre, planet-order and family-tree themes. Its cycle item establishes only that a cycle has no engine and is not animal-pulled, not the narrower canonical bicycle-pedal fact; its generic air-properties question likewise does not prove narrower pending balloon- or object-specific rows. It therefore adds **zero new exact row anchors** while closing a source-recovery target without weakening the evidence contract.
 
 The legacy official SOF-hosted **2016-17** Class 2 sample has also been reviewed and registered with **zero new exact rows**. Its useful questions overlap already-evidenced ranking, skin/touch, cousin, flower/seed, cotton/fibre, planet-order and family-tree themes. Other items either do not match a currently pending canonical row exactly or would require broadening a row beyond what the source actually states.
 
@@ -155,4 +158,4 @@ Normal `npm run validate:alignment` rejects, among other things:
 
 ## Next evidence target
 
-**155 rows remain pending.** Highest-value source work now is to locate named-year official Class 2 artifacts for 2017-18, 2018-19, 2020-21 and 2021-22, or an official year binding for `Class-2_7.pdf`. Continue without relaxing the distinction between topic scope, exact row inclusion and Kidsplay editorial fit. The profile must remain `prototype_unverified` until the intended verified scope has a reproducible row-level trail.
+**155 rows remain pending.** Highest-value source work now is to locate named-year official Class 2 artifacts for 2017-18, 2020-21 and 2021-22, or an official year binding for `Class-2_7.pdf`. Continue without relaxing the distinction between topic scope, exact row inclusion and Kidsplay editorial fit. The profile must remain `prototype_unverified` until the intended verified scope has a reproducible row-level trail.
