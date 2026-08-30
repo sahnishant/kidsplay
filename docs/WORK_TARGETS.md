@@ -8,13 +8,14 @@ This is the durable project-work checkpoint for branch `kidsplay`. GitHub issue 
 - Broad foundational learning stays free as much as practical.
 - Monetize structured goal paths, diagnostics, adaptation, mocks and advanced preparation rather than duplicating ordinary facts behind a paywall.
 - Keep development and content-production cost low through canonical knowledge rows, reusable formatters/engines, data-driven assessment blueprints and lightweight presentation primitives.
+- Animation should be lightweight, reusable and pedagogically meaningful. Do not introduce a heavy animation stack for effects that SVG/CSS/data-driven scenes can handle.
 
 ## Stable release baseline
 
-- `main` is at `a2b058616113cda0f02348813cfc35df479249c0` (`test: use forked Vitest worker on Windows`).
-- The user validated that baseline locally on Windows with the full `npm run check`: all then-current validators passed, Svelte reported 0 errors / 0 warnings, the Vite production build passed, and 15/15 behavior tests passed.
+- `main` remains the user-validated Windows checkpoint at `a2b058616113cda0f02348813cfc35df479249c0` (`test: use forked Vitest worker on Windows`).
+- The user validated that baseline locally on Windows with the then-current full `npm run check`.
 - Active product development continues on `kidsplay`.
-- `kidsplay` is based directly on current `main` and remains 0 commits behind it.
+- `main` should move only after a deliberate latest-head Windows recheck.
 
 ## Architecture mandate — complete
 
@@ -35,7 +36,7 @@ stored data
 
 Stable `rowId`, shared normalizers, profile-owned curriculum placement, independent knowledge/profile/activity difficulty axes, generated build/cache questions, reusable engines, row-level traceability and full-reference profile isolation are all in place. Do not reopen architecture without a real failing content/use case.
 
-Assessment format is now a separate data layer rather than engine logic:
+Assessment format remains a separate data layer rather than engine logic:
 
 ```text
 canonical knowledge
@@ -47,29 +48,43 @@ canonical knowledge
 
 Current contract: `docs/ASSESSMENT_BLUEPRINTS.md`.
 
-## Current Class 2 learning bank
+Presentation is also deliberately separate from knowledge/evaluation:
 
-Current authored inventory remains:
+```text
+canonical row / authored question
+→ optional exact presentation mapping
+→ reusable scene definition
+→ reusable SVG primitive + CSS motion
+```
+
+A visual can therefore be added or changed without changing the answer contract, evaluator or canonical fact.
+
+## Current Class 2 learning bank — validated 2026-08-30
+
+Latest successful full CI on code/content head `5a69fd9a6c5da3b798de0e43b48738e2b869910f` reported:
 
 - **41** canonical knowledge source objects.
-- **169** stable canonical knowledge rows.
-- **172** learnables.
-- **108** generated knowledge-backed activities.
-- **32** manually-authored traced reasoning/HOTS/passage/visual questions.
-- **154** runnable questions total, including earlier engine demonstrations.
+- **182** stable canonical knowledge rows in the profile index.
+- **185** learnables.
+- **108** generated knowledge-backed questions in traceability validation.
+- **32** manually-authored traced questions.
+- **12** traced HOTS questions within the authored/generated bank.
+- **154** runnable questions total.
 - **10** registered engines: 9 interactive runtime engines + 1 output engine.
+- **10** reusable scenes with **30** validated scene entities/primitives.
 
-The coverage audit (`npm run report:coverage`) proves the more important runtime facts:
+Coverage audit:
 
-- **169/169** SOF prototype profile rows are exercised by at least one runnable question.
-- **169/169** current SOF prototype profile rows are also represented in Free Explore.
+- **182/182** `SOF_INDIA_CLASS2` rows are exercised by at least one runnable question.
+- **182/182** current SOF prototype profile rows are represented in Free Explore.
 - **0** current profile rows are accidentally paid-only.
 - **140** profile-safe runnable questions are available to the goal selector.
-- The free pack contains **142** questions while continuing to reuse the same canonical rows.
+- Free Explore contains **142** questions while reusing the same canonical rows.
+- Current profile engine mix: crossword 1, drag-to-target 26, memory-pairs 26, sequence-order 1, single-choice 72, word-bank-fill 2, word-search 12.
 
 ### Science / EVS breadth — complete at useful prototype depth
 
-- [x] Animals: classification, homes, young ones, coverings/features.
+- [x] Animals: classification, homes, young ones, coverings/features, conservation examples.
 - [x] Plants: parts/functions, types, uses/products.
 - [x] Human Body: senses, organs/functions, actions/support.
 - [x] Food: sources, groups, hygiene/healthy habits.
@@ -90,19 +105,19 @@ The coverage audit (`npm run report:coverage`) proves the more important runtime
 - [x] Measuring-unit choices and shape properties.
 - [x] Embedded visual-pattern search.
 
-### HOTS / deeper reasoning — complete for the current beta mandate
+### HOTS / deeper reasoning — complete for current beta mandate
 
 - [x] Multi-row scenario reasoning.
 - [x] Statement-pair evaluation.
 - [x] Table-style inference.
 - [x] Ordered-process reasoning through the existing sequence engine.
-- [x] Passage/claim reasoning using the existing question contract; no premature `passage@1` datatype was required.
+- [x] Passage/claim reasoning using the existing question contract.
 - [x] Traced visual interpretation backed by reusable vector scenes.
 - [x] Normal goal sessions reserve reasoning when available.
-- [x] Free Explore sessions of normal length also reserve a deeper multi-row reasoning item when available.
+- [x] Free Explore sessions of normal length reserve deeper reasoning when available.
 - [x] 20-question mixed mocks reserve several multi-row reasoning items.
 
-Semantic datatypes such as `entity_table@1`, `passage@1`, `ordered_process@1` and `labeled_diagram@1` remain optional future abstractions. Add them only when repeated authored content demonstrates that the current contracts are insufficient.
+Semantic datatypes such as `entity_table@1`, `passage@1`, `ordered_process@1` and `labeled_diagram@1` remain optional future abstractions. Add them only when repeated authored content demonstrates that current contracts are insufficient.
 
 ## Free Explore — broad knowledge remains genuinely free
 
@@ -112,15 +127,15 @@ Current entry: **Science Explorer: Class 2 Science & EVS**.
 - [x] Broad science/EVS/logical-reasoning pool.
 - [x] Selection prioritizes the weakest referenced row of a multi-row question rather than averaging a weak fact away.
 - [x] Representative engine and activity-family diversity.
-- [x] Normal sessions retain at least one deeper reasoning question when available.
+- [x] Normal sessions retain deeper reasoning when available.
 - [x] Foundational science, EVS, logical-reasoning, passage and visual-reasoning items remain free.
 - [x] Every current `SOF_INDIA_CLASS2` profile row is represented in free content.
 - [x] The Class 2 goal explicitly declares `knowledgeAccessPolicy: reuse_free_knowledge`.
-- [x] `validate:product` now fails if a `reuse_free_knowledge` goal silently introduces a paid-only profile fact.
+- [x] `validate:product` fails if a `reuse_free_knowledge` goal silently introduces a paid-only profile fact.
 
 Paid value therefore remains in structure, goal sequencing, diagnostics, adaptation, mocks and preparation workflow rather than a duplicate paid fact bank.
 
-## Goal Learning — materially stronger SOF Class 2 prototype
+## Goal Learning — strong SOF Class 2 prototype
 
 Current practice entry: **Class 2 Science Olympiad: Core Science & EVS**.
 
@@ -129,84 +144,99 @@ Current practice entry: **Class 2 Science Olympiad: Core Science & EVS**.
 - [x] Complete `knowledgeRefs` isolation prevents profile leakage.
 - [x] Adaptive selection prioritizes weaker/unseen evidence while preserving fit and diversity.
 - [x] Multi-row questions are prioritized according to their weakest referenced fact.
-- [x] NEXT FOCUS prioritizes weak/growing topics and then expands into unpractised breadth rather than showing only already-practised topics.
-- [x] Practice readiness now combines row coverage, topic-group breadth, repeated evidence and weighted accuracy.
+- [x] NEXT FOCUS prioritizes weak/growing topics and then unpractised breadth.
+- [x] Practice readiness combines row coverage, topic-group breadth, repeated evidence and weighted accuracy.
 - [x] A concentrated set of mastered facts cannot produce `mock_ready` without broad topic evidence.
 - [x] Quick **20-question mixed mock** remains available.
-- [x] New **35-question 2026–27 pattern mock** is driven by assessment-blueprint data rather than hard-coded delivery logic.
-- [x] Current reviewed pattern: 5 Logical Reasoning × 1 mark, 25 Science × 1 mark, 5 Achievers × 2 marks = **35 questions / 40 marks**.
-- [x] Structured mock shows the active section and mark weight while playing.
+- [x] **35-question 2026–27 pattern mock** is driven by assessment-blueprint data rather than hard-coded delivery logic.
+- [x] Reviewed pattern: 5 Logical Reasoning × 1 mark, 25 Science × 1 mark, 5 Achievers × 2 marks = **35 questions / 40 marks**.
+- [x] Structured mock shows active section and mark weight.
 - [x] Completion diagnostics report correct answers, accuracy and marks separately for Logical Reasoning, Science and Achievers.
-- [x] The 35-question pattern mock is resumable offline with exact selected question order, response position and already-submitted feedback preserved.
-- [x] Saved mocks are contract-bound: incompatible blueprint selectors/marks/provenance, profile memberships/fits, question revisions or interaction versions invalidate and clear the stale checkpoint instead of silently resuming it.
-- [x] Replaying a completed session receives a fresh session identity so attempt/history records do not collide.
-- [x] Compact mock history persists locally and reports latest score, best score, previous-attempt movement and latest section marks without requiring a backend.
-- [x] Duplicate completion callbacks for the same session do not double-count mock history.
-- [x] UI copy explicitly says Kidsplay-authored mocks/readiness are practice tools, not official SOF papers, scores or certification.
-- [ ] Exact row memberships/fits remain `prototype_unverified` until reproducible row-level official evidence review exists.
+- [x] Long mock is resumable offline with exact selected question order, response position and already-submitted feedback preserved.
+- [x] Saved mocks are contract-bound and fail closed when blueprint/profile/question contracts change.
+- [x] Replay uses a fresh session identity.
+- [x] Compact mock history reports latest, best, movement and section marks locally.
+- [x] Duplicate completion callbacks do not double-count history.
+- [x] UI copy says Kidsplay-authored mocks/readiness are practice tools, not official SOF papers, scores or certification.
+- [ ] Exact row membership remains `prototype_unverified` until the intended row-level official evidence review is complete.
 
 Assessment blueprint: `content/assessment-blueprints/SOF_INDIA_CLASS2_2026-27.json`.
 Assessment contract: `docs/ASSESSMENT_BLUEPRINTS.md`.
 
-## Alignment / provenance status
+## Alignment / provenance — primary remaining product-truth mandate
 
-Broad current Class 2 SOF scope and assessment format are backed by reviewed official sources.
+Broad current Class 2 SOF scope and assessment format are backed by reviewed official sources. Exact row-level evidence is intentionally a stricter claim.
 
-Exact row-level evidence is intentionally a stricter claim:
+Current machine-readable state:
 
-- **3/169** current rows/skills now have reproducible exact evidence anchors.
-- **166/169** remain pending row/skill evidence.
-- Newly recorded exact evidence includes `kr.air.windmill.turned-by.wind`, alongside the earlier Earth-rotation/day-night and ranking-position anchors.
-- `node scripts/report-sof-row-review.mjs` now produces a core-first review queue, topic evidence coverage and the full remaining queue.
+- **26/182** profile rows/skills have reproducible exact evidence anchors.
+- **11** are current-year direct anchors.
+- **15** are historical official Class 2 direct anchors with an explicit per-row current-year scope binding.
+- **156/182** remain pending exact row/skill evidence.
+- All current evidence keeps `fitBasis: editorial_retained`; Kidsplay does not pretend SOF supplied the internal `core/review/stretch/challenge` fit.
+- `node scripts/report-sof-row-review.mjs` produces a core-first review queue and topic evidence coverage.
 - `node scripts/report-sof-row-review.mjs --json` provides the same queue for machine-assisted batch review.
-- `npm run validate:alignment` rejects invalid/unknown evidence and a false completed review.
+- `npm run validate:alignment` rejects invalid/unknown evidence, unsafe historical evidence and a false completed review.
+
+Recent evidence work also repaired stale source-chain drift: historical rows must now name both a current-year scope source and a specific current-year locator.
 
 Do not claim official row-level SOF alignment until the intended verified scope has reproducible evidence.
 
 Row-review protocol: `docs/SOF_ROW_REVIEW.md`.
+Compact checkpoint: `docs/SOF_EVIDENCE_STATUS.md`.
 
 ## Learning map / offline progress
 
 - [x] Player name and avatar persist locally.
 - [x] Attempts, row evidence and concept mastery persist offline.
-- [x] Corrupt/impossible local mastery counters and malformed stored attempts are discarded at the persistence boundary instead of distorting adaptation/readiness.
-- [x] 17 topic groups are recognized: Animals, Plants, Human Body, Food, Housing, Clothing, Good Habits, Safety, Transport, Communication, Air, Water, Rocks, Earth & Universe, Family, Festivals and Logical Reasoning.
+- [x] Corrupt/impossible local mastery counters and malformed stored attempts are discarded at the persistence boundary.
+- [x] 17 topic groups are recognized.
 - [x] Topic summaries show practised rows, strong rows and weighted accuracy.
 - [x] Statuses: Not started / Practise next / Growing / Strong so far.
 - [x] NEXT FOCUS is weak-first, then recommends new topic breadth.
-- [x] Goal readiness is deliberately described as a local practice signal rather than syllabus mastery/certification.
-- [x] One active long-mock checkpoint is stored locally with bounded, validated data rather than storing runtime components or derived scores.
-- [x] Mock history is bounded to compact completion summaries and trend signals, keeping the offline-first product usable without a server account.
+- [x] Goal readiness is explicitly a local practice signal rather than syllabus mastery/certification.
+- [x] One active long-mock checkpoint is stored locally with bounded, validated data.
+- [x] Mock history is bounded to compact completion summaries and trend signals.
 
 ## Evaluator / engine integrity
 
-- [x] All **9 shipped interactive solution families** are exercised end-to-end against real shipped questions in behavior tests.
+- [x] All 9 shipped interactive solution families are exercised end-to-end against real shipped questions.
 - [x] Valid responses receive full credit across exact option, blank answer, target assignment, found terms, pair matches, ordering, selected regions, crossword and maze solutions.
 - [x] Extra/injected invalid answers no longer receive accidental full credit in set/record/list-style evaluators.
-- [x] Maze evaluation validates the start cell, target and every legal wall-respecting step; jumping straight to the goal is rejected.
-- [x] One-response-per-question session behavior remains protected.
-- [x] Structured mock section boundaries and mark-weighted scoring have pure runtime tests.
-- [x] Resume restores results by re-evaluating saved raw responses against the current question contract rather than trusting persisted score objects.
-- [x] The post-submit/pre-Next reload boundary restores feedback while keeping the answer engine locked, preventing duplicate responses.
-- [x] Corrupt, impossible and stale mock checkpoints fail closed and return the child to a safe Home state.
+- [x] Maze evaluation validates start, target and every legal wall-respecting step.
+- [x] One-response-per-question behavior remains protected.
+- [x] Structured mock boundaries and mark-weighted scoring have pure runtime tests.
+- [x] Resume re-evaluates raw responses against the current question contract rather than trusting persisted scores.
+- [x] Post-submit/pre-Next reload restores feedback while keeping the answer engine locked.
+- [x] Corrupt/impossible/stale mock checkpoints fail closed.
 
-## Presentation / engagement — current mandate met without asset bloat
+## Presentation / engagement — lightweight motion now materially implemented
 
 - [x] Asset/license admission registry + build-time notices.
 - [x] Four original modular SVG child avatars: fox, owl, panda, tiger.
 - [x] Shared reusable face/body/ear/mark parts and happy/thinking/celebrate states.
-- [x] Lightweight CSS motion with reduced-motion support.
-- [x] Original reusable vector scene primitives for dog, bone, heart, wave, whale, balloon, candle and pumice.
+- [x] Answer-reactive session avatar: celebrate/bounce on correct; think state on incorrect/challenge moments.
+- [x] Dashboard hero avatar motion remains visible on Android phone widths instead of being hidden below 650px.
+- [x] Dashboard **Motion Moment** reuses a semantically matched animated science scene.
+- [x] Original reusable vector scene primitives now include dog, bone, heart, wave, whale, balloon, candle, pumice, wind, windmill, kite, sailboat, plant and sun.
 - [x] Scene JSON controls positions/motion independently of question engines.
-- [x] Core home/session avatar and traced visual-scene paths no longer depend on platform emoji rendering.
+- [x] Exact canonical rows/concepts can map to presentation scenes without coupling canonical knowledge or evaluators to artwork.
+- [x] Inferred motion is used as **post-answer reinforcement** in normal practice rather than a pre-answer hint.
+- [x] Inferred motion is suppressed in structured mocks so it cannot leak an answer.
+- [x] Explicit authored visual stimuli remain visible from the start, including assessment questions intentionally defined around a scene.
+- [x] Reinforcement scenes render below feedback to avoid moving the question prompt after submission on small screens.
+- [x] `prefers-reduced-motion` disables global animations/transitions; windmill blade spin also fails safe to static.
+- [x] `validate:scenes` validates scene IDs, themes, accessibility labels, entity IDs, icons, coordinates and motion names in CI.
+- [x] UI behavior tests cover dashboard motion, post-answer reinforcement and mock-safe suppression.
 - [ ] External permissively licensed asset packs remain optional. Prefer original/reusable primitives unless an external pack materially lowers production cost and can be admitted with exact provenance.
 
 ## Behavioral / build protection
 
-Normal `npm run check` now covers:
+Normal `npm run check` covers:
 
 - content compilation;
 - engine registry;
+- scene/motion data validation;
 - taxonomies/profiles;
 - alignment and exact-evidence contracts;
 - assessment-blueprint provenance/count/mark validation;
@@ -217,31 +247,40 @@ Normal `npm run check` now covers:
 - content validation;
 - Svelte typecheck;
 - Vite production build;
-- behavior tests for catalog/content, progress, evaluator, sessions, assessment blueprints, mock persistence, stale-resume integrity and UI.
+- behavior tests for catalog/content, progress, evaluator, sessions, assessment blueprints, presentation, mock persistence, stale-resume integrity and UI.
 
-The GitHub Android workflow has also moved off older action majors to current supported checkout/setup-node/setup-java/upload-artifact actions while retaining Node 22, Java 21, locked npm install and native-binding repair.
+Latest validated run at code/content head `5a69fd9`:
+
+- content validation: pass;
+- 182/182 runnable/free profile-row coverage: pass;
+- scene validation: 10 scenes / 30 entities: pass;
+- Svelte: **0 errors / 0 warnings**;
+- Vite production build: pass;
+- Vitest: **9 files / 40 tests passed**;
+- Capacitor Android generation/sync: pass;
+- Gradle `assembleDebug`: **BUILD SUCCESSFUL**;
+- debug APK uploaded as GitHub Actions artifact.
+
+The GitHub Android workflow uses current supported checkout/setup-node/setup-java/upload-artifact action majors with Node 22, Java 21, locked npm install and Linux native-binding repair.
 
 ## Release state after this batch
 
 - [x] Stable `main` remains the user-validated Windows checkpoint at `a2b0586`.
-- [x] Resumable long mocks and compact local mock-history/trend diagnostics are implemented and protected on `kidsplay`.
-- [x] The exact resumability/history code head has passed the full Linux `npm run check` stage and Capacitor generation on 2026-08-30; the immediately preceding code head also produced and uploaded a successful Android debug APK.
-- [ ] Complete Android packaging for the final tracker/documentation head and retain the resulting artifact as the exact-head CI proof.
-- [ ] Pull the final `kidsplay` head locally on Windows and rerun `npm run check` before the next deliberate `main` promotion.
-- [ ] Advance `main` only after that deliberate latest-head validation decision.
+- [x] Current `kidsplay` code/content head has full Linux/browser/content/test/Android debug-build proof.
+- [x] Android debug APK artifact exists for code/content head `5a69fd9`.
+- [x] Animation/data/evidence additions are protected by validators and behavior tests rather than UI-only assumptions.
+- [ ] Pull latest `kidsplay` locally on Windows and rerun `npm run check` before the next deliberate `main` promotion.
+- [ ] Advance `main` only after that deliberate latest-head Windows validation decision.
+
+Documentation-only commits may sit after the last code/content CI head; they do not alter the shipped runtime contract.
 
 ## Next high-value work
 
-1. **Exact SOF row-level evidence review — 166 rows pending.** This is now the largest substantive product-truth task and should proceed core-first using the generated queue. Keep `SOF_INDIA_CLASS2` explicitly `prototype_unverified` until the intended verified scope has reproducible evidence.
-2. **Latest-head Windows certification and deliberate `main` promotion.** Linux/browser/Android CI is strong, but `main` should not move until the latest head is deliberately rechecked on Windows.
-3. **Evidence-driven goal refinement.** As exact row evidence accumulates, adjust profile membership/fits where sources justify it; do not manufacture paid-only facts or silently promote editorial placement.
-4. **Optional engagement/asset expansion only on demonstrated need.** Prefer the current reusable vector primitives and engine system over asset bloat.
-
-Completed in the 2026-08-30 passes and therefore removed from the active queue:
-
-- [x] Resumable 35-question long mocks with safe offline checkpointing.
-- [x] Compact mock history and latest/best/previous trend diagnostics.
-- [x] Stale assessment/profile/question contract invalidation and resume-integrity regression coverage.
+1. **Exact SOF row-level evidence review — 156 rows pending.** Continue core-first using the generated queue. Prefer current-year exact evidence; use historical Class 2 evidence only with an explicit current-year scope binding. Never fabricate evidence to close the number.
+2. **Latest-head Windows certification and deliberate `main` promotion.** Linux/browser/Android proof is green; retain the user-controlled Windows gate before moving stable `main`.
+3. **Evidence-driven goal refinement.** Adjust membership/fits only when reviewed evidence justifies it; do not manufacture paid-only facts or silently promote editorial placement.
+4. **Animation expansion only where it teaches.** Add/reuse scenes for rows where motion clarifies an association, process or feedback; avoid decorative motion and assessment hints.
+5. **Optional external assets only on demonstrated need.** Prefer the current original vector primitives and reusable scene system over asset bloat.
 
 ## Branch/release hygiene
 
@@ -254,6 +293,7 @@ Completed in the 2026-08-30 passes and therefore removed from the active queue:
 
 - Canonical live tracker: issue #1.
 - This durable work checkpoint: `docs/WORK_TARGETS.md`.
+- Compact SOF evidence checkpoint: `docs/SOF_EVIDENCE_STATUS.md`.
 - Assessment format contract: `docs/ASSESSMENT_BLUEPRINTS.md`.
 - Exact row-review protocol: `docs/SOF_ROW_REVIEW.md`.
 - Profile/alignment contract: `docs/CURRICULUM_METADATA.md`.
