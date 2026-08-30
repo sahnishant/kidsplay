@@ -12,6 +12,5 @@
 
   { "id": "entity.shape.triangle", "renderer": "learning-icon", "glyph": "triangle", "label": "Triangle", "motion": "pulse", "aliases": ["triangle"] },
   { "id": "entity.shape.square", "renderer": "learning-icon", "glyph": "square", "label": "Square", "motion": "pulse", "aliases": ["square"] },
-  { "id": "entity.shape.circle", "renderer": "learning-icon", "glyph": "circle", "label": "Circle", "motion": "pulse", "aliases": ["circle"] },
-  { "id": "entity.shape.star", "renderer": "learning-icon", "glyph": "star", "label": "Star", "motion": "pulse", "aliases": ["star"] }
+  { "id": "entity.shape.circle", "renderer": "learning-icon", "glyph": "circle", "label": "Circle", "motion": "pulse", "aliases": ["circle"] }
 ]
