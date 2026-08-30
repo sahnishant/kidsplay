@@ -74,6 +74,9 @@ for (const file of questionFiles) {
   if (!Array.isArray(questions)) continue;
   for (const question of questions) {
     for (const item of presentableItems(question)) {
+      if (item.semanticRef !== undefined && (typeof item.semanticRef !== 'string' || !item.semanticRef.trim())) {
+        errors.push(`${question.id}/${item.id}: semanticRef must be a non-empty string when provided`);
+      }
       if (item.visualRefs === undefined) continue;
       if (!Array.isArray(item.visualRefs) || !item.visualRefs.length) {
         errors.push(`${question.id}/${item.id}: visualRefs must be a non-empty array when provided`);
