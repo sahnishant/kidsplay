@@ -84,20 +84,47 @@ describe('session state and engine hosting', () => {
     for (const question of questions) expect(() => getEngineComponent(question)).not.toThrow();
   });
 
-  it('summarizes structured mock performance without mixing section boundaries', () => {
+  it('summarizes structured mock performance without mixing section boundaries or marks', () => {
     const summary = summarizeSectionResults(
       [
-        { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 2 },
-        { id: 'science', title: 'Science', startIndex: 2, count: 3 },
-        { id: 'achievers', title: 'Achievers', startIndex: 5, count: 1 }
+        { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 2, marksPerQuestion: 1 },
+        { id: 'science', title: 'Science', startIndex: 2, count: 3, marksPerQuestion: 1 },
+        { id: 'achievers', title: 'Achievers', startIndex: 5, count: 1, marksPerQuestion: 2 }
       ],
       [result(true), result(false), result(true), result(true), result(false), result(true)]
     );
 
     expect(summary).toEqual([
-      { id: 'logical_reasoning', title: 'Logical Reasoning', correct: 1, answered: 2, total: 2, accuracy: 0.5 },
-      { id: 'science', title: 'Science', correct: 2, answered: 3, total: 3, accuracy: 2 / 3 },
-      { id: 'achievers', title: 'Achievers', correct: 1, answered: 1, total: 1, accuracy: 1 }
+      {
+        id: 'logical_reasoning',
+        title: 'Logical Reasoning',
+        correct: 1,
+        answered: 2,
+        total: 2,
+        accuracy: 0.5,
+        earnedMarks: 1,
+        maxMarks: 2
+      },
+      {
+        id: 'science',
+        title: 'Science',
+        correct: 2,
+        answered: 3,
+        total: 3,
+        accuracy: 2 / 3,
+        earnedMarks: 2,
+        maxMarks: 3
+      },
+      {
+        id: 'achievers',
+        title: 'Achievers',
+        correct: 1,
+        answered: 1,
+        total: 1,
+        accuracy: 1,
+        earnedMarks: 2,
+        maxMarks: 2
+      }
     ]);
   });
 });
