@@ -53,7 +53,11 @@ for (const fileName of reviewFiles) {
       if (!officialSourceTypes.has(source.type) || source.status !== 'reviewed') {
         errors.push(`${evidencePrefix}: evidence source must be a reviewed official source`);
       }
-      if (hasText(currentAcademicYear) && source.academicYear === currentAcademicYear) {
+      if (
+        evidence.evidenceType === 'official_scope'
+        && hasText(currentAcademicYear)
+        && source.academicYear === currentAcademicYear
+      ) {
         hasCurrentYearScopeEvidence = true;
       }
     }
@@ -111,7 +115,7 @@ for (const fileName of reviewFiles) {
         errors.push(`${evidencePrefix}: historical_class2 evidence must come from a different named academic year`);
       }
       if (!hasCurrentYearScopeEvidence) {
-        errors.push(`${evidencePrefix}: historical_class2 evidence requires current-year official scope evidence in the same review`);
+        errors.push(`${evidencePrefix}: historical_class2 evidence requires current-year official_scope evidence in the same review`);
       }
     }
 
