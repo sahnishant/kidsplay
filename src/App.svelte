@@ -14,6 +14,21 @@
     summarizeProgress,
     type ChildSettings
   } from './runtime/localProgress';
+  import {
+    clearMockCheckpoint,
+    loadMockCheckpoint,
+    loadMockHistory,
+    recordMockCompletion,
+    saveMockCheckpoint,
+    summarizeMockHistory
+  } from './runtime/mockPersistence';
+  import { resolveQuestionIds } from './runtime/questionCatalog';
+  import {
+    createSessionCheckpoint,
+    restoreSessionState,
+    summarizeSectionResults,
+    type SessionState
+  } from './runtime/session';
   import Home from './ui/Home.svelte';
   import Session from './ui/Session.svelte';
 
@@ -22,8 +37,13 @@
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let activeSession = $state<SessionLaunch | null>(null);
+  let activeEntryId = $state<string | null>(null);
+  let initialSessionState = $state<SessionState | undefined>(undefined);
+  let resumableMock = $state(loadMockCheckpoint());
+  let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
   let progressSummary = $derived(summarizeProgress(progress));
+  let mockTrends = $derived(summarizeMockHistory(mockHistory));
   let goalReadiness = $derived(
     goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
   );
@@ -32,12 +52,51 @@
     child = saveChildSettings(settings);
   }
 
+  function sectionSignature(session: SessionLaunch): string {
+    return JSON.stringify((session.sections ?? []).map((section) => ({
+      id: section.id,
+      startIndex: section.startIndex,
+      count: section.count,
+      marksPerQuestion: section.marksPerQuestion
+    })));
+  }
+
   function startSession(entryId: string): void {
     try {
       activeSession = createSessionForCatalogEntry(entryId, progress.knowledge);
+      activeEntryId = entryId;
+      initialSessionState = undefined;
       startError = null;
     } catch (error) {
       startError = error instanceof Error ? error.message : 'This learning session could not be started.';
+    }
+  }
+
+  function resumeMock(): void {
+    if (!resumableMock) return;
+    try {
+      const launch = createSessionForCatalogEntry(resumableMock.entryId, progress.knowledge);
+      if (launch.mode !== 'goal_pattern_mock') {
+        throw new Error('Only structured long mocks can be resumed');
+      }
+      if (sectionSignature(launch) !== resumableMock.sectionSignature) {
+        throw new Error('The assessment blueprint changed since this mock was saved');
+      }
+      const questions = resolveQuestionIds(resumableMock.questionIds);
+      if (questions.length !== launch.questions.length) {
+        throw new Error('The saved mock no longer matches the current assessment length');
+      }
+
+      activeSession = { ...launch, questions };
+      activeEntryId = resumableMock.entryId;
+      initialSessionState = restoreSessionState(questions, resumableMock.state);
+      startError = null;
+    } catch (error) {
+      clearMockCheckpoint();
+      resumableMock = null;
+      startError = error instanceof Error
+        ? `Saved mock could not be resumed and was cleared: ${error.message}`
+        : 'Saved mock could not be resumed and was cleared.';
     }
   }
 
@@ -45,8 +104,51 @@
     progress = recordAttempt(attempt);
   }
 
+  function handleCheckpoint(state: SessionState): void {
+    if (!activeSession || activeSession.mode !== 'goal_pattern_mock' || !activeEntryId) return;
+    resumableMock = saveMockCheckpoint({
+      entryId: activeEntryId,
+      title: activeSession.title,
+      questionIds: activeSession.questions.map((question) => question.id),
+      sectionSignature: sectionSignature(activeSession),
+      state: createSessionCheckpoint(state)
+    });
+  }
+
+  function handleSessionComplete(state: SessionState): void {
+    if (!activeSession || !activeEntryId) return;
+    if (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock') return;
+
+    const sections = summarizeSectionResults(activeSession.sections ?? [], state.results);
+    const correct = state.results.filter((result) => result.correct).length;
+    const earnedMarks = sections.length
+      ? sections.reduce((sum, section) => sum + section.earnedMarks, 0)
+      : state.results.reduce((sum, result) => sum + result.score, 0);
+    const maxMarks = sections.length
+      ? sections.reduce((sum, section) => sum + section.maxMarks, 0)
+      : state.results.reduce((sum, result) => sum + result.maxScore, 0);
+
+    mockHistory = recordMockCompletion({
+      sessionId: state.sessionId,
+      entryId: activeEntryId,
+      title: activeSession.title,
+      questionCount: activeSession.questions.length,
+      correct,
+      earnedMarks,
+      maxMarks,
+      sections
+    });
+
+    if (activeSession.mode === 'goal_pattern_mock') {
+      clearMockCheckpoint();
+      resumableMock = null;
+    }
+  }
+
   function returnHome(): void {
     activeSession = null;
+    activeEntryId = null;
+    initialSessionState = undefined;
     startError = null;
   }
 </script>
@@ -58,7 +160,10 @@
     sections={activeSession.sections}
     childName={child.name}
     childAvatar={child.avatar}
+    initialState={initialSessionState}
     onAttempt={handleAttempt}
+    onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
+    onComplete={handleSessionComplete}
     onExit={returnHome}
   />
 {:else}
@@ -67,8 +172,11 @@
     {catalog}
     progress={progressSummary}
     {goalReadiness}
+    {resumableMock}
+    {mockTrends}
     onChildChange={handleChildChange}
     onStart={startSession}
+    onResumeMock={resumeMock}
   />
 
   {#if startError}
