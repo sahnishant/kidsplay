@@ -241,5 +241,13 @@
     "topic": "Animals",
     "subtopic": "Adaptations",
     "gradeBands": [2]
+  },
+  {
+    "id": "animals.conservation.rhino-horns",
+    "statement": "Rhinoceroses are threatened when people kill them for their horns.",
+    "subject": "EVS",
+    "topic": "Animals",
+    "subtopic": "Conservation",
+    "gradeBands": [2]
   }
 ]
