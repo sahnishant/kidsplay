@@ -2,10 +2,12 @@
   "schemaVersion": 1,
   "policy": {
     "primarySourceId": "open-english-wordnet",
+    "primaryGradeCorpusId": "grundwortschatz-voc-en",
     "shipCuratedSlicesOnly": true,
     "kidsplayChildDefinitionsPreferred": true,
     "requireFieldLevelProvenanceForImportedText": true,
-    "notes": "External dictionaries are candidate/reference lexical data. Learning-profile placement and child-facing pedagogy remain Kidsplay-authored/reviewed concerns."
+    "commercialProductCompatibleSourcesOnly": true,
+    "notes": "External dictionaries and grade corpora are candidate/reference data. Learning-profile placement and child-facing pedagogy remain Kidsplay-authored/reviewed concerns. Open derivative datasets with share-alike terms stay license-isolated from application code and independent Kidsplay editorial content."
   },
   "sources": [
     {
@@ -18,6 +20,26 @@
       "allowedUses": ["lemma_candidates", "sense_resolution", "part_of_speech", "definitions_with_attribution", "semantic_relations"],
       "adoption": "preferred",
       "provenanceRequirement": "Preserve upstream sense/synset identifiers and attribution for imported or adapted licensed material."
+    },
+    {
+      "id": "grundwortschatz-voc-en",
+      "name": "WortUniversum English Vocabulary Database",
+      "homepage": "https://huggingface.co/datasets/cstr/grundwortschatz-voc-en",
+      "license": "CC-BY-SA-4.0",
+      "role": "primary_grade_candidate_corpus",
+      "allowedUses": ["lemma_candidates", "grade_prior", "frequency_signal", "curriculum_signal", "spelling_candidate"],
+      "adoption": "isolated_open_data",
+      "provenanceRequirement": "Keep the reduced candidate snapshot and derivatives under CC BY-SA 4.0 with source attribution/revision. Do not copy source definitions/examples into Kidsplay-authored child content automatically."
+    },
+    {
+      "id": "norare-cldf",
+      "name": "NoRaRe CLDF release",
+      "homepage": "https://github.com/concepticon/norare-cldf",
+      "license": "CC-BY-4.0",
+      "role": "optional_psycholinguistic_norms",
+      "allowedUses": ["age_of_acquisition_signal", "concreteness_signal", "prevalence_signal", "cross_check"],
+      "adoption": "allowed_released_data_only",
+      "provenanceRequirement": "Use only the released norare-cldf dataset under its published CC BY 4.0 terms; preserve dataset/variable provenance."
     },
     {
       "id": "princeton-wordnet-3.0",
@@ -38,6 +60,25 @@
       "allowedUses": ["pronunciation_candidates", "morphology_candidates", "usage_candidates", "translation_candidates", "sense_cross_check"],
       "adoption": "isolated_only",
       "provenanceRequirement": "Keep imported/adapted Wiktionary text separately traceable and satisfy attribution/share-alike requirements; do not silently merge it into Kidsplay-authored editorial definitions."
+    },
+    {
+      "id": "norare-data-curation-repo",
+      "name": "NoRaRe data curation repository",
+      "homepage": "https://github.com/concepticon/norare-data",
+      "license": "CC-BY-NC-4.0",
+      "role": "research_reference_only",
+      "allowedUses": ["research_reference"],
+      "adoption": "do_not_import_product_data",
+      "provenanceRequirement": "Non-commercial repository license is incompatible with Kidsplay's paid learning path; use the CC BY 4.0 norare-cldf release instead when applicable."
+    },
+    {
+      "id": "vxgl",
+      "name": "Vocabulary by Grade Level (VXGL)",
+      "license": "CC-BY-NC-4.0",
+      "role": "research_reference_only",
+      "allowedUses": ["research_reference"],
+      "adoption": "do_not_import_product_data",
+      "provenanceRequirement": "Do not import or ship VXGL-derived product data while its published license is non-commercial."
     }
   ]
 }
