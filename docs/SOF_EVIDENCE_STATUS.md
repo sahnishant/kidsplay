@@ -12,8 +12,8 @@ This file is a compact status checkpoint. The contract/rationale remains in `doc
 - Current profile membership: **182 canonical rows**
 - Current learnables: **185**
 - Exact reproducible row/skill evidence: **26 / 182**
-- Current-year direct evidence: **11**
-- Historical official Class 2 direct evidence with per-row current-year scope binding: **15**
+- Current-year direct evidence: **13**
+- Historical official Class 2 direct evidence with per-row current-year scope binding: **13**
 - Rows still pending exact row/skill evidence: **156**
 - Current recorded fit basis for direct evidence: `editorial_retained`
 
@@ -54,7 +54,7 @@ Current historical source set:
 - `sof.nso.class2.sample-paper.2022-23`
 - `sof.nso.class2.sample-paper.2019-20`
 
-## Current-year direct anchors — 11
+## Current-year direct anchors — 13
 
 - `kr.universe.earth.rotation.day-night`
 - `kr.reasoning.ranking.position.between`
@@ -67,18 +67,18 @@ Current historical source set:
 - `kr.water.sea.feature.salty`
 - `kr.earth.plateau.alias.tableland`
 - `kr.universe.orbit.definition.planet-path`
+- `kr.animals.rhinoceros.threat.killed-for-horns`
+- `kr.safety.road-sign.steep-descent`
 
-## Historical direct anchors — 15
+## Historical direct anchors — 13
 
 - `kr.reasoning.ranking.height.shortest`
 - `kr.human.skin.sense.touch`
 - `kr.family.cousin.relationship.aunt-uncle-child`
 - `kr.clothing.wool.weather.winter`
 - `kr.transport.tonga.power.animal-pulled`
-- `kr.animals.rhinoceros.threat.killed-for-horns`
 - `kr.air.kite.moved-by.wind`
 - `kr.air.sailboat.moved-by.wind`
-- `kr.safety.road-sign.steep-descent`
 - `kr.plants.cotton.use.fibre`
 - `kr.universe.mercury.position.closest-sun`
 - `kr.universe.earth.position.third`
@@ -114,13 +114,16 @@ Normal `npm run validate:alignment` rejects, among other things:
 
 - malformed/non-consecutive academic-year labels;
 - unknown or duplicate evidence rows;
+- membership rows that are not canonical knowledge;
+- duplicate alignment/provenance source references;
+- profile/membership academic-year mismatches;
 - non-reviewed/non-official evidence sources;
 - current-year evidence from the wrong academic year;
 - historical evidence without a distinct historical assessment year;
 - historical evidence without a per-row current-year scope source and locator;
 - invalid fit bases;
 - keep decisions whose fit no longer matches the profile membership;
-- a falsely completed review that does not cover every current membership row.
+- a falsely completed review that does not retain/refit evidence for every current membership row.
 
 `node scripts/report-sof-row-review.mjs` / `--json` is the operational queue. Work should continue **core-first** and should prefer current-year exact evidence over historical precedent where both are reproducible.
 
