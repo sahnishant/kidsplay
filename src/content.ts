@@ -1,5 +1,4 @@
 import patternBlueprintJson from '../content/assessment-blueprints/SOF_INDIA_CLASS2_2026-27.json';
-import freeAnimalsPack from '../content/packs/free-animals.json';
 import olympiadPrototypePack from '../content/packs/class2-evs-olympiad-prototype.json';
 import profileRegistry from '../content/learning-profiles/registry.json';
 import type { Question } from './contracts/question';
@@ -14,6 +13,10 @@ interface LearningPack {
   id: string;
   kind: 'learning_pack';
   title: string;
+  description?: string;
+  profileRef?: string;
+  status?: 'prototype' | 'reviewed';
+  actionLabel?: string;
   access: AccessPolicy;
   questionRefs: string[];
 }
@@ -139,6 +142,11 @@ const membershipModules = import.meta.glob('../content/profile-memberships/*.jso
   import: 'default'
 }) as Record<string, unknown>;
 
+const packModules = import.meta.glob('../content/packs/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+
 const questionBank = Object.values(questionModules).flatMap((value) =>
   Array.isArray(value) ? (value as Question[]) : []
 );
@@ -151,9 +159,24 @@ const memberships = Object.values(membershipModules).filter(
       && Array.isArray((value as ProfileMembership).members)
   )
 );
+const freePacks = Object.values(packModules)
+  .filter((value): value is LearningPack => Boolean(
+    value
+      && typeof value === 'object'
+      && (value as LearningPack).kind === 'learning_pack'
+      && (value as LearningPack).access?.type === 'free'
+      && Array.isArray((value as LearningPack).questionRefs)
+  ))
+  .sort((left, right) => {
+    const legacyId = 'free.animals-foundation.1';
+    if (left.id === legacyId) return -1;
+    if (right.id === legacyId) return 1;
+    return left.id.localeCompare(right.id);
+  });
 
 const profiles = (profileRegistry as ProfileRegistry).profiles;
-const freePack = freeAnimalsPack as LearningPack;
+const freePack = freePacks.find((pack) => pack.id === 'free.animals-foundation.1');
+if (!freePack) throw new Error('Missing legacy free animals foundation pack');
 const goalPack = olympiadPrototypePack as GoalPath;
 const patternBlueprint = patternBlueprintJson as AssessmentBlueprint;
 const goalMockEntryId = `${goalPack.id}.mixed-mock`;
@@ -373,21 +396,34 @@ function getProfileCandidates(
   );
 }
 
+function getFreePack(packId: string): LearningPack {
+  const pack = freePacks.find((item) => item.id === packId);
+  if (!pack) throw new Error(`Unknown free learning pack ${packId}`);
+  return pack;
+}
+
 export function getLearningProfiles(): LearningProfile[] {
   return [...profiles];
 }
 
 export function getCatalogEntries(): CatalogEntry[] {
+  const freeEntries: CatalogEntry[] = freePacks.map((pack) => ({
+    id: pack.id,
+    kind: 'free_explore',
+    title: pack.title,
+    description: pack.description ?? (
+      pack.id === freePack.id
+        ? 'Short mixed Class 2 science, EVS and logical-reasoning sessions that keep moving toward unseen and weaker knowledge.'
+        : 'Short free learning sessions built from reusable canonical knowledge.'
+    ),
+    access: pack.access,
+    status: pack.status === 'prototype' ? 'prototype' : 'ready',
+    profileRef: pack.profileRef,
+    actionLabel: pack.actionLabel ?? 'Play free'
+  }));
+
   return [
-    {
-      id: freePack.id,
-      kind: 'free_explore',
-      title: freePack.title,
-      description: 'Short mixed Class 2 science, EVS and logical-reasoning sessions that keep moving toward unseen and weaker knowledge.',
-      access: freePack.access,
-      status: 'ready',
-      actionLabel: 'Play free'
-    },
+    ...freeEntries,
     {
       id: goalPack.id,
       kind: 'goal_learning',
@@ -421,14 +457,22 @@ export function getCatalogEntries(): CatalogEntry[] {
   ];
 }
 
-export function getFreeAnimalsQuestions(): Question[] {
-  return resolveQuestionRefs(freePack.questionRefs, freePack.id);
+export function getFreePackQuestions(packId: string): Question[] {
+  const pack = getFreePack(packId);
+  return resolveQuestionRefs(pack.questionRefs, pack.id);
 }
 
-export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Question[] {
+export function getFreeAnimalsQuestions(): Question[] {
+  return getFreePackQuestions(freePack.id);
+}
+
+export function getFreeExploreQuestionsForPack(
+  packId: string,
+  options: ProfileSessionOptions = {}
+): Question[] {
   const mastery = options.mastery ?? {};
   const count = Math.max(1, options.count ?? 8);
-  const candidates = getFreeAnimalsQuestions().sort((left, right) => {
+  const candidates = getFreePackQuestions(packId).sort((left, right) => {
     const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
     if (masteryDelta !== 0) return masteryDelta;
     if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
@@ -436,6 +480,10 @@ export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Qu
   });
   const selected = chooseDiverseSession(interleaveByKnowledgeGroup(candidates), count);
   return count >= 4 ? ensureReasoningQuota(selected, candidates, count, 1) : selected;
+}
+
+export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Question[] {
+  return getFreeExploreQuestionsForPack(freePack.id, options);
 }
 
 export function getFreeAnimalsPackTitle(): string {
@@ -557,12 +605,14 @@ export function createSessionForCatalogEntry(
   entryId: string,
   mastery: Record<string, MasteryCounter> = {}
 ): SessionLaunch {
-  if (entryId === freePack.id) {
+  const matchedFreePack = freePacks.find((pack) => pack.id === entryId);
+  if (matchedFreePack) {
     return {
-      id: `session.${freePack.id}`,
+      id: `session.${matchedFreePack.id}`,
       mode: 'free_explore',
-      title: freePack.title,
-      questions: getFreeExploreQuestions({ count: 8, mastery })
+      title: matchedFreePack.title,
+      profileRef: matchedFreePack.profileRef,
+      questions: getFreeExploreQuestionsForPack(matchedFreePack.id, { count: 8, mastery })
     };
   }
 
