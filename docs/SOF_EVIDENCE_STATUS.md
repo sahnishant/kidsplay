@@ -54,12 +54,15 @@ Current reviewed historical source set:
 - `sof.nso.class2.sample-paper.2023-24`
 - `sof.nso.class2.sample-paper.2022-23`
 - `sof.nso.class2.sample-paper.2019-20`
+- `sof.nso.class2.sample-paper.2016-17`
 
 ### Public sample-source saturation
 
-The official 2023-24 Class 2 paper has now been reviewed and registered even though it adds **zero new exact rows**. Its science/achievers items repeat themes already directly evidenced from other official years: skin/touch, cousin relationships, woollen clothes in winter, leaf makes food, animal-pulled tonga and family-tree reasoning. Recording the source prevents future work from rediscovering it and incorrectly treating repeated sample questions as new evidence.
+The official 2023-24 Class 2 paper was reviewed and registered even though it adds **zero new exact rows**. Its science/achievers items repeat themes already directly evidenced from other official years: skin/touch, cousin relationships, woollen clothes in winter, leaf makes food, animal-pulled tonga and family-tree reasoning.
 
-This is intentional: **reviewed sources and evidenced rows are different metrics**. Public SOF Class 2 samples are small and substantially repetitive. The 156-row backlog must not be closed by counting syllabus headings, duplicate yearly questions, inaccessible paid material or uninspectable visual assumptions as exact row evidence.
+The legacy official SOF-hosted **2016-17** Class 2 sample has now also been reviewed and registered with **zero new exact rows**. Its useful questions overlap already-evidenced ranking, skin/touch, cousin, flower/seed, cotton/fibre, planet-order and family-tree themes. Other items either do not match a currently pending canonical row exactly or would require broadening a row beyond what the source actually states. Third-party mirrors labelled 2017-18 and 2018-19 substantially reproduce this same legacy sample, but they are not admitted as official evidence sources because the copies are not hosted by SOF.
+
+Recording reviewed-but-redundant sources prevents future work from rediscovering them and incorrectly treating repeated sample questions as new evidence. **Reviewed sources and evidenced rows are different metrics.** Public SOF Class 2 samples are small and substantially repetitive. The 156-row backlog must not be closed by counting syllabus headings, duplicate yearly questions, inaccessible paid material, non-official mirrors or uninspectable visual assumptions as exact row evidence.
 
 ## Current-year direct anchors — 13
 
