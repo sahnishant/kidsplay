@@ -4,8 +4,9 @@ import { getFreeAnimalsQuestions } from '../src/content';
 import { evaluate } from '../src/evaluation/evaluate';
 import { canTravel } from '../src/mechanics/maze';
 
-function findMazePath(question: MazePathQuestion): number[] {
-  const { interaction } = question;
+type MazeInteraction = MazePathQuestion['interaction'];
+
+function findMazePath(interaction: MazeInteraction, questionId: string): number[] {
   const queue: number[][] = [[interaction.startIndex]];
   const visited = new Set([interaction.startIndex]);
 
@@ -22,7 +23,7 @@ function findMazePath(question: MazePathQuestion): number[] {
     }
   }
 
-  throw new Error(`No path found for maze ${question.id}`);
+  throw new Error(`No path found for maze ${questionId}`);
 }
 
 function correctResponse(question: Question): unknown {
@@ -48,7 +49,8 @@ function correctResponse(question: Question): unknown {
     case 'crossword_answers':
       return { answers: { ...question.solution.answers } };
     case 'maze_goal':
-      return { pathIndices: findMazePath(question) };
+      if (question.interaction.type !== 'maze_path') throw new Error(`Maze solution without maze interaction: ${question.id}`);
+      return { pathIndices: findMazePath(question.interaction, question.id) };
   }
 }
 
@@ -72,6 +74,7 @@ function responseWithInvalidExtra(question: Question): unknown {
     case 'crossword_answers':
       return { answers: { ...(correct.answers as object), __invalid__: 'x' } };
     case 'maze_goal':
+      if (question.interaction.type !== 'maze_path') throw new Error(`Maze solution without maze interaction: ${question.id}`);
       return { pathIndices: [question.interaction.goalIndex] };
   }
 }
