@@ -1,14 +1,46 @@
 import type { Question } from '../contracts/question';
 import type { EvaluationResult } from '../contracts/runtime';
+import { canTravel } from '../mechanics/maze';
 
 const sameStringSet = (actual: string[], expected: string[]): boolean => {
   if (actual.length !== expected.length) return false;
   const actualSet = new Set(actual);
-  return expected.every((value) => actualSet.has(value));
+  return actualSet.size === actual.length && expected.every((value) => actualSet.has(value));
 };
 const boundedScore = (correctParts: number, totalParts: number): number => totalParts <= 0 ? 0 : Math.max(0, Math.min(1, correctParts / totalParts));
 const pairKey = (first: string, second: string): string => first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`;
 const normalizeTextAnswer = (value: unknown): string => typeof value === 'string' ? value.toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
+
+function setOverlapScore(expected: Set<string>, actual: Set<string>): number {
+  const union = new Set([...expected, ...actual]);
+  const correct = [...expected].filter((value) => actual.has(value)).length;
+  return boundedScore(correct, union.size);
+}
+
+function recordAnswerScore(
+  expected: Record<string, unknown>,
+  actual: Record<string, unknown> | undefined,
+  isCorrect: (key: string, expectedValue: unknown, actualValue: unknown) => boolean
+): number {
+  const expectedEntries = Object.entries(expected);
+  const actualKeys = actual ? Object.keys(actual) : [];
+  const totalParts = new Set([...expectedEntries.map(([key]) => key), ...actualKeys]).size;
+  const correctParts = expectedEntries.filter(([key, expectedValue]) =>
+    isCorrect(key, expectedValue, actual?.[key])
+  ).length;
+  return boundedScore(correctParts, totalParts);
+}
+
+function isValidMazePath(question: Extract<Question, { solution: { type: 'maze_goal' } }>, path: number[]): boolean {
+  const { interaction, solution } = question;
+  if (!path.length || path[0] !== interaction.startIndex || path[path.length - 1] !== solution.goalIndex) return false;
+  if (solution.goalIndex !== interaction.goalIndex) return false;
+
+  for (let index = 1; index < path.length; index += 1) {
+    if (!canTravel(interaction.wallMasks, interaction.rows, interaction.cols, path[index - 1], path[index])) return false;
+  }
+  return true;
+}
 
 export function evaluate(question: Question, response: unknown): EvaluationResult {
   let score = 0;
@@ -20,47 +52,61 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
   }
   if (question.solution.type === 'blank_answers') {
     const payload = response as { blankAnswers?: Record<string, unknown> };
-    const entries = Object.entries(question.solution.answers);
-    score = boundedScore(entries.filter(([blankId, accepted]) => typeof payload?.blankAnswers?.[blankId] === 'string' && accepted.includes(payload.blankAnswers[blankId] as string)).length, entries.length);
+    score = recordAnswerScore(
+      question.solution.answers,
+      payload?.blankAnswers,
+      (_blankId, accepted, actual) => typeof actual === 'string' && Array.isArray(accepted) && accepted.includes(actual)
+    );
   }
   if (question.solution.type === 'target_assignment') {
     const payload = response as { assignments?: Record<string, unknown> };
-    const entries = Object.entries(question.solution.assignments);
-    score = boundedScore(entries.filter(([itemId, targetId]) => payload?.assignments?.[itemId] === targetId).length, entries.length);
+    score = recordAnswerScore(
+      question.solution.assignments,
+      payload?.assignments,
+      (_itemId, targetId, actual) => actual === targetId
+    );
   }
   if (question.solution.type === 'found_terms') {
     const payload = response as { foundTermIds?: unknown };
     const found = new Set(Array.isArray(payload?.foundTermIds) ? payload.foundTermIds.filter((value): value is string => typeof value === 'string') : []);
-    score = boundedScore(question.solution.requiredTermIds.filter((id) => found.has(id)).length, question.solution.requiredTermIds.length);
+    score = setOverlapScore(new Set(question.solution.requiredTermIds), found);
   }
   if (question.solution.type === 'pair_matches') {
     const expected = new Set(question.solution.pairs.map(([first, second]) => pairKey(first, second)));
     const payload = response as { matchedPairs?: unknown };
     const actual = new Set<string>();
-    if (Array.isArray(payload?.matchedPairs)) for (const pair of payload.matchedPairs) if (Array.isArray(pair) && pair.length === 2 && typeof pair[0] === 'string' && typeof pair[1] === 'string') actual.add(pairKey(pair[0], pair[1]));
-    score = boundedScore([...expected].filter((value) => actual.has(value)).length, expected.size);
+    if (Array.isArray(payload?.matchedPairs)) {
+      for (const pair of payload.matchedPairs) {
+        if (Array.isArray(pair) && pair.length === 2 && typeof pair[0] === 'string' && typeof pair[1] === 'string') {
+          actual.add(pairKey(pair[0], pair[1]));
+        }
+      }
+    }
+    score = setOverlapScore(expected, actual);
   }
   if (question.solution.type === 'ordered_items') {
     const payload = response as { orderedItemIds?: unknown };
     const actual = Array.isArray(payload?.orderedItemIds) ? payload.orderedItemIds.filter((value): value is string => typeof value === 'string') : [];
-    score = boundedScore(question.solution.orderedItemIds.filter((id, index) => actual[index] === id).length, question.solution.orderedItemIds.length);
+    const correctPositions = question.solution.orderedItemIds.filter((id, index) => actual[index] === id).length;
+    score = boundedScore(correctPositions, Math.max(question.solution.orderedItemIds.length, actual.length));
   }
   if (question.solution.type === 'selected_regions') {
     const payload = response as { selectedRegionIds?: unknown };
     const actual = new Set(Array.isArray(payload?.selectedRegionIds) ? payload.selectedRegionIds.filter((value): value is string => typeof value === 'string') : []);
-    const expected = new Set(question.solution.correctRegionIds);
-    const union = new Set([...actual, ...expected]);
-    score = boundedScore([...expected].filter((id) => actual.has(id)).length, union.size);
+    score = setOverlapScore(new Set(question.solution.correctRegionIds), actual);
   }
   if (question.solution.type === 'crossword_answers') {
     const payload = response as { answers?: Record<string, unknown> };
-    const expected = Object.entries(question.solution.answers);
-    score = boundedScore(expected.filter(([id, answer]) => normalizeTextAnswer(payload?.answers?.[id]) === normalizeTextAnswer(answer)).length, expected.length);
+    score = recordAnswerScore(
+      question.solution.answers,
+      payload?.answers,
+      (_id, answer, actual) => normalizeTextAnswer(actual) === normalizeTextAnswer(answer)
+    );
   }
   if (question.solution.type === 'maze_goal') {
     const payload = response as { pathIndices?: unknown };
     const path = Array.isArray(payload?.pathIndices) ? payload.pathIndices.filter((value): value is number => Number.isInteger(value)) : [];
-    score = path[path.length - 1] === question.solution.goalIndex ? 1 : 0;
+    score = isValidMazePath(question, path) ? 1 : 0;
   }
 
   const correct = score === 1;
