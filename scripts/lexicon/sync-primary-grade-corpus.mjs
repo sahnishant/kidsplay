@@ -8,6 +8,10 @@ const LICENSE = 'CC-BY-SA-4.0';
 const PAGE_SIZE = 100;
 const MIN_EXPECTED_ROWS = 10_000;
 const DEFAULT_OUTPUT = 'content/lexicon/open/primary-grade-corpus.json';
+const REQUEST_PACING_MS = 300;
+const MAX_FETCH_ATTEMPTS = 9;
+
+const sleep = (milliseconds) => new Promise((resolvePromise) => setTimeout(resolvePromise, milliseconds));
 
 const parseJsonObject = (value) => {
   if (!value) return {};
@@ -44,7 +48,7 @@ const compactRow = (row) => {
   if (!id || !word || !lemma) throw new Error('Source row is missing original_id, word or lemma');
   if (!Number.isInteger(grade) || grade < 1 || grade > 6) throw new Error(`${id}: invalid grade ${row.grade_level}`);
 
-  const entry = {
+  return {
     id,
     word,
     lemma,
@@ -63,22 +67,41 @@ const compactRow = (row) => {
     },
     reviewStatus: 'candidate'
   };
-
-  // Important licensing/pedagogy boundary: enrichment_json contains Wiktionary/OEWN
-  // definitions, examples and other text. It is deliberately not copied into this
-  // compact grade-candidate snapshot. Meanings are resolved/reviewed separately.
-  return entry;
 };
 
+function retryDelayMs(response, attempt) {
+  const retryAfter = Number(response?.headers?.get?.('retry-after'));
+  if (Number.isFinite(retryAfter) && retryAfter > 0) return Math.ceil(retryAfter * 1000) + 500;
+  return Math.min(30_000, 1000 * (2 ** Math.min(attempt, 5))) + Math.floor(Math.random() * 350);
+}
+
 async function fetchJson(url) {
-  const response = await fetch(url, {
-    headers: {
-      'user-agent': 'kidsplay-primary-vocabulary-sync/1.0',
-      accept: 'application/json'
+  let lastError;
+  for (let attempt = 0; attempt < MAX_FETCH_ATTEMPTS; attempt += 1) {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          'user-agent': 'kidsplay-primary-vocabulary-sync/1.0',
+          accept: 'application/json'
+        }
+      });
+      if (response.ok) return response.json();
+      if (response.status !== 429 && response.status < 500) {
+        throw new Error(`${url}: HTTP ${response.status} ${response.statusText}`);
+      }
+      const delay = retryDelayMs(response, attempt);
+      console.warn(`${url}: HTTP ${response.status}; retry ${attempt + 1}/${MAX_FETCH_ATTEMPTS} in ${delay} ms`);
+      await sleep(delay);
+      lastError = new Error(`${url}: HTTP ${response.status} ${response.statusText}`);
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+      if (attempt === MAX_FETCH_ATTEMPTS - 1) break;
+      const delay = Math.min(30_000, 1000 * (2 ** Math.min(attempt, 5)));
+      console.warn(`${url}: ${lastError.message}; retry ${attempt + 1}/${MAX_FETCH_ATTEMPTS} in ${delay} ms`);
+      await sleep(delay);
     }
-  });
-  if (!response.ok) throw new Error(`${url}: HTTP ${response.status} ${response.statusText}`);
-  return response.json();
+  }
+  throw lastError ?? new Error(`${url}: fetch failed`);
 }
 
 async function datasetRevision() {
@@ -108,6 +131,7 @@ async function fetchAllRows() {
 
   const result = [...(first.rows ?? [])];
   for (let offset = PAGE_SIZE; offset < total; offset += PAGE_SIZE) {
+    await sleep(REQUEST_PACING_MS);
     const page = await fetchJson(rowsUrl(offset, Math.min(PAGE_SIZE, total - offset)));
     result.push(...(page.rows ?? []));
     if (offset % 1000 === 0) console.log(`Fetched ${Math.min(offset + PAGE_SIZE, total)}/${total} vocabulary rows`);
