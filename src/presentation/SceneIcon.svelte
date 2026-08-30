@@ -1,20 +1,5 @@
 <script lang="ts">
-  export type SceneIconId =
-    | 'dog-happy'
-    | 'dog-worried'
-    | 'bone'
-    | 'heart'
-    | 'wave'
-    | 'whale'
-    | 'balloon'
-    | 'candle'
-    | 'pumice'
-    | 'wind'
-    | 'windmill'
-    | 'kite'
-    | 'sailboat'
-    | 'plant'
-    | 'sun';
+  import type { SceneIconId } from './sceneTypes';
 
   let { icon }: { icon: SceneIconId } = $props();
 </script>
@@ -49,6 +34,13 @@
     </g>
   {:else if icon === 'heart'}
     <path class="heart" d="M60 87 18 47C-1 27 11 8 31 8c12 0 22 7 29 18C67 15 77 8 89 8c20 0 32 19 13 39Z" />
+  {:else if icon === 'lungs'}
+    <g class="lungs">
+      <path class="lungs-trachea" d="M60 9v27M60 30 49 42M60 30l11 12" />
+      <path class="lung lung--left" d="M48 38c-13 2-22 14-24 31-2 17 8 24 20 20 9-3 11-12 11-23V43c0-4-3-6-7-5Z" />
+      <path class="lung lung--right" d="M72 38c13 2 22 14 24 31 2 17-8 24-20 20-9-3-11-12-11-23V43c0-4 3-6 7-5Z" />
+      <path class="lungs-branch" d="M50 44 39 53m31-9 11 9M50 52 40 66m30-14 10 14" />
+    </g>
   {:else if icon === 'wave'}
     <g class="wave">
       <path d="M4 62c15 0 15-18 30-18s15 18 30 18 15-18 30-18 15 18 22 18v30H4Z" />
@@ -177,6 +169,22 @@
     fill: #e6536f;
     stroke: #b83a54;
     stroke-width: 3;
+  }
+
+  .lung {
+    fill: #ef879b;
+    stroke: #a94d62;
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+
+  .lungs-trachea,
+  .lungs-branch {
+    fill: none;
+    stroke: #8d5962;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
 
   .wave path:first-child {
