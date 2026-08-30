@@ -6,6 +6,7 @@
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
+  import { resolveQuestionSceneId } from '../presentation/questionScene';
   import {
     advanceSession,
     createSessionState,
@@ -48,6 +49,7 @@
   let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
   let question = $derived(questions[sessionState.index]);
+  let questionSceneId = $derived(question ? resolveQuestionSceneId(question) : null);
   let correctCount = $derived(sessionState.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
   let reasoningQuestion = $derived(
@@ -95,7 +97,15 @@
           <button class="home-button" type="button" onclick={onExit} aria-label="Back to Kidsplay home">←</button>
         {/if}
         <div class="player-avatar" aria-hidden="true">
-          <Avatar avatar={childAvatar} mood={reasoningQuestion ? 'thinking' : 'happy'} motion={reasoningQuestion ? 'think' : 'idle'} />
+          <Avatar
+            avatar={childAvatar}
+            mood={sessionState.submitted && sessionState.lastResult
+              ? (sessionState.lastResult.correct ? 'celebrate' : 'thinking')
+              : (reasoningQuestion ? 'thinking' : 'happy')}
+            motion={sessionState.submitted && sessionState.lastResult
+              ? (sessionState.lastResult.correct ? 'bounce' : 'think')
+              : (reasoningQuestion ? 'think' : 'idle')}
+          />
         </div>
         <div>
           <div class="brand">{displayName}</div>
@@ -116,8 +126,8 @@
         <div class="saved-session-note">Mock progress saves on this device</div>
       {/if}
 
-      {#if question.stimulus?.type === 'scene'}
-        <Scene sceneId={question.stimulus.sceneId} />
+      {#if questionSceneId}
+        <Scene sceneId={questionSceneId} />
       {/if}
 
       {#if reasoningQuestion}
