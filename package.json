@@ -11,7 +11,7 @@
     "render:profile-output": "npm run compile:index && node scripts/render-profile-output.mjs",
     "report:coverage": "node scripts/report-learning-coverage.mjs",
     "report:visual-coverage": "node scripts/report-visual-coverage.mjs --fail-under=40",
-    "report:visual-opportunities": "node scripts/report-visual-opportunities.mjs --profile=SOF_INDIA_CLASS2 --limit=12",
+    "report:visual-opportunities": "node scripts/report-visual-opportunities.mjs --profile=SOF_INDIA_CLASS2 --limit=12 --fail-on-unreviewed-concrete",
     "report:visual-opportunities:all": "node scripts/report-visual-opportunities.mjs --limit=12",
     "validate:engines": "node scripts/validate-engine-registry.mjs",
     "validate:scenes": "node scripts/validate-scenes.mjs",
