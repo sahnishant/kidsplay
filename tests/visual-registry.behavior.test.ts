@@ -22,39 +22,15 @@ describe('semantic visual registry', () => {
   });
 
   it('loads independent renderer packs through the same semantic contract', () => {
-    expect(resolveVisualDefinition('entity.transport.ambulance')).toMatchObject({
-      renderer: 'utility-icon',
-      glyph: 'ambulance'
-    });
-    expect(resolveVisualDefinition('entity.universe.moon')).toMatchObject({
-      renderer: 'nature-space-icon',
-      glyph: 'moon'
-    });
-    expect(resolveVisualDefinition('entity.hygiene.soap')).toMatchObject({
-      renderer: 'everyday-icon',
-      glyph: 'soap'
-    });
-    expect(resolveVisualDefinition('entity.lifecycle.caterpillar')).toMatchObject({
-      renderer: 'process-icon',
-      glyph: 'caterpillar',
-      motion: 'wiggle'
-    });
-    expect(resolveVisualDefinition('entity.animal.rhinoceros')).toMatchObject({
-      renderer: 'animal-expansion-icon',
-      glyph: 'rhinoceros'
-    });
-    expect(resolveVisualDefinition('entity.concept.domestic-animal')).toMatchObject({
-      renderer: 'concept-icon',
-      glyph: 'domestic-animal'
-    });
-    expect(resolveVisualDefinition('entity.universe.jupiter')).toMatchObject({
-      renderer: 'curriculum-icon',
-      glyph: 'jupiter'
-    });
-    expect(resolveVisualDefinition('entity.plant.mango')).toMatchObject({
-      renderer: 'learning-icon',
-      glyph: 'mango'
-    });
+    expect(resolveVisualDefinition('entity.transport.ambulance')).toMatchObject({ renderer: 'utility-icon', glyph: 'ambulance' });
+    expect(resolveVisualDefinition('entity.universe.moon')).toMatchObject({ renderer: 'nature-space-icon', glyph: 'moon' });
+    expect(resolveVisualDefinition('entity.hygiene.soap')).toMatchObject({ renderer: 'everyday-icon', glyph: 'soap' });
+    expect(resolveVisualDefinition('entity.lifecycle.caterpillar')).toMatchObject({ renderer: 'process-icon', glyph: 'caterpillar', motion: 'wiggle' });
+    expect(resolveVisualDefinition('entity.animal.rhinoceros')).toMatchObject({ renderer: 'animal-expansion-icon', glyph: 'rhinoceros' });
+    expect(resolveVisualDefinition('entity.concept.domestic-animal')).toMatchObject({ renderer: 'concept-icon', glyph: 'domestic-animal' });
+    expect(resolveVisualDefinition('entity.universe.jupiter')).toMatchObject({ renderer: 'curriculum-icon', glyph: 'jupiter' });
+    expect(resolveVisualDefinition('entity.plant.mango')).toMatchObject({ renderer: 'learning-icon', glyph: 'mango' });
+    expect(resolveVisualDefinition('entity.property.groundwater')).toMatchObject({ renderer: 'property-icon', glyph: 'groundwater' });
   });
 
   it('resolves canonical semantic ids independently of display wording', () => {
@@ -74,12 +50,17 @@ describe('semantic visual registry', () => {
     expect(resolveSemanticVisualRefs('hear')).toEqual(['entity.body.ears']);
     expect(resolveSemanticVisualRefs('pump-blood')).toEqual(['entity.body.heart']);
     expect(resolveSemanticVisualRefs('breathe')).toEqual(['entity.body.lungs']);
-    expect(resolveItemVisualRefs({ label: 'Caballito', semanticRef: 'seahorse' })).toEqual([
-      'entity.animal.seahorse'
-    ]);
-    expect(resolveItemVisualRefs({ label: 'Not a dog', semanticRef: 'dog' })).toEqual([
-      'entity.animal.dog'
-    ]);
+    expect(resolveSemanticVisualRefs('around-us')).toEqual(['entity.property.around-us']);
+    expect(resolveSemanticVisualRefs('groundwater')).toEqual(['entity.property.groundwater']);
+    expect(resolveSemanticVisualRefs('home-supply')).toEqual(['entity.property.home-supply']);
+    expect(resolveSemanticVisualRefs('small-still')).toEqual(['entity.property.small-still']);
+    expect(resolveSemanticVisualRefs('salty-water')).toEqual(['entity.property.salty-water']);
+    expect(resolveSemanticVisualRefs('small-smooth')).toEqual(['entity.property.small-smooth']);
+    expect(resolveSemanticVisualRefs('sand-grains')).toEqual(['entity.property.sand-grains']);
+    expect(resolveSemanticVisualRefs('thin-sheets')).toEqual(['entity.property.thin-sheets']);
+    expect(resolveSemanticVisualRefs('gemstone')).toEqual(['entity.property.gemstone']);
+    expect(resolveItemVisualRefs({ label: 'Caballito', semanticRef: 'seahorse' })).toEqual(['entity.animal.seahorse']);
+    expect(resolveItemVisualRefs({ label: 'Not a dog', semanticRef: 'dog' })).toEqual(['entity.animal.dog']);
   });
 
   it('uses exact aliases for legacy option labels instead of fuzzy matching', () => {
@@ -95,38 +76,25 @@ describe('semantic visual registry', () => {
     expect(resolveLabelVisualRefs('Triangle')).toEqual(['entity.shape.triangle']);
     expect(resolveLabelVisualRefs('Banana')).toEqual(['entity.food.banana']);
     expect(resolveLabelVisualRefs('Hive')).toEqual(['entity.animal-home.hive']);
+    expect(resolveLabelVisualRefs('Ground water')).toEqual(['entity.property.groundwater']);
     expect(resolveLabelVisualRefs('A dog runs beside a school bus')).toEqual([]);
   });
 
   it('can compose two or three exact semantic entities for compact option labels', () => {
-    expect(resolveLabelVisualRefs('Ears and eyes')).toEqual([
-      'entity.body.ears',
-      'entity.body.eyes'
-    ]);
-    expect(resolveLabelVisualRefs('Rice + dal + spinach')).toEqual([
-      'entity.food.rice',
-      'entity.food.pulses',
-      'entity.food.spinach'
-    ]);
-    expect(resolveLabelVisualRefs('Telephone and ambulance')).toEqual([
-      'entity.communication.telephone',
-      'entity.transport.ambulance'
-    ]);
+    expect(resolveLabelVisualRefs('Ears and eyes')).toEqual(['entity.body.ears', 'entity.body.eyes']);
+    expect(resolveLabelVisualRefs('Rice + dal + spinach')).toEqual(['entity.food.rice', 'entity.food.pulses', 'entity.food.spinach']);
+    expect(resolveLabelVisualRefs('Telephone and ambulance')).toEqual(['entity.communication.telephone', 'entity.transport.ambulance']);
   });
 
   it('keeps authored refs authoritative and can disable label inference', () => {
-    expect(resolveItemVisualRefs({
-      label: 'Dog',
-      semanticRef: 'dog',
-      visualRefs: ['entity.animal.whale']
-    })).toEqual(['entity.animal.whale']);
+    expect(resolveItemVisualRefs({ label: 'Dog', semanticRef: 'dog', visualRefs: ['entity.animal.whale'] })).toEqual(['entity.animal.whale']);
     expect(resolveItemVisualRefs({ label: 'Dog' }, false)).toEqual([]);
   });
 
   it('keeps the registry unique and broad enough for reusable Class 2 EVS coverage', () => {
     const refs = getRegisteredVisualRefs();
     expect(new Set(refs).size).toBe(refs.length);
-    expect(refs.length).toBeGreaterThanOrEqual(200);
+    expect(refs.length).toBeGreaterThanOrEqual(210);
     expect(getVisualDefinitions().every((visual) => visual.aliases.length > 0)).toBe(true);
   });
 });
