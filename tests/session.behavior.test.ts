@@ -53,9 +53,10 @@ function result(correct: boolean): EvaluationResult {
 }
 
 describe('session state and engine hosting', () => {
-  it('allows one answer per question, advances cleanly and resets on replay', () => {
+  it('allows one answer per question, advances cleanly and resets with fresh identity on replay', () => {
     const question = testQuestion();
     const state = createSessionState();
+    const originalSessionId = state.sessionId;
 
     const first = submitResponse(state, question, { selectedOptionIds: ['dog'] });
     expect(first?.correct).toBe(true);
@@ -73,6 +74,7 @@ describe('session state and engine hosting', () => {
     expect(state.lastResult).toBeNull();
 
     replaySession(state);
+    expect(state.sessionId).not.toBe(originalSessionId);
     expect(state.index).toBe(0);
     expect(state.responses).toHaveLength(0);
     expect(state.results).toHaveLength(0);
