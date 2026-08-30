@@ -57,12 +57,21 @@ for (const question of questions) {
     for (const conceptId of row.conceptIds ?? []) referencedConceptIds.add(conceptId);
   }
 
-  if (reasoning) {
-    const questionConceptIds = new Set(question.conceptIds ?? []);
+  const questionConceptIds = new Set(question.conceptIds ?? []);
+  if (questionConceptIds.size !== (question.conceptIds ?? []).length) {
+    errors.push(`${question.id}: duplicate conceptIds`);
+  }
+
+  if (generated || reasoning) {
     for (const conceptId of referencedConceptIds) {
       if (!questionConceptIds.has(conceptId)) {
-        errors.push(`${question.id}: HOTS question omits referenced concept ${conceptId}`);
+        errors.push(`${question.id}: ${generated ? 'generated' : 'HOTS'} question omits referenced concept ${conceptId}`);
       }
+    }
+  } else if (referencedConceptIds.size > 0) {
+    const hasConceptOverlap = [...referencedConceptIds].some((conceptId) => questionConceptIds.has(conceptId));
+    if (!hasConceptOverlap) {
+      errors.push(`${question.id}: manually traced question has no concept overlap with its knowledgeRefs`);
     }
   }
 }
@@ -78,6 +87,6 @@ if (errors.length) {
   console.log(
     `Knowledge traceability OK: ${generatedTraced} generated question(s), ` +
     `${manualTraced} manually-authored traced question(s), ${reasoningTraced} HOTS question(s) ` +
-    `all reference canonical knowledge rows.`
+    `all reference canonical rows with compatible concept traces.`
   );
 }
