@@ -1,0 +1,13 @@
+[
+  { "id": "entity.housing.caravan", "renderer": "class2-final-icon", "glyph": "caravan", "label": "Caravan", "motion": "idle", "aliases": ["caravan"] },
+  { "id": "entity.universe.moonlight", "renderer": "class2-final-icon", "glyph": "moonlight", "label": "Moonlight", "motion": "float", "aliases": ["moonlight"] },
+  { "id": "entity.plant.neem", "renderer": "class2-final-icon", "glyph": "neem", "label": "Neem", "motion": "sway", "aliases": ["neem"] },
+  { "id": "entity.universe.orbit", "renderer": "class2-final-icon", "glyph": "orbit", "label": "Orbit", "motion": "spin", "aliases": ["orbit"] },
+  { "id": "entity.plant.pea", "renderer": "class2-final-icon", "glyph": "pea", "label": "Pea", "motion": "sway", "aliases": ["pea", "pea plant"] },
+  { "id": "entity.earth.plateau", "renderer": "class2-final-icon", "glyph": "plateau", "label": "Plateau", "motion": "idle", "aliases": ["plateau", "tableland"] },
+  { "id": "entity.plant.pumpkin", "renderer": "class2-final-icon", "glyph": "pumpkin", "label": "Pumpkin", "motion": "sway", "aliases": ["pumpkin", "pumpkin plant"] },
+  { "id": "entity.universe.saturn", "renderer": "class2-final-icon", "glyph": "saturn", "label": "Saturn", "motion": "spin", "aliases": ["saturn"] },
+  { "id": "entity.clothing.school-uniform", "renderer": "class2-final-icon", "glyph": "school-uniform", "label": "School uniform", "motion": "idle", "aliases": ["school uniform", "school-uniform"] },
+  { "id": "entity.safety.sharp-tools", "renderer": "class2-final-icon", "glyph": "sharp-tools", "label": "Sharp tools", "motion": "idle", "aliases": ["sharp tools", "sharp-tools"] },
+  { "id": "entity.communication.television", "renderer": "class2-final-icon", "glyph": "television", "label": "Television", "motion": "pulse", "aliases": ["television", "tv"] }
+]
