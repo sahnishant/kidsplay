@@ -2,14 +2,14 @@ import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const readJsonObjects = (directory) => readdirSync(new URL(directory, root))
+const readArrays = (directory) => readdirSync(new URL(directory, root))
   .filter((name) => name.endsWith('.json'))
   .sort()
   .flatMap((name) => {
     const value = readJson(`${directory}${name}`);
-    return [{ file: name, value }];
+    return Array.isArray(value) ? value : [];
   });
-const increment = (map, key, amount = 1) => map.set(key, (map.get(key) ?? 0) + amount);
+const increment = (map, key) => map.set(key, (map.get(key) ?? 0) + 1);
 const percent = (part, total) => total ? Math.round((part / total) * 1000) / 10 : 0;
 const normalize = (value) => String(value ?? '')
   .toLowerCase()
@@ -22,124 +22,71 @@ const normalize = (value) => String(value ?? '')
 const args = process.argv.slice(2);
 const jsonMode = args.includes('--json');
 const failOnUncovered = args.includes('--fail-on-uncovered');
-const profileArg = args.find((arg) => arg.startsWith('--profile='));
 const profilesArg = args.find((arg) => arg.startsWith('--profiles='));
-
-const requestedProfiles = profilesArg
+const profileArg = args.find((arg) => arg.startsWith('--profile='));
+const profileRefs = profilesArg
   ? profilesArg.split('=')[1].split(',').map((item) => item.trim()).filter(Boolean)
   : profileArg
     ? [profileArg.split('=')[1].trim()].filter(Boolean)
     : ['SOF_INDIA_CLASS2', 'SOF_INDIA_CLASS3'];
 
-if (!requestedProfiles.length) {
-  console.error('Profile maturity report requires at least one profile.');
+const indexPath = 'content/index/__generated-learning-index.json';
+const membershipsPath = 'content/index/__generated-profile-memberships.json';
+if (!existsSync(new URL(indexPath, root)) || !existsSync(new URL(membershipsPath, root))) {
+  console.error('Profile maturity report requires compiled index/memberships. Run `npm run compile:content` first.');
   process.exit(2);
 }
 
-const questionDirectory = new URL('content/questions/', root);
-const generatedQuestionPath = new URL('content/questions/__generated-from-knowledge.json', root);
-if (!existsSync(generatedQuestionPath)) {
-  console.error('Generated questions are missing. Run `npm run compile:content` before the maturity report.');
-  process.exit(2);
-}
-
-const questionFiles = readdirSync(questionDirectory).filter((name) => name.endsWith('.json')).sort();
-const questions = questionFiles.flatMap((name) => {
-  const value = readJson(`content/questions/${name}`);
-  return Array.isArray(value) ? value : [];
-});
-const questionById = new Map(questions.map((question) => [question.id, question]));
-
-const membershipFiles = readJsonObjects('content/profile-memberships/');
-const membershipByProfile = new Map();
-const profilesByRow = new Map();
-for (const { value } of membershipFiles) {
-  if (!value?.profileRef || !Array.isArray(value.members)) continue;
-  membershipByProfile.set(value.profileRef, value);
-  for (const member of value.members) {
-    if (!profilesByRow.has(member.rowId)) profilesByRow.set(member.rowId, new Set());
-    profilesByRow.get(member.rowId).add(value.profileRef);
-  }
-}
-
-const knowledgeByRow = new Map();
-for (const { file, value } of readJsonObjects('content/knowledge/')) {
-  const sources = Array.isArray(value) ? value : [value];
-  for (const source of sources) {
-    if (!source?.id) continue;
-    if (source.kind === 'association_set' && Array.isArray(source.entries)) {
-      for (const entry of source.entries) {
-        if (!entry?.rowId) continue;
-        knowledgeByRow.set(entry.rowId, {
-          file,
-          sourceId: source.id,
-          topic: source.topic ?? 'Unknown',
-          conceptIds: entry.conceptIds ?? [],
-          skills: entry.meta?.skills ?? [],
-          knowledgeLevel: entry.meta?.knowledgeLevel ?? null,
-          subjectSemanticRef: entry.subject?.id ?? null,
-          objectSemanticRef: entry.object?.id ?? null
-        });
-      }
-    } else if (source.kind === 'choice_item' && source.rowId) {
-      knowledgeByRow.set(source.rowId, {
-        file,
-        sourceId: source.id,
-        topic: source.topic ?? 'Unknown',
-        conceptIds: source.conceptIds ?? [],
-        skills: source.meta?.skills ?? [],
-        knowledgeLevel: source.meta?.knowledgeLevel ?? null,
-        subjectSemanticRef: source.prompt?.id ?? null,
-        objectSemanticRef: null
-      });
-    }
-  }
-}
+const index = readJson(indexPath);
+const resolvedMemberships = readJson(membershipsPath);
+const rawMemberships = readdirSync(new URL('content/profile-memberships/', root))
+  .filter((name) => name.endsWith('.json'))
+  .sort()
+  .map((name) => readJson(`content/profile-memberships/${name}`));
+const rawMembershipByProfile = new Map(rawMemberships.map((item) => [item.profileRef, item]));
+const membershipByProfile = new Map(resolvedMemberships.map((item) => [item.profileRef, item]));
+const indexByRow = new Map(index.map((row) => [row.rowId, row]));
+const questions = readArrays('content/questions/');
+const blueprints = readArrays('content/assessment-blueprints/');
+const blueprintByProfile = new Map(blueprints.map((item) => [item.profileRef, item]));
 
 const freeQuestionIds = new Set();
-for (const { value: pack } of readJsonObjects('content/packs/')) {
+for (const pack of readArrays('content/packs/')) {
   if (pack?.access?.type !== 'free') continue;
-  for (const questionId of pack.questionRefs ?? []) freeQuestionIds.add(questionId);
+  for (const id of pack.questionRefs ?? []) freeQuestionIds.add(id);
 }
 
 const visualIds = new Set();
 const visualByAlias = new Map();
 const visualBySemantic = new Map();
-for (const { value } of readJsonObjects('content/visuals/')) {
-  const visuals = Array.isArray(value) ? value : [];
-  for (const visual of visuals) {
-    if (!visual?.id) continue;
-    visualIds.add(visual.id);
-    for (const alias of visual.aliases ?? []) {
-      const key = normalize(alias);
-      if (!visualByAlias.has(key)) visualByAlias.set(key, visual.id);
-      if (!visualBySemantic.has(key)) visualBySemantic.set(key, visual.id);
-    }
-    const idParts = visual.id.split('.');
-    const semanticKey = normalize(idParts[idParts.length - 1]);
-    if (semanticKey && !visualBySemantic.has(semanticKey)) visualBySemantic.set(semanticKey, visual.id);
+for (const visual of readArrays('content/visuals/')) {
+  if (!visual?.id) continue;
+  visualIds.add(visual.id);
+  for (const alias of visual.aliases ?? []) {
+    const key = normalize(alias);
+    if (!visualByAlias.has(key)) visualByAlias.set(key, visual.id);
+    if (!visualBySemantic.has(key)) visualBySemantic.set(key, visual.id);
   }
+  const parts = visual.id.split('.');
+  const key = normalize(parts[parts.length - 1]);
+  if (key && !visualBySemantic.has(key)) visualBySemantic.set(key, visual.id);
 }
 
-const resolveLabelVisual = (label) => {
+const resolveLabelVisuals = (label) => {
   const direct = visualByAlias.get(normalize(label));
   if (direct) return [direct];
   const normalized = normalize(label);
   if (!normalized || normalized.length > 48) return [];
-  const parts = String(label)
-    .split(/\s*(?:\+|&|\band\b)\s*/i)
-    .map(normalize)
-    .filter(Boolean);
+  const parts = String(label).split(/\s*(?:\+|&|\band\b)\s*/i).map(normalize).filter(Boolean);
   if (parts.length < 2 || parts.length > 3) return [];
   const refs = parts.map((part) => visualByAlias.get(part));
   return refs.some((ref) => !ref) ? [] : [...new Set(refs)];
 };
-const itemHasVisual = (item) => {
-  if (Array.isArray(item?.visualRefs) && item.visualRefs.some((ref) => visualIds.has(ref))) return true;
-  if (item?.semanticRef && visualBySemantic.has(normalize(item.semanticRef))) return true;
-  return resolveLabelVisual(item?.label).length > 0;
-};
-const visualFriendlyItems = (question) => {
+const itemHasVisual = (item) =>
+  (Array.isArray(item?.visualRefs) && item.visualRefs.some((ref) => visualIds.has(ref)))
+  || (item?.semanticRef && visualBySemantic.has(normalize(item.semanticRef)))
+  || resolveLabelVisuals(item?.label).length > 0;
+const visualItems = (question) => {
   const interaction = question?.interaction;
   if (!interaction) return [];
   if (interaction.type === 'single_choice') return interaction.options ?? [];
@@ -150,52 +97,38 @@ const visualFriendlyItems = (question) => {
   return [];
 };
 
-const blueprintFiles = readJsonObjects('content/assessment-blueprints/');
-const blueprintByProfile = new Map();
-for (const { value } of blueprintFiles) {
-  if (value?.profileRef) blueprintByProfile.set(value.profileRef, value);
-}
+const isLogical = (question) => {
+  const refs = question.knowledgeRefs ?? [];
+  return refs.length > 0 && refs.every((rowId) => rowId.startsWith('kr.reasoning.'));
+};
+const isAchiever = (question) => question.authoring?.source === 'kidsplay-editorial-hots' && !isLogical(question);
 
-function assessmentPoolSignals(profileQuestions, blueprint) {
+function assessmentSignals(profileQuestions, blueprint) {
   if (!blueprint) return null;
-  const isLogical = (question) => {
-    const refs = question.knowledgeRefs ?? [];
-    return refs.length > 0 && refs.every((rowId) => rowId.startsWith('kr.reasoning.'));
+  const pools = {
+    logical_reasoning: profileQuestions.filter(isLogical),
+    science_core: profileQuestions.filter((question) => !isLogical(question) && !isAchiever(question)),
+    achiever_hots: profileQuestions.filter(isAchiever)
   };
-  const logical = profileQuestions.filter(isLogical);
-  const science = profileQuestions.filter((question) => !isLogical(question));
-  const achiever = science.filter((question) => Number(question.difficulty ?? 0) >= 3);
-  const poolBySelector = new Map([
-    ['logical_reasoning', logical],
-    ['science_core', science],
-    ['achiever_hots', achiever]
-  ]);
-  const sections = (blueprint.sections ?? []).map((section) => {
-    const pool = poolBySelector.get(section.selector) ?? [];
-    return {
-      id: section.id,
-      selector: section.selector,
-      required: section.count,
-      candidatePool: pool.length,
-      readyByCount: pool.length >= section.count
-    };
-  });
   return {
     blueprintId: blueprint.id,
     totalQuestions: blueprint.totalQuestions,
     totalMarks: blueprint.totalMarks,
-    totalRunnablePool: profileQuestions.length,
-    readyByTotalCount: profileQuestions.length >= blueprint.totalQuestions,
-    sections,
-    note: 'Pool signals are maturity diagnostics. Runtime assessment selection/validation remains authoritative.'
+    sections: (blueprint.sections ?? []).map((section) => ({
+      id: section.id,
+      selector: section.selector,
+      required: section.count,
+      candidatePool: pools[section.selector]?.length ?? 0,
+      readyByCount: (pools[section.selector]?.length ?? 0) >= section.count
+    }))
   };
 }
 
-function buildProfileReport(profileRef) {
+function buildReport(profileRef) {
   const membership = membershipByProfile.get(profileRef);
-  if (!membership) throw new Error(`Unknown profile membership ${profileRef}`);
-  const members = membership.members ?? [];
-  const profileRows = new Set(members.map((member) => member.rowId));
+  const rawMembership = rawMembershipByProfile.get(profileRef);
+  if (!membership || !rawMembership) throw new Error(`Unknown profile membership ${profileRef}`);
+  const profileRows = new Set(membership.members.map((member) => member.rowId));
   const profileQuestions = questions.filter((question) => {
     const refs = question.knowledgeRefs ?? [];
     return refs.length > 0 && refs.every((rowId) => profileRows.has(rowId));
@@ -203,31 +136,22 @@ function buildProfileReport(profileRef) {
   const freeQuestions = profileQuestions.filter((question) => freeQuestionIds.has(question.id));
 
   const questionCountByRow = new Map();
-  const freeQuestionCountByRow = new Map();
-  for (const question of profileQuestions) {
-    for (const rowId of question.knowledgeRefs ?? []) increment(questionCountByRow, rowId);
-  }
-  for (const question of freeQuestions) {
-    for (const rowId of question.knowledgeRefs ?? []) increment(freeQuestionCountByRow, rowId);
-  }
+  const freeCountByRow = new Map();
+  for (const question of profileQuestions) for (const rowId of question.knowledgeRefs ?? []) increment(questionCountByRow, rowId);
+  for (const question of freeQuestions) for (const rowId of question.knowledgeRefs ?? []) increment(freeCountByRow, rowId);
 
-  const rows = members.map((member) => {
-    const knowledge = knowledgeByRow.get(member.rowId) ?? null;
-    const otherProfiles = [...(profilesByRow.get(member.rowId) ?? [])]
-      .filter((candidate) => candidate !== profileRef)
-      .sort();
+  const rows = membership.members.map((member) => {
+    const indexed = indexByRow.get(member.rowId);
     return {
       rowId: member.rowId,
       fit: member.fit,
-      topic: knowledge?.topic ?? 'Unknown',
-      sourceId: knowledge?.sourceId ?? null,
-      sourceFile: knowledge?.file ?? null,
-      skills: knowledge?.skills ?? [],
-      knowledgeLevel: knowledge?.knowledgeLevel ?? null,
+      origin: member.origin ?? 'direct',
+      inheritedFromProfileRef: member.inheritedFromProfileRef ?? null,
+      topic: indexed?.topic ?? 'Unknown',
+      sourceRef: indexed?.sourceRef ?? null,
+      skills: indexed?.skills ?? [],
       runnableQuestions: questionCountByRow.get(member.rowId) ?? 0,
-      freeQuestions: freeQuestionCountByRow.get(member.rowId) ?? 0,
-      reused: otherProfiles.length > 0,
-      reusedWithProfiles: otherProfiles
+      freeQuestions: freeCountByRow.get(member.rowId) ?? 0
     };
   });
 
@@ -238,83 +162,69 @@ function buildProfileReport(profileRef) {
     increment(difficultyCounts, String(question.difficulty ?? 'unknown'));
   }
 
-  const skillRows = new Map();
-  const skillCoveredRows = new Map();
-  for (const row of rows) {
-    for (const skill of row.skills) {
-      increment(skillRows, skill);
-      if (row.runnableQuestions > 0) increment(skillCoveredRows, skill);
+  let eligibleVisualItems = 0;
+  let resolvedVisualItems = 0;
+  for (const question of profileQuestions) {
+    for (const item of visualItems(question)) {
+      eligibleVisualItems += 1;
+      if (itemHasVisual(item)) resolvedVisualItems += 1;
     }
   }
 
   const topics = [...new Set(rows.map((row) => row.topic))].sort().map((topic) => {
     const topicRows = rows.filter((row) => row.topic === topic);
-    const questionIds = new Set(profileQuestions
-      .filter((question) => (question.knowledgeRefs ?? []).some((rowId) => topicRows.some((row) => row.rowId === rowId)))
-      .map((question) => question.id));
+    const topicRowIds = new Set(topicRows.map((row) => row.rowId));
+    const topicQuestions = profileQuestions.filter((question) =>
+      (question.knowledgeRefs ?? []).some((rowId) => topicRowIds.has(rowId))
+    );
     return {
       topic,
       rows: topicRows.length,
+      directRows: topicRows.filter((row) => row.origin === 'direct').length,
+      inheritedRows: topicRows.filter((row) => row.origin === 'inherited').length,
       runnableRows: topicRows.filter((row) => row.runnableQuestions > 0).length,
       freeRows: topicRows.filter((row) => row.freeQuestions > 0).length,
-      reusedRows: topicRows.filter((row) => row.reused).length,
-      profileSpecificRows: topicRows.filter((row) => !row.reused).length,
-      questions: questionIds.size
+      questions: topicQuestions.length
     };
   });
 
-  const sourceFamilies = [...new Set(rows.map((row) => row.sourceFile ?? 'unknown'))].sort().map((sourceFile) => {
-    const sourceRows = rows.filter((row) => (row.sourceFile ?? 'unknown') === sourceFile);
-    return {
-      sourceFile,
-      rows: sourceRows.length,
-      runnableRows: sourceRows.filter((row) => row.runnableQuestions > 0).length,
-      freeRows: sourceRows.filter((row) => row.freeQuestions > 0).length
-    };
-  });
-
-  let visualItems = 0;
-  let resolvedVisualItems = 0;
-  for (const question of profileQuestions) {
-    for (const item of visualFriendlyItems(question)) {
-      visualItems += 1;
-      if (itemHasVisual(item)) resolvedVisualItems += 1;
+  const skillCounts = new Map();
+  const runnableSkillCounts = new Map();
+  for (const row of rows) {
+    for (const skill of row.skills) {
+      increment(skillCounts, skill);
+      if (row.runnableQuestions > 0) increment(runnableSkillCounts, skill);
     }
   }
+  const skillCoverage = [...skillCounts.keys()].sort().map((skill) => ({
+    skill,
+    rows: skillCounts.get(skill),
+    runnableRows: runnableSkillCounts.get(skill) ?? 0
+  }));
 
   const uncoveredRows = rows.filter((row) => row.runnableQuestions === 0);
   const freeUncoveredRows = rows.filter((row) => row.freeQuestions === 0);
-  const reusedRows = rows.filter((row) => row.reused);
-  const profileSpecificRows = rows.filter((row) => !row.reused);
-  const skillCoverage = [...skillRows.keys()].sort().map((skill) => ({
-    skill,
-    rows: skillRows.get(skill) ?? 0,
-    runnableRows: skillCoveredRows.get(skill) ?? 0
-  }));
-  const assessment = assessmentPoolSignals(profileQuestions, blueprintByProfile.get(profileRef));
-
+  const directRows = rows.filter((row) => row.origin === 'direct');
+  const inheritedRows = rows.filter((row) => row.origin === 'inherited');
+  const assessment = assessmentSignals(profileQuestions, blueprintByProfile.get(profileRef));
   const gaps = [];
   if (uncoveredRows.length) gaps.push({ type: 'uncovered_rows', count: uncoveredRows.length, rowIds: uncoveredRows.map((row) => row.rowId) });
   if (freeUncoveredRows.length) gaps.push({ type: 'free_uncovered_rows', count: freeUncoveredRows.length, rowIds: freeUncoveredRows.map((row) => row.rowId) });
-  for (const topic of topics) {
-    if (topic.questions < 3) gaps.push({ type: 'thin_topic_question_pool', topic: topic.topic, questions: topic.questions, rows: topic.rows });
-  }
-  if (!Object.keys(Object.fromEntries(engineCounts)).includes('single_choice')) gaps.push({ type: 'missing_engine', engine: 'single_choice' });
-  if ((difficultyCounts.get('3') ?? 0) === 0) gaps.push({ type: 'missing_difficulty', difficulty: 3, note: 'No profile-safe difficulty-3 question exists.' });
-  if (assessment) {
-    for (const section of assessment.sections) {
-      if (!section.readyByCount) gaps.push({ type: 'assessment_pool_shortfall', section: section.id, required: section.required, candidatePool: section.candidatePool });
-    }
+  for (const topic of topics) if (topic.questions < 3) gaps.push({ type: 'thin_topic_question_pool', topic: topic.topic, questions: topic.questions, rows: topic.rows });
+  if ((difficultyCounts.get('3') ?? 0) === 0) gaps.push({ type: 'missing_difficulty', difficulty: 3 });
+  for (const section of assessment?.sections ?? []) {
+    if (!section.readyByCount) gaps.push({ type: 'assessment_pool_shortfall', section: section.id, required: section.required, candidatePool: section.candidatePool });
   }
 
   return {
     profileRef,
-    provenanceStatus: membership.provenance?.status ?? 'unknown',
+    provenanceStatus: rawMembership.provenance?.status ?? 'unknown',
     membershipRows: rows.length,
-    reuse: {
-      sharedRows: reusedRows.length,
-      profileSpecificRows: profileSpecificRows.length,
-      sharedPercent: percent(reusedRows.length, rows.length)
+    membership: {
+      directRows: directRows.length,
+      inheritedRows: inheritedRows.length,
+      inheritedPercent: percent(inheritedRows.length, rows.length),
+      inheritedFromProfiles: [...new Set(inheritedRows.map((row) => row.inheritedFromProfileRef).filter(Boolean))].sort()
     },
     runnable: {
       questions: profileQuestions.length,
@@ -332,35 +242,27 @@ function buildProfileReport(profileRef) {
     difficulties: Object.fromEntries([...difficultyCounts.entries()].sort()),
     skillCoverage,
     topics,
-    sourceFamilies,
     visuals: {
       resolvedItems: resolvedVisualItems,
-      eligibleItems: visualItems,
-      coveragePercent: percent(resolvedVisualItems, visualItems),
-      policy: 'single-choice, word-bank, memory, sequence and hotspot surfaces; matching/drag excluded from inference'
+      eligibleItems: eligibleVisualItems,
+      coveragePercent: percent(resolvedVisualItems, eligibleVisualItems)
     },
     assessment,
     gaps,
-    uncoveredRows,
-    freeUncoveredRows,
-    sharedRows: reusedRows.map((row) => ({ rowId: row.rowId, topic: row.topic, reusedWithProfiles: row.reusedWithProfiles })),
-    profileSpecificRows: profileSpecificRows.map((row) => ({ rowId: row.rowId, topic: row.topic, sourceFile: row.sourceFile }))
+    directRows: directRows.map((row) => ({ rowId: row.rowId, topic: row.topic, sourceRef: row.sourceRef })),
+    inheritedRows: inheritedRows.map((row) => ({ rowId: row.rowId, topic: row.topic, inheritedFromProfileRef: row.inheritedFromProfileRef }))
   };
 }
 
 let reports;
 try {
-  reports = requestedProfiles.map(buildProfileReport);
+  reports = profileRefs.map(buildReport);
 } catch (error) {
   console.error(error instanceof Error ? error.message : String(error));
   process.exit(2);
 }
 
-const result = {
-  generatedAt: new Date().toISOString(),
-  profiles: reports
-};
-
+const result = { generatedAt: new Date().toISOString(), profiles: reports };
 const shouldFail = failOnUncovered && reports.some((report) => report.runnable.uncoveredRows > 0);
 
 if (jsonMode) {
@@ -372,7 +274,7 @@ console.log('# Profile maturity report');
 for (const report of reports) {
   console.log(`\n## ${report.profileRef}`);
   console.log(`Provenance: ${report.provenanceStatus}`);
-  console.log(`Rows: ${report.membershipRows} (${report.reuse.sharedRows} shared/reused, ${report.reuse.profileSpecificRows} profile-specific)`);
+  console.log(`Rows: ${report.membershipRows} (${report.membership.directRows} direct/current, ${report.membership.inheritedRows} inherited/previous)`);
   console.log(`Runnable: ${report.runnable.coveredRows}/${report.membershipRows} rows (${report.runnable.rowCoveragePercent}%) through ${report.runnable.questions} profile-safe question(s)`);
   console.log(`Free: ${report.free.coveredRows}/${report.membershipRows} rows (${report.free.rowCoveragePercent}%) through ${report.free.questions} free question(s)`);
   console.log(`Visual-friendly coverage: ${report.visuals.resolvedItems}/${report.visuals.eligibleItems} (${report.visuals.coveragePercent}%)`);
@@ -380,7 +282,7 @@ for (const report of reports) {
   console.log(`Difficulty mix: ${Object.entries(report.difficulties).map(([difficulty, count]) => `${difficulty}=${count}`).join(', ') || 'none'}`);
   console.log('Topic maturity:');
   for (const topic of report.topics) {
-    console.log(`- ${topic.topic}: rows ${topic.runnableRows}/${topic.rows} runnable; ${topic.freeRows}/${topic.rows} free; ${topic.questions} question(s); ${topic.reusedRows} shared row(s)`);
+    console.log(`- ${topic.topic}: ${topic.runnableRows}/${topic.rows} runnable; ${topic.freeRows}/${topic.rows} free; ${topic.questions} question(s); direct=${topic.directRows}, inherited=${topic.inheritedRows}`);
   }
   console.log('Assessment pool signals:');
   if (!report.assessment) console.log('- no blueprint');
