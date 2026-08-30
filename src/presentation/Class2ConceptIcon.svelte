@@ -93,6 +93,67 @@
       <circle class="particle" cx="45" cy="34" r="3" /><circle class="particle" cx="58" cy="39" r="3" /><circle class="particle" cx="71" cy="32" r="3" />
       <path class="drop" d="M60 79q11 12 0 20-11-8 0-20Z" />
     </g>
+  {:else if icon === 'bamboo'}
+    <g>
+      <path class="bamboo" d="M37 91V15m23 76V8m23 83V24" />
+      <path class="bamboo-node" d="M31 33h12m-12 21h12m11-27h12m-12 25h12m11-8h12m-12 21h12" />
+      <path class="bamboo-leaf" d="M37 28Q19 17 13 31q15 10 24-3Zm23 12q-19-12-25 3 15 11 25-3Zm0-21q19-12 27 2-16 11-27-2Zm23 31q18-13 27 1-15 12-27-1Z" />
+    </g>
+  {:else if icon === 'cardamom'}
+    <g>
+      <path class="herb-stem" d="M57 91V31" />
+      <path class="herb-leaf" d="M57 40Q24 18 13 43q25 17 44-3Zm0 19q32-23 48 0-25 17-48 0Z" />
+      <ellipse class="pod" cx="50" cy="76" rx="10" ry="16" />
+      <ellipse class="pod" cx="70" cy="73" rx="10" ry="16" />
+      <path class="pod-line" d="M47 64v24m20-27v25" />
+    </g>
+  {:else if icon === 'indigo'}
+    <g>
+      <path class="herb-stem" d="M43 77V23" />
+      <path class="herb-leaf" d="M43 38Q18 20 9 40q20 15 34-2Zm0 17q24-20 38-2-17 16-38 2Z" />
+      <path class="dye-bowl" d="M66 58h43q-3 31-22 31T66 58Z" />
+      <path class="dye" d="M70 62q17-9 35 0v8q-17 8-35 0Z" />
+      <path class="dye-drop" d="M91 32q12 16 0 27-12-11 0-27Z" />
+    </g>
+  {:else if icon === 'caregiver'}
+    <g>
+      <circle class="skin" cx="37" cy="33" r="13" />
+      <circle class="skin" cx="80" cy="43" r="11" />
+      <path class="care-body" d="M16 92q2-40 21-40 18 0 22 40Zm48 0q2-31 16-31t19 31Z" />
+      <path class="care-arm" d="M46 62q20 6 31-6" />
+      <path class="heart-symbol" d="M81 18q7-11 16 0 9-11 16 0 0 13-16 23-16-10-16-23Z" />
+    </g>
+  {:else if icon === 'clean-water'}
+    <g>
+      <path class="glass" d="M28 20h51l-7 70H35Z" />
+      <path class="clean-water-fill" d="M34 55h39l-4 31H38Z" />
+      <path class="water-drop" d="M93 20q16 20 0 34-16-14 0-34Z" />
+      <path class="check" d="m82 71 8 8 19-22" />
+    </g>
+  {:else if icon === 'family'}
+    <g>
+      <path class="family-house" d="M10 50 60 13l50 37v43H10Z" />
+      <circle class="skin" cx="39" cy="60" r="10" />
+      <circle class="skin" cx="61" cy="54" r="11" />
+      <circle class="skin" cx="83" cy="61" r="9" />
+      <path class="family-body" d="M25 91q2-22 14-22t15 22m-7 0q2-27 14-27t15 27m-4 0q2-21 11-21t12 21" />
+    </g>
+  {:else if icon === 'christmas'}
+    <g>
+      <path class="tree-green" d="M60 10 30 48h16L21 76h78L74 48h16Z" />
+      <rect class="tree-trunk" x="52" y="76" width="16" height="17" rx="2" />
+      <circle class="ornament ornament-a" cx="49" cy="46" r="4" />
+      <circle class="ornament ornament-b" cx="72" cy="57" r="4" />
+      <circle class="ornament ornament-c" cx="43" cy="68" r="4" />
+      <path class="tree-star" d="m60 3 4 8 9 1-7 6 2 9-8-5-8 5 2-9-7-6 9-1Z" />
+    </g>
+  {:else if icon === 'mars'}
+    <g>
+      <circle class="mars" cx="60" cy="51" r="35" />
+      <circle class="mars-crater" cx="44" cy="39" r="7" />
+      <circle class="mars-crater" cx="73" cy="64" r="9" />
+      <path class="mars-mark" d="M83 24h24v24m0-24L88 43" />
+    </g>
   {:else}
     <g><circle class="plate" cx="60" cy="50" r="38" /><path class="divider" d="M60 24v34m0 14v4" /></g>
   {/if}
@@ -101,7 +162,7 @@
 <style>
   .class2-concept-icon { width: 100%; height: 100%; overflow: visible; }
   .skin { fill: #efb48f; stroke: #a9684c; stroke-width: 2; }
-  .person, .person-line, .motion, .ball-line, .focus, .divider, .feather-line, .wing-line, .envelope-line, .sun-ray, .vapour, .arrow, .stem { fill: none; stroke: #3d454b; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+  .person, .person-line, .motion, .ball-line, .focus, .divider, .feather-line, .wing-line, .envelope-line, .sun-ray, .vapour, .arrow, .stem, .pod-line, .care-arm, .mars-mark { fill: none; stroke: #3d454b; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
   .ball { fill: #ef705c; stroke: #8e3b30; stroke-width: 2.5; }
   .factory { fill: #8899a4; stroke: #495861; stroke-width: 2.4; stroke-linejoin: round; }
   .smoke { fill: #78848b; stroke: #4d585e; stroke-width: 2; }
@@ -138,4 +199,23 @@
   .filter { fill: #b8dbe7; stroke: #4c8091; stroke-width: 2.5; stroke-linejoin: round; }
   .filter-paper { fill: #fff8de; stroke: #a59058; stroke-width: 1.8; }
   .particle { fill: #8a6b4d; }
+  .bamboo { fill: none; stroke: #5e9d52; stroke-width: 9; stroke-linecap: round; }
+  .bamboo-node { fill: none; stroke: #376f37; stroke-width: 3; stroke-linecap: round; }
+  .bamboo-leaf, .herb-leaf { fill: #6fb17d; stroke: #387349; stroke-width: 2; stroke-linejoin: round; }
+  .herb-stem { fill: none; stroke: #4f8d4e; stroke-width: 4; stroke-linecap: round; }
+  .pod { fill: #a8ba6a; stroke: #64743b; stroke-width: 2; }
+  .dye-bowl { fill: #c58b59; stroke: #845632; stroke-width: 2.4; }
+  .dye, .dye-drop { fill: #4d62b9; stroke: #303f84; stroke-width: 2; }
+  .care-body { fill: #73a9c5; stroke: #416b80; stroke-width: 2.5; }
+  .heart-symbol { fill: #e76675; stroke: #98434f; stroke-width: 2; }
+  .glass { fill: #f5fbff; stroke: #62869a; stroke-width: 2.5; stroke-linejoin: round; }
+  .clean-water-fill, .water-drop { fill: #8ed3ec; stroke: #3e8eaa; stroke-width: 2; }
+  .family-house { fill: #f0c27a; stroke: #916431; stroke-width: 2.5; stroke-linejoin: round; }
+  .family-body { fill: none; stroke: #5f7c8d; stroke-width: 5; stroke-linecap: round; }
+  .tree-green { fill: #4f9d62; stroke: #2f6d3e; stroke-width: 2.5; stroke-linejoin: round; }
+  .tree-trunk { fill: #855c38; }
+  .ornament-a { fill: #e76675; } .ornament-b { fill: #f3c84b; } .ornament-c { fill: #6a78d6; }
+  .tree-star { fill: #f3c84b; stroke: #a17f22; stroke-width: 1.6; }
+  .mars { fill: #d96b52; stroke: #8f3d31; stroke-width: 2.8; }
+  .mars-crater { fill: #b7503e; opacity: .9; }
 </style>
