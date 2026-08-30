@@ -13,6 +13,13 @@ export interface SessionState {
   startedAtIso: string;
 }
 
+export interface SessionCheckpointState {
+  sessionId: string;
+  index: number;
+  responses: QuestionResponseEnvelope[];
+  submitted: boolean;
+}
+
 export interface ScoredSessionSection {
   id: string;
   title: string;
@@ -37,6 +44,13 @@ function resetClock(state: SessionState): void {
   state.startedAtIso = new Date(state.startedAtEpoch).toISOString();
 }
 
+function cloneResponse(response: QuestionResponseEnvelope): QuestionResponseEnvelope {
+  return {
+    ...response,
+    hintsUsed: [...response.hintsUsed]
+  };
+}
+
 export function createSessionState(): SessionState {
   const state: SessionState = {
     sessionId: crypto.randomUUID(),
@@ -45,6 +59,62 @@ export function createSessionState(): SessionState {
     results: [],
     submitted: false,
     lastResult: null,
+    startedAtEpoch: 0,
+    startedAtIso: ''
+  };
+  resetClock(state);
+  return state;
+}
+
+export function createSessionCheckpoint(state: SessionState): SessionCheckpointState {
+  return {
+    sessionId: state.sessionId,
+    index: state.index,
+    responses: state.responses.map(cloneResponse),
+    submitted: state.submitted
+  };
+}
+
+export function restoreSessionState(
+  questions: Question[],
+  checkpoint: SessionCheckpointState
+): SessionState {
+  if (!checkpoint.sessionId || !Number.isInteger(checkpoint.index)) {
+    throw new Error('Invalid session checkpoint identity');
+  }
+  if (checkpoint.index < 0 || checkpoint.index > questions.length) {
+    throw new Error('Session checkpoint index is outside the question set');
+  }
+  if (checkpoint.index === questions.length && checkpoint.submitted) {
+    throw new Error('Completed session checkpoint cannot remain submitted');
+  }
+
+  const expectedResponseCount = checkpoint.index + (checkpoint.submitted ? 1 : 0);
+  if (checkpoint.responses.length !== expectedResponseCount) {
+    throw new Error('Session checkpoint response count does not match its position');
+  }
+
+  const responses = checkpoint.responses.map(cloneResponse);
+  const results = responses.map((response, responseIndex) => {
+    const question = questions[responseIndex];
+    if (!question
+      || response.sessionId !== checkpoint.sessionId
+      || response.questionId !== question.id
+      || response.questionRevision !== question.revision
+      || response.interactionType !== question.interaction.type
+      || response.interactionVersion !== question.interaction.version) {
+      throw new Error(`Session checkpoint response ${responseIndex + 1} does not match the current question contract`);
+    }
+    return evaluate(question, response.response);
+  });
+
+  const state: SessionState = {
+    sessionId: checkpoint.sessionId,
+    index: checkpoint.index,
+    responses,
+    results,
+    submitted: checkpoint.submitted,
+    lastResult: checkpoint.submitted ? results.at(-1) ?? null : null,
     startedAtEpoch: 0,
     startedAtIso: ''
   };
