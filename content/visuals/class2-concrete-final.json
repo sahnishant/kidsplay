@@ -9,5 +9,6 @@
   { "id": "entity.universe.saturn", "renderer": "class2-final-icon", "glyph": "saturn", "label": "Saturn", "motion": "spin", "aliases": ["saturn"] },
   { "id": "entity.clothing.school-uniform", "renderer": "class2-final-icon", "glyph": "school-uniform", "label": "School uniform", "motion": "idle", "aliases": ["school uniform", "school-uniform"] },
   { "id": "entity.safety.sharp-tools", "renderer": "class2-final-icon", "glyph": "sharp-tools", "label": "Sharp tools", "motion": "idle", "aliases": ["sharp tools", "sharp-tools"] },
+  { "id": "entity.transport.tonga", "renderer": "class2-final-icon", "glyph": "tonga", "label": "Tonga", "motion": "sway", "aliases": ["tonga"] },
   { "id": "entity.communication.television", "renderer": "class2-final-icon", "glyph": "television", "label": "Television", "motion": "pulse", "aliases": ["television", "tv"] }
 ]
