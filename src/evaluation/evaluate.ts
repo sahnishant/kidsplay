@@ -11,6 +11,8 @@ const boundedScore = (correctParts: number, totalParts: number): number => total
 const pairKey = (first: string, second: string): string => first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`;
 const normalizeTextAnswer = (value: unknown): string => typeof value === 'string' ? value.toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
 
+type MazeInteraction = MazePathQuestion['interaction'];
+
 function setOverlapScore(expected: Set<string>, actual: Set<string>): number {
   const union = new Set([...expected, ...actual]);
   const correct = [...expected].filter((value) => actual.has(value)).length;
@@ -31,10 +33,9 @@ function recordAnswerScore(
   return boundedScore(correctParts, totalParts);
 }
 
-function isValidMazePath(question: MazePathQuestion, path: number[]): boolean {
-  const { interaction, solution } = question;
-  if (!path.length || path[0] !== interaction.startIndex || path[path.length - 1] !== solution.goalIndex) return false;
-  if (solution.goalIndex !== interaction.goalIndex) return false;
+function isValidMazePath(interaction: MazeInteraction, goalIndex: number, path: number[]): boolean {
+  if (!path.length || path[0] !== interaction.startIndex || path[path.length - 1] !== goalIndex) return false;
+  if (goalIndex !== interaction.goalIndex) return false;
 
   for (let index = 1; index < path.length; index += 1) {
     if (!canTravel(interaction.wallMasks, interaction.rows, interaction.cols, path[index - 1], path[index])) return false;
@@ -106,7 +107,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
   if (question.solution.type === 'maze_goal' && question.interaction.type === 'maze_path') {
     const payload = response as { pathIndices?: unknown };
     const path = Array.isArray(payload?.pathIndices) ? payload.pathIndices.filter((value): value is number => Number.isInteger(value)) : [];
-    score = isValidMazePath(question, path) ? 1 : 0;
+    score = isValidMazePath(question.interaction, question.solution.goalIndex, path) ? 1 : 0;
   }
 
   const correct = score === 1;
