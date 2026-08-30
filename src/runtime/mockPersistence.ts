@@ -7,6 +7,7 @@ export interface StoredMockCheckpoint {
   title: string;
   questionIds: string[];
   sectionSignature: string;
+  questionSignature: string;
   state: SessionCheckpointState;
   savedAt: string;
 }
@@ -125,6 +126,7 @@ function isStoredMockCheckpoint(value: unknown): value is StoredMockCheckpoint {
     || !isNonEmptyString(item.entryId)
     || !isNonEmptyString(item.title)
     || !isNonEmptyString(item.sectionSignature)
+    || !isNonEmptyString(item.questionSignature)
     || !isTimestamp(item.savedAt)
     || !Array.isArray(item.questionIds)
     || item.questionIds.length < 1
@@ -220,6 +222,7 @@ export function saveMockCheckpoint(input: Omit<StoredMockCheckpoint, 'version' |
     title: input.title,
     questionIds: [...input.questionIds],
     sectionSignature: input.sectionSignature,
+    questionSignature: input.questionSignature,
     state: {
       ...input.state,
       responses: input.state.responses.map((response) => ({
