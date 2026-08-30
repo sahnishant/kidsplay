@@ -12,6 +12,7 @@ const expected = new Map([
   ['saturn', 'entity.universe.saturn'],
   ['school-uniform', 'entity.clothing.school-uniform'],
   ['sharp-tools', 'entity.safety.sharp-tools'],
+  ['tonga', 'entity.transport.tonga'],
   ['television', 'entity.communication.television']
 ]);
 
