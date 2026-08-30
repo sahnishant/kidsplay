@@ -28,13 +28,21 @@ export function planActivities({
 }) {
   if (!String(profileRef ?? '').trim()) throw new Error('Planner requires profileRef');
   if (!Number.isInteger(count) || count < 1) throw new Error('Planner count must be a positive integer');
+  if (!Number.isFinite(difficulty) || difficulty <= 0) throw new Error('Planner difficulty must be a positive number');
+  if (!['interactive', 'output'].includes(deliveryCategory)) throw new Error(`Planner deliveryCategory is unsupported: ${deliveryCategory}`);
 
   const sourceById = new Map(sources.map((source) => [source.id, source]));
   const allowedEngineSet = allowedEngines?.length ? new Set(allowedEngines) : null;
+  if (allowedEngineSet) {
+    for (const engine of allowedEngineSet) {
+      if (!getEngineDefinition(engine)) throw new Error(`Planner allowedEngines contains unknown engine ${engine}`);
+    }
+  }
   const levelSet = knowledgeLevels?.length ? new Set(knowledgeLevels) : null;
+  const profileRows = index.filter((row) => profileMembershipFor(row, profileRef));
+  if (!profileRows.length) throw new Error(`Planner profile has no indexed membership: ${profileRef}`);
 
-  const eligibleRows = index
-    .filter((row) => profileMembershipFor(row, profileRef))
+  const eligibleRows = profileRows
     .filter((row) => !skill || (row.skills ?? []).includes(skill))
     .filter((row) => !levelSet || levelSet.has(row.knowledgeLevel))
     .sort((a, b) => {
