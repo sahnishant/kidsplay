@@ -24,19 +24,15 @@ describe('reusable higher-grade content factory', () => {
     expect(new Set(resolved.members.map((member: { rowId: string }) => member.rowId)).size).toBe(238);
   });
 
-  it('expands reusable per-entry Class 3 recipe templates without duplicating the three original MCQ targets', () => {
+  it('expands an explicit Class 3 per-entry recipe sample with deterministic one-row question ids', () => {
     const questions = readJson('content/questions/__generated-from-knowledge.json');
     const ids = questions.map((question: { id: string }) => question.id);
     const expanded = ids.filter((id: string) => id.includes('.mcq.each.generated.001.'));
 
-    expect(expanded).toHaveLength(53);
-    expect(expanded).not.toContain('sof3.life-community.mcq.each.generated.001.bird-feathers');
-    expect(expanded).not.toContain('sof3.materials-forces.mcq.each.generated.001.transparent');
-    expect(expanded).not.toContain('sof3.environment-safety.mcq.each.generated.001.reduce');
-    expect(expanded.filter((id: string) => id.startsWith('sof3.life-adaptations.'))).toHaveLength(8);
-    expect(expanded.filter((id: string) => id.startsWith('sof3.plants-body.'))).toHaveLength(8);
-    expect(expanded.filter((id: string) => id.startsWith('sof3.soil-water-weather.'))).toHaveLength(8);
-    expect(expanded.filter((id: string) => id.startsWith('sof3.measurement-space.'))).toHaveLength(8);
+    expect(expanded).toEqual([
+      'sof3.life-community.mcq.each.generated.001.bird-beak',
+      'sof3.life-community.mcq.each.generated.001.bird-wings'
+    ]);
     expect(new Set(expanded).size).toBe(expanded.length);
   });
 
