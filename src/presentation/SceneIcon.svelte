@@ -41,6 +41,12 @@
       <path class="lung lung--right" d="M72 38c13 2 22 14 24 31 2 17-8 24-20 20-9-3-11-12-11-23V43c0-4 3-6 7-5Z" />
       <path class="lungs-branch" d="M50 44 39 53m31-9 11 9M50 52 40 66m30-14 10 14" />
     </g>
+  {:else if icon === 'earth'}
+    <g class="earth">
+      <circle class="earth-ocean" cx="60" cy="50" r="39" />
+      <path class="earth-land" d="M31 31c7-9 16-14 26-17l8 10-7 8-9-2-7 8-10-1Zm33 8 13-8 14 7 5 13-12 5-6 12-11-3-5-11Zm-17 22 10 3 7 11-6 13-16-4-7-11Z" />
+      <path class="earth-grid" d="M22 50h76M60 11c-12 11-18 24-18 39s6 28 18 39m0-78c12 11 18 24 18 39s-6 28-18 39" />
+    </g>
   {:else if icon === 'wave'}
     <g class="wave">
       <path d="M4 62c15 0 15-18 30-18s15 18 30 18 15-18 30-18 15 18 22 18v30H4Z" />
@@ -185,6 +191,25 @@
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  .earth-ocean {
+    fill: #4ba7d8;
+    stroke: #246b96;
+    stroke-width: 3;
+  }
+
+  .earth-land {
+    fill: #72be62;
+    stroke: #367a3e;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+
+  .earth-grid {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.55);
+    stroke-width: 1.8;
   }
 
   .wave path:first-child {
