@@ -1,59 +1,67 @@
-# Android target and local development
+# Kidsplay Android
 
-Android is the primary shipping target, but Android infrastructure is **not** part of the normal local development loop.
+Android is the shipping target. Routine development remains browser/Node first; the Android wrapper is generated/synced through Capacitor and built in CI.
 
-## Normal desktop development
+## Build and sync
 
-Prerequisite:
-
-- Node.js 22+ (includes npm)
-
-That is enough to edit questions, learnables, scenes, interaction engines, mechanics, evaluation and UI on a normal desktop browser.
-
-```bash
-git switch kidsplay
-npm install
-npm run dev
-```
-
-For the same validation/build checks used before Android packaging:
-
-```bash
+```powershell
+npm ci
 npm run check
+npm run android:sync
 ```
 
-These commands do not require Android Studio, an Android SDK, JDK/Java, Gradle, an emulator, ADB, or a connected Android phone.
+To open the generated project locally when Android Studio is installed:
 
-## Why this works
-
-The learner application is browser-native TypeScript/DOM/SVG/CSS. Capacitor is only the packaging boundary. Therefore almost all product work is testable in Chrome/Edge/Firefox on the desktop, while GitHub Actions provides continuous native Android proof.
-
-## Optional local Android setup
-
-Install this tooling only when you specifically need to inspect/run the native wrapper locally:
-
-- Android Studio / Android SDK
-- JDK compatible with the generated Capacitor Android project
-
-Then:
-
-```bash
-npm run android:add
-npm run android:sync
+```powershell
 npm run android:open
 ```
 
-`android:add` is a one-time command for a checkout that does not already contain the generated `android/` project.
+The GitHub Android workflow validates the web/content runtime, syncs Capacitor, runs Gradle `assembleDebug` and uploads a debug APK artifact. Use the exact-head artifact referenced by GitHub issue #33 for beta device acceptance rather than an untracked local build.
 
-Before opening Android after browser/content changes:
+## Automated platform gates
 
-```bash
-npm run android:sync
-npm run android:open
-```
+The permanent release proof includes:
 
-## CI strategy
+- Windows `npm ci` + unchanged `npm run check` on `windows-latest`;
+- Browser Smoke with Playwright child journeys;
+- Android debug APK build through Capacitor + Gradle.
 
-The GitHub workflow generates the Capacitor Android project, compiles a debug APK, and uploads it as a workflow artifact. This lets us continuously prove that the lightweight browser runtime still packages for Android without forcing every developer machine to carry the Android toolchain.
+Playwright additionally exercises Android-like 360px touch/layout pressure, 44px core target sizes, reduced-height name entry, horizontal-overflow checks and portrait→landscape mock rotation. These tests are useful proxies; they do **not** replace physical-device observation.
 
-Once native Android customization becomes meaningful (signing, splash, notifications, billing, deep links, custom plugins), commit the `android/` project and treat it as first-class source. Even then, most interaction/content development should remain browser-first.
+## Real-device acceptance
+
+GitHub issue #33 is the canonical beta-device checklist. Test at minimum:
+
+- one common small/medium Android phone around 360–400 CSS px portrait width;
+- one larger phone or tablet;
+- a lower/mid-range device if available;
+- an Android device with network disabled for packaged-offline/relaunch cases.
+
+Record device model, Android version, screen size/resolution and relevant animation/reduced-motion settings.
+
+### Core journeys
+
+1. Fresh install → child name/avatar setup → return to Home.
+2. Free Explore → visual single-choice plus other interaction families → feedback.
+3. Story World → Puppy by the Pond → mission reward/unlock → relaunch.
+4. SOF 35-question mock → answer → process kill → exact resume; also kill after submit/before Next.
+5. Network disabled before launch → profile, Free Explore, story and mock resume remain usable from packaged assets/local storage.
+6. Reduced-motion/animation accessibility setting → all tasks remain understandable without motion.
+7. Portrait layout stress plus one rotation on a supported device/tablet.
+
+### Defect capture
+
+For every blocker/major/minor/polish finding record:
+
+- journey/question/mission;
+- device and Android version;
+- screenshot or short recording;
+- expected vs actual;
+- severity;
+- reproducibility.
+
+Create focused bug issues/branches from the certified base. Do not use device acceptance as a reason to redesign the completed data/formatter/engine architecture.
+
+## Exit boundary
+
+Device acceptance is complete only after physical observation confirms no blocker/major defect in first-run, Free Explore, Story World, long-mock resume or packaged offline relaunch; no core journey requires precision tapping/zooming; persistence survives process kill; and reduced-motion remains fully usable.
