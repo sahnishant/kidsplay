@@ -2,8 +2,10 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import App from '../src/App.svelte';
 import Session from '../src/ui/Session.svelte';
+import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import type { SessionAttempt } from '../src/contracts/runtime';
+import { recordMockCompletion, saveMockCheckpoint } from '../src/runtime/mockPersistence';
 
 const CHILD_KEY = 'kidsplay.child.v1';
 
@@ -76,6 +78,84 @@ describe('user-facing product flow', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
     expect(screen.getByRole('heading', { name: 'Choose what to do' })).toBeTruthy();
+  });
+
+  it('surfaces and resumes an exact saved pattern mock and shows saved mock history', async () => {
+    const patternEntry = getCatalogEntries().find((entry) => entry.actionLabel === 'Try 35-question mock');
+    expect(patternEntry).toBeTruthy();
+    const launch = createSessionForCatalogEntry(patternEntry!.id, {});
+    const sectionSignature = JSON.stringify((launch.sections ?? []).map((section) => ({
+      id: section.id,
+      startIndex: section.startIndex,
+      count: section.count,
+      marksPerQuestion: section.marksPerQuestion
+    })));
+
+    saveMockCheckpoint({
+      entryId: patternEntry!.id,
+      title: launch.title,
+      questionIds: launch.questions.map((question) => question.id),
+      sectionSignature,
+      state: {
+        sessionId: 'session.saved-pattern',
+        index: 0,
+        responses: [],
+        submitted: false
+      }
+    });
+    recordMockCompletion({
+      sessionId: 'session.completed-pattern',
+      entryId: patternEntry!.id,
+      title: launch.title,
+      questionCount: 35,
+      correct: 28,
+      earnedMarks: 31,
+      maxMarks: 40,
+      sections: [
+        {
+          id: 'logical_reasoning',
+          title: 'Logical Reasoning',
+          correct: 4,
+          answered: 5,
+          total: 5,
+          accuracy: 0.8,
+          earnedMarks: 4,
+          maxMarks: 5
+        },
+        {
+          id: 'science',
+          title: 'Science',
+          correct: 20,
+          answered: 25,
+          total: 25,
+          accuracy: 0.8,
+          earnedMarks: 20,
+          maxMarks: 25
+        },
+        {
+          id: 'achievers',
+          title: 'Achievers',
+          correct: 4,
+          answered: 5,
+          total: 5,
+          accuracy: 0.8,
+          earnedMarks: 7,
+          maxMarks: 10
+        }
+      ]
+    });
+
+    render(App);
+    expect(screen.getByRole('heading', { name: 'Resume your saved mock' })).toBeTruthy();
+    expect(screen.getByText('0 of 35 answered · your exact question order is preserved.')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'How mock practice is moving' })).toBeTruthy();
+    expect(screen.getByText('31 / 40')).toBeTruthy();
+    expect(screen.getByText(/Logical Reasoning 4\/5/)).toBeTruthy();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Resume saved mock' }));
+    expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
+    expect(screen.getByText('1 / 35')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
   });
 
   it('submits through the engine host, emits one attempt and reaches completion', async () => {
