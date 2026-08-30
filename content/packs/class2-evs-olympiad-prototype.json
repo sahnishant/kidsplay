@@ -10,8 +10,8 @@
     "productId": "class2-evs-olympiad"
   },
   "questionRefs": [
-    "animals.dog.habitat.mcq.001",
-    "animals.whale.habitat.mcq.001"
+    "animals.associations.mcq.camel.generated.001",
+    "animals.homes.mcq.rabbit.generated.001"
   ],
   "masteryPolicy": {
     "requiredAccuracy": 0.8,
