@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "policy": {
+    "primarySourceId": "open-english-wordnet",
+    "shipCuratedSlicesOnly": true,
+    "kidsplayChildDefinitionsPreferred": true,
+    "requireFieldLevelProvenanceForImportedText": true,
+    "notes": "External dictionaries are candidate/reference lexical data. Learning-profile placement and child-facing pedagogy remain Kidsplay-authored/reviewed concerns."
+  },
+  "sources": [
+    {
+      "id": "open-english-wordnet",
+      "name": "Open English WordNet",
+      "homepage": "https://en-word.net/",
+      "download": "https://en-word.net/downloads",
+      "license": "CC-BY-4.0",
+      "role": "primary_semantic_backbone",
+      "allowedUses": ["lemma_candidates", "sense_resolution", "part_of_speech", "definitions_with_attribution", "semantic_relations"],
+      "adoption": "preferred",
+      "provenanceRequirement": "Preserve upstream sense/synset identifiers and attribution for imported or adapted licensed material."
+    },
+    {
+      "id": "princeton-wordnet-3.0",
+      "name": "Princeton WordNet 3.0",
+      "homepage": "https://wordnet.princeton.edu/",
+      "license": "WordNet-3.0",
+      "role": "reference_fallback",
+      "allowedUses": ["lemma_candidates", "sense_resolution", "definitions", "semantic_relations"],
+      "adoption": "allowed",
+      "provenanceRequirement": "Preserve the WordNet copyright, license and disclaimer requirements when redistributing covered database material."
+    },
+    {
+      "id": "wiktionary-kaikki",
+      "name": "Wiktionary via Kaikki/wiktextract",
+      "homepage": "https://kaikki.org/dictionary/",
+      "license": "CC-BY-SA-4.0-and-GFDL",
+      "role": "optional_enrichment",
+      "allowedUses": ["pronunciation_candidates", "morphology_candidates", "usage_candidates", "translation_candidates", "sense_cross_check"],
+      "adoption": "isolated_only",
+      "provenanceRequirement": "Keep imported/adapted Wiktionary text separately traceable and satisfy attribution/share-alike requirements; do not silently merge it into Kidsplay-authored editorial definitions."
+    }
+  ]
+}
