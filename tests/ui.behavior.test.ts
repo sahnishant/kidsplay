@@ -240,7 +240,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: 'Use two ideas to solve this.' })).toBeTruthy();
   });
 
-  it('shows inferred learning motion in practice but suppresses it in a structured mock', () => {
+  it('uses inferred motion as post-answer reinforcement in practice and never as a mock hint', async () => {
     const first = render(Session, {
       props: {
         title: 'Motion Practice',
@@ -250,6 +250,9 @@ describe('user-facing product flow', () => {
       }
     });
 
+    expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
+    await fireEvent.click(screen.getByRole('button', { name: 'Moving air' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
     expect(screen.getByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeTruthy();
     first.unmount();
 
@@ -263,6 +266,9 @@ describe('user-facing product flow', () => {
       }
     });
 
+    expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
+    await fireEvent.click(screen.getByRole('button', { name: 'Moving air' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
     expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
   });
 
