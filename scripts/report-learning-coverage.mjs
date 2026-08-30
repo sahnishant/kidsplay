@@ -1,4 +1,6 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import { membershipMap, resolveMembership } from './profileMemberships.mjs';
+import { packMap, resolvePackQuestionRefs } from './learningPacks.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -76,32 +78,32 @@ function matchesAssessmentSelector(question, selector) {
 
 const profileRef = argValue('profile', 'SOF_INDIA_CLASS2');
 const questions = readJsonObjects('content/questions/').flatMap(({ item }) => Array.isArray(item) ? item : [item]);
-const memberships = readJsonObjects('content/profile-memberships/').map(({ item }) => item);
+const rawMemberships = readJsonObjects('content/profile-memberships/').map(({ item }) => item);
+const membershipByRef = membershipMap(rawMemberships);
+const memberships = rawMemberships.map((item) => resolveMembership(membershipByRef, item.profileRef));
+const rawMembership = rawMemberships.find((item) => item.profileRef === profileRef);
 const membership = memberships.find((item) => item.profileRef === profileRef);
-if (!membership) {
-  throw new Error(`Unknown profile membership ${profileRef}`);
-}
+if (!membership || !rawMembership) throw new Error(`Unknown profile membership ${profileRef}`);
 
 const profilesRegistry = readJson('content/learning-profiles/registry.json');
 const profile = (profilesRegistry.profiles ?? []).find((item) => item.id === profileRef) ?? null;
-const knowledgeRows = readJsonObjects('content/knowledge/')
-  .flatMap(({ item, file }) => rowRecordsForSource(item, file));
+const knowledgeRows = readJsonObjects('content/knowledge/').flatMap(({ item, file }) => rowRecordsForSource(item, file));
 const knowledgeByRow = new Map(knowledgeRows.map((row) => [row.rowId, row]));
 
 const membershipProfilesByRow = new Map();
 for (const item of memberships) {
   for (const member of item.members ?? []) {
-    const profiles = membershipProfilesByRow.get(member.rowId) ?? new Set();
-    profiles.add(item.profileRef);
-    membershipProfilesByRow.set(member.rowId, profiles);
+    const profileRefs = membershipProfilesByRow.get(member.rowId) ?? new Set();
+    profileRefs.add(item.profileRef);
+    membershipProfilesByRow.set(member.rowId, profileRefs);
   }
 }
 
 const questionById = new Map(questions.map((question) => [question.id, question]));
-const freePacks = readJsonObjects('content/packs/')
-  .map(({ item }) => item)
-  .filter((pack) => pack.kind === 'learning_pack' && pack.access?.type === 'free');
-const freeQuestionIds = new Set(freePacks.flatMap((pack) => pack.questionRefs ?? []));
+const learningPacks = readJsonObjects('content/packs/').map(({ item }) => item).filter((pack) => pack.kind === 'learning_pack');
+const learningPackById = packMap(learningPacks);
+const freePacks = learningPacks.filter((pack) => pack.access?.type === 'free');
+const freeQuestionIds = new Set(freePacks.flatMap((pack) => resolvePackQuestionRefs(learningPackById, pack.id)));
 const freeQuestions = [...freeQuestionIds].map((questionId) => questionById.get(questionId)).filter(Boolean);
 
 const memberByRow = new Map((membership.members ?? []).map((member) => [member.rowId, member]));
@@ -146,7 +148,7 @@ for (const question of freeProfileQuestions) {
 const gradeToken = profile?.grade ? `class${profile.grade}` : null;
 const rows = [...memberByRow.values()].map((member) => {
   const knowledge = knowledgeByRow.get(member.rowId);
-  const membershipProfiles = [...(membershipProfilesByRow.get(member.rowId) ?? new Set())].sort();
+  const membershipProfileRefs = [...(membershipProfilesByRow.get(member.rowId) ?? new Set())].sort();
   const sourceId = knowledge?.sourceId ?? null;
   const gradeSpecificSource = Boolean(gradeToken && sourceId && sourceId.toLowerCase().includes(gradeToken));
   return {
@@ -156,8 +158,8 @@ const rows = [...memberByRow.values()].map((member) => {
     sourceFile: knowledge?.sourceFile ?? null,
     knowledgeLevel: knowledge?.knowledgeLevel ?? null,
     skills: knowledge?.skills ?? [],
-    membershipProfiles,
-    reusedAcrossProfiles: membershipProfiles.length > 1,
+    membershipProfiles: membershipProfileRefs,
+    reusedAcrossProfiles: membershipProfileRefs.length > 1,
     gradeSpecificSource,
     profileQuestions: profileQuestionCountByRow.get(member.rowId) ?? 0,
     freeQuestions: freeQuestionCountByRow.get(member.rowId) ?? 0,
@@ -176,6 +178,8 @@ const reusedRows = rows.filter((row) => row.reusedAcrossProfiles);
 const exclusiveRows = rows.filter((row) => !row.reusedAcrossProfiles);
 const gradeSpecificRows = rows.filter((row) => row.gradeSpecificSource);
 const sharedSourceRows = rows.filter((row) => row.sourceId && !row.gradeSpecificSource);
+const directRows = rows.filter((row) => (row.membershipOrigin ?? 'direct') === 'direct');
+const includedRows = rows.filter((row) => row.membershipOrigin === 'included');
 
 const topicStats = [...new Set(rows.map((row) => row.topic))]
   .sort((left, right) => left.localeCompare(right))
@@ -184,6 +188,8 @@ const topicStats = [...new Set(rows.map((row) => row.topic))]
     return {
       topic,
       totalRows: topicRows.length,
+      directRows: topicRows.filter((row) => (row.membershipOrigin ?? 'direct') === 'direct').length,
+      includedRows: topicRows.filter((row) => row.membershipOrigin === 'included').length,
       runnableRows: topicRows.filter((row) => row.profileQuestions > 0).length,
       freeRows: topicRows.filter((row) => row.freeQuestions > 0).length,
       multiFormatRows: topicRows.filter((row) => row.engineFamilies.length >= 2).length,
@@ -212,6 +218,8 @@ const sourceStats = sourceIds.map((sourceId) => {
   return {
     sourceId,
     totalRows: sourceRows.length,
+    directRows: sourceRows.filter((row) => (row.membershipOrigin ?? 'direct') === 'direct').length,
+    includedRows: sourceRows.filter((row) => row.membershipOrigin === 'included').length,
     runnableRows: sourceRows.filter((row) => row.profileQuestions > 0).length,
     freeRows: sourceRows.filter((row) => row.freeQuestions > 0).length,
     multiFormatRows: sourceRows.filter((row) => row.engineFamilies.length >= 2).length,
@@ -239,15 +247,15 @@ const blueprints = readJsonObjects('content/assessment-blueprints/')
       };
     })
   }));
-for (const blueprint of blueprints) {
-  blueprint.ready = blueprint.sections.every((section) => section.ready);
-}
+for (const blueprint of blueprints) blueprint.ready = blueprint.sections.every((section) => section.ready);
 
 const summarizeRows = (items) => prioritizedRows(items).map((row) => ({
   rowId: row.rowId,
   fit: row.fit,
   topic: row.topic,
   sourceId: row.sourceId,
+  membershipOrigin: row.membershipOrigin ?? 'direct',
+  membershipSourceProfileRef: row.membershipSourceProfileRef ?? profileRef,
   profileQuestions: row.profileQuestions,
   freeQuestions: row.freeQuestions,
   engineFamilies: row.engineFamilies,
@@ -257,6 +265,9 @@ const summarizeRows = (items) => prioritizedRows(items).map((row) => ({
 const summary = {
   profileRef: membership.profileRef,
   profile: profile ? { grade: profile.grade, pathway: profile.pathway, country: profile.country, alignmentStatus: profile.alignmentStatus } : null,
+  directMembershipRows: rawMembership.members?.length ?? 0,
+  includedProfileRefs: (rawMembership.includeProfiles ?? []).map((include) => include.profileRef),
+  includedMembershipRows: includedRows.length,
   membershipRows: rows.length,
   runnableProfileQuestions: profileQuestions.length,
   coveredProfileRows: coveredRows.length,
@@ -297,6 +308,9 @@ const ratio = (value, total) => `${value}/${total}${total ? ` (${(value / total 
 console.log('# Learning profile maturity report');
 console.log('');
 console.log(`Profile: ${summary.profileRef}${profile?.grade ? ` (grade ${profile.grade})` : ''}`);
+console.log(`Direct membership rows: ${summary.directMembershipRows}`);
+console.log(`Included profile rows: ${summary.includedMembershipRows}${summary.includedProfileRefs.length ? ` from ${summary.includedProfileRefs.join(', ')}` : ''}`);
+console.log(`Effective membership rows: ${summary.membershipRows}`);
 console.log(`Runnable profile questions: ${summary.runnableProfileQuestions}`);
 console.log(`Runnable row coverage: ${ratio(summary.coveredProfileRows, summary.membershipRows)}`);
 console.log(`Free row coverage: ${ratio(summary.freeCoveredProfileRows, summary.membershipRows)}`);
@@ -311,10 +325,10 @@ console.log(`Difficulty mix: ${Object.entries(summary.difficultyCounts).map(([di
 console.log('');
 console.log('## Topic maturity');
 console.log('');
-console.log('| Topic | Runnable | Free | Multi-format | Reused | Total rows | Questions |');
-console.log('| --- | ---: | ---: | ---: | ---: | ---: | ---: |');
+console.log('| Topic | Direct | Included | Runnable | Free | Multi-format | Reused | Total rows | Questions |');
+console.log('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |');
 for (const item of topicStats) {
-  console.log(`| ${item.topic} | ${item.runnableRows} | ${item.freeRows} | ${item.multiFormatRows} | ${item.reusedRows} | ${item.totalRows} | ${item.questionCount} |`);
+  console.log(`| ${item.topic} | ${item.directRows} | ${item.includedRows} | ${item.runnableRows} | ${item.freeRows} | ${item.multiFormatRows} | ${item.reusedRows} | ${item.totalRows} | ${item.questionCount} |`);
 }
 console.log('');
 console.log('## Skill maturity');
@@ -324,9 +338,7 @@ if (!skillStats.length) {
 } else {
   console.log('| Skill | Runnable | Free | Multi-format | Total rows |');
   console.log('| --- | ---: | ---: | ---: | ---: |');
-  for (const item of skillStats) {
-    console.log(`| ${item.skill} | ${item.runnableRows} | ${item.freeRows} | ${item.multiFormatRows} | ${item.totalRows} |`);
-  }
+  for (const item of skillStats) console.log(`| ${item.skill} | ${item.runnableRows} | ${item.freeRows} | ${item.multiFormatRows} | ${item.totalRows} |`);
 }
 console.log('');
 console.log('## Assessment readiness');
@@ -336,30 +348,24 @@ if (!blueprints.length) {
 } else {
   for (const blueprint of blueprints) {
     console.log(`- ${blueprint.id}: ${blueprint.ready ? 'READY' : 'NOT READY'}`);
-    for (const section of blueprint.sections) {
-      console.log(`  - ${section.id}: ${section.availableQuestions}/${section.requiredQuestions} compatible questions`);
-    }
+    for (const section of blueprint.sections) console.log(`  - ${section.id}: ${section.availableQuestions}/${section.requiredQuestions} compatible questions`);
   }
 }
 console.log('');
 console.log('## Highest-priority rows without a runnable question');
 console.log('');
 if (!summary.gaps.uncoveredRows.length) {
-  console.log('- None. Every profile row is exercised by at least one runnable question.');
+  console.log('- None. Every effective profile row is exercised by at least one runnable question.');
 } else {
-  for (const row of summary.gaps.uncoveredRows.slice(0, 40)) {
-    console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}; source=${row.sourceId ?? 'unknown'}`);
-  }
+  for (const row of summary.gaps.uncoveredRows.slice(0, 40)) console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}; origin=${row.membershipOrigin}; source=${row.sourceId ?? 'unknown'}`);
 }
 console.log('');
-console.log('## Profile rows absent from free exploration');
+console.log('## Effective profile rows absent from free exploration');
 console.log('');
 if (!summary.gaps.freeUncoveredRows.length) {
-  console.log('- None. Every current profile row is exercised by a declared free learning pack.');
+  console.log('- None. Every effective profile row is exercised by a declared free learning pack.');
 } else {
-  for (const row of summary.gaps.freeUncoveredRows.slice(0, 40)) {
-    console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}; source=${row.sourceId ?? 'unknown'}`);
-  }
+  for (const row of summary.gaps.freeUncoveredRows.slice(0, 40)) console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}; origin=${row.membershipOrigin}; source=${row.sourceId ?? 'unknown'}`);
 }
 console.log('');
 console.log('## Runnable rows with only one interaction family');
@@ -367,7 +373,5 @@ console.log('');
 if (!summary.gaps.shallowRunnableRows.length) {
   console.log('- None. Every runnable row has at least two interaction families.');
 } else {
-  for (const row of summary.gaps.shallowRunnableRows.slice(0, 40)) {
-    console.log(`- ${row.rowId} — engines=${row.engineFamilies.join(',') || 'none'}; questions=${row.profileQuestions}`);
-  }
+  for (const row of summary.gaps.shallowRunnableRows.slice(0, 40)) console.log(`- ${row.rowId} — engines=${row.engineFamilies.join(',') || 'none'}; questions=${row.profileQuestions}`);
 }
