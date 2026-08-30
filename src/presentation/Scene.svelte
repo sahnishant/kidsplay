@@ -14,7 +14,7 @@
   }
   interface SceneDefinition {
     id: string;
-    theme: 'grass' | 'ocean';
+    theme: 'grass' | 'ocean' | 'paper';
     ariaLabel: string;
     entities: SceneEntity[];
   }
@@ -50,6 +50,12 @@
 {/if}
 
 <style>
+  .scene--paper {
+    background:
+      radial-gradient(circle at 18% 20%, rgba(90, 82, 213, 0.08), transparent 23%),
+      linear-gradient(145deg, #fff 0%, #f6f7fb 100%);
+  }
+
   .scene__entity--icon {
     width: clamp(74px, 21vw, 132px);
     height: clamp(64px, 18vw, 112px);
