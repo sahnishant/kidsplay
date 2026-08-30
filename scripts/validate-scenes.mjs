@@ -4,13 +4,14 @@ const root = new URL('../', import.meta.url);
 const errors = [];
 const allowedThemes = new Set(['grass', 'ocean', 'paper']);
 const allowedKinds = new Set(['icon', 'text']);
-const allowedMotions = new Set(['bounce', 'float', 'pulse', 'wiggle']);
+const allowedMotions = new Set(['bounce', 'float', 'pulse', 'wiggle', 'spin']);
 const allowedIcons = new Set([
   'dog-happy',
   'dog-worried',
   'bone',
   'heart',
   'lungs',
+  'earth',
   'wave',
   'whale',
   'balloon',
