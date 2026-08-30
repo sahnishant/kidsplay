@@ -1,0 +1,148 @@
+[
+  {
+    "id": "vocab.meanings.mcq.enormous.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "single_choice@1",
+    "entryIds": ["enormous"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.meanings.mcq.fragile.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "single_choice@1",
+    "entryIds": ["fragile"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.meanings.mcq.rapid.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "single_choice@1",
+    "entryIds": ["rapid"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.meanings.mcq.ancient.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "single_choice@1",
+    "entryIds": ["ancient"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.meanings.unscramble.enormous.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["enormous"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608301,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.meanings.unscramble.fragile.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["fragile"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608302,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.meanings.unscramble.rapid.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["rapid"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608303,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.meanings.unscramble.ancient.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["ancient"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608304,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.meanings.fill.enormous.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "word_bank_fill@1",
+    "entryIds": ["enormous"],
+    "sentenceTemplate": "{subject} means {blank}.",
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Choose the meaning that completes the sentence."
+  },
+  {
+    "id": "vocab.meanings.fill.fragile.001",
+    "sourceRef": "knowledge.english.vocabulary.meanings.001",
+    "engine": "word_bank_fill@1",
+    "entryIds": ["fragile"],
+    "sentenceTemplate": "{subject} means {blank}.",
+    "distractorCount": 3,
+    "difficulty": 2,
+    "prompt": "Choose the meaning that completes the sentence."
+  },
+  {
+    "id": "vocab.synonyms.mcq.happy.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.synonyms.001",
+    "engine": "single_choice@1",
+    "entryIds": ["happy"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.antonyms.mcq.hot.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.antonyms.001",
+    "engine": "single_choice@1",
+    "entryIds": ["hot"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.homophones.mcq.sea.reverse.001",
+    "sourceRef": "knowledge.english.vocabulary.homophones.001",
+    "engine": "single_choice@1",
+    "entryIds": ["sea"],
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.synonyms.unscramble.clever.001",
+    "sourceRef": "knowledge.english.vocabulary.synonyms.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["clever"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608305,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.antonyms.unscramble.smooth.001",
+    "sourceRef": "knowledge.english.vocabulary.antonyms.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["smooth"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608306,
+    "difficulty": 2
+  },
+  {
+    "id": "vocab.homophones.unscramble.flower.001",
+    "sourceRef": "knowledge.english.vocabulary.homophones.001",
+    "engine": "sequence_order@1",
+    "entryIds": ["flower"],
+    "sequenceMode": "subject_letters",
+    "seed": 202608307,
+    "difficulty": 2
+  }
+]
