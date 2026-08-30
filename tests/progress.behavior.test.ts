@@ -62,6 +62,12 @@ describe('offline progress persistence', () => {
     expect(loadChildSettings()).toEqual(saved);
   });
 
+  it('normalizes whitespace around the child name before display/persistence', () => {
+    const saved = saveChildSettings({ name: '   Dheu   ', avatar: 'fox' });
+    expect(saved.name).toBe('Dheu');
+    expect(loadChildSettings().name).toBe('Dheu');
+  });
+
   it('persists attempts and aggregates row and concept mastery', () => {
     const question = testQuestion();
 
@@ -91,6 +97,22 @@ describe('offline progress persistence', () => {
     expect(summary.masteredKnowledge).toBe(1);
     expect(summary.topics).toHaveLength(17);
     expect(summary.recommendedTopics).toHaveLength(0);
+  });
+
+  it('does not double-count an identical submitted attempt if the UI replays the write', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+    const result = submitResponse(state, question, { selectedOptionIds: ['dog'] });
+    expect(result).not.toBeNull();
+    const attempt = { question, response: state.responses[0], result: result! };
+
+    recordAttempt(attempt);
+    recordAttempt(attempt);
+
+    const progress = loadProgress();
+    expect(progress.attempts).toHaveLength(1);
+    expect(progress.knowledge['kr.test.animals.dog.domestic'].attempts).toBe(1);
+    expect(progress.concepts['test.animals.domestic'].attempts).toBe(1);
   });
 
   it('drops corrupt local evidence instead of letting it distort progress', () => {
