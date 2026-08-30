@@ -10,6 +10,7 @@
   "title": "Class 2 Science Olympiad: 35-Question Pattern Mock",
   "description": "Practice the published 2026–27 section counts: 5 Logical Reasoning, 25 Science and 5 Achievers questions. Questions are Kidsplay-authored, not an official SOF paper.",
   "actionLabel": "Try 35-question mock",
+  "totalQuestions": 35,
   "sections": [
     {
       "id": "logical_reasoning",
