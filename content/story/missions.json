@@ -25,6 +25,82 @@
       ],
       "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Good investigation. You checked the idea instead of guessing, and the puppy is safe." },
       "reward": { "id": "badge.pond-helper", "label": "Pond Helper", "stars": 3 }
+    },
+    {
+      "id": "mission.invisible-air",
+      "title": "The Invisible Air Mystery",
+      "locationRef": "scientu-lab",
+      "status": "prototype",
+      "access": "free",
+      "questionCount": 6,
+      "knowledgeRefs": [
+        "kr.air.moving.name.wind",
+        "kr.air.balloon.contains.air",
+        "kr.air.candle.need.air",
+        "kr.air.windmill.turned-by.wind",
+        "kr.air.kite.moved-by.wind",
+        "kr.air.sailboat.moved-by.wind"
+      ],
+      "openingSceneRef": "scene.air.balloon-candle",
+      "successSceneRef": "scene.air.windmill",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "If we cannot see air, maybe it cannot fill, move or change anything!" },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "Invisible does not mean inactive. Dheu, use the clues from balloons, flames, kites and sails to test that claim." },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will follow the evidence and find what moving air can do." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Excellent. You used different observations to show that air occupies space and moving air can do work." },
+      "reward": { "id": "badge.wind-detective", "label": "Wind Detective", "stars": 3 }
+    },
+    {
+      "id": "mission.rock-lookalikes",
+      "title": "The Rock Look-Alike Case",
+      "locationRef": "shaitanu-hideout",
+      "status": "prototype",
+      "access": "free",
+      "questionCount": 7,
+      "knowledgeRefs": [
+        "kr.rocks.pebble.feature.small-smooth",
+        "kr.rocks.granite.feature.hard",
+        "kr.rocks.marble.use.decorative",
+        "kr.rocks.sandstone.feature.grains",
+        "kr.rocks.pumice.feature.light",
+        "kr.rocks.slate.feature.sheets",
+        "kr.rocks.emerald.type.gemstone"
+      ],
+      "openingSceneRef": "scene.rocks.pumice-water",
+      "successSceneRef": "scene.rocks.pumice-water",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "Rocks are rocks. They all look and behave the same, so there is nothing to investigate here!" },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "A good investigator compares properties. Dheu, check size, texture, layers, grains, uses and special features." },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will sort the clues instead of judging every rock by its colour." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Case solved. Different rocks and minerals can have very different properties and uses." },
+      "reward": { "id": "badge.rock-detective", "label": "Rock Detective", "stars": 3 }
+    },
+    {
+      "id": "mission.night-sky-mixup",
+      "title": "The Night-Sky Mix-Up",
+      "locationRef": "observatory",
+      "status": "prototype",
+      "access": "free",
+      "questionCount": 6,
+      "knowledgeRefs": [
+        "kr.universe.earth.type.planet",
+        "kr.universe.sun.type.star",
+        "kr.universe.moon.type.satellite",
+        "kr.universe.earth.rotation.day-night",
+        "kr.universe.orbit.definition.planet-path",
+        "kr.universe.jupiter.property.largest"
+      ],
+      "openingSceneRef": "scene.universe.earth-rotation",
+      "successSceneRef": "scene.universe.earth-rotation",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "The Sun, Moon, Earth and every bright thing in the sky are basically the same kind of object!" },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "That mixes several ideas together. Dheu, classify the sky objects and trace how Earth moves." },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will separate stars, planets and satellites and follow the movement clues." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Sky map restored. You separated object types from motion and used both kinds of clues correctly." },
+      "reward": { "id": "badge.sky-solver", "label": "Sky Solver", "stars": 3 }
     }
   ]
 }
