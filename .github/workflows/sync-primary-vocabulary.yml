@@ -1,4 +1,4 @@
-name: Sync Primary Vocabulary Corpus
+name: Curate Primary Vocabulary Corpus
 
 on:
   push:
@@ -9,10 +9,10 @@ permissions:
   contents: write
 
 jobs:
-  sync-and-check:
-    name: Sync open corpus and run full check
+  curate-and-check:
+    name: Curate committed corpus and run full check
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 20
 
     steps:
       - name: Checkout
@@ -29,10 +29,7 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Sync compact grade corpus
-        run: npm run lexicon:sync:primary
-
-      - name: Validate compact corpus
+      - name: Validate committed corpus
         run: npm run validate:lexicon-corpus
 
       - name: Build introduction-grade review queues
@@ -41,12 +38,12 @@ jobs:
       - name: Report corpus distribution
         run: npm run report:lexicon-corpus
 
-      - name: Commit corpus and review queues if changed
+      - name: Commit review queues if changed
         shell: bash
         run: |
-          git add content/lexicon/open/primary-grade-corpus.json content/lexicon/open/review-wordlists/
+          git add content/lexicon/open/review-wordlists/
           if git diff --cached --quiet; then
-            echo "Corpus and review queues already current."
+            echo "Review queues already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"

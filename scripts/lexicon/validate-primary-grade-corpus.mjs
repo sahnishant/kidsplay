@@ -6,8 +6,17 @@ const sources = JSON.parse(readFileSync(new URL('content/lexicon/sources.json', 
 const errors = [];
 
 const allowedEntryKeys = new Set(['id', 'word', 'lemma', 'partOfSpeech', 'grade', 'frequency', 'gradeEvidence', 'reviewStatus']);
-const forbiddenTextKeys = new Set(['definition', 'definitions', 'example', 'examples', 'enrichment', 'enrichment_json', 'grade_examples', 'gutenberg_examples', 'pronunciation']);
+const allowedFrequencyKeys = new Set(['zipf', 'perMillion', 'band']);
+const allowedGradeEvidenceKeys = new Set(['reason', 'cefrLevel', 'yleLevel', 'tags']);
 const gradeCounts = Object.fromEntries(Array.from({ length: 6 }, (_, index) => [String(index + 1), 0]));
+
+const rejectUnknownKeys = (object, allowed, prefix) => {
+  if (!object || typeof object !== 'object' || Array.isArray(object)) {
+    errors.push(`${prefix}: expected object`);
+    return;
+  }
+  for (const key of Object.keys(object)) if (!allowed.has(key)) errors.push(`${prefix}: unsupported field ${key}`);
+};
 
 if (corpus.schemaVersion !== 1) errors.push('Primary grade corpus must use schemaVersion 1');
 if (corpus.id !== 'lexicon.primary.english.grade-candidates.001') errors.push(`Unexpected corpus id ${corpus.id}`);
@@ -38,14 +47,14 @@ for (const entry of corpus.entries ?? []) {
   if (!Number.isInteger(entry?.grade) || entry.grade < 1 || entry.grade > 6) errors.push(`${prefix}: grade must be 1-6`);
   else gradeCounts[String(entry.grade)] += 1;
   if (entry?.reviewStatus !== 'candidate') errors.push(`${prefix}: imported row must remain candidate`);
+
+  rejectUnknownKeys(entry, allowedEntryKeys, prefix);
+  rejectUnknownKeys(entry?.frequency, allowedFrequencyKeys, `${prefix}.frequency`);
+  rejectUnknownKeys(entry?.gradeEvidence, allowedGradeEvidenceKeys, `${prefix}.gradeEvidence`);
+
   if (!entry?.frequency || !Object.hasOwn(entry.frequency, 'zipf') || !Object.hasOwn(entry.frequency, 'band')) errors.push(`${prefix}: frequency summary is incomplete`);
   if (!entry?.gradeEvidence || !Array.isArray(entry.gradeEvidence.tags)) errors.push(`${prefix}: grade evidence tags are required`);
-  for (const key of Object.keys(entry ?? {})) {
-    if (!allowedEntryKeys.has(key)) errors.push(`${prefix}: unsupported imported field ${key}`);
-    if (forbiddenTextKeys.has(key)) errors.push(`${prefix}: forbidden source prose field ${key}`);
-  }
-  const serialized = JSON.stringify(entry).toLowerCase();
-  for (const key of forbiddenTextKeys) if (serialized.includes(`\"${key}\"`)) errors.push(`${prefix}: nested forbidden source prose field ${key}`);
+  if (entry?.gradeEvidence?.tags?.some((tag) => typeof tag !== 'string')) errors.push(`${prefix}: grade evidence tags must be strings`);
 }
 
 for (const [grade, count] of Object.entries(gradeCounts)) if (count < 100) errors.push(`Grade ${grade} unexpectedly has only ${count} entries`);
