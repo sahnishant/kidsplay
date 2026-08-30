@@ -9,6 +9,7 @@ const profileIds = new Set((registry.profiles ?? []).map((profile) => profile.id
 const packFiles = readdirSync(new URL('content/packs/', root))
   .filter((name) => name.endsWith('.json'))
   .sort();
+const packs = packFiles.map((file) => ({ file, pack: readJson(`content/packs/${file}`) }));
 const questionFiles = readdirSync(new URL('content/questions/', root))
   .filter((name) => name.endsWith('.json'))
   .sort();
@@ -16,6 +17,7 @@ const questions = questionFiles.flatMap((file) => {
   const value = readJson(`content/questions/${file}`);
   return Array.isArray(value) ? value : [];
 });
+const questionById = new Map(questions.map((question) => [question.id, question]));
 const membershipFiles = readdirSync(new URL('content/profile-memberships/', root))
   .filter((name) => name.endsWith('.json'))
   .sort();
@@ -26,13 +28,50 @@ const memberships = new Map(
   })
 );
 
+const freeRows = new Set();
+for (const { pack } of packs) {
+  if (pack.access?.type !== 'free') continue;
+  for (const questionId of pack.questionRefs ?? []) {
+    const question = questionById.get(questionId);
+    if (!question) continue;
+    for (const rowId of question.knowledgeRefs ?? []) freeRows.add(rowId);
+  }
+}
+
+const seenPackIds = new Set();
+const allowedKnowledgePolicies = new Set(['reuse_free_knowledge', 'goal_specific_knowledge']);
 let goalCount = 0;
-for (const file of packFiles) {
-  const pack = readJson(`content/packs/${file}`);
+let sharedKnowledgeGoalCount = 0;
+
+for (const { file, pack } of packs) {
   const prefix = pack.id ?? file;
+  if (!pack.id || typeof pack.id !== 'string') {
+    errors.push(`${file}: pack requires id`);
+  } else if (seenPackIds.has(pack.id)) {
+    errors.push(`${file}: duplicate pack id ${pack.id}`);
+  } else {
+    seenPackIds.add(pack.id);
+  }
+
+  if (!Array.isArray(pack.questionRefs)) {
+    errors.push(`${prefix}: questionRefs must be an array`);
+  } else {
+    const refs = new Set();
+    for (const questionId of pack.questionRefs) {
+      if (refs.has(questionId)) errors.push(`${prefix}: duplicate questionRef ${questionId}`);
+      refs.add(questionId);
+      if (!questionById.has(questionId)) errors.push(`${prefix}: unknown questionRef ${questionId}`);
+    }
+  }
 
   if (pack.kind === 'goal_path') {
     goalCount += 1;
+    if (!allowedKnowledgePolicies.has(pack.knowledgeAccessPolicy)) {
+      errors.push(
+        `${prefix}: goal_path requires knowledgeAccessPolicy ` +
+        `(reuse_free_knowledge or goal_specific_knowledge)`
+      );
+    }
     if (!pack.profileRef) {
       errors.push(`${prefix}: goal_path requires profileRef`);
     } else if (!profileIds.has(pack.profileRef)) {
@@ -49,6 +88,18 @@ for (const file of packFiles) {
         });
         if (!runnableQuestions.length) {
           errors.push(`${prefix}: profile ${pack.profileRef} has no generated knowledge-backed questions`);
+        }
+
+        if (pack.knowledgeAccessPolicy === 'reuse_free_knowledge') {
+          sharedKnowledgeGoalCount += 1;
+          const missingFreeRows = [...memberRows].filter((rowId) => !freeRows.has(rowId));
+          if (missingFreeRows.length) {
+            const examples = missingFreeRows.slice(0, 8).join(', ');
+            errors.push(
+              `${prefix}: reuse_free_knowledge requires every profile row to be represented in free content; ` +
+              `${missingFreeRows.length} missing (${examples}${missingFreeRows.length > 8 ? ', ...' : ''})`
+            );
+          }
         }
       }
     }
@@ -69,6 +120,6 @@ if (errors.length) {
 } else {
   console.log(
     `Product catalog OK: ${packFiles.length} pack(s), ${goalCount} profile-driven goal(s), ` +
-    `${profileIds.size} learning profile(s).`
+    `${sharedKnowledgeGoalCount} goal(s) reusing free knowledge, ${profileIds.size} learning profile(s).`
   );
 }
