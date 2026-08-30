@@ -140,7 +140,7 @@
           <span class="eyebrow">NEXT FOCUS</span>
           <h3>{progress.recommendedTopics.map((topic) => topic.label).join(' · ')}</h3>
         </div>
-        <span class="saved-note">Lowest current mastery first</span>
+        <span class="saved-note">Weak first, then new topics</span>
       </div>
     {/if}
 
@@ -179,7 +179,7 @@
         </div>
         <div>
           <strong>{goalReadiness.practicedRows}</strong>
-          <span>profile facts practised</span>
+          <span>facts across {goalReadiness.practicedGroups}/{goalReadiness.totalGroups} topic groups</span>
         </div>
         <div>
           <strong>{goalReadiness.readyRows}</strong>
@@ -191,7 +191,7 @@
         </div>
       </div>
       <p class="saved-note">
-        This is a practice signal from local evidence, not an official SOF score or syllabus certification. Row placement is still prototype-unverified.
+        This local practice signal rewards breadth, repeated evidence and accuracy. It is not an official SOF score or syllabus certification, and row placement is still prototype-unverified.
       </p>
     </section>
   {/if}
