@@ -17,7 +17,15 @@ const expected = new Map([
   ['evaporation-separation', 'entity.process.evaporation-separation'],
   ['farmer', 'entity.people.farmer'],
   ['fats', 'entity.nutrient.fats'],
-  ['filtration', 'entity.process.filtration']
+  ['filtration', 'entity.process.filtration'],
+  ['bamboo', 'entity.plant.bamboo'],
+  ['cardamom', 'entity.plant.cardamom'],
+  ['indigo', 'entity.plant.indigo'],
+  ['caregiver', 'entity.people.caregiver'],
+  ['clean-water', 'entity.water.clean-water'],
+  ['families', 'entity.family.families'],
+  ['christmas', 'entity.festival.christmas'],
+  ['mars', 'entity.universe.mars']
 ]);
 
 describe('high-value Class 2 concept visuals', () => {
@@ -30,11 +38,17 @@ describe('high-value Class 2 concept visuals', () => {
     }
   });
 
+  it('reuses existing primitives for equivalent Class 2 semantics', () => {
+    expect(resolveSemanticVisualRefs('plants')).toEqual(['entity.plant.generic']);
+    expect(resolveSemanticVisualRefs('chew-food')).toEqual(['entity.body.teeth']);
+  });
+
   it('supports exact useful labels without fuzzy sentence matching', () => {
     expect(resolveLabelVisualRefs('Air pollution')).toEqual(['entity.air.air-pollution']);
     expect(resolveLabelVisualRefs('Balanced diet')).toEqual(['entity.food.balanced-diet']);
     expect(resolveLabelVisualRefs('Email')).toEqual(['entity.communication.email']);
     expect(resolveLabelVisualRefs('Evaporation')).toEqual(['entity.process.evaporation-separation']);
+    expect(resolveLabelVisualRefs('Christmas')).toEqual(['entity.festival.christmas']);
     expect(resolveLabelVisualRefs('The farmer sends an email after filtration')).toEqual([]);
   });
 
@@ -42,5 +56,6 @@ describe('high-value Class 2 concept visuals', () => {
     expect(resolveSemanticVisualRefs('ancient')).toEqual([]);
     expect(resolveSemanticVisualRefs('natural')).toEqual([]);
     expect(resolveSemanticVisualRefs('control')).toEqual([]);
+    expect(resolveSemanticVisualRefs('different-festivals')).toEqual([]);
   });
 });
