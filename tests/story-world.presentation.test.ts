@@ -1,7 +1,8 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
-import StoryWorld from '../src/ui/StoryWorld.svelte';
+import type { TopicProgressSummary } from '../src/runtime/localProgress';
 import type { StoryProgressSnapshot } from '../src/story/storyProgress';
+import StoryWorld from '../src/ui/StoryWorld.svelte';
 
 function emptyStoryProgress(): StoryProgressSnapshot {
   return {
@@ -11,6 +12,15 @@ function emptyStoryProgress(): StoryProgressSnapshot {
     updatedAt: null
   };
 }
+
+const plantsRecommendation: TopicProgressSummary = {
+  id: 'plants',
+  label: 'Plants',
+  practicedKnowledge: 0,
+  strongKnowledge: 0,
+  accuracy: null,
+  status: 'not_started'
+};
 
 beforeEach(() => {
   window.localStorage.clear();
@@ -28,7 +38,9 @@ describe('Dheu story-world presentation', () => {
         childName: 'Mira',
         childAvatar: 'fox',
         storyProgress: emptyStoryProgress(),
-        onStartMission
+        recommendedTopics: [],
+        onStartMission,
+        onExploreLocation: vi.fn()
       }
     });
 
@@ -48,6 +60,28 @@ describe('Dheu story-world presentation', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Start investigation · 6 clues' }));
     expect(onStartMission).toHaveBeenCalledOnce();
     expect(onStartMission).toHaveBeenCalledWith('mission.puppy-by-pond');
+  });
+
+  it('turns ordinary world locations into expeditions and surfaces Scientu recommendations there', async () => {
+    const onExploreLocation = vi.fn();
+    render(StoryWorld, {
+      props: {
+        childName: 'Mira',
+        childAvatar: 'fox',
+        storyProgress: emptyStoryProgress(),
+        recommendedTopics: [plantsRecommendation],
+        onStartMission: vi.fn(),
+        onExploreLocation
+      }
+    });
+
+    const farm = screen.getByRole('button', { name: 'Farm: explore' });
+    expect(farm.textContent).toContain('Explore this place');
+    expect(farm.textContent).toContain('Scientu suggests · Plants');
+
+    await fireEvent.click(farm);
+    expect(onExploreLocation).toHaveBeenCalledOnce();
+    expect(onExploreLocation).toHaveBeenCalledWith('farm');
   });
 
   it('shows completion and mission stars from separate story progress', () => {
@@ -71,7 +105,9 @@ describe('Dheu story-world presentation', () => {
         childName: '',
         childAvatar: 'owl',
         storyProgress: progress,
-        onStartMission: vi.fn()
+        recommendedTopics: [],
+        onStartMission: vi.fn(),
+        onExploreLocation: vi.fn()
       }
     });
 

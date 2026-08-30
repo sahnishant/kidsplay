@@ -4,7 +4,7 @@
     type StoryCharacterMood,
     type StoryCharacterMotion
   } from '../presentation/StoryCharacter.svelte';
-  import type { AvatarId } from '../runtime/localProgress';
+  import type { AvatarId, TopicProgressSummary } from '../runtime/localProgress';
   import {
     getHeroDisplayName,
     getStoryLocations,
@@ -15,18 +15,22 @@
     storyStarTotal,
     type StoryProgressSnapshot
   } from '../story/storyProgress';
-  import type { StoryCharacterId, StoryMission } from '../story/storyTypes';
+  import type { StoryCharacterId, StoryLocation, StoryMission } from '../story/storyTypes';
 
   let {
     childName,
     childAvatar,
     storyProgress,
-    onStartMission
+    recommendedTopics = [],
+    onStartMission,
+    onExploreLocation = () => {}
   }: {
     childName: string;
     childAvatar: AvatarId;
     storyProgress: StoryProgressSnapshot;
+    recommendedTopics?: TopicProgressSummary[];
     onStartMission: (missionId: string) => void;
+    onExploreLocation?: (locationId: string) => void;
   } = $props();
 
   const locations = getStoryLocations();
@@ -40,6 +44,10 @@
 
   function missionForLocation(locationId: string): StoryMission | undefined {
     return missions.find((mission) => mission.locationRef === locationId);
+  }
+
+  function recommendationForLocation(location: StoryLocation): TopicProgressSummary | undefined {
+    return recommendedTopics.find((topic) => location.topicGroups.includes(topic.id));
   }
 
   function speakerName(speakerRef: StoryCharacterId): string {
@@ -108,21 +116,25 @@
     {#each locations as location}
       {@const mission = missionForLocation(location.id)}
       {@const completed = mission ? isStoryMissionComplete(storyProgress, mission.id) : false}
+      {@const recommendation = recommendationForLocation(location)}
       <button
         class:world-place--mission={Boolean(mission)}
         class:world-place--complete={completed}
+        class:world-place--recommended={Boolean(recommendation)}
         class="world-place"
         style={`--world-x:${location.position.x}%;--world-y:${location.position.y}%`}
         type="button"
-        disabled={!mission}
-        aria-label={mission ? `${location.label}: ${mission.title}` : `${location.label}: more adventures coming`}
-        onclick={() => mission && (selectedMissionId = mission.id)}
+        aria-label={mission ? `${location.label}: ${mission.title}` : `${location.label}: explore`}
+        onclick={() => mission ? (selectedMissionId = mission.id) : onExploreLocation(location.id)}
       >
         <span class="world-place__icon" aria-hidden="true">
           {location.id === 'river-pond' ? '🌊' : location.id === 'farm' ? '🐄' : location.id === 'forest' ? '🌳' : location.id === 'observatory' ? '🔭' : location.id === 'scientu-lab' ? '🔬' : location.id === 'road-school' ? '🚌' : location.id === 'home-garden' ? '🏡' : location.id === 'shaitanu-hideout' ? '🪨' : '🏘️'}
         </span>
         <strong>{location.label}</strong>
-        <small>{mission ? (completed ? 'Mission complete · replay' : 'New mission') : 'More adventures soon'}</small>
+        <small>{mission ? (completed ? 'Mission complete · replay' : 'New mission') : 'Explore this place'}</small>
+        {#if recommendation}
+          <small class="world-place__recommendation">Scientu suggests · {recommendation.label}</small>
+        {/if}
       </button>
     {/each}
   </div>
@@ -302,14 +314,14 @@
     box-shadow: 0 5px 16px rgba(36, 48, 58, 0.08);
   }
 
-  .world-place:disabled {
-    cursor: default;
-    opacity: 0.72;
-  }
-
   .world-place--mission {
     border-color: var(--accent);
     box-shadow: 0 0 0 4px rgba(90, 82, 213, 0.1), 0 8px 20px rgba(36, 48, 58, 0.1);
+  }
+
+  .world-place--recommended {
+    outline: 3px solid rgba(72, 160, 92, 0.28);
+    outline-offset: 2px;
   }
 
   .world-place--complete {
@@ -332,6 +344,11 @@
     font-size: 0.6rem;
     font-weight: 750;
     text-align: center;
+  }
+
+  .world-place__recommendation {
+    margin-top: 3px;
+    color: #277c42 !important;
   }
 
   .mission-intro {

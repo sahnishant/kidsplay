@@ -8,8 +8,15 @@ import {
   getStoryMission,
   getStoryMissions
 } from '../src/story/storyDirector';
+import { createStoryLocationLaunch } from '../src/story/storyLocationDirector';
 
 const MISSION_ID = 'mission.puppy-by-pond';
+
+function rowKnowledgeGroup(rowId: string): string {
+  const parts = rowId.split('.');
+  if (parts[1] === 'choice' && parts[2]) return parts[2];
+  return parts[1] || 'general';
+}
 
 describe('Dheu story-world director', () => {
   it('keeps the durable cast and initial world data-driven', () => {
@@ -42,6 +49,22 @@ describe('Dheu story-world director', () => {
       (question.knowledgeRefs ?? []).some((rowId) => desired.has(rowId))
     )).toBe(true);
     expect([...desired].filter((rowId) => !covered.has(rowId))).toEqual([]);
+  });
+
+  it('makes every story location a targeted expedition through the existing free question bank', () => {
+    for (const location of getStoryLocations()) {
+      const launch = createStoryLocationLaunch(location.id);
+      const allowedTopics = new Set(location.topicGroups);
+
+      expect(launch.session.mode).toBe('free_explore');
+      expect(launch.session.title).toBe(`${location.label} Expedition`);
+      expect(launch.session.questions).toHaveLength(6);
+      expect(new Set(launch.session.questions.map((question) => question.id)).size).toBe(6);
+      expect(launch.session.questions.every((question) => {
+        const refs = question.knowledgeRefs ?? [];
+        return refs.length > 0 && refs.every((rowId) => allowedTopics.has(rowKnowledgeGroup(rowId)));
+      })).toBe(true);
+    }
   });
 
   it('keeps story authoring free of answer/evaluator contracts', () => {

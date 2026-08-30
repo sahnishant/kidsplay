@@ -24,6 +24,7 @@
     onChildChange,
     onStart,
     onStartMission,
+    onExploreLocation,
     onResumeMock
   }: {
     child: ChildSettings;
@@ -36,6 +37,7 @@
     onChildChange: (settings: ChildSettings) => void;
     onStart: (entryId: string) => void;
     onStartMission: (missionId: string) => void;
+    onExploreLocation: (locationId: string) => void;
     onResumeMock: () => void;
   } = $props();
 
@@ -90,7 +92,9 @@
     childName={child.name}
     childAvatar={child.avatar}
     {storyProgress}
+    recommendedTopics={progress.recommendedTopics}
     {onStartMission}
+    {onExploreLocation}
   />
 
   <section class="child-panel" aria-labelledby="child-heading">

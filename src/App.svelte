@@ -34,6 +34,7 @@
     type SessionState
   } from './runtime/session';
   import { createStoryMissionLaunch } from './story/storyDirector';
+  import { createStoryLocationLaunch } from './story/storyLocationDirector';
   import {
     loadStoryProgress,
     recordStoryMissionCompletion
@@ -86,6 +87,19 @@
       startError = null;
     } catch (error) {
       startError = error instanceof Error ? error.message : 'This story mission could not be started.';
+    }
+  }
+
+  function startStoryLocation(locationId: string): void {
+    try {
+      const launch = createStoryLocationLaunch(locationId, progress.knowledge);
+      activeSession = launch.session;
+      activeStoryMission = null;
+      activeEntryId = null;
+      initialSessionState = undefined;
+      startError = null;
+    } catch (error) {
+      startError = error instanceof Error ? error.message : 'This story-world expedition could not be started.';
     }
   }
 
@@ -216,6 +230,7 @@
     onChildChange={handleChildChange}
     onStart={startSession}
     onStartMission={startStoryMission}
+    onExploreLocation={startStoryLocation}
     onResumeMock={resumeMock}
   />
 
