@@ -170,6 +170,23 @@ test.describe('Kidsplay child journeys', () => {
     await expect(sessionFeedback(page)).toBeVisible();
     await expect(page.getByRole('button', { name: /Next|See result/ })).toBeEnabled();
   });
+
+  test('core practice does not depend on a remote runtime origin', async ({ page }) => {
+    const requestUrls: string[] = [];
+    page.on('request', (request) => requestUrls.push(request.url()));
+
+    await openCleanApp(page);
+    const appOrigin = new URL(page.url()).origin;
+    await page.getByRole('button', { name: 'Play free' }).click();
+    await answerCurrentQuestion(page);
+    await expect(sessionFeedback(page)).toBeVisible();
+
+    const remoteRequests = requestUrls.filter((value) => {
+      const url = new URL(value);
+      return (url.protocol === 'http:' || url.protocol === 'https:') && url.origin !== appOrigin;
+    });
+    expect(remoteRequests, 'Packaged learning should not require an API/CDN/remote artwork request').toEqual([]);
+  });
 });
 
 test.describe('Android-like viewport acceptance', () => {
