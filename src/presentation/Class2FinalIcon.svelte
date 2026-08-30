@@ -83,6 +83,16 @@
       <path class="warning" d="M15 13h29L29 39Z" />
       <path class="warning-mark" d="M29 20v9m0 4v1" />
     </g>
+  {:else if icon === 'tonga'}
+    <g>
+      <circle class="tonga-wheel" cx="83" cy="78" r="14" />
+      <path class="tonga-cart" d="M62 51h43l-8 24H68Z" />
+      <path class="tonga-line" d="M64 61 47 59M98 51V32h10" />
+      <path class="tonga-horse" d="M14 63q2-23 19-26 12-13 23-3l8 13-10 10-9-8-2 28H27l-2-19-5 19H8l6-14Z" />
+      <path class="tonga-horse" d="M43 39q-1-19 10-25 14 3 13 17-8 5-15 1l-1 13Z" />
+      <circle class="tonga-eye" cx="58" cy="24" r="2" />
+      <path class="tonga-line" d="M28 77v15m15-15v15M61 48 78 51" />
+    </g>
   {:else if icon === 'television'}
     <g>
       <rect class="tv" x="12" y="21" width="96" height="61" rx="10" />
@@ -99,10 +109,10 @@
 <style>
   .class2-final-icon { width: 100%; height: 100%; overflow: visible; }
   .caravan { fill: #f3d594; stroke: #8b6c37; stroke-width: 2.5; }
-  .roof-line, .hitch, .ray, .ground, .shine, .branch, .orbit, .arrow, .vine, .contour, .pumpkin-line, .stem, .saturn-band, .ring, .ring-front, .collar, .blade, .knife, .handle, .warning-mark, .antenna, .line { fill: none; stroke: #46545c; stroke-width: 2.7; stroke-linecap: round; stroke-linejoin: round; }
+  .roof-line, .hitch, .ray, .ground, .shine, .branch, .orbit, .arrow, .vine, .contour, .pumpkin-line, .stem, .saturn-band, .ring, .ring-front, .collar, .blade, .knife, .handle, .warning-mark, .antenna, .tonga-line, .line { fill: none; stroke: #46545c; stroke-width: 2.7; stroke-linecap: round; stroke-linejoin: round; }
   .window, .screen { fill: #bce8f6; stroke: #4d8193; stroke-width: 2; }
   .door { fill: #bc7d4c; stroke: #754526; stroke-width: 2; }
-  .wheel { fill: #34424a; stroke: #1f292f; stroke-width: 2; }
+  .wheel, .tonga-wheel { fill: #34424a; stroke: #1f292f; stroke-width: 2; }
   .moon { fill: #f1e5a3; stroke: #a99b54; stroke-width: 2.3; }
   .trunk { fill: #9a6b3d; stroke: #664322; stroke-width: 2; }
   .leaf-fill, .leaf { fill: #65aa68; stroke: #39743f; stroke-width: 2; }
@@ -125,6 +135,9 @@
   .knife { fill: #dce3e7; }
   .handle { stroke: #9a633a; stroke-width: 8; }
   .warning { fill: #f2c247; stroke: #9c7620; stroke-width: 2; }
+  .tonga-cart { fill: #c88445; stroke: #78461f; stroke-width: 2.5; }
+  .tonga-horse { fill: #b98250; stroke: #724825; stroke-width: 2.3; stroke-linejoin: round; }
+  .tonga-eye { fill: #2f3437; }
   .tv { fill: #586a75; stroke: #34434b; stroke-width: 2.5; }
   .knob { fill: #d9e2e7; stroke: #34434b; stroke-width: 2; }
   .play { fill: #fff; opacity: .9; }
