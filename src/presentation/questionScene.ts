@@ -64,3 +64,15 @@ export function resolveQuestionSceneId(question: Question, allowInferredScene = 
 export function resolveDashboardSceneId(topicId?: string): string | null {
   return topicId ? dashboardSceneByTopic.get(topicId) ?? null : null;
 }
+
+/**
+ * Used by validation/tests to guarantee that presentation mappings cannot drift
+ * away from the scene registry. Returns a copy so callers cannot mutate maps.
+ */
+export function getReferencedPresentationSceneIds(): string[] {
+  return [...new Set([
+    ...sceneByKnowledgeRef.values(),
+    ...sceneByConceptId.values(),
+    ...dashboardSceneByTopic.values()
+  ])].sort();
+}
