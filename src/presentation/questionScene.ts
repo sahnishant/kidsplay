@@ -39,8 +39,14 @@ const dashboardSceneByTopic = new Map<string, string>([
   ['rocks', 'scene.rocks.pumice-water']
 ]);
 
-export function resolveQuestionSceneId(question: Question): string | null {
+/**
+ * Explicit authored scene stimuli are always authoritative. Inferred scenes are
+ * a learning/presentation aid and can be disabled by assessment surfaces so a
+ * decorative cue never leaks the answer in a mock.
+ */
+export function resolveQuestionSceneId(question: Question, allowInferredScene = true): string | null {
   if (question.stimulus?.type === 'scene') return question.stimulus.sceneId;
+  if (!allowInferredScene) return null;
 
   for (const knowledgeRef of question.knowledgeRefs ?? []) {
     const sceneId = sceneByKnowledgeRef.get(knowledgeRef);
