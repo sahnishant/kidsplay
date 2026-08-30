@@ -4,6 +4,7 @@
   "status": "prototype",
   "title": "Class 2 Science Olympiad: Core Science & EVS",
   "profileRef": "SOF_INDIA_CLASS2",
+  "knowledgeAccessPolicy": "reuse_free_knowledge",
   "access": {
     "type": "purchase",
     "productId": "class2-evs-olympiad"
