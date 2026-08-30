@@ -1,50 +1,52 @@
 # Kidsplay
 
-Android-first educational play system with a strict separation between **question/content data** and **delivery engines**.
+A lightweight, reusable learning game for children. Android is the shipping target; routine development is browser/Node first with Svelte + Capacitor.
 
-## Current direction
+## Start
 
-- Android is the primary shipping target.
-- Normal development is desktop/browser-first: **Svelte 5 + TypeScript + Vite**, using browser-native DOM/SVG/CSS underneath.
-- Svelte is only the UI/presentation layer. Content contracts, evaluation, generators, learning logic and reusable mechanics remain framework-independent TypeScript/data.
-- **Android Studio, Android SDK, Java, Gradle, an emulator, and a phone are not required for ordinary local development.**
-- Capacitor packages the same browser runtime as Android when we need a native build.
-- GitHub Actions continuously verifies the Android APK so contributors can stay on the lightweight desktop loop.
-- Questions, learnables, scenes and learning packs live as data.
-- Interaction engines contain no curriculum answers or paid/free logic.
-- Current interactions include single choice, word-bank fill, drag-to-target, word search, relationship-based memory pairs, ordering, hotspot selection, crossword and maze path.
-- Memory pairs are semantic: `DOG ↔ PET ANIMAL`, `TIGER ↔ WILD ANIMAL`, `A ↔ a`, etc. Matching identical cards is only one possible content pattern.
-- No general-purpose game engine, SvelteKit, router, state library or database is included. Add heavier infrastructure only when a real requirement justifies it.
-
-## Local development — Node.js only
-
-Prerequisite: Node.js 22+ (npm is included with Node).
-
-```bash
-npm install
+```powershell
+npm ci
 npm run dev
 ```
 
-Open the local URL printed by Vite in any desktop browser.
+## Validate
 
-To validate all content, type-check Svelte/TypeScript and compile the browser runtime:
-
-```bash
+```powershell
 npm run check
 ```
 
-Neither command needs Android tooling.
+`npm run check` compiles and validates content, engines, scenes, story, profiles/alignment, assessment blueprints, traceability, product rules, semantic visuals and admitted third-party assets; runs Svelte/type checks, production build, bundle-budget validation and behavior tests.
 
-## Optional local Android work
+Browser child journeys are covered separately by Playwright in the Browser Smoke workflow. Android CI builds a debug APK through Capacitor + Gradle.
 
-Only when you specifically want to generate/open the native Android project locally do you need Android SDK/JDK tooling:
+## Architecture
 
-```bash
-npm run android:add
-npm run android:sync
-npm run android:open
+```text
+canonical knowledge
+→ profile/planner
+→ formatter/question bank
+→ reusable interaction engine
+→ evaluator
+→ persisted local progress
 ```
 
-For routine work, let GitHub Actions build the debug APK instead.
+Story and presentation sit above that pipeline and do not own answer truth:
 
-See `docs/ANDROID.md`, `docs/ARCHITECTURE.md`, `docs/OPEN_SOURCE_RESEARCH.md`, and `docs/ENGINE_RESEARCH.md`.
+```text
+story mission / semantic visual
+→ existing reusable questions / visual registry
+→ engine + evaluator / OSS-or-Kidsplay artwork
+```
+
+Do not add another question/evaluation architecture, heavy game framework or broad runtime dependency without a demonstrated failing use case.
+
+## Current project state
+
+Use these durable sources rather than old chat context or intermediate checkpoints:
+
+- GitHub issue **#1** — canonical live execution tracker.
+- `docs/WORK_TARGETS.md` — detailed current product/technical state and remaining work.
+- `docs/SOF_EVIDENCE_STATUS.md` — exact official-evidence checkpoint.
+- GitHub issue **#33** — real-device Android beta acceptance.
+
+Broad foundational learning is intended to remain free; structured goal programmes, diagnostics, adaptation and mocks are the primary paid-value layer rather than duplicated fact content.
