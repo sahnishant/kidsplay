@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
-import { resolveQuestionSceneId } from '../src/presentation/questionScene';
+import {
+  resolveDashboardSceneId,
+  resolveQuestionSceneId
+} from '../src/presentation/questionScene';
 
 function question(overrides: Partial<SingleChoiceQuestion> = {}): SingleChoiceQuestion {
   return {
@@ -33,6 +36,24 @@ describe('lightweight question presentation', () => {
     expect(resolveQuestionSceneId(question())).toBe('scene.dog.happy-bone');
   });
 
+  it('maps additional exact canonical facts to reusable motion scenes', () => {
+    expect(
+      resolveQuestionSceneId(
+        question({ conceptIds: ['air.properties.windmill'], knowledgeRefs: ['kr.air.windmill.turned-by.wind'] })
+      )
+    ).toBe('scene.air.windmill');
+    expect(
+      resolveQuestionSceneId(
+        question({ conceptIds: ['water.sources.sea'], knowledgeRefs: ['kr.water.sea.feature.salty'] })
+      )
+    ).toBe('scene.water.sea-salty');
+    expect(
+      resolveQuestionSceneId(
+        question({ conceptIds: ['plants.importance.air'], knowledgeRefs: ['kr.plants.general.air.cool-fresh'] })
+      )
+    ).toBe('scene.plants.air-fresh');
+  });
+
   it('keeps an explicit authored stimulus authoritative', () => {
     expect(
       resolveQuestionSceneId(
@@ -47,5 +68,11 @@ describe('lightweight question presentation', () => {
         question({ conceptIds: ['unknown.concept'], knowledgeRefs: ['kr.unknown.row'] })
       )
     ).toBeNull();
+  });
+
+  it('only exposes dashboard scenes for topics with a meaningful reusable visual', () => {
+    expect(resolveDashboardSceneId('animals')).toBe('scene.dog.happy-bone');
+    expect(resolveDashboardSceneId('air')).toBe('scene.air.windmill');
+    expect(resolveDashboardSceneId('human')).toBeNull();
   });
 });
