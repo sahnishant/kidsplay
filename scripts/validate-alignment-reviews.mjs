@@ -26,6 +26,7 @@ const allowedStatuses = new Set(['partial', 'completed']);
 const allowedEvidenceTypes = new Set(['official_scope', 'assessment_format', 'direct_fact', 'direct_skill']);
 const rowEvidenceTypes = new Set(['direct_fact', 'direct_skill']);
 const allowedDecisions = new Set(['keep', 'remove', 'refit']);
+const allowedTemporalBases = new Set(['current_year', 'historical_class2']);
 const officialSourceTypes = new Set(['official_syllabus', 'official_assessment', 'official_reference']);
 
 for (const fileName of reviewFiles) {
@@ -40,13 +41,20 @@ for (const fileName of reviewFiles) {
   if (!isDate(review.reviewedAt)) errors.push(`${prefix}: reviewedAt must be YYYY-MM-DD`);
 
   const memberByRow = new Map((membership?.members ?? []).map((member) => [member.rowId, member]));
+  const currentAcademicYear = membership?.provenance?.academicYear;
+  let hasCurrentYearScopeEvidence = false;
 
   for (const [index, evidence] of (review.scopeEvidence ?? []).entries()) {
     const evidencePrefix = `${prefix}/scopeEvidence[${index}]`;
     const source = sourceById.get(evidence.sourceRef);
     if (!source) errors.push(`${evidencePrefix}: unknown sourceRef ${evidence.sourceRef}`);
-    else if (!officialSourceTypes.has(source.type) || source.status !== 'reviewed') {
-      errors.push(`${evidencePrefix}: evidence source must be a reviewed official source`);
+    else {
+      if (!officialSourceTypes.has(source.type) || source.status !== 'reviewed') {
+        errors.push(`${evidencePrefix}: evidence source must be a reviewed official source`);
+      }
+      if (hasText(currentAcademicYear) && source.academicYear === currentAcademicYear) {
+        hasCurrentYearScopeEvidence = true;
+      }
     }
     if (!allowedEvidenceTypes.has(evidence.evidenceType)) {
       errors.push(`${evidencePrefix}: unsupported evidenceType ${evidence.evidenceType}`);
@@ -74,8 +82,31 @@ for (const fileName of reviewFiles) {
       errors.push(`${evidencePrefix}: evidenceType must be direct_fact or direct_skill`);
     }
     if (!allowedDecisions.has(evidence.decision)) errors.push(`${evidencePrefix}: unsupported decision ${evidence.decision}`);
+    if (!allowedTemporalBases.has(evidence.temporalBasis)) {
+      errors.push(`${evidencePrefix}: temporalBasis must be current_year or historical_class2`);
+    }
     if (!hasText(evidence.locator)) errors.push(`${evidencePrefix}: locator is required`);
     if (!hasText(evidence.note)) errors.push(`${evidencePrefix}: note is required`);
+
+    if (source && evidence.temporalBasis === 'current_year') {
+      if (!hasText(currentAcademicYear)) {
+        errors.push(`${evidencePrefix}: current_year evidence requires profile academicYear`);
+      } else if (source.academicYear !== currentAcademicYear) {
+        errors.push(`${evidencePrefix}: current_year evidence source year ${source.academicYear ?? 'none'} must match profile year ${currentAcademicYear}`);
+      }
+    }
+
+    if (source && evidence.temporalBasis === 'historical_class2') {
+      if (source.type !== 'official_assessment') {
+        errors.push(`${evidencePrefix}: historical_class2 evidence must come from an official assessment`);
+      }
+      if (!hasText(source.academicYear) || source.academicYear === currentAcademicYear) {
+        errors.push(`${evidencePrefix}: historical_class2 evidence must come from a different named academic year`);
+      }
+      if (!hasCurrentYearScopeEvidence) {
+        errors.push(`${evidencePrefix}: historical_class2 evidence requires current-year official scope evidence in the same review`);
+      }
+    }
 
     const member = memberByRow.get(evidence.rowId);
     if (evidence.decision === 'keep' && evidence.fit !== member?.fit) {
@@ -96,5 +127,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Alignment review OK: ${reviewFiles.length} review file(s) with validated official evidence references.`);
+  console.log(`Alignment review OK: ${reviewFiles.length} review file(s) with validated official evidence references and temporal basis.`);
 }
