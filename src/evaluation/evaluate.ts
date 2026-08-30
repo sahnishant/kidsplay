@@ -1,4 +1,4 @@
-import type { Question } from '../contracts/question';
+import type { MazePathQuestion, Question } from '../contracts/question';
 import type { EvaluationResult } from '../contracts/runtime';
 import { canTravel } from '../mechanics/maze';
 
@@ -31,7 +31,7 @@ function recordAnswerScore(
   return boundedScore(correctParts, totalParts);
 }
 
-function isValidMazePath(question: Extract<Question, { solution: { type: 'maze_goal' } }>, path: number[]): boolean {
+function isValidMazePath(question: MazePathQuestion, path: number[]): boolean {
   const { interaction, solution } = question;
   if (!path.length || path[0] !== interaction.startIndex || path[path.length - 1] !== solution.goalIndex) return false;
   if (solution.goalIndex !== interaction.goalIndex) return false;
@@ -103,7 +103,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
       (_id, answer, actual) => normalizeTextAnswer(actual) === normalizeTextAnswer(answer)
     );
   }
-  if (question.solution.type === 'maze_goal') {
+  if (question.solution.type === 'maze_goal' && question.interaction.type === 'maze_path') {
     const payload = response as { pathIndices?: unknown };
     const path = Array.isArray(payload?.pathIndices) ? payload.pathIndices.filter((value): value is number => Number.isInteger(value)) : [];
     score = isValidMazePath(question, path) ? 1 : 0;
