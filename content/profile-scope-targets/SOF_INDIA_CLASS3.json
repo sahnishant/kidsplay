@@ -1,0 +1,144 @@
+{
+  "schemaVersion": 1,
+  "profileRef": "SOF_INDIA_CLASS3",
+  "academicYear": "2026-27",
+  "provenance": {
+    "status": "reviewed_scope_only",
+    "sourceRefs": ["sof.iso.class3.syllabus.current"],
+    "placementBasis": "official_topic_headings_only",
+    "note": "Topic headings establish breadth targets only. Prefix matches and reuse candidates are Kidsplay editorial tooling and are not exact SOF row-level evidence."
+  },
+  "level1Mix": {
+    "currentClassPercent": 60,
+    "previousClassPercent": 40,
+    "achieversCurrentClassOnly": true
+  },
+  "families": [
+    {
+      "section": "science",
+      "id": "plants_animals",
+      "label": "Plants and Animals",
+      "rowPrefixes": ["kr.sof3.plants.", "kr.sof3.animals.", "kr.plants.", "kr.animals."]
+    },
+    {
+      "section": "science",
+      "id": "birds",
+      "label": "Birds",
+      "rowPrefixes": ["kr.sof3.birds."]
+    },
+    {
+      "section": "science",
+      "id": "food",
+      "label": "Food",
+      "rowPrefixes": ["kr.sof3.food.", "kr.food."]
+    },
+    {
+      "section": "science",
+      "id": "housing_clothing_occupation",
+      "label": "Housing, Clothing and Occupation",
+      "rowPrefixes": ["kr.sof3.housing.", "kr.sof3.clothing.", "kr.sof3.occupation.", "kr.housing.", "kr.clothing."]
+    },
+    {
+      "section": "science",
+      "id": "transport_communication_safety",
+      "label": "Transport, Communication and Safety Rules",
+      "rowPrefixes": ["kr.sof3.transport.", "kr.sof3.communication.", "kr.sof3.safety.", "kr.transport.", "kr.communication.", "kr.safety."]
+    },
+    {
+      "section": "science",
+      "id": "human_body",
+      "label": "Human Body",
+      "rowPrefixes": ["kr.sof3.human.", "kr.human."]
+    },
+    {
+      "section": "science",
+      "id": "earth_universe",
+      "label": "Earth and Universe",
+      "rowPrefixes": ["kr.sof3.earth.", "kr.sof3.universe.", "kr.universe."]
+    },
+    {
+      "section": "science",
+      "id": "matter_materials",
+      "label": "Matter and Materials",
+      "rowPrefixes": ["kr.sof3.matter.", "kr.sof3.material."]
+    },
+    {
+      "section": "science",
+      "id": "light_sound_force",
+      "label": "Light, Sound and Force",
+      "rowPrefixes": ["kr.sof3.light.", "kr.sof3.sound.", "kr.sof3.force."]
+    },
+    {
+      "section": "science",
+      "id": "environment",
+      "label": "Our Environment",
+      "rowPrefixes": ["kr.sof3.environment.", "kr.environment."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "patterns",
+      "label": "Patterns",
+      "rowPrefixes": ["kr.reasoning.pattern."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "analogy_classification",
+      "label": "Analogy and Classification",
+      "rowPrefixes": ["kr.reasoning.analogy.", "kr.reasoning.odd-one-out."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "alphabet_test",
+      "label": "Alphabet Test",
+      "rowPrefixes": ["kr.reasoning.alphabet."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "coding_decoding",
+      "label": "Coding-Decoding",
+      "rowPrefixes": ["kr.reasoning.coding."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "ranking_test",
+      "label": "Ranking Test",
+      "rowPrefixes": ["kr.reasoning.ranking."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "grouping_figure_matrix",
+      "label": "Grouping of Figures and Figure Matrix",
+      "rowPrefixes": ["kr.reasoning.grouping.", "kr.reasoning.figure-matrix."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "mirror_images",
+      "label": "Mirror Images",
+      "rowPrefixes": ["kr.reasoning.mirror."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "geometrical_shapes",
+      "label": "Geometrical Shapes",
+      "rowPrefixes": ["kr.reasoning.shapes."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "embedded_figures",
+      "label": "Embedded Figures",
+      "rowPrefixes": ["kr.reasoning.embedded-figures."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "possible_combinations",
+      "label": "Possible Combinations",
+      "rowPrefixes": ["kr.reasoning.combinations."]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "clock_calendar",
+      "label": "Clock and Calendar",
+      "rowPrefixes": ["kr.reasoning.clock.", "kr.reasoning.calendar."]
+    }
+  ]
+}
