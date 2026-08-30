@@ -64,10 +64,15 @@ describe('lightweight question presentation', () => {
     ).toBe('scene.plants.air-fresh');
   });
 
-  it('keeps an explicit authored stimulus authoritative', () => {
+  it('can suppress inferred learning cues for assessment surfaces', () => {
+    expect(resolveQuestionSceneId(question(), false)).toBeNull();
+  });
+
+  it('keeps an explicit authored stimulus authoritative even when inference is disabled', () => {
     expect(
       resolveQuestionSceneId(
-        question({ stimulus: { type: 'scene', sceneId: 'scene.dog.wrong-water' } })
+        question({ stimulus: { type: 'scene', sceneId: 'scene.dog.wrong-water' } }),
+        false
       )
     ).toBe('scene.dog.wrong-water');
   });
