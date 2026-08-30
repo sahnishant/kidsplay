@@ -1,5 +1,6 @@
 import { readdirSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { normalizeData } from './normalizers/registry.mjs';
+import { membershipMap, resolveMembership } from './profileMemberships.mjs';
 
 const root = new URL('../', import.meta.url);
 const knowledgeDirectory = new URL('content/knowledge/', root);
@@ -22,7 +23,9 @@ const skillIds = new Set((taxonomy.skills ?? []).map((skill) => skill.id));
 const profileById = new Map((profileRegistry.profiles ?? []).map((profile) => [profile.id, profile]));
 const allowedFits = new Set(taxonomy.placementFits ?? []);
 const sources = readObjects(knowledgeDirectory);
-const memberships = readObjects(profileDirectory);
+const rawMemberships = readObjects(profileDirectory);
+const membershipByRef = membershipMap(rawMemberships);
+const memberships = rawMemberships.map((membership) => resolveMembership(membershipByRef, membership.profileRef));
 
 const rowsById = new Map();
 const index = [];
@@ -62,12 +65,19 @@ for (const membership of memberships) {
   const seen = new Set();
   for (const member of membership.members ?? []) {
     if (!String(member.rowId ?? '').trim()) throw new Error(`${membership.profileRef}: every member requires rowId`);
-    if (seen.has(member.rowId)) throw new Error(`${membership.profileRef}: duplicate member ${member.rowId}`);
+    if (seen.has(member.rowId)) throw new Error(`${membership.profileRef}: duplicate effective member ${member.rowId}`);
     seen.add(member.rowId);
     const row = rowsById.get(member.rowId);
     if (!row) throw new Error(`${membership.profileRef}: unknown knowledge rowId ${member.rowId}`);
     if (!allowedFits.has(member.fit)) throw new Error(`${membership.profileRef}/${member.rowId}: unknown fit ${member.fit}`);
-    row.profiles.push({ ...profile, profileRef: profile.id, fit: member.fit });
+    row.profiles.push({
+      ...profile,
+      profileRef: profile.id,
+      fit: member.fit,
+      membershipOrigin: member.membershipOrigin ?? 'direct',
+      membershipSourceProfileRef: member.membershipSourceProfileRef ?? membership.profileRef,
+      inclusionReason: member.inclusionReason ?? null
+    });
   }
 }
 
