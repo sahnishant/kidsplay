@@ -2,6 +2,7 @@
   import SceneIcon from './SceneIcon.svelte';
   import EntityIcon from './EntityIcon.svelte';
   import UtilityIcon from './UtilityIcon.svelte';
+  import NatureSpaceIcon from './NatureSpaceIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
 
@@ -39,6 +40,8 @@
         <SceneIcon icon={sceneIcon(visual.glyph)} />
       {:else if visual.renderer === 'utility-icon'}
         <UtilityIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'nature-space-icon'}
+        <NatureSpaceIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}
