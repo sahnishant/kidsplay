@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { CatalogEntry, GoalReadinessSummary } from '../content';
   import Avatar from '../presentation/Avatar.svelte';
+  import Scene from '../presentation/Scene.svelte';
+  import { resolveDashboardSceneId } from '../presentation/questionScene';
   import type {
     AvatarId,
     ChildSettings,
@@ -42,6 +44,10 @@
   let visibleTopics = $derived(
     progress.topics.filter((topic) => topic.practicedKnowledge > 0 || defaultMapTopics.has(topic.id))
   );
+  let motionTopic = $derived(
+    [...progress.recommendedTopics, ...visibleTopics].find((topic) => Boolean(resolveDashboardSceneId(topic.id)))
+  );
+  let dashboardSceneId = $derived(resolveDashboardSceneId(motionTopic?.id) ?? 'scene.dog.happy-bone');
 
   const topicStatusLabels: Record<TopicProgressStatus, string> = {
     not_started: 'Not started',
@@ -129,6 +135,21 @@
     <div>
       <strong>{progress.accuracy === null ? '—' : `${Math.round(progress.accuracy * 100)}%`}</strong>
       <span>accuracy</span>
+    </div>
+  </section>
+
+  <section class="motion-preview" aria-labelledby="motion-preview-heading">
+    <div class="motion-preview__copy">
+      <span class="eyebrow">MOTION MOMENT</span>
+      <h2 id="motion-preview-heading">See an idea move</h2>
+      <p>
+        {motionTopic
+          ? `A tiny animated cue for ${motionTopic.label}. The same lightweight scene can be reused inside matching questions.`
+          : 'A tiny animated science cue. These reusable scenes also appear inside matching questions.'}
+      </p>
+    </div>
+    <div class="motion-preview__scene">
+      <Scene sceneId={dashboardSceneId} />
     </div>
   </section>
 
