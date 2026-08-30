@@ -21,6 +21,7 @@ if (!blueprintFiles.length) fail('no blueprint files found');
 
 const seenIds = new Set();
 let totalSlots = 0;
+let totalMarks = 0;
 
 for (const file of blueprintFiles) {
   const blueprint = readJson(`content/assessment-blueprints/${file}`);
@@ -41,6 +42,7 @@ for (const file of blueprintFiles) {
     if (typeof blueprint[field] !== 'string' || !blueprint[field].trim()) fail(`${file} needs ${field}`);
   }
   if (!Number.isInteger(blueprint.totalQuestions) || blueprint.totalQuestions <= 0) fail(`${file} needs a positive integer totalQuestions`);
+  if (!Number.isInteger(blueprint.totalMarks) || blueprint.totalMarks <= 0) fail(`${file} needs a positive integer totalMarks`);
 
   if (!Array.isArray(blueprint.sourceRefs) || !blueprint.sourceRefs.length) fail(`${file} needs sourceRefs`);
   const uniqueSourceRefs = new Set(blueprint.sourceRefs);
@@ -60,19 +62,31 @@ for (const file of blueprintFiles) {
   if (!Array.isArray(blueprint.sections) || !blueprint.sections.length) fail(`${file} needs sections`);
   const sectionIds = new Set();
   let sectionTotal = 0;
+  let sectionMarksTotal = 0;
   for (const section of blueprint.sections) {
     if (typeof section.id !== 'string' || !section.id) fail(`${file} has a section without id`);
     if (sectionIds.has(section.id)) fail(`${file} has duplicate section id ${section.id}`);
     sectionIds.add(section.id);
     if (typeof section.title !== 'string' || !section.title.trim()) fail(`${file} section ${section.id} needs title`);
     if (!Number.isInteger(section.count) || section.count <= 0) fail(`${file} section ${section.id} needs a positive integer count`);
+    if (!Number.isInteger(section.marksPerQuestion) || section.marksPerQuestion <= 0) {
+      fail(`${file} section ${section.id} needs a positive integer marksPerQuestion`);
+    }
     if (!allowedSelectors.has(section.selector)) fail(`${file} section ${section.id} has unsupported selector ${section.selector}`);
     sectionTotal += section.count;
+    sectionMarksTotal += section.count * section.marksPerQuestion;
   }
   if (sectionTotal !== blueprint.totalQuestions) {
     fail(`${file} section count ${sectionTotal} does not equal totalQuestions ${blueprint.totalQuestions}`);
   }
+  if (sectionMarksTotal !== blueprint.totalMarks) {
+    fail(`${file} section marks ${sectionMarksTotal} do not equal totalMarks ${blueprint.totalMarks}`);
+  }
   totalSlots += blueprint.totalQuestions;
+  totalMarks += blueprint.totalMarks;
 }
 
-console.log(`Assessment blueprint OK: ${blueprintFiles.length} blueprint(s), ${totalSlots} validated question slot(s).`);
+console.log(
+  `Assessment blueprint OK: ${blueprintFiles.length} blueprint(s), ` +
+  `${totalSlots} validated question slot(s), ${totalMarks} validated mark(s).`
+);
