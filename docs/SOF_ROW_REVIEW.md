@@ -11,8 +11,8 @@ The current profile may be used for prototype practice and product testing. It m
 - Broad Class 2 scope is backed by the reviewed current SOF syllabus/workbook source registry.
 - Profile membership currently contains **182 canonical rows**.
 - The partial evidence file at `content/alignment-reviews/SOF_INDIA_CLASS2.json` records **26 reproducible row/skill anchors**.
-- **11** anchors use current-year direct evidence.
-- **15** anchors use historical official Class 2 assessment evidence with an explicit per-row current-year scope source and locator.
+- **13** anchors use current-year direct evidence.
+- **13** anchors use historical official Class 2 assessment evidence with an explicit per-row current-year scope source and locator.
 - **156** profile rows remain pending exact row/skill evidence.
 - All currently retained evidence uses `fitBasis: editorial_retained`; none of Kidsplay's `core`, `review`, `stretch` or `challenge` labels are represented as SOF-supplied difficulty labels.
 - Goal sessions, diagnostics, readiness and mixed mocks may use the profile only while the product remains explicitly prototype.
@@ -40,7 +40,7 @@ The normal alignment gate runs both profile/scope validation and evidence-file v
 npm run validate:alignment
 ```
 
-The evidence validator rejects unknown profile rows, unknown/non-reviewed sources, duplicate evidence, invalid evidence types/locators, mismatched `fit`, missing temporal basis, invalid fit basis, unsafe historical evidence and a falsely `completed` review.
+The validators reject non-canonical membership/evidence rows, unknown/non-reviewed sources, duplicate evidence/source references, invalid evidence types/locators, mismatched `fit`, profile/membership year drift, missing temporal basis, invalid fit basis, unsafe historical evidence and a falsely `completed` review.
 
 Historical evidence has a stricter per-row contract: every historical row must carry both `currentScopeSourceRef` and `currentScopeLocator`, and the source ref must point to current-year `official_scope` evidence already recorded in the same review. This prevents a historical paper from silently becoming a current-year curriculum claim.
 
@@ -85,7 +85,7 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 
 ## Evidence currently recorded
 
-### Current-year direct anchors — 11
+### Current-year direct anchors — 13
 
 - `kr.universe.earth.rotation.day-night`
 - `kr.reasoning.ranking.position.between`
@@ -98,8 +98,10 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 - `kr.water.sea.feature.salty`
 - `kr.earth.plateau.alias.tableland`
 - `kr.universe.orbit.definition.planet-path`
+- `kr.animals.rhinoceros.threat.killed-for-horns`
+- `kr.safety.road-sign.steep-descent`
 
-### Historical official Class 2 anchors — 15
+### Historical official Class 2 anchors — 13
 
 - `kr.reasoning.ranking.height.shortest`
 - `kr.human.skin.sense.touch`
@@ -110,20 +112,18 @@ A checked row therefore means “direct reproducible inclusion evidence exists,�
 - `kr.universe.mercury.position.closest-sun`
 - `kr.universe.earth.position.third`
 - `kr.family.family-tree.purpose.relationships`
-- `kr.animals.rhinoceros.threat.killed-for-horns`
 - `kr.air.kite.moved-by.wind`
 - `kr.air.sailboat.moved-by.wind`
-- `kr.safety.road-sign.steep-descent`
 - `kr.plants.leaves.function.make-food`
 - `kr.plants.flower.function.make-seeds`
 
-The historical source set currently uses reviewed official Class 2 samples from 2025–26, 2024–25, 2022–23 and 2019–20. The 2024–25 source supersedes the removed 2023–24 registry reference for the skin/cousin/wool/tonga anchors.
+The historical source set currently uses reviewed official Class 2 samples from 2025–26, 2024–25, 2022–23 and 2019–20. Two rows previously using the 2025–26 paper (rhinoceros/horns and steep-descent sign) now use direct 2026–27 sample-paper anchors instead.
 
 ## Promotion rule
 
 Only promote profile provenance from `prototype_unverified` after the exact reviewed scope intended for the product has a reproducible evidence trail. Rows without sufficient evidence should remain explicitly prototype, move to free exploration only, or be removed from the verified profile.
 
-If `content/alignment-reviews/SOF_INDIA_CLASS2.json` is ever marked `completed`, CI requires row evidence for every member. Completion still does not convert editorial fit values into official SOF labels.
+If `content/alignment-reviews/SOF_INDIA_CLASS2.json` is ever marked `completed`, CI requires retained/refit evidence for every current member. Historical `remove` records may remain in the review as audit history. Completion still does not convert editorial fit values into official SOF labels.
 
 ## Product rule while review is pending
 
