@@ -1,0 +1,21 @@
+[
+  { "id": "entity.universe.moon", "renderer": "nature-space-icon", "glyph": "moon", "label": "Moon", "motion": "float", "aliases": ["moon"] },
+  { "id": "entity.universe.star", "renderer": "nature-space-icon", "glyph": "star", "label": "Star", "motion": "pulse", "aliases": ["star", "stars"] },
+  { "id": "entity.universe.planet", "renderer": "nature-space-icon", "glyph": "planet", "label": "Planet", "motion": "spin", "aliases": ["planet", "planets"] },
+  { "id": "entity.universe.day-night", "renderer": "nature-space-icon", "glyph": "day-night", "label": "Day and night", "motion": "pulse", "aliases": ["day and night", "day changing to night and back"] },
+
+  { "id": "entity.water.river", "renderer": "nature-space-icon", "glyph": "river", "label": "River", "motion": "drift", "aliases": ["river"] },
+  { "id": "entity.water.pond", "renderer": "nature-space-icon", "glyph": "pond", "label": "Pond", "motion": "float", "aliases": ["pond"] },
+  { "id": "entity.water.well", "renderer": "nature-space-icon", "glyph": "well", "label": "Well", "motion": "idle", "aliases": ["well"] },
+
+  { "id": "entity.weather.rain", "renderer": "nature-space-icon", "glyph": "rain", "label": "Rain", "motion": "drift", "aliases": ["rain", "rainy"] },
+  { "id": "entity.weather.rainbow", "renderer": "nature-space-icon", "glyph": "rainbow", "label": "Rainbow", "motion": "pulse", "aliases": ["rainbow"] },
+  { "id": "entity.weather.lightning", "renderer": "nature-space-icon", "glyph": "lightning", "label": "Lightning", "motion": "pulse", "aliases": ["lightning"] },
+  { "id": "entity.weather.snow", "renderer": "nature-space-icon", "glyph": "snow", "label": "Snow", "motion": "drift", "aliases": ["snow", "snowy"] },
+
+  { "id": "entity.plant.seed", "renderer": "nature-space-icon", "glyph": "seed", "label": "Seed", "motion": "pulse", "aliases": ["seed", "seeds"] },
+  { "id": "entity.plant.roots", "renderer": "nature-space-icon", "glyph": "roots", "label": "Roots", "motion": "sway", "aliases": ["root", "roots"] },
+  { "id": "entity.plant.stem", "renderer": "nature-space-icon", "glyph": "stem", "label": "Stem", "motion": "sway", "aliases": ["stem"] },
+  { "id": "entity.plant.fruit", "renderer": "nature-space-icon", "glyph": "fruit", "label": "Fruit", "motion": "sway", "aliases": ["fruit", "fruits"] },
+  { "id": "entity.landform.mountain", "renderer": "nature-space-icon", "glyph": "mountain", "label": "Mountain", "motion": "idle", "aliases": ["mountain", "mountains"] }
+]
