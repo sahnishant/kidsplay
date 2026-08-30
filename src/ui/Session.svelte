@@ -11,7 +11,8 @@
     createSessionState,
     replaySession,
     submitResponse,
-    summarizeSectionResults
+    summarizeSectionResults,
+    type SessionState
   } from '../runtime/session';
   import EngineHost from './EngineHost.svelte';
 
@@ -21,7 +22,10 @@
     sections = [],
     childName = '',
     childAvatar = 'fox',
+    initialState,
     onAttempt,
+    onCheckpoint,
+    onComplete,
     onExit
   }: {
     title: string;
@@ -29,11 +33,14 @@
     sections?: SessionSection[];
     childName?: string;
     childAvatar?: AvatarId;
+    initialState?: SessionState;
     onAttempt?: (attempt: SessionAttempt) => void;
+    onCheckpoint?: (state: SessionState) => void;
+    onComplete?: (state: SessionState) => void;
     onExit?: () => void;
   } = $props();
 
-  let state = $state(createSessionState());
+  let state = $state(initialState ?? createSessionState());
   let question = $derived(questions[state.index]);
   let correctCount = $derived(state.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
@@ -53,7 +60,22 @@
     const storedResponse = state.responses[state.responses.length - 1];
     if (result && storedResponse) {
       onAttempt?.({ question, response: storedResponse, result });
+      onCheckpoint?.(state);
     }
+  }
+
+  function handleAdvance(): void {
+    advanceSession(state);
+    if (state.index >= questions.length) {
+      onComplete?.(state);
+    } else {
+      onCheckpoint?.(state);
+    }
+  }
+
+  function handleReplay(): void {
+    replaySession(state);
+    onCheckpoint?.(state);
   }
 </script>
 
@@ -82,6 +104,10 @@
         </div>
       {/if}
 
+      {#if onCheckpoint}
+        <div class="saved-session-note">Mock progress saves on this device</div>
+      {/if}
+
       {#if question.stimulus?.type === 'scene'}
         <Scene sceneId={question.stimulus.sceneId} />
       {/if}
@@ -108,7 +134,7 @@
           <strong>{state.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
           <span>{question.feedback[state.lastResult.feedbackKey]}</span>
         </div>
-        <button class="next-button" type="button" onclick={() => advanceSession(state)}>
+        <button class="next-button" type="button" onclick={handleAdvance}>
           {state.index + 1 < questions.length ? 'Next' : 'See result'}
         </button>
       {/if}
@@ -139,7 +165,7 @@
     {/if}
 
     <div class="completion-actions">
-      <button class="primary-button" type="button" onclick={() => replaySession(state)}>Play again</button>
+      <button class="primary-button" type="button" onclick={handleReplay}>Play again</button>
       {#if onExit}
         <button class="secondary-button" type="button" onclick={onExit}>Back home</button>
       {/if}
@@ -148,6 +174,12 @@
 {/if}
 
 <style>
+  .saved-session-note {
+    margin: 4px 0 12px;
+    font-size: 0.8rem;
+    opacity: 0.68;
+  }
+
   .completion-avatar {
     width: 110px;
     height: 110px;
