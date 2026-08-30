@@ -58,6 +58,94 @@
       "note": "The official 2026-27 sample treats the windmill as one of the pictured objects that requires moving air, directly supporting the canonical wind-turns-windmill fact. The core fit remains editorial."
     },
     {
+      "rowId": "kr.plants.general.provide-food-shelter",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 1, question 4, statement A",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly states that plants provide food and shelter to various animals. The core fit is Kidsplay's editorial planning choice."
+    },
+    {
+      "rowId": "kr.plants.indigo.use.dye",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 1, question 4, statement B",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly states that plants provide dyes such as indigo. The canonical row records the matching indigo-dye association; core remains editorial."
+    },
+    {
+      "rowId": "kr.plants.general.air.cool-fresh",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 1, question 4, statement C",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly states that plants help keep the air cool and fresh. The core fit remains editorial."
+    },
+    {
+      "rowId": "kr.plants.cardamom.use.spice",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 3, question 9, option B and answer key",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly describes cardamom as a spice used to enhance the flavour of food. The core fit remains editorial."
+    },
+    {
+      "rowId": "kr.rocks.emerald.type.gemstone",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 2, question 8, option C and answer key",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample identifies Emerald as the gemstone matching the word clue. The core fit remains editorial."
+    },
+    {
+      "rowId": "kr.water.sea.feature.salty",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 3, question 10, option C clue",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly defines the sea as containing salty water in the word-grid clue. The core fit remains editorial."
+    },
+    {
+      "rowId": "kr.earth.plateau.alias.tableland",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 3, question 10, option B clue",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly uses the definition that a plateau is also called a tableland. The core fit remains editorial."
+    },
+    {
+      "rowId": "kr.universe.orbit.definition.planet-path",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 3, question 10, option D clue",
+      "evidenceType": "direct_fact",
+      "temporalBasis": "current_year",
+      "decision": "keep",
+      "fit": "core",
+      "fitBasis": "editorial_retained",
+      "note": "The official 2026-27 sample directly defines an orbit as the fixed path in which a planet moves around the Sun. The core fit remains editorial."
+    },
+    {
       "rowId": "kr.reasoning.ranking.height.shortest",
       "sourceRef": "sof.nso.class2.sample-paper.2019-20",
       "locator": "PDF page 1, question 2 and answer key: taller-than chain asks for the smallest person",
