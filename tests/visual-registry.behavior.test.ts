@@ -51,6 +51,10 @@ describe('semantic visual registry', () => {
       renderer: 'curriculum-icon',
       glyph: 'jupiter'
     });
+    expect(resolveVisualDefinition('entity.plant.mango')).toMatchObject({
+      renderer: 'learning-icon',
+      glyph: 'mango'
+    });
   });
 
   it('resolves canonical semantic ids independently of display wording', () => {
@@ -65,6 +69,11 @@ describe('semantic visual registry', () => {
     expect(resolveSemanticVisualRefs('sight')).toEqual(['entity.body.eyes']);
     expect(resolveSemanticVisualRefs('hearing')).toEqual(['entity.body.ears']);
     expect(resolveSemanticVisualRefs('smell')).toEqual(['entity.body.nose']);
+    expect(resolveSemanticVisualRefs('skin')).toEqual(['entity.body.skin']);
+    expect(resolveSemanticVisualRefs('taste')).toEqual(['entity.body.tongue']);
+    expect(resolveSemanticVisualRefs('hear')).toEqual(['entity.body.ears']);
+    expect(resolveSemanticVisualRefs('pump-blood')).toEqual(['entity.body.heart']);
+    expect(resolveSemanticVisualRefs('breathe')).toEqual(['entity.body.lungs']);
     expect(resolveItemVisualRefs({ label: 'Caballito', semanticRef: 'seahorse' })).toEqual([
       'entity.animal.seahorse'
     ]);
@@ -83,6 +92,9 @@ describe('semantic visual registry', () => {
     expect(resolveLabelVisualRefs('Avoid spoiled food')).toEqual(['entity.hygiene.avoid-spoiled']);
     expect(resolveLabelVisualRefs('Reach a marked zebra crossing')).toEqual(['entity.safety.zebra-reach']);
     expect(resolveLabelVisualRefs('Check that traffic has stopped and it is safe')).toEqual(['entity.safety.traffic-check']);
+    expect(resolveLabelVisualRefs('Triangle')).toEqual(['entity.shape.triangle']);
+    expect(resolveLabelVisualRefs('Banana')).toEqual(['entity.food.banana']);
+    expect(resolveLabelVisualRefs('Hive')).toEqual(['entity.animal-home.hive']);
     expect(resolveLabelVisualRefs('A dog runs beside a school bus')).toEqual([]);
   });
 
@@ -114,7 +126,7 @@ describe('semantic visual registry', () => {
   it('keeps the registry unique and broad enough for reusable Class 2 EVS coverage', () => {
     const refs = getRegisteredVisualRefs();
     expect(new Set(refs).size).toBe(refs.length);
-    expect(refs.length).toBeGreaterThanOrEqual(190);
+    expect(refs.length).toBeGreaterThanOrEqual(200);
     expect(getVisualDefinitions().every((visual) => visual.aliases.length > 0)).toBe(true);
   });
 });
