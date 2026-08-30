@@ -88,16 +88,16 @@ Supported source roles currently include:
 
 - `editorial_prototype` — internal targeting only; cannot support an official claim.
 - `official_syllabus` — official syllabus/scope source.
-- `official_assessment` — official exam/assessment specification.
+- `official_assessment` — official exam/assessment specification or official sample paper.
 - `official_reference` — official supporting reference such as a current edition/catalog page.
 
-A source marked `reviewed` must have an HTTPS URL, authority, version label and retrieval date.
+A source marked `reviewed` must have an HTTPS URL, authority, version label and retrieval date. Named academic years use canonical `YYYY-YY` form; CI rejects malformed or non-consecutive year labels.
 
-### Profile scope vs row placement
+### Profile scope vs row inclusion vs fit
 
 These are deliberately separate review decisions.
 
-Example: `SOF_INDIA_CLASS2` can have a **reviewed profile scope** for SOF ISO 2026-27 because the official current Class 2 syllabus and 2026-27 workbook were reviewed. That does **not** automatically prove that every individual fact should be `core`, `review`, `stretch` or `challenge`.
+Example: `SOF_INDIA_CLASS2` can have a **reviewed profile scope** for SOF ISO 2026-27 because the official current Class 2 syllabus and 2026-27 workbook were reviewed. That does **not** automatically prove that every individual fact belongs in the profile, and a direct fact/skill hit does **not** automatically prove that Kidsplay should label that row `core`, `review`, `stretch` or `challenge`.
 
 Therefore the current SOF profile has:
 
@@ -106,9 +106,39 @@ profile alignmentStatus = reviewed
 membership provenance.status = prototype_unverified
 ```
 
-until the exact row placements are reviewed.
+until the intended row-level mapping is reviewed.
 
-This prevents a broad syllabus heading such as `Animals` from being misrepresented as proof for every detailed fact or difficulty placement beneath it.
+This prevents a broad syllabus heading such as `Animals` from being misrepresented as proof for every detailed fact beneath it, and prevents an official sample-paper appearance from being misrepresented as an official SOF difficulty label.
+
+### Row-level review evidence
+
+Exact row evidence lives separately in `content/alignment-reviews/*.json`.
+
+A retained row records:
+
+```json
+{
+  "rowId": "kr.plants.cotton.use.fibre",
+  "sourceRef": "sof.nso.class2.sample-paper.2019-20",
+  "evidenceType": "direct_fact",
+  "temporalBasis": "historical_class2",
+  "decision": "keep",
+  "fit": "core",
+  "fitBasis": "editorial_retained",
+  "locator": "PDF page 2, question 10 and answer key",
+  "note": "..."
+}
+```
+
+The evidence axes have independent meanings:
+
+- `evidenceType: direct_fact | direct_skill` describes what the source directly establishes.
+- `temporalBasis: current_year` means the direct evidence source has the same academic year as the profile.
+- `temporalBasis: historical_class2` means an older official Class 2 assessment provides direct precedent; CI also requires separate current-year `official_scope` evidence before this may count as current-profile inclusion evidence.
+- `fitBasis: editorial_retained` means the source supports inclusion while Kidsplay retains the fit as its own planning choice.
+- `fitBasis: source_supported` is reserved for a source that genuinely supports the specific fit/priority claim. A sample-paper appearance by itself is insufficient.
+
+Historical evidence never implies current-year recurrence. It says only that SOF directly assessed the fact/skill at Class 2 historically and that current official scope still includes the relevant topic family. The detailed protocol is in `docs/SOF_ROW_REVIEW.md`.
 
 ## Reviewed-alignment gate
 
@@ -119,17 +149,19 @@ A profile cannot use `alignmentStatus: reviewed` unless it has:
 1. at least one reviewed official alignment source;
 2. a version label;
 3. a review date; and
-4. version applicability expressed as an academic year or explicit effective date range.
+4. version applicability expressed as a canonical academic year or explicit effective date range.
 
 A membership collection cannot use `provenance.status: reviewed` unless it independently meets the same evidence/applicability standard.
+
+`npm run validate:alignment` also validates row-review evidence. Current checks reject unknown/duplicate rows, non-reviewed sources, malformed temporal/fit bases, current-year evidence sourced from the wrong academic year, and historical evidence without a separate current-year `official_scope` anchor.
 
 Prototype profiles and memberships still require provenance, but may reference the internal editorial prototype source and keep review/effective fields null.
 
 ## Current SOF Class 2 scope
 
-The reviewed source registry currently records the official Science Olympiad Foundation Class 2 International Science Olympiad scope and a 2026-27 official workbook reference. The current syllabus scope includes the broad areas Plants, Animals, Human Body, Food, Housing and Clothing, Family and Festivals, Good Habits and Safety Rules, Transport and Communication, Air/Water/Rocks, and Earth and Universe, with logical reasoning and higher-order sections.
+The reviewed source registry records the official Science Olympiad Foundation Class 2 International Science Olympiad 2026-27 scope, current official workbook reference and current sample paper. The current syllabus scope includes the broad areas Plants, Animals, Human Body, Food, Housing and Clothing, Family and Festivals, Good Habits and Safety Rules, Transport and Communication, Air/Water/Rocks, and Earth and Universe, with logical reasoning and higher-order sections.
 
-This establishes the target **scope/version**, not complete row-level alignment. The actual knowledge bank still needs substantially more reviewed content before Kidsplay should present itself as comprehensive SOF preparation.
+Exact row inclusion is a stricter claim. The evidence file currently mixes explicitly labeled current-year direct anchors with historical official Class 2 direct precedent where current-year topic scope is separately retained. The membership remains `prototype_unverified` until the intended verified scope has sufficient reproducible row-level evidence.
 
 ## Cross-datatype query
 
