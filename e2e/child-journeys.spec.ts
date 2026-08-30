@@ -1,10 +1,29 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 import {
   answerCurrentQuestion,
   cssTimeToMilliseconds,
   openCleanApp,
   sessionFeedback
 } from './helpers/childJourney';
+
+async function expectNoHorizontalOverflow(page: Page, label: string): Promise<void> {
+  const dimensions = await page.evaluate(() => ({
+    viewport: document.documentElement.clientWidth,
+    content: document.documentElement.scrollWidth
+  }));
+  expect(
+    dimensions.content,
+    `${label}: page content should fit the viewport without horizontal scrolling`
+  ).toBeLessThanOrEqual(dimensions.viewport + 1);
+}
+
+async function expectChildTapTarget(locator: Locator, label: string): Promise<void> {
+  await expect(locator, `${label}: target should be visible`).toBeVisible();
+  const box = await locator.boundingBox();
+  expect(box, `${label}: target should have a measurable box`).not.toBeNull();
+  expect(box!.width, `${label}: target should be at least 44 CSS px wide`).toBeGreaterThanOrEqual(44);
+  expect(box!.height, `${label}: target should be at least 44 CSS px high`).toBeGreaterThanOrEqual(44);
+}
 
 test.describe('Kidsplay child journeys', () => {
   test('player setup, free explore, feedback and local persistence', async ({ page }) => {
@@ -150,5 +169,61 @@ test.describe('Kidsplay child journeys', () => {
     await answerCurrentQuestion(page);
     await expect(sessionFeedback(page)).toBeVisible();
     await expect(page.getByRole('button', { name: /Next|See result/ })).toBeEnabled();
+  });
+});
+
+test.describe('Android-like viewport acceptance', () => {
+  test.use({
+    viewport: { width: 360, height: 800 },
+    isMobile: true,
+    hasTouch: true,
+    deviceScaleFactor: 1
+  });
+
+  test('small portrait keeps first-run, story and practice controls tappable without horizontal scroll', async ({ page }) => {
+    await openCleanApp(page);
+    await expectNoHorizontalOverflow(page, 'home at 360px');
+
+    const childName = page.getByLabel('Child name');
+    await expectChildTapTarget(childName, 'child-name field');
+    await childName.fill('Dheu Small Phone');
+    await childName.focus();
+
+    // A shorter visual viewport approximates the space pressure caused by a soft keyboard.
+    await page.setViewportSize({ width: 360, height: 520 });
+    await expect(childName).toBeInViewport();
+    await expectNoHorizontalOverflow(page, 'name entry with reduced viewport height');
+    await page.setViewportSize({ width: 360, height: 800 });
+
+    await expectChildTapTarget(page.getByRole('button', { name: 'Panda' }), 'avatar choice');
+    await expectChildTapTarget(
+      page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }),
+      'story location'
+    );
+    await expectChildTapTarget(page.getByRole('button', { name: 'Play free' }), 'free-play entry');
+
+    await page.getByRole('button', { name: 'Play free' }).click();
+    await expect(page.getByText(/^1 \/ 8$/)).toBeVisible();
+    await expectNoHorizontalOverflow(page, 'practice question at 360px');
+    await answerCurrentQuestion(page);
+    const next = page.getByRole('button', { name: /Next|See result/ });
+    await expectChildTapTarget(next, 'practice continue');
+    await expectNoHorizontalOverflow(page, 'practice feedback at 360px');
+  });
+
+  test('35-question mock fits portrait and remains coherent after a landscape rotation', async ({ page }) => {
+    await openCleanApp(page);
+    await expectChildTapTarget(page.getByRole('button', { name: 'Try 35-question mock' }), 'mock entry');
+    await page.getByRole('button', { name: 'Try 35-question mock' }).click();
+
+    await expect(page.getByText(/^1 \/ 35$/)).toBeVisible();
+    await expect(page.getByText('Mock progress saves on this device')).toBeVisible();
+    await expectNoHorizontalOverflow(page, 'mock portrait at 360px');
+    await expect(page.getByRole('heading', { level: 1 })).toBeInViewport();
+
+    await page.setViewportSize({ width: 800, height: 360 });
+    await expectNoHorizontalOverflow(page, 'mock after landscape rotation');
+    await expect(page.getByText(/^1 \/ 35$/)).toBeVisible();
+    await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
 });
