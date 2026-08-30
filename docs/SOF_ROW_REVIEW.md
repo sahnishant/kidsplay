@@ -13,8 +13,8 @@ The current profile may be used for prototype practice and product testing. It m
 - `fit` values (`review`, `core`, `stretch`, `challenge`) are editorial prototype placement unless supported by recorded row evidence.
 - Goal sessions, diagnostics, readiness and mixed mocks may use these rows while the product is explicitly marked prototype.
 - The readiness score is a local practice signal, not an official SOF score or certification.
-- A partial evidence file now exists at `content/alignment-reviews/SOF_INDIA_CLASS2.json`.
-- The initial official-source review records **2 reproducible row/skill anchors** and leaves **167 rows pending**. This does not change the overall `prototype_unverified` profile status.
+- A partial evidence file exists at `content/alignment-reviews/SOF_INDIA_CLASS2.json`.
+- The current official-source review records **3 reproducible row/skill anchors** and leaves **166 rows pending**. This does not change the overall `prototype_unverified` profile status.
 
 ## Generate the current review queue
 
@@ -24,11 +24,22 @@ From the repository root:
 node scripts/report-sof-row-review.mjs
 ```
 
-The report separates rows with reproducible evidence already recorded from rows still pending review, grouped by topic and prototype fit.
+The report now includes:
+
+- evidenced vs pending totals;
+- evidence coverage by topic;
+- a **core-first priority queue** so high-value profile claims are reviewed before enrichment rows;
+- the complete remaining queue grouped by topic.
+
+For machine-readable review tooling or batch work:
+
+```powershell
+node scripts/report-sof-row-review.mjs --json
+```
 
 ## Validate the evidence contract
 
-The normal alignment gate now runs both profile/scope validation and evidence-file validation:
+The normal alignment gate runs both profile/scope validation and evidence-file validation:
 
 ```powershell
 npm run validate:alignment
@@ -57,6 +68,7 @@ The official 2026–27 sample paper currently provides reproducible support for:
 
 - `kr.universe.earth.rotation.day-night` — direct fact anchor from sample-paper question 10.
 - `kr.reasoning.ranking.position.between` — direct ranking/position skill anchor from sample-paper question 2 plus the official syllabus Ranking Test category.
+- `kr.air.windmill.turned-by.wind` — direct fact anchor from sample-paper question 6, where the windmill is one of the pictured objects that requires moving air.
 
 Other sample-paper observations currently remain **scope/assessment-format evidence**, not exact row verification. Do not promote them merely because a related topic appears in the paper.
 
