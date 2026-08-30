@@ -50,16 +50,28 @@
       "notes": "Official SOF sample paper confirms 35 questions: 5 Logical Reasoning at 1 mark each, 25 Science at 1 mark each, and 5 Achievers at 2 marks each, for 40 marks total. It also demonstrates mixed formats including statement evaluation, visual questions, word manipulation and higher-order inference. It supports assessment-format design, not exact row-level curriculum placement."
     },
     {
-      "id": "sof.nso.class2.sample-paper.2023-24",
+      "id": "sof.nso.class2.sample-paper.2025-26",
       "type": "official_assessment",
       "authority": "Science Olympiad Foundation",
-      "title": "SOF National Science Olympiad Class 2 Sample Paper 2023-24",
-      "url": "https://sofworld.org/download/file/fid/36429",
-      "versionLabel": "2023-24 sample paper (historical)",
-      "academicYear": "2023-24",
+      "title": "SOF National Science Olympiad Class 2 Sample Paper 2025-26",
+      "url": "https://sofworld.org/download/file/fid/42300",
+      "versionLabel": "2025-26 sample paper (historical)",
+      "academicYear": "2025-26",
       "retrievedOn": "2026-08-30",
       "status": "reviewed",
-      "notes": "Historical official SOF Class 2 science sample paper. It may support direct evidence that a text-verifiable fact or skill was assessed at Class 2 only when current-year official scope separately retains the relevant topic family. Visual-only mappings are not admitted without reproducible visual evidence."
+      "notes": "Immediate-prior-year official SOF Class 2 science sample paper with reproducibly inspectable pages. Historical direct evidence counts only where current 2026-27 official scope separately retains the relevant topic family."
+    },
+    {
+      "id": "sof.nso.class2.sample-paper.2024-25",
+      "type": "official_assessment",
+      "authority": "Science Olympiad Foundation",
+      "title": "SOF National Science Olympiad Class 2 Sample Paper 2024-25",
+      "url": "https://sofworld.org/download/file/fid/39587",
+      "versionLabel": "2024-25 sample paper (historical)",
+      "academicYear": "2024-25",
+      "retrievedOn": "2026-08-30",
+      "status": "reviewed",
+      "notes": "Historical official SOF Class 2 science sample paper. It supersedes the redundant 2023-24 evidence source for repeated text-verifiable skin, cousin, wool/winter and tonga items while current-year scope is anchored separately."
     },
     {
       "id": "sof.nso.class2.sample-paper.2019-20",
