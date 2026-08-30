@@ -60,6 +60,42 @@
       "object": { "id": "baskets", "label": "making baskets and useful objects" },
       "conceptIds": ["plants.uses.materials"],
       "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall", "reasoning"] }
+    },
+    {
+      "id": "plants-food-shelter",
+      "rowId": "kr.plants.general.provide-food-shelter",
+      "subject": { "id": "plants", "label": "Plants", "symbol": "🌿" },
+      "relation": "provide",
+      "object": { "id": "animal-food-shelter", "label": "food and shelter for many animals" },
+      "conceptIds": ["plants.importance.animals"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "indigo-dye",
+      "rowId": "kr.plants.indigo.use.dye",
+      "subject": { "id": "indigo", "label": "Indigo", "symbol": "🌿" },
+      "relation": "used_for",
+      "object": { "id": "dye", "label": "making dye" },
+      "conceptIds": ["plants.uses.dyes"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "plants-cool-fresh-air",
+      "rowId": "kr.plants.general.air.cool-fresh",
+      "subject": { "id": "plants", "label": "Plants", "symbol": "🌱" },
+      "relation": "help_keep",
+      "object": { "id": "cool-fresh-air", "label": "the air cool and fresh" },
+      "conceptIds": ["plants.importance.air"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
+    },
+    {
+      "id": "cardamom-spice",
+      "rowId": "kr.plants.cardamom.use.spice",
+      "subject": { "id": "cardamom", "label": "Cardamom", "symbol": "🌿" },
+      "relation": "is_a",
+      "object": { "id": "flavouring-spice", "label": "spice used to add flavour to food" },
+      "conceptIds": ["plants.uses.spices"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] }
     }
   ],
   "authoring": {
