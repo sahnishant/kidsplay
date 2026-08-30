@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const errors = [];
-const allowedThemes = new Set(['grass', 'ocean']);
+const allowedThemes = new Set(['grass', 'ocean', 'paper']);
 const allowedKinds = new Set(['icon', 'text']);
 const allowedMotions = new Set(['bounce', 'float', 'pulse', 'wiggle']);
 const allowedIcons = new Set([
@@ -10,6 +10,7 @@ const allowedIcons = new Set([
   'dog-worried',
   'bone',
   'heart',
+  'lungs',
   'wave',
   'whale',
   'balloon',
