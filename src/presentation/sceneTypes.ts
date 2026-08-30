@@ -5,6 +5,7 @@ export type SceneIconId =
   | 'dog-worried'
   | 'bone'
   | 'heart'
+  | 'lungs'
   | 'wave'
   | 'whale'
   | 'balloon'
