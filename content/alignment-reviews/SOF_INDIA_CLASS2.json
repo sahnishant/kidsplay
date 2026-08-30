@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "profileRef": "SOF_INDIA_CLASS2",
   "status": "partial",
-  "reviewedAt": "2026-08-29",
+  "reviewedAt": "2026-08-30",
   "scopeEvidence": [
     {
       "sourceRef": "sof.iso.class2.syllabus.current",
@@ -41,6 +41,15 @@
       "decision": "keep",
       "fit": "core",
       "note": "The exact names differ because the canonical row is an authored instance, but the same position/ranking skill is directly assessed."
+    },
+    {
+      "rowId": "kr.air.windmill.turned-by.wind",
+      "sourceRef": "sof.iso.class2.sample-paper.2026-27",
+      "locator": "PDF page 2, question 6, windmill option C; answer key D (None of these)",
+      "evidenceType": "direct_fact",
+      "decision": "keep",
+      "fit": "core",
+      "note": "The official sample treats the windmill as one of the pictured objects that requires moving air, directly supporting the canonical wind-turns-windmill fact."
     }
   ]
 }
