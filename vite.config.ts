@@ -15,7 +15,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
-    pool: 'threads',
+    pool: 'forks',
     maxWorkers: 1,
     fileParallelism: false,
     isolate: false,
