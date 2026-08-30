@@ -17,11 +17,11 @@
       "version": 1,
       "seed": 20260830,
       "cards": [
-        { "id": "dog", "label": "Dog", "symbol": "🐶" },
+        { "id": "dog", "label": "Dog", "symbol": "🐶", "visualRefs": ["entity.animal.dog"] },
         { "id": "pet-animal", "label": "Pet animal" },
-        { "id": "tiger", "label": "Tiger", "symbol": "🐯" },
+        { "id": "tiger", "label": "Tiger", "symbol": "🐯", "visualRefs": ["entity.animal.tiger"] },
         { "id": "wild-animal", "label": "Wild animal" },
-        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋" },
+        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋", "visualRefs": ["entity.animal.butterfly"] },
         { "id": "insect", "label": "Insect" }
       ]
     },
