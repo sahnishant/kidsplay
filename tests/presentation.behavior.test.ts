@@ -69,6 +69,11 @@ describe('lightweight question presentation', () => {
         question({ conceptIds: ['plants.importance.air'], knowledgeRefs: ['kr.plants.general.air.cool-fresh'] })
       )
     ).toBe('scene.plants.air-fresh');
+    expect(
+      resolveQuestionSceneId(
+        question({ conceptIds: ['universe.earth.rotation'], knowledgeRefs: ['kr.universe.earth.rotation.day-night'] })
+      )
+    ).toBe('scene.universe.earth-rotation');
   });
 
   it('reuses the lungs visual for breathing-air reinforcement', () => {
@@ -104,6 +109,7 @@ describe('lightweight question presentation', () => {
     expect(resolveDashboardSceneId('animals')).toBe('scene.dog.happy-bone');
     expect(resolveDashboardSceneId('air')).toBe('scene.air.windmill');
     expect(resolveDashboardSceneId('human')).toBe('scene.human.lungs-breathing');
+    expect(resolveDashboardSceneId('universe')).toBe('scene.universe.earth-rotation');
     expect(resolveDashboardSceneId('food')).toBeNull();
   });
 
