@@ -22,7 +22,7 @@ export interface StoryReactionContext {
 }
 
 export function resolveStoryReaction(context: StoryReactionContext): StoryReactionView | null {
-  const hardClue = context.difficulty >= 4 || (context.difficulty >= 3 && context.knowledgeRefCount >= 2);
+  const hardClue = context.difficulty >= 4 || (context.difficulty >= 3 && context.knowledgeRefCount >= 3);
   const firstMiss = !context.correct && context.incorrectCount === 1;
   const turnaround = context.correct && context.previousCorrect === false;
 

@@ -13,6 +13,17 @@ describe('selective story micro reactions', () => {
     })).toBeNull();
   });
 
+  it('does not treat every difficulty-3 reasoning question as a story beat', () => {
+    expect(resolveStoryReaction({
+      correct: true,
+      difficulty: 3,
+      knowledgeRefCount: 2,
+      isFinalQuestion: false,
+      incorrectCount: 0,
+      previousCorrect: true
+    })).toBeNull();
+  });
+
   it('lets Shaitanu react to the first miss', () => {
     expect(resolveStoryReaction({
       correct: false,
@@ -47,7 +58,7 @@ describe('selective story micro reactions', () => {
     expect(resolveStoryReaction({
       correct: true,
       difficulty: 3,
-      knowledgeRefCount: 2,
+      knowledgeRefCount: 3,
       isFinalQuestion: false,
       incorrectCount: 0,
       previousCorrect: true
