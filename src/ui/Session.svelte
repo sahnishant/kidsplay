@@ -6,7 +6,13 @@
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
-  import { advanceSession, createSessionState, replaySession, submitResponse } from '../runtime/session';
+  import {
+    advanceSession,
+    createSessionState,
+    replaySession,
+    submitResponse,
+    summarizeSectionResults
+  } from '../runtime/session';
   import EngineHost from './EngineHost.svelte';
 
   let {
@@ -37,6 +43,7 @@
   let currentSection = $derived(
     sections.find((section) => state.index >= section.startIndex && state.index < section.startIndex + section.count)
   );
+  let sectionScores = $derived(summarizeSectionResults(sections, state.results));
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
@@ -110,6 +117,19 @@
     </div>
     <h1>Nice work, {displayName}</h1>
     <p>You solved {correctCount} of {state.results.length} questions correctly.</p>
+
+    {#if sectionScores.length > 0}
+      <div class="section-results" aria-label="Section results">
+        {#each sectionScores as section}
+          <article class="section-result">
+            <strong>{section.title}</strong>
+            <span>{section.correct} / {section.total} correct</span>
+            <small>{section.accuracy === null ? 'Not attempted' : `${Math.round(section.accuracy * 100)}% accuracy`}</small>
+          </article>
+        {/each}
+      </div>
+    {/if}
+
     <div class="completion-actions">
       <button class="primary-button" type="button" onclick={() => replaySession(state)}>Play again</button>
       {#if onExit}
@@ -124,5 +144,27 @@
     width: 110px;
     height: 110px;
     margin: 0 auto 4px;
+  }
+
+  .section-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    width: min(100%, 620px);
+    margin: 18px auto;
+    text-align: left;
+  }
+
+  .section-result {
+    display: grid;
+    gap: 4px;
+    padding: 12px;
+    border: 1px solid var(--border, #d9d9d9);
+    border-radius: 14px;
+  }
+
+  .section-result span,
+  .section-result small {
+    opacity: 0.76;
   }
 </style>
