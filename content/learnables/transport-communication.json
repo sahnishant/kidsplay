@@ -4,6 +4,7 @@
   { "id": "transport.modes.aeroplane", "statement": "An aeroplane flies through the air and is useful for fast long-distance travel.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
   { "id": "transport.modes.ship", "statement": "A ship carries people or goods across water.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
   { "id": "transport.modes.bicycle", "statement": "A bicycle is a two-wheeled vehicle moved by pedalling.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
+  { "id": "transport.modes.tonga", "statement": "A tonga is a vehicle pulled by an animal.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
   { "id": "transport.modes.ambulance", "statement": "An ambulance carries sick or injured people for urgent medical care.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Transport", "gradeBands": [2] },
   { "id": "communication.methods.telephone", "statement": "A telephone lets people speak with one another over a distance.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
   { "id": "communication.methods.letter", "statement": "A letter is a written message that can be delivered by post.", "subject": "EVS", "topic": "Transport and Communication", "subtopic": "Communication", "gradeBands": [2] },
