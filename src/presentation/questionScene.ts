@@ -12,6 +12,8 @@ const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.air.balloon.contains.air', 'scene.air.balloon-candle'],
   ['kr.air.candle.need.air', 'scene.air.balloon-candle'],
   ['kr.air.windmill.turned-by.wind', 'scene.air.windmill'],
+  ['kr.air.kite.moved-by.wind', 'scene.air.kite-wind'],
+  ['kr.air.sailboat.moved-by.wind', 'scene.air.sailboat-wind'],
   ['kr.water.sea.feature.salty', 'scene.water.sea-salty'],
   ['kr.rocks.pumice.feature.light', 'scene.rocks.pumice-water'],
   ['kr.plants.general.air.cool-fresh', 'scene.plants.air-fresh']
@@ -22,6 +24,8 @@ const sceneByConceptId = new Map<string, string>([
   ['animals.whale.habitat', 'scene.whale.swimming'],
   ['air.properties.wind', 'scene.air.kite-wind'],
   ['air.properties.windmill', 'scene.air.windmill'],
+  ['air.properties.kite', 'scene.air.kite-wind'],
+  ['air.properties.sailboat', 'scene.air.sailboat-wind'],
   ['water.sources.sea', 'scene.water.sea-salty'],
   ['rocks.types.pumice', 'scene.rocks.pumice-water'],
   ['plants.importance.air', 'scene.plants.air-fresh']
