@@ -93,6 +93,71 @@ describe('offline progress persistence', () => {
     expect(summary.recommendedTopics).toHaveLength(0);
   });
 
+  it('drops corrupt local evidence instead of letting it distort progress', () => {
+    window.localStorage.setItem('kidsplay.progress.v1', JSON.stringify({
+      version: 1,
+      attempts: [
+        {
+          sessionId: 'session.valid',
+          questionId: 'question.valid',
+          submittedAt: '2026-08-29T12:00:00.000Z',
+          durationMs: 1200,
+          correct: true,
+          score: 1,
+          maxScore: 1,
+          knowledgeRefs: ['kr.animals.valid'],
+          conceptIds: ['animals.valid']
+        },
+        {
+          sessionId: 'session.corrupt',
+          questionId: 'question.corrupt',
+          submittedAt: 'not-a-date',
+          durationMs: -50,
+          correct: true,
+          score: 2,
+          maxScore: 1,
+          knowledgeRefs: ['kr.plants.corrupt'],
+          conceptIds: []
+        }
+      ],
+      knowledge: {
+        'kr.animals.valid': counter(2, 2),
+        'kr.plants.negative': {
+          attempts: -3,
+          correct: 9,
+          totalWeight: -3,
+          correctWeight: 9,
+          lastResult: 'correct',
+          lastSeenAt: 'bad-date'
+        }
+      },
+      concepts: {
+        'animals.valid': counter(2, 2),
+        'plants.impossible': {
+          attempts: 1,
+          correct: 2,
+          totalWeight: 1,
+          correctWeight: 2,
+          lastResult: 'incorrect',
+          lastSeenAt: '2026-08-29T12:00:00.000Z'
+        }
+      },
+      updatedAt: 'not-a-date'
+    }));
+
+    const progress = loadProgress();
+    expect(progress.attempts.map((attempt) => attempt.questionId)).toEqual(['question.valid']);
+    expect(Object.keys(progress.knowledge)).toEqual(['kr.animals.valid']);
+    expect(Object.keys(progress.concepts)).toEqual(['animals.valid']);
+    expect(progress.updatedAt).toBeNull();
+    expect(summarizeProgress(progress)).toMatchObject({
+      totalAttempts: 1,
+      correctAttempts: 1,
+      practicedKnowledge: 1,
+      masteredKnowledge: 1
+    });
+  });
+
   it('summarizes practised evidence into topic-level learning signals and fills next focus with new breadth', () => {
     const snapshot: ProgressSnapshot = {
       version: 1,
