@@ -257,10 +257,11 @@
   }
 
   .sequence-order__controls {
-    grid-template-columns: 36px;
+    grid-template-columns: 44px;
   }
 
   .sequence-order__move {
-    min-height: 34px;
+    min-height: 44px;
+    min-width: 44px;
   }
 }
