@@ -69,7 +69,15 @@ export function getQuestionContractSignature(questions: Question[]): string {
   return JSON.stringify(questions.map((question) => ({
     id: question.id,
     revision: question.revision,
-    interactionType: question.interaction.type,
-    interactionVersion: question.interaction.version
+    schemaVersion: question.schemaVersion,
+    conceptIds: [...question.conceptIds],
+    knowledgeRefs: [...(question.knowledgeRefs ?? [])],
+    difficulty: question.difficulty,
+    language: question.language,
+    prompt: question.prompt,
+    stimulus: question.stimulus ?? null,
+    interaction: question.interaction,
+    solution: question.solution,
+    feedback: question.feedback
   })));
 }
