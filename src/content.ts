@@ -1,3 +1,4 @@
+import patternBlueprintJson from '../content/assessment-blueprints/SOF_INDIA_CLASS2_2026-27.json';
 import freeAnimalsPack from '../content/packs/free-animals.json';
 import olympiadPrototypePack from '../content/packs/class2-evs-olympiad-prototype.json';
 import profileRegistry from '../content/learning-profiles/registry.json';
@@ -74,6 +75,29 @@ export interface SessionSection {
   count: number;
 }
 
+type AssessmentSelector = 'logical_reasoning' | 'science_core' | 'achiever_hots';
+
+interface AssessmentBlueprintSection {
+  id: SessionSection['id'];
+  title: string;
+  count: number;
+  selector: AssessmentSelector;
+}
+
+interface AssessmentBlueprint {
+  schemaVersion: 1;
+  id: string;
+  profileRef: string;
+  academicYear: string;
+  status: 'prototype_from_reviewed_format';
+  sourceRefs: string[];
+  title: string;
+  description: string;
+  actionLabel: string;
+  totalQuestions: number;
+  sections: AssessmentBlueprintSection[];
+}
+
 export interface SessionLaunch {
   id: string;
   mode: 'free_explore' | 'goal_learning' | 'goal_mock' | 'goal_pattern_mock';
@@ -128,8 +152,14 @@ const memberships = Object.values(membershipModules).filter(
 const profiles = (profileRegistry as ProfileRegistry).profiles;
 const freePack = freeAnimalsPack as LearningPack;
 const goalPack = olympiadPrototypePack as GoalPath;
+const patternBlueprint = patternBlueprintJson as AssessmentBlueprint;
 const goalMockEntryId = `${goalPack.id}.mixed-mock`;
-const goalPatternMockEntryId = `${goalPack.id}.pattern-mock-2026-27`;
+const goalPatternMockEntryId = `${goalPack.id}.pattern-mock-${patternBlueprint.academicYear}`;
+const patternSessionSections: SessionSection[] = patternBlueprint.sections.reduce<SessionSection[]>((sections, section) => {
+  const startIndex = sections.reduce((sum, item) => sum + item.count, 0);
+  sections.push({ id: section.id, title: section.title, startIndex, count: section.count });
+  return sections;
+}, []);
 
 const fitRank: Record<ProfileMembershipMember['fit'], number> = {
   core: 0,
@@ -187,6 +217,12 @@ function isLogicalReasoningQuestion(question: Question): boolean {
 
 function isAchieverQuestion(question: Question): boolean {
   return question.authoring.source === 'kidsplay-editorial-hots' && !isLogicalReasoningQuestion(question);
+}
+
+function matchesAssessmentSelector(question: Question, selector: AssessmentSelector): boolean {
+  if (selector === 'logical_reasoning') return isLogicalReasoningQuestion(question);
+  if (selector === 'achiever_hots') return isAchieverQuestion(question);
+  return !isLogicalReasoningQuestion(question) && !isAchieverQuestion(question);
 }
 
 function interleaveByKnowledgeGroup(candidates: Question[]): Question[] {
@@ -366,12 +402,12 @@ export function getCatalogEntries(): CatalogEntry[] {
     {
       id: goalPatternMockEntryId,
       kind: 'goal_learning',
-      title: 'Class 2 Science Olympiad: 35-Question Pattern Mock',
-      description: 'Practice the published 2026–27 section counts: 5 Logical Reasoning, 25 Science and 5 Achievers questions. Questions are Kidsplay-authored, not an official SOF paper.',
+      title: patternBlueprint.title,
+      description: patternBlueprint.description,
       access: goalPack.access,
       status: 'prototype',
-      profileRef: goalPack.profileRef,
-      actionLabel: 'Try 35-question mock'
+      profileRef: patternBlueprint.profileRef,
+      actionLabel: patternBlueprint.actionLabel
     }
   ];
 }
@@ -418,25 +454,29 @@ export function getProfilePatternMockQuestions(
   profileRef: string,
   options: Omit<ProfileSessionOptions, 'count'> = {}
 ): Question[] {
-  const mastery = options.mastery ?? {};
-  const candidates = getProfileCandidates(profileRef, mastery);
-  const logicalCandidates = candidates.filter(isLogicalReasoningQuestion);
-  const achieverCandidates = candidates.filter(isAchieverQuestion);
-  const scienceCandidates = candidates.filter((question) =>
-    !isLogicalReasoningQuestion(question) && !isAchieverQuestion(question)
-  );
-
-  const logical = chooseDiverseSession(logicalCandidates, 5);
-  const science = chooseDiverseSession(scienceCandidates, 25);
-  const achievers = chooseDiverseSession(achieverCandidates, 5);
-
-  if (logical.length !== 5 || science.length !== 25 || achievers.length !== 5) {
-    throw new Error(
-      `Profile ${profileRef} cannot build the 2026-27 pattern mock: logical=${logical.length}, science=${science.length}, achievers=${achievers.length}`
-    );
+  if (profileRef !== patternBlueprint.profileRef) {
+    throw new Error(`Assessment blueprint ${patternBlueprint.id} targets ${patternBlueprint.profileRef}, not ${profileRef}`);
   }
 
-  return [...logical, ...science, ...achievers];
+  const mastery = options.mastery ?? {};
+  const candidates = getProfileCandidates(profileRef, mastery);
+  const sections = patternBlueprint.sections.map((section) => {
+    const sectionCandidates = candidates.filter((question) => matchesAssessmentSelector(question, section.selector));
+    const selected = chooseDiverseSession(sectionCandidates, section.count);
+    if (selected.length !== section.count) {
+      throw new Error(
+        `Profile ${profileRef} cannot build ${patternBlueprint.id} section ${section.id}: required=${section.count}, available=${selected.length}`
+      );
+    }
+    return selected;
+  });
+  const questions = sections.flat();
+  if (questions.length !== patternBlueprint.totalQuestions) {
+    throw new Error(
+      `Assessment blueprint ${patternBlueprint.id} expected ${patternBlueprint.totalQuestions} questions but built ${questions.length}`
+    );
+  }
+  return questions;
 }
 
 export function getGoalReadiness(
@@ -544,18 +584,14 @@ export function createSessionForCatalogEntry(
     };
   }
 
-  if (entryId === goalPatternMockEntryId && goalPack.profileRef) {
+  if (entryId === goalPatternMockEntryId) {
     return {
       id: `session.${goalPatternMockEntryId}`,
       mode: 'goal_pattern_mock',
-      title: 'Class 2 Science Olympiad: 35-Question Pattern Mock',
-      profileRef: goalPack.profileRef,
-      questions: getProfilePatternMockQuestions(goalPack.profileRef, { mastery }),
-      sections: [
-        { id: 'logical_reasoning', title: 'Logical Reasoning', startIndex: 0, count: 5 },
-        { id: 'science', title: 'Science', startIndex: 5, count: 25 },
-        { id: 'achievers', title: 'Achievers', startIndex: 30, count: 5 }
-      ]
+      title: patternBlueprint.title,
+      profileRef: patternBlueprint.profileRef,
+      questions: getProfilePatternMockQuestions(patternBlueprint.profileRef, { mastery }),
+      sections: patternSessionSections.map((section) => ({ ...section }))
     };
   }
 
