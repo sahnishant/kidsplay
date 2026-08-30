@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { SessionSection } from '../content';
   import type { Question } from '../contracts/question';
   import type { SessionAttempt } from '../contracts/runtime';
   import type { AvatarId } from '../runtime/localProgress';
@@ -11,6 +12,7 @@
   let {
     title,
     questions,
+    sections = [],
     childName = '',
     childAvatar = 'fox',
     onAttempt,
@@ -18,6 +20,7 @@
   }: {
     title: string;
     questions: Question[];
+    sections?: SessionSection[];
     childName?: string;
     childAvatar?: AvatarId;
     onAttempt?: (attempt: SessionAttempt) => void;
@@ -30,6 +33,9 @@
   let displayName = $derived(childName.trim() || 'Explorer');
   let reasoningQuestion = $derived(
     Boolean(question && (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3)
+  );
+  let currentSection = $derived(
+    sections.find((section) => state.index >= section.startIndex && state.index < section.startIndex + section.count)
   );
 
   function handleSubmit(response: unknown): void {
@@ -61,6 +67,10 @@
     </header>
 
     <article class="question-card">
+      {#if currentSection}
+        <div class="reasoning-cue access-badge">Section: {currentSection.title}</div>
+      {/if}
+
       {#if question.stimulus?.type === 'scene'}
         <Scene sceneId={question.stimulus.sceneId} />
       {/if}
