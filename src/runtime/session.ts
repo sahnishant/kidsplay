@@ -18,6 +18,7 @@ export interface ScoredSessionSection {
   title: string;
   startIndex: number;
   count: number;
+  marksPerQuestion: number;
 }
 
 export interface SectionScoreSummary {
@@ -27,6 +28,8 @@ export interface SectionScoreSummary {
   answered: number;
   total: number;
   accuracy: number | null;
+  earnedMarks: number;
+  maxMarks: number;
 }
 
 function resetClock(state: SessionState): void {
@@ -101,7 +104,9 @@ export function summarizeSectionResults(
       correct,
       answered: sectionResults.length,
       total: section.count,
-      accuracy: sectionResults.length ? correct / sectionResults.length : null
+      accuracy: sectionResults.length ? correct / sectionResults.length : null,
+      earnedMarks: correct * section.marksPerQuestion,
+      maxMarks: section.count * section.marksPerQuestion
     };
   });
 }
