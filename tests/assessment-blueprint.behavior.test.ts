@@ -3,7 +3,7 @@ import blueprint from '../content/assessment-blueprints/SOF_INDIA_CLASS2_2026-27
 import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content';
 
 describe('assessment blueprint delivery', () => {
-  it('keeps catalog messaging and session length driven by the blueprint', () => {
+  it('keeps catalog messaging, session length and total marks driven by the blueprint', () => {
     const entry = getCatalogEntries().find((item) => item.id.includes(`pattern-mock-${blueprint.academicYear}`));
     expect(entry).toBeTruthy();
     expect(entry).toMatchObject({
@@ -16,9 +16,10 @@ describe('assessment blueprint delivery', () => {
     const session = createSessionForCatalogEntry(entry!.id, {});
     expect(session.questions).toHaveLength(blueprint.totalQuestions);
     expect(session.sections?.reduce((sum, section) => sum + section.count, 0)).toBe(blueprint.totalQuestions);
+    expect(session.sections?.reduce((sum, section) => sum + section.count * section.marksPerQuestion, 0)).toBe(blueprint.totalMarks);
   });
 
-  it('preserves blueprint section order and boundaries in the delivered session', () => {
+  it('preserves blueprint section order, boundaries and mark weights in the delivered session', () => {
     const entry = getCatalogEntries().find((item) => item.id.includes(`pattern-mock-${blueprint.academicYear}`));
     const session = createSessionForCatalogEntry(entry!.id, {});
 
@@ -29,7 +30,8 @@ describe('assessment blueprint delivery', () => {
         id: section.id,
         title: section.title,
         startIndex: expectedStartIndex,
-        count: section.count
+        count: section.count,
+        marksPerQuestion: section.marksPerQuestion
       });
       expectedStartIndex += section.count;
     }
