@@ -1,46 +1,32 @@
-# Kidsplay asset-source policy and research
+# Open semantic asset sources
 
-The asset registry at `content/assets/registry.json` is the authoritative admission ledger for external art. **A public GitHub repository is not automatically an approved art source.**
+Kidsplay treats third-party artwork as optional presentation data. Question logic, knowledge rows, evaluators, and interaction engines never depend on an external artwork pack.
 
-## Rules
+The runtime path is:
 
-1. No external SVG, sprite, sound or illustration is bundled until its exact source and license are recorded.
-2. Code license and artwork license may differ. Record the artwork license.
-3. Prefer MIT / Apache-2.0 / BSD / CC0 for reusable primitives and utility art.
-4. CC-BY can be used when attribution is operationally acceptable and is automatically included in product notices.
-5. Share-alike, GPL-family, unclear or per-asset licensing is reference-only unless deliberately reviewed for that exact use.
-6. Never bulk-copy example assets merely because the engine/library code is permissively licensed.
-7. Keep the base APK small: import only assets actually referenced by published content; richer packs can later be downloadable.
+`semantic/visual ref -> visualRegistry -> optional assetRef -> VisualEntity -> bundled asset or existing Kidsplay SVG fallback`
 
-## GitHub sources reviewed so far
+## Reviewed sources
 
-| Source | License signal | Status | Useful for |
+| Source | Review status | License | Use in this branch |
 | --- | --- | --- | --- |
-| `tabler/tabler-icons` | MIT; repository explicitly describes 6100+ SVG icons as MIT-licensed | Approved | UI controls, arrows, generic objects and interaction symbols |
-| `jdecked/twemoji` | Graphics have a separate `LICENSE-GRAPHICS` under CC-BY-4.0 | Candidate | Consistent animal/object SVGs; attribution required |
-| `googlefonts/noto-emoji` | GitHub repository metadata reports OFL-1.1 | Candidate | Emoji-style animal/object reference; verify exact selected file/license first |
-| `game-icons/icons` | Repository metadata reports `NOASSERTION`; licensing is not safe to assume globally | Reference only | Shape/symbol inspiration; exact asset review required |
-| Platform Unicode emoji | No artwork file bundled by Kidsplay | Prototype fallback | Zero-production-cost placeholders, but inconsistent across devices |
+| Microsoft Fluent Emoji | Approved | MIT | 10 small static SVG proof assets, pinned to commit `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc` with exact source-path and Git-blob SHA provenance. The MIT notice is retained beside the bundled files. |
+| Kenney assets | Approved source policy | CC0-1.0 | No Kenney file is bundled yet. Kenney's official support policy states game assets on its asset pages are CC0 and attribution is not required; an eventual import must still record the exact pack/item provenance. |
+| Tabler Icons | Approved | MIT | Existing registry source for utility/object icon use. No new Tabler file is bundled by this branch. |
+| jdecked Twemoji | Candidate | CC-BY-4.0 graphics | Not bundled by this branch. Attribution is required if adopted. |
+| Google Noto Emoji | Candidate | Repository metadata reports OFL-1.1 | Not bundled by this branch. No asset-level license is asserted until an exact path is separately reviewed. |
+| Game Icons | Reference only | Per-asset | Do not bulk import; exact author/license review is required for every selected item. |
 
-## Character-system direction
+The authoritative machine-readable record is `content/assets/registry.json`.
 
-The long-term goal is **not** to accumulate thousands of finished animations. It is a modular scene/character system:
+## Deterministic authoring workflow
 
-```text
-character identity
-  + base body / silhouette
-  + orientation (front / side)
-  + pose (stand / walk / swim / sit)
-  + expression (happy / afraid / curious)
-  + prop (bone / ball / food / book)
-  + relation cue (heart / arrow / cross / question)
-  + cheap motion (bounce / wiggle / float / translate)
-```
+Bundled third-party files live only under `public/assets/open/`. Builds and tests never fetch artwork from the network.
 
-A dog-playing scene should therefore be assembled from reusable dog + happy pose + ball + small motion, not stored as a bespoke animation. A dog-in-water teaching scene can reuse the same dog identity with an afraid expression and water background.
+1. Review a source and pin an immutable revision/path for the exact file.
+2. Add the asset to `content/assets/registry.json`, including its semantic `visualRefs`, local path, license metadata, modification status, and upstream Git blob SHA.
+3. Run `node scripts/sync-open-assets.mjs <asset-id>` explicitly when authoring. The sync command verifies the downloaded bytes before writing them and is intentionally not part of `npm run check`.
+4. Run `node scripts/validate-assets.mjs`. Validation is offline and fails on missing/unregistered files, non-approved sources, path escapes, duplicate semantic ownership, missing license/attribution requirements, or provenance-hash drift.
+5. Normal `npm run check` remains offline; the asset behavior test invokes the same validator against the checked-in files.
 
-## Next asset research
-
-- Find a genuinely permissive **modular character/animal source** where poses or body parts can be adapted without share-alike complications.
-- If no good source exists, create a very small original Kidsplay SVG kit using consistent geometric primitives and use external permissive icon/emoji sources only for props/background objects.
-- Add build-time attribution generation before the first CC-BY artwork is imported.
+Modified upstream artwork is intentionally blocked by the current validator. Add an explicit reviewed content-hash policy before allowing modified third-party files rather than silently weakening provenance checks.
