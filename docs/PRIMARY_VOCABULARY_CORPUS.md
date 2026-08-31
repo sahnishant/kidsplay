@@ -38,7 +38,7 @@ Curriculum anchors such as UK statutory spelling or Cambridge YLE can raise conf
 
 `.github/workflows/sync-primary-vocabulary.yml` owns the **source corpus and spelling/recognition queues**. On branch pushes it validates the committed corpus, rebuilds spelling queues, runs vocabulary acceptance tests and then the repository-wide regression check. A manual `workflow_dispatch` additionally performs a live source refresh first.
 
-`.github/workflows/resolve-primary-vocabulary-senses.yml` owns the **meaning queues and OEWN sense-review output**. It downloads the checksum-pinned official OEWN 2025 JSON release, loads its sharded `entries-*` plus POS-synset layout, rebuilds OEWN-resolvable meaning queues, validates provenance, runs vocabulary acceptance tests and then the repository-wide regression check.
+`.github/workflows/resolve-primary-vocabulary-senses.yml` owns the **meaning queues, OEWN sense-review output and generated profile-slice review artifacts**. It downloads the checksum-pinned official OEWN 2025 JSON release, loads its sharded `entries-*` plus POS-synset layout, rebuilds OEWN-resolvable meaning queues, validates provenance, generates profile slices from those finalized meaning queues, runs vocabulary acceptance tests and then the repository-wide regression check.
 
 The two workflows use separate concurrency groups so the latest corpus/spelling proof and the latest meaning/OEWN proof can run independently without cancelling each other. Generated data is committed only after the full repository check succeeds.
 
@@ -80,15 +80,23 @@ The full 11k+ pool is not the runtime pack. Curators should select a manageable 
 
 Pass 5 deliberately uses a **review bridge**, not an importer. `scripts/lexicon/build-primary-vocabulary-profile-slice.mjs` takes a grade selection and a target Kidsplay profile, then matches candidates only against `authoring.status: reviewed` Kidsplay knowledge rows whose relation is `means`.
 
-Example:
+The bridge can select directly from the source corpus for ad-hoc review, or accept `--wordlist` so production curation can consume the finalized OEWN-resolvable meaning queue. When a supplied wordlist is used, the bridge rejects grade/mode/purpose mismatches and stale source-corpus revisions, and carries the queue's `semanticResolution` metadata into the slice.
+
+Example using the finalized Grade 2 meaning queue:
 
 ```bash
-npm run lexicon:profile-slice:primary -- --profile CBSE_INDIA_CLASS2 --grade 2 --limit 100
+npm run lexicon:profile-slice:primary -- \
+  --profile CBSE_INDIA_CLASS2 \
+  --grade 2 \
+  --limit 100 \
+  --wordlist content/lexicon/open/review-wordlists/grade-2-introduced-meaning.json
 ```
 
 By default this writes `content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json`. The artifact is explicitly `curation_review_only` and contains candidate/source identifiers, source grade signals, matching reviewed Kidsplay row IDs, and any existing profile membership fit. It does **not** include dictionary glosses, child-definition text, examples or source prose.
 
 Candidates without an already-reviewed Kidsplay meaning row are emitted under `pendingEditorialReview`. Matching a word does not add it to the profile: `mutatesKnowledge` and `mutatesProfileMembership` are both false, and `boardAlignmentClaimed` is false. A curator still has to approve the Kidsplay child definition and profile placement through the normal content/profile files.
+
+The OEWN workflow currently generates review slices for every primary profile that exists in the repository and has a matching grade queue: CBSE Class 1–2, CISCE Class 1–2, and SOF Class 2–6. The workflow validates all nine generated files as non-runtime, non-mutating, no-source-prose review artifacts before the broader regression gate.
 
 ## Acceptance checks
 

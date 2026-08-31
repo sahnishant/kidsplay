@@ -36,6 +36,40 @@ export function collectReviewedVocabularyMeaningRows(knowledgeDocuments) {
   return new Map([...rowsByLemma.entries()].map(([lemma, rowIds]) => [lemma, [...rowIds].sort()]));
 }
 
+function resolveProfileWordlist(corpus, grade, mode, limit, suppliedWordlist) {
+  const wordlist = suppliedWordlist ?? selectGradeReviewWordlist(corpus, grade, limit, mode, 'meaning');
+  if (!wordlist || !Array.isArray(wordlist.items)) throw new Error('Profile slice wordlist requires an items array');
+  if (wordlist.sourceId !== 'open-english-wordnet') {
+    throw new Error(`Profile slice meaning wordlist must use open-english-wordnet, got ${wordlist.sourceId ?? '<none>'}`);
+  }
+  if (Number(wordlist.selection?.grade) !== grade) {
+    throw new Error(`Profile slice wordlist grade ${wordlist.selection?.grade} does not match requested grade ${grade}`);
+  }
+  if (clean(wordlist.selection?.mode) !== mode) {
+    throw new Error(`Profile slice wordlist mode ${wordlist.selection?.mode} does not match requested mode ${mode}`);
+  }
+  if (clean(wordlist.selection?.purpose) !== 'meaning') {
+    throw new Error(`Profile slice wordlist purpose must be meaning, got ${wordlist.selection?.purpose ?? '<none>'}`);
+  }
+  if (wordlist.sourceGradeCorpus?.id && wordlist.sourceGradeCorpus.id !== corpus.id) {
+    throw new Error(`Profile slice wordlist corpus ${wordlist.sourceGradeCorpus.id} does not match ${corpus.id}`);
+  }
+  if (
+    wordlist.sourceGradeCorpus?.sourceRevision
+    && corpus.source?.revision
+    && wordlist.sourceGradeCorpus.sourceRevision !== corpus.source.revision
+  ) {
+    throw new Error(
+      `Profile slice wordlist source revision ${wordlist.sourceGradeCorpus.sourceRevision} does not match corpus ${corpus.source.revision}`
+    );
+  }
+
+  return {
+    wordlist,
+    items: wordlist.items.slice(0, limit)
+  };
+}
+
 export function buildPrimaryVocabularyProfileSlice(corpus, knowledgeDocuments, membership, options = {}) {
   const profileRef = clean(options.profileRef || membership?.profileRef);
   if (!profileRef) throw new Error('profileRef is required');
@@ -44,9 +78,13 @@ export function buildPrimaryVocabularyProfileSlice(corpus, knowledgeDocuments, m
   }
 
   const grade = Number(options.grade);
+  if (!Number.isInteger(grade) || grade < 1 || grade > 6) throw new Error('grade must be an integer from 1 to 6');
   const mode = clean(options.mode || 'introduced');
+  if (!['introduced', 'cumulative'].includes(mode)) throw new Error('mode must be introduced or cumulative');
   const limit = Number(options.limit || DEFAULT_LIMIT);
-  const wordlist = selectGradeReviewWordlist(corpus, grade, limit, mode, 'meaning');
+  if (!Number.isInteger(limit) || limit < 1) throw new Error('limit must be a positive integer');
+
+  const { wordlist, items } = resolveProfileWordlist(corpus, grade, mode, limit, options.wordlist);
   const reviewedRows = collectReviewedVocabularyMeaningRows(knowledgeDocuments);
   const membershipByRow = new Map((membership?.members ?? []).map((member) => [clean(member.rowId), clean(member.fit) || null]));
 
@@ -55,7 +93,7 @@ export function buildPrimaryVocabularyProfileSlice(corpus, knowledgeDocuments, m
   let alreadyInProfileWords = 0;
   let alreadyInProfileRows = 0;
 
-  for (const candidate of wordlist.items) {
+  for (const candidate of items) {
     const rowIds = reviewedRows.get(normalizeLemma(candidate.lemma)) ?? [];
     if (!rowIds.length) {
       pendingEditorialReview.push({
@@ -102,7 +140,10 @@ export function buildPrimaryVocabularyProfileSlice(corpus, knowledgeDocuments, m
       purpose: 'meaning',
       requested: wordlist.selection.requested,
       selected: wordlist.selection.selected,
-      algorithm: wordlist.selection.algorithm
+      sliceLimit: limit,
+      sliceSelected: items.length,
+      algorithm: wordlist.selection.algorithm,
+      semanticResolution: wordlist.selection.semanticResolution ?? null
     },
     policy: {
       runtimeContent: false,
@@ -115,7 +156,7 @@ export function buildPrimaryVocabularyProfileSlice(corpus, knowledgeDocuments, m
       profilePlacementRequiresEditorialReview: true
     },
     summary: {
-      selectedCandidates: wordlist.items.length,
+      selectedCandidates: items.length,
       reviewedCandidateWords: readyForProfileReview.length,
       alreadyInProfileWords,
       alreadyInProfileRows,
@@ -168,11 +209,14 @@ function main() {
 
   const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
   const membership = JSON.parse(readFileSync(membershipPath, 'utf8'));
+  const suppliedWordlist = args.wordlist
+    ? JSON.parse(readFileSync(resolve(String(args.wordlist)), 'utf8'))
+    : null;
   const slice = buildPrimaryVocabularyProfileSlice(
     corpus,
     loadKnowledgeDocuments(knowledgeDir),
     membership,
-    { profileRef, grade, mode, limit }
+    { profileRef, grade, mode, limit, wordlist: suppliedWordlist }
   );
 
   mkdirSync(dirname(outputPath), { recursive: true });

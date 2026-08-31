@@ -181,4 +181,47 @@ describe('grade-aware primary vocabulary corpus', () => {
     )).toBe(true);
     expect(slice.policy.mutatesProfileMembership).toBe(false);
   });
+
+  it('can consume a finalized OEWN-resolvable meaning wordlist and rejects stale corpus provenance', () => {
+    const finalizedWordlist = selectGradeReviewWordlist(corpus, 2, 5, 'introduced', 'meaning');
+    finalizedWordlist.selection.semanticResolution = {
+      sourceId: 'open-english-wordnet',
+      sourceVersion: '2025',
+      requestedTarget: 5,
+      selectedResolved: 5,
+      targetShortfall: 0,
+      filledRequestedTarget: true,
+      policy: 'meaning_queue_backfill_only_no_runtime_publish'
+    };
+
+    const slice = buildPrimaryVocabularyProfileSlice(corpus, [vocabularyKnowledge], cbseClass2Membership, {
+      profileRef: 'CBSE_INDIA_CLASS2',
+      grade: 2,
+      mode: 'introduced',
+      limit: 3,
+      wordlist: finalizedWordlist
+    });
+    expect(slice.summary.selectedCandidates).toBe(3);
+    expect(slice.sourceSelection).toMatchObject({
+      requested: 5,
+      selected: 5,
+      sliceLimit: 3,
+      sliceSelected: 3,
+      semanticResolution: {
+        selectedResolved: 5,
+        targetShortfall: 0,
+        filledRequestedTarget: true
+      }
+    });
+
+    const staleWordlist = structuredClone(finalizedWordlist);
+    staleWordlist.sourceGradeCorpus.sourceRevision = 'b'.repeat(40);
+    expect(() => buildPrimaryVocabularyProfileSlice(corpus, [vocabularyKnowledge], cbseClass2Membership, {
+      profileRef: 'CBSE_INDIA_CLASS2',
+      grade: 2,
+      mode: 'introduced',
+      limit: 3,
+      wordlist: staleWordlist
+    })).toThrow(/source revision/);
+  });
 });

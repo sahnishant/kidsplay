@@ -76,19 +76,69 @@ jobs:
       - name: Validate sense-review provenance
         run: npm run validate:lexicon-senses
 
+      - name: Build curator profile slices from finalized meaning queues
+        shell: bash
+        run: |
+          rm -rf content/lexicon/open/profile-slices
+          mkdir -p content/lexicon/open/profile-slices
+          while IFS=: read -r PROFILE GRADE; do
+            npm run lexicon:profile-slice:primary -- \
+              --profile "$PROFILE" \
+              --grade "$GRADE" \
+              --limit 100 \
+              --wordlist "content/lexicon/open/review-wordlists/grade-${GRADE}-introduced-meaning.json"
+          done <<'EOF'
+          CBSE_INDIA_CLASS1:1
+          CBSE_INDIA_CLASS2:2
+          CISCE_INDIA_CLASS1:1
+          CISCE_INDIA_CLASS2:2
+          SOF_INDIA_CLASS2:2
+          SOF_INDIA_CLASS3:3
+          SOF_INDIA_CLASS4:4
+          SOF_INDIA_CLASS5:5
+          SOF_INDIA_CLASS6:6
+          EOF
+
+      - name: Verify profile slices are review-only artifacts
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { readdirSync, readFileSync } from 'node:fs';
+          import { resolve } from 'node:path';
+          const directory = resolve('content/lexicon/open/profile-slices');
+          const files = readdirSync(directory).filter((name) => name.endsWith('.json')).sort();
+          if (files.length !== 9) throw new Error(`Expected 9 primary profile slices, found ${files.length}`);
+          for (const filename of files) {
+            const slice = JSON.parse(readFileSync(resolve(directory, filename), 'utf8'));
+            if (slice.status !== 'curation_review_only') throw new Error(`${filename}: invalid status`);
+            const policy = slice.policy ?? {};
+            if (policy.runtimeContent !== false || policy.mutatesKnowledge !== false || policy.mutatesProfileMembership !== false) {
+              throw new Error(`${filename}: profile slice can never be runtime/mutating content`);
+            }
+            if (policy.sourceDefinitionsIncluded !== false || policy.sourceExamplesIncluded !== false || policy.boardAlignmentClaimed !== false) {
+              throw new Error(`${filename}: source prose/alignment claim leaked into profile slice policy`);
+            }
+            if (slice.sourceSelection?.purpose !== 'meaning') throw new Error(`${filename}: expected meaning source selection`);
+            if (!slice.sourceSelection?.semanticResolution) throw new Error(`${filename}: expected finalized OEWN semantic-resolution metadata`);
+            if (slice.summary?.selectedCandidates !== slice.sourceSelection?.sliceSelected) throw new Error(`${filename}: slice count mismatch`);
+          }
+          console.log(`Primary vocabulary profile slices validated: ${files.length}`);
+          NODE
+
       - name: Run vocabulary corpus and delivery acceptance tests
         run: npm run test:vocabulary-corpus
 
       - name: Run full Kidsplay regression check
         run: npm run check
 
-      - name: Commit meaning queues and sense-review files if changed
+      - name: Commit meaning queues, sense reviews and profile slices if changed
         shell: bash
         run: |
           git add content/lexicon/open/review-wordlists/grade-*-introduced-meaning.json
           git add content/lexicon/open/sense-review/
+          git add content/lexicon/open/profile-slices/
           if git diff --cached --quiet; then
-            echo "Meaning queues and sense-review data already current."
+            echo "Meaning queues, sense-review data and profile slices already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
