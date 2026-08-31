@@ -246,6 +246,30 @@
       <circle class="warm" cx="59" cy="56" r="13" />
       <circle class="paper" cx="59" cy="56" r="6" />
     </g>
+  {:else if icon === 'ball'}
+    <g class="entity-ball">
+      <circle class="blue" cx="60" cy="53" r="34" />
+      <path class="paper" d="M34 32q26 17 52 0-4 13-16 21 13 7 17 20-27-14-54 0 3-13 17-20-12-8-16-21Z" />
+      <path class="line" d="M27 53h66M60 19v68" />
+    </g>
+  {:else if icon === 'mat'}
+    <g class="entity-mat">
+      <rect class="purple" x="10" y="36" width="100" height="45" rx="10" />
+      <rect class="paper" x="20" y="45" width="80" height="27" rx="7" />
+      <path class="line" d="M29 51h62M29 61h62" />
+    </g>
+  {:else if icon === 'branch'}
+    <g class="entity-branch">
+      <path class="line" d="M7 76q31-18 57-20 24-2 49-29M48 59 36 37m31 15 9-23m13 8 15-13" />
+      <ellipse class="green-light entity-leaf" cx="33" cy="34" rx="10" ry="6" transform="rotate(24 33 34)" />
+      <ellipse class="green entity-leaf" cx="77" cy="25" rx="11" ry="6" transform="rotate(-28 77 25)" />
+      <ellipse class="green-light entity-leaf" cx="105" cy="21" rx="9" ry="5" transform="rotate(-20 105 21)" />
+    </g>
+  {:else if icon === 'grass'}
+    <g class="entity-grass">
+      <path class="earth-fill" d="M6 87h108v9H6Z" />
+      <path class="green-stroke line" d="M16 88q5-26 10 0m3 0q7-34 13 0m3 0q5-23 10 0m4 0q7-37 13 0m3 0q5-25 10 0m3 0q7-33 13 0" />
+    </g>
   {:else if icon === 'cloud'}
     <g class="entity-cloud">
       <circle class="cloud entity-cloud-part" cx="38" cy="57" r="23" />

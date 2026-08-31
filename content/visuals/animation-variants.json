@@ -25,5 +25,50 @@
     "motion": "idle",
     "aliases": ["dog animation state curious"],
     "animationIdentityRef": "dog"
+  },
+  {
+    "id": "animation.variant.dog-excited-state",
+    "renderer": "scene-icon",
+    "glyph": "dog-happy",
+    "label": "Excited dog animation state",
+    "motion": "hop",
+    "aliases": ["dog animation state excited"],
+    "animationIdentityRef": "dog"
+  },
+  {
+    "id": "animation.variant.dog-resting-state",
+    "renderer": "scene-icon",
+    "glyph": "dog-happy",
+    "label": "Resting dog animation state",
+    "motion": "breathe",
+    "aliases": ["dog animation state resting"],
+    "animationIdentityRef": "dog"
+  },
+  {
+    "id": "animation.variant.whale-swim-state",
+    "renderer": "scene-icon",
+    "glyph": "whale",
+    "label": "Swimming whale animation state",
+    "motion": "swim",
+    "aliases": ["whale animation state swimming"],
+    "animationIdentityRef": "whale"
+  },
+  {
+    "id": "animation.variant.bird-branch-state",
+    "renderer": "entity-icon",
+    "glyph": "bird",
+    "label": "Bird on branch animation state",
+    "motion": "flap",
+    "aliases": ["bird animation state branch"],
+    "animationIdentityRef": "bird"
+  },
+  {
+    "id": "animation.variant.cow-grazing-state",
+    "renderer": "entity-icon",
+    "glyph": "cow",
+    "label": "Grazing cow animation state",
+    "motion": "chomp",
+    "aliases": ["cow animation state grazing"],
+    "animationIdentityRef": "cow"
   }
 ]
