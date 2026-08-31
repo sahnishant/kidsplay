@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync } from 'node:fs';
-import { membershipMap, resolveMembership } from './profileMemberships.mjs';
+import { createMembershipResolver, readMembershipCollections } from './profileMemberships.mjs';
 import { packMap, resolvePackQuestionRefs } from './learningPacks.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -22,13 +22,10 @@ const questions = questionFiles.flatMap((file) => {
   return Array.isArray(value) ? value : [];
 });
 const questionById = new Map(questions.map((question) => [question.id, question]));
-const membershipFiles = readdirSync(new URL('content/profile-memberships/', root))
-  .filter((name) => name.endsWith('.json'))
-  .sort();
-const rawMemberships = membershipFiles.map((file) => readJson(`content/profile-memberships/${file}`));
-const membershipByRef = membershipMap(rawMemberships);
+const membershipCollections = readMembershipCollections(root);
+const membershipResolver = createMembershipResolver(membershipCollections);
 const memberships = new Map(
-  rawMemberships.map((membership) => [membership.profileRef, resolveMembership(membershipByRef, membership.profileRef)])
+  membershipCollections.map(({ value }) => [value.profileRef, membershipResolver.resolve(value.profileRef)])
 );
 
 const freeRows = new Set();
@@ -96,10 +93,7 @@ for (const { file, pack } of packs) {
       errors.push(`${prefix}: goal_path requires at least one questionRef`);
     }
     if (!allowedKnowledgePolicies.has(pack.knowledgeAccessPolicy)) {
-      errors.push(
-        `${prefix}: goal_path requires knowledgeAccessPolicy ` +
-        `(reuse_free_knowledge or goal_specific_knowledge)`
-      );
+      errors.push(`${prefix}: goal_path requires knowledgeAccessPolicy (reuse_free_knowledge or goal_specific_knowledge)`);
     }
     if (!pack.profileRef) {
       errors.push(`${prefix}: goal_path requires profileRef`);
