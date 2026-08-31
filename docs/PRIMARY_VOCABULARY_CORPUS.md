@@ -1,88 +1,169 @@
-# Primary vocabulary corpus
+# Primary English vocabulary corpus
 
-## Purpose
+This lane builds a large, grade-aware English vocabulary review corpus without turning third-party dictionary prose into child-facing runtime content.
 
-Kidsplay should have a large vocabulary candidate pool without turning an external dictionary into unquestioned child-facing content. The corpus lane therefore separates **candidate selection signals** from **reviewed meanings and curriculum placement**.
+## License and publication boundary
 
-## Data layers
+The source lanes are deliberately separated:
 
-1. **Open grade-candidate corpus** — `content/lexicon/open/primary-grade-corpus.json`. CC BY-SA 4.0, isolated open data. Supplies lemma, grade estimate, frequency and curriculum/source signals.
-2. **Meaning-review queue** — grade-ranked candidates filtered/backfilled through Open English WordNet (OEWN). Supplies resolvable candidate senses and upstream identifiers under CC BY 4.0.
-3. **Kidsplay knowledge rows** — reviewed child definitions, examples and semantic relationships. These are the actual mastery/evidence rows used by activities.
-4. **Profile membership** — CBSE/CISCE/SOF/class placement. Imported grade estimates never create profile membership automatically.
+- `grundwortschatz-voc-en` is the primary word/frequency/grade-evidence source and is **CC BY-SA 4.0**. Its data stays under `content/lexicon/open/` with explicit source revision and license provenance on every ranked row.
+- Open English WordNet (OEWN) 2025 is **CC BY 4.0** and is used only to resolve candidate senses for human review. OEWN definitions/examples remain in the isolated review artifacts.
+- A source gloss is **never** promoted automatically to runtime knowledge. An accepted word needs an explicit human decision and a separately authored Kidsplay child definition.
+- Research/reference sources marked `do_not_import_product_data` remain blocked from product-data ingestion.
 
-## Primary open source
+The review/import boundary is enforced by scripts and tests, not just by convention.
 
-The first large candidate source is `cstr/grundwortschatz-voc-en` (WortUniversum English Vocabulary Database), CC BY-SA 4.0. The pinned `words` split currently contains 11,539 unique English candidates with source grade levels 1–6 and signals from frequency lists, CEFR-J, Cambridge YLE and UK DfE spelling lists.
+## Pinned sources
 
-We intentionally do **not** copy the source's Wiktionary definitions, source examples, pronunciations or enrichment payload into the Kidsplay grade snapshot. Those fields are not required for grade selection and would blur the license/editorial boundary.
+### Primary corpus
 
-## Grade semantics
+- Dataset: `cstr/grundwortschatz-voc-en`
+- Config/split: `default` / `words`
+- Pinned revision: `004977ae2c475fcf12f8b73a02dbb9552e3b6577`
+- License: `CC-BY-SA-4.0`
 
-`grade` means the source dataset's primary-school estimate. It is useful as a prior, not an official Indian grade mapping. A candidate can move earlier/later or be excluded when Kidsplay reviews it for a specific profile.
+A manual live refresh fails if upstream has moved beyond the pinned revision, forcing an explicit source-review step before the pin can change.
 
-| Source grade | Kidsplay starting interpretation |
-| --- | --- |
-| 1 | foundation/high-frequency candidate |
-| 2 | early-primary candidate |
-| 3 | developing-primary candidate |
-| 4 | middle-primary/stretch candidate |
-| 5 | upper-primary candidate |
-| 6 | upper-primary/challenge candidate |
+### Open English WordNet
 
-Curriculum anchors such as UK statutory spelling or Cambridge YLE can raise confidence that a word belongs somewhere in primary learning, but they do not prove CBSE/SOF placement. Grade 6 in particular is a noisy source-estimate band because the upstream grading logic can fall back to frequency when stronger curriculum/CEFR signals are absent. Kidsplay therefore does not force a fixed Grade 6 meaning count when OEWN cannot resolve the ranked candidates safely.
+- Release: English WordNet 2025 JSON archive
+- License: `CC-BY-4.0`
+- Pinned archive SHA-256: `7d749f6e2c39e6970e4997839dcf6e42fd281f3c2fae0171d2192bae8cfa4b51`
 
-## Reproducible source sync
+The resolver checks the archive checksum before using its lexical-entry and synset shards.
 
-`scripts/lexicon/sync-primary-grade-corpus.mjs` fetches the public Hugging Face Dataset Viewer `words` split and writes a deterministic reduced snapshot. The source repository revision SHA is stored in the output. Because the Viewer rows endpoint has no revision selector, the sync checks the repository revision immediately before and after the paged fetch and fails if it changes instead of labeling a moving fetch with one SHA.
+## Ranked corpus contract
 
-`.github/workflows/sync-primary-vocabulary.yml` owns the **source corpus and spelling/recognition queues**. On branch pushes it validates the committed corpus, rebuilds spelling queues, runs vocabulary acceptance tests and then the repository-wide regression check. A manual `workflow_dispatch` additionally performs a live source refresh first.
+`content/lexicon/open/primary-grade-corpus.json` is a **review corpus**, not a runtime dictionary.
 
-`.github/workflows/resolve-primary-vocabulary-senses.yml` owns the **meaning queues, OEWN sense-review output and generated profile-slice review artifacts**. It downloads the checksum-pinned official OEWN 2025 JSON release, loads its sharded `entries-*` plus POS-synset layout, rebuilds OEWN-resolvable meaning queues, validates provenance, generates profile slices from those finalized meaning queues, runs vocabulary acceptance tests and then the repository-wide regression check.
+The committed corpus contains exactly **10,000 globally unique normalized lemmas** with these Kidsplay primary bands:
 
-The two workflows use separate concurrency groups so the latest corpus/spelling proof and the latest meaning/OEWN proof can run independently without cancelling each other. Deterministic corpus/queue/sense/profile artifacts are committed to this working branch only after their lane-specific validators and vocabulary acceptance tests pass. The repository-wide `npm run check` remains a later **merge gate**: an unrelated integration failure can block PR/merge without discarding already-validated branch artifacts.
+| Kidsplay band | Entries |
+| --- | ---: |
+| Grade 1 | 800 |
+| Grade 2 | 1,500 |
+| Grade 3 | 1,700 |
+| Grade 4 | 1,800 |
+| Grade 5 | 1,900 |
+| Grade 6 | 2,300 |
+| **Total** | **10,000** |
 
-## Meaning-queue backfill policy
+Important semantics:
 
-Meaning instruction needs a semantic source; spelling recognition does not. For that reason the two queue types deliberately diverge:
+- `grade` is the Kidsplay frequency-led review band produced by `frequency_proxy_v1`.
+- `sourceGrade` preserves the upstream source estimate.
+- Neither field is a CBSE, CISCE, SOF, or other board/exam alignment claim.
+- Rows are NFKC-normalized, lowercase, globally deduplicated, and carry row-level `{ sourceId, sourceRevision, license }` provenance.
+- Imported rows are `runtimeActive: false`.
+- The corpus contains no imported definitions or imported examples.
 
-- **Spelling/recognition:** ranked directly from the source-grade corpus. A word can remain useful for spelling review even if OEWN has no matching lexical sense.
-- **Meaning:** `scripts/lexicon/build-grade-sense-review.mjs` overscans the ranked source-grade candidates and selects only candidates that OEWN can resolve by normalized lemma and compatible part of speech. WordNet adjective satellites (`s`) are accepted for adjective (`a`) requests.
-- Unresolved candidates are skipped for the meaning queue, not deleted from the source corpus.
-- OEWN definitions/examples remain **review references only**. They are never promoted automatically into Kidsplay child-facing knowledge or profile membership.
+Current review-state split after filtering and rebanding:
 
-Every finalized meaning queue records `selection.semanticResolution` with the requested target, eligible source pool, overscan size, resolvable count, unresolved/skipped count, selected resolved count, target shortfall, whether the requested target was filled, and whether the eligible pool was exhausted. This makes underfill explicit instead of silently padding a grade with unsupported words.
+- `needs_sense_review`: **9,849**
+- `spelling_only`: **151**
+- `clean`: **0**
 
-For the current pinned corpus + OEWN 2025 proof with a target of 400 per introduction grade:
+`spelling_only` rows may be used for spelling/recognition review but are excluded from semantic meaning queues.
 
-| Grade | Final resolvable meaning words | Missing in final queue | Notes |
-| --- | ---: | ---: | --- |
-| 1 | 37 | 0 | only 37 eligible meaning candidates after selection policy |
-| 2 | 400 | 0 | target filled |
-| 3 | 400 | 0 | target filled |
-| 4 | 400 | 0 | target filled |
-| 5 | 400 | 0 | target filled |
-| 6 | 280 | 0 | resolvable reservoir exhausted; 120-word target shortfall is preserved honestly |
+## Semantic filtering and ranking
 
-A future corpus/OEWN revision may change these counts. The invariant is that a finalized meaning queue has no unresolved members; it is not that every grade must be padded to 400.
+The deterministic rebander:
 
-## Commercial-safe source policy
+1. normalizes lemmas;
+2. removes malformed/symbolic/numeral junk;
+3. blocks obvious abbreviations/proper-name markers and the maintained adult/profanity list;
+4. globally deduplicates normalized lemmas;
+5. classifies closed-class/grammar vocabulary as `spelling_only`;
+6. ranks remaining terms primarily by frequency, with small curriculum-evidence tie/priority signals;
+7. takes exactly the six grade quotas above while retaining the upstream grade separately.
 
-- **Allowed/open data:** Open English WordNet (CC BY 4.0), CSTR/WortUniversum candidate corpus (CC BY-SA 4.0, isolated), released `concepticon/norare-cldf` data (CC BY 4.0 when/if used).
-- **Research-only / do not import:** repositories or datasets whose terms are non-commercial, including the `norare-data` curation repository and VXGL's CC BY-NC release.
-- **Wiktionary/Kaikki:** optional separately traceable CC BY-SA/GFDL enrichment only; not silently copied into Kidsplay editorial definitions.
+Run locally:
 
-## Curation target
+```bash
+npm run lexicon:reband:primary
+npm run validate:lexicon-corpus
+npm run report:lexicon-corpus
+```
 
-The full 11k+ pool is not the runtime pack. Curators should select a manageable tranche per grade/profile using source grade, familiarity/frequency, spelling complexity, curriculum anchors, semantic ambiguity, visual teachability and learner mastery history. Selected meaning words then go through OEWN sense review and Kidsplay child-definition review before meaning-based activities. Spelling-only activities may use a lighter review path, but still require profile placement before shipping.
+## Meaning and spelling queues
 
-## Profile-slice bridge
+Meaning and spelling are separate lanes.
 
-Pass 5 deliberately uses a **review bridge**, not an importer. `scripts/lexicon/build-primary-vocabulary-profile-slice.mjs` takes a grade selection and a target Kidsplay profile, then matches candidates only against `authoring.status: reviewed` Kidsplay knowledge rows whose relation is `means`.
+### Spelling/recognition
 
-The bridge can select directly from the source corpus for ad-hoc review, or accept `--wordlist` so production curation can consume the finalized OEWN-resolvable meaning queue. When a supplied wordlist is used, the bridge rejects grade/mode/purpose mismatches and stale source-corpus revisions, and carries the queue's `semanticResolution` metadata into the slice.
+```bash
+npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose spelling
+```
 
-Example using the finalized Grade 2 meaning queue:
+This lane may include `spelling_only` rows and makes no semantic or curriculum-placement claim.
+
+### Meaning/sense review
+
+The OEWN resolver builds finalized, OEWN-resolvable meaning queues. The CI lane targets **400 resolvable words per grade** and overscans the ranked corpus rather than accepting unresolved fillers.
+
+The current acceptance run produced 400/400 resolvable words for every grade, with zero missing words in every finalized queue.
+
+OEWN candidate files live under:
+
+```text
+content/lexicon/open/sense-review/
+```
+
+They are review-only CC BY 4.0 artifacts and may contain source glosses/examples for curator reference.
+
+## Curator slices
+
+Large sense files are reduced to practical human-review packets with:
+
+```bash
+npm run lexicon:export:review-slice -- \
+  --sense-review content/lexicon/open/sense-review/grade-2-introduced-meaning-oewn.json \
+  --wordlist content/lexicon/open/review-wordlists/grade-2-introduced-meaning.json \
+  --limit 40 \
+  --output content/lexicon/open/curator-slices/grade-2-meaning-review.json
+```
+
+Each curator item includes the lemma, grade, upstream grade, POS, frequency, priority score, candidate sense IDs/glosses with OEWN provenance, and a blank explicit review decision area.
+
+The automated lane emits **40-word curator slices for Grades 1-6**.
+
+## Human review and runtime import
+
+Human decisions belong under:
+
+```text
+content/lexicon/reviews/
+```
+
+An accepted decision must include:
+
+- the exact OEWN `candidateId`;
+- `status: "reviewed"`;
+- `decision: "accept"`;
+- an independently authored `childDefinition`;
+- reviewer identity and review date.
+
+Then run:
+
+```bash
+npm run lexicon:import:reviews
+```
+
+The importer rejects unknown/mismatched candidate IDs, missing review metadata, duplicate accepted senses for the same lemma, and a child definition that copies the OEWN gloss verbatim.
+
+Accepted rows are emitted as ordinary reviewed Kidsplay `means` associations in:
+
+```text
+content/knowledge/english-vocabulary-primary-reviewed.json
+```
+
+Only source identifiers/provenance are retained in curation metadata; the OEWN source gloss itself is not copied into the runtime knowledge row.
+
+## Profile bridge
+
+Profile slices are review aids only. They do not mutate knowledge or profile membership and do not claim board alignment.
+
+Examples:
 
 ```bash
 npm run lexicon:profile-slice:primary -- \
@@ -92,24 +173,55 @@ npm run lexicon:profile-slice:primary -- \
   --wordlist content/lexicon/open/review-wordlists/grade-2-introduced-meaning.json
 ```
 
-By default this writes `content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json`. The artifact is explicitly `curation_review_only` and contains candidate/source identifiers, source grade signals, matching reviewed Kidsplay row IDs, and any existing profile membership fit. It does **not** include dictionary glosses, child-definition text, examples or source prose.
+The CI lane produces slices for CBSE/CISCE Classes 1-2 and SOF Classes 2-6. A word becomes runtime/profile content only through the normal reviewed Kidsplay knowledge and membership mechanisms.
 
-Candidates without an already-reviewed Kidsplay meaning row are emitted under `pendingEditorialReview`. Matching a word does not add it to the profile: `mutatesKnowledge` and `mutatesProfileMembership` are both false, and `boardAlignmentClaimed` is false. A curator still has to approve the Kidsplay child definition and profile placement through the normal content/profile files.
+## Automated refresh gates
 
-The OEWN workflow currently generates review slices for every primary profile that exists in the repository and has a matching grade queue: CBSE Class 1–2, CISCE Class 1–2, and SOF Class 2–6. The workflow validates all nine generated files as non-runtime, non-mutating, no-source-prose review artifacts before the broader regression gate.
+Two branch workflows enforce the mandate.
+
+### `Curate Primary Vocabulary Corpus`
+
+On branch pushes it:
+
+1. re-applies deterministic grade bands;
+2. validates exact distribution, dedupe, review states and row provenance;
+3. regenerates spelling queues;
+4. runs the focused vocabulary tests;
+5. runs the repository-wide `npm run check` gate;
+6. commits generated corpus/spelling artifacts only after all gates pass and only when the branch head has not moved.
+
+A manual dispatch additionally performs the pinned live source refresh.
+
+### `Resolve Primary Vocabulary Senses`
+
+It:
+
+1. validates the ranked corpus;
+2. downloads/checks the pinned OEWN 2025 archive;
+3. resolves 400 meaning words per grade;
+4. validates OEWN provenance;
+5. emits 40-word curator slices;
+6. imports any explicit reviewed decisions;
+7. rebuilds review-only profile slices;
+8. runs focused vocabulary tests and full `npm run check`;
+9. commits generated artifacts only after all gates pass and only if the branch head is unchanged.
 
 ## Acceptance checks
 
-The branch-specific acceptance command is:
+Primary mandate checks are covered by:
+
+```text
+tests/lexicon-import.behavior.test.ts
+tests/primary-vocabulary-corpus.behavior.test.ts
+tests/primary-vocabulary-mandate.behavior.test.ts
+tests/vocabulary-delivery.behavior.test.ts
+```
+
+Use:
 
 ```bash
 npm run test:vocabulary-corpus
+npm run check
 ```
 
-It compiles current Kidsplay content and runs:
-
-- OEWN import/shard/backfill behavior tests
-- primary corpus, grade selection and profile-bridge behavior tests
-- existing Vocabulary Playground delivery regression tests
-
-The vocabulary workflows run this focused gate before the global `npm run check`, so corpus/delivery regressions are distinguishable from unrelated repository-wide blockers.
+The merge gate requires both the focused corpus tests and the repository-wide build/typecheck/test suite to pass.

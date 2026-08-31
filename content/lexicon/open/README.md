@@ -1,28 +1,73 @@
-# Open primary vocabulary data
+# Open lexicon data
 
-Files in this directory are intentionally kept separate from Kidsplay-authored learning content.
+This directory contains **review and curation artifacts**, not an automatically published child-facing dictionary.
 
-## `primary-grade-corpus.json`
+## Primary ranked corpus
 
-This file is a reduced redistribution/derivative of the **WortUniversum English Vocabulary Database** published as `cstr/grundwortschatz-voc-en` on Hugging Face under **Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**.
+`primary-grade-corpus.json` is built from the CC BY-SA 4.0 `cstr/grundwortschatz-voc-en` dataset pinned at:
 
-Upstream: https://huggingface.co/datasets/cstr/grundwortschatz-voc-en
+```text
+004977ae2c475fcf12f8b73a02dbb9552e3b6577
+```
 
-The source dataset combines multiple upstream signals. See its dataset card for complete attribution. Kidsplay's reduced snapshot retains only fields needed for vocabulary curation: stable source ID, word/lemma, source POS token, grade estimate, frequency summary, compact curriculum/source tags, and review status.
+The committed ranked corpus contains exactly **10,000 globally unique normalized lemmas**:
 
-### Changes made by Kidsplay
+```text
+Grade 1   800
+Grade 2  1500
+Grade 3  1700
+Grade 4  1800
+Grade 5  1900
+Grade 6  2300
+```
 
-- Removed Wiktionary/OEWN definitions and all source example sentences from this snapshot.
-- Removed pronunciation, inflection, learner-error, translation and large enrichment payloads.
-- Normalized the frequency summary into `zipf`, `perMillion` and `band`.
-- Normalized selected grade evidence into `reason`, `cefrLevel`, `yleLevel` and compact tags.
-- Sorted deterministically by grade, lemma, POS and source ID.
-- Marked every row `reviewStatus: candidate`.
+`grade` is a Kidsplay frequency-led review band. `sourceGrade` preserves the upstream estimate. Neither is a board/exam alignment claim.
 
-This open-data snapshot remains CC BY-SA 4.0. Its license does **not** change the license of application code or independently authored Kidsplay content, but redistributed derivative data from this file must comply with CC BY-SA 4.0.
+Every row is runtime-inactive, carries source id/revision/license provenance, and contains no imported definitions/examples. Semantic candidates use `needs_sense_review`; closed-class/grammar items that remain useful for spelling/recognition use `spelling_only`.
 
-## Pedagogy boundary
+## Review wordlists
 
-The source `grade` is a useful primary-school estimate, not a claim that a word is approved for a particular Indian board, class, SOF exam, or learner. Profile membership remains a Kidsplay curation decision.
+`review-wordlists/` contains deterministic by-grade selections:
 
-This snapshot deliberately contains **no child-facing definitions**. Meaning instruction is created only after sense resolution (normally with Open English WordNet) and editorial review. Imported dictionary prose must keep its own provenance/license if ever used verbatim or adapted.
+- `*-meaning.json`: semantic candidates only; `spelling_only` rows are excluded.
+- `*-spelling.json`: spelling/recognition candidates; `spelling_only` rows are allowed.
+
+The automated lanes target 400 selected items per grade.
+
+## OEWN sense review
+
+`sense-review/` contains isolated Open English WordNet 2025 candidate-sense material under CC BY 4.0. Source glosses/examples may appear there **only for curator reference**.
+
+Current automated resolution produces 400 OEWN-resolvable meaning words for every grade, with up to three candidate senses per selected word.
+
+No OEWN definition is automatically published as Kidsplay runtime content.
+
+## Curator slices
+
+`curator-slices/` contains practical 40-word human-review packets for Grades 1-6. A slice carries:
+
+- lemma and Kidsplay grade;
+- preserved upstream source grade;
+- POS and frequency/priority metadata;
+- candidate OEWN sense IDs and review-only glosses;
+- blank explicit human decision fields.
+
+Accepted semantic decisions are stored separately under `content/lexicon/reviews/` and must supply an independently authored Kidsplay child definition. `scripts/lexicon/import-primary-vocabulary-reviews.mjs` validates the decision and converts it into normal reviewed Kidsplay knowledge.
+
+## Profile slices
+
+`profile-slices/` are **curation-review only**. They never mutate knowledge or profile membership and never claim CBSE/CISCE/SOF alignment merely because a ranked word is shown in a profile slice.
+
+## Rebuild commands
+
+```bash
+npm run lexicon:reband:primary
+npm run validate:lexicon-corpus
+npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose spelling
+npm run lexicon:resolve:primary -- --input <OEWN_JSON_DIR> --source-version 2025 --max-senses 3 --mode introduced --target-per-grade 400 --overscan-per-grade 1200
+npm run lexicon:export:review-slice -- --sense-review <sense-file> --wordlist <wordlist-file> --limit 40 --output <slice-file>
+npm run lexicon:import:reviews
+npm run test:vocabulary-corpus
+```
+
+For source pins, license boundaries, workflow behavior and the publication contract, see `docs/PRIMARY_VOCABULARY_CORPUS.md`.
