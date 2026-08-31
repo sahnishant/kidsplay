@@ -43,6 +43,27 @@
   },
   {
     "schemaVersion": 1,
+    "id": "knowledge.reasoning.grouping-straight-sides.001",
+    "rowId": "kr.reasoning.grouping.figures.straight-sides",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Grouping of Figures and Figure Matrix",
+    "prompt": "Which group contains only shapes made entirely of straight sides?",
+    "choices": [
+      { "id": "straight", "label": "triangle, square, rectangle" },
+      { "id": "circle-mix", "label": "circle, triangle, square" },
+      { "id": "oval-mix", "label": "oval, circle, rectangle" },
+      { "id": "curved", "label": "circle, oval, semicircle" }
+    ],
+    "correctChoiceId": "straight",
+    "conceptIds": ["reasoning.grouping.shared-property"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["reasoning", "classification"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
     "id": "knowledge.reasoning.mirror-nearest-letter.001",
     "rowId": "kr.reasoning.mirror.word-nearest.right",
     "kind": "choice_item",
