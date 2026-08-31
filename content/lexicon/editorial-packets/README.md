@@ -13,15 +13,16 @@ The open corpus and OEWN candidate glosses remain reference material. A packet m
    npm run lexicon:prepare:editorial:grade2
    ```
 
-   The packet starts with `publicationState: "blocked_pending_editorial_review"`. Every item starts with `editorial.status: "draft"`, no selected sense, no child definition, no reviewer, and no approved profile placement.
+   The packet starts with `publicationState: "blocked_pending_editorial_review"`. Every item starts with `editorial.status: "draft"`, no selected sense, no child definition, no reviewer, no review authority, and no approved profile placement.
 
 2. Editorially review each item.
 
    - Choose an exact `selectedCandidateId` from that item's OEWN candidate list.
    - Write a Kidsplay child definition independently. Do not copy the OEWN gloss.
-   - AI wording may be used only as a draft for an editor to review; an AI draft is **not** a reviewed decision.
-   - Set `editorial.status: "reviewed"`, `decision: "accept"` or `"reject"`, `reviewer`, and ISO `reviewedAt` only after the editorial decision is actually made.
-   - Profile placement is separate. Corpus grade and packet profile targets are only review cues; they never imply CBSE/CISCE/SOF membership.
+   - AI wording may be used only as a draft for an editor to review; record its draft origin when useful. An AI draft is **not** a reviewed decision.
+   - Only a real editorial review may set `editorial.status: "reviewed"` together with `reviewAuthority: "human_editor"`, `decision: "accept"` or `"reject"`, `reviewer`, and ISO `reviewedAt`.
+   - The finalizer rejects a reviewed item whose `reviewAuthority` is anything other than `human_editor`.
+   - Profile placement is separate and requires its own `reviewAuthority: "human_editor"`. Corpus grade and packet profile targets are only review cues; they never imply CBSE/CISCE/SOF membership.
 
 3. Finalize the packet into the review-handoff format:
 
@@ -31,7 +32,7 @@ The open corpus and OEWN candidate glosses remain reference material. A packet m
      --output content/lexicon/reviews/grade-1-batch-001.json
    ```
 
-   The finalizer fails closed when a reviewed item has an unknown candidate, missing reviewer/date, malformed decision, or a child definition that copies the selected OEWN gloss verbatim.
+   The finalizer fails closed when a reviewed item has non-human review authority, an unknown candidate, missing reviewer/date, malformed decision, or a child definition that copies the selected OEWN gloss verbatim.
 
 4. Import accepted reviewed decisions through the existing guarded importer:
 
