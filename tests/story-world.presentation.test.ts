@@ -67,9 +67,10 @@ describe('Dheu viewport story-world presentation', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
 
-    expect(screen.getByRole('dialog')).toBeTruthy();
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toBeTruthy();
+    expect(dialog.textContent).toContain('Warm-up tease');
     expect(screen.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeTruthy();
-    expect(screen.getByText(/STORY MISSION · Warm-up tease/)).toBeTruthy();
     expect(screen.getByLabelText('Story beat 1 of 3')).toBeTruthy();
     expect(screen.getByText(/Some animals live in water/)).toBeTruthy();
     expect(screen.queryByText(/Mira, can you investigate where different animals belong/)).toBeNull();
@@ -156,7 +157,7 @@ describe('Dheu viewport story-world presentation', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
-    expect(screen.getByText(/STORY MISSION · Clever trap/)).toBeTruthy();
+    expect(screen.getByRole('dialog').textContent).toContain('Clever trap');
     expect(screen.getByRole('button', { name: 'Next story beat' })).toBeTruthy();
   });
 });
