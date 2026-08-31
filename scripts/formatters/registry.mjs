@@ -2,13 +2,15 @@ import { readFileSync } from 'node:fs';
 import { normalizeData } from '../normalizers/registry.mjs';
 import { formatAssociationSet, associationSetSupportedEngines } from './associationSet.mjs';
 import { formatChoiceItem, choiceItemSupportedEngines } from './choiceItem.mjs';
+import { formatProcess, processSupportedEngines } from './process.mjs';
 import { assertRecipeUnitMode } from './recipeUnitMode.mjs';
 
 const dataTypeRegistry = JSON.parse(readFileSync(new URL('../../content/data-types/registry.json', import.meta.url), 'utf8'));
 
 const formatterImplementations = new Map([
   ['association_set@1', { format: formatAssociationSet, supportedEngines: associationSetSupportedEngines }],
-  ['choice_item@1', { format: formatChoiceItem, supportedEngines: choiceItemSupportedEngines }]
+  ['choice_item@1', { format: formatChoiceItem, supportedEngines: choiceItemSupportedEngines }],
+  ['process@1', { format: formatProcess, supportedEngines: processSupportedEngines }]
 ]);
 
 const dataTypes = new Map((dataTypeRegistry.dataTypes ?? []).map((dataType) => [`${dataType.id}@${dataType.version}`, dataType]));
@@ -63,10 +65,6 @@ const selectedUnitsForRecipe = (normalized, recipe) => {
   if (offset >= selected.length) throw new Error(`${recipe.id}: entryOffset ${offset} is outside ${normalized.sourceRef}`);
   return selected.slice(offset, offset + limit);
 };
-
-const knowledgeRefsForRecipe = (normalized, recipe) => [
-  ...new Set(selectedUnitsForRecipe(normalized, recipe).map((unit) => unit.rowId))
-];
 
 const attachKnowledgeRefs = (result, knowledgeRefs) => ({
   ...result,
