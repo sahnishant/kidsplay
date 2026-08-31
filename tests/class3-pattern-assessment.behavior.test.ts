@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { getProfileQuestions } from '../src/content';
 import {
@@ -8,7 +9,7 @@ import {
   type EffectiveProfileMember
 } from '../src/runtime/profileAssessment';
 
-const readJson = (path: string) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
+const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 const PROFILE_REF = 'SOF_INDIA_CLASS3';
 
 function fixture() {
