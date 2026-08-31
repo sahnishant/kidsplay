@@ -74,7 +74,7 @@ describe('profile maturity reporting', () => {
     expect(summary.gaps.freeUncoveredRows).toEqual([]);
 
     expect(summary.reusedAcrossProfilesRows).toBeGreaterThan(summary.directMembershipRows);
-    expect(summary.exclusiveToProfileRows).toBeGreaterThan(0);
+    expect(summary.reusedAcrossProfilesRows + summary.exclusiveToProfileRows).toBe(summary.membershipRows);
     expect(summary.gradeSpecificSourceRows).toBeGreaterThan(0);
     expect(summary.sharedCanonicalSourceRows).toBeGreaterThan(100);
     expect(summary.multiFormatRows).toBeGreaterThan(0);
