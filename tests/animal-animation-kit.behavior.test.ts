@@ -48,25 +48,47 @@ describe('reusable animal semantic animation kit', () => {
     })?.id).toBe('animation.cow.grass-chew');
   });
 
-  it('keeps presentation variants identity-bound and registers reusable original props', () => {
-    expect(resolveVisualDefinition('animation.variant.dog-excited-state')?.animationIdentityRef).toBe('dog');
-    expect(resolveVisualDefinition('animation.variant.whale-swim-state')?.animationIdentityRef).toBe('whale');
-    expect(resolveVisualDefinition('animation.variant.bird-branch-state')?.animationIdentityRef).toBe('bird');
-    expect(resolveVisualDefinition('animation.variant.cow-grazing-state')?.animationIdentityRef).toBe('cow');
+  it('keeps presentation variants identity-bound with the intended lightweight motion', () => {
+    const expectedVariants = [
+      ['animation.variant.dog-excited-state', 'dog', 'hop'],
+      ['animation.variant.dog-resting-state', 'dog', 'breathe'],
+      ['animation.variant.whale-swim-state', 'whale', 'swim'],
+      ['animation.variant.bird-branch-state', 'bird', 'flap'],
+      ['animation.variant.cow-grazing-state', 'cow', 'chomp']
+    ] as const;
 
-    for (const visualRef of ['entity.object.ball', 'entity.object.mat', 'entity.nature.branch', 'entity.plant.grass']) {
-      expect(resolveVisualDefinition(visualRef), `${visualRef} should be registered`).toBeTruthy();
+    for (const [visualRef, identityRef, motion] of expectedVariants) {
+      const definition = resolveVisualDefinition(visualRef);
+      expect(definition?.animationIdentityRef, `${visualRef} identity`).toBe(identityRef);
+      expect(definition?.motion, `${visualRef} motion`).toBe(motion);
     }
   });
 
-  it('renders authored animal props and contexts without per-question renderer code', () => {
+  it('registers and renders every original prop/context glyph used by the kit', () => {
+    const cases = [
+      ['animation.dog.excited-ball', 'ball', 'entity.object.ball', '.entity-ball'],
+      ['animation.dog.resting-mat', 'mat', 'entity.object.mat', '.entity-mat'],
+      ['animation.bird.branch-flap', 'branch', 'entity.nature.branch', '.entity-branch'],
+      ['animation.cow.grass-chew', 'grass', 'entity.plant.grass', '.entity-grass']
+    ] as const;
+
+    for (const [animationId, partId, visualRef, glyphSelector] of cases) {
+      expect(resolveVisualDefinition(visualRef), `${visualRef} should be registered`).toBeTruthy();
+      const { container } = render(SemanticAnimation, { props: { animationId } });
+      expect(container.querySelector(`[data-animation-id="${animationId}"]`)).toBeTruthy();
+      expect(container.querySelector(`[data-part-id="${partId}"][data-visual-ref="${visualRef}"]`)).toBeTruthy();
+      expect(container.querySelector(glyphSelector), `${visualRef} should render its original glyph`).toBeTruthy();
+      cleanup();
+    }
+  });
+
+  it('renders the whale context and animal subjects without source-specific renderer code', () => {
     const { container } = render(SemanticAnimation, {
-      props: { animationId: 'animation.cow.grass-chew' }
+      props: { animationId: 'animation.whale.ocean-swim' }
     });
 
-    expect(container.querySelector('[data-animation-id="animation.cow.grass-chew"]')).toBeTruthy();
-    expect(container.querySelector('[data-part-role="subject"] [data-visual-ref="animation.variant.cow-grazing-state"]')).toBeTruthy();
-    expect(container.querySelector('[data-part-id="grass"][data-visual-ref="entity.plant.grass"]')).toBeTruthy();
+    expect(container.querySelector('[data-part-role="subject"] [data-visual-ref="animation.variant.whale-swim-state"]')).toBeTruthy();
+    expect(container.querySelector('[data-part-id="ocean"][data-visual-ref="entity.habitat.ocean"]')).toBeTruthy();
   });
 
   it('falls back within the requested identity when an authored prop is unavailable', () => {
