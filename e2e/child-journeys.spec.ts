@@ -43,6 +43,19 @@ async function expectNoDocumentVerticalOverflow(page: Page, label: string): Prom
   ).toBeLessThanOrEqual(dimensions.appClient + 1);
 }
 
+async function expectPrimarySurfaceFits(page: Page, label: string): Promise<void> {
+  const state = page.locator('[data-session-state]').first();
+  await expect(state, `${label}: session state should be visible`).toBeVisible();
+  const dimensions = await state.locator('.session-card__scroll').evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight
+  }));
+  expect(
+    dimensions.scrollHeight,
+    `${label}: representative primary child state should fit without internal scrolling`
+  ).toBeLessThanOrEqual(dimensions.clientHeight + 1);
+}
+
 async function expectChildTapTarget(locator: Locator, label: string): Promise<void> {
   await expect(locator, `${label}: target should be visible`).toBeVisible();
   const box = await locator.boundingBox();
@@ -65,6 +78,14 @@ async function openGoals(page: Page): Promise<void> {
 
 async function openProgress(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Open learning progress' }).click();
+}
+
+async function advanceMissionStory(page: Page): Promise<void> {
+  const nextBeat = page.getByRole('button', { name: 'Next story beat' });
+  while (await nextBeat.count()) {
+    await expect(nextBeat).toBeVisible();
+    await nextBeat.click();
+  }
 }
 
 test.describe('Kidsplay child journeys', () => {
@@ -143,6 +164,8 @@ test.describe('Kidsplay child journeys', () => {
     await expect(page.getByRole('dialog')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeVisible();
     await expectNoDocumentVerticalOverflow(page, 'story mission overlay');
+    await expect(page.getByLabel(/Story beat 1 of/)).toBeVisible();
+    await advanceMissionStory(page);
     await page.getByRole('button', { name: 'Start investigation · 6 clues' }).click();
 
     for (let index = 0; index < 6; index += 1) {
@@ -299,11 +322,13 @@ test.describe('Android-like viewport acceptance', () => {
     await expect(page.getByText(/^1 \/ 8$/)).toBeVisible();
     await expectNoHorizontalOverflow(page, 'practice question at 360px');
     await expectNoDocumentVerticalOverflow(page, 'practice answer at 360x640');
+    await expectPrimarySurfaceFits(page, 'practice answer at 360x640');
     await answerCurrentQuestion(page);
     const next = page.getByRole('button', { name: /Next|See result/ });
     await expectChildTapTarget(next, 'practice continue');
     await expectNoHorizontalOverflow(page, 'practice feedback at 360px');
     await expectNoDocumentVerticalOverflow(page, 'practice reaction at 360x640');
+    await expectPrimarySurfaceFits(page, 'practice reaction at 360x640');
   });
 
   test('35-question mock remains viewport-contained after a landscape rotation', async ({ page }) => {
