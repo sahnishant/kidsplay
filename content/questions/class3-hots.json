@@ -98,5 +98,105 @@
     "solution": { "type": "exact_option", "correctOptionIds": ["safe-action"] },
     "feedback": { "correct": "Correct. One action checks road safety; the other gets responsible adult help in an emergency.", "incorrect": "The situations differ, but both choices use the safety rule suited to that situation." },
     "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 3 rows; not claimed as an official SOF question." }
+  },
+  {
+    "id": "sof3.light.hots.window-shadow.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof3.material.transparent", "sof3.material.opaque", "sof3.light.shadow"],
+    "knowledgeRefs": ["kr.sof3.material.transparent.light", "kr.sof3.material.opaque.blocks-light", "kr.sof3.light.shadow.blocked"],
+    "gradeBands": [3],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Mira shines the same torch first through clear glass and then at a cardboard sheet. Which observation best uses what we know about transparent and opaque materials?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "cardboard-shadow", "label": "The cardboard is more likely to make a clear shadow because it blocks the light." },
+      { "id": "glass-shadow", "label": "The clear glass must make the darkest shadow because it lets most light pass." },
+      { "id": "same", "label": "Both must make identical dark shadows because every material blocks all light." },
+      { "id": "no-light", "label": "Neither can affect light, so a shadow cannot form." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["cardboard-shadow"] },
+    "feedback": { "correct": "Correct. Opaque cardboard blocks light, while transparent glass lets most light pass.", "incorrect": "Connect transparency with light passing through and opacity with light being blocked." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 3 rows; not claimed as an official SOF question." }
+  },
+  {
+    "id": "sof3.force.hots.toy-car.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof3.force.push", "sof3.force.pull", "sof3.force.motion"],
+    "knowledgeRefs": ["kr.sof3.force.push.away", "kr.sof3.force.pull.toward", "kr.sof3.force.effect.motion"],
+    "gradeBands": [3],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "A toy car is between Neel and Tara. Neel pushes it away from himself toward Tara. Tara then pulls it toward herself. Which conclusion is best?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "both-force", "label": "Both actions use force and can change the car's motion, even though one is a push and the other is a pull." },
+      { "id": "push-only", "label": "Only Neel uses force because pulling cannot move an object." },
+      { "id": "pull-away", "label": "Tara's pull must move the car away from her." },
+      { "id": "no-change", "label": "Neither action can change motion because the car was already on the floor." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["both-force"] },
+    "feedback": { "correct": "Correct. Pushes and pulls are forces, and both can change an object's motion.", "incorrect": "Use the direction of push and pull, then remember that force can change motion." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 3 rows; not claimed as an official SOF question." }
+  },
+  {
+    "id": "sof3.environment.hots-lunchbox.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof3.environment.reduce", "sof3.environment.reuse", "sof3.environment.recycle"],
+    "knowledgeRefs": ["kr.sof3.environment.reduce.waste", "kr.sof3.environment.reuse.again", "kr.sof3.environment.recycle.new-material"],
+    "gradeBands": [3],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Four children want to make less waste at school. Which plan uses reduce, reuse and recycle in the most sensible way?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "three-r", "label": "Carry a reusable bottle, avoid taking extra disposable items, and put recyclable paper in the correct collection." },
+      { "id": "throw-all", "label": "Use a new bottle every day and throw paper and plastic into the same bin." },
+      { "id": "reuse-only", "label": "Keep every piece of rubbish forever because reuse means nothing should ever be processed." },
+      { "id": "recycle-first", "label": "Take as many disposable items as possible because recycling means reducing is unnecessary." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["three-r"] },
+    "feedback": { "correct": "Correct. The plan uses less, uses an item again, and sends suitable material for recycling.", "incorrect": "Look for one action that matches each of reduce, reuse and recycle." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 3 rows; not claimed as an official SOF question." }
+  },
+  {
+    "id": "sof3.communication-safety.hots-message.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof3.communication.message", "sof3.communication.internet-safety", "sof3.safety.emergency"],
+    "knowledgeRefs": ["kr.sof3.communication.message.sender-receiver", "kr.sof3.communication.internet.adult-guidance", "kr.sof3.safety.emergency.ask-adult"],
+    "gradeBands": [3],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "A child receives an online message from an unknown person asking for a home address and saying there is an emergency. What is the safest response?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "trusted-adult", "label": "Do not share the address; show the message to a trusted adult who can decide how to get real help." },
+      { "id": "send-address", "label": "Send the address immediately because every message claiming an emergency must be trusted." },
+      { "id": "send-more", "label": "Share more personal details first so the sender knows the child is helpful." },
+      { "id": "meet-alone", "label": "Arrange to meet the unknown sender alone to check whether the emergency is real." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["trusted-adult"] },
+    "feedback": { "correct": "Correct. Safe communication protects personal information and brings a trusted adult into an emergency decision.", "incorrect": "Combine safe information sharing with the rule to get trusted adult or emergency-service help." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 3 rows; not claimed as an official SOF question." }
+  },
+  {
+    "id": "sof3.birds.hots-injured-bird.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof3.birds.beaks", "sof3.birds.wings"],
+    "knowledgeRefs": ["kr.sof3.birds.beak.eating", "kr.sof3.birds.wings.flight"],
+    "gradeBands": [3],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": { "text": "Two birds are being observed. Bird A has an injured beak but healthy wings. Bird B has a healthy beak but an injured wing. Which prediction best matches the functions of these parts?" },
+    "interaction": { "type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      { "id": "different-effects", "label": "Bird A may have more trouble getting and eating food, while Bird B may have more trouble flying." },
+      { "id": "reverse", "label": "Bird A must lose flight because beaks are used for flying, while Bird B cannot eat because wings collect food." },
+      { "id": "same-effect", "label": "Both injuries must affect only feather colour." },
+      { "id": "no-effect", "label": "Neither injury can affect the bird because beaks and wings have no useful functions." }
+    ] },
+    "solution": { "type": "exact_option", "correctOptionIds": ["different-effects"] },
+    "feedback": { "correct": "Correct. Beaks help with getting/eating food, while wings help flight in birds that can fly.", "incorrect": "Match each body part with its function before comparing the two birds." },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 3 rows; not claimed as an official SOF question." }
   }
 ]

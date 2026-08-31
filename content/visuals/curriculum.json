@@ -1,5 +1,5 @@
 [
-  { "id": "entity.universe.earth-rotation", "renderer": "curriculum-icon", "glyph": "earth-rotation", "label": "Earth's rotation", "motion": "spin", "aliases": ["earth rotation", "earth's rotation"] },
+  { "id": "entity.universe.earth-rotation", "renderer": "curriculum-icon", "glyph": "earth-rotation", "label": "Earth's rotation", "motion": "spin", "aliases": ["earth rotation", "earth's rotation", "earth-rotation-time", "one earth rotation"] },
   { "id": "entity.universe.mercury", "renderer": "curriculum-icon", "glyph": "mercury", "label": "Mercury", "motion": "float", "aliases": ["mercury"] },
   { "id": "entity.universe.venus", "renderer": "curriculum-icon", "glyph": "venus", "label": "Venus", "motion": "float", "aliases": ["venus"] },
   { "id": "entity.universe.jupiter", "renderer": "curriculum-icon", "glyph": "jupiter", "label": "Jupiter", "motion": "spin", "aliases": ["jupiter"] },

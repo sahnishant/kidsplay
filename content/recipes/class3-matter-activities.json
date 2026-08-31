@@ -1,0 +1,22 @@
+[
+  {
+    "id": "sof3.matter.memory.generated.001",
+    "sourceRef": "knowledge.sof.class3.matter.001",
+    "engine": "memory_pairs@1",
+    "difficulty": 2
+  },
+  {
+    "id": "sof3.matter.match.generated.001",
+    "sourceRef": "knowledge.sof.class3.matter.001",
+    "engine": "drag_to_target@1",
+    "difficulty": 2
+  },
+  {
+    "id": "sof3.matter.mcq-bank.generated.001",
+    "sourceRef": "knowledge.sof.class3.matter.001",
+    "engine": "single_choice@1",
+    "forEachEntry": true,
+    "distractorCount": 3,
+    "difficulty": 2
+  }
+]

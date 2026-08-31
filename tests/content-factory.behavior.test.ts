@@ -1,15 +1,17 @@
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-const readJson = (path: string) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
+const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 
 describe('reusable higher-grade content factory', () => {
-  it('resolves Class 3 as 56 direct rows plus direct-only Class 2 inheritance', () => {
+  it('resolves Class 3 direct rows plus direct-only Class 2 inheritance without freezing the seed count', () => {
+    const class2 = readJson('content/profile-memberships/SOF_INDIA_CLASS2.json');
     const authored = readJson('content/profile-memberships/SOF_INDIA_CLASS3.json');
-    const resolved = readJson('content/index/__generated-profile-memberships.json')
+    const resolvedMembership = readJson('content/index/__generated-profile-memberships.json')
       .find((membership: { profileRef: string }) => membership.profileRef === 'SOF_INDIA_CLASS3');
 
-    expect(authored.members).toHaveLength(56);
+    expect(authored.members.length).toBeGreaterThan(56);
     expect(authored.inherits).toEqual([
       expect.objectContaining({
         profileRef: 'SOF_INDIA_CLASS2',
@@ -17,23 +19,40 @@ describe('reusable higher-grade content factory', () => {
         fit: 'review'
       })
     ]);
-    expect(resolved).toBeTruthy();
-    expect(resolved.members.filter((member: { origin: string }) => member.origin === 'direct')).toHaveLength(56);
-    expect(resolved.members.filter((member: { origin: string }) => member.origin === 'inherited')).toHaveLength(182);
-    expect(resolved.members).toHaveLength(238);
-    expect(new Set(resolved.members.map((member: { rowId: string }) => member.rowId)).size).toBe(238);
+    expect(resolvedMembership).toBeTruthy();
+
+    const directRows = new Set(authored.members.map((member: { rowId: string }) => member.rowId));
+    const inheritedRows = class2.members
+      .map((member: { rowId: string }) => member.rowId)
+      .filter((rowId: string) => !directRows.has(rowId));
+    const effectiveRows = new Set([
+      ...class2.members.map((member: { rowId: string }) => member.rowId),
+      ...directRows
+    ]);
+
+    expect(resolvedMembership.members.filter((member: { origin: string }) => member.origin === 'direct'))
+      .toHaveLength(authored.members.length);
+    expect(resolvedMembership.members.filter((member: { origin: string }) => member.origin === 'inherited'))
+      .toHaveLength(inheritedRows.length);
+    expect(resolvedMembership.members).toHaveLength(effectiveRows.size);
+    expect(new Set(resolvedMembership.members.map((member: { rowId: string }) => member.rowId)).size)
+      .toBe(effectiveRows.size);
   });
 
-  it('expands an explicit Class 3 per-entry recipe sample with deterministic one-row question ids', () => {
+  it('expands reusable Class 3 per-entry recipes with deterministic one-row question ids', () => {
     const questions = readJson('content/questions/__generated-from-knowledge.json');
-    const ids = questions.map((question: { id: string }) => question.id);
-    const expanded = ids.filter((id: string) => id.includes('.mcq.each.generated.001.'));
+    const expanded = questions.filter((question: { id: string }) => question.id.includes('.mcq.each.generated.001.'));
+    const ids = expanded.map((question: { id: string }) => question.id);
 
-    expect(expanded).toEqual([
+    expect(ids).toEqual(expect.arrayContaining([
       'sof3.life-community.mcq.each.generated.001.bird-beak',
-      'sof3.life-community.mcq.each.generated.001.bird-wings'
-    ]);
-    expect(new Set(expanded).size).toBe(expanded.length);
+      'sof3.life-community.mcq.each.generated.001.bird-wings',
+      'sof3.life-adaptations.mcq.each.generated.001.herbivore',
+      'sof3.measurement-space.mcq.each.generated.001.temperature'
+    ]));
+    expect(expanded.length).toBeGreaterThan(30);
+    expect(new Set(ids).size).toBe(ids.length);
+    expect(expanded.every((question: { knowledgeRefs?: string[] }) => question.knowledgeRefs?.length === 1)).toBe(true);
   });
 
   it('keeps inherited rows as canonical references rather than copied knowledge objects', () => {

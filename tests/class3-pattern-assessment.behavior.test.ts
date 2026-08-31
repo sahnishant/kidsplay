@@ -1,4 +1,5 @@
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { getProfileQuestions } from '../src/content';
 import {
@@ -8,7 +9,7 @@ import {
   type EffectiveProfileMember
 } from '../src/runtime/profileAssessment';
 
-const readJson = (path: string) => JSON.parse(readFileSync(new URL(`../${path}`, import.meta.url), 'utf8'));
+const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 const PROFILE_REF = 'SOF_INDIA_CLASS3';
 
 function fixture() {
@@ -39,15 +40,15 @@ describe('Class 3 pattern assessment', () => {
     expect(science.filter((question) => questionCurriculumOrigin(question, byRow) === 'mixed')).toHaveLength(0);
   });
 
-  it('uses five current-class HOTS questions for the achievers section', () => {
+  it('uses five canonical current-class HOTS questions for the achievers section', () => {
     const { blueprint, membership, candidates } = fixture();
     const result = buildProfilePatternAssessment(candidates, blueprint, membership.members);
     const byRow = new Map(membership.members.map((member) => [member.rowId, member]));
     const achievers = result.questions.slice(30);
 
     expect(achievers).toHaveLength(5);
-    expect(achievers.every((question) => question.id.startsWith('sof3.hots.'))).toBe(true);
     expect(achievers.every((question) => question.authoring.source === 'kidsplay-editorial-hots')).toBe(true);
+    expect(achievers.every((question) => (question.knowledgeRefs ?? []).every((rowId) => rowId.startsWith('kr.sof3.')))).toBe(true);
     expect(achievers.every((question) => questionCurriculumOrigin(question, byRow) === 'current')).toBe(true);
   });
 

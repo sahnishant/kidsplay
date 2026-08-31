@@ -44,6 +44,7 @@ export interface StoryMission {
   access: 'free' | 'goal';
   questionCount: number;
   knowledgeRefs: string[];
+  questionPackRef?: string;
   openingSceneRef?: string;
   successSceneRef?: string;
   beats: StoryBeat[];

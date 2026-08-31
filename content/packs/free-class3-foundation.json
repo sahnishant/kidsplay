@@ -2,6 +2,7 @@
   "id": "free-class3-foundation",
   "kind": "learning_pack",
   "title": "Class 3 Science Foundation",
+  "catalogVisible": false,
   "access": { "type": "free" },
   "profileRef": "SOF_INDIA_CLASS3",
   "questionRefs": [
@@ -17,11 +18,46 @@
 
     "sof3.life-adaptations.memory.generated.001",
     "sof3.life-adaptations.match.generated.001",
+    "sof3.life-adaptations.mcq.each.generated.001.living-food",
+    "sof3.life-adaptations.mcq.each.generated.001.living-water",
+    "sof3.life-adaptations.mcq.each.generated.001.living-grow",
+    "sof3.life-adaptations.mcq.each.generated.001.living-reproduce",
+    "sof3.life-adaptations.mcq.each.generated.001.herbivore",
+    "sof3.life-adaptations.mcq.each.generated.001.carnivore",
+    "sof3.life-adaptations.mcq.each.generated.001.omnivore",
+    "sof3.life-adaptations.mcq.each.generated.001.camouflage",
+
     "sof3.plants-body.memory.generated.001",
     "sof3.plants-body.match.generated.001",
+    "sof3.plants-body.mcq.each.generated.001.roots-absorb",
+    "sof3.plants-body.mcq.each.generated.001.stem-carries",
+    "sof3.plants-body.mcq.each.generated.001.leaves-food",
+    "sof3.plants-body.mcq.each.generated.001.flowers-seeds",
+    "sof3.plants-body.mcq.each.generated.001.brain-control",
+    "sof3.plants-body.mcq.each.generated.001.heart-blood",
+    "sof3.plants-body.mcq.each.generated.001.lungs-breathe",
+    "sof3.plants-body.mcq.each.generated.001.wash-hands",
+
     "sof3.soil-water-weather.memory.generated.001",
     "sof3.soil-water-weather.match.generated.001",
+    "sof3.soil-water-weather.mcq.each.generated.001.humus",
+    "sof3.soil-water-weather.mcq.each.generated.001.sandy",
+    "sof3.soil-water-weather.mcq.each.generated.001.clay",
+    "sof3.soil-water-weather.mcq.each.generated.001.loam",
+    "sof3.soil-water-weather.mcq.each.generated.001.evaporation",
+    "sof3.soil-water-weather.mcq.each.generated.001.condensation",
+    "sof3.soil-water-weather.mcq.each.generated.001.rain",
+    "sof3.soil-water-weather.mcq.each.generated.001.water-cycle",
+
     "sof3.measurement-space.memory.generated.001",
-    "sof3.measurement-space.match.generated.001"
+    "sof3.measurement-space.match.generated.001",
+    "sof3.measurement-space.mcq.each.generated.001.length",
+    "sof3.measurement-space.mcq.each.generated.001.mass",
+    "sof3.measurement-space.mcq.each.generated.001.capacity",
+    "sof3.measurement-space.mcq.each.generated.001.temperature",
+    "sof3.measurement-space.mcq.each.generated.001.earth-rotation",
+    "sof3.measurement-space.mcq.each.generated.001.moon-reflects",
+    "sof3.measurement-space.mcq.each.generated.001.sun-star",
+    "sof3.measurement-space.mcq.each.generated.001.planet-orbit"
   ]
 }
