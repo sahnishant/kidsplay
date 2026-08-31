@@ -1,5 +1,9 @@
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { extractOewnCandidates } from '../scripts/lexicon/extract-oewn-candidates.mjs';
+import { loadOewnJsonInput } from '../scripts/lexicon/build-grade-sense-review.mjs';
 
 const miniOewn = {
   version: '2026-test',
@@ -153,6 +157,44 @@ describe('Open English WordNet candidate extraction', () => {
         synonyms: ['immense']
       }
     });
+  });
+
+  it('loads the sharded entry/synset directory layout used by the OEWN 2025 JSON archive', () => {
+    const directory = mkdtempSync(join(tmpdir(), 'kidsplay-oewn-shards-'));
+    try {
+      writeFileSync(join(directory, 'entries-e.json'), JSON.stringify({
+        'oewn-enormous-a': {
+          lemma: { writtenForm: 'enormous', partOfSpeech: 'a' },
+          senses: [{ id: 'oewn-enormous-a-01', synset: 'oewn-synset-enormous-a' }]
+        }
+      }));
+      writeFileSync(join(directory, 'adj.all.json'), JSON.stringify({
+        'oewn-synset-enormous-a': {
+          partOfSpeech: 'a',
+          definition: 'Very large in size or amount.',
+          members: ['enormous']
+        }
+      }));
+      writeFileSync(join(directory, 'frames.json'), JSON.stringify({ frames: [] }));
+
+      const loaded = loadOewnJsonInput(directory);
+      const output = extractOewnCandidates(loaded, {
+        id: 'sharded-json-test',
+        sourceId: 'open-english-wordnet',
+        items: [{ lemma: 'enormous', partOfSpeech: 'a' }]
+      }, { sourceVersion: '2025' });
+
+      expect(loaded.lexicalEntries).toHaveLength(1);
+      expect(loaded.synsets).toHaveLength(1);
+      expect(output.candidates).toHaveLength(1);
+      expect(output.candidates[0].sourceSense).toMatchObject({
+        entryId: 'oewn-enormous-a',
+        synsetId: 'oewn-synset-enormous-a',
+        definition: 'Very large in size or amount.'
+      });
+    } finally {
+      rmSync(directory, { recursive: true, force: true });
+    }
   });
 
   it('rejects wrong-source word lists and malformed source graphs', () => {

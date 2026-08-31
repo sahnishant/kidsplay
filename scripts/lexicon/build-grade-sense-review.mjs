@@ -1,10 +1,76 @@
-import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
 import { extractOewnCandidates } from './extract-oewn-candidates.mjs';
 
 const DEFAULT_WORDLIST_DIR = 'content/lexicon/open/review-wordlists';
 const DEFAULT_OUTPUT_DIR = 'content/lexicon/open/sense-review';
 const DEFAULT_MAX_SENSES = 3;
+
+const isObject = (value) => value && typeof value === 'object' && !Array.isArray(value);
+const recordId = (value) => String(value?.id ?? value?.['@id'] ?? '').trim();
+
+function collectShardRecords(node, predicate, parentKey = null, output = []) {
+  if (Array.isArray(node)) {
+    for (const item of node) collectShardRecords(item, predicate, null, output);
+    return output;
+  }
+  if (!isObject(node)) return output;
+
+  if (predicate(node)) {
+    if (!recordId(node) && parentKey && !/^\d+$/.test(parentKey)) output.push({ id: parentKey, ...node });
+    else output.push(node);
+    return output;
+  }
+
+  for (const [key, value] of Object.entries(node)) collectShardRecords(value, predicate, key, output);
+  return output;
+}
+
+const isLexicalEntry = (value) => isObject(value)
+  && value.lemma != null
+  && (value.sense != null || value.senses != null);
+
+const isSynset = (value) => isObject(value)
+  && value.lemma == null
+  && (
+    value.partOfSpeech != null
+    || value.definition != null
+    || value.definitions != null
+    || value.members != null
+    || value.ili != null
+  );
+
+export function loadOewnJsonInput(input) {
+  const inputPath = resolve(String(input));
+  const stats = statSync(inputPath);
+  if (!stats.isDirectory()) return JSON.parse(readFileSync(inputPath, 'utf8'));
+
+  const filenames = readdirSync(inputPath).filter((filename) => filename.endsWith('.json')).sort();
+  const entryFiles = filenames.filter((filename) => /^entries-[0-9a-z]+\.json$/i.test(filename));
+  const synsetFiles = filenames.filter((filename) => /^(noun|verb|adj|adv)\..+\.json$/i.test(filename));
+  if (!entryFiles.length || !synsetFiles.length) {
+    throw new Error(
+      `OEWN directory ${inputPath} must contain entries-*.json and noun/verb/adj/adv synset JSON shards; ` +
+      `found ${entryFiles.length} entry shard(s) and ${synsetFiles.length} synset shard(s)`
+    );
+  }
+
+  const lexicalEntries = entryFiles.flatMap((filename) => {
+    const data = JSON.parse(readFileSync(resolve(inputPath, filename), 'utf8'));
+    return collectShardRecords(data, isLexicalEntry);
+  });
+  const synsets = synsetFiles.flatMap((filename) => {
+    const data = JSON.parse(readFileSync(resolve(inputPath, filename), 'utf8'));
+    return collectShardRecords(data, isSynset);
+  });
+  if (!lexicalEntries.length || !synsets.length) {
+    throw new Error(
+      `OEWN shard directory ${inputPath} yielded ${lexicalEntries.length} lexical entries and ${synsets.length} synsets`
+    );
+  }
+
+  return { lexicalEntries, synsets };
+}
 
 export function buildGradeSenseReviews(oewnData, wordlists, options = {}) {
   const maxSenses = Number.isInteger(options.maxSenses) && options.maxSenses > 0
@@ -32,14 +98,14 @@ function parseArgs(argv) {
 
 function main() {
   const args = parseArgs(process.argv.slice(2));
-  if (!args.input) throw new Error('--input <Open English WordNet JSON> is required');
+  if (!args.input) throw new Error('--input <Open English WordNet JSON file or unpacked JSON directory> is required');
   const inputPath = resolve(String(args.input));
   const wordlistDir = resolve(String(args['wordlist-dir'] || DEFAULT_WORDLIST_DIR));
   const outputDir = resolve(String(args['output-dir'] || DEFAULT_OUTPUT_DIR));
   const maxSenses = Number(args['max-senses'] || DEFAULT_MAX_SENSES);
   if (!Number.isInteger(maxSenses) || maxSenses < 1 || maxSenses > 10) throw new Error('--max-senses must be an integer from 1 to 10');
 
-  const oewnData = JSON.parse(readFileSync(inputPath, 'utf8'));
+  const oewnData = loadOewnJsonInput(inputPath);
   const wordlists = readdirSync(wordlistDir)
     .filter((filename) => /^grade-[1-6]-(introduced|cumulative)-meaning\.json$/.test(filename))
     .sort()

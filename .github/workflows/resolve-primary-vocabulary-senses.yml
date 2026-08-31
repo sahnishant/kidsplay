@@ -49,16 +49,17 @@ jobs:
             https://github.com/globalwordnet/english-wordnet/releases/download/2025-edition/english-wordnet-2025-json.zip
           echo "7d749f6e2c39e6970e4997839dcf6e42fd281f3c2fae0171d2192bae8cfa4b51  /tmp/oewn/english-wordnet-2025-json.zip" | sha256sum --check --strict
           unzip -q /tmp/oewn/english-wordnet-2025-json.zip -d /tmp/oewn/unpacked
-          mapfile -t JSON_FILES < <(find /tmp/oewn/unpacked -type f -name '*.json' | sort)
-          printf 'OEWN JSON files:\n%s\n' "${JSON_FILES[@]}"
-          if [ "${#JSON_FILES[@]}" -ne 1 ]; then
-            echo "Expected exactly one JSON file in the official OEWN JSON release, found ${#JSON_FILES[@]}" >&2
+          ENTRY_SHARDS="$(find /tmp/oewn/unpacked -maxdepth 1 -type f -name 'entries-*.json' | wc -l | tr -d ' ')"
+          SYNSET_SHARDS="$(find /tmp/oewn/unpacked -maxdepth 1 -type f \( -name 'noun.*.json' -o -name 'verb.*.json' -o -name 'adj.*.json' -o -name 'adv.*.json' \) | wc -l | tr -d ' ')"
+          echo "OEWN JSON shards: ${ENTRY_SHARDS} lexical-entry files, ${SYNSET_SHARDS} synset files"
+          if [ "$ENTRY_SHARDS" -lt 1 ] || [ "$SYNSET_SHARDS" -lt 1 ]; then
+            echo "Official OEWN JSON archive did not contain the expected sharded entry/synset layout" >&2
             exit 1
           fi
-          echo "OEWN_JSON=${JSON_FILES[0]}" >> "$GITHUB_ENV"
+          echo "OEWN_INPUT=/tmp/oewn/unpacked" >> "$GITHUB_ENV"
 
       - name: Build grade sense-review candidates
-        run: npm run lexicon:resolve:primary -- --input "$OEWN_JSON" --source-version 2025 --max-senses 3
+        run: npm run lexicon:resolve:primary -- --input "$OEWN_INPUT" --source-version 2025 --max-senses 3
 
       - name: Validate sense-review provenance
         run: npm run validate:lexicon-senses
