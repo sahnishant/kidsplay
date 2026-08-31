@@ -18,7 +18,8 @@ export function formatProcess(data, recipe) {
   if (stages.length < 2) throw new Error(`${data.sourceRef}: process sequence requires at least two stages`);
   const items = stages.map((stage) => ({
     id: `${unit.localId}:stage:${stage.id}`,
-    label: stage.label
+    label: stage.label,
+    ...(stage.semanticRef ? { semanticRef: stage.semanticRef } : {})
   }));
 
   return {
