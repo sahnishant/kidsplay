@@ -489,6 +489,17 @@ export function getFreePackQuestions(packId: string): Question[] {
   return resolveQuestionRefs(questionRefs, pack.id);
 }
 
+function getSelectableFreePackQuestions(pack: LearningPack): Question[] {
+  const questions = getFreePackQuestions(pack.id);
+  if (!pack.profileRef) return questions;
+
+  const allowedRows = new Set(getMembership(pack.profileRef).members.map((member) => member.rowId));
+  return questions.filter((question) => {
+    const refs = question.knowledgeRefs ?? [];
+    return refs.length > 0 && refs.every((rowId) => allowedRows.has(rowId));
+  });
+}
+
 export function getFreeAnimalsQuestions(): Question[] {
   return getFreePackQuestions(freePack.id);
 }
@@ -500,7 +511,7 @@ export function getFreeExploreQuestionsForPack(
   const pack = getFreePack(packId);
   const mastery = options.mastery ?? {};
   const count = Math.max(1, options.count ?? 8);
-  const candidates = getFreePackQuestions(packId).sort((left, right) => {
+  const candidates = getSelectableFreePackQuestions(pack).sort((left, right) => {
     const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
     if (masteryDelta !== 0) return masteryDelta;
     if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
