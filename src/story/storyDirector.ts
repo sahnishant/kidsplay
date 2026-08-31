@@ -13,9 +13,40 @@ import type {
   StoryMissionDocument
 } from './storyTypes';
 
+interface StoryLearningPack {
+  id: string;
+  kind: 'learning_pack';
+  access: { type: 'free' | 'purchase' };
+  questionRefs: string[];
+}
+
 const characters = (charactersJson as StoryCharacterDocument).characters;
 const locations = (locationsJson as StoryLocationDocument).locations;
 const missions = (missionsJson as StoryMissionDocument).missions;
+
+const storyQuestionModules = import.meta.glob('../../content/questions/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+const storyPackModules = import.meta.glob('../../content/packs/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+const storyQuestionBank = Object.values(storyQuestionModules).flatMap((value) =>
+  Array.isArray(value) ? (value as Question[]) : []
+);
+const storyQuestionById = new Map(storyQuestionBank.map((question) => [question.id, question]));
+const storyPackById = new Map(
+  Object.values(storyPackModules)
+    .filter((value): value is StoryLearningPack => Boolean(
+      value
+        && typeof value === 'object'
+        && (value as StoryLearningPack).kind === 'learning_pack'
+        && typeof (value as StoryLearningPack).id === 'string'
+        && Array.isArray((value as StoryLearningPack).questionRefs)
+    ))
+    .map((pack) => [pack.id, pack])
+);
 
 export interface StoryMissionLaunch {
   mission: StoryMission;
@@ -56,12 +87,26 @@ function missionQuestionMasteryScore(
   return Math.min(...refs.map((rowId) => rowMasteryScore(rowId, mastery)));
 }
 
+function missionQuestionPool(mission: StoryMission): Question[] {
+  if (!mission.questionPackRef) return getFreeAnimalsQuestions();
+
+  const pack = storyPackById.get(mission.questionPackRef);
+  if (!pack) throw new Error(`Story mission ${mission.id} refers to unknown learning pack ${mission.questionPackRef}`);
+  if (pack.access.type !== 'free') throw new Error(`Story mission ${mission.id} cannot use non-free pack ${mission.questionPackRef}`);
+
+  return pack.questionRefs.map((questionId) => {
+    const question = storyQuestionById.get(questionId);
+    if (!question) throw new Error(`Story mission ${mission.id} pack ${pack.id} refers to unknown question ${questionId}`);
+    return question;
+  });
+}
+
 function chooseMissionQuestions(
   mission: StoryMission,
   mastery: Record<string, MasteryCounter> = {}
 ): Question[] {
   const desired = new Set(mission.knowledgeRefs);
-  const candidates = getFreeAnimalsQuestions()
+  const candidates = missionQuestionPool(mission)
     .filter((question) => desiredRefsCovered(question, desired).length > 0);
 
   const selected: Question[] = [];
@@ -106,7 +151,7 @@ function chooseMissionQuestions(
   const missingRefs = mission.knowledgeRefs.filter((rowId) => !covered.has(rowId));
   if (selected.length !== mission.questionCount || missingRefs.length > 0) {
     throw new Error(
-      `Story mission ${mission.id} cannot be built from the current free question bank: `
+      `Story mission ${mission.id} cannot be built from ${mission.questionPackRef ?? 'the legacy Class 2 free question bank'}: `
       + `selected=${selected.length}/${mission.questionCount}, missing=${missingRefs.join(',') || 'none'}`
     );
   }
