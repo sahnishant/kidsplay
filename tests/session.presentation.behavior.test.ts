@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import { cleanup, render, screen } from '@testing-library/svelte';
+import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
-import Session from '../src/ui/Session.svelte';
+import Session from '../src/ui/SessionViewport.svelte';
 
 afterEach(() => cleanup());
 
@@ -31,9 +31,9 @@ function authoredVisualQuestion(): SingleChoiceQuestion {
   };
 }
 
-describe('authored visual assessment boundary', () => {
+describe('viewport session presentation boundary', () => {
   it('keeps an explicitly authored scene visible from the start inside a structured mock', () => {
-    render(Session, {
+    const { container } = render(Session, {
       props: {
         title: 'Visual Mock',
         questions: [authoredVisualQuestion()],
@@ -43,11 +43,34 @@ describe('authored visual assessment boundary', () => {
       }
     });
 
+    expect(container.querySelector('[data-session-state="answer"]')).toBeTruthy();
     expect(
       screen.getByRole('img', {
         name: 'A worried dog near water, showing that this is not its normal habitat.'
       })
     ).toBeTruthy();
     expect(screen.getByText(/Section: Science/)).toBeTruthy();
+  });
+
+  it('replaces the answer surface with a reaction surface after submission', async () => {
+    const { container } = render(Session, {
+      props: {
+        title: 'Visual Practice',
+        questions: [authoredVisualQuestion()],
+        childName: 'Explorer',
+        childAvatar: 'fox'
+      }
+    });
+
+    expect(container.querySelector('[data-session-state="answer"]')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeTruthy();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Land' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
+
+    expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
+    expect(screen.queryByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeNull();
+    expect(screen.getByRole('status').textContent).toContain('Correct.');
+    expect(screen.getByRole('button', { name: 'See result' })).toBeTruthy();
   });
 });
