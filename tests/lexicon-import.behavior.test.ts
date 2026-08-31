@@ -138,6 +138,35 @@ describe('Open English WordNet candidate extraction', () => {
     expect(output.candidates.every((candidate) => candidate.review.status === 'pending')).toBe(true);
   });
 
+  it('treats WordNet adjective satellites as compatible with adjective review requests', () => {
+    const satelliteData = {
+      version: '2026-test',
+      lexicalEntries: [{
+        id: 'oewn-sleepy-s',
+        lemma: { writtenForm: 'sleepy', partOfSpeech: 's' },
+        senses: [{ id: 'oewn-sleepy-s-01', synset: 'oewn-synset-sleepy-s' }]
+      }],
+      synsets: [{
+        id: 'oewn-synset-sleepy-s',
+        partOfSpeech: 's',
+        definition: 'Inclined to sleep.',
+        members: ['sleepy']
+      }]
+    };
+
+    const output = extractOewnCandidates(satelliteData, {
+      id: 'satellite-test',
+      items: [{ lemma: 'sleepy', partOfSpeech: 'adjective' }]
+    });
+
+    expect(output.summary).toEqual({ requestedWords: 1, candidateSenses: 1, missingWords: 0 });
+    expect(output.candidates[0]).toMatchObject({
+      lemma: 'sleepy',
+      partOfSpeech: 's',
+      sourceSense: { synsetId: 'oewn-synset-sleepy-s' }
+    });
+  });
+
   it('accepts the Global WordNet JSON-LD entry/synset shape used by official interchange', () => {
     const output = extractOewnCandidates(globalWordnetJsonLd, {
       id: 'jsonld-test',
