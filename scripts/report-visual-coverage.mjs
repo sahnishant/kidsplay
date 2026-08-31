@@ -50,6 +50,20 @@ const resolveLabel = (label) => {
   return refs.some((ref) => !ref) ? [] : [...new Set(refs)];
 };
 
+const skipReasonForVisualExpansion = (item) => {
+  const raw = String(item?.label ?? '').trim();
+  const normalized = normalize(raw);
+  const semanticRef = typeof item?.semanticRef === 'string' && item.semanticRef.trim() ? item.semanticRef.trim() : null;
+  if (!normalized) return 'blank';
+  if (normalized.length > 48) return 'long_or_predicate';
+  if (/^[+-]?\d+(?:[.:/-]\d+)*(?:\s*(?:cm|m|km|g|kg|ml|l|°c|%))?$/i.test(raw)) return 'numeric_or_measurement';
+  if (/^[a-z]\s*(?:,|→|->|-)\s*[a-z](?:\s*(?:,|→|->|-)\s*[a-z])*$/i.test(raw)) return 'coded_sequence';
+  if (/^[A-Z0-9]{1,3}$/.test(raw) && !semanticRef) return 'short_code';
+  if (/^[●○■□▲△★☆◆◇](?:\s*[●○■□▲△★☆◆◇])*$/u.test(raw)) return 'reasoning_symbol_stimulus';
+  if (/^(?:both|neither|only)\b.*\b(?:i|ii)\b/i.test(raw)) return 'logical_answer_phrase';
+  return null;
+};
+
 const resolveItem = (item, allowLabelInference) => {
   if (Array.isArray(item.visualRefs) && item.visualRefs.some((ref) => visualIds.has(ref))) return 'authored';
   const semantic = item.semanticRef ? bySemantic.get(normalize(item.semanticRef)) : null;
@@ -86,6 +100,7 @@ const totals = emptyTotals();
 const visualFriendlyTotals = emptyTotals();
 const byEngine = new Map();
 const unresolvedByEngine = new Map();
+let visualIneligible = 0;
 
 for (const question of questions) {
   const entries = visibleItems(question);
@@ -95,10 +110,12 @@ for (const question of questions) {
   const engineUnresolved = unresolvedByEngine.get(engine) ?? [];
   for (const { item, allowLabelInference } of entries) {
     const resolution = resolveItem(item, allowLabelInference);
+    const skipReason = skipReasonForVisualExpansion(item);
     totals[resolution] += 1;
     engineTotals[resolution] += 1;
-    if (engine !== 'drag_to_target') visualFriendlyTotals[resolution] += 1;
-    if (resolution === 'text') {
+    if (engine !== 'drag_to_target' && !skipReason) visualFriendlyTotals[resolution] += 1;
+    else if (engine !== 'drag_to_target' && skipReason) visualIneligible += 1;
+    if (resolution === 'text' && !skipReason) {
       engineUnresolved.push({ questionId: question.id, itemId: item.id, label: item.label, semanticRef: item.semanticRef ?? null });
     }
   }
@@ -131,14 +148,15 @@ const unresolvedReport = Object.fromEntries(
 if (jsonMode) {
   console.log(JSON.stringify({
     library: { entities: visuals.length, packs: visualFiles.length },
-    visualFriendly: { ...friendly, ...visualFriendlyTotals },
+    visualFriendly: { ...friendly, ...visualFriendlyTotals, excludedAsIneligible: visualIneligible },
     overall: { ...overall, ...totals },
     byEngine: engineReport,
     unresolved: unresolvedReport
   }, null, 2));
 } else {
   console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s).`);
-  console.log(`Visual-friendly question items (excluding match/drag policy): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals.`);
+  console.log(`Visual-friendly question items (excluding match/drag policy and clearly non-visual stimuli): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals.`);
+  console.log(`Excluded ${visualIneligible} clearly non-visual item instance(s) from the visual-friendly denominator.`);
   console.log(`All supported card/region items including matching: ${overall.visual}/${overall.total} (${overall.percent}%).`);
   console.log(`Resolution on visual-friendly surfaces: authored ${visualFriendlyTotals.authored}, semantic ${visualFriendlyTotals.semantic}, exact-label ${visualFriendlyTotals.label}, text-only ${visualFriendlyTotals.text}.`);
 
