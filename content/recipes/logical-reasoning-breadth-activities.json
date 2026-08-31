@@ -13,6 +13,12 @@
     "shuffleOptions": false
   },
   {
+    "id": "reasoning.grouping.figures.generated.001",
+    "sourceRef": "knowledge.reasoning.grouping-straight-sides.001",
+    "engine": "single_choice@1",
+    "difficulty": 2
+  },
+  {
     "id": "reasoning.mirror.right.generated.001",
     "sourceRef": "knowledge.reasoning.mirror-nearest-letter.001",
     "engine": "single_choice@1",
