@@ -15,6 +15,44 @@ export const normalizeLemma = (value) => String(value ?? '')
   .trim();
 
 const maturityRank = (registry, id) => registry.maturityRanks.get(id);
+const hasOwnValue = (object, key) => object && Object.hasOwn(object, key) && object[key] !== null && object[key] !== '';
+
+const TEMPLATE_PARAMETER_RULES = {
+  settlement: [
+    ['density'],
+    ['buildingHeight'],
+    ['vegetation'],
+    ['farmland'],
+    ['traffic']
+  ],
+  place: [['placeKind']],
+  'actor-action': [['action']],
+  'person-role': [['role']],
+  'entity-state': [['state']],
+  expression: [['expression']],
+  'attribute-contrast': [['dimension'], ['target']],
+  'spatial-relation': [['relation']],
+  'quantity-comparison': [['quantity', 'comparison', 'fraction']],
+  sequence: [['relation', 'position', 'dayPeriod', 'timeRelation', 'dayOffset']],
+  'state-transition': [['from'], ['to']],
+  'part-focus': [['wholeRef'], ['partRef']],
+  'cause-effect': [['action', 'cause'], ['result']],
+  comparison: [['comparison']],
+  'simple-diagram': [['diagramKind']]
+};
+
+export function validateTemplateParameters(item) {
+  if (!item?.sceneTemplate) return [];
+  const rules = TEMPLATE_PARAMETER_RULES[item.sceneTemplate] ?? [];
+  const parameters = item.parameters ?? {};
+  const errors = [];
+  for (const alternatives of rules) {
+    if (!alternatives.some((key) => hasOwnValue(parameters, key))) {
+      errors.push(`${item.senseKey}: ${item.sceneTemplate} requires one of parameter(s) ${alternatives.join(', ')}`);
+    }
+  }
+  return errors;
+}
 
 export function validateStrategyItem(item, registry, visualIds = new Set()) {
   const errors = [];
@@ -48,6 +86,8 @@ export function validateStrategyItem(item, registry, visualIds = new Set()) {
     errors.push(`${prefix}: sceneTemplate ${item.sceneTemplate} belongs to ${template.strategy}, not ${item?.strategy}`);
   }
   if (sceneStrategy && !item?.sceneTemplate) errors.push(`${prefix}: ${item?.strategy} requires a sceneTemplate`);
+  if (template) errors.push(...validateTemplateParameters(item));
+
   if (item?.strategy === 'direct_entity') {
     if (!item?.visualRef) errors.push(`${prefix}: direct_entity requires visualRef`);
     if (item?.visualRef && !visualIds.has(item.visualRef)) errors.push(`${prefix}: unknown visualRef ${item.visualRef}`);
@@ -63,8 +103,8 @@ export function validateStrategyItem(item, registry, visualIds = new Set()) {
   if (item?.strategy === 'textual_only' && (item?.sceneTemplate || item?.visualRef)) {
     errors.push(`${prefix}: textual_only cannot carry visual implementation`);
   }
-  if (rank !== undefined && rank >= 3 && sceneStrategy && !template) {
-    errors.push(`${prefix}: V3+ scene maturity requires a registered scene template`);
+  if (rank !== undefined && rank >= 3 && sceneStrategy && (!template || validateTemplateParameters(item).length)) {
+    errors.push(`${prefix}: V3+ scene maturity requires a valid registered scene template with complete semantic parameters`);
   }
   return errors;
 }
@@ -109,8 +149,14 @@ export function planVocabularyScene(item, { phase = 'explanation' } = {}) {
       senseKey: item.senseKey,
       visualRef: item.visualRef,
       motionPolicy: item.motionPolicy,
+      beats: ['establish'],
       staticEquivalent: { type: 'direct_entity', visualRef: item.visualRef }
     };
+  }
+
+  const parameterErrors = validateTemplateParameters(item);
+  if (parameterErrors.length) {
+    return { status: 'blocked', reason: 'invalid_scene_parameters', senseKey: item.senseKey, errors: parameterErrors };
   }
 
   const beats = BEATS_BY_STRATEGY[item?.strategy] ?? ['establish'];
