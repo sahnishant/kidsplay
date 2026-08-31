@@ -53,11 +53,7 @@
     "withCefr": 6397,
     "withYle": 817,
     "withCurriculumSource": 9415,
-    "excluded": {
-      "length": 8,
-      "malformed_or_symbolic": 14,
-      "adult_or_profane": 15
-    }
+    "excluded": {}
   },
   "entries": [
     {
