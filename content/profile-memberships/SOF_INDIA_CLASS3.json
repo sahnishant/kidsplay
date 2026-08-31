@@ -8,7 +8,7 @@
     "effectiveFrom": null,
     "effectiveTo": null,
     "reviewedAt": null,
-    "placementBasis": "editorial_seed_plus_official_previous_class_scope_rule"
+    "placementBasis": "editorial_seed_plus_explicit_canonical_reuse_plus_official_previous_class_scope_rule"
   },
   "inherits": [
     {
@@ -78,6 +78,30 @@
     { "rowId": "kr.sof3.earth.rotation.day-night", "fit": "core" },
     { "rowId": "kr.sof3.moon.light.reflected-sun", "fit": "core" },
     { "rowId": "kr.sof3.sun.type.star", "fit": "core" },
-    { "rowId": "kr.sof3.planets.orbit.sun", "fit": "core" }
+    { "rowId": "kr.sof3.planets.orbit.sun", "fit": "core" },
+
+    { "rowId": "kr.sof3.matter.occupies-space", "fit": "core" },
+    { "rowId": "kr.sof3.matter.solid.shape.fixed", "fit": "core" },
+    { "rowId": "kr.sof3.matter.liquid.shape.container", "fit": "core" },
+    { "rowId": "kr.sof3.matter.gas.spreads.available-space", "fit": "core" },
+
+    { "rowId": "kr.housing.igloo.material.snow-ice", "fit": "review" },
+    { "rowId": "kr.clothing.cotton.weather.summer", "fit": "review" },
+    { "rowId": "kr.transport.bus.mode.road", "fit": "review" },
+
+    { "rowId": "kr.reasoning.pattern.symbols.alternating", "fit": "review" },
+    { "rowId": "kr.reasoning.analogy.bird-nest.bee-hive", "fit": "review" },
+    { "rowId": "kr.reasoning.odd-one-out.shapes.object", "fit": "review" },
+    { "rowId": "kr.reasoning.coding.letters.next-letter", "fit": "review" },
+    { "rowId": "kr.reasoning.ranking.height.shortest", "fit": "review" },
+    { "rowId": "kr.reasoning.shapes.triangle.three-sides", "fit": "review" },
+    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "review" },
+    { "rowId": "kr.reasoning.alphabet.arrange.mango-first", "fit": "review" },
+    { "rowId": "kr.reasoning.figure-matrix.alternating.symbols", "fit": "review" },
+    { "rowId": "kr.reasoning.grouping.figures.straight-sides", "fit": "review" },
+    { "rowId": "kr.reasoning.mirror.word-nearest.right", "fit": "review" },
+    { "rowId": "kr.reasoning.combinations.outfits.two-by-two", "fit": "review" },
+    { "rowId": "kr.reasoning.clock.elapsed.school-four-hours", "fit": "review" },
+    { "rowId": "kr.reasoning.calendar.days-after.monday", "fit": "review" }
   ]
 }
