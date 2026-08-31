@@ -10,6 +10,8 @@
   import CurriculumIcon from './CurriculumIcon.svelte';
   import LearningIcon from './LearningIcon.svelte';
   import PropertyIcon from './PropertyIcon.svelte';
+  import Class2ConceptIcon from './Class2ConceptIcon.svelte';
+  import Class2FinalIcon from './Class2FinalIcon.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveBundledAsset } from './assetRegistry';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
@@ -84,6 +86,10 @@
         <LearningIcon icon={visual.glyph} />
       {:else if visual.renderer === 'property-icon'}
         <PropertyIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'class2-concept-icon'}
+        <Class2ConceptIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'class2-final-icon'}
+        <Class2FinalIcon icon={visual.glyph} />
       {:else}
         <EntityIcon icon={visual.glyph} />
       {/if}

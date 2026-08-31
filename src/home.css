@@ -126,6 +126,7 @@
   font: inherit;
   font-size: 1.05rem;
   font-weight: 800;
+  scroll-margin-block: 84px;
 }
 
 .name-field input:focus {

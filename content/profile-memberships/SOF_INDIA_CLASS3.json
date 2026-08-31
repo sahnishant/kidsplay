@@ -1,1 +1,83 @@
-{"profileRef":"SOF_INDIA_CLASS3","provenance":{"status":"prototype_unverified","sourceRefs":["sof.iso.class3.syllabus.current","kidsplay.editorial.prototype.v1"],"versionLabel":"SOF ISO 2026-27 reviewed scope; Class 3 seed row placement prototype","academicYear":"2026-27","effectiveFrom":null,"effectiveTo":null,"reviewedAt":null,"placementBasis":"editorial_seed_within_reviewed_scope"},"members":[{"rowId":"kr.sof3.birds.covering.feathers","fit":"core"},{"rowId":"kr.sof3.birds.beak.eating","fit":"core"},{"rowId":"kr.sof3.birds.wings.flight","fit":"core"},{"rowId":"kr.sof3.occupation.farmer.grows-crops","fit":"core"},{"rowId":"kr.sof3.occupation.doctor.treats-sick","fit":"core"},{"rowId":"kr.sof3.occupation.carpenter.wood","fit":"core"},{"rowId":"kr.sof3.food.balanced.variety","fit":"core"},{"rowId":"kr.sof3.food.water.need","fit":"core"},{"rowId":"kr.sof3.material.transparent.light","fit":"core"},{"rowId":"kr.sof3.material.opaque.blocks-light","fit":"core"},{"rowId":"kr.sof3.light.shadow.blocked","fit":"core"},{"rowId":"kr.sof3.light.source.emits","fit":"core"},{"rowId":"kr.sof3.sound.vibration.source","fit":"stretch"},{"rowId":"kr.sof3.force.push.away","fit":"core"},{"rowId":"kr.sof3.force.pull.toward","fit":"core"},{"rowId":"kr.sof3.force.effect.motion","fit":"core"},{"rowId":"kr.sof3.environment.reduce.waste","fit":"core"},{"rowId":"kr.sof3.environment.reuse.again","fit":"core"},{"rowId":"kr.sof3.environment.recycle.new-material","fit":"core"},{"rowId":"kr.sof3.environment.plants.air","fit":"core"},{"rowId":"kr.sof3.safety.emergency.ask-adult","fit":"core"},{"rowId":"kr.sof3.safety.road.look-both-ways","fit":"core"},{"rowId":"kr.sof3.communication.message.sender-receiver","fit":"core"},{"rowId":"kr.sof3.communication.internet.adult-guidance","fit":"core"},{"rowId":"kr.reasoning.pattern.symbols.alternating","fit":"review"},{"rowId":"kr.reasoning.pattern.numbers.plus-two","fit":"review"},{"rowId":"kr.reasoning.odd-one-out.shapes.object","fit":"review"},{"rowId":"kr.reasoning.odd-one-out.transport.communication","fit":"review"},{"rowId":"kr.reasoning.analogy.bird-nest.bee-hive","fit":"review"},{"rowId":"kr.reasoning.analogy.eye-see.ear-hear","fit":"review"},{"rowId":"kr.reasoning.ranking.height.shortest","fit":"review"},{"rowId":"kr.reasoning.ranking.position.between","fit":"review"},{"rowId":"kr.reasoning.coding.letters.next-letter","fit":"review"},{"rowId":"kr.reasoning.coding.symbol-values.sum","fit":"review"},{"rowId":"kr.reasoning.measurement.pencil.centimetres","fit":"review"},{"rowId":"kr.reasoning.measurement.room.metres","fit":"review"},{"rowId":"kr.reasoning.shapes.triangle.three-sides","fit":"review"},{"rowId":"kr.reasoning.embedded-figures.symbol-pair","fit":"review"}]}
+{
+  "profileRef": "SOF_INDIA_CLASS3",
+  "provenance": {
+    "status": "prototype_unverified",
+    "sourceRefs": ["sof.iso.class3.syllabus.current", "kidsplay.editorial.prototype.v1"],
+    "versionLabel": "SOF ISO 2026-27 reviewed scope; Class 3 current rows and previous-class inheritance remain prototype placement",
+    "academicYear": "2026-27",
+    "effectiveFrom": null,
+    "effectiveTo": null,
+    "reviewedAt": null,
+    "placementBasis": "editorial_seed_plus_official_previous_class_scope_rule"
+  },
+  "inherits": [
+    {
+      "profileRef": "SOF_INDIA_CLASS2",
+      "memberScope": "direct",
+      "fit": "review",
+      "basis": "SOF ISO Level-I guidance for Classes 3-12 uses 60% current-class syllabus and 40% previous-class syllabus. This inheritance only reuses canonical previous-class rows; it does not certify row-level SOF placement."
+    }
+  ],
+  "members": [
+    { "rowId": "kr.sof3.birds.covering.feathers", "fit": "core" },
+    { "rowId": "kr.sof3.birds.beak.eating", "fit": "core" },
+    { "rowId": "kr.sof3.birds.wings.flight", "fit": "core" },
+    { "rowId": "kr.sof3.occupation.farmer.grows-crops", "fit": "core" },
+    { "rowId": "kr.sof3.occupation.doctor.treats-sick", "fit": "core" },
+    { "rowId": "kr.sof3.occupation.carpenter.wood", "fit": "core" },
+    { "rowId": "kr.sof3.food.balanced.variety", "fit": "core" },
+    { "rowId": "kr.sof3.food.water.need", "fit": "core" },
+    { "rowId": "kr.sof3.material.transparent.light", "fit": "core" },
+    { "rowId": "kr.sof3.material.opaque.blocks-light", "fit": "core" },
+    { "rowId": "kr.sof3.light.shadow.blocked", "fit": "core" },
+    { "rowId": "kr.sof3.light.source.emits", "fit": "core" },
+    { "rowId": "kr.sof3.sound.vibration.source", "fit": "stretch" },
+    { "rowId": "kr.sof3.force.push.away", "fit": "core" },
+    { "rowId": "kr.sof3.force.pull.toward", "fit": "core" },
+    { "rowId": "kr.sof3.force.effect.motion", "fit": "core" },
+    { "rowId": "kr.sof3.environment.reduce.waste", "fit": "core" },
+    { "rowId": "kr.sof3.environment.reuse.again", "fit": "core" },
+    { "rowId": "kr.sof3.environment.recycle.new-material", "fit": "core" },
+    { "rowId": "kr.sof3.environment.plants.air", "fit": "core" },
+    { "rowId": "kr.sof3.safety.emergency.ask-adult", "fit": "core" },
+    { "rowId": "kr.sof3.safety.road.look-both-ways", "fit": "core" },
+    { "rowId": "kr.sof3.communication.message.sender-receiver", "fit": "core" },
+    { "rowId": "kr.sof3.communication.internet.adult-guidance", "fit": "core" },
+
+    { "rowId": "kr.sof3.living.need.food", "fit": "core" },
+    { "rowId": "kr.sof3.living.need.water", "fit": "core" },
+    { "rowId": "kr.sof3.living.characteristic.grow", "fit": "core" },
+    { "rowId": "kr.sof3.living.characteristic.reproduce", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.herbivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.carnivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.omnivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.adaptation.camouflage", "fit": "core" },
+
+    { "rowId": "kr.sof3.plants.roots.absorb-water", "fit": "core" },
+    { "rowId": "kr.sof3.plants.stem.carries-water", "fit": "core" },
+    { "rowId": "kr.sof3.plants.leaves.make-food", "fit": "core" },
+    { "rowId": "kr.sof3.plants.flower.seed-formation", "fit": "core" },
+    { "rowId": "kr.sof3.body.brain.control", "fit": "core" },
+    { "rowId": "kr.sof3.body.heart.pumps-blood", "fit": "core" },
+    { "rowId": "kr.sof3.body.lungs.breathing", "fit": "core" },
+    { "rowId": "kr.sof3.health.handwashing.germs", "fit": "core" },
+
+    { "rowId": "kr.sof3.soil.humus.decayed-matter", "fit": "core" },
+    { "rowId": "kr.sof3.soil.sandy.drains-fast", "fit": "core" },
+    { "rowId": "kr.sof3.soil.clay.holds-water", "fit": "core" },
+    { "rowId": "kr.sof3.soil.loam.plants", "fit": "core" },
+    { "rowId": "kr.sof3.water.evaporation.vapour", "fit": "core" },
+    { "rowId": "kr.sof3.water.condensation.droplets", "fit": "core" },
+    { "rowId": "kr.sof3.weather.rain.cloud-drops", "fit": "core" },
+    { "rowId": "kr.sof3.water.cycle.repeats", "fit": "core" },
+
+    { "rowId": "kr.sof3.measurement.length.cm-m", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.mass.g-kg", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.capacity.ml-l", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.temperature.thermometer", "fit": "core" },
+    { "rowId": "kr.sof3.earth.rotation.day-night", "fit": "core" },
+    { "rowId": "kr.sof3.moon.light.reflected-sun", "fit": "core" },
+    { "rowId": "kr.sof3.sun.type.star", "fit": "core" },
+    { "rowId": "kr.sof3.planets.orbit.sun", "fit": "core" }
+  ]
+}

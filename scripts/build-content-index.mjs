@@ -1,13 +1,14 @@
 import { readdirSync, readFileSync, mkdirSync, writeFileSync } from 'node:fs';
 import { normalizeData } from './normalizers/registry.mjs';
+import { createMembershipResolver, readMembershipCollections } from './profileMemberships.mjs';
 
 const root = new URL('../', import.meta.url);
 const knowledgeDirectory = new URL('content/knowledge/', root);
-const profileDirectory = new URL('content/profile-memberships/', root);
 const profileRegistryUrl = new URL('content/learning-profiles/registry.json', root);
 const learningTaxonomyUrl = new URL('content/taxonomies/learning.json', root);
 const outputDirectory = new URL('content/index/', root);
 const outputUrl = new URL('__generated-learning-index.json', outputDirectory);
+const resolvedMembershipOutputUrl = new URL('__generated-profile-memberships.json', outputDirectory);
 
 const readJson = (url) => JSON.parse(readFileSync(url, 'utf8'));
 const readObjects = (directory) => readdirSync(directory).filter((name) => name.endsWith('.json')).sort().flatMap((name) => {
@@ -22,10 +23,12 @@ const skillIds = new Set((taxonomy.skills ?? []).map((skill) => skill.id));
 const profileById = new Map((profileRegistry.profiles ?? []).map((profile) => [profile.id, profile]));
 const allowedFits = new Set(taxonomy.placementFits ?? []);
 const sources = readObjects(knowledgeDirectory);
-const memberships = readObjects(profileDirectory);
+const membershipCollections = readMembershipCollections(root);
+const membershipResolver = createMembershipResolver(membershipCollections, allowedFits);
 
 const rowsById = new Map();
 const index = [];
+const resolvedMemberships = [];
 
 for (const source of sources) {
   const normalized = normalizeData(source);
@@ -56,21 +59,42 @@ for (const source of sources) {
   }
 }
 
-for (const membership of memberships) {
-  const profile = profileById.get(membership.profileRef);
-  if (!profile) throw new Error(`Unknown profileRef ${membership.profileRef}`);
+for (const { value: rawMembership } of membershipCollections) {
+  const profile = profileById.get(rawMembership.profileRef);
+  if (!profile) throw new Error(`Unknown profileRef ${rawMembership.profileRef}`);
+  const membership = membershipResolver.resolve(rawMembership.profileRef);
   const seen = new Set();
   for (const member of membership.members ?? []) {
     if (!String(member.rowId ?? '').trim()) throw new Error(`${membership.profileRef}: every member requires rowId`);
-    if (seen.has(member.rowId)) throw new Error(`${membership.profileRef}: duplicate member ${member.rowId}`);
+    if (seen.has(member.rowId)) throw new Error(`${membership.profileRef}: duplicate resolved member ${member.rowId}`);
     seen.add(member.rowId);
     const row = rowsById.get(member.rowId);
     if (!row) throw new Error(`${membership.profileRef}: unknown knowledge rowId ${member.rowId}`);
     if (!allowedFits.has(member.fit)) throw new Error(`${membership.profileRef}/${member.rowId}: unknown fit ${member.fit}`);
-    row.profiles.push({ ...profile, profileRef: profile.id, fit: member.fit });
+    row.profiles.push({
+      ...profile,
+      profileRef: profile.id,
+      fit: member.fit,
+      membershipOrigin: member.origin ?? 'direct',
+      inheritedFromProfileRef: member.inheritedFromProfileRef ?? null
+    });
   }
+  resolvedMemberships.push({
+    profileRef: membership.profileRef,
+    members: membership.members.map((member) => ({
+      rowId: member.rowId,
+      fit: member.fit,
+      origin: member.origin ?? 'direct',
+      inheritedFromProfileRef: member.inheritedFromProfileRef ?? null,
+      inheritanceBasis: member.inheritanceBasis ?? null
+    }))
+  });
 }
 
 mkdirSync(outputDirectory, { recursive: true });
 writeFileSync(outputUrl, `${JSON.stringify(index, null, 2)}\n`, 'utf8');
-console.log(`Built cross-datatype learning index with ${index.length} stable row(s) across ${memberships.length} profile membership collection(s).`);
+writeFileSync(resolvedMembershipOutputUrl, `${JSON.stringify(resolvedMemberships, null, 2)}\n`, 'utf8');
+console.log(
+  `Built cross-datatype learning index with ${index.length} stable row(s) across ` +
+  `${membershipCollections.length} profile membership collection(s); emitted ${resolvedMemberships.length} resolved membership collection(s).`
+);

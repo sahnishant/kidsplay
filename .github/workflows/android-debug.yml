@@ -10,7 +10,7 @@ on:
 jobs:
   build-android:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
 
     steps:
       - name: Checkout
@@ -55,6 +55,77 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew assembleDebug
+
+      - name: Install emulator system image
+        run: |
+          set -euo pipefail
+          SDK_ROOT="${ANDROID_SDK_ROOT:-${ANDROID_HOME:-/usr/local/lib/android/sdk}}"
+          SDKMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/sdkmanager"
+          AVDMANAGER="$SDK_ROOT/cmdline-tools/latest/bin/avdmanager"
+          test -x "$SDKMANAGER"
+          test -x "$AVDMANAGER"
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platform-tools" "emulator" "system-images;android-35;google_apis;x86_64"
+          echo no | "$AVDMANAGER" create avd --force --name kidsplay-ci --package "system-images;android-35;google_apis;x86_64"
+          echo "$SDK_ROOT/platform-tools" >> "$GITHUB_PATH"
+          echo "$SDK_ROOT/emulator" >> "$GITHUB_PATH"
+          if [ -e /dev/kvm ]; then sudo chmod 666 /dev/kvm; fi
+
+      - name: Packaged offline relaunch and rotation smoke
+        timeout-minutes: 12
+        run: |
+          set -euo pipefail
+          mkdir -p android-smoke
+          emulator -avd kidsplay-ci -no-window -no-audio -no-snapshot -no-boot-anim -no-metrics -gpu swiftshader_indirect >android-smoke/emulator.log 2>&1 &
+          adb wait-for-device
+
+          booted=""
+          for _ in $(seq 1 72); do
+            booted="$(adb shell getprop sys.boot_completed 2>/dev/null | tr -d '\r')"
+            if [ "$booted" = "1" ]; then
+              break
+            fi
+            sleep 5
+          done
+          test "$booted" = "1"
+
+          adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+          adb shell svc wifi disable || true
+          adb shell svc data disable || true
+
+          launch_and_assert() {
+            local label="$1"
+            adb shell am force-stop com.kidsplay.app
+            adb shell monkey -p com.kidsplay.app -c android.intent.category.LAUNCHER 1 >/dev/null
+            sleep 4
+            adb shell pidof com.kidsplay.app | tee "android-smoke/${label}-pid.txt"
+            adb shell uiautomator dump /sdcard/window.xml >/dev/null
+            adb pull /sdcard/window.xml "android-smoke/${label}-ui.xml" >/dev/null
+            grep -qi "Kidsplay" "android-smoke/${label}-ui.xml"
+            adb exec-out screencap -p > "android-smoke/${label}.png"
+          }
+
+          launch_and_assert portrait-offline-first-launch
+          launch_and_assert portrait-offline-force-stop-relaunch
+
+          adb shell settings put system accelerometer_rotation 0
+          adb shell settings put system user_rotation 1
+          sleep 3
+          adb shell uiautomator dump /sdcard/window-landscape.xml >/dev/null
+          adb pull /sdcard/window-landscape.xml android-smoke/landscape-ui.xml >/dev/null
+          grep -qi "Kidsplay" android-smoke/landscape-ui.xml
+          adb exec-out screencap -p > android-smoke/landscape.png
+
+          adb shell dumpsys package com.kidsplay.app > android-smoke/package.txt
+          adb shell dumpsys activity activities > android-smoke/activities.txt
+
+      - name: Upload Android smoke diagnostics
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: kidsplay-android-smoke-diagnostics
+          path: android-smoke
+          if-no-files-found: ignore
 
       - name: Upload debug APK
         uses: actions/upload-artifact@v7

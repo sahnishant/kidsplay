@@ -26,28 +26,70 @@ for (const source of sources) {
   sourceById.set(source.id, source);
 }
 
+function expandRecipe(recipe, source) {
+  if (!recipe.forEachEntry) return [recipe];
+  if (recipe.entryIds?.length || recipe.rowIds?.length) {
+    throw new Error(`${recipe.id}: forEachEntry cannot be combined with entryIds or rowIds`);
+  }
+  if (source.kind !== 'association_set' || !Array.isArray(source.entries) || source.entries.length === 0) {
+    throw new Error(`${recipe.id}: forEachEntry requires a non-empty association_set source`);
+  }
+
+  const excluded = new Set((recipe.excludeEntryIds ?? []).map(String));
+  const included = recipe.includeEntryIds?.length
+    ? new Set(recipe.includeEntryIds.map(String))
+    : null;
+  const knownEntryIds = new Set(source.entries.map((entry) => String(entry.id)));
+  for (const id of excluded) if (!knownEntryIds.has(id)) throw new Error(`${recipe.id}: unknown excludeEntryId ${id}`);
+  for (const id of included ?? []) if (!knownEntryIds.has(id)) throw new Error(`${recipe.id}: unknown includeEntryId ${id}`);
+
+  const selectedEntries = source.entries.filter((entry) => {
+    const id = String(entry.id);
+    return !excluded.has(id) && (!included || included.has(id));
+  });
+  if (!selectedEntries.length) throw new Error(`${recipe.id}: forEachEntry selected no entries`);
+
+  return selectedEntries.map((entry) => {
+    const { forEachEntry, excludeEntryIds, includeEntryIds, ...base } = recipe;
+    return {
+      ...base,
+      id: `${recipe.id}.${entry.id}`,
+      entryIds: [entry.id]
+    };
+  });
+}
+
 const generatedQuestions = [];
 const generatedCrosswords = [];
+const recipeTemplateIds = new Set();
 const generatedIds = new Set();
+let expandedRecipeCount = 0;
 
 for (const recipe of recipes) {
   if (!recipe?.id || !recipe?.sourceRef || !recipe?.engine) {
     throw new Error('Activity recipe requires id, sourceRef and engine');
   }
-  if (generatedIds.has(recipe.id)) throw new Error(`Duplicate generated recipe id ${recipe.id}`);
-  generatedIds.add(recipe.id);
+  if (recipeTemplateIds.has(recipe.id)) throw new Error(`Duplicate activity recipe id ${recipe.id}`);
+  recipeTemplateIds.add(recipe.id);
 
   const source = sourceById.get(recipe.sourceRef);
   if (!source) throw new Error(`${recipe.id}: unknown knowledge source ${recipe.sourceRef}`);
 
-  const result = formatDataForEngine(source, recipe.engine, recipe);
-  generatedQuestions.push(...(result.questions ?? []));
-  generatedCrosswords.push(...(result.crosswordAuthoring ?? []));
+  const expandedRecipes = expandRecipe(recipe, source);
+  expandedRecipeCount += expandedRecipes.length;
+  for (const expandedRecipe of expandedRecipes) {
+    if (generatedIds.has(expandedRecipe.id)) throw new Error(`Duplicate generated recipe id ${expandedRecipe.id}`);
+    generatedIds.add(expandedRecipe.id);
+    const result = formatDataForEngine(source, expandedRecipe.engine, expandedRecipe);
+    generatedQuestions.push(...(result.questions ?? []));
+    generatedCrosswords.push(...(result.crosswordAuthoring ?? []));
+  }
 }
 
 writeFileSync(questionOutput, `${JSON.stringify(generatedQuestions, null, 2)}\n`, 'utf8');
 writeFileSync(crosswordOutput, `${JSON.stringify(generatedCrosswords, null, 2)}\n`, 'utf8');
 console.log(
-  `Formatted ${sources.length} knowledge source(s) through ${recipes.length} recipe(s): ` +
-  `${generatedQuestions.length} direct question(s), ${generatedCrosswords.length} crossword authoring item(s).`
+  `Formatted ${sources.length} knowledge source(s) through ${recipes.length} recipe template(s) / ` +
+  `${expandedRecipeCount} expanded recipe(s): ${generatedQuestions.length} direct question(s), ` +
+  `${generatedCrosswords.length} crossword authoring item(s).`
 );

@@ -18,7 +18,7 @@
   { "id": "entity.habitat.ocean", "renderer": "scene-icon", "glyph": "wave", "label": "Ocean", "motion": "float", "aliases": ["ocean", "sea"] },
   { "id": "entity.habitat.forest", "renderer": "entity-icon", "glyph": "forest", "label": "Forest", "motion": "sway", "aliases": ["forest"] },
 
-  { "id": "entity.plant.generic", "renderer": "scene-icon", "glyph": "plant", "label": "Plant", "motion": "sway", "aliases": ["plant"] },
+  { "id": "entity.plant.generic", "renderer": "scene-icon", "glyph": "plant", "label": "Plant", "motion": "sway", "aliases": ["plant", "plants"] },
   { "id": "entity.plant.tree", "renderer": "entity-icon", "glyph": "tree", "label": "Tree", "motion": "sway", "aliases": ["tree"] },
   { "id": "entity.plant.flower", "renderer": "entity-icon", "glyph": "flower", "label": "Flower", "motion": "sway", "aliases": ["flower"] },
   { "id": "entity.plant.lotus", "renderer": "entity-icon", "glyph": "lotus", "label": "Lotus", "motion": "float", "aliases": ["lotus"] },
@@ -37,7 +37,7 @@
   { "id": "entity.body.ears", "renderer": "entity-icon", "glyph": "ears", "label": "Ears", "motion": "idle", "aliases": ["ear", "ears", "hearing", "hear"] },
   { "id": "entity.body.nose", "renderer": "entity-icon", "glyph": "nose", "label": "Nose", "motion": "idle", "aliases": ["nose", "smell"] },
   { "id": "entity.body.tongue", "renderer": "entity-icon", "glyph": "tongue", "label": "Tongue", "motion": "idle", "aliases": ["tongue", "taste"] },
-  { "id": "entity.body.teeth", "renderer": "entity-icon", "glyph": "teeth", "label": "Teeth", "motion": "chomp", "aliases": ["tooth", "teeth"] },
+  { "id": "entity.body.teeth", "renderer": "entity-icon", "glyph": "teeth", "label": "Teeth", "motion": "chomp", "aliases": ["tooth", "teeth", "chew-food", "chew food well"] },
   { "id": "entity.body.lungs", "renderer": "scene-icon", "glyph": "lungs", "label": "Lungs", "motion": "breathe", "aliases": ["lung", "lungs", "breathing", "breathe"] },
   { "id": "entity.body.heart", "renderer": "scene-icon", "glyph": "heart", "label": "Heart", "motion": "pulse", "aliases": ["heart", "pump blood"] },
   { "id": "entity.body.stomach", "renderer": "entity-icon", "glyph": "stomach", "label": "Stomach", "motion": "breathe", "aliases": ["stomach"] },

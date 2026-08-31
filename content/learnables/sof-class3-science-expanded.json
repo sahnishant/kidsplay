@@ -1,0 +1,37 @@
+[
+  {"id":"sof3.living.needs.food","statement":"Living things need food or nutrients for energy and growth.","subject":"Science","topic":"Living Things","subtopic":"Needs","gradeBands":[3]},
+  {"id":"sof3.living.needs.water","statement":"Living things need water to carry out life processes.","subject":"Science","topic":"Living Things","subtopic":"Needs","gradeBands":[3]},
+  {"id":"sof3.living.characteristics.growth","statement":"Living things grow and change during their life.","subject":"Science","topic":"Living Things","subtopic":"Characteristics","gradeBands":[3]},
+  {"id":"sof3.living.characteristics.reproduction","statement":"Living things can produce young or new living things of their kind.","subject":"Science","topic":"Living Things","subtopic":"Characteristics","gradeBands":[3]},
+  {"id":"sof3.animals.feeding.herbivore","statement":"A herbivore mainly eats plants or plant parts.","subject":"Science","topic":"Animals","subtopic":"Feeding habits","gradeBands":[3]},
+  {"id":"sof3.animals.feeding.carnivore","statement":"A carnivore mainly eats other animals.","subject":"Science","topic":"Animals","subtopic":"Feeding habits","gradeBands":[3]},
+  {"id":"sof3.animals.feeding.omnivore","statement":"An omnivore eats both plant material and animals.","subject":"Science","topic":"Animals","subtopic":"Feeding habits","gradeBands":[3]},
+  {"id":"sof3.animals.adaptations.camouflage","statement":"Camouflage helps an animal blend with its surroundings.","subject":"Science","topic":"Animals","subtopic":"Adaptations","gradeBands":[3]},
+
+  {"id":"sof3.plants.roots.absorption","statement":"Roots absorb water and dissolved minerals from soil.","subject":"Science","topic":"Plants","subtopic":"Roots","gradeBands":[3]},
+  {"id":"sof3.plants.stem.transport","statement":"The stem helps carry water from roots toward leaves and other plant parts.","subject":"Science","topic":"Plants","subtopic":"Stem","gradeBands":[3]},
+  {"id":"sof3.plants.leaves.food","statement":"Green leaves use light, water and carbon dioxide to make food for the plant.","subject":"Science","topic":"Plants","subtopic":"Leaves","gradeBands":[3]},
+  {"id":"sof3.plants.flower.seeds","statement":"The flower is the plant part involved in forming seeds in flowering plants.","subject":"Science","topic":"Plants","subtopic":"Flowers","gradeBands":[3]},
+  {"id":"sof3.body.brain.control","statement":"The brain helps control and coordinate many body activities.","subject":"Science","topic":"Human Body","subtopic":"Brain","gradeBands":[3]},
+  {"id":"sof3.body.heart.circulation","statement":"The heart pumps blood around the body.","subject":"Science","topic":"Human Body","subtopic":"Heart","gradeBands":[3]},
+  {"id":"sof3.body.lungs.breathing","statement":"The lungs help the body take in oxygen and give out carbon dioxide during breathing.","subject":"Science","topic":"Human Body","subtopic":"Lungs","gradeBands":[3]},
+  {"id":"sof3.health.hygiene.handwashing","statement":"Washing hands with soap helps remove dirt and many germs from the hands.","subject":"Science","topic":"Health","subtopic":"Hygiene","gradeBands":[3]},
+
+  {"id":"sof3.soil.humus","statement":"Humus is dark decayed plant and animal matter in soil.","subject":"Science","topic":"Soil","subtopic":"Humus","gradeBands":[3]},
+  {"id":"sof3.soil.sandy","statement":"Sandy soil has large particles and lets water drain relatively quickly.","subject":"Science","topic":"Soil","subtopic":"Soil types","gradeBands":[3]},
+  {"id":"sof3.soil.clay","statement":"Clay soil has very fine particles and holds water more strongly than sandy soil.","subject":"Science","topic":"Soil","subtopic":"Soil types","gradeBands":[3]},
+  {"id":"sof3.soil.loam","statement":"Loamy soil has a useful mixture of soil particles and humus for many plants.","subject":"Science","topic":"Soil","subtopic":"Soil types","gradeBands":[3]},
+  {"id":"sof3.water.evaporation","statement":"Evaporation changes liquid water at the surface into water vapour.","subject":"Science","topic":"Water","subtopic":"Changes of water","gradeBands":[3]},
+  {"id":"sof3.water.condensation","statement":"Condensation changes water vapour into tiny liquid-water droplets.","subject":"Science","topic":"Water","subtopic":"Changes of water","gradeBands":[3]},
+  {"id":"sof3.weather.rain","statement":"Rain falls when water drops in clouds become large and heavy enough.","subject":"Science","topic":"Weather","subtopic":"Rain","gradeBands":[3]},
+  {"id":"sof3.water.cycle","statement":"The water cycle moves water repeatedly between Earth's surface and the atmosphere.","subject":"Science","topic":"Water","subtopic":"Water cycle","gradeBands":[3]},
+
+  {"id":"sof3.measurement.length","statement":"Length can be measured using units such as centimetres and metres.","subject":"Science","topic":"Measurement","subtopic":"Length","gradeBands":[3]},
+  {"id":"sof3.measurement.mass","statement":"Mass can be measured using units such as grams and kilograms.","subject":"Science","topic":"Measurement","subtopic":"Mass","gradeBands":[3]},
+  {"id":"sof3.measurement.capacity","statement":"Liquid capacity can be measured using units such as millilitres and litres.","subject":"Science","topic":"Measurement","subtopic":"Capacity","gradeBands":[3]},
+  {"id":"sof3.measurement.temperature","statement":"Temperature is measured with a thermometer and is often stated in degrees Celsius.","subject":"Science","topic":"Measurement","subtopic":"Temperature","gradeBands":[3]},
+  {"id":"sof3.earth.rotation","statement":"Earth's rotation causes the regular change between day and night.","subject":"Science","topic":"Earth and Space","subtopic":"Earth rotation","gradeBands":[3]},
+  {"id":"sof3.moon.reflection","statement":"The Moon looks bright because it reflects light from the Sun.","subject":"Science","topic":"Earth and Space","subtopic":"Moon","gradeBands":[3]},
+  {"id":"sof3.sun.star","statement":"The Sun is the star at the centre of our solar system.","subject":"Science","topic":"Earth and Space","subtopic":"Sun","gradeBands":[3]},
+  {"id":"sof3.planets.orbit","statement":"A planet in our solar system moves around the Sun along an orbit.","subject":"Science","topic":"Earth and Space","subtopic":"Planets","gradeBands":[3]}
+]

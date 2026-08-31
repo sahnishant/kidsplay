@@ -22,6 +22,7 @@ if (!blueprintFiles.length) fail('no blueprint files found');
 const seenIds = new Set();
 let totalSlots = 0;
 let totalMarks = 0;
+let selectionPolicyCount = 0;
 
 for (const file of blueprintFiles) {
   const blueprint = readJson(`content/assessment-blueprints/${file}`);
@@ -89,11 +90,45 @@ for (const file of blueprintFiles) {
   if (sectionMarksTotal !== blueprint.totalMarks) {
     fail(`${file} section marks ${sectionMarksTotal} do not equal totalMarks ${blueprint.totalMarks}`);
   }
+
+  if (blueprint.selectionPolicy !== undefined) {
+    selectionPolicyCount += 1;
+    const policy = blueprint.selectionPolicy;
+    const source = sourceById.get(policy?.sourceRef);
+    if (!source) fail(`${file} selectionPolicy refers to unknown source ${policy?.sourceRef}`);
+    if (source.status !== 'reviewed' || source.type !== 'official_syllabus') {
+      fail(`${file} selectionPolicy source ${policy.sourceRef} must be a reviewed official_syllabus`);
+    }
+    if (source.academicYear && source.academicYear !== blueprint.academicYear) {
+      fail(`${file} selectionPolicy source ${policy.sourceRef} academicYear ${source.academicYear} does not match ${blueprint.academicYear}`);
+    }
+    if (policy.scope !== 'level_i_science_section') fail(`${file} selectionPolicy has unsupported scope ${policy.scope}`);
+    if (!Number.isInteger(policy.currentClassScienceCount) || policy.currentClassScienceCount < 0) {
+      fail(`${file} selectionPolicy currentClassScienceCount must be a non-negative integer`);
+    }
+    if (!Number.isInteger(policy.previousClassScienceCount) || policy.previousClassScienceCount < 0) {
+      fail(`${file} selectionPolicy previousClassScienceCount must be a non-negative integer`);
+    }
+    const scienceSection = blueprint.sections.find((section) => section.selector === 'science_core');
+    if (!scienceSection) fail(`${file} selectionPolicy requires a science_core section`);
+    if (policy.currentClassScienceCount + policy.previousClassScienceCount !== scienceSection.count) {
+      fail(
+        `${file} selectionPolicy current+previous science count ` +
+        `${policy.currentClassScienceCount + policy.previousClassScienceCount} does not equal science section count ${scienceSection.count}`
+      );
+    }
+    if (typeof policy.achieversCurrentClassOnly !== 'boolean') {
+      fail(`${file} selectionPolicy achieversCurrentClassOnly must be boolean`);
+    }
+    if (typeof policy.notes !== 'string' || !policy.notes.trim()) fail(`${file} selectionPolicy requires notes`);
+  }
+
   totalSlots += blueprint.totalQuestions;
   totalMarks += blueprint.totalMarks;
 }
 
 console.log(
   `Assessment blueprint OK: ${blueprintFiles.length} blueprint(s), ` +
-  `${totalSlots} validated question slot(s), ${totalMarks} validated mark(s), current-year official format provenance confirmed.`
+  `${totalSlots} validated question slot(s), ${totalMarks} validated mark(s), ` +
+  `${selectionPolicyCount} selection policy/policies, current-year official format provenance confirmed.`
 );

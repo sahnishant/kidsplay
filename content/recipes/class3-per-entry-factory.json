@@ -1,0 +1,11 @@
+[
+  {
+    "id": "sof3.life-community.mcq.each.generated.001",
+    "sourceRef": "knowledge.sof.class3.life-community.001",
+    "engine": "single_choice@1",
+    "forEachEntry": true,
+    "includeEntryIds": ["bird-beak", "bird-wings"],
+    "distractorCount": 3,
+    "difficulty": 2
+  }
+]

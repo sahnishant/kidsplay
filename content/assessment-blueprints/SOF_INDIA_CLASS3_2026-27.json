@@ -1,1 +1,26 @@
-{"schemaVersion":1,"id":"sof.iso.class3.2026-27.pattern","profileRef":"SOF_INDIA_CLASS3","academicYear":"2026-27","status":"prototype_from_reviewed_format","sourceRefs":["sof.iso.class3.sample-paper.2026-27"],"title":"Class 3 Science Olympiad: 35-Question Pattern Mock","description":"Practice the published 2026–27 section pattern: 5 Logical Reasoning, 25 Science and 5 Achievers questions, with Achievers carrying 2 marks each. Questions are Kidsplay-authored, not an official SOF paper.","actionLabel":"Try 35-question mock","totalQuestions":35,"totalMarks":40,"sections":[{"id":"logical_reasoning","title":"Logical Reasoning","count":5,"marksPerQuestion":1,"selector":"logical_reasoning"},{"id":"science","title":"Science","count":25,"marksPerQuestion":1,"selector":"science_core"},{"id":"achievers","title":"Achievers","count":5,"marksPerQuestion":2,"selector":"achiever_hots"}]}
+{
+  "schemaVersion": 1,
+  "id": "sof.iso.class3.2026-27.pattern",
+  "profileRef": "SOF_INDIA_CLASS3",
+  "academicYear": "2026-27",
+  "status": "prototype_from_reviewed_format",
+  "sourceRefs": ["sof.iso.class3.sample-paper.2026-27"],
+  "title": "Class 3 Science Olympiad: 35-Question Pattern Mock",
+  "description": "Practice the published 2026–27 section pattern: 5 Logical Reasoning, 25 Science and 5 Achievers questions, with Achievers carrying 2 marks each. Questions are Kidsplay-authored, not an official SOF paper.",
+  "actionLabel": "Try 35-question mock",
+  "totalQuestions": 35,
+  "totalMarks": 40,
+  "selectionPolicy": {
+    "sourceRef": "sof.iso.class3.syllabus.current",
+    "scope": "level_i_science_section",
+    "currentClassScienceCount": 15,
+    "previousClassScienceCount": 10,
+    "achieversCurrentClassOnly": true,
+    "notes": "Operationalizes the official Level-I 60% current-class / 40% previous-class syllabus rule within the 25-question Science section. This is a delivery policy; it does not promote any row to official SOF provenance."
+  },
+  "sections": [
+    { "id": "logical_reasoning", "title": "Logical Reasoning", "count": 5, "marksPerQuestion": 1, "selector": "logical_reasoning" },
+    { "id": "science", "title": "Science", "count": 25, "marksPerQuestion": 1, "selector": "science_core" },
+    { "id": "achievers", "title": "Achievers", "count": 5, "marksPerQuestion": 2, "selector": "achiever_hots" }
+  ]
+}
