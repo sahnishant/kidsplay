@@ -35,11 +35,11 @@
       "questionCount": 5,
       "knowledgeRefs": [
         "kr.air.moving.name.wind",
-        "kr.air.balloon.contains.air",
-        "kr.air.candle.need.air",
-        "kr.air.windmill.turned-by.wind",
-        "kr.air.kite.moved-by.wind",
-        "kr.air.sailboat.moved-by.wind"
+        "kr.air.balloon.contains-air",
+        "kr.air.candle.need-air",
+        "kr.air.windmill.turned-by-wind",
+        "kr.air.kite.moved-by-wind",
+        "kr.air.sailboat.moved-by-wind"
       ],
       "openingSceneRef": "scene.air.balloon-candle",
       "successSceneRef": "scene.air.windmill",
@@ -101,6 +101,26 @@
       ],
       "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Sky map restored. You separated object types from motion and used both kinds of clues correctly." },
       "reward": { "id": "badge.sky-solver", "label": "Sky Solver", "stars": 3 }
+    },
+    {
+      "id": "mission.class3-farm-clues",
+      "title": "The Farm Clue Mix-Up",
+      "locationRef": "farm",
+      "status": "prototype",
+      "access": "free",
+      "questionPackRef": "free-class3-foundation",
+      "questionCount": 4,
+      "knowledgeRefs": [
+        "kr.sof3.animals.feeding.herbivore",
+        "kr.sof3.plants.roots.absorb-water"
+      ],
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "I mixed up the farm clues. Maybe herbivores eat anything, and roots have nothing to do with water!" },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "Those are two different science claims. Dheu, use the Class 3 clue pack and separate animal feeding from plant functions." },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will check each clue against what we know instead of guessing from the picture." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Farm clues restored. You used the same reusable Class 3 knowledge in a story mission without changing the science truth." },
+      "reward": { "id": "badge.class3-farm-sleuth", "label": "Farm Clue Sleuth", "stars": 3 }
     }
   ]
 }
