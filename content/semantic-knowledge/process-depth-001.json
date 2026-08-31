@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "issueRef": 84,
+  "id": "semantic-knowledge.process-depth.001",
+  "policy": {
+    "canonicalFactsCopied": false,
+    "artReferencesAllowed": false,
+    "coordinatesAllowed": false,
+    "motionInstructionsAllowed": false,
+    "profilePlacementInferred": false,
+    "sourceGlossesAllowed": false
+  },
+  "neighbourhoods": [
+    {
+      "id": "state-transitions",
+      "conceptRefs": ["open", "fill", "melt", "freeze", "germination"],
+      "rowRefs": [
+        "kr.vocab.process.open.closed-to-open",
+        "kr.vocab.process.fill.empty-to-full",
+        "kr.science.process.melt.ice-to-liquid-water",
+        "kr.science.process.freeze.water-to-ice",
+        "kr.science.process.germination.seed-to-young-plant"
+      ],
+      "visualSenseKeys": ["open#change-from-closed", "fill#increase-container-content"],
+      "reasoningModes": ["sequence", "process", "state_transition"]
+    }
+  ],
+  "reasoningPatterns": [
+    {
+      "id": "opening-state-transition",
+      "type": "state_transition",
+      "premiseRowRefs": ["kr.vocab.process.open.closed-to-open"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "open#change-from-closed"
+    },
+    {
+      "id": "filling-state-transition",
+      "type": "state_transition",
+      "premiseRowRefs": ["kr.vocab.process.fill.empty-to-full"],
+      "contrastRowRefs": ["kr.vocab.state.full.describes-container-content", "kr.vocab.state.empty.describes-container-content"],
+      "visualSenseKey": "fill#increase-container-content"
+    }
+  ],
+  "processRowRefs": [
+    "kr.vocab.process.open.closed-to-open",
+    "kr.vocab.process.fill.empty-to-full",
+    "kr.science.process.melt.ice-to-liquid-water",
+    "kr.science.process.freeze.water-to-ice",
+    "kr.science.process.germination.seed-to-young-plant"
+  ]
+}
