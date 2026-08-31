@@ -33,18 +33,39 @@ const meetsRequirements = (data, requirements = {}) => {
   return true;
 };
 
-const knowledgeRefsForRecipe = (normalized, recipe) => {
-  if (recipe.rowIds?.length) return [...new Set(recipe.rowIds)];
-  if (recipe.entryIds?.length) {
-    const byLocalId = new Map(normalized.units.map((unit) => [unit.localId, unit.rowId]));
-    return [...new Set(recipe.entryIds.map((id) => {
-      const rowId = byLocalId.get(id);
-      if (!rowId) throw new Error(`${recipe.id}: cannot resolve knowledge row for entry ${id}`);
-      return rowId;
-    }))];
+const selectedUnitsForRecipe = (normalized, recipe) => {
+  const units = normalized.units;
+  let selected = units;
+  if (recipe.rowIds?.length) {
+    const byRowId = new Map(units.map((unit) => [unit.rowId, unit]));
+    selected = recipe.rowIds.map((id) => {
+      const unit = byRowId.get(id);
+      if (!unit) throw new Error(`${recipe.id}: cannot resolve knowledge row ${id}`);
+      return unit;
+    });
+  } else if (recipe.entryIds?.length) {
+    const byLocalId = new Map(units.map((unit) => [unit.localId, unit]));
+    selected = recipe.entryIds.map((id) => {
+      const unit = byLocalId.get(id);
+      if (!unit) throw new Error(`${recipe.id}: cannot resolve knowledge row for entry ${id}`);
+      return unit;
+    });
   }
-  return [...new Set(normalized.units.map((unit) => unit.rowId))];
+
+  const hasOffset = recipe.entryOffset !== undefined;
+  const hasLimit = recipe.entryLimit !== undefined;
+  if (!hasOffset && !hasLimit) return selected;
+  const offset = hasOffset ? Number(recipe.entryOffset) : 0;
+  const limit = hasLimit ? Number(recipe.entryLimit) : selected.length - offset;
+  if (!Number.isInteger(offset) || offset < 0) throw new Error(`${recipe.id}: entryOffset must be a non-negative integer`);
+  if (!Number.isInteger(limit) || limit < 1) throw new Error(`${recipe.id}: entryLimit must be a positive integer`);
+  if (offset >= selected.length) throw new Error(`${recipe.id}: entryOffset ${offset} is outside ${normalized.sourceRef}`);
+  return selected.slice(offset, offset + limit);
 };
+
+const knowledgeRefsForRecipe = (normalized, recipe) => [
+  ...new Set(selectedUnitsForRecipe(normalized, recipe).map((unit) => unit.rowId))
+];
 
 const attachKnowledgeRefs = (result, knowledgeRefs) => ({
   ...result,
