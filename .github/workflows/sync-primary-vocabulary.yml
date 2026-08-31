@@ -4,15 +4,20 @@ on:
   push:
     branches:
       - content/primary-vocabulary-corpus
+  workflow_dispatch:
 
 permissions:
   contents: write
 
+concurrency:
+  group: primary-vocabulary-corpus-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   curate-and-check:
-    name: Curate committed corpus and run full check
+    name: Refresh/curate corpus and run full check
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -29,6 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
+      - name: Refresh source corpus on manual sync
+        if: github.event_name == 'workflow_dispatch'
+        run: npm run lexicon:sync:primary
+
       - name: Validate committed corpus
         run: npm run validate:lexicon-corpus
 
@@ -43,18 +52,18 @@ jobs:
       - name: Report corpus distribution
         run: npm run report:lexicon-corpus
 
-      - name: Commit review queues if changed
+      - name: Run full Kidsplay regression check
+        run: npm run check
+
+      - name: Commit refreshed corpus and review queues if changed
         shell: bash
         run: |
-          git add -A content/lexicon/open/review-wordlists/
+          git add content/lexicon/open/primary-grade-corpus.json content/lexicon/open/review-wordlists/
           if git diff --cached --quiet; then
-            echo "Review queues already current."
+            echo "Primary corpus and review queues already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "data: split vocabulary meaning and spelling queues"
+          git commit -m "data: refresh primary vocabulary corpus and review queues"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-
-      - name: Run full existing validation
-        run: npm run check

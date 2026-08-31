@@ -36,9 +36,9 @@ Curriculum anchors such as UK statutory spelling or Cambridge YLE can raise conf
 
 ## Reproducible sync
 
-`scripts/lexicon/sync-primary-grade-corpus.mjs` fetches the public Hugging Face Dataset Viewer `words` split and writes a deterministic reduced snapshot. The source repository revision SHA is stored in the output.
+`scripts/lexicon/sync-primary-grade-corpus.mjs` fetches the public Hugging Face Dataset Viewer `words` split and writes a deterministic reduced snapshot. The source repository revision SHA is stored in the output. Because the Viewer rows endpoint has no revision selector, the sync checks the repository revision immediately before and after the paged fetch and fails if it changes instead of labeling a moving fetch with one SHA.
 
-The branch workflow `.github/workflows/sync-primary-vocabulary.yml` runs that sync on `content/primary-vocabulary-corpus`, runs the existing full Kidsplay check, and commits only the generated corpus snapshot when it changes. This exists so the large public source can be fetched by GitHub Actions without adding Parquet tooling or bundling the original 35 MB dataset.
+`.github/workflows/sync-primary-vocabulary.yml` validates and rebuilds the committed review queues on every push to `content/primary-vocabulary-corpus`. A manual `workflow_dispatch` additionally performs a live source refresh first. In both cases the workflow runs the full Kidsplay regression check **before** committing corpus/review-queue changes, and the vocabulary workflows share a concurrency group so their bot pushes cannot race each other.
 
 ## Commercial-safe source policy
 

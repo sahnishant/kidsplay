@@ -4,15 +4,20 @@ on:
   push:
     branches:
       - content/primary-vocabulary-corpus
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: primary-vocabulary-corpus-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   resolve:
     name: Resolve grade meaning queues against OEWN
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -52,6 +57,9 @@ jobs:
       - name: Validate sense-review provenance
         run: npm run validate:lexicon-senses
 
+      - name: Run full Kidsplay regression check
+        run: npm run check
+
       - name: Commit sense-review files if changed
         shell: bash
         run: |
@@ -64,6 +72,3 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "data: resolve primary vocabulary against OEWN 2025"
           git push origin "HEAD:${GITHUB_REF_NAME}"
-
-      - name: Run content and type checks
-        run: npm run validate:content && npm run typecheck

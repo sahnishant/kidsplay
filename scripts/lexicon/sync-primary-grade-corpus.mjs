@@ -157,7 +157,16 @@ const summarize = (entries) => {
 };
 
 export async function buildPrimaryGradeCorpus() {
-  const [revision, sourceRows] = await Promise.all([datasetRevision(), fetchAllRows()]);
+  // The Dataset Viewer rows API does not expose a revision selector. Capture the
+  // repository revision immediately before and after the paged fetch and fail
+  // rather than label a mixed/changed fetch with a single revision SHA.
+  const revision = await datasetRevision();
+  const sourceRows = await fetchAllRows();
+  const revisionAfterFetch = await datasetRevision();
+  if (revisionAfterFetch !== revision) {
+    throw new Error(`Source revision changed during sync (${revision} -> ${revisionAfterFetch}); rerun against a stable upstream revision`);
+  }
+
   const entries = sourceRows.map(compactRow).sort((left, right) =>
     left.grade - right.grade
       || left.lemma.localeCompare(right.lemma, 'en')
