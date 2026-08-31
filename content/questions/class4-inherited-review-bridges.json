@@ -1,0 +1,130 @@
+[
+  {
+    "id": "sof4.review.housing.igloo.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["housing.types.igloo"],
+    "knowledgeRefs": ["kr.housing.igloo.material.snow-ice"],
+    "gradeBands": [4],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Which material is commonly used to build a traditional igloo?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "correct", "label": "Blocks of hard snow or ice" },
+        { "id": "wrong1", "label": "Thin paper" },
+        { "id": "wrong2", "label": "Dry leaves only" },
+        { "id": "wrong3", "label": "Glass sheets only" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": {
+      "correct": "Correct. Traditional igloos are built from blocks of compacted snow or ice.",
+      "incorrect": "Think about the building material available in very cold snowy regions."
+    },
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-inherited-review",
+      "scopeNote": "Class 4 profile-safe review item for a canonically inherited previous-class row; not claimed as an official SOF question."
+    }
+  },
+  {
+    "id": "sof4.review.clothing.cotton.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["clothing.weather.cotton"],
+    "knowledgeRefs": ["kr.clothing.cotton.weather.summer"],
+    "gradeBands": [4],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Why are cotton clothes a useful choice in hot summer weather?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "correct", "label": "Cotton is light and absorbs sweat" },
+        { "id": "wrong1", "label": "Cotton produces its own cold air" },
+        { "id": "wrong2", "label": "Cotton is made of metal" },
+        { "id": "wrong3", "label": "Cotton prevents all sweating" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": {
+      "correct": "Correct. Light, absorbent cotton is comfortable in hot weather.",
+      "incorrect": "Recall the useful properties of cotton in warm weather."
+    },
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-inherited-review",
+      "scopeNote": "Class 4 profile-safe review item for a canonically inherited previous-class row; not claimed as an official SOF question."
+    }
+  },
+  {
+    "id": "sof4.review.transport.bus.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["transport.modes.bus"],
+    "knowledgeRefs": ["kr.transport.bus.mode.road"],
+    "gradeBands": [4],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "A bus is mainly which type of transport?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "correct", "label": "Road transport" },
+        { "id": "wrong1", "label": "Air transport" },
+        { "id": "wrong2", "label": "Water transport" },
+        { "id": "wrong3", "label": "Space transport" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": {
+      "correct": "Correct. Buses carry passengers on roads.",
+      "incorrect": "Think about the surface on which a bus normally travels."
+    },
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-inherited-review",
+      "scopeNote": "Class 4 profile-safe review item for a canonically inherited previous-class row; not claimed as an official SOF question."
+    }
+  },
+  {
+    "id": "sof4.review.universe.earth-planet.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["universe.earth.planet"],
+    "knowledgeRefs": ["kr.universe.earth.type.planet"],
+    "gradeBands": [4],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Earth is best classified as what?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "correct", "label": "A planet" },
+        { "id": "wrong1", "label": "A star" },
+        { "id": "wrong2", "label": "A galaxy" },
+        { "id": "wrong3", "label": "A comet" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["correct"] },
+    "feedback": {
+      "correct": "Correct. Earth is a planet in the solar system.",
+      "incorrect": "Recall the type of object Earth is in the solar system."
+    },
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-inherited-review",
+      "scopeNote": "Class 4 profile-safe review item for a canonically inherited previous-class row; not claimed as an official SOF question."
+    }
+  }
+]
