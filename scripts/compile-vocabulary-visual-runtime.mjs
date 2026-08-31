@@ -1,8 +1,27 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { normalizeData } from './normalizers/registry.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
 const outputUrl = new URL('content/vocabulary-visuals/__generated-runtime-plans.json', root);
+
+const knowledgeNames = readdirSync(new URL('content/knowledge/', root))
+  .filter((name) => name.endsWith('.json'))
+  .sort();
+const canonicalRowIds = new Set();
+for (const name of knowledgeNames) {
+  const value = readJson(`content/knowledge/${name}`);
+  const sources = Array.isArray(value) ? value : [value];
+  for (const source of sources) {
+    const normalized = normalizeData(source);
+    for (const unit of normalized.units ?? []) {
+      const rowId = String(unit?.rowId ?? '').trim();
+      if (!rowId) throw new Error(`${name}: normalized knowledge unit is missing rowId`);
+      if (canonicalRowIds.has(rowId)) throw new Error(`${name}: duplicate canonical knowledge row ${rowId}`);
+      canonicalRowIds.add(rowId);
+    }
+  }
+}
 
 const batchNames = readdirSync(new URL('content/vocabulary-visuals/batches/', root))
   .filter((name) => name.endsWith('.json'))
@@ -28,6 +47,7 @@ const plans = (reinforcement.mappings ?? []).map((mapping) => {
   const knowledgeRef = String(mapping?.knowledgeRef ?? '').trim();
   const senseKey = String(mapping?.senseKey ?? '').trim();
   if (!knowledgeRef.startsWith('kr.')) throw new Error(`Invalid vocabulary visual runtime knowledgeRef ${knowledgeRef}`);
+  if (!canonicalRowIds.has(knowledgeRef)) throw new Error(`${knowledgeRef}: vocabulary visual runtime mapping is not a canonical knowledge row`);
   if (seenKnowledgeRefs.has(knowledgeRef)) throw new Error(`Duplicate vocabulary visual runtime knowledgeRef ${knowledgeRef}`);
   seenKnowledgeRefs.add(knowledgeRef);
   const item = strategyBySenseKey.get(senseKey);
@@ -53,4 +73,4 @@ const plans = (reinforcement.mappings ?? []).map((mapping) => {
 });
 
 writeFileSync(outputUrl, `${JSON.stringify({ schemaVersion: 1, issueRef: 80, plans }, null, 2)}\n`, 'utf8');
-console.log(`Compiled ${plans.length} admitted vocabulary visual runtime plan(s) from ${strategyBySenseKey.size} audited sense strategy item(s).`);
+console.log(`Compiled ${plans.length} admitted vocabulary visual runtime plan(s) from ${strategyBySenseKey.size} audited sense strategy item(s); ${canonicalRowIds.size} canonical knowledge row(s) checked.`);
