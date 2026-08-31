@@ -34,6 +34,12 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
+      - name: Restore Linux Rolldown binding omitted by cross-platform lockfile
+        shell: bash
+        run: |
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          npm install --no-save --package-lock=false "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}"
+
       - name: Download pinned Open English WordNet 2025 JSON
         shell: bash
         run: |
