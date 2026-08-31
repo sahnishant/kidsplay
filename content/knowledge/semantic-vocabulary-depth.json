@@ -84,7 +84,7 @@
         "subject": { "id": "push", "label": "push" },
         "relation": "is_a",
         "object": { "id": "force-action", "label": "force action" },
-        "conceptIds": ["vocabulary.action.push", "science.force.action"],
+        "conceptIds": ["vocabulary.action.push", "sof3.force.push"],
         "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
       },
       {
@@ -93,7 +93,7 @@
         "subject": { "id": "pull", "label": "pull" },
         "relation": "is_a",
         "object": { "id": "force-action", "label": "force action" },
-        "conceptIds": ["vocabulary.action.pull", "science.force.action"],
+        "conceptIds": ["vocabulary.action.pull", "sof3.force.pull"],
         "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
       },
       {
@@ -102,7 +102,7 @@
         "subject": { "id": "push", "label": "push" },
         "relation": "can_move_object",
         "object": { "id": "away-from-pusher", "label": "away from the pusher" },
-        "conceptIds": ["vocabulary.action.push", "science.force.direction"],
+        "conceptIds": ["vocabulary.action.push", "sof3.force.push"],
         "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
       },
       {
@@ -111,7 +111,7 @@
         "subject": { "id": "pull", "label": "pull" },
         "relation": "can_move_object",
         "object": { "id": "toward-puller", "label": "toward the puller" },
-        "conceptIds": ["vocabulary.action.pull", "science.force.direction"],
+        "conceptIds": ["vocabulary.action.pull", "sof3.force.pull"],
         "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
       },
       {
@@ -120,7 +120,7 @@
         "subject": { "id": "push", "label": "push" },
         "relation": "contrasts_with",
         "object": { "id": "pull", "label": "pull" },
-        "conceptIds": ["vocabulary.action.push", "vocabulary.action.pull", "science.force.direction"],
+        "conceptIds": ["vocabulary.action.push", "vocabulary.action.pull", "sof3.force.push", "sof3.force.pull"],
         "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
       },
       {
@@ -129,14 +129,14 @@
         "subject": { "id": "pull", "label": "pull" },
         "relation": "contrasts_with",
         "object": { "id": "push", "label": "push" },
-        "conceptIds": ["vocabulary.action.pull", "vocabulary.action.push", "science.force.direction"],
+        "conceptIds": ["vocabulary.action.pull", "vocabulary.action.push", "sof3.force.pull", "sof3.force.push"],
         "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
       }
     ],
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-semantic-depth",
-      "scopeNote": "Vocabulary-first semantic action knowledge; direction claims use 'can' because the exact motion depends on the applied force and constraints."
+      "scopeNote": "Vocabulary-first semantic action knowledge; direction claims use 'can' because the exact motion depends on the applied force and constraints. Existing Science learnables own the force semantics."
     }
   },
   {
