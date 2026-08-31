@@ -3,6 +3,7 @@ import { basename, dirname, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { svelteTesting } from '@testing-library/svelte/vite';
+import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
@@ -17,18 +18,18 @@ function isRuntimeContentJson(id: string): boolean {
     || cleanId === resolvedMembershipPath;
 }
 
-function runtimeJsonAssetPlugin() {
+function runtimeJsonAssetPlugin(): Plugin {
   return {
     name: 'kidsplay-runtime-json-assets',
-    apply: 'build' as const,
-    enforce: 'pre' as const,
-    async load(id: string) {
+    apply: 'build',
+    enforce: 'pre',
+    async load(id: string): Promise<string | null> {
       const cleanId = id.split('?')[0];
       if (!isRuntimeContentJson(cleanId)) return null;
 
       const source = await readFile(cleanId, 'utf8');
       const sourceLabel = relative(projectRoot, cleanId).split(sep).join('/');
-      const referenceId = this.emitFile({
+      const referenceId: string = this.emitFile({
         type: 'asset',
         name: `runtime-${basename(cleanId)}`,
         source
