@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-sense-links.batch-001.001",
+  "source": {
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0",
+    "usage": "candidate_identifier_reference_only"
+  },
+  "policy": {
+    "selectsHumanEditorialSense": false,
+    "importsGloss": false,
+    "importsExample": false,
+    "visualSenseReferenceOnly": true
+  },
+  "links": [
+    { "senseKey": "old#not-new", "candidateId": "old#a#3" },
+    { "senseKey": "full#container-at-capacity", "candidateId": "full#a#1" },
+    { "senseKey": "fast#moving-quickly", "candidateId": "fast#a#1" },
+    { "senseKey": "go#move-location", "candidateId": "go#v#1" },
+    { "senseKey": "come#move-toward", "candidateId": "come#v#1" },
+    { "senseKey": "library#place-with-books-for-reading", "candidateId": "library#n#3" },
+    { "senseKey": "pull#move-toward-by-force", "candidateId": "pull#v#1" }
+  ]
+}
