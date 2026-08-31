@@ -23,6 +23,7 @@
   { "id": "entity.plant.flower", "renderer": "entity-icon", "glyph": "flower", "label": "Flower", "motion": "sway", "aliases": ["flower"] },
   { "id": "entity.plant.lotus", "renderer": "entity-icon", "glyph": "lotus", "label": "Lotus", "motion": "float", "aliases": ["lotus"] },
   { "id": "entity.plant.leaves", "renderer": "entity-icon", "glyph": "leaves", "label": "Leaves", "motion": "sway", "aliases": ["leaf", "leaves"] },
+  { "id": "entity.plant.grass", "renderer": "entity-icon", "glyph": "grass", "label": "Grass", "motion": "sway", "aliases": ["grass", "fresh grass"] },
 
   { "id": "entity.food.rice", "renderer": "entity-icon", "glyph": "rice", "label": "Rice", "motion": "idle", "aliases": ["rice"] },
   { "id": "entity.food.pulses", "renderer": "entity-icon", "glyph": "pulses", "label": "Pulses", "motion": "idle", "aliases": ["pulse", "pulses", "dal"] },
@@ -48,6 +49,7 @@
   { "id": "entity.nature.cloud", "renderer": "entity-icon", "glyph": "cloud", "label": "Cloud", "motion": "drift", "aliases": ["cloud"] },
   { "id": "entity.nature.air", "renderer": "scene-icon", "glyph": "wind", "label": "Air", "motion": "drift", "aliases": ["air"] },
   { "id": "entity.nature.wind", "renderer": "scene-icon", "glyph": "wind", "label": "Wind", "motion": "drift", "aliases": ["wind", "moving air"] },
+  { "id": "entity.nature.branch", "renderer": "entity-icon", "glyph": "branch", "label": "Tree branch", "motion": "sway", "aliases": ["branch", "tree branch"] },
   { "id": "entity.universe.earth", "renderer": "scene-icon", "glyph": "earth", "label": "Earth", "motion": "spin", "aliases": ["earth"] },
   { "id": "entity.object.balloon", "renderer": "scene-icon", "glyph": "balloon", "label": "Balloon", "motion": "float", "aliases": ["balloon", "inflated balloon"] },
   { "id": "entity.object.candle", "renderer": "scene-icon", "glyph": "candle", "label": "Candle", "motion": "flicker", "aliases": ["candle", "burning candle"] },
@@ -55,5 +57,7 @@
   { "id": "entity.object.kite", "renderer": "scene-icon", "glyph": "kite", "label": "Kite", "motion": "float", "aliases": ["kite"] },
   { "id": "entity.object.sailboat", "renderer": "scene-icon", "glyph": "sailboat", "label": "Sailboat", "motion": "float", "aliases": ["sailboat", "boat"] },
   { "id": "entity.rock.pumice", "renderer": "scene-icon", "glyph": "pumice", "label": "Pumice", "motion": "float", "aliases": ["pumice"] },
-  { "id": "entity.object.bone", "renderer": "scene-icon", "glyph": "bone", "label": "Bone", "motion": "float", "aliases": ["bone"] }
+  { "id": "entity.object.bone", "renderer": "scene-icon", "glyph": "bone", "label": "Bone", "motion": "float", "aliases": ["bone"] },
+  { "id": "entity.object.ball", "renderer": "entity-icon", "glyph": "ball", "label": "Play ball", "motion": "hop", "aliases": ["ball", "play ball"] },
+  { "id": "entity.object.mat", "renderer": "entity-icon", "glyph": "mat", "label": "Resting mat", "motion": "idle", "aliases": ["mat", "resting mat"] }
 ]

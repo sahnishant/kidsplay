@@ -1,0 +1,30 @@
+/*
+ * Child viewport contract.
+ *
+ * The root owns the physical viewport + safe-area padding. Child-facing
+ * primary screens inherit that available content box instead of recomputing
+ * viewport height with hard-coded offsets. Secondary/detail surfaces may
+ * scroll internally, but the document itself must remain fixed.
+ */
+#app .home-viewport,
+#app .session-viewport,
+#app .completion-viewport {
+  height: 100%;
+  max-height: 100%;
+  min-height: 0;
+}
+
+/* Runtime errors are a viewport overlay, never content appended below a
+ * full-height child screen. */
+#app > .app-error {
+  position: fixed;
+  z-index: 100;
+  left: max(12px, env(safe-area-inset-left));
+  right: max(12px, env(safe-area-inset-right));
+  bottom: max(12px, env(safe-area-inset-bottom));
+  width: min(680px, calc(100vw - 24px));
+  max-height: min(36vh, 240px);
+  margin: 0 auto;
+  overflow: auto;
+  box-shadow: 0 10px 32px rgba(36, 48, 58, 0.2);
+}

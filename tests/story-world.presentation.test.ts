@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import type { TopicProgressSummary } from '../src/runtime/localProgress';
 import type { StoryProgressSnapshot } from '../src/story/storyProgress';
-import StoryWorld from '../src/ui/StoryWorld.svelte';
+import StoryWorld from '../src/ui/StoryWorldViewport.svelte';
 
 function emptyStoryProgress(): StoryProgressSnapshot {
   return {
@@ -11,6 +11,12 @@ function emptyStoryProgress(): StoryProgressSnapshot {
     completedSessionIds: [],
     updatedAt: null
   };
+}
+
+async function advanceMissionStory(): Promise<void> {
+  while (screen.queryByRole('button', { name: 'Next story beat' })) {
+    await fireEvent.click(screen.getByRole('button', { name: 'Next story beat' }));
+  }
 }
 
 const plantsRecommendation: TopicProgressSummary = {
@@ -36,8 +42,8 @@ afterEach(() => {
   cleanup();
 });
 
-describe('Dheu story-world presentation', () => {
-  it('personalizes Dheu, renders the original story cast, opens the pond story and launches the mission by id', async () => {
+describe('Dheu viewport story-world presentation', () => {
+  it('personalizes Dheu, reveals mission story one click at a time and launches the mission by id', async () => {
     const onStartMission = vi.fn();
     render(StoryWorld, {
       props: {
@@ -53,28 +59,35 @@ describe('Dheu story-world presentation', () => {
 
     expect(screen.getByRole('heading', { name: 'Where should Mira explore?' })).toBeTruthy();
     expect(screen.getByLabelText('0 story stars')).toBeTruthy();
-    expect(screen.getByText('5/9 places open')).toBeTruthy();
-    expect(screen.getByRole('img', { name: 'Mira, story explorer' })).toBeTruthy();
-    expect(screen.getByRole('img', { name: 'Scientu, curious science guide' })).toBeTruthy();
-    expect(screen.getByRole('img', { name: 'Shaitanu, playful challenger' })).toBeTruthy();
+    expect(screen.getByLabelText('5 of 9 places open')).toBeTruthy();
+    expect(screen.queryByRole('dialog')).toBeNull();
 
     const lab = screen.getByRole('button', { name: "Scientu's Lab: locked until The Puppy by the Pond" }) as HTMLButtonElement;
     expect(lab.disabled).toBe(true);
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
 
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toBeTruthy();
+    expect(dialog.textContent).toContain('Tricky twist');
     expect(screen.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeTruthy();
-    expect(screen.getByText('Shaitanu · Warm-up tease')).toBeTruthy();
-    expect(screen.getAllByText('Shaitanu').length).toBeGreaterThanOrEqual(2);
-    expect(screen.getAllByText('Scientu').length).toBeGreaterThanOrEqual(2);
+    expect(screen.getByLabelText('Story beat 1 of 3')).toBeTruthy();
+    expect(screen.getByText(/Some animals live in water/)).toBeTruthy();
+    expect(screen.queryByText(/Mira, can you investigate where different animals belong/)).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Start investigation · 6 clues' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Next story beat' }));
+    expect(screen.getByLabelText('Story beat 2 of 3')).toBeTruthy();
     expect(screen.getByText(/Mira, can you investigate where different animals belong/)).toBeTruthy();
 
+    await advanceMissionStory();
+    expect(screen.getByRole('button', { name: 'Start investigation · 6 clues' })).toBeTruthy();
     await fireEvent.click(screen.getByRole('button', { name: 'Start investigation · 6 clues' }));
     expect(onStartMission).toHaveBeenCalledOnce();
     expect(onStartMission).toHaveBeenCalledWith('mission.puppy-by-pond');
   });
 
-  it('turns ordinary unlocked world locations into expeditions and surfaces Scientu recommendations there', async () => {
+  it('turns ordinary unlocked world locations into expeditions and surfaces recommendations compactly', async () => {
     const onExploreLocation = vi.fn();
     render(StoryWorld, {
       props: {
@@ -89,8 +102,7 @@ describe('Dheu story-world presentation', () => {
     });
 
     const farm = screen.getByRole('button', { name: 'Farm: explore' });
-    expect(farm.textContent).toContain('Explore this place');
-    expect(farm.textContent).toContain('Scientu suggests · Plants');
+    expect(farm.textContent).toContain('Try next');
 
     await fireEvent.click(farm);
     expect(onExploreLocation).toHaveBeenCalledOnce();
@@ -126,8 +138,8 @@ describe('Dheu story-world presentation', () => {
     });
 
     expect(screen.getByLabelText('3 story stars')).toBeTruthy();
-    expect(screen.getByText('6/9 places open')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }).textContent).toContain('Mission complete · replay');
+    expect(screen.getByLabelText('6 of 9 places open')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }).textContent).toContain('Replay');
     expect((screen.getByRole('button', { name: "Scientu's Lab: The Invisible Air Mystery" }) as HTMLButtonElement).disabled).toBe(false);
   });
 
@@ -145,7 +157,7 @@ describe('Dheu story-world presentation', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
-    expect(screen.getByText('Shaitanu · Clever trap')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Start investigation · 6 clues' })).toBeTruthy();
+    expect(screen.getByRole('dialog').textContent).toContain('Clever trap');
+    expect(screen.getByRole('button', { name: 'Next story beat' })).toBeTruthy();
   });
 });

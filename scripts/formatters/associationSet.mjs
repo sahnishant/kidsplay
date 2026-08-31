@@ -9,21 +9,32 @@ const semanticRefFor = (node) => typeof node?.id === 'string' && node.id.trim() 
 
 const selectedUnits = (source, recipe) => {
   const units = Array.isArray(source.units) ? source.units : [];
+  let selected = units;
   if (recipe.rowIds?.length) {
     const byId = new Map(units.map((unit) => [unit.rowId, unit]));
-    return recipe.rowIds.map((id) => {
+    selected = recipe.rowIds.map((id) => {
       const unit = byId.get(id);
       if (!unit) throw new Error(`${recipe.id}: unknown rowId ${id} in ${source.sourceRef}`);
       return unit;
     });
+  } else if (recipe.entryIds?.length) {
+    const byLocalId = new Map(units.map((unit) => [unit.localId, unit]));
+    selected = recipe.entryIds.map((id) => {
+      const unit = byLocalId.get(id);
+      if (!unit) throw new Error(`${recipe.id}: unknown entry ${id} in ${source.sourceRef}`);
+      return unit;
+    });
   }
-  if (!recipe.entryIds?.length) return units;
-  const byLocalId = new Map(units.map((unit) => [unit.localId, unit]));
-  return recipe.entryIds.map((id) => {
-    const unit = byLocalId.get(id);
-    if (!unit) throw new Error(`${recipe.id}: unknown entry ${id} in ${source.sourceRef}`);
-    return unit;
-  });
+
+  const hasOffset = recipe.entryOffset !== undefined;
+  const hasLimit = recipe.entryLimit !== undefined;
+  if (!hasOffset && !hasLimit) return selected;
+  const offset = hasOffset ? Number(recipe.entryOffset) : 0;
+  const limit = hasLimit ? Number(recipe.entryLimit) : selected.length - offset;
+  if (!Number.isInteger(offset) || offset < 0) throw new Error(`${recipe.id}: entryOffset must be a non-negative integer`);
+  if (!Number.isInteger(limit) || limit < 1) throw new Error(`${recipe.id}: entryLimit must be a positive integer`);
+  if (offset >= selected.length) throw new Error(`${recipe.id}: entryOffset ${offset} is outside ${source.sourceRef}`);
+  return selected.slice(offset, offset + limit);
 };
 
 const defaultFeedback = {
