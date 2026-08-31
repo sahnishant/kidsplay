@@ -10,12 +10,12 @@ permissions:
   contents: write
 
 concurrency:
-  group: primary-vocabulary-corpus-${{ github.ref }}
-  cancel-in-progress: false
+  group: primary-vocabulary-curate-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   curate-and-check:
-    name: Refresh/curate corpus and run full check
+    name: Refresh corpus/spelling queues and run gates
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -47,12 +47,11 @@ jobs:
       - name: Validate committed corpus
         run: npm run validate:lexicon-corpus
 
-      - name: Rebuild grade review queues
+      - name: Rebuild spelling/recognition review queues
         shell: bash
         run: |
-          rm -rf content/lexicon/open/review-wordlists
           mkdir -p content/lexicon/open/review-wordlists
-          npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose meaning
+          find content/lexicon/open/review-wordlists -maxdepth 1 -type f -name 'grade-*-introduced-spelling.json' -delete
           npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose spelling
 
       - name: Report corpus distribution
@@ -64,15 +63,16 @@ jobs:
       - name: Run full Kidsplay regression check
         run: npm run check
 
-      - name: Commit refreshed corpus and review queues if changed
+      - name: Commit refreshed corpus and spelling queues if changed
         shell: bash
         run: |
-          git add content/lexicon/open/primary-grade-corpus.json content/lexicon/open/review-wordlists/
+          git add content/lexicon/open/primary-grade-corpus.json
+          git add content/lexicon/open/review-wordlists/grade-*-introduced-spelling.json
           if git diff --cached --quiet; then
-            echo "Primary corpus and review queues already current."
+            echo "Primary corpus and spelling queues already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "data: refresh primary vocabulary corpus and review queues"
+          git commit -m "data: refresh primary vocabulary corpus and spelling queues"
           git push origin "HEAD:${GITHUB_REF_NAME}"

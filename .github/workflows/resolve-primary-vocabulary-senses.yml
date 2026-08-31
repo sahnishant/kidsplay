@@ -10,12 +10,12 @@ permissions:
   contents: write
 
 concurrency:
-  group: primary-vocabulary-corpus-${{ github.ref }}
-  cancel-in-progress: false
+  group: primary-vocabulary-resolve-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   resolve:
-    name: Resolve grade meaning queues against OEWN
+    name: Resolve/backfill grade meaning queues against OEWN
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
@@ -58,8 +58,20 @@ jobs:
           fi
           echo "OEWN_INPUT=/tmp/oewn/unpacked" >> "$GITHUB_ENV"
 
-      - name: Build grade sense-review candidates
-        run: npm run lexicon:resolve:primary -- --input "$OEWN_INPUT" --source-version 2025 --max-senses 3
+      - name: Build OEWN-resolvable grade meaning queues
+        shell: bash
+        run: |
+          rm -rf content/lexicon/open/sense-review
+          mkdir -p content/lexicon/open/sense-review content/lexicon/open/review-wordlists
+          find content/lexicon/open/review-wordlists -maxdepth 1 -type f -name 'grade-*-introduced-meaning.json' -delete
+          npm run lexicon:resolve:primary -- \
+            --input "$OEWN_INPUT" \
+            --corpus content/lexicon/open/primary-grade-corpus.json \
+            --source-version 2025 \
+            --max-senses 3 \
+            --mode introduced \
+            --target-per-grade 400 \
+            --overscan-per-grade 1200
 
       - name: Validate sense-review provenance
         run: npm run validate:lexicon-senses
@@ -70,12 +82,13 @@ jobs:
       - name: Run full Kidsplay regression check
         run: npm run check
 
-      - name: Commit sense-review files if changed
+      - name: Commit meaning queues and sense-review files if changed
         shell: bash
         run: |
+          git add content/lexicon/open/review-wordlists/grade-*-introduced-meaning.json
           git add content/lexicon/open/sense-review/
           if git diff --cached --quiet; then
-            echo "Sense-review data already current."
+            echo "Meaning queues and sense-review data already current."
             exit 0
           fi
           git config user.name "github-actions[bot]"
