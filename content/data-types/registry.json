@@ -34,6 +34,15 @@
         "crossword@1": { "minUnits": 2, "recipeUnitMode": "set" },
         "print_cards@1": { "minUnits": 1, "recipeUnitMode": "set" }
       }
+    },
+    {
+      "id": "process",
+      "version": 1,
+      "description": "One canonical ordered process or state transition with stable stages.",
+      "compatibleEngines": ["sequence_order@1"],
+      "engineRequirements": {
+        "sequence_order@1": { "minUnits": 1, "recipeUnitMode": "all" }
+      }
     }
   ]
 }
