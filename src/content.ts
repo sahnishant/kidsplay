@@ -181,11 +181,15 @@ const freePacks = Object.values(packModules)
   ))
   .sort((left, right) => left.id.localeCompare(right.id));
 
+function requireFreePack(packId: string): LearningPack {
+  const pack = freePacks.find((item) => item.id === packId);
+  if (!pack) throw new Error(`Missing required free learning pack ${packId}`);
+  return pack;
+}
+
 const profiles = (profileRegistry as ProfileRegistry).profiles;
-const freePack = freePacks.find((pack) => pack.id === 'free.animals-foundation.1');
-if (!freePack) throw new Error('Missing legacy free animals foundation pack');
-const vocabularyPack = freePacks.find((pack) => pack.id === 'free.vocabulary-foundation.1');
-if (!vocabularyPack) throw new Error('Missing free vocabulary foundation pack');
+const freePack = requireFreePack('free.animals-foundation.1');
+const vocabularyPack = requireFreePack('free.vocabulary-foundation.1');
 const goalPack = olympiadPrototypePack as GoalPath;
 const patternBlueprint = patternBlueprintJson as AssessmentBlueprint;
 const goalMockEntryId = `${goalPack.id}.mixed-mock`;
@@ -218,9 +222,7 @@ function resolveQuestionRefs(questionRefs: string[], packId: string): Question[]
 }
 
 function getFreePack(packId: string): LearningPack {
-  const pack = freePacks.find((item) => item.id === packId);
-  if (!pack) throw new Error(`Unknown free learning pack ${packId}`);
-  return pack;
+  return requireFreePack(packId);
 }
 
 function masteryScore(question: Question, mastery: Record<string, MasteryCounter>): number {
