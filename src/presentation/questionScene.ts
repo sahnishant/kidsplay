@@ -1,4 +1,5 @@
 import type { Question } from '../contracts/question';
+import { resolveVocabularyVisualPlanForKnowledgeRefs } from './vocabularyVisualRegistry';
 
 /**
  * Presentation-only scene reuse for questions that do not need a visual stimulus
@@ -73,7 +74,8 @@ export function resolveQuestionSceneId(question: Question, allowInferredScene = 
     if (sceneId) return sceneId;
   }
 
-  return null;
+  const vocabularyPlan = resolveVocabularyVisualPlanForKnowledgeRefs(question.knowledgeRefs ?? []);
+  return vocabularyPlan ? `vocabulary:${vocabularyPlan.senseKey}` : null;
 }
 
 export function resolveDashboardSceneId(topicId?: string): string | null {
@@ -81,8 +83,9 @@ export function resolveDashboardSceneId(topicId?: string): string | null {
 }
 
 /**
- * Used by validation/tests to guarantee that presentation mappings cannot drift
- * away from the scene registry. Returns a copy so callers cannot mutate maps.
+ * Used by validation/tests to guarantee that static presentation mappings cannot
+ * drift away from the authored scene registry. Vocabulary plans are generated
+ * runtime presentation data and therefore intentionally excluded from this list.
  */
 export function getReferencedPresentationSceneIds(): string[] {
   return [...new Set([

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-strategy.runtime-batch.002",
+  "issueRef": 80,
+  "status": "reviewed_visual_strategy",
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false
+  },
+  "items": [
+    { "lemma": "enormous", "senseKey": "enormous#very-large-size", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "dimension": "size", "target": "enormous", "contrast": "ordinary-size" } },
+    { "lemma": "fragile", "senseKey": "fragile#easily-broken", "partOfSpeech": "adjective", "strategy": "state_scene", "sceneTemplate": "entity-state", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "state": "fragile", "exampleKind": "glass" } },
+    { "lemma": "rapid", "senseKey": "rapid#very-fast", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "recommended_meaningful", "answerSafety": "post_answer_only", "parameters": { "dimension": "speed", "target": "rapid", "contrast": "slow" } },
+    { "lemma": "ancient", "senseKey": "ancient#very-old-from-long-ago", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "dimension": "age-state", "target": "ancient", "contrast": "modern" } },
+    { "lemma": "cheerful", "senseKey": "cheerful#happy-positive", "partOfSpeech": "adjective", "strategy": "expression_scene", "sceneTemplate": "expression", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "expression": "happy" } },
+    { "lemma": "scarce", "senseKey": "scarce#not-enough-hard-to-find", "partOfSpeech": "adjective", "corpusDisposition": "existing_runtime_only", "strategy": "quantity_scene", "sceneTemplate": "quantity-comparison", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "quantity": "few", "comparison": "scarce" } },
+    { "lemma": "silent", "senseKey": "silent#making-no-sound", "partOfSpeech": "adjective", "strategy": "state_scene", "sceneTemplate": "entity-state", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "state": "silent", "exampleKind": "speaker" } },
+    { "lemma": "observe", "senseKey": "observe#watch-carefully", "partOfSpeech": "verb", "strategy": "action_scene", "sceneTemplate": "actor-action", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "action": "observe" } },
+    { "lemma": "large", "senseKey": "large#big-size", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "dimension": "size", "target": "large", "contrast": "small" } },
+    { "lemma": "quick", "senseKey": "quick#fast-speed", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "recommended_meaningful", "answerSafety": "post_answer_only", "parameters": { "dimension": "speed", "target": "quick", "contrast": "slow" } },
+    { "lemma": "quiet", "senseKey": "quiet#making-little-or-no-sound", "partOfSpeech": "adjective", "strategy": "state_scene", "sceneTemplate": "entity-state", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "state": "silent", "exampleKind": "speaker" } },
+    { "lemma": "hot", "senseKey": "hot#high-temperature", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "dimension": "temperature", "target": "hot", "contrast": "cold" } },
+    { "lemma": "cold", "senseKey": "cold#low-temperature", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "dimension": "temperature", "target": "cold", "contrast": "hot" } },
+    { "lemma": "narrow", "senseKey": "narrow#small-width", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "dimension": "width", "target": "narrow", "contrast": "wide" } },
+    { "lemma": "wide", "senseKey": "wide#large-width", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "dimension": "width", "target": "wide", "contrast": "narrow" } },
+    { "lemma": "modern", "senseKey": "modern#present-or-recent-time", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V1", "motionPolicy": "none", "answerSafety": "post_answer_only", "parameters": { "dimension": "age-state", "target": "modern", "contrast": "ancient" } },
+    { "lemma": "clever", "senseKey": "clever#quick-to-understand", "partOfSpeech": "adjective", "strategy": "textual_only", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only", "notes": "A generic thinking face would stereotype intelligence and does not reliably distinguish clever/smart from ordinary thinking." },
+    { "lemma": "reply", "senseKey": "reply#answer-in-words", "partOfSpeech": "verb", "strategy": "textual_only", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only", "notes": "Keep textual until a communication turn-taking scene is implemented and reviewed." },
+    { "lemma": "accept", "senseKey": "accept#agree-to-receive-or-allow", "partOfSpeech": "verb", "strategy": "textual_only", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only", "notes": "A checkmark alone would collapse several senses and could misteach the word." },
+    { "lemma": "include", "senseKey": "include#contain-as-part", "partOfSpeech": "verb", "strategy": "part_whole", "sceneTemplate": "part-focus", "maturity": "V1", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "parameters": { "wholeRef": "group", "partRef": "member" } }
+  ]
+}

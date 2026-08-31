@@ -57,7 +57,16 @@ for (const { name, value } of batches) {
     else seenSenseKeys.add(item?.senseKey);
     for (const error of validateStrategyItem(item, registry, visualIds)) errors.push(`${name}: ${error}`);
     const corpusEntry = corpusByLemma.get(item?.lemma);
-    if (!corpusEntry) errors.push(`${prefix}: lemma is not present in the committed primary vocabulary corpus`);
+    if (!corpusEntry) {
+      if (item?.corpusDisposition !== 'existing_runtime_only') {
+        errors.push(`${prefix}: lemma is not present in the committed primary vocabulary corpus and lacks explicit existing_runtime_only disposition`);
+      }
+    } else if (item?.corpusDisposition === 'existing_runtime_only') {
+      errors.push(`${prefix}: existing_runtime_only disposition is stale because the lemma is present in the primary corpus`);
+    }
+    if (item?.corpusDisposition && item.corpusDisposition !== 'existing_runtime_only') {
+      errors.push(`${prefix}: unsupported corpusDisposition ${item.corpusDisposition}`);
+    }
     const enriched = { ...item, batch: name, corpus: corpusEntry ?? null };
     items.push(enriched);
     itemBySenseKey.set(item.senseKey, enriched);
@@ -96,7 +105,38 @@ if (registryJson?.policy?.senseKeyRequired !== true) errors.push('Vocabulary vis
 if (registryJson?.policy?.reducedMotionStaticMeaningRequired !== true) errors.push('Vocabulary visual registry must require reduced-motion static meaning');
 if (registryJson?.policy?.nonCommercialAssetAdmissionAllowed !== false) errors.push('Vocabulary visual registry must reject non-commercial asset admission');
 
-const auditedLemmas = new Set(items.map((item) => item.lemma));
+const runtimeFile = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
+if (runtimeFile?.schemaVersion !== 1) errors.push('Generated vocabulary visual runtime plans schemaVersion must be 1');
+if (runtimeFile?.issueRef !== 80) errors.push('Generated vocabulary visual runtime plans must belong to issue #80');
+const runtimePlans = Array.isArray(runtimeFile?.plans) ? runtimeFile.plans : [];
+const runtimeKnowledgeRefs = new Set();
+const rendererAdmittedSenseKeys = new Set();
+const childFacingSenseKeys = new Set();
+const motionRuntimeSenseKeys = new Set();
+let templateProofPlans = 0;
+let childFacingPlans = 0;
+for (const plan of runtimePlans) {
+  const item = itemBySenseKey.get(plan?.senseKey);
+  if (!item) errors.push(`runtime/${plan?.senseKey}: generated runtime plan points to unknown strategy senseKey`);
+  rendererAdmittedSenseKeys.add(plan?.senseKey);
+  if (plan?.runtimeUsage === 'knowledge_reinforcement') {
+    childFacingPlans += 1;
+    childFacingSenseKeys.add(plan?.senseKey);
+    if (!String(plan?.knowledgeRef ?? '').startsWith('kr.')) errors.push(`runtime/${plan?.senseKey}: child-facing runtime plan requires canonical knowledgeRef`);
+    if (runtimeKnowledgeRefs.has(plan?.knowledgeRef)) errors.push(`runtime/${plan?.senseKey}: duplicate child-facing runtime knowledgeRef ${plan?.knowledgeRef}`);
+    runtimeKnowledgeRefs.add(plan?.knowledgeRef);
+  } else if (plan?.runtimeUsage === 'template_proof') {
+    templateProofPlans += 1;
+    if (plan?.knowledgeRef !== null) errors.push(`runtime/${plan?.senseKey}: template proof must not claim a knowledgeRef`);
+  } else {
+    errors.push(`runtime/${plan?.senseKey}: unsupported runtimeUsage ${plan?.runtimeUsage}`);
+  }
+  if (plan?.motionPolicy && plan.motionPolicy !== 'none') motionRuntimeSenseKeys.add(plan.senseKey);
+}
+
+const auditedCorpusItems = items.filter((item) => Boolean(item.corpus));
+const outsideCorpusItems = items.filter((item) => !item.corpus);
+const auditedLemmas = new Set(auditedCorpusItems.map((item) => item.lemma));
 const auditedMeaningQueueLemmas = new Set([...meaningQueueLemmas].filter((lemma) => auditedLemmas.has(lemma)));
 const byStrategy = {};
 const byMaturity = {};
@@ -163,7 +203,9 @@ const maturityRows = items.map((item) => ({
   visualRef: item.visualRef ?? null,
   motionPolicy: item.motionPolicy,
   answerSafety: item.answerSafety,
-  candidateLinked: linkedSenseKeys.has(item.senseKey)
+  candidateLinked: linkedSenseKeys.has(item.senseKey),
+  rendererAdmitted: rendererAdmittedSenseKeys.has(item.senseKey),
+  childFacing: childFacingSenseKeys.has(item.senseKey)
 }));
 
 const result = {
@@ -172,7 +214,8 @@ const result = {
     totalLemmas: corpus.entries?.length ?? 0,
     auditedLemmas: auditedLemmas.size,
     unauditedLemmas: unaudited.length,
-    auditedPercent: corpus.entries?.length ? Number(((auditedLemmas.size / corpus.entries.length) * 100).toFixed(2)) : 0
+    auditedPercent: corpus.entries?.length ? Number(((auditedLemmas.size / corpus.entries.length) * 100).toFixed(2)) : 0,
+    outsideCorpusStrategyItems: outsideCorpusItems.length
   },
   meaningQueue: {
     sourceFiles: senseReviewFiles,
@@ -181,6 +224,15 @@ const result = {
     auditedLemmas: auditedMeaningQueueLemmas.size,
     auditedLemmaPercent: meaningQueueLemmas.size ? Number(((auditedMeaningQueueLemmas.size / meaningQueueLemmas.size) * 100).toFixed(2)) : 0,
     explicitCandidateLinks: linkedCandidateIds.size
+  },
+  runtime: {
+    totalPlans: runtimePlans.length,
+    rendererAdmittedSenses: rendererAdmittedSenseKeys.size,
+    templateProofPlans,
+    childFacingPlans,
+    childFacingSenses: childFacingSenseKeys.size,
+    childFacingKnowledgeRefs: runtimeKnowledgeRefs.size,
+    meaningfulMotionSenses: motionRuntimeSenseKeys.size
   },
   batches: batchFiles,
   senseLinkFiles,
@@ -202,7 +254,7 @@ const result = {
   },
   highPriorityGaps,
   meaningQueueGaps,
-  maturityRows: maturityRows.slice(0, Math.max(limit, 120)),
+  maturityRows: maturityRows.slice(0, Math.max(limit, 140)),
   errors: errors.slice(0, 100)
 };
 
@@ -210,9 +262,10 @@ if (jsonMode) {
   console.log(JSON.stringify(result, null, 2));
 } else {
   console.log('# Vocabulary visual semantic coverage');
-  console.log(`Corpus: ${result.corpus.auditedLemmas}/${result.corpus.totalLemmas} lemma(s) audited (${result.corpus.auditedPercent}%).`);
+  console.log(`Primary corpus: ${result.corpus.auditedLemmas}/${result.corpus.totalLemmas} lemma(s) audited (${result.corpus.auditedPercent}%); ${result.corpus.outsideCorpusStrategyItems} explicit existing-runtime-only strategy item(s).`);
   console.log(`Priority meaning queue: ${result.meaningQueue.auditedLemmas}/${result.meaningQueue.totalPriorityLemmas} lemma(s) audited (${result.meaningQueue.auditedLemmaPercent}%); ${result.meaningQueue.explicitCandidateLinks} explicit OEWN candidate link(s).`);
   console.log(`Sense strategies: ${items.length}; direct visuals: ${directVisuals}; scene-template targets: ${sceneTemplateTargets}; declared V3+ scene-ready: ${sceneReadyV3}; valid semantic plans: ${validSemanticPlans}; meaningful-motion targets: ${meaningfulMotionTargets}.`);
+  console.log(`Runtime: ${result.runtime.rendererAdmittedSenses} renderer-admitted sense(s) across ${result.runtime.totalPlans} plan(s); ${result.runtime.templateProofPlans} template proof(s); ${result.runtime.childFacingPlans} child-facing knowledge mapping(s) / ${result.runtime.childFacingSenses} semantic sense(s); ${result.runtime.meaningfulMotionSenses} runtime motion-capable sense(s).`);
   console.log(`Sense-unresolved: ${unresolvedSenses}; textual-only: ${textualOnlySenses}; validation errors: ${errors.length}.`);
   console.log(`Strategies: ${JSON.stringify(byStrategy)}`);
   console.log(`Maturity: ${JSON.stringify(byMaturity)}`);

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-runtime-maturity.001",
+  "issueRef": 80,
+  "evidence": {
+    "workflowRunId": 33407137452,
+    "headSha": "ee8f4b55c63f79e185687bdf4766e6bd9efe2b63",
+    "proof": [
+      "full_check_green",
+      "presentation_tests_green",
+      "bundle_budget_green",
+      "android_apk_green",
+      "offline_relaunch_rotation_green"
+    ]
+  },
+  "policy": {
+    "strategyAuditRemainsIndependent": true,
+    "maturityMayOnlyIncreaseFromRuntimeProof": true,
+    "templateProofDoesNotInferKnowledgePlacement": true,
+    "childFacingProofDoesNotEnableStructuredAssessment": true
+  },
+  "promotions": [
+    { "senseKey": "enormous#very-large-size", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "fragile#easily-broken", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "rapid#very-fast", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "ancient#very-old-from-long-ago", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "cheerful#happy-positive", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "scarce#not-enough-hard-to-find", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "silent#making-no-sound", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "observe#watch-carefully", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "happy#positive-emotional-state", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "quick#fast-speed", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "small#small-size", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "large#big-size", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "quiet#making-little-or-no-sound", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "hot#high-temperature", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "early#before-expected-time", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "narrow#small-width", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "smooth#even-surface", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+
+    { "senseKey": "village#settlement", "maturity": "V3", "basis": "renderer_template_proof" },
+    { "senseKey": "under#below-reference", "maturity": "V3", "basis": "renderer_template_proof" },
+    { "senseKey": "same#matching-in-target-dimension", "maturity": "V3", "basis": "renderer_template_proof" },
+    { "senseKey": "pull#move-toward-by-force", "maturity": "V4", "basis": "renderer_template_plus_meaningful_motion_proof" },
+    { "senseKey": "open#change-from-closed", "maturity": "V4", "basis": "renderer_template_plus_meaningful_motion_proof" }
+  ]
+}

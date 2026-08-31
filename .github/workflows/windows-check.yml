@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - kidsplay
+      - main
       - ci/windows-latest-head-gate
   pull_request:
     branches:
       - kidsplay
+      - main
   workflow_dispatch:
 
 permissions:
