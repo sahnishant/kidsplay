@@ -1,9 +1,8 @@
 import patternBlueprintJson from '../content/assessment-blueprints/SOF_INDIA_CLASS2_2026-27.json';
-import freeAnimalsPack from '../content/packs/free-animals.json';
-import freeVocabularyPack from '../content/packs/free-vocabulary.json';
 import olympiadPrototypePack from '../content/packs/class2-evs-olympiad-prototype.json';
 import profileRegistry from '../content/learning-profiles/registry.json';
 import type { Question } from './contracts/question';
+import { resolveRuntimePackQuestionRefs } from './contentComposition';
 import type { MasteryCounter } from './runtime/localProgress';
 
 interface AccessPolicy {
@@ -15,8 +14,14 @@ interface LearningPack {
   id: string;
   kind: 'learning_pack';
   title: string;
+  description?: string;
+  profileRef?: string;
+  status?: 'prototype' | 'reviewed';
+  actionLabel?: string;
+  catalogVisible?: boolean;
   access: AccessPolicy;
   questionRefs: string[];
+  includePackRefs?: string[];
 }
 
 interface GoalPath {
@@ -145,6 +150,11 @@ const resolvedMembershipModules = import.meta.glob('../content/index/__generated
   import: 'default'
 }) as Record<string, unknown>;
 
+const packModules = import.meta.glob('../content/packs/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+
 const questionBank = Object.values(questionModules).flatMap((value) =>
   Array.isArray(value) ? (value as Question[]) : []
 );
@@ -161,10 +171,21 @@ const resolvedMemberships = Object.values(resolvedMembershipModules).flatMap((va
   Array.isArray(value) ? (value as ProfileMembership[]) : []
 );
 const memberships = resolvedMemberships.length > 0 ? resolvedMemberships : authoredMemberships;
+const freePacks = Object.values(packModules)
+  .filter((value): value is LearningPack => Boolean(
+    value
+      && typeof value === 'object'
+      && (value as LearningPack).kind === 'learning_pack'
+      && (value as LearningPack).access?.type === 'free'
+      && Array.isArray((value as LearningPack).questionRefs)
+  ))
+  .sort((left, right) => left.id.localeCompare(right.id));
 
 const profiles = (profileRegistry as ProfileRegistry).profiles;
-const freePack = freeAnimalsPack as LearningPack;
-const vocabularyPack = freeVocabularyPack as LearningPack;
+const freePack = freePacks.find((pack) => pack.id === 'free.animals-foundation.1');
+if (!freePack) throw new Error('Missing legacy free animals foundation pack');
+const vocabularyPack = freePacks.find((pack) => pack.id === 'free.vocabulary-foundation.1');
+if (!vocabularyPack) throw new Error('Missing free vocabulary foundation pack');
 const goalPack = olympiadPrototypePack as GoalPath;
 const patternBlueprint = patternBlueprintJson as AssessmentBlueprint;
 const goalMockEntryId = `${goalPack.id}.mixed-mock`;
@@ -194,6 +215,12 @@ function resolveQuestionRefs(questionRefs: string[], packId: string): Question[]
     if (!question) throw new Error(`Pack ${packId} refers to unknown question ${questionId}`);
     return question;
   });
+}
+
+function getFreePack(packId: string): LearningPack {
+  const pack = freePacks.find((item) => item.id === packId);
+  if (!pack) throw new Error(`Unknown free learning pack ${packId}`);
+  return pack;
 }
 
 function masteryScore(question: Question, mastery: Record<string, MasteryCounter>): number {
@@ -384,30 +411,43 @@ function getProfileCandidates(
   );
 }
 
+function catalogDescription(pack: LearningPack): string {
+  if (pack.description) return pack.description;
+  if (pack.id === freePack.id) {
+    return 'Short mixed Class 2 science, EVS and logical-reasoning sessions that keep moving toward unseen and weaker knowledge.';
+  }
+  if (pack.id === vocabularyPack.id) {
+    return 'Short vocabulary sessions that mix meanings, synonyms, antonyms, homophones, matching, word puzzles and spelling play from the same reusable word knowledge.';
+  }
+  return 'Short free learning sessions built from reusable canonical knowledge.';
+}
+
+function catalogActionLabel(pack: LearningPack): string {
+  if (pack.actionLabel) return pack.actionLabel;
+  if (pack.id === vocabularyPack.id) return 'Play words';
+  return 'Play free';
+}
+
 export function getLearningProfiles(): LearningProfile[] {
   return [...profiles];
 }
 
 export function getCatalogEntries(): CatalogEntry[] {
+  const freeEntries: CatalogEntry[] = freePacks
+    .filter((pack) => pack.catalogVisible !== false)
+    .map((pack) => ({
+      id: pack.id,
+      kind: 'free_explore',
+      title: pack.title,
+      description: catalogDescription(pack),
+      access: pack.access,
+      status: pack.status === 'prototype' ? 'prototype' : 'ready',
+      profileRef: pack.profileRef,
+      actionLabel: catalogActionLabel(pack)
+    }));
+
   return [
-    {
-      id: freePack.id,
-      kind: 'free_explore',
-      title: freePack.title,
-      description: 'Short mixed Class 2 science, EVS and logical-reasoning sessions that keep moving toward unseen and weaker knowledge.',
-      access: freePack.access,
-      status: 'ready',
-      actionLabel: 'Play free'
-    },
-    {
-      id: vocabularyPack.id,
-      kind: 'free_explore',
-      title: vocabularyPack.title,
-      description: 'Short vocabulary sessions that mix meanings, synonyms, antonyms, homophones, matching, word puzzles and spelling play from the same reusable word knowledge.',
-      access: vocabularyPack.access,
-      status: 'ready',
-      actionLabel: 'Play words'
-    },
+    ...freeEntries,
     {
       id: goalPack.id,
       kind: 'goal_learning',
@@ -441,21 +481,36 @@ export function getCatalogEntries(): CatalogEntry[] {
   ];
 }
 
-export function getFreeAnimalsQuestions(): Question[] {
-  return resolveQuestionRefs(freePack.questionRefs, freePack.id);
+export function getFreePackQuestions(packId: string): Question[] {
+  const pack = getFreePack(packId);
+  const questionRefs = resolveRuntimePackQuestionRefs(freePacks, pack.id);
+  return resolveQuestionRefs(questionRefs, pack.id);
 }
 
-export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Question[] {
+export function getFreeAnimalsQuestions(): Question[] {
+  return getFreePackQuestions(freePack.id);
+}
+
+export function getFreeExploreQuestionsForPack(
+  packId: string,
+  options: ProfileSessionOptions = {}
+): Question[] {
+  const pack = getFreePack(packId);
   const mastery = options.mastery ?? {};
   const count = Math.max(1, options.count ?? 8);
-  const candidates = getFreeAnimalsQuestions().sort((left, right) => {
+  const candidates = getFreePackQuestions(packId).sort((left, right) => {
     const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
     if (masteryDelta !== 0) return masteryDelta;
     if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
     return left.id.localeCompare(right.id);
   });
   const selected = chooseDiverseSession(interleaveByKnowledgeGroup(candidates), count);
-  return count >= 4 ? ensureReasoningQuota(selected, candidates, count, 1) : selected;
+  if (pack.id === vocabularyPack.id || count < 4) return selected;
+  return ensureReasoningQuota(selected, candidates, count, 1);
+}
+
+export function getFreeExploreQuestions(options: ProfileSessionOptions = {}): Question[] {
+  return getFreeExploreQuestionsForPack(freePack.id, options);
 }
 
 export function getFreeAnimalsPackTitle(): string {
@@ -463,19 +518,11 @@ export function getFreeAnimalsPackTitle(): string {
 }
 
 export function getFreeVocabularyQuestions(): Question[] {
-  return resolveQuestionRefs(vocabularyPack.questionRefs, vocabularyPack.id);
+  return getFreePackQuestions(vocabularyPack.id);
 }
 
 export function getFreeVocabularyExploreQuestions(options: ProfileSessionOptions = {}): Question[] {
-  const mastery = options.mastery ?? {};
-  const count = Math.max(1, options.count ?? 8);
-  const candidates = getFreeVocabularyQuestions().sort((left, right) => {
-    const masteryDelta = masteryScore(left, mastery) - masteryScore(right, mastery);
-    if (masteryDelta !== 0) return masteryDelta;
-    if (left.difficulty !== right.difficulty) return left.difficulty - right.difficulty;
-    return left.id.localeCompare(right.id);
-  });
-  return chooseDiverseSession(candidates, count);
+  return getFreeExploreQuestionsForPack(vocabularyPack.id, options);
 }
 
 export function getProfileQuestions(profileRef: string, options: ProfileSessionOptions = {}): Question[] {
@@ -593,21 +640,14 @@ export function createSessionForCatalogEntry(
   entryId: string,
   mastery: Record<string, MasteryCounter> = {}
 ): SessionLaunch {
-  if (entryId === freePack.id) {
+  const matchedFreePack = freePacks.find((pack) => pack.id === entryId && pack.catalogVisible !== false);
+  if (matchedFreePack) {
     return {
-      id: `session.${freePack.id}`,
+      id: `session.${matchedFreePack.id}`,
       mode: 'free_explore',
-      title: freePack.title,
-      questions: getFreeExploreQuestions({ count: 8, mastery })
-    };
-  }
-
-  if (entryId === vocabularyPack.id) {
-    return {
-      id: `session.${vocabularyPack.id}`,
-      mode: 'free_explore',
-      title: vocabularyPack.title,
-      questions: getFreeVocabularyExploreQuestions({ count: 8, mastery })
+      title: matchedFreePack.title,
+      profileRef: matchedFreePack.profileRef,
+      questions: getFreeExploreQuestionsForPack(matchedFreePack.id, { count: 8, mastery })
     };
   }
 
