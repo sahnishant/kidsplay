@@ -44,6 +44,7 @@ const runtimePlansByKnowledgeRef = new Map((runtimePlansFile.plans ?? [])
   .map((plan) => [plan.knowledgeRef, plan]));
 
 const semanticFiles = readJsonDirectory('content/semantic-knowledge/');
+const semanticIssueRefs = new Set();
 const neighbourhoodIds = new Set();
 const patternIds = new Set();
 const allNeighbourhoods = [];
@@ -65,7 +66,9 @@ const findForbiddenKeys = (value, path = '') => {
 };
 
 for (const { name, value } of semanticFiles) {
-  if (value?.schemaVersion !== 1 || value?.issueRef !== 84) errors.push(`${name}: expected schemaVersion 1 and issueRef 84`);
+  if (value?.schemaVersion !== 1) errors.push(`${name}: expected schemaVersion 1`);
+  if (!Number.isInteger(value?.issueRef) || value.issueRef < 1) errors.push(`${name}: expected a positive issueRef`);
+  else semanticIssueRefs.add(value.issueRef);
   const policy = value?.policy ?? {};
   for (const field of ['canonicalFactsCopied', 'artReferencesAllowed', 'coordinatesAllowed', 'motionInstructionsAllowed', 'profilePlacementInferred', 'sourceGlossesAllowed']) {
     if (policy[field] !== false) errors.push(`${name}: policy.${field} must be false`);
@@ -115,6 +118,14 @@ for (const { name, value } of semanticFiles) {
   }
 }
 
+const projectedIssueRefs = new Set((runtimePlansFile.semanticDepthIssueRefs ?? []).map(Number));
+for (const issueRef of semanticIssueRefs) {
+  if (!projectedIssueRefs.has(issueRef)) errors.push(`Runtime projection is missing semantic depth issueRef ${issueRef}`);
+}
+for (const issueRef of projectedIssueRefs) {
+  if (!semanticIssueRefs.has(issueRef)) errors.push(`Runtime projection contains unknown semantic depth issueRef ${issueRef}`);
+}
+
 const requiredNeighbourhoods = [
   'settlements',
   'push-pull-force',
@@ -160,7 +171,7 @@ const generatedDepthRows = [...semanticRowRefs].filter((rowRef) => generatedQues
 
 console.log('# Semantic knowledge depth report');
 console.log(`Canonical rows indexed: ${canonicalByRowId.size}`);
-console.log(`Semantic depth files: ${semanticFiles.length}`);
+console.log(`Semantic depth files: ${semanticFiles.length}; child issue refs: ${[...semanticIssueRefs].sort((a, b) => a - b).join(', ')}`);
 console.log(`Neighbourhoods: ${allNeighbourhoods.length}`);
 console.log(`Reasoning patterns: ${allPatterns.length}`);
 console.log(`Semantic row refs: ${semanticRowRefs.size}`);
