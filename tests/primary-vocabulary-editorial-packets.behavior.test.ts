@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildEditorialPacket } from '../scripts/lexicon/prepare-primary-vocabulary-editorial-packet.mjs';
 import { finalizeEditorialPacket } from '../scripts/lexicon/finalize-primary-vocabulary-editorial-packet.mjs';
@@ -72,6 +74,10 @@ const curatorSlice = {
   ]
 };
 
+function loadRealSlice(grade: number) {
+  return JSON.parse(readFileSync(resolve(`content/lexicon/open/curator-slices/grade-${grade}-meaning-review.json`), 'utf8'));
+}
+
 describe('primary vocabulary editorial production packets', () => {
   it('prepares a prioritized fail-closed packet without treating AI drafts or grade signals as review', () => {
     const packet = buildEditorialPacket(curatorSlice, {
@@ -113,6 +119,28 @@ describe('primary vocabulary editorial production packets', () => {
       reviewer: null,
       reviewedAt: null
     });
+  });
+
+  it('prepares the real prioritized Grade 1 and Grade 2 curator batches without pre-approving anything', () => {
+    const grade1 = buildEditorialPacket(loadRealSlice(1), {
+      batchId: 'grade-1-batch-001',
+      profileReviewTargets: ['CBSE_INDIA_CLASS1', 'CISCE_INDIA_CLASS1']
+    });
+    const grade2 = buildEditorialPacket(loadRealSlice(2), {
+      batchId: 'grade-2-batch-001',
+      profileReviewTargets: ['CBSE_INDIA_CLASS2', 'CISCE_INDIA_CLASS2', 'SOF_INDIA_CLASS2']
+    });
+
+    for (const packet of [grade1, grade2]) {
+      expect(packet.summary.words).toBe(40);
+      expect(packet.summary.candidateSenses).toBeGreaterThanOrEqual(40);
+      expect(new Set(packet.items.map((item) => item.lemma)).size).toBe(40);
+      expect(packet.items.every((item) => item.candidateSenses.length > 0)).toBe(true);
+      expect(packet.items.every((item) => item.editorial.status === 'draft')).toBe(true);
+      expect(packet.items.every((item) => item.editorial.reviewAuthority === null)).toBe(true);
+      expect(packet.items.every((item) => item.profilePlacement.approvedProfileRefs.length === 0)).toBe(true);
+      expect(packet.items.every((item) => item.candidateSenses.every((candidate) => candidate.referenceOnly === true))).toBe(true);
+    }
   });
 
   it('finalizes only explicitly human-reviewed decisions and keeps profile placement separate', () => {
