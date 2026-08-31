@@ -70,9 +70,14 @@ describe('Dheu viewport story-world presentation', () => {
     expect(screen.getByRole('dialog')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeTruthy();
     expect(screen.getByText(/STORY MISSION · Warm-up tease/)).toBeTruthy();
-    expect(screen.getByLabelText(/Story beat 1 of/)).toBeTruthy();
-    expect(screen.getByText(/Mira, can you investigate where different animals belong/)).toBeTruthy();
+    expect(screen.getByLabelText('Story beat 1 of 3')).toBeTruthy();
+    expect(screen.getByText(/Some animals live in water/)).toBeTruthy();
+    expect(screen.queryByText(/Mira, can you investigate where different animals belong/)).toBeNull();
     expect(screen.queryByRole('button', { name: 'Start investigation · 6 clues' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Next story beat' }));
+    expect(screen.getByLabelText('Story beat 2 of 3')).toBeTruthy();
+    expect(screen.getByText(/Mira, can you investigate where different animals belong/)).toBeTruthy();
 
     await advanceMissionStory();
     expect(screen.getByRole('button', { name: 'Start investigation · 6 clues' })).toBeTruthy();
