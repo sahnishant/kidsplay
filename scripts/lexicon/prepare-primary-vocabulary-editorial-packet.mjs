@@ -75,12 +75,14 @@ export function buildEditorialPacket(curatorSlice, options = {}) {
     if (!lemma) throw new Error('Editorial packet item requires lemma');
     if (seen.has(lemma)) throw new Error(`${lemma}: duplicate lemma in editorial packet`);
     seen.add(lemma);
+    const itemGrade = Number(item.grade ?? grade);
+    if (itemGrade !== grade) throw new Error(`${lemma}: item grade ${itemGrade} does not match packet grade ${grade}`);
     const candidateSenses = (item?.candidateSenses ?? []).map(referenceCandidate);
     if (!candidateSenses.length) throw new Error(`${lemma}: editorial packet item requires at least one candidate sense`);
 
     return {
       lemma,
-      grade: Number(item.grade ?? grade),
+      grade: itemGrade,
       upstreamSourceGrade: item.upstreamSourceGrade ?? null,
       partOfSpeech: item.partOfSpeech ?? null,
       frequency: item.frequency ?? { zipf: null },
@@ -92,14 +94,19 @@ export function buildEditorialPacket(curatorSlice, options = {}) {
         selectedCandidateId: null,
         draftChildDefinition: null,
         draftChildExample: null,
+        draftOrigin: null,
         notes: null,
+        reviewAuthority: null,
         reviewer: null,
         reviewedAt: null
       },
       profilePlacement: {
         status: 'unreviewed',
         approvedProfileRefs: [],
-        notes: null
+        notes: null,
+        reviewAuthority: null,
+        reviewer: null,
+        reviewedAt: null
       }
     };
   });
@@ -123,6 +130,7 @@ export function buildEditorialPacket(curatorSlice, options = {}) {
       importedGlossRuntimeAllowed: false,
       aiDraftAllowed: true,
       aiDraftMayCountAsReviewed: false,
+      requiredReviewAuthority: 'human_editor',
       explicitReviewerRequiredForAcceptance: true,
       profilePlacementRequiresExplicitApproval: true,
       corpusGradeMayImplyBoardAlignment: false
