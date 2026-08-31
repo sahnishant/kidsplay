@@ -32,7 +32,7 @@ The initial proof intentionally reuses one dog identity across:
 - worried + stand + side + water + question;
 - curious + sit + side + bone + question.
 
-`resolveAnimationForState()` accepts semantic state and never leaves the requested semantic identity. Exact matches can include expression, pose, orientation and theme. Partial matches are ranked by expression, then pose, then orientation, then theme; authored order is only the final tie-breaker. This prevents fallback from silently selecting an unrelated or obviously less relevant state merely because it appeared first in a JSON file.
+`resolveAnimationForState()` accepts semantic state and never leaves the requested semantic identity. Exact matches can include expression, pose, orientation, theme and semantic part visual refs grouped by `prop`, `context` or `relation`. If a requested part combination exists, fallback stays within that compatible subset before ranking expression, pose, orientation and theme. If the requested part is not authored at all, resolution degrades to the closest state of the same semantic identity rather than crossing to another entity. This lets callers request ideas such as dog + bone or dog + water without hard-coding asset sources or animation file ids.
 
 ## Integration rule
 
@@ -53,7 +53,7 @@ All motion remains optional under `prefers-reduced-motion`; learning meaning mus
 - `scripts/validate-animations.mjs` fails closed on unknown visual refs, subject-variant identity mismatches, invalid pose/expression vocabulary, unsupported composition-part motion, invalid coordinates, duplicate ids or ambiguous visual/text parts.
 - `scripts/validate-visuals.mjs` reserves `animationIdentityRef` for namespaced animation variants and prevents a variant alias from claiming the bare canonical identity.
 - `scripts/validate-scenes.mjs` requires each scene to use either a registered semantic composition or the legacy primitive list, never an unvalidated mixture, and rejects scene/composition theme mismatches.
-- `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, subject identity binding, orientation-aware ranked state fallback and existing-scene integration.
+- `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, subject identity binding, semantic part-ref resolution, orientation-aware ranked state fallback and existing-scene integration.
 
 ## Scaling direction
 

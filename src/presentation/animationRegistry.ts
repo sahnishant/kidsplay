@@ -1,5 +1,7 @@
 import type {
   AnimationComposition,
+  AnimationPartRole,
+  AnimationPartVisualQuery,
   AnimationStateQuery
 } from './animationTypes';
 
@@ -34,10 +36,30 @@ function stateMatchScore(composition: AnimationComposition, query: AnimationStat
   return score;
 }
 
+function roleHasAllVisualRefs(
+  composition: AnimationComposition,
+  role: AnimationPartRole,
+  visualRefs: string[]
+): boolean {
+  return visualRefs.every((visualRef) =>
+    composition.parts.some((part) => part.role === role && part.visualRef === visualRef)
+  );
+}
+
+function matchesRequestedParts(
+  composition: AnimationComposition,
+  partVisualRefs?: AnimationPartVisualQuery
+): boolean {
+  if (!partVisualRefs) return true;
+  return (Object.entries(partVisualRefs) as Array<[AnimationPartRole, string[] | undefined]>)
+    .every(([role, visualRefs]) => !visualRefs?.length || roleHasAllVisualRefs(composition, role, visualRefs));
+}
+
 /**
  * Resolve a semantic state without exposing renderer/art-source details to
- * questions or engines. Exact state matches win; otherwise the closest authored
- * state for the same identity wins. Authoring order is only the final tie-breaker.
+ * questions or engines. Exact state matches win. Requested semantic part refs
+ * constrain fallback when that authored combination exists; if it does not,
+ * fallback remains inside the same identity and ranks the remaining state cues.
  */
 export function resolveAnimationForState(query: AnimationStateQuery): AnimationComposition | null {
   const candidates = bySemanticRef.get(query.semanticRef) ?? [];
@@ -47,11 +69,16 @@ export function resolveAnimationForState(query: AnimationStateQuery): AnimationC
     (query.expression === undefined || composition.subject.expression === query.expression) &&
     (query.pose === undefined || composition.subject.pose === query.pose) &&
     (query.orientation === undefined || composition.subject.orientation === query.orientation) &&
-    (query.theme === undefined || composition.theme === query.theme)
+    (query.theme === undefined || composition.theme === query.theme) &&
+    matchesRequestedParts(composition, query.partVisualRefs)
   );
   if (exact) return exact;
 
-  const ranked = candidates
+  const partCompatible = query.partVisualRefs
+    ? candidates.filter((composition) => matchesRequestedParts(composition, query.partVisualRefs))
+    : candidates;
+  const fallbackPool = partCompatible.length ? partCompatible : candidates;
+  const ranked = fallbackPool
     .map((composition, index) => ({ composition, index, score: stateMatchScore(composition, query) }))
     .sort((left, right) => right.score - left.score || left.index - right.index);
 

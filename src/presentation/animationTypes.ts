@@ -7,6 +7,7 @@ export type AnimationExpression = 'neutral' | 'happy' | 'worried' | 'curious' | 
 export type AnimationPartRole = 'prop' | 'relation' | 'context';
 export type AnimationSlot = 'front' | 'above' | 'behind' | 'ground';
 export type AnimationPartMotion = Extract<VisualMotion, 'float' | 'pulse' | 'drift' | 'spin' | 'wiggle'>;
+export type AnimationPartVisualQuery = Partial<Record<AnimationPartRole, string[]>>;
 
 export interface AnimationSubject {
   variantRef: string;
@@ -45,4 +46,6 @@ export interface AnimationStateQuery {
   pose?: AnimationPose;
   orientation?: AnimationOrientation;
   theme?: AnimationTheme;
+  /** Semantic presentation refs required in a role when an authored match exists. */
+  partVisualRefs?: AnimationPartVisualQuery;
 }

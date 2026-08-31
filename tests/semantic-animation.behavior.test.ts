@@ -34,32 +34,41 @@ describe('semantic animation composition', () => {
     }
   });
 
-  it('resolves an exact semantic state and ranks partial matches inside the same identity', () => {
+  it('resolves exact identity/state/part combinations and ranks partial matches safely', () => {
     expect(resolveAnimationForState({
       semanticRef: 'dog',
       expression: 'worried',
       pose: 'stand',
-      orientation: 'side'
+      orientation: 'side',
+      partVisualRefs: { context: ['entity.habitat.water'] }
     })?.id).toBe('animation.dog.worried-water');
+
+    expect(resolveAnimationForState({
+      semanticRef: 'dog',
+      expression: 'happy',
+      pose: 'stand',
+      orientation: 'side',
+      partVisualRefs: { prop: ['entity.object.bone'] }
+    })?.id).toBe('animation.dog.happy-bone');
 
     const themeFallback = resolveAnimationForState({
       semanticRef: 'dog',
       expression: 'neutral',
       pose: 'play',
       orientation: 'front',
-      theme: 'paper'
+      theme: 'paper',
+      partVisualRefs: { prop: ['entity.object.bone'] }
     });
     expect(themeFallback?.semanticRef).toBe('dog');
     expect(themeFallback?.id).toBe('animation.dog.curious-bone');
 
-    const expressionFallback = resolveAnimationForState({
+    const missingPropFallback = resolveAnimationForState({
       semanticRef: 'dog',
       expression: 'worried',
-      pose: 'sit',
-      orientation: 'side',
-      theme: 'paper'
+      partVisualRefs: { prop: ['entity.object.ball'] }
     });
-    expect(expressionFallback?.id).toBe('animation.dog.worried-water');
+    expect(missingPropFallback?.semanticRef).toBe('dog');
+    expect(missingPropFallback?.id).toBe('animation.dog.worried-water');
     expect(resolveAnimationForState({ semanticRef: 'unknown-animal' })).toBeNull();
   });
 
