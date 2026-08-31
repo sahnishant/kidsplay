@@ -60,7 +60,7 @@
         "kr.vocab.meaning.rapid.very-fast",
         "kr.vocab.synonym.quick.fast"
       ],
-      "visualSenseKeys": ["rapid#very-fast", "quick#fast-speed"],
+      "visualSenseKeys": ["fast#moving-quickly", "slow#moving-not-quickly", "rapid#very-fast", "quick#fast-speed"],
       "reasoningModes": ["meaning", "synonym", "compare_contrast"]
     },
     {
@@ -85,7 +85,7 @@
         "kr.vocab.spatial.outside.describes-relative-position",
         "kr.vocab.spatial.between.uses-multiple-reference-things"
       ],
-      "visualSenseKeys": ["under#below-reference", "between#middle-of-two-or-more", "inside#within-boundary", "outside#beyond-boundary"],
+      "visualSenseKeys": ["under#below-reference", "between#middle-of-two-references", "inside#within-boundary", "outside#beyond-boundary"],
       "reasoningModes": ["spatial_reasoning", "compare_contrast"]
     },
     {
@@ -110,7 +110,7 @@
         "kr.vocab.comparison.same.matches-target-dimension",
         "kr.vocab.comparison.different.not-matching-target-dimension"
       ],
-      "visualSenseKeys": ["many#large-number", "few#small-number", "more#greater-quantity", "less#smaller-quantity", "same#matching-in-target-dimension", "different#not-matching-in-target-dimension"],
+      "visualSenseKeys": ["many#large-count", "few#small-count", "more#greater-quantity", "less#smaller-quantity", "same#matching-in-target-dimension", "different#not-matching-in-target-dimension"],
       "reasoningModes": ["quantity", "compare_contrast"]
     }
   ],
@@ -164,7 +164,7 @@
         "kr.vocab.spatial.between.describes-relative-position",
         "kr.vocab.spatial.between.uses-multiple-reference-things"
       ],
-      "visualSenseKey": "between#middle-of-two-or-more"
+      "visualSenseKey": "between#middle-of-two-references"
     }
   ],
   "processRowRefs": []
