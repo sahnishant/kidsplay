@@ -63,6 +63,25 @@ const selectedUnitsForRecipe = (normalized, recipe) => {
   return selected.slice(offset, offset + limit);
 };
 
+const assertRecipeUnitMode = (normalized, recipe, engine, requirements = {}) => {
+  const mode = requirements.recipeUnitMode;
+  if (!mode) return;
+
+  const selected = selectedUnitsForRecipe(normalized, recipe);
+  if (mode === 'single' && selected.length !== 1) {
+    throw new Error(`${recipe.id}: ${engine} requires exactly one selected knowledge unit; got ${selected.length}`);
+  }
+  if (mode === 'set' && selected.length < 2) {
+    throw new Error(`${recipe.id}: ${engine} requires at least two selected knowledge units; got ${selected.length}`);
+  }
+  if (mode === 'all' && selected.length !== normalized.units.length) {
+    throw new Error(`${recipe.id}: ${engine} requires the complete knowledge record; selected ${selected.length}/${normalized.units.length}`);
+  }
+  if (!['single', 'set', 'all'].includes(mode)) {
+    throw new Error(`${normalized.sourceRef}: unsupported recipeUnitMode ${mode} for ${engine}`);
+  }
+};
+
 const knowledgeRefsForRecipe = (normalized, recipe) => [
   ...new Set(selectedUnitsForRecipe(normalized, recipe).map((unit) => unit.rowId))
 ];
@@ -91,7 +110,9 @@ export function formatDataForEngine(data, engine, recipe = {}) {
   if (!implementation) throw new Error(`No formatter implementation registered for ${sourceKey}`);
   if (!(definition.compatibleEngines ?? []).includes(engine)) throw new Error(`${normalized.sourceRef}: datatype ${sourceKey} is not compatible with ${engine}`);
   if (!implementation.supportedEngines.includes(engine)) throw new Error(`${normalized.sourceRef}: formatter ${sourceKey} does not implement ${engine}`);
-  if (!meetsRequirements(normalized, definition.engineRequirements?.[engine])) throw new Error(`${normalized.sourceRef}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
+  const requirements = definition.engineRequirements?.[engine];
+  if (!meetsRequirements(normalized, requirements)) throw new Error(`${normalized.sourceRef}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
+  assertRecipeUnitMode(normalized, recipe, engine, requirements);
   const result = implementation.format(normalized, { ...recipe, engine });
   return attachKnowledgeRefs(result, knowledgeRefsForRecipe(normalized, recipe));
 }
