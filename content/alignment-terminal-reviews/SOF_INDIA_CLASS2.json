@@ -7,6 +7,7 @@
     "directRowCount": 182,
     "membershipBlobSha": "6fe76aa5edfb97b6906bf254f9af06241966482d",
     "exactReviewBlobSha": "ff784620598c051661f7df0e689191977191302c",
+    "recoveryBlobSha": "e73ec9a417868316e084a4b304a3197125824ac3",
     "exactOfficialAnchorCount": 27,
     "terminalRowCount": 182
   },
@@ -29,10 +30,10 @@
       "sof.iso.class2.workbook.2026-27"
     ],
     "recoveryLeadRefs": [
-      "sof-class2-sample-2021-22-fid33351",
-      "sof-class2-sample-2020-21-fid32465",
-      "sof-class2-sample-2017-18",
-      "sof-class2-legacy-class-2-7"
+      "nso-class2-2021-22-fid-33351",
+      "nso-class2-2020-21-search",
+      "nso-class2-2017-18-search",
+      "nso-class2-legacy-class2-7-year-binding"
     ],
     "excludedEvidenceClasses": [
       "syllabus_topic_only",
