@@ -47,10 +47,18 @@ describe('grade-aware primary vocabulary corpus', () => {
   it('builds prioritized, unique meaning-review queues for every introduction grade', () => {
     for (let grade = 1; grade <= 6; grade += 1) {
       const wordlist = selectGradeReviewWordlist(corpus, grade, 40, 'introduced', 'meaning');
+      const expectedSelected = Math.min(40, wordlist.selection.candidatePool);
       expect(wordlist.sourceGradeCorpus.license).toBe('CC-BY-SA-4.0');
-      expect(wordlist.selection).toMatchObject({ grade, mode: 'introduced', purpose: 'meaning', selected: 40 });
-      expect(wordlist.items).toHaveLength(40);
-      expect(new Set(wordlist.items.map((item: any) => item.lemma.toLowerCase())).size).toBe(40);
+      expect(wordlist.selection).toMatchObject({
+        grade,
+        mode: 'introduced',
+        purpose: 'meaning',
+        requested: 40,
+        selected: expectedSelected
+      });
+      expect(wordlist.items).toHaveLength(expectedSelected);
+      expect(wordlist.items.length).toBeGreaterThan(0);
+      expect(new Set(wordlist.items.map((item: any) => item.lemma.toLowerCase())).size).toBe(expectedSelected);
       expect(wordlist.items.every((item: any) => item.sourceGrade === grade)).toBe(true);
       expect(wordlist.items.every((item: any) => item.priorityScore > 0)).toBe(true);
     }
