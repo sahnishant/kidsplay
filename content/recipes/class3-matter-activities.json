@@ -15,7 +15,7 @@
     "id": "sof3.matter.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.matter.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   }

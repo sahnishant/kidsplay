@@ -2,24 +2,20 @@
   "profileRef": "SOF_INDIA_CLASS3",
   "provenance": {
     "status": "prototype_unverified",
-    "sourceRefs": [
-      "sof.iso.class3.syllabus.current",
-      "sof.iso.class2.syllabus.current",
-      "kidsplay.editorial.prototype.v1"
-    ],
-    "versionLabel": "SOF ISO 2026-27 reviewed Class 3 scope with official Level-I previous-class mix; direct Class 3 row placement remains prototype",
+    "sourceRefs": ["sof.iso.class3.syllabus.current", "kidsplay.editorial.prototype.v1"],
+    "versionLabel": "SOF ISO 2026-27 reviewed scope; Class 3 current rows and previous-class inheritance remain prototype placement",
     "academicYear": "2026-27",
     "effectiveFrom": null,
     "effectiveTo": null,
     "reviewedAt": null,
-    "placementBasis": "editorial_current_seed_plus_previous_class_direct_profile_reuse"
+    "placementBasis": "editorial_seed_plus_official_previous_class_scope_rule"
   },
-  "includeProfiles": [
+  "inherits": [
     {
       "profileRef": "SOF_INDIA_CLASS2",
-      "mode": "direct",
+      "memberScope": "direct",
       "fit": "review",
-      "reason": "sof_level1_previous_class_40_percent"
+      "basis": "SOF ISO Level-I guidance for Classes 3-12 uses 60% current-class syllabus and 40% previous-class syllabus. This inheritance only reuses canonical previous-class rows; it does not certify row-level SOF placement."
     }
   ],
   "members": [
@@ -48,43 +44,40 @@
     { "rowId": "kr.sof3.communication.message.sender-receiver", "fit": "core" },
     { "rowId": "kr.sof3.communication.internet.adult-guidance", "fit": "core" },
 
-    { "rowId": "kr.sof3.plants.leaves.food.sunlight", "fit": "core" },
-    { "rowId": "kr.sof3.plants.seed.germination.conditions", "fit": "core" },
-    { "rowId": "kr.sof3.animals.diet.herbivore.plants", "fit": "core" },
-    { "rowId": "kr.sof3.animals.diet.carnivore.animals", "fit": "core" },
-    { "rowId": "kr.sof3.animals.diet.omnivore.both", "fit": "core" },
-    { "rowId": "kr.sof3.animals.features.habitat.survival", "fit": "stretch" },
+    { "rowId": "kr.sof3.living.need.food", "fit": "core" },
+    { "rowId": "kr.sof3.living.need.water", "fit": "core" },
+    { "rowId": "kr.sof3.living.characteristic.grow", "fit": "core" },
+    { "rowId": "kr.sof3.living.characteristic.reproduce", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.herbivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.carnivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.feeding.omnivore", "fit": "core" },
+    { "rowId": "kr.sof3.animals.adaptation.camouflage", "fit": "core" },
 
-    { "rowId": "kr.sof3.human.muscles.bones.movement", "fit": "core" },
-    { "rowId": "kr.sof3.human.lungs.oxygen.carbon-dioxide", "fit": "stretch" },
-    { "rowId": "kr.sof3.human.digestion.food.usable", "fit": "core" },
-    { "rowId": "kr.sof3.human.exercise.muscles-heart", "fit": "core" },
+    { "rowId": "kr.sof3.plants.roots.absorb-water", "fit": "core" },
+    { "rowId": "kr.sof3.plants.stem.carries-water", "fit": "core" },
+    { "rowId": "kr.sof3.plants.leaves.make-food", "fit": "core" },
+    { "rowId": "kr.sof3.plants.flower.seed-formation", "fit": "core" },
+    { "rowId": "kr.sof3.body.brain.control", "fit": "core" },
+    { "rowId": "kr.sof3.body.heart.pumps-blood", "fit": "core" },
+    { "rowId": "kr.sof3.body.lungs.breathing", "fit": "core" },
+    { "rowId": "kr.sof3.health.handwashing.germs", "fit": "core" },
 
-    { "rowId": "kr.sof3.earth.axis.imaginary", "fit": "stretch" },
-    { "rowId": "kr.sof3.earth.rotation.about-day", "fit": "core" },
-    { "rowId": "kr.sof3.earth.revolution.sun.year", "fit": "stretch" },
-    { "rowId": "kr.sof3.earth.atmosphere.air.surrounds", "fit": "core" },
+    { "rowId": "kr.sof3.soil.humus.decayed-matter", "fit": "core" },
+    { "rowId": "kr.sof3.soil.sandy.drains-fast", "fit": "core" },
+    { "rowId": "kr.sof3.soil.clay.holds-water", "fit": "core" },
+    { "rowId": "kr.sof3.soil.loam.plants", "fit": "core" },
+    { "rowId": "kr.sof3.water.evaporation.vapour", "fit": "core" },
+    { "rowId": "kr.sof3.water.condensation.droplets", "fit": "core" },
+    { "rowId": "kr.sof3.weather.rain.cloud-drops", "fit": "core" },
+    { "rowId": "kr.sof3.water.cycle.repeats", "fit": "core" },
 
-    { "rowId": "kr.reasoning.pattern.symbols.alternating", "fit": "review" },
-    { "rowId": "kr.reasoning.pattern.numbers.plus-two", "fit": "review" },
-    { "rowId": "kr.reasoning.odd-one-out.shapes.object", "fit": "review" },
-    { "rowId": "kr.reasoning.odd-one-out.transport.communication", "fit": "review" },
-    { "rowId": "kr.reasoning.analogy.bird-nest.bee-hive", "fit": "review" },
-    { "rowId": "kr.reasoning.analogy.eye-see.ear-hear", "fit": "review" },
-    { "rowId": "kr.reasoning.ranking.height.shortest", "fit": "review" },
-    { "rowId": "kr.reasoning.ranking.position.between", "fit": "review" },
-    { "rowId": "kr.reasoning.coding.letters.next-letter", "fit": "review" },
-    { "rowId": "kr.reasoning.coding.symbol-values.sum", "fit": "review" },
-    { "rowId": "kr.reasoning.measurement.pencil.centimetres", "fit": "review" },
-    { "rowId": "kr.reasoning.measurement.room.metres", "fit": "review" },
-    { "rowId": "kr.reasoning.shapes.triangle.three-sides", "fit": "review" },
-    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "review" },
-    { "rowId": "kr.reasoning.alphabet.arrange.mango-first", "fit": "review" },
-    { "rowId": "kr.reasoning.figure-matrix.alternating.symbols", "fit": "review" },
-    { "rowId": "kr.reasoning.grouping.figures.straight-sides", "fit": "review" },
-    { "rowId": "kr.reasoning.mirror.word-nearest.right", "fit": "review" },
-    { "rowId": "kr.reasoning.combinations.outfits.two-by-two", "fit": "review" },
-    { "rowId": "kr.reasoning.clock.elapsed.school-four-hours", "fit": "review" },
-    { "rowId": "kr.reasoning.calendar.days-after.monday", "fit": "review" }
+    { "rowId": "kr.sof3.measurement.length.cm-m", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.mass.g-kg", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.capacity.ml-l", "fit": "core" },
+    { "rowId": "kr.sof3.measurement.temperature.thermometer", "fit": "core" },
+    { "rowId": "kr.sof3.earth.rotation.day-night", "fit": "core" },
+    { "rowId": "kr.sof3.moon.light.reflected-sun", "fit": "core" },
+    { "rowId": "kr.sof3.sun.type.star", "fit": "core" },
+    { "rowId": "kr.sof3.planets.orbit.sun", "fit": "core" }
   ]
 }

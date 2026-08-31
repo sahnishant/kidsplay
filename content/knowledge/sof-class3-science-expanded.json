@@ -1,0 +1,82 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.life-adaptations.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Living Things and Animal Adaptations",
+    "entries": [
+      { "id": "living-food", "rowId": "kr.sof3.living.need.food", "subject": { "id": "living-things", "label": "Living things" }, "relation": "need", "object": { "id": "food-energy", "label": "need food or nutrients for energy and growth" }, "conceptIds": ["sof3.living.needs.food"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "living-water", "rowId": "kr.sof3.living.need.water", "subject": { "id": "living-things", "label": "Living things" }, "relation": "need", "object": { "id": "water-life", "label": "need water to carry out life processes" }, "conceptIds": ["sof3.living.needs.water"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "living-grow", "rowId": "kr.sof3.living.characteristic.grow", "subject": { "id": "living-things", "label": "Living things" }, "relation": "characteristic", "object": { "id": "growth", "label": "grow and change during their life" }, "conceptIds": ["sof3.living.characteristics.growth"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "living-reproduce", "rowId": "kr.sof3.living.characteristic.reproduce", "subject": { "id": "living-things", "label": "Living things" }, "relation": "characteristic", "object": { "id": "reproduction", "label": "can produce young or new living things of their kind" }, "conceptIds": ["sof3.living.characteristics.reproduction"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "herbivore", "rowId": "kr.sof3.animals.feeding.herbivore", "subject": { "id": "herbivore", "label": "Herbivore" }, "relation": "eats", "object": { "id": "plant-food", "label": "mainly eats plants or plant parts" }, "conceptIds": ["sof3.animals.feeding.herbivore"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] } },
+      { "id": "carnivore", "rowId": "kr.sof3.animals.feeding.carnivore", "subject": { "id": "carnivore", "label": "Carnivore" }, "relation": "eats", "object": { "id": "animal-food", "label": "mainly eats other animals" }, "conceptIds": ["sof3.animals.feeding.carnivore"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] } },
+      { "id": "omnivore", "rowId": "kr.sof3.animals.feeding.omnivore", "subject": { "id": "omnivore", "label": "Omnivore" }, "relation": "eats", "object": { "id": "plant-animal-food", "label": "eats both plant material and animals" }, "conceptIds": ["sof3.animals.feeding.omnivore"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] } },
+      { "id": "camouflage", "rowId": "kr.sof3.animals.adaptation.camouflage", "subject": { "id": "camouflage", "label": "Camouflage" }, "relation": "helps", "object": { "id": "blend-surroundings", "label": "helps an animal blend with its surroundings" }, "conceptIds": ["sof3.animals.adaptations.camouflage"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "General Class 3 living-things and animal-feeding concepts inside reviewed SOF Class 3 scope; exact row placement remains prototype-unverified." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.plants-body.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Plants, Human Body and Health",
+    "entries": [
+      { "id": "roots-absorb", "rowId": "kr.sof3.plants.roots.absorb-water", "subject": { "id": "roots", "label": "Roots" }, "relation": "function", "object": { "id": "absorb-water-minerals", "label": "absorb water and dissolved minerals from soil" }, "conceptIds": ["sof3.plants.roots.absorption"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "stem-carries", "rowId": "kr.sof3.plants.stem.carries-water", "subject": { "id": "stem", "label": "Stem" }, "relation": "function", "object": { "id": "carries-water", "label": "helps carry water from roots toward leaves and other parts" }, "conceptIds": ["sof3.plants.stem.transport"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "leaves-food", "rowId": "kr.sof3.plants.leaves.make-food", "subject": { "id": "leaves", "label": "Green leaves" }, "relation": "function", "object": { "id": "make-food-sunlight", "label": "use light, water and carbon dioxide to make food for the plant" }, "conceptIds": ["sof3.plants.leaves.food"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "flowers-seeds", "rowId": "kr.sof3.plants.flower.seed-formation", "subject": { "id": "flower", "label": "Flower" }, "relation": "role", "object": { "id": "seed-formation", "label": "is the plant part involved in forming seeds in flowering plants" }, "conceptIds": ["sof3.plants.flower.seeds"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "brain-control", "rowId": "kr.sof3.body.brain.control", "subject": { "id": "brain", "label": "Brain" }, "relation": "function", "object": { "id": "control-body", "label": "helps control and coordinate many body activities" }, "conceptIds": ["sof3.body.brain.control"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "heart-blood", "rowId": "kr.sof3.body.heart.pumps-blood", "subject": { "id": "heart", "label": "Heart" }, "relation": "function", "object": { "id": "pumps-blood", "label": "pumps blood around the body" }, "conceptIds": ["sof3.body.heart.circulation"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "lungs-breathe", "rowId": "kr.sof3.body.lungs.breathing", "subject": { "id": "lungs", "label": "Lungs" }, "relation": "function", "object": { "id": "gas-exchange", "label": "help the body take in oxygen and give out carbon dioxide during breathing" }, "conceptIds": ["sof3.body.lungs.breathing"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "wash-hands", "rowId": "kr.sof3.health.handwashing.germs", "subject": { "id": "wash-hands", "label": "Washing hands with soap" }, "relation": "helps", "object": { "id": "remove-germs", "label": "helps remove dirt and many germs from the hands" }, "conceptIds": ["sof3.health.hygiene.handwashing"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "General Class 3 plant-function, body-organ and hygiene concepts inside reviewed SOF Class 3 scope; exact row placement remains prototype-unverified." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.soil-water-weather.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Soil, Water and Weather",
+    "entries": [
+      { "id": "humus", "rowId": "kr.sof3.soil.humus.decayed-matter", "subject": { "id": "humus", "label": "Humus" }, "relation": "is", "object": { "id": "decayed-organic-matter", "label": "dark decayed plant and animal matter in soil" }, "conceptIds": ["sof3.soil.humus"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "recall"] } },
+      { "id": "sandy", "rowId": "kr.sof3.soil.sandy.drains-fast", "subject": { "id": "sandy-soil", "label": "Sandy soil" }, "relation": "property", "object": { "id": "drains-fast", "label": "has large particles and lets water drain relatively quickly" }, "conceptIds": ["sof3.soil.sandy"], "meta": { "knowledgeLevel": "basic", "skills": ["classification", "reasoning"] } },
+      { "id": "clay", "rowId": "kr.sof3.soil.clay.holds-water", "subject": { "id": "clay-soil", "label": "Clay soil" }, "relation": "property", "object": { "id": "holds-water", "label": "has very fine particles and holds water more strongly than sandy soil" }, "conceptIds": ["sof3.soil.clay"], "meta": { "knowledgeLevel": "basic", "skills": ["classification", "reasoning"] } },
+      { "id": "loam", "rowId": "kr.sof3.soil.loam.plants", "subject": { "id": "loamy-soil", "label": "Loamy soil" }, "relation": "property", "object": { "id": "plant-growth", "label": "has a useful mixture of soil particles and humus for many plants" }, "conceptIds": ["sof3.soil.loam"], "meta": { "knowledgeLevel": "basic", "skills": ["classification", "reasoning"] } },
+      { "id": "evaporation", "rowId": "kr.sof3.water.evaporation.vapour", "subject": { "id": "evaporation", "label": "Evaporation" }, "relation": "change", "object": { "id": "liquid-to-vapour", "label": "changes liquid water at the surface into water vapour" }, "conceptIds": ["sof3.water.evaporation"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] } },
+      { "id": "condensation", "rowId": "kr.sof3.water.condensation.droplets", "subject": { "id": "condensation", "label": "Condensation" }, "relation": "change", "object": { "id": "vapour-to-liquid", "label": "changes water vapour into tiny liquid-water droplets" }, "conceptIds": ["sof3.water.condensation"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] } },
+      { "id": "rain", "rowId": "kr.sof3.weather.rain.cloud-drops", "subject": { "id": "rain", "label": "Rain" }, "relation": "forms", "object": { "id": "cloud-drops-fall", "label": "falls when water drops in clouds become large and heavy enough" }, "conceptIds": ["sof3.weather.rain"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "water-cycle", "rowId": "kr.sof3.water.cycle.repeats", "subject": { "id": "water-cycle", "label": "Water cycle" }, "relation": "process", "object": { "id": "water-moves-repeatedly", "label": "moves water repeatedly between Earth's surface and the atmosphere" }, "conceptIds": ["sof3.water.cycle"], "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "General Class 3 soil and water/weather concepts inside reviewed SOF Class 3 scope; exact row placement remains prototype-unverified." }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.sof.class3.measurement-space.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "Science",
+    "topic": "Measurement, Earth and Space",
+    "entries": [
+      { "id": "length", "rowId": "kr.sof3.measurement.length.cm-m", "subject": { "id": "length", "label": "Length" }, "relation": "measured_with", "object": { "id": "centimetre-metre", "label": "can be measured using units such as centimetres and metres" }, "conceptIds": ["sof3.measurement.length"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "mass", "rowId": "kr.sof3.measurement.mass.g-kg", "subject": { "id": "mass", "label": "Mass" }, "relation": "measured_with", "object": { "id": "gram-kilogram", "label": "can be measured using units such as grams and kilograms" }, "conceptIds": ["sof3.measurement.mass"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "capacity", "rowId": "kr.sof3.measurement.capacity.ml-l", "subject": { "id": "capacity", "label": "Liquid capacity" }, "relation": "measured_with", "object": { "id": "millilitre-litre", "label": "can be measured using units such as millilitres and litres" }, "conceptIds": ["sof3.measurement.capacity"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "temperature", "rowId": "kr.sof3.measurement.temperature.thermometer", "subject": { "id": "temperature", "label": "Temperature" }, "relation": "measured_with", "object": { "id": "thermometer-celsius", "label": "is measured with a thermometer and is often stated in degrees Celsius" }, "conceptIds": ["sof3.measurement.temperature"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "earth-rotation", "rowId": "kr.sof3.earth.rotation.day-night", "subject": { "id": "earth-rotation", "label": "Earth's rotation" }, "relation": "causes", "object": { "id": "day-night", "label": "causes the regular change between day and night" }, "conceptIds": ["sof3.earth.rotation"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "moon-reflects", "rowId": "kr.sof3.moon.light.reflected-sun", "subject": { "id": "moon", "label": "Moon" }, "relation": "light", "object": { "id": "reflects-sunlight", "label": "looks bright because it reflects light from the Sun" }, "conceptIds": ["sof3.moon.reflection"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } },
+      { "id": "sun-star", "rowId": "kr.sof3.sun.type.star", "subject": { "id": "sun", "label": "Sun" }, "relation": "is_a", "object": { "id": "star", "label": "is the star at the centre of our solar system" }, "conceptIds": ["sof3.sun.star"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] } },
+      { "id": "planet-orbit", "rowId": "kr.sof3.planets.orbit.sun", "subject": { "id": "planet", "label": "A planet in our solar system" }, "relation": "moves", "object": { "id": "orbits-sun", "label": "moves around the Sun along an orbit" }, "conceptIds": ["sof3.planets.orbit"], "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] } }
+    ],
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science", "scopeNote": "General Class 3 measurement and Earth/space concepts inside reviewed SOF Class 3 scope; exact row placement remains prototype-unverified." }
+  }
+]

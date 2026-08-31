@@ -51,7 +51,31 @@ const questionPromptFor = (unit) => {
   const object = unit.object.label;
   if (unit.relation === 'known_as') return `Which of the following is called the ${object}?`;
   if (unit.relation === 'is_a') return `Which of the following is ${articleFor(object)} ${object}?`;
+  if (unit.relation === 'means') return `Which word means “${object}”?`;
+  if (unit.relation === 'synonym_of') return `Which word is a synonym of “${object}”?`;
+  if (unit.relation === 'antonym_of') return `Which word is an antonym of “${object}”?`;
+  if (unit.relation === 'homophone_of') return `Which word is a homophone of “${object}”?`;
   return `Which of the following is connected with “${object}”?`;
+};
+
+const reverseQuestionPromptFor = (unit) => {
+  const subject = unit.subject.label;
+  if (unit.relation === 'means') return `What does “${subject}” mean?`;
+  if (unit.relation === 'synonym_of') return `Which word is a synonym of “${subject}”?`;
+  if (unit.relation === 'antonym_of') return `Which word is an antonym of “${subject}”?`;
+  if (unit.relation === 'homophone_of') return `Which word is a homophone of “${subject}”?`;
+  if (unit.relation === 'known_as') return `What is “${subject}” known as?`;
+  if (unit.relation === 'is_a') return `What kind of thing is “${subject}”?`;
+  return `Which idea is connected with “${subject}”?`;
+};
+
+const spellingPromptFor = (unit) => {
+  const object = unit.object.label;
+  if (unit.relation === 'means') return `Unscramble the word that means “${object}”.`;
+  if (unit.relation === 'synonym_of') return `Unscramble a word that is a synonym of “${object}”.`;
+  if (unit.relation === 'antonym_of') return `Unscramble a word that is an antonym of “${object}”.`;
+  if (unit.relation === 'homophone_of') return `Unscramble a word that is a homophone of “${object}”.`;
+  return `Unscramble the word connected with “${object}”.`;
 };
 
 const formatMemory = (source, recipe, units) => {
@@ -125,6 +149,31 @@ const formatWordSearch = (source, recipe, units) => {
   };
 };
 
+const formatSequenceOrder = (source, recipe, units) => {
+  if (units.length !== 1) throw new Error(`${recipe.id}: sequence_order spelling recipe must select exactly one unit`);
+  const target = units[0];
+  const mode = recipe.sequenceMode ?? 'subject_letters';
+  if (mode !== 'subject_letters') throw new Error(`${recipe.id}: unsupported association_set sequenceMode ${mode}`);
+  const letters = Array.from(String(target.subject.label ?? '').toUpperCase()).filter((letter) => /[A-Z0-9]/.test(letter));
+  if (letters.length < 2) throw new Error(`${recipe.id}: subject must contain at least two spellable characters`);
+  const items = letters.map((letter, index) => ({ id: `${target.localId}:letter:${index}`, label: letter }));
+  const base = baseQuestion(source, recipe, units, spellingPromptFor(target));
+  return {
+    questions: [{
+      ...base,
+      interaction: {
+        type: 'sequence_order',
+        version: 1,
+        seed: recipe.seed ?? 1,
+        items
+      },
+      solution: { type: 'ordered_items', orderedItemIds: items.map((item) => item.id) }
+    }],
+    crosswordAuthoring: [],
+    outputContracts: []
+  };
+};
+
 const formatCrossword = (source, recipe, units) => {
   const base = baseQuestion(source, recipe, units, 'Solve the crossword.');
   return {
@@ -134,50 +183,41 @@ const formatCrossword = (source, recipe, units) => {
   };
 };
 
-const singleChoiceQuestion = (source, recipe, target) => {
+const formatSingleChoice = (source, recipe, units) => {
+  if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit`);
+  const target = units[0];
+  const direction = recipe.choiceDirection ?? 'object_to_subject';
+  if (!['object_to_subject', 'subject_to_object'].includes(direction)) throw new Error(`${recipe.id}: unsupported choiceDirection ${direction}`);
   const distractorCount = recipe.distractorCount ?? 3;
   const distractors = source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount);
   if (distractors.length < distractorCount) throw new Error(`${recipe.id}: not enough distractors in ${source.sourceRef}`);
   const optionUnits = [target, ...distractors];
-  const base = baseQuestion(source, recipe, [target], questionPromptFor(target));
+  const optionSide = direction === 'subject_to_object' ? 'object' : 'subject';
+  const prompt = direction === 'subject_to_object' ? reverseQuestionPromptFor(target) : questionPromptFor(target);
+  const base = baseQuestion(source, recipe, units, prompt);
   return {
-    ...base,
-    knowledgeRefs: [target.rowId],
-    interaction: {
-      type: 'single_choice',
-      version: 1,
-      shuffleOptions: true,
-      options: optionUnits.map((unit) => ({
-        id: `${unit.localId}:subject`,
-        label: unit.subject.label,
-        semanticRef: semanticRefFor(unit.subject)
-      }))
-    },
-    solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:subject`] }
-  };
-};
-
-const formatSingleChoice = (source, recipe, units) => {
-  if (recipe.perEntry === true) {
-    return {
-      questions: units.map((target) => singleChoiceQuestion(
-        source,
-        { ...recipe, id: `${recipe.id}.${target.localId}` },
-        target
-      )),
-      crosswordAuthoring: [],
-      outputContracts: []
-    };
-  }
-  if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit unless perEntry=true`);
-  return {
-    questions: [singleChoiceQuestion(source, recipe, units[0])],
+    questions: [{
+      ...base,
+      interaction: {
+        type: 'single_choice',
+        version: 1,
+        shuffleOptions: true,
+        options: optionUnits.map((unit) => ({
+          id: `${unit.localId}:${optionSide}`,
+          label: unit[optionSide].label,
+          semanticRef: semanticRefFor(unit[optionSide])
+        }))
+      },
+      solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:${optionSide}`] }
+    }],
     crosswordAuthoring: [],
     outputContracts: []
   };
 };
 
-const wordBankFillQuestion = (source, recipe, target) => {
+const formatWordBankFill = (source, recipe, units) => {
+  if (units.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one unit`);
+  const target = units[0];
   const template = recipe.sentenceTemplate ?? '{subject} — {blank}';
   const parts = template.split('{blank}');
   if (parts.length !== 2) throw new Error(`${recipe.id}: sentenceTemplate must contain {blank} exactly once`);
@@ -190,39 +230,22 @@ const wordBankFillQuestion = (source, recipe, target) => {
   if (before) segments.push({ type: 'text', value: before });
   segments.push({ type: 'blank', id: 'answer' });
   if (after) segments.push({ type: 'text', value: after });
-  const base = baseQuestion(source, recipe, [target], 'Complete the sentence.');
+  const base = baseQuestion(source, recipe, units, 'Complete the sentence.');
   return {
-    ...base,
-    knowledgeRefs: [target.rowId],
-    interaction: {
-      type: 'word_bank_fill',
-      version: 1,
-      segments,
-      wordBank: bankUnits.map((unit) => ({
-        id: `${unit.localId}:object`,
-        label: unit.object.label,
-        semanticRef: semanticRefFor(unit.object)
-      }))
-    },
-    solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
-  };
-};
-
-const formatWordBankFill = (source, recipe, units) => {
-  if (recipe.perEntry === true) {
-    return {
-      questions: units.map((target) => wordBankFillQuestion(
-        source,
-        { ...recipe, id: `${recipe.id}.${target.localId}` },
-        target
-      )),
-      crosswordAuthoring: [],
-      outputContracts: []
-    };
-  }
-  if (units.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one unit unless perEntry=true`);
-  return {
-    questions: [wordBankFillQuestion(source, recipe, units[0])],
+    questions: [{
+      ...base,
+      interaction: {
+        type: 'word_bank_fill',
+        version: 1,
+        segments,
+        wordBank: bankUnits.map((unit) => ({
+          id: `${unit.localId}:object`,
+          label: unit.object.label,
+          semanticRef: semanticRefFor(unit.object)
+        }))
+      },
+      solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
+    }],
     crosswordAuthoring: [],
     outputContracts: []
   };
@@ -263,6 +286,7 @@ export const associationSetSupportedEngines = [
   'drag_to_target@1',
   'memory_pairs@1',
   'word_search@1',
+  'sequence_order@1',
   'crossword@1',
   'print_cards@1'
 ];
@@ -274,6 +298,7 @@ export function formatAssociationSet(source, recipe) {
     case 'memory_pairs@1': return formatMemory(source, recipe, units);
     case 'drag_to_target@1': return formatMatching(source, recipe, units);
     case 'word_search@1': return formatWordSearch(source, recipe, units);
+    case 'sequence_order@1': return formatSequenceOrder(source, recipe, units);
     case 'crossword@1': return formatCrossword(source, recipe, units);
     case 'single_choice@1': return formatSingleChoice(source, recipe, units);
     case 'word_bank_fill@1': return formatWordBankFill(source, recipe, units);

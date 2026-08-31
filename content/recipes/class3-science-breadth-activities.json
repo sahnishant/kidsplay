@@ -15,7 +15,7 @@
     "id": "sof3.plants-animals-breadth.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.plants-animals-breadth.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   },
@@ -35,7 +35,7 @@
     "id": "sof3.human-body-breadth.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.human-body-breadth.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   },
@@ -55,7 +55,7 @@
     "id": "sof3.earth-universe-breadth.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.earth-universe-breadth.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   }

@@ -48,14 +48,8 @@ const knowledgeRefsForRecipe = (normalized, recipe) => {
 
 const attachKnowledgeRefs = (result, knowledgeRefs) => ({
   ...result,
-  questions: (result.questions ?? []).map((question) => ({
-    ...question,
-    knowledgeRefs: question.knowledgeRefs ?? knowledgeRefs
-  })),
-  crosswordAuthoring: (result.crosswordAuthoring ?? []).map((question) => ({
-    ...question,
-    knowledgeRefs: question.knowledgeRefs ?? knowledgeRefs
-  }))
+  questions: (result.questions ?? []).map((question) => ({ ...question, knowledgeRefs })),
+  crosswordAuthoring: (result.crosswordAuthoring ?? []).map((question) => ({ ...question, knowledgeRefs }))
 });
 
 export function getUsableEngines(data) {

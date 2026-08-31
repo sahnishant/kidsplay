@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.foundation.meanings.review",
+  "language": "en",
+  "sourceId": "open-english-wordnet",
+  "sourceVersion": "2025",
+  "purpose": "Cross-check the current Kidsplay-authored foundation meaning rows against candidate Open English WordNet senses. Extracted definitions remain review material, not child-facing content.",
+  "items": [
+    {
+      "lemma": "enormous",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.enormous.very-large"
+    },
+    {
+      "lemma": "fragile",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.fragile.easily-broken"
+    },
+    {
+      "lemma": "rapid",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.rapid.very-fast"
+    },
+    {
+      "lemma": "ancient",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.ancient.very-old"
+    },
+    {
+      "lemma": "cheerful",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.cheerful.happy-positive"
+    },
+    {
+      "lemma": "scarce",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.scarce.hard-to-find"
+    },
+    {
+      "lemma": "silent",
+      "partOfSpeech": "a",
+      "targetRowId": "kr.vocab.meaning.silent.no-sound"
+    },
+    {
+      "lemma": "observe",
+      "partOfSpeech": "v",
+      "targetRowId": "kr.vocab.meaning.observe.watch-carefully"
+    }
+  ]
+}

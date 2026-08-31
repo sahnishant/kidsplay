@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "profileRef": "SOF_INDIA_CLASS2",
+  "decisions": [
+    {
+      "semanticRef": "different-festivals",
+      "status": "keep_text",
+      "reason": "The concept is diversity across festivals. A single generic celebration icon would erase the distinction and could misteach the row."
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -12,6 +12,7 @@ const normalize = (value) => String(value ?? '')
 
 const args = process.argv.slice(2);
 const jsonMode = args.includes('--json');
+const failOnUnreviewedConcrete = args.includes('--fail-on-unreviewed-concrete');
 const limitArg = args.find((arg) => arg.startsWith('--limit='));
 const profileArg = args.find((arg) => arg.startsWith('--profile='));
 const limit = Math.max(1, Number(limitArg?.split('=')[1] ?? 30) || 30);
@@ -127,6 +128,7 @@ const allQuestions = questionFiles.flatMap((file) => {
 });
 
 let questions = allQuestions;
+const reviewDecisionBySemantic = new Map();
 if (profileRef) {
   let membership;
   try {
@@ -140,6 +142,27 @@ if (profileRef) {
     const refs = question.knowledgeRefs ?? [];
     return refs.length > 0 && refs.every((rowId) => profileRows.has(rowId));
   });
+
+  const reviewPath = `content/visual-reviews/${profileRef}.json`;
+  if (existsSync(new URL(reviewPath, root))) {
+    const review = readJson(reviewPath);
+    if (review?.profileRef !== profileRef || !Array.isArray(review?.decisions)) {
+      console.error(`${reviewPath}: invalid profileRef or decisions array`);
+      process.exit(2);
+    }
+    for (const decision of review.decisions) {
+      const semanticRef = typeof decision?.semanticRef === 'string' ? normalize(decision.semanticRef) : '';
+      if (!semanticRef || decision?.status !== 'keep_text' || typeof decision?.reason !== 'string' || !decision.reason.trim()) {
+        console.error(`${reviewPath}: every decision requires semanticRef, status=keep_text and a non-empty reason`);
+        process.exit(2);
+      }
+      if (reviewDecisionBySemantic.has(semanticRef)) {
+        console.error(`${reviewPath}: duplicate decision for ${decision.semanticRef}`);
+        process.exit(2);
+      }
+      reviewDecisionBySemantic.set(semanticRef, decision);
+    }
+  }
 }
 
 const opportunities = new Map();
@@ -195,7 +218,16 @@ const sortEntries = (entries) => entries.sort((left, right) => {
 
 const ranked = sortEntries([...opportunities.values()]).map(serialize);
 const notRecommended = sortEntries([...skipped.values()]).map(serialize);
-const concreteCandidates = ranked.filter((entry) => entry.category === 'concrete_or_authored');
+const allConcreteCandidates = ranked.filter((entry) => entry.category === 'concrete_or_authored');
+const reviewedDeferredConcrete = allConcreteCandidates
+  .filter((entry) => entry.semanticRef && reviewDecisionBySemantic.has(normalize(entry.semanticRef)))
+  .map((entry) => ({
+    ...entry,
+    review: reviewDecisionBySemantic.get(normalize(entry.semanticRef))
+  }));
+const concreteCandidates = allConcreteCandidates.filter(
+  (entry) => !entry.semanticRef || !reviewDecisionBySemantic.has(normalize(entry.semanticRef))
+);
 const vocabularyReview = ranked.filter((entry) => entry.category === 'vocabulary');
 const predicateReview = ranked.filter((entry) => entry.category === 'relationship_or_predicate');
 const labelCandidates = ranked.filter((entry) => entry.category === 'label');
@@ -205,33 +237,43 @@ const result = {
   summary: {
     unresolvedInstances,
     concreteCandidates: concreteCandidates.length,
+    reviewedDeferredConcrete: reviewedDeferredConcrete.length,
     vocabularyReview: vocabularyReview.length,
     predicateReview: predicateReview.length,
     labelCandidates: labelCandidates.length,
     deliberatelySkippedIdentities: notRecommended.length
   },
   concreteCandidates: concreteCandidates.slice(0, limit),
+  reviewedDeferredConcrete: reviewedDeferredConcrete.slice(0, limit),
   vocabularyReview: vocabularyReview.slice(0, limit),
   predicateReview: predicateReview.slice(0, limit),
   labelCandidates: labelCandidates.slice(0, limit),
   notRecommended: notRecommended.slice(0, limit)
 };
 
+const shouldFail = failOnUnreviewedConcrete && concreteCandidates.length > 0;
+
 if (jsonMode) {
   console.log(JSON.stringify(result, null, 2));
-  process.exit(0);
+  process.exit(shouldFail ? 1 : 0);
 }
 
 console.log(profileRef
   ? `Visual opportunity queue for ${profileRef}: ${questions.length} runnable profile-safe question(s).`
   : `Visual opportunity queue across all ${questions.length} question(s).`);
 console.log(`${unresolvedInstances} unresolved visual-friendly item instance(s).`);
-console.log(`${concreteCandidates.length} concrete/authored semantic candidate(s); ${vocabularyReview.length} vocabulary concept(s); ${predicateReview.length} relation/predicate concept(s); ${labelCandidates.length} label-only candidate(s); ${notRecommended.length} deliberately skipped.`);
+console.log(`${concreteCandidates.length} unreviewed concrete/authored semantic candidate(s); ${reviewedDeferredConcrete.length} reviewed text-only concrete concept(s); ${vocabularyReview.length} vocabulary concept(s); ${predicateReview.length} relation/predicate concept(s); ${labelCandidates.length} label-only candidate(s); ${notRecommended.length} deliberately skipped.`);
 
-console.log('\nConcrete/authored semantic candidates (highest-value review):');
+console.log('\nConcrete/authored semantic candidates requiring review:');
 if (!concreteCandidates.length) console.log('- none');
 for (const entry of concreteCandidates.slice(0, limit)) {
   console.log(`- ${entry.semanticRef}: ${entry.label} ×${entry.count} [${entry.engines.join(', ')}]`);
+}
+
+console.log('\nReviewed concrete concepts intentionally kept textual:');
+if (!reviewedDeferredConcrete.length) console.log('- none');
+for (const entry of reviewedDeferredConcrete.slice(0, limit)) {
+  console.log(`- ${entry.semanticRef}: ${entry.review.reason}`);
 }
 
 console.log('\nVocabulary semantics (illustrate only when the picture is unambiguous):');
@@ -256,4 +298,9 @@ console.log('\nNot recommended for automatic visual expansion:');
 if (!notRecommended.length) console.log('- none');
 for (const entry of notRecommended.slice(0, Math.min(limit, 8))) {
   console.log(`- ${entry.label} ×${entry.count}: ${entry.reason}`);
+}
+
+if (shouldFail) {
+  console.error(`Visual opportunity gate failed: ${concreteCandidates.length} concrete ${profileRef ?? 'all-question'} semantic candidate(s) still need a visual or reviewed keep_text decision.`);
+  process.exit(1);
 }

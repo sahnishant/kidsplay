@@ -3,7 +3,7 @@
     "id": "sof3.life-community.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.life-community.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   },
@@ -11,7 +11,7 @@
     "id": "sof3.materials-forces.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.materials-forces.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   },
@@ -19,7 +19,7 @@
     "id": "sof3.environment-safety.mcq-bank.generated.001",
     "sourceRef": "knowledge.sof.class3.environment-safety.001",
     "engine": "single_choice@1",
-    "perEntry": true,
+    "forEachEntry": true,
     "distractorCount": 3,
     "difficulty": 2
   }
