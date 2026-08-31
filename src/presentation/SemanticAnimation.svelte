@@ -143,6 +143,10 @@
     animation: composition-wiggle 1.7s ease-in-out infinite;
   }
 
+  .composition-motion--spin {
+    animation: composition-spin 6s linear infinite;
+  }
+
   @keyframes composition-pulse {
     0%, 100% { transform: translate(-50%, -50%) scale(var(--animation-scale, 1)); }
     50% { transform: translate(-50%, -50%) scale(calc(var(--animation-scale, 1) * 1.12)); }
@@ -156,6 +160,11 @@
   @keyframes composition-wiggle {
     0%, 100% { transform: translate(-50%, -50%) rotate(-4deg) scale(var(--animation-scale, 1)); }
     50% { transform: translate(-50%, -50%) rotate(4deg) scale(var(--animation-scale, 1)); }
+  }
+
+  @keyframes composition-spin {
+    from { transform: translate(-50%, -50%) rotate(0deg) scale(var(--animation-scale, 1)); }
+    to { transform: translate(-50%, -50%) rotate(360deg) scale(var(--animation-scale, 1)); }
   }
 
   @media (prefers-reduced-motion: reduce) {

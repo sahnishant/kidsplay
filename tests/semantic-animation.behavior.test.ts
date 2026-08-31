@@ -7,6 +7,7 @@ import {
   resolveAnimationComposition,
   resolveAnimationForState
 } from '../src/presentation/animationRegistry';
+import { resolveVisualDefinition } from '../src/presentation/visualRegistry';
 
 afterEach(() => cleanup());
 
@@ -24,18 +25,34 @@ describe('semantic animation composition', () => {
     expect(dogStates.every((item) => item.parts.length >= 2)).toBe(true);
   });
 
-  it('resolves an exact semantic state and gracefully falls back inside the same identity', () => {
+  it('binds presentation-only subject variants to the same semantic identity', () => {
+    for (const composition of getAnimationCompositions()) {
+      const subjectVisual = resolveVisualDefinition(composition.subject.variantRef);
+      expect(subjectVisual).toBeTruthy();
+      expect(subjectVisual?.animationIdentityRef).toBe(composition.semanticRef);
+    }
+  });
+
+  it('resolves an exact semantic state and ranks partial matches inside the same identity', () => {
     expect(resolveAnimationForState({ semanticRef: 'dog', expression: 'worried', pose: 'stand' })?.id)
       .toBe('animation.dog.worried-water');
 
-    const fallback = resolveAnimationForState({
+    const themeFallback = resolveAnimationForState({
       semanticRef: 'dog',
       expression: 'neutral',
       pose: 'play',
       theme: 'paper'
     });
-    expect(fallback?.semanticRef).toBe('dog');
-    expect(fallback?.id).toBe('animation.dog.happy-bone');
+    expect(themeFallback?.semanticRef).toBe('dog');
+    expect(themeFallback?.id).toBe('animation.dog.curious-bone');
+
+    const expressionFallback = resolveAnimationForState({
+      semanticRef: 'dog',
+      expression: 'worried',
+      pose: 'sit',
+      theme: 'paper'
+    });
+    expect(expressionFallback?.id).toBe('animation.dog.worried-water');
     expect(resolveAnimationForState({ semanticRef: 'unknown-animal' })).toBeNull();
   });
 

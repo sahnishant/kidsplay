@@ -8,21 +8,18 @@ const allowedPoses = new Set(['stand', 'sit', 'play', 'swim', 'rest']);
 const allowedExpressions = new Set(['neutral', 'happy', 'worried', 'curious', 'excited']);
 const allowedRoles = new Set(['prop', 'relation', 'context']);
 const allowedSlots = new Set(['front', 'above', 'behind', 'ground']);
-const allowedMotions = new Set([
-  'idle', 'wag', 'swim', 'flap', 'hop', 'float', 'sway', 'pulse',
-  'blink', 'chomp', 'breathe', 'flex', 'drift', 'spin', 'flicker', 'wiggle'
-]);
+const allowedPartMotions = new Set(['float', 'pulse', 'drift', 'spin', 'wiggle']);
 
 const hasText = (value) => typeof value === 'string' && value.trim().length > 0;
 const inPercentRange = (value) => Number.isFinite(value) && value >= 0 && value <= 100;
 const validScale = (value) => value === undefined || (Number.isFinite(value) && value > 0 && value <= 2);
 
-const visualIds = new Set();
+const visualDefinitions = new Map();
 for (const fileName of readdirSync(new URL('content/visuals/', root)).filter((name) => name.endsWith('.json')).sort()) {
   const definitions = JSON.parse(readFileSync(new URL(`content/visuals/${fileName}`, root), 'utf8'));
   if (!Array.isArray(definitions)) continue;
   for (const definition of definitions) {
-    if (hasText(definition?.id)) visualIds.add(definition.id);
+    if (hasText(definition?.id)) visualDefinitions.set(definition.id, definition);
   }
 }
 
@@ -53,8 +50,18 @@ for (const fileName of files) {
     if (!subject || typeof subject !== 'object') {
       errors.push(`${prefix}: subject is required`);
     } else {
-      if (!hasText(subject.variantRef)) errors.push(`${prefix}/subject: variantRef is required`);
-      else if (!visualIds.has(subject.variantRef)) errors.push(`${prefix}/subject: unknown visual variant ${subject.variantRef}`);
+      if (!hasText(subject.variantRef)) {
+        errors.push(`${prefix}/subject: variantRef is required`);
+      } else {
+        const variant = visualDefinitions.get(subject.variantRef);
+        if (!variant) {
+          errors.push(`${prefix}/subject: unknown visual variant ${subject.variantRef}`);
+        } else if (!hasText(variant.animationIdentityRef)) {
+          errors.push(`${prefix}/subject: visual variant ${subject.variantRef} must declare animationIdentityRef`);
+        } else if (hasText(composition?.semanticRef) && variant.animationIdentityRef !== composition.semanticRef) {
+          errors.push(`${prefix}/subject: visual variant ${subject.variantRef} belongs to ${variant.animationIdentityRef}, not ${composition.semanticRef}`);
+        }
+      }
       if (!allowedOrientations.has(subject.orientation)) errors.push(`${prefix}/subject: unsupported orientation ${subject.orientation}`);
       if (!allowedPoses.has(subject.pose)) errors.push(`${prefix}/subject: unsupported pose ${subject.pose}`);
       if (!allowedExpressions.has(subject.expression)) errors.push(`${prefix}/subject: unsupported expression ${subject.expression}`);
@@ -80,12 +87,12 @@ for (const fileName of files) {
       if (!inPercentRange(part?.x)) errors.push(`${partPrefix}: x must be 0..100`);
       if (!inPercentRange(part?.y)) errors.push(`${partPrefix}: y must be 0..100`);
       if (!validScale(part?.scale)) errors.push(`${partPrefix}: scale must be > 0 and <= 2`);
-      if (part?.motion !== undefined && !allowedMotions.has(part.motion)) errors.push(`${partPrefix}: unsupported motion ${part.motion}`);
+      if (part?.motion !== undefined && !allowedPartMotions.has(part.motion)) errors.push(`${partPrefix}: unsupported composition-part motion ${part.motion}`);
 
       const hasVisual = hasText(part?.visualRef);
       const hasLiteral = hasText(part?.text);
       if (hasVisual === hasLiteral) errors.push(`${partPrefix}: provide exactly one of visualRef or text`);
-      if (hasVisual && !visualIds.has(part.visualRef)) errors.push(`${partPrefix}: unknown visualRef ${part.visualRef}`);
+      if (hasVisual && !visualDefinitions.has(part.visualRef)) errors.push(`${partPrefix}: unknown visualRef ${part.visualRef}`);
     }
   }
 }

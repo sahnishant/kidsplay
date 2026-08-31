@@ -24,10 +24,19 @@ export function resolveAnimationComposition(animationId: string): AnimationCompo
   return byId.get(animationId) ?? null;
 }
 
+function stateMatchScore(composition: AnimationComposition, query: AnimationStateQuery): number {
+  let score = 0;
+  // Expression is the strongest authored state signal, then pose, then backdrop/context.
+  if (query.expression !== undefined && composition.subject.expression === query.expression) score += 4;
+  if (query.pose !== undefined && composition.subject.pose === query.pose) score += 2;
+  if (query.theme !== undefined && composition.theme === query.theme) score += 1;
+  return score;
+}
+
 /**
  * Resolve a semantic state without exposing renderer/art-source details to
- * questions or engines. Exact state matches win; missing state dimensions
- * gracefully fall back to the closest composition for the same identity.
+ * questions or engines. Exact state matches win; otherwise the closest authored
+ * state for the same identity wins. Authoring order is only the final tie-breaker.
  */
 export function resolveAnimationForState(query: AnimationStateQuery): AnimationComposition | null {
   const candidates = bySemanticRef.get(query.semanticRef) ?? [];
@@ -40,19 +49,11 @@ export function resolveAnimationForState(query: AnimationStateQuery): AnimationC
   );
   if (exact) return exact;
 
-  if (query.expression !== undefined) {
-    const expressionMatch = candidates.find(
-      (composition) => composition.subject.expression === query.expression
-    );
-    if (expressionMatch) return expressionMatch;
-  }
+  const ranked = candidates
+    .map((composition, index) => ({ composition, index, score: stateMatchScore(composition, query) }))
+    .sort((left, right) => right.score - left.score || left.index - right.index);
 
-  if (query.pose !== undefined) {
-    const poseMatch = candidates.find((composition) => composition.subject.pose === query.pose);
-    if (poseMatch) return poseMatch;
-  }
-
-  return candidates[0] ?? null;
+  return ranked[0]?.composition ?? null;
 }
 
 export function getAnimationCompositions(): AnimationComposition[] {

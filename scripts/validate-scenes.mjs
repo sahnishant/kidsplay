@@ -28,12 +28,12 @@ const allowedIcons = new Set([
 const hasText = (value) => typeof value === 'string' && value.trim().length > 0;
 const inPercentRange = (value) => Number.isFinite(value) && value >= 0 && value <= 100;
 
-const animationIds = new Set();
+const animationsById = new Map();
 for (const fileName of readdirSync(new URL('content/animations/', root)).filter((name) => name.endsWith('.json')).sort()) {
   const compositions = JSON.parse(readFileSync(new URL(`content/animations/${fileName}`, root), 'utf8'));
   if (!Array.isArray(compositions)) continue;
   for (const composition of compositions) {
-    if (hasText(composition?.id)) animationIds.add(composition.id);
+    if (hasText(composition?.id)) animationsById.set(composition.id, composition);
   }
 }
 
@@ -67,7 +67,12 @@ for (const fileName of files) {
 
     if (hasAnimation) {
       composedSceneCount += 1;
-      if (!animationIds.has(scene.animationRef)) errors.push(`${prefix}: unknown animationRef ${scene.animationRef}`);
+      const animation = animationsById.get(scene.animationRef);
+      if (!animation) {
+        errors.push(`${prefix}: unknown animationRef ${scene.animationRef}`);
+      } else if (allowedThemes.has(scene?.theme) && animation.theme !== scene.theme) {
+        errors.push(`${prefix}: scene theme ${scene.theme} does not match animation theme ${animation.theme}`);
+      }
       continue;
     }
 

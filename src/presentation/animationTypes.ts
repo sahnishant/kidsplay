@@ -6,6 +6,7 @@ export type AnimationPose = 'stand' | 'sit' | 'play' | 'swim' | 'rest';
 export type AnimationExpression = 'neutral' | 'happy' | 'worried' | 'curious' | 'excited';
 export type AnimationPartRole = 'prop' | 'relation' | 'context';
 export type AnimationSlot = 'front' | 'above' | 'behind' | 'ground';
+export type AnimationPartMotion = Extract<VisualMotion, 'float' | 'pulse' | 'drift' | 'spin' | 'wiggle'>;
 
 export interface AnimationSubject {
   variantRef: string;
@@ -26,7 +27,7 @@ export interface AnimationPart {
   x: number;
   y: number;
   scale?: number;
-  motion?: VisualMotion;
+  motion?: AnimationPartMotion;
 }
 
 export interface AnimationComposition {

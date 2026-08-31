@@ -14,7 +14,7 @@ question / story / canonical concept
         -> lightweight CSS/SVG motion
 ```
 
-A presentation variant is not a new knowledge entity. For example, `animation.variant.dog-happy-state` and `animation.variant.dog-worried-state` are visual states of the same semantic identity `dog`. Their aliases are deliberately namespaced as animation-state phrases so they cannot compete with ordinary semantic visual inference.
+A presentation variant is not a new knowledge entity. For example, `animation.variant.dog-happy-state` and `animation.variant.dog-worried-state` are visual states of the same semantic identity `dog`. Their aliases are deliberately namespaced as animation-state phrases so they cannot compete with ordinary semantic visual inference. Subject variants also declare `animationIdentityRef`; validation requires it to equal the composition `semanticRef`, preventing an unrelated presentation variant from being accepted as the subject of another semantic identity.
 
 ## Composition contract
 
@@ -32,11 +32,11 @@ The initial proof intentionally reuses one dog identity across:
 - worried + stand + water + question;
 - curious + sit + bone + question.
 
-`resolveAnimationForState()` accepts semantic state and falls back only within the same semantic identity when a requested pose/expression is unavailable.
+`resolveAnimationForState()` accepts semantic state and never leaves the requested semantic identity. Exact matches win. Partial matches are ranked by expression, then pose, then theme; authored order is only the final tie-breaker. This prevents fallback from silently selecting an unrelated or obviously less relevant state merely because it appeared first in a JSON file.
 
 ## Integration rule
 
-Existing scene ids can point at an `animationRef`. This preserves every current question/story caller while replacing bespoke scene primitives with reusable composition content. Assessment logic remains unchanged, so the existing rule that inferred reinforcement scenes are suppressed in structured mocks still applies.
+Existing scene ids can point at an `animationRef`. This preserves every current question/story caller while replacing bespoke scene primitives with reusable composition content. A composed scene must use the same theme as its referenced animation because the embedded composition deliberately inherits the scene background. Assessment logic remains unchanged, so the existing rule that inferred reinforcement scenes are suppressed in structured mocks still applies.
 
 ## Asset and licensing rule
 
@@ -44,15 +44,15 @@ Composition data never stores upstream artwork URLs. Visual refs resolve through
 
 ## Motion rule
 
-Use current CSS/SVG primitives first. Semantic-part motion is available when an inline Kidsplay renderer exposes named parts; imported static assets can still participate as props/context with whole-object motion. Add a heavyweight runtime only when a concrete interaction state machine cannot be expressed cleanly with these primitives.
+Use current CSS/SVG primitives first. Semantic-part motion is available when an inline Kidsplay renderer exposes named parts; imported static assets can still participate as props/context with whole-object motion. Subject motion continues to use the existing full `VisualMotion` vocabulary through visual definitions. Composition-level part motion is intentionally bounded to the wrapper motions the semantic composition renderer implements: `float`, `pulse`, `drift`, `spin` and `wiggle`. Add a heavyweight runtime only when a concrete interaction state machine cannot be expressed cleanly with these primitives.
 
 All motion remains optional under `prefers-reduced-motion`; learning meaning must remain understandable when animations are disabled.
 
 ## Validation
 
-- `scripts/validate-animations.mjs` fails closed on unknown visual refs, invalid pose/expression vocabulary, invalid coordinates, duplicate ids or ambiguous visual/text parts.
-- `scripts/validate-scenes.mjs` requires each scene to use either a registered semantic composition or the legacy primitive list, never an unvalidated mixture.
-- `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, state resolution/fallback and existing-scene integration.
+- `scripts/validate-animations.mjs` fails closed on unknown visual refs, subject-variant identity mismatches, invalid pose/expression vocabulary, unsupported composition-part motion, invalid coordinates, duplicate ids or ambiguous visual/text parts.
+- `scripts/validate-scenes.mjs` requires each scene to use either a registered semantic composition or the legacy primitive list, never an unvalidated mixture, and rejects scene/composition theme mismatches.
+- `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, subject identity binding, ranked state fallback and existing-scene integration.
 
 ## Scaling direction
 

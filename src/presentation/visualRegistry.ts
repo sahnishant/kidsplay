@@ -29,6 +29,8 @@ export interface VisualDefinition {
   motion: VisualMotion;
   aliases: string[];
   assetRef?: string;
+  /** Presentation-only identity guard for semantic animation subject variants. */
+  animationIdentityRef?: string;
 }
 
 export interface PresentableVisualItem {
