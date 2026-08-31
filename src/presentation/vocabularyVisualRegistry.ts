@@ -40,14 +40,14 @@ export interface VocabularyVisualRuntimePlan {
 interface RuntimePlanFile {
   schemaVersion: number;
   issueRef: number;
-  semanticDepthIssueRef: number | null;
+  semanticDepthIssueRefs: number[];
   plans: VocabularyVisualRuntimePlan[];
 }
 
 interface RawRuntimePlanFile {
   schemaVersion?: unknown;
   issueRef?: unknown;
-  semanticDepthIssueRef?: unknown;
+  semanticDepthIssueRefs?: unknown;
   plans?: unknown;
 }
 
@@ -111,6 +111,16 @@ const normalizeStringArray = (value: unknown, field: string): string[] => {
   return result;
 };
 
+const normalizePositiveIntegerArray = (value: unknown, field: string): number[] => {
+  if (!Array.isArray(value)) throw new Error(`Vocabulary visual runtime ${field} must be an array`);
+  const result = value.map((item) => {
+    if (!Number.isInteger(item) || Number(item) < 1) throw new Error(`Vocabulary visual runtime ${field} must contain positive integers`);
+    return Number(item);
+  });
+  if (new Set(result).size !== result.length) throw new Error(`Vocabulary visual runtime ${field} must not contain duplicates`);
+  return result;
+};
+
 const normalizePlan = (value: unknown): VocabularyVisualRuntimePlan => {
   const raw = asObject(value);
   return {
@@ -133,14 +143,11 @@ const rawRuntimePlans = runtimePlansJson as unknown as RawRuntimePlanFile;
 if (rawRuntimePlans.schemaVersion !== 1 || rawRuntimePlans.issueRef !== 80 || !Array.isArray(rawRuntimePlans.plans)) {
   throw new Error('Invalid generated vocabulary visual runtime plan file');
 }
-if (rawRuntimePlans.semanticDepthIssueRef !== undefined && rawRuntimePlans.semanticDepthIssueRef !== 84) {
-  throw new Error('Vocabulary runtime semantic depth projection must reference issue #84');
-}
 
 const runtimePlans: RuntimePlanFile = {
   schemaVersion: 1,
   issueRef: 80,
-  semanticDepthIssueRef: rawRuntimePlans.semanticDepthIssueRef === 84 ? 84 : null,
+  semanticDepthIssueRefs: normalizePositiveIntegerArray(rawRuntimePlans.semanticDepthIssueRefs, 'semanticDepthIssueRefs'),
   plans: rawRuntimePlans.plans.map(normalizePlan)
 };
 
