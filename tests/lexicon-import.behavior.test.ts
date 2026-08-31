@@ -59,7 +59,9 @@ const globalWordnetJsonLd = {
   '@context': 'https://globalwordnet.github.io/schemas/wn-json-context-1.4.json',
   '@graph': [
     {
+      '@context': { '@language': 'en' },
       '@id': 'ewn-test',
+      '@type': 'lime:Lexicon',
       version: '2025',
       entry: [
         {
@@ -136,7 +138,7 @@ describe('Open English WordNet candidate extraction', () => {
     expect(output.candidates.every((candidate) => candidate.review.status === 'pending')).toBe(true);
   });
 
-  it('accepts the Global WordNet JSON-LD entry/synset shape used by official releases', () => {
+  it('accepts the Global WordNet JSON-LD entry/synset shape used by official interchange', () => {
     const output = extractOewnCandidates(globalWordnetJsonLd, {
       id: 'jsonld-test',
       sourceId: 'open-english-wordnet',
@@ -159,20 +161,33 @@ describe('Open English WordNet candidate extraction', () => {
     });
   });
 
-  it('loads the sharded entry/synset directory layout used by the OEWN 2025 JSON archive', () => {
+  it('loads the lemma-to-POS shard layout used by the OEWN 2025 JSON archive', () => {
     const directory = mkdtempSync(join(tmpdir(), 'kidsplay-oewn-shards-'));
     try {
       writeFileSync(join(directory, 'entries-e.json'), JSON.stringify({
-        'oewn-enormous-a': {
-          lemma: { writtenForm: 'enormous', partOfSpeech: 'a' },
-          senses: [{ id: 'oewn-enormous-a-01', synset: 'oewn-synset-enormous-a' }]
+        enormous: {
+          a: {
+            sense: [{ id: 'enormous%3:00:00::', synset: '01389738-a' }]
+          }
+        },
+        observe: {
+          v: {
+            sense: [{ id: 'observe%2:39:00::', synset: '02133467-v' }]
+          }
         }
       }));
       writeFileSync(join(directory, 'adj.all.json'), JSON.stringify({
-        'oewn-synset-enormous-a': {
+        '01389738-a': {
           partOfSpeech: 'a',
-          definition: 'Very large in size or amount.',
-          members: ['enormous']
+          definition: ['Very large in size or amount.'],
+          members: ['enormous', 'immense']
+        }
+      }));
+      writeFileSync(join(directory, 'verb.perception.json'), JSON.stringify({
+        '02133467-v': {
+          partOfSpeech: 'v',
+          definition: ['Watch attentively.'],
+          members: ['observe', 'watch']
         }
       }));
       writeFileSync(join(directory, 'frames.json'), JSON.stringify({ frames: [] }));
@@ -181,16 +196,21 @@ describe('Open English WordNet candidate extraction', () => {
       const output = extractOewnCandidates(loaded, {
         id: 'sharded-json-test',
         sourceId: 'open-english-wordnet',
-        items: [{ lemma: 'enormous', partOfSpeech: 'a' }]
+        items: [
+          { lemma: 'enormous', partOfSpeech: 'a' },
+          { lemma: 'observe', partOfSpeech: 'v' }
+        ]
       }, { sourceVersion: '2025' });
 
-      expect(loaded.lexicalEntries).toHaveLength(1);
-      expect(loaded.synsets).toHaveLength(1);
-      expect(output.candidates).toHaveLength(1);
+      expect(loaded.lexicalEntries).toHaveLength(2);
+      expect(loaded.synsets).toHaveLength(2);
+      expect(output.summary).toEqual({ requestedWords: 2, candidateSenses: 2, missingWords: 0 });
       expect(output.candidates[0].sourceSense).toMatchObject({
-        entryId: 'oewn-enormous-a',
-        synsetId: 'oewn-synset-enormous-a',
-        definition: 'Very large in size or amount.'
+        entryId: null,
+        senseId: 'enormous%3:00:00::',
+        synsetId: '01389738-a',
+        definition: 'Very large in size or amount.',
+        synonyms: ['immense']
       });
     } finally {
       rmSync(directory, { recursive: true, force: true });

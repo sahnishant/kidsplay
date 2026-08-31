@@ -5,40 +5,54 @@ import { extractOewnCandidates } from './extract-oewn-candidates.mjs';
 const DEFAULT_WORDLIST_DIR = 'content/lexicon/open/review-wordlists';
 const DEFAULT_OUTPUT_DIR = 'content/lexicon/open/sense-review';
 const DEFAULT_MAX_SENSES = 3;
+const OEWN_POS_CODES = new Set(['n', 'v', 'a', 's', 'r']);
 
 const isObject = (value) => value && typeof value === 'object' && !Array.isArray(value);
 const recordId = (value) => String(value?.id ?? value?.['@id'] ?? '').trim();
 
-function collectShardRecords(node, predicate, parentKey = null, output = []) {
+function collectSynsetRecords(node, parentKey = null, output = []) {
   if (Array.isArray(node)) {
-    for (const item of node) collectShardRecords(item, predicate, null, output);
+    for (const item of node) collectSynsetRecords(item, null, output);
     return output;
   }
   if (!isObject(node)) return output;
 
-  if (predicate(node)) {
+  const looksLikeSynset = node.lemma == null
+    && (
+      node.partOfSpeech != null
+      || node.definition != null
+      || node.definitions != null
+      || node.members != null
+      || node.ili != null
+    );
+  if (looksLikeSynset) {
     if (!recordId(node) && parentKey && !/^\d+$/.test(parentKey)) output.push({ id: parentKey, ...node });
     else output.push(node);
     return output;
   }
 
-  for (const [key, value] of Object.entries(node)) collectShardRecords(value, predicate, key, output);
+  for (const [key, value] of Object.entries(node)) collectSynsetRecords(value, key, output);
   return output;
 }
 
-const isLexicalEntry = (value) => isObject(value)
-  && value.lemma != null
-  && (value.sense != null || value.senses != null);
-
-const isSynset = (value) => isObject(value)
-  && value.lemma == null
-  && (
-    value.partOfSpeech != null
-    || value.definition != null
-    || value.definitions != null
-    || value.members != null
-    || value.ili != null
-  );
+function convertSourceEntryShard(data) {
+  if (!isObject(data)) return [];
+  const entries = [];
+  for (const [lemma, posMap] of Object.entries(data)) {
+    if (!isObject(posMap)) continue;
+    for (const [partOfSpeech, payload] of Object.entries(posMap)) {
+      if (!OEWN_POS_CODES.has(partOfSpeech) || !isObject(payload)) continue;
+      const senses = payload.sense ?? payload.senses;
+      if (!senses || (Array.isArray(senses) && senses.length === 0)) continue;
+      entries.push({
+        lemma: { writtenForm: lemma, partOfSpeech },
+        partOfSpeech,
+        sense: senses
+      });
+    }
+  }
+  return entries;
+}
 
 export function loadOewnJsonInput(input) {
   const inputPath = resolve(String(input));
@@ -55,13 +69,17 @@ export function loadOewnJsonInput(input) {
     );
   }
 
+  // OEWN 2025's JSON archive mirrors the repository source layout rather than
+  // wrapping every shard in the Global WordNet JSON-LD graph. Entry shards are
+  // keyed as lemma -> POS -> { sense: [...] }; convert only that structural
+  // envelope and retain the authoritative sense/synset IDs inside each record.
   const lexicalEntries = entryFiles.flatMap((filename) => {
     const data = JSON.parse(readFileSync(resolve(inputPath, filename), 'utf8'));
-    return collectShardRecords(data, isLexicalEntry);
+    return convertSourceEntryShard(data);
   });
   const synsets = synsetFiles.flatMap((filename) => {
     const data = JSON.parse(readFileSync(resolve(inputPath, filename), 'utf8'));
-    return collectShardRecords(data, isSynset);
+    return collectSynsetRecords(data);
   });
   if (!lexicalEntries.length || !synsets.length) {
     throw new Error(
@@ -106,6 +124,10 @@ function main() {
   if (!Number.isInteger(maxSenses) || maxSenses < 1 || maxSenses > 10) throw new Error('--max-senses must be an integer from 1 to 10');
 
   const oewnData = loadOewnJsonInput(inputPath);
+  console.log(
+    `Loaded OEWN review input: ${oewnData.lexicalEntries?.length ?? 'single-file'} lexical entr${oewnData.lexicalEntries?.length === 1 ? 'y' : 'ies'}, ` +
+    `${oewnData.synsets?.length ?? 'single-file'} synsets`
+  );
   const wordlists = readdirSync(wordlistDir)
     .filter((filename) => /^grade-[1-6]-(introduced|cumulative)-meaning\.json$/.test(filename))
     .sort()
