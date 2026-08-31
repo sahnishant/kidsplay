@@ -39,7 +39,7 @@ function runtimeJsonAssetPlugin(): Plugin {
       if (!resolved || !isRuntimeContentJson(resolved.id)) return null;
       return `${runtimeJsonPrefix}${cleanModuleId(resolved.id)}`;
     },
-    async load(id: string): Promise<string | null> {
+    async load(id: string) {
       if (!id.startsWith(runtimeJsonPrefix)) return null;
       const cleanId = id.slice(runtimeJsonPrefix.length);
 
@@ -51,7 +51,9 @@ function runtimeJsonAssetPlugin(): Plugin {
         source
       });
 
-      return `
+      return {
+        moduleType: 'js',
+        code: `
 const assetUrl = import.meta.ROLLUP_FILE_URL_${referenceId};
 const response = await fetch(assetUrl);
 if (!response.ok) {
@@ -59,7 +61,8 @@ if (!response.ok) {
 }
 const value = await response.json();
 export default value;
-`;
+`
+      };
     }
   };
 }
