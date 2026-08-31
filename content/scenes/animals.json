@@ -12,14 +12,34 @@
     "animationRef": "animation.dog.worried-water"
   },
   {
+    "id": "scene.dog.play-ball",
+    "theme": "grass",
+    "ariaLabel": "An excited dog playing beside a ball on grass.",
+    "animationRef": "animation.dog.excited-ball"
+  },
+  {
+    "id": "scene.dog.resting-mat",
+    "theme": "paper",
+    "ariaLabel": "A calm dog resting on a mat.",
+    "animationRef": "animation.dog.resting-mat"
+  },
+  {
     "id": "scene.whale.swimming",
     "theme": "ocean",
-    "ariaLabel": "A whale swimming happily in the ocean.",
-    "entities": [
-      { "id": "whale", "kind": "icon", "value": "whale", "label": "whale", "x": 42, "y": 50, "motion": "float" },
-      { "id": "wave", "kind": "icon", "value": "wave", "label": "ocean wave", "x": 70, "y": 68, "motion": "float" },
-      { "id": "bubble", "kind": "text", "value": "○ ○", "label": "bubbles", "x": 55, "y": 25, "motion": "float" }
-    ]
+    "ariaLabel": "A whale swimming through the ocean.",
+    "animationRef": "animation.whale.ocean-swim"
+  },
+  {
+    "id": "scene.bird.branch",
+    "theme": "grass",
+    "ariaLabel": "A bird flapping gently above a tree branch.",
+    "animationRef": "animation.bird.branch-flap"
+  },
+  {
+    "id": "scene.cow.grazing",
+    "theme": "grass",
+    "ariaLabel": "A cow beside fresh grass, chewing calmly.",
+    "animationRef": "animation.cow.grass-chew"
   },
   {
     "id": "scene.air.balloon-candle",
