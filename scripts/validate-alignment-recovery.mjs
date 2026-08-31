@@ -45,11 +45,6 @@ const allowedDiscoveryBases = new Set([
   'official_legacy_artifact',
   'official_page_link'
 ]);
-const officialEvidenceSourceTypes = new Set([
-  'official_syllabus',
-  'official_assessment',
-  'official_reference'
-]);
 
 let leadCount = 0;
 let recoveredCount = 0;
@@ -129,8 +124,8 @@ for (const fileName of recoveryFiles) {
         if (!source) {
           errors.push(`${leadPrefix}: sourceRef ${lead.sourceRef} is not registered`);
         } else {
-          if (!officialEvidenceSourceTypes.has(source.type) || source.status !== 'reviewed') {
-            errors.push(`${leadPrefix}: recovered sourceRef must be a reviewed official source`);
+          if (source.type !== 'official_assessment' || source.status !== 'reviewed') {
+            errors.push(`${leadPrefix}: recovered exact-evidence sourceRef must be a reviewed official_assessment`);
           }
           if (!isAcademicYear(source.academicYear)) {
             errors.push(`${leadPrefix}: recovered sourceRef must have a named academicYear`);
@@ -140,6 +135,9 @@ for (const fileName of recoveryFiles) {
           }
           if (!officialSofUrl(source.url)) {
             errors.push(`${leadPrefix}: recovered sourceRef must resolve to an official SOF URL`);
+          }
+          if (hasText(lead.candidateUrl) && source.url !== lead.candidateUrl) {
+            errors.push(`${leadPrefix}: recovered sourceRef URL must match candidateUrl exactly`);
           }
         }
       }
@@ -161,6 +159,6 @@ if (errors.length) {
 } else {
   console.log(
     `Alignment recovery OK: ${recoveryFiles.length} registry file(s), ${leadCount} lead(s), ` +
-    `${recoveredCount} recovered official source(s); non-recovered leads remain ineligible for row evidence.`
+    `${recoveredCount} recovered official assessment source(s); non-recovered leads remain ineligible for row evidence.`
   );
 }
