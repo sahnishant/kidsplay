@@ -35,14 +35,16 @@ describe('Class 3 free runtime', () => {
     expect(pool.some((question) => question.id === 'plants.parts.memory.generated.001')).toBe(true);
     expect(directMembershipRows.filter((rowId) => !freeRows.has(rowId))).toEqual([]);
 
+    const oneRowSingleChoiceRows = new Set(
+      pool
+        .filter((question) => question.interaction.type === 'single_choice' && question.knowledgeRefs?.length === 1)
+        .map((question) => question.knowledgeRefs?.[0])
+        .filter((rowId): rowId is string => Boolean(rowId))
+    );
     const class3ScienceRows = directMembershipRows.filter((rowId) => rowId.startsWith('kr.sof3.'));
-    for (const rowId of class3ScienceRows) {
-      expect(pool.some((question) =>
-        question.interaction.type === 'single_choice'
-          && question.knowledgeRefs?.length === 1
-          && question.knowledgeRefs[0] === rowId
-      )).toBe(true);
-    }
+    const missingOneRowSingleChoiceRows = class3ScienceRows.filter((rowId) => !oneRowSingleChoiceRows.has(rowId));
+
+    expect(missingOneRowSingleChoiceRows).toEqual([]);
   });
 
   it('launches an eight-question Class 3 free session inside its effective composed profile membership', () => {
