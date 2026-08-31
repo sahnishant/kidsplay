@@ -56,6 +56,22 @@ for (const visual of visuals) {
   if (!visual.label || typeof visual.label !== 'string') errors.push(`${prefix}: label must be a non-empty string`);
   if (!Array.isArray(visual.aliases) || !visual.aliases.length) errors.push(`${prefix}: aliases must be a non-empty array`);
 
+  const isAnimationVariant = typeof visual.id === 'string' && visual.id.startsWith('animation.variant.');
+  const hasAnimationIdentity = typeof visual.animationIdentityRef === 'string' && visual.animationIdentityRef.trim().length > 0;
+  if (isAnimationVariant && !hasAnimationIdentity) {
+    errors.push(`${prefix}: animation variants must declare a non-empty animationIdentityRef`);
+  } else if (!isAnimationVariant && visual.animationIdentityRef !== undefined) {
+    errors.push(`${prefix}: animationIdentityRef is reserved for animation.variant.* presentation visuals`);
+  }
+  if (hasAnimationIdentity) {
+    const identityKey = normalizeAlias(visual.animationIdentityRef);
+    for (const alias of visual.aliases ?? []) {
+      if (normalizeAlias(alias) === identityKey) {
+        errors.push(`${prefix}: animation variant alias must stay namespaced and cannot equal its semantic identity ${visual.animationIdentityRef}`);
+      }
+    }
+  }
+
   const idParts = String(visual.id ?? '').split('.');
   registerSemanticOwner(idParts[idParts.length - 1], visual.id);
 
