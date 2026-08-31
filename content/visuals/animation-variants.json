@@ -1,26 +1,26 @@
 [
   {
-    "id": "animation.variant.dog.happy",
+    "id": "animation.variant.dog-happy-state",
     "renderer": "scene-icon",
     "glyph": "dog-happy",
-    "label": "Happy dog",
+    "label": "Happy dog animation state",
     "motion": "wag",
-    "aliases": []
+    "aliases": ["dog animation state happy"]
   },
   {
-    "id": "animation.variant.dog.worried",
+    "id": "animation.variant.dog-worried-state",
     "renderer": "scene-icon",
     "glyph": "dog-worried",
-    "label": "Worried dog",
+    "label": "Worried dog animation state",
     "motion": "wiggle",
-    "aliases": []
+    "aliases": ["dog animation state worried"]
   },
   {
-    "id": "animation.variant.dog.curious",
+    "id": "animation.variant.dog-curious-state",
     "renderer": "scene-icon",
     "glyph": "dog-happy",
-    "label": "Curious dog",
+    "label": "Curious dog animation state",
     "motion": "idle",
-    "aliases": []
+    "aliases": ["dog animation state curious"]
   }
 ]
