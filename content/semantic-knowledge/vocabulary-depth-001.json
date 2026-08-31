@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "issueRef": 84,
+  "id": "semantic-knowledge.vocabulary-depth.001",
+  "policy": {
+    "canonicalFactsCopied": false,
+    "artReferencesAllowed": false,
+    "coordinatesAllowed": false,
+    "motionInstructionsAllowed": false,
+    "profilePlacementInferred": false,
+    "sourceGlossesAllowed": false
+  },
+  "neighbourhoods": [
+    {
+      "id": "settlements",
+      "conceptRefs": ["village", "town", "city", "settlement"],
+      "rowRefs": [
+        "kr.vocab.place.village.is-settlement",
+        "kr.vocab.place.town.is-settlement",
+        "kr.vocab.place.city.is-settlement",
+        "kr.vocab.place.town.generally-larger-than-village",
+        "kr.vocab.place.city.generally-larger-than-town",
+        "kr.vocab.place.settlement.people-live-there"
+      ],
+      "visualSenseKeys": ["village#settlement", "town#settlement", "city#settlement"],
+      "reasoningModes": ["classification", "compare_contrast"]
+    },
+    {
+      "id": "push-pull-force",
+      "conceptRefs": ["push", "pull", "force-action"],
+      "rowRefs": [
+        "kr.vocab.force.push.is-force-action",
+        "kr.vocab.force.pull.is-force-action",
+        "kr.vocab.force.push.can-move-object-away",
+        "kr.vocab.force.pull.can-move-object-toward",
+        "kr.vocab.force.push.contrasts-with-pull",
+        "kr.vocab.force.pull.contrasts-with-push"
+      ],
+      "visualSenseKeys": ["push#move-away-by-force", "pull#move-toward-by-force"],
+      "reasoningModes": ["classification", "cause_effect", "compare_contrast"]
+    },
+    {
+      "id": "container-state",
+      "conceptRefs": ["full", "empty", "container-content"],
+      "rowRefs": [
+        "kr.vocab.state.full.describes-container-content",
+        "kr.vocab.state.full.contrasts-with-empty",
+        "kr.vocab.state.empty.describes-container-content"
+      ],
+      "visualSenseKeys": ["full#container-at-capacity", "empty#remove-container-content", "fill#increase-container-content"],
+      "reasoningModes": ["state", "compare_contrast", "process"]
+    },
+    {
+      "id": "speed-state",
+      "conceptRefs": ["fast", "slow", "rapid", "quick"],
+      "rowRefs": [
+        "kr.vocab.speed.fast.contrasts-with-slow",
+        "kr.vocab.speed.fast.describes-high-speed",
+        "kr.vocab.speed.slow.describes-low-speed",
+        "kr.vocab.meaning.rapid.very-fast",
+        "kr.vocab.synonym.quick.fast"
+      ],
+      "visualSenseKeys": ["rapid#very-fast", "quick#fast-speed"],
+      "reasoningModes": ["meaning", "synonym", "compare_contrast"]
+    },
+    {
+      "id": "existing-state-opposites",
+      "conceptRefs": ["hot", "cold", "smooth", "rough", "ancient", "modern"],
+      "rowRefs": [
+        "kr.vocab.antonym.hot.cold",
+        "kr.vocab.antonym.smooth.rough",
+        "kr.vocab.antonym.ancient.modern",
+        "kr.vocab.meaning.ancient.very-old"
+      ],
+      "visualSenseKeys": ["hot#high-temperature", "smooth#even-surface", "ancient#very-old-from-long-ago"],
+      "reasoningModes": ["meaning", "opposite", "compare_contrast"]
+    },
+    {
+      "id": "spatial-position",
+      "conceptRefs": ["under", "between", "inside", "outside"],
+      "rowRefs": [
+        "kr.vocab.spatial.under.describes-relative-position",
+        "kr.vocab.spatial.between.describes-relative-position",
+        "kr.vocab.spatial.inside.describes-relative-position",
+        "kr.vocab.spatial.outside.describes-relative-position",
+        "kr.vocab.spatial.between.uses-multiple-reference-things"
+      ],
+      "visualSenseKeys": ["under#below-reference", "between#middle-of-two-or-more", "inside#within-boundary", "outside#beyond-boundary"],
+      "reasoningModes": ["spatial_reasoning", "compare_contrast"]
+    },
+    {
+      "id": "order-sequence",
+      "conceptRefs": ["before", "after", "first", "next", "last"],
+      "rowRefs": [
+        "kr.vocab.order.before.contrasts-with-after",
+        "kr.vocab.order.first.is-earliest-position",
+        "kr.vocab.order.next.follows-current-position",
+        "kr.vocab.order.last.is-final-position"
+      ],
+      "visualSenseKeys": ["before#earlier-in-sequence", "after#later-in-sequence", "first#initial-position", "next#following-position", "last#final-position"],
+      "reasoningModes": ["sequence", "compare_contrast"]
+    },
+    {
+      "id": "quantity-comparison",
+      "conceptRefs": ["many", "few", "more", "less", "same", "different"],
+      "rowRefs": [
+        "kr.vocab.quantity.many.contrasts-with-few",
+        "kr.vocab.quantity.more.contrasts-with-less",
+        "kr.vocab.comparison.same.contrasts-with-different",
+        "kr.vocab.comparison.same.matches-target-dimension",
+        "kr.vocab.comparison.different.not-matching-target-dimension"
+      ],
+      "visualSenseKeys": ["many#large-number", "few#small-number", "more#greater-quantity", "less#smaller-quantity", "same#matching-in-target-dimension", "different#not-matching-in-target-dimension"],
+      "reasoningModes": ["quantity", "compare_contrast"]
+    }
+  ],
+  "reasoningPatterns": [
+    {
+      "id": "pull-direction-explanation",
+      "type": "cause_effect",
+      "premiseRowRefs": [
+        "kr.vocab.force.pull.is-force-action",
+        "kr.vocab.force.pull.can-move-object-toward"
+      ],
+      "contrastRowRefs": ["kr.vocab.force.push.can-move-object-away"],
+      "visualSenseKey": "pull#move-toward-by-force"
+    },
+    {
+      "id": "push-direction-explanation",
+      "type": "cause_effect",
+      "premiseRowRefs": [
+        "kr.vocab.force.push.is-force-action",
+        "kr.vocab.force.push.can-move-object-away"
+      ],
+      "contrastRowRefs": ["kr.vocab.force.pull.can-move-object-toward"],
+      "visualSenseKey": "push#move-away-by-force"
+    },
+    {
+      "id": "settlement-size-comparison",
+      "type": "compare_contrast",
+      "premiseRowRefs": [
+        "kr.vocab.place.village.is-settlement",
+        "kr.vocab.place.town.is-settlement",
+        "kr.vocab.place.city.is-settlement",
+        "kr.vocab.place.town.generally-larger-than-village",
+        "kr.vocab.place.city.generally-larger-than-town"
+      ],
+      "visualSenseKey": "village#settlement"
+    },
+    {
+      "id": "full-empty-state-comparison",
+      "type": "compare_contrast",
+      "premiseRowRefs": [
+        "kr.vocab.state.full.describes-container-content",
+        "kr.vocab.state.full.contrasts-with-empty",
+        "kr.vocab.state.empty.describes-container-content"
+      ],
+      "visualSenseKey": "full#container-at-capacity"
+    },
+    {
+      "id": "between-reference-explanation",
+      "type": "spatial_reasoning",
+      "premiseRowRefs": [
+        "kr.vocab.spatial.between.describes-relative-position",
+        "kr.vocab.spatial.between.uses-multiple-reference-things"
+      ],
+      "visualSenseKey": "between#middle-of-two-or-more"
+    }
+  ],
+  "processRowRefs": []
+}
