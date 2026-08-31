@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_editorial_review_handoff",
+  "batchId": "grade-1-batch-001",
+  "grade": 1,
+  "source": {
+    "packetKind": "primary_vocabulary_editorial_packet",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "policy": {
+    "importedGlossRuntimeAllowed": false,
+    "explicitEditorialReviewRequired": true,
+    "requiredReviewAuthority": "human_editor",
+    "profilePlacementsAreReviewRecordsOnly": true
+  },
+  "summary": {
+    "packetWords": 40,
+    "reviewedDecisions": 8,
+    "accepted": 8,
+    "rejected": 0,
+    "reviewedProfilePlacements": 0
+  },
+  "decisions": [
+    {
+      "lemma": "ask",
+      "candidateId": "ask#v#2",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To say a question because you want an answer.",
+      "childExample": "I will ask the teacher how plants grow."
+    },
+    {
+      "lemma": "come",
+      "candidateId": "come#v#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To move toward the person or place being spoken about.",
+      "childExample": "Please come to the table for lunch."
+    },
+    {
+      "lemma": "fast",
+      "candidateId": "fast#a#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "Moving or happening very quickly.",
+      "childExample": "The fast rabbit reached the tree first."
+    },
+    {
+      "lemma": "find",
+      "candidateId": "find#v#3",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To discover where something is after looking for it.",
+      "childExample": "I found my pencil under the chair."
+    },
+    {
+      "lemma": "full",
+      "candidateId": "full#a#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "Holding as much as it can.",
+      "childExample": "The bottle is full of water."
+    },
+    {
+      "lemma": "go",
+      "candidateId": "go#v#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To move from one place toward another place.",
+      "childExample": "We go to school in the morning."
+    },
+    {
+      "lemma": "old",
+      "candidateId": "old#a#2",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "Having been alive for many years.",
+      "childExample": "Our old dog likes quiet walks."
+    },
+    {
+      "lemma": "put",
+      "candidateId": "put#v#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To place something in a particular spot.",
+      "childExample": "Put the book on the shelf."
+    }
+  ],
+  "profilePlacements": []
+}
