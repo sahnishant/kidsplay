@@ -42,7 +42,7 @@ describe('semantic vocabulary scene runtime', () => {
     const proofs = plans.filter((plan) => plan.runtimeUsage === 'template_proof');
 
     expect(childPlans.length).toBeGreaterThanOrEqual(18);
-    expect(proofs.length).toBeGreaterThanOrEqual(4);
+    expect(proofs.length).toBeGreaterThanOrEqual(3);
     expect(plans.length).toBeLessThan(50);
     expect(proofs.every((plan) => plan.knowledgeRef === null)).toBe(true);
     expect(childPlans.every((plan) => plan.knowledgeRef?.startsWith('kr.'))).toBe(true);
@@ -52,14 +52,14 @@ describe('semantic vocabulary scene runtime', () => {
       expect.objectContaining({
         knowledgeRef: 'kr.vocab.force.pull.can-move-object-toward',
         senseKey: 'pull#move-toward-by-force',
-        maturity: 'V4',
+        maturity: 'V5',
         semanticDepthPatternRefs: expect.arrayContaining(['pull-direction-explanation'])
       })
     ]));
     expect(proofs.some((plan) => plan.senseKey === 'pull#move-toward-by-force')).toBe(false);
   });
 
-  it('derives every runtime maturity from the recorded exact proof instead of assuming child-facing means V5', () => {
+  it('derives every runtime maturity from the recorded exact proof', () => {
     const plans = getVocabularyVisualRuntimePlans();
     const proofBySenseKey = new Map(
       maturityProofsJson.promotions.map((promotion) => [promotion.senseKey, promotion])
@@ -70,18 +70,18 @@ describe('semantic vocabulary scene runtime', () => {
     const pullPlan = plans.find((plan) => plan.senseKey === 'pull#move-toward-by-force');
     expect(pullPlan).toMatchObject({
       runtimeUsage: 'knowledge_reinforcement',
-      maturity: 'V4'
+      maturity: 'V5'
     });
     expect(proofBySenseKey.get('pull#move-toward-by-force')).toMatchObject({
-      maturity: 'V4',
-      basis: 'renderer_template_plus_meaningful_motion_proof'
+      maturity: 'V5',
+      basis: 'child_facing_post_answer_reinforcement'
     });
 
     const provenV5ChildPlans = plans.filter((plan) =>
       plan.runtimeUsage === 'knowledge_reinforcement' &&
       proofBySenseKey.get(plan.senseKey)?.basis === 'child_facing_post_answer_reinforcement'
     );
-    expect(provenV5ChildPlans.length).toBeGreaterThanOrEqual(17);
+    expect(provenV5ChildPlans.length).toBeGreaterThanOrEqual(18);
     expect(provenV5ChildPlans.every((plan) => plan.maturity === 'V5')).toBe(true);
   });
 
