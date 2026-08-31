@@ -1,0 +1,162 @@
+[
+  {
+    "id": "sof6.hots.science.fair-test.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.science.process.production"],
+    "knowledgeRefs": ["kr.sof6.science.hypothesis.testable", "kr.sof6.science.variables.control"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "Riya thinks warmer water dissolves a spoon of sugar faster. Which investigation best tests her idea fairly?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Use equal amounts of water and sugar, change only the water temperature, and compare the dissolving time."},
+      {"id": "wrong1", "label": "Use different amounts of sugar, different cup sizes and different temperatures at the same time."},
+      {"id": "wrong2", "label": "Ask several people whether they think warm water should work faster."},
+      {"id": "wrong3", "label": "Use warm water once and record no measurement."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. A fair comparison changes the factor being tested while controlling relevant others.", "incorrect": "Look for a testable prediction and a fair comparison."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.food.bone-health.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.food.production"],
+    "knowledgeRefs": ["kr.sof6.food.vitamin-d.bones", "kr.sof6.food.calcium.bones-teeth"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "A diet provides plenty of calcium, but a child has very low vitamin D. Why can bone health still be affected?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Vitamin D helps the body use calcium, so both nutrients matter for healthy bones."},
+      {"id": "wrong1", "label": "Calcium and vitamin D have no role in bones."},
+      {"id": "wrong2", "label": "Vitamin D turns calcium into dietary fibre."},
+      {"id": "wrong3", "label": "Calcium works only when there is no vitamin D."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. Calcium supports bones and vitamin D helps the body use calcium effectively.", "incorrect": "Connect the roles of calcium and vitamin D."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.materials.circuit-handle.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.materials.production"],
+    "knowledgeRefs": ["kr.sof6.materials.conductor.electric", "kr.sof6.materials.insulator.electric"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "A simple tester needs a part that carries current and an outer handle that reduces current through the hand. Which pairing best fits?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Use a conductor for the current-carrying part and an insulator for the handle."},
+      {"id": "wrong1", "label": "Use an insulator for the current path and a conductor for the handle."},
+      {"id": "wrong2", "label": "Use only materials chosen by colour because electrical properties do not matter."},
+      {"id": "wrong3", "label": "Use two insulators and expect current to pass easily through both."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. Conductors allow current relatively easily while insulators resist it.", "incorrect": "Match each material role to conductivity or insulation."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.water.clothes-glass.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.water.production"],
+    "knowledgeRefs": ["kr.sof6.water.evaporation.warmth-air", "kr.sof6.water.condensation.cooling"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "Wet clothes dry faster in warm moving air, while droplets form outside a cold glass. Which explanation connects both observations?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Warmth and moving air can speed evaporation; water vapour can condense to liquid on a cool surface."},
+      {"id": "wrong1", "label": "Both observations are freezing."},
+      {"id": "wrong2", "label": "Moving air prevents evaporation and the cold glass creates new water from nothing."},
+      {"id": "wrong3", "label": "Droplets outside the glass must have leaked through solid glass."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. The two observations show evaporation and condensation under different conditions.", "incorrect": "Identify the change of state in each observation."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.separation.muddy-water.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.separation.production"],
+    "knowledgeRefs": ["kr.sof6.separation.sedimentation.settle", "kr.sof6.separation.decantation.pour", "kr.sof6.separation.filtration.filter"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "A jar contains water with heavy mud particles. Which sequence can make the water clearer using the linked separation ideas?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Let particles settle, carefully decant the upper liquid, then filter it if finer insoluble particles remain."},
+      {"id": "wrong1", "label": "Stir continuously so particles cannot settle, then call the mixture separated."},
+      {"id": "wrong2", "label": "Use only a magnet because all mud is magnetic."},
+      {"id": "wrong3", "label": "Freeze the jar and assume every impurity disappears."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. Separation methods can be combined according to particle and mixture properties.", "incorrect": "Choose a sequence that uses settling, pouring and filtration appropriately."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.living.classify-adapt.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.living.production"],
+    "knowledgeRefs": ["kr.sof6.living.classification.shared-features", "kr.sof6.living.adaptation.environment"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "Two desert animals are grouped together because they share several body features, but one has a special water-saving feature. What is the best interpretation?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Classification uses shared characteristics, while an adaptation can help an organism survive in its environment."},
+      {"id": "wrong1", "label": "Being in the same group means every adaptation must be identical."},
+      {"id": "wrong2", "label": "Adaptations cannot be used to understand organisms."},
+      {"id": "wrong3", "label": "Classification groups organisms randomly without comparing features."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. Classification and adaptation answer related but different biological questions.", "incorrect": "Separate the idea of shared characteristics from survival adaptations."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.magnets.broken-poles.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.magnets.production"],
+    "knowledgeRefs": ["kr.sof6.magnets.break.two-poles", "kr.sof6.magnets.like.repel", "kr.sof6.magnets.unlike.attract"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "A bar magnet breaks into two pieces. What should you expect when testing the pieces?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Each piece still has two poles, so like poles can repel and unlike poles can attract."},
+      {"id": "wrong1", "label": "One piece becomes only north and the other only south."},
+      {"id": "wrong2", "label": "Both pieces permanently lose every magnetic pole."},
+      {"id": "wrong3", "label": "All poles attract one another regardless of type."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. Breaking a magnet produces smaller magnets with both poles, not isolated poles.", "incorrect": "Use the linked facts about broken magnets and pole interactions."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  },
+  {
+    "id": "sof6.hots.motion.temperature-measure.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["sof6.production.motion.production", "sof6.production.temperature.production"],
+    "knowledgeRefs": ["kr.sof6.measurement.instrument.range", "kr.sof6.temperature.clinical.body", "kr.sof6.temperature.lab.wider-range"],
+    "gradeBands": [6],
+    "difficulty": 3,
+    "language": "en",
+    "prompt": {"text": "A student must measure body temperature and then the temperature of hot water in a laboratory activity. What is the best instrument-choice principle?"},
+    "interaction": {"type": "single_choice", "version": 1, "shuffleOptions": true, "options": [
+      {"id": "correct", "label": "Choose instruments for the needed range and purpose: a clinical thermometer for the body and a suitable laboratory thermometer for the hot water."},
+      {"id": "wrong1", "label": "Use any measuring instrument because range and purpose never matter."},
+      {"id": "wrong2", "label": "Use a ruler for both temperatures."},
+      {"id": "wrong3", "label": "A clinical thermometer is always the correct tool for every laboratory temperature."}
+    ]},
+    "solution": {"type": "exact_option", "correctOptionIds": ["correct"]},
+    "feedback": {"correct": "Correct. Measurement tools should match the quantity, range and purpose of the measurement.", "incorrect": "Match each thermometer to its intended measurement range and use."},
+    "authoring": {"status": "reviewed", "source": "kidsplay-editorial-hots", "scopeNote": "Application question derived only from canonical Class 6 rows; not claimed as an official SOF question."}
+  }
+]
