@@ -1,0 +1,9 @@
+[
+  { "id": "reasoning.alphabet.arrange.generated.001", "sourceRef": "knowledge.reasoning.alphabet-arrange.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.figure-matrix.symbols.generated.001", "sourceRef": "knowledge.reasoning.figure-matrix-symbols.001", "engine": "single_choice@1", "difficulty": 3, "shuffleOptions": false },
+  { "id": "reasoning.grouping.figures.generated.001", "sourceRef": "knowledge.reasoning.grouping-straight-sides.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.mirror.right.generated.001", "sourceRef": "knowledge.reasoning.mirror-nearest-letter.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.combinations.outfits.generated.001", "sourceRef": "knowledge.reasoning.combinations-outfits.001", "engine": "single_choice@1", "difficulty": 3 },
+  { "id": "reasoning.clock.elapsed.generated.001", "sourceRef": "knowledge.reasoning.clock-elapsed-school.001", "engine": "single_choice@1", "difficulty": 2 },
+  { "id": "reasoning.calendar.days-after.generated.001", "sourceRef": "knowledge.reasoning.calendar-days-after.001", "engine": "single_choice@1", "difficulty": 2 }
+]
