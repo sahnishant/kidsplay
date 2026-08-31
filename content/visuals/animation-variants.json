@@ -1,0 +1,26 @@
+[
+  {
+    "id": "animation.variant.dog.happy",
+    "renderer": "scene-icon",
+    "glyph": "dog-happy",
+    "label": "Happy dog",
+    "motion": "wag",
+    "aliases": []
+  },
+  {
+    "id": "animation.variant.dog.worried",
+    "renderer": "scene-icon",
+    "glyph": "dog-worried",
+    "label": "Worried dog",
+    "motion": "wiggle",
+    "aliases": []
+  },
+  {
+    "id": "animation.variant.dog.curious",
+    "renderer": "scene-icon",
+    "glyph": "dog-happy",
+    "label": "Curious dog",
+    "motion": "idle",
+    "aliases": []
+  }
+]
