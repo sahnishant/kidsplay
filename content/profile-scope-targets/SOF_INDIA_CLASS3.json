@@ -1,0 +1,229 @@
+{
+  "schemaVersion": 3,
+  "profileRef": "SOF_INDIA_CLASS3",
+  "academicYear": "2026-27",
+  "provenance": {
+    "status": "reviewed_scope_only",
+    "sourceRefs": ["sof.iso.class3.syllabus.current"],
+    "placementBasis": "official_topic_headings_only",
+    "note": "Topic headings establish breadth targets only. Required groups are Kidsplay editorial decomposition of compound headings so a single partial row cannot make a broad family look complete. Prefix matches and reuse candidates are not exact SOF row-level evidence. Previous-class reuse is reported separately and never closes a current-class scope gap unless an existing canonical row is explicitly placed directly in Class 3."
+  },
+  "level1Mix": {
+    "currentClassPercent": 60,
+    "previousClassPercent": 40,
+    "achieversCurrentClassOnly": true
+  },
+  "families": [
+    {
+      "section": "science",
+      "id": "plants_animals",
+      "label": "Plants and Animals",
+      "currentClassPrefixes": ["kr.sof3.plants.", "kr.sof3.animals.", "kr.sof3.living."],
+      "previousClassPrefixes": ["kr.plants.", "kr.animals."],
+      "requiredGroups": [
+        { "id": "plants", "label": "Plants", "prefixes": ["kr.sof3.plants.", "kr.plants."] },
+        { "id": "animals", "label": "Animals", "prefixes": ["kr.sof3.animals.", "kr.sof3.living.", "kr.animals."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "birds",
+      "label": "Birds",
+      "currentClassPrefixes": ["kr.sof3.birds."],
+      "previousClassPrefixes": ["kr.animals.bird."],
+      "requiredGroups": [
+        { "id": "birds", "label": "Birds", "prefixes": ["kr.sof3.birds.", "kr.animals.bird."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "food",
+      "label": "Food",
+      "currentClassPrefixes": ["kr.sof3.food."],
+      "previousClassPrefixes": ["kr.food."],
+      "requiredGroups": [
+        { "id": "food", "label": "Food", "prefixes": ["kr.sof3.food.", "kr.food."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "housing_clothing_occupation",
+      "label": "Housing, Clothing and Occupation",
+      "currentClassPrefixes": ["kr.sof3.housing.", "kr.sof3.clothing.", "kr.sof3.occupation."],
+      "previousClassPrefixes": ["kr.housing.", "kr.clothing."],
+      "requiredGroups": [
+        { "id": "housing", "label": "Housing", "prefixes": ["kr.sof3.housing.", "kr.housing."] },
+        { "id": "clothing", "label": "Clothing", "prefixes": ["kr.sof3.clothing.", "kr.clothing."] },
+        { "id": "occupation", "label": "Occupation", "prefixes": ["kr.sof3.occupation."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "transport_communication_safety",
+      "label": "Transport, Communication and Safety Rules",
+      "currentClassPrefixes": ["kr.sof3.transport.", "kr.sof3.communication.", "kr.sof3.safety."],
+      "previousClassPrefixes": ["kr.transport.", "kr.communication.", "kr.safety."],
+      "requiredGroups": [
+        { "id": "transport", "label": "Transport", "prefixes": ["kr.sof3.transport.", "kr.transport."] },
+        { "id": "communication", "label": "Communication", "prefixes": ["kr.sof3.communication.", "kr.communication."] },
+        { "id": "safety", "label": "Safety Rules", "prefixes": ["kr.sof3.safety.", "kr.safety."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "human_body",
+      "label": "Human Body",
+      "currentClassPrefixes": ["kr.sof3.human.", "kr.sof3.body.", "kr.sof3.health."],
+      "previousClassPrefixes": ["kr.human."],
+      "requiredGroups": [
+        { "id": "human_body", "label": "Human Body", "prefixes": ["kr.sof3.human.", "kr.sof3.body.", "kr.sof3.health.", "kr.human."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "earth_universe",
+      "label": "Earth and Universe",
+      "currentClassPrefixes": ["kr.sof3.earth.", "kr.sof3.universe.", "kr.sof3.moon.", "kr.sof3.sun.", "kr.sof3.planets."],
+      "previousClassPrefixes": ["kr.earth.", "kr.universe."],
+      "requiredGroups": [
+        { "id": "earth", "label": "Earth", "prefixes": ["kr.sof3.earth.", "kr.earth."] },
+        { "id": "universe", "label": "Universe", "prefixes": ["kr.sof3.universe.", "kr.sof3.moon.", "kr.sof3.sun.", "kr.sof3.planets.", "kr.universe."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "matter_materials",
+      "label": "Matter and Materials",
+      "currentClassPrefixes": ["kr.sof3.matter.", "kr.sof3.material."],
+      "previousClassPrefixes": [],
+      "requiredGroups": [
+        { "id": "matter", "label": "Matter", "prefixes": ["kr.sof3.matter."] },
+        { "id": "materials", "label": "Materials", "prefixes": ["kr.sof3.material."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "light_sound_force",
+      "label": "Light, Sound and Force",
+      "currentClassPrefixes": ["kr.sof3.light.", "kr.sof3.sound.", "kr.sof3.force."],
+      "previousClassPrefixes": [],
+      "requiredGroups": [
+        { "id": "light", "label": "Light", "prefixes": ["kr.sof3.light."] },
+        { "id": "sound", "label": "Sound", "prefixes": ["kr.sof3.sound."] },
+        { "id": "force", "label": "Force", "prefixes": ["kr.sof3.force."] }
+      ]
+    },
+    {
+      "section": "science",
+      "id": "environment",
+      "label": "Our Environment",
+      "currentClassPrefixes": ["kr.sof3.environment.", "kr.sof3.soil.", "kr.sof3.water.", "kr.sof3.weather."],
+      "previousClassPrefixes": ["kr.air.", "kr.water."],
+      "requiredGroups": [
+        { "id": "environment", "label": "Our Environment", "prefixes": ["kr.sof3.environment.", "kr.sof3.soil.", "kr.sof3.water.", "kr.sof3.weather."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "patterns",
+      "label": "Patterns",
+      "sharedPrefixes": ["kr.reasoning.pattern."],
+      "requiredGroups": [
+        { "id": "patterns", "label": "Patterns", "prefixes": ["kr.reasoning.pattern."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "analogy_classification",
+      "label": "Analogy and Classification",
+      "sharedPrefixes": ["kr.reasoning.analogy.", "kr.reasoning.odd-one-out."],
+      "requiredGroups": [
+        { "id": "analogy", "label": "Analogy", "prefixes": ["kr.reasoning.analogy."] },
+        { "id": "classification", "label": "Classification", "prefixes": ["kr.reasoning.odd-one-out."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "alphabet_test",
+      "label": "Alphabet Test",
+      "sharedPrefixes": ["kr.reasoning.alphabet."],
+      "requiredGroups": [
+        { "id": "alphabet_test", "label": "Alphabet Test", "prefixes": ["kr.reasoning.alphabet."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "coding_decoding",
+      "label": "Coding-Decoding",
+      "sharedPrefixes": ["kr.reasoning.coding."],
+      "requiredGroups": [
+        { "id": "coding_decoding", "label": "Coding-Decoding", "prefixes": ["kr.reasoning.coding."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "ranking_test",
+      "label": "Ranking Test",
+      "sharedPrefixes": ["kr.reasoning.ranking."],
+      "requiredGroups": [
+        { "id": "ranking_test", "label": "Ranking Test", "prefixes": ["kr.reasoning.ranking."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "grouping_figure_matrix",
+      "label": "Grouping of Figures and Figure Matrix",
+      "sharedPrefixes": ["kr.reasoning.grouping.", "kr.reasoning.figure-matrix."],
+      "requiredGroups": [
+        { "id": "grouping_figures", "label": "Grouping of Figures", "prefixes": ["kr.reasoning.grouping."] },
+        { "id": "figure_matrix", "label": "Figure Matrix", "prefixes": ["kr.reasoning.figure-matrix."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "mirror_images",
+      "label": "Mirror Images",
+      "sharedPrefixes": ["kr.reasoning.mirror."],
+      "requiredGroups": [
+        { "id": "mirror_images", "label": "Mirror Images", "prefixes": ["kr.reasoning.mirror."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "geometrical_shapes",
+      "label": "Geometrical Shapes",
+      "sharedPrefixes": ["kr.reasoning.shapes."],
+      "requiredGroups": [
+        { "id": "geometrical_shapes", "label": "Geometrical Shapes", "prefixes": ["kr.reasoning.shapes."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "embedded_figures",
+      "label": "Embedded Figures",
+      "sharedPrefixes": ["kr.reasoning.embedded-figures."],
+      "requiredGroups": [
+        { "id": "embedded_figures", "label": "Embedded Figures", "prefixes": ["kr.reasoning.embedded-figures."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "possible_combinations",
+      "label": "Possible Combinations",
+      "sharedPrefixes": ["kr.reasoning.combinations."],
+      "requiredGroups": [
+        { "id": "possible_combinations", "label": "Possible Combinations", "prefixes": ["kr.reasoning.combinations."] }
+      ]
+    },
+    {
+      "section": "logical_reasoning",
+      "id": "clock_calendar",
+      "label": "Clock and Calendar",
+      "sharedPrefixes": ["kr.reasoning.clock.", "kr.reasoning.calendar."],
+      "requiredGroups": [
+        { "id": "clock", "label": "Clock", "prefixes": ["kr.reasoning.clock."] },
+        { "id": "calendar", "label": "Calendar", "prefixes": ["kr.reasoning.calendar."] }
+      ]
+    }
+  ]
+}
