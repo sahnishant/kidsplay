@@ -101,6 +101,31 @@
       ],
       "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Sky map restored. You separated object types from motion and used both kinds of clues correctly." },
       "reward": { "id": "badge.sky-solver", "label": "Sky Solver", "stars": 3 }
+    },
+    {
+      "id": "mission.class3-farm-food-chain",
+      "title": "The Farm Food Clue Mix-Up",
+      "locationRef": "farm",
+      "status": "prototype",
+      "access": "free",
+      "questionPackRef": "free.sof-class3-science-foundation.1",
+      "questionCount": 5,
+      "knowledgeRefs": [
+        "kr.sof3.plants.leaves.food.sunlight",
+        "kr.sof3.plants.seed.germination.conditions",
+        "kr.sof3.animals.diet.herbivore.plants",
+        "kr.sof3.animals.diet.carnivore.animals",
+        "kr.sof3.animals.diet.omnivore.both"
+      ],
+      "openingSceneRef": "scene.plants.air-fresh",
+      "successSceneRef": "scene.plants.air-fresh",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "I mixed every farm clue together. Seeds grow without conditions, leaves do nothing useful, and every animal eats the same food!" },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "Those claims combine plant growth and animal diets. Dheu, separate the clues and use the Class 3 evidence bank." },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will check what plants need and sort herbivores, carnivores and omnivores correctly." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Farm clues restored. You connected plant growth with sunlight and germination, then classified animals by what they eat." },
+      "reward": { "id": "badge.class3-farm-sleuth", "label": "Farm Food Sleuth", "stars": 3 }
     }
   ]
 }
