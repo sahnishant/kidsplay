@@ -43,6 +43,34 @@ function isValidMazePath(interaction: MazeInteraction, goalIndex: number, path: 
   return true;
 }
 
+function sequenceOrderScore(question: Question, actual: string[]): number {
+  if (question.solution.type !== 'ordered_items') return 0;
+  const expected = question.solution.orderedItemIds;
+  const scoreById = (): number => {
+    const correctPositions = expected.filter((id, index) => actual[index] === id).length;
+    return boundedScore(correctPositions, Math.max(expected.length, actual.length));
+  };
+
+  if (question.interaction.type !== 'sequence_order') return scoreById();
+
+  const items = question.interaction.items;
+  const itemById = new Map(items.map((item) => [item.id, item]));
+  const letterSequence = items.length >= 2 && items.every(
+    (item) => Array.from(item.label).length === 1 && /^[A-Z0-9]$/i.test(item.label)
+  );
+  const actualIdsAreValid = actual.every((id) => itemById.has(id)) && new Set(actual).size === actual.length;
+  if (!letterSequence || !actualIdsAreValid) return scoreById();
+
+  const comparableKey = (id: string | undefined): string | undefined => {
+    if (!id) return undefined;
+    return itemById.get(id)?.label.toUpperCase();
+  };
+  const correctPositions = expected.filter(
+    (id, index) => comparableKey(actual[index]) === comparableKey(id)
+  ).length;
+  return boundedScore(correctPositions, Math.max(expected.length, actual.length));
+}
+
 export function evaluate(question: Question, response: unknown): EvaluationResult {
   let score = 0;
 
@@ -88,8 +116,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
   if (question.solution.type === 'ordered_items') {
     const payload = response as { orderedItemIds?: unknown };
     const actual = Array.isArray(payload?.orderedItemIds) ? payload.orderedItemIds.filter((value): value is string => typeof value === 'string') : [];
-    const correctPositions = question.solution.orderedItemIds.filter((id, index) => actual[index] === id).length;
-    score = boundedScore(correctPositions, Math.max(question.solution.orderedItemIds.length, actual.length));
+    score = sequenceOrderScore(question, actual);
   }
   if (question.solution.type === 'selected_regions') {
     const payload = response as { selectedRegionIds?: unknown };

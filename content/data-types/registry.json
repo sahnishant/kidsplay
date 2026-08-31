@@ -20,6 +20,7 @@
         "drag_to_target@1",
         "memory_pairs@1",
         "word_search@1",
+        "sequence_order@1",
         "crossword@1",
         "print_cards@1"
       ],
@@ -29,6 +30,7 @@
         "drag_to_target@1": { "minUnits": 2, "recipeUnitMode": "set" },
         "memory_pairs@1": { "minUnits": 2, "recipeUnitMode": "set" },
         "word_search@1": { "minUnits": 2, "recipeUnitMode": "set" },
+        "sequence_order@1": { "minUnits": 1, "recipeUnitMode": "single" },
         "crossword@1": { "minUnits": 2, "recipeUnitMode": "set" },
         "print_cards@1": { "minUnits": 1, "recipeUnitMode": "set" }
       }

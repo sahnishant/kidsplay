@@ -9,6 +9,7 @@
     "query:content": "npm run compile:index && node scripts/query-content.mjs",
     "plan:profile": "npm run compile:index && node scripts/plan-profile.mjs",
     "render:profile-output": "npm run compile:index && node scripts/render-profile-output.mjs",
+    "lexicon:extract:oewn": "node scripts/lexicon/extract-oewn-candidates.mjs",
     "report:coverage": "node scripts/report-learning-coverage.mjs",
     "report:profile-maturity": "npm run compile:content && node scripts/report-profile-maturity.mjs --profiles=SOF_INDIA_CLASS2,SOF_INDIA_CLASS3",
     "report:profile-maturity:compiled": "node scripts/report-profile-maturity.mjs --profiles=SOF_INDIA_CLASS2,SOF_INDIA_CLASS3 --fail-on-uncovered",

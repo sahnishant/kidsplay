@@ -22,10 +22,26 @@ export function moveItem<T>(values: readonly T[], fromIndex: number, toIndex: nu
   return result;
 }
 
-export function createShuffledOrder<T>(values: readonly T[], seed: number): T[] {
+export function createShuffledOrder<T>(
+  values: readonly T[],
+  seed: number,
+  visibleKey?: (value: T) => unknown
+): T[] {
   const result = shuffled(values, createSeededRandom(seed));
   if (result.length < 2) return result;
 
-  const unchanged = result.every((value, index) => value === values[index]);
-  return unchanged ? [...result.slice(1), result[0]] : result;
+  const appearsUnchanged = (candidate: readonly T[]): boolean => candidate.every((value, index) => {
+    if (visibleKey) return visibleKey(value) === visibleKey(values[index]);
+    return value === values[index];
+  });
+
+  if (!appearsUnchanged(result)) return result;
+
+  for (let shift = 1; shift < result.length; shift += 1) {
+    const rotated = [...result.slice(shift), ...result.slice(0, shift)];
+    if (!appearsUnchanged(rotated)) return rotated;
+  }
+
+  // All visible keys are equivalent, so no visually different ordering exists.
+  return result;
 }
