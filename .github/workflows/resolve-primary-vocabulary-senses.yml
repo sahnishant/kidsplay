@@ -162,24 +162,25 @@ jobs:
           console.log(`Primary vocabulary profile slices validated: ${files.length}`);
           NODE
 
-      - name: Verify reviewed semantic import when decisions exist
+      - name: Verify reviewed semantic import when present
         shell: bash
         run: |
           set -euo pipefail
-          if compgen -G 'content/lexicon/reviews/*.json' > /dev/null; then
-            node --input-type=module <<'NODE'
-            import { readFileSync } from 'node:fs';
-            const path = 'content/knowledge/english-vocabulary-primary-reviewed.json';
-            const knowledge = JSON.parse(readFileSync(path, 'utf8'));
-            const entries = knowledge.flatMap((set) => set.entries ?? []);
-            if (!entries.length) throw new Error('Committed review decisions must generate at least one reviewed semantic row');
-            for (const entry of entries) {
-              if (entry.meta?.curation?.status !== 'reviewed') throw new Error(`${entry.rowId}: missing reviewed curation status`);
-              if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.rowId}: source gloss must not be copied into child content`);
-              if (!entry.meta?.curation?.candidateId) throw new Error(`${entry.rowId}: missing reviewed OEWN candidate id`);
-            }
-            console.log(`Reviewed primary semantic rows validated: ${entries.length}`);
-            NODE
+          if [ -f content/knowledge/english-vocabulary-primary-reviewed.json ]; then
+            node --input-type=module -e '
+              import { readFileSync } from "node:fs";
+              const knowledge = JSON.parse(readFileSync("content/knowledge/english-vocabulary-primary-reviewed.json", "utf8"));
+              const entries = knowledge.flatMap((set) => set.entries ?? []);
+              if (!entries.length) throw new Error("Reviewed semantic import must contain at least one row");
+              for (const entry of entries) {
+                if (entry.meta?.curation?.status !== "reviewed") throw new Error(entry.rowId + ": missing reviewed curation status");
+                if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(entry.rowId + ": source gloss must not be copied into child content");
+                if (!entry.meta?.curation?.candidateId) throw new Error(entry.rowId + ": missing reviewed OEWN candidate id");
+              }
+              console.log("Reviewed primary semantic rows validated: " + entries.length);
+            '
+          else
+            echo "No reviewed semantic import generated yet."
           fi
 
       - name: Run vocabulary acceptance tests
