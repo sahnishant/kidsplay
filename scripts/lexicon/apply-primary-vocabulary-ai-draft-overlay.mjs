@@ -39,6 +39,8 @@ function assertOverlay(overlay) {
   if (overlay?.kind !== 'primary_vocabulary_ai_draft_overlay' || overlay?.schemaVersion !== 1) {
     throw new Error('Expected schemaVersion 1 primary_vocabulary_ai_draft_overlay');
   }
+  if (!clean(overlay.overlayId)) throw new Error('AI draft overlay requires overlayId');
+  if (overlay?.generatedBy?.kind !== 'ai_editorial_draft') throw new Error('AI draft overlay generatedBy.kind must be ai_editorial_draft');
   if (overlay?.policy?.publicationState !== 'draft_suggestions_only'
     || overlay?.policy?.mayCountAsHumanReview !== false
     || overlay?.policy?.maySetHumanReviewMetadata !== false
@@ -63,7 +65,8 @@ export function applyAiDraftOverlay(packet, overlay) {
   if (Number(overlay.grade) !== Number(packet.grade)) throw new Error('AI draft overlay grade does not match editorial packet');
   if (clean(overlay.batchId) !== clean(packet.batchId)) throw new Error('AI draft overlay batchId does not match editorial packet');
 
-  const items = new Map((packet.items ?? []).map((item) => [clean(item.lemma).toLowerCase(), item]));
+  const result = structuredClone(packet);
+  const items = new Map((result.items ?? []).map((item) => [clean(item.lemma).toLowerCase(), item]));
   const seen = new Set();
   const applied = [];
   for (const suggestion of overlay.suggestions ?? []) {
@@ -113,12 +116,10 @@ export function applyAiDraftOverlay(packet, overlay) {
     applied.push(lemma);
   }
 
-  const result = structuredClone(packet);
-  result.items = packet.items;
   result.aiDraftOverlay = {
     overlayId: clean(overlay.overlayId),
     generatedAt: clean(overlay.generatedAt) || null,
-    generatedBy: overlay.generatedBy ?? { kind: 'ai_editorial_draft' },
+    generatedBy: structuredClone(overlay.generatedBy),
     status: 'suggestions_attached_review_required',
     suggestionsApplied: applied.length,
     publicationState: 'blocked_pending_editorial_review'
