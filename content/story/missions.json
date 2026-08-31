@@ -35,7 +35,7 @@
       "questionCount": 5,
       "knowledgeRefs": [
         "kr.air.moving.name.wind",
-        "kr.air.balloon.contains.air",
+        "kr.air.balloon.contains-air",
         "kr.air.candle.need.air",
         "kr.air.windmill.turned-by.wind",
         "kr.air.kite.moved-by.wind",
@@ -104,8 +104,8 @@
     },
     {
       "id": "mission.class3-farm-food-chain",
-      "title": "The Farm Food Clue Mix-Up",
-      "locationRef": "farm",
+      "title": "The Garden Food Clue Mix-Up",
+      "locationRef": "home-garden",
       "status": "prototype",
       "access": "free",
       "questionPackRef": "free.sof-class3-science-foundation.1",
@@ -120,11 +120,11 @@
       "openingSceneRef": "scene.plants.air-fresh",
       "successSceneRef": "scene.plants.air-fresh",
       "beats": [
-        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "I mixed every farm clue together. Seeds grow without conditions, leaves do nothing useful, and every animal eats the same food!" },
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "I mixed every garden clue together. Seeds grow without conditions, leaves do nothing useful, and every animal eats the same food!" },
         { "speakerRef": "scientu", "mood": "thinking", "text": "Those claims combine plant growth and animal diets. Dheu, separate the clues and use the Class 3 evidence bank." },
         { "speakerRef": "dheu", "mood": "ready", "text": "I will check what plants need and sort herbivores, carnivores and omnivores correctly." }
       ],
-      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Farm clues restored. You connected plant growth with sunlight and germination, then classified animals by what they eat." },
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Garden clues restored. You connected plant growth with sunlight and germination, then classified animals by what they eat." },
       "reward": { "id": "badge.class3-farm-sleuth", "label": "Farm Food Sleuth", "stars": 3 }
     }
   ]
