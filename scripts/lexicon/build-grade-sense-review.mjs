@@ -131,7 +131,7 @@ export function buildResolvedGradeSenseReviews(oewnData, corpus, options = {}) {
     const selectedItems = broadWordlist.items
       .filter((item) => resolvedLemmas.has(lemmaKey(item.lemma)))
       .slice(0, targetPerGrade);
-    const availableTarget = Math.min(targetPerGrade, broadWordlist.items.length);
+    const eligibleCandidatePool = Number(broadWordlist.selection?.candidatePool ?? broadWordlist.items.length);
 
     const wordlist = {
       ...broadWordlist,
@@ -143,12 +143,16 @@ export function buildResolvedGradeSenseReviews(oewnData, corpus, options = {}) {
         semanticResolution: {
           sourceId: OEWN_SOURCE_ID,
           sourceVersion,
+          requestedTarget: targetPerGrade,
+          eligibleCandidatePool,
           overscanRequested: overscanPerGrade,
           overscanSelected: broadWordlist.items.length,
           resolvableInOverscan: resolvedLemmas.size,
           skippedUnresolved: broadReview.missing.length,
-          availableTarget,
-          filledAvailableTarget: selectedItems.length === Math.min(availableTarget, resolvedLemmas.size),
+          selectedResolved: selectedItems.length,
+          targetShortfall: Math.max(0, targetPerGrade - selectedItems.length),
+          filledRequestedTarget: selectedItems.length === targetPerGrade,
+          exhaustedEligiblePool: broadWordlist.items.length === eligibleCandidatePool,
           policy: 'meaning_queue_backfill_only_no_runtime_publish'
         }
       },
@@ -244,9 +248,11 @@ function main() {
     writeFileSync(outputPath, `${JSON.stringify(result.output, null, 2)}\n`, 'utf8');
     summary.push({
       file: basename(outputPath),
-      requested: result.output.summary.requestedWords,
+      requested: result.wordlist?.selection?.semanticResolution?.requestedTarget ?? result.output.summary.requestedWords,
+      selected: result.output.summary.requestedWords,
       senses: result.output.summary.candidateSenses,
       missing: result.output.summary.missingWords,
+      shortfall: result.wordlist?.selection?.semanticResolution?.targetShortfall ?? 0,
       overscanUnresolved: result.wordlist?.selection?.semanticResolution?.skippedUnresolved ?? null
     });
   }

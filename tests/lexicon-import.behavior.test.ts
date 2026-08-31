@@ -90,6 +90,26 @@ const globalWordnetJsonLd = {
   ]
 };
 
+const backfillCorpus = {
+  id: 'lexicon.primary.english.grade-candidates.001',
+  license: 'CC-BY-SA-4.0',
+  source: { id: 'grundwortschatz-voc-en', revision: 'a'.repeat(40) },
+  entries: [
+    {
+      id: 'source.unresolved-name', word: 'Ghostname', lemma: 'Ghostname', partOfSpeech: 'noun', grade: 2,
+      frequency: { zipf: 7, perMillion: 100, band: 1 },
+      gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
+      reviewStatus: 'candidate'
+    },
+    {
+      id: 'source.enormous', word: 'enormous', lemma: 'enormous', partOfSpeech: 'adjective', grade: 2,
+      frequency: { zipf: 6, perMillion: 50, band: 1 },
+      gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
+      reviewStatus: 'candidate'
+    }
+  ]
+};
+
 describe('Open English WordNet candidate extraction', () => {
   it('extracts review-only senses with provenance instead of publishing definitions directly', () => {
     const output = extractOewnCandidates(miniOewn, wordlist, { maxSenses: 1 });
@@ -168,27 +188,7 @@ describe('Open English WordNet candidate extraction', () => {
   });
 
   it('backfills meaning queues past unresolved source candidates without publishing source glosses', () => {
-    const corpus = {
-      id: 'lexicon.primary.english.grade-candidates.001',
-      license: 'CC-BY-SA-4.0',
-      source: { id: 'grundwortschatz-voc-en', revision: 'a'.repeat(40) },
-      entries: [
-        {
-          id: 'source.unresolved-name', word: 'Ghostname', lemma: 'Ghostname', partOfSpeech: 'noun', grade: 2,
-          frequency: { zipf: 7, perMillion: 100, band: 1 },
-          gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
-          reviewStatus: 'candidate'
-        },
-        {
-          id: 'source.enormous', word: 'enormous', lemma: 'enormous', partOfSpeech: 'adjective', grade: 2,
-          frequency: { zipf: 6, perMillion: 50, band: 1 },
-          gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
-          reviewStatus: 'candidate'
-        }
-      ]
-    };
-
-    const [result] = buildResolvedGradeSenseReviews(miniOewn, corpus, {
+    const [result] = buildResolvedGradeSenseReviews(miniOewn, backfillCorpus, {
       grades: [2],
       targetPerGrade: 1,
       overscanPerGrade: 2,
@@ -201,13 +201,41 @@ describe('Open English WordNet candidate extraction', () => {
     expect(result.wordlist.selection.semanticResolution).toMatchObject({
       sourceId: 'open-english-wordnet',
       sourceVersion: '2026-test',
+      requestedTarget: 1,
+      eligibleCandidatePool: 2,
       overscanRequested: 2,
+      selectedResolved: 1,
+      targetShortfall: 0,
+      filledRequestedTarget: true,
+      exhaustedEligiblePool: true,
       skippedUnresolved: 1,
-      filledAvailableTarget: true,
       policy: 'meaning_queue_backfill_only_no_runtime_publish'
     });
     expect(result.output.summary).toEqual({ requestedWords: 1, candidateSenses: 1, missingWords: 0 });
     expect(JSON.stringify(result.wordlist)).not.toContain('Very large in size or amount.');
+  });
+
+  it('reports an honest shortfall when the resolvable meaning reservoir is exhausted', () => {
+    const [result] = buildResolvedGradeSenseReviews(miniOewn, backfillCorpus, {
+      grades: [2],
+      targetPerGrade: 2,
+      overscanPerGrade: 2,
+      maxSenses: 1,
+      sourceVersion: '2026-test'
+    });
+
+    expect(result.wordlist.items.map((item) => item.lemma)).toEqual(['enormous']);
+    expect(result.wordlist.selection.semanticResolution).toMatchObject({
+      requestedTarget: 2,
+      eligibleCandidatePool: 2,
+      resolvableInOverscan: 1,
+      selectedResolved: 1,
+      targetShortfall: 1,
+      filledRequestedTarget: false,
+      exhaustedEligiblePool: true,
+      skippedUnresolved: 1
+    });
+    expect(result.output.summary).toEqual({ requestedWords: 1, candidateSenses: 1, missingWords: 0 });
   });
 
   it('accepts the Global WordNet JSON-LD entry/synset shape used by official interchange', () => {
