@@ -39,6 +39,12 @@ const posCode = (value) => {
   return map[raw] ?? raw;
 };
 
+const posCompatible = (actual, requested) => {
+  if (!requested) return true;
+  if (actual === requested) return true;
+  return (actual === 'a' || actual === 's') && (requested === 'a' || requested === 's');
+};
+
 const extractSections = (data) => {
   if (!data || typeof data !== 'object') return { entries: [], synsets: [], version: null };
 
@@ -125,8 +131,15 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
 
   const synsetById = new Map(synsets.map((synset) => [entityId(synset), synset]).filter(([id]) => id));
   const lemmaBySenseId = new Map();
+  const entriesByLemma = new Map();
   for (const entry of entries) {
     const lemma = entryLemma(entry);
+    if (lemma) {
+      const key = lemma.toLocaleLowerCase('en');
+      const bucket = entriesByLemma.get(key) ?? [];
+      bucket.push(entry);
+      entriesByLemma.set(key, bucket);
+    }
     for (const sense of entrySenses(entry)) {
       const id = senseId(sense);
       if (id && lemma) lemmaBySenseId.set(id, lemma);
@@ -146,10 +159,10 @@ export function extractOewnCandidates(data, wordlist, options = {}) {
   const missing = [];
 
   for (const request of requested) {
-    const matchingEntries = entries.filter((entry) => {
-      if (entryLemma(entry).toLocaleLowerCase('en') !== request.lemma.toLocaleLowerCase('en')) return false;
-      return !request.partOfSpeech || entryPos(entry) === request.partOfSpeech;
-    });
+    const lemmaEntries = entriesByLemma.get(request.lemma.toLocaleLowerCase('en')) ?? [];
+    const matchingEntries = request.partOfSpeech
+      ? lemmaEntries.filter((entry) => posCompatible(entryPos(entry), request.partOfSpeech))
+      : lemmaEntries;
 
     const senses = matchingEntries.flatMap((entry) => {
       const pos = entryPos(entry) || request.partOfSpeech || null;
