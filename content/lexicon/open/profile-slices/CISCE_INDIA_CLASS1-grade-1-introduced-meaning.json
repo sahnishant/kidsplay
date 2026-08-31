@@ -1,0 +1,429 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.primary.profile-slice.CISCE_INDIA_CLASS1.grade1.introduced.meaning.review",
+  "language": "en",
+  "profileRef": "CISCE_INDIA_CLASS1",
+  "status": "curation_review_only",
+  "sourceGradeCorpus": {
+    "id": "lexicon.primary.english.grade-candidates.001",
+    "sourceId": "grundwortschatz-voc-en",
+    "sourceRevision": "004977ae2c475fcf12f8b73a02dbb9552e3b6577",
+    "license": "CC-BY-SA-4.0"
+  },
+  "sourceSelection": {
+    "id": "vocabulary.primary.grade1.introduced.meaning.review",
+    "grade": 1,
+    "mode": "introduced",
+    "purpose": "meaning",
+    "requested": 400,
+    "selected": 37,
+    "sliceLimit": 100,
+    "sliceSelected": 37,
+    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
+    "semanticResolution": {
+      "sourceId": "open-english-wordnet",
+      "sourceVersion": "2025",
+      "requestedTarget": 400,
+      "eligibleCandidatePool": 37,
+      "overscanRequested": 1200,
+      "overscanSelected": 37,
+      "resolvableInOverscan": 37,
+      "skippedUnresolved": 0,
+      "selectedResolved": 37,
+      "targetShortfall": 363,
+      "filledRequestedTarget": false,
+      "exhaustedEligiblePool": true,
+      "policy": "meaning_queue_backfill_only_no_runtime_publish"
+    }
+  },
+  "policy": {
+    "runtimeContent": false,
+    "mutatesKnowledge": false,
+    "mutatesProfileMembership": false,
+    "sourceDefinitionsIncluded": false,
+    "sourceExamplesIncluded": false,
+    "boardAlignmentClaimed": false,
+    "kidsplayDefinitionRequired": true,
+    "profilePlacementRequiresEditorialReview": true
+  },
+  "summary": {
+    "selectedCandidates": 37,
+    "reviewedCandidateWords": 0,
+    "alreadyInProfileWords": 0,
+    "alreadyInProfileRows": 0,
+    "pendingEditorialWords": 37
+  },
+  "readyForProfileReview": [],
+  "pendingEditorialReview": [
+    {
+      "lemma": "go",
+      "sourceCorpusId": "word_en_00072",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "new",
+      "sourceCorpusId": "word_en_00134",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "now",
+      "sourceCorpusId": "word_en_00139",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "good",
+      "sourceCorpusId": "word_en_00074",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "first",
+      "sourceCorpusId": "word_en_00383",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "well",
+      "sourceCorpusId": "word_en_00260",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "like",
+      "sourceCorpusId": "word_en_00109",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "get",
+      "sourceCorpusId": "word_en_00070",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "know",
+      "sourceCorpusId": "word_en_00106",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "see",
+      "sourceCorpusId": "word_en_00198",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "make",
+      "sourceCorpusId": "word_en_00120",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "think",
+      "sourceCorpusId": "word_en_00231",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "so",
+      "sourceCorpusId": "word_en_00207",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "one",
+      "sourceCorpusId": "word_en_00145",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "back",
+      "sourceCorpusId": "word_en_00013",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "home",
+      "sourceCorpusId": "word_en_00086",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "service",
+      "sourceCorpusId": "word_en_00200",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "page",
+      "sourceCorpusId": "word_en_00153",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "want",
+      "sourceCorpusId": "word_en_00254",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "information",
+      "sourceCorpusId": "word_en_00094",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "people",
+      "sourceCorpusId": "word_en_00486",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "said",
+      "sourceCorpusId": "word_en_00189",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "two",
+      "sourceCorpusId": "word_en_00240",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "much",
+      "sourceCorpusId": "word_en_00857",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "time",
+      "sourceCorpusId": "word_en_00234",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "way",
+      "sourceCorpusId": "word_en_00256",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "free",
+      "sourceCorpusId": "word_en_00063",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "news",
+      "sourceCorpusId": "word_en_00135",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "site",
+      "sourceCorpusId": "word_en_00206",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "online",
+      "sourceCorpusId": "word_en_00146",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "view",
+      "sourceCorpusId": "word_en_00252",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "contact",
+      "sourceCorpusId": "word_en_00038",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "search",
+      "sourceCorpusId": "word_en_00195",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "web",
+      "sourceCorpusId": "word_en_00258",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "click",
+      "sourceCorpusId": "word_en_00033",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "services",
+      "sourceCorpusId": "word_en_00201",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "pm",
+      "sourceCorpusId": "word_en_00159",
+      "sourceGrade": 1,
+      "sourcePartOfSpeech": "adverb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    }
+  ]
+}

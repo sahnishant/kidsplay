@@ -1,0 +1,3808 @@
+{
+  "schemaVersion": 1,
+  "kind": "lexicon_review_candidates",
+  "wordlistId": "vocabulary.primary.grade1.introduced.meaning.review",
+  "generatedFrom": {
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "summary": {
+    "requestedWords": 37,
+    "candidateSenses": 107,
+    "missingWords": 0
+  },
+  "candidates": [
+    {
+      "candidateId": "go#a#1",
+      "lemma": "go",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "go%3:00:00::",
+        "synsetId": "01126538-a",
+        "definition": "functioning correctly and ready for action",
+        "examples": [
+          "all systems are go"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00072."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "go%3:00:00::",
+          "01126538-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "go#n#2",
+      "lemma": "go",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "go%1:28:00::",
+        "synsetId": "15317305-n",
+        "definition": "a time period for working (after which you will be relieved by someone else)",
+        "examples": [
+          "it's my go",
+          "a spell of work"
+        ],
+        "synonyms": [
+          "spell",
+          "tour",
+          "turn"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00072."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "go%1:28:00::",
+          "15317305-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "go#n#3",
+      "lemma": "go",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "go%1:06:00::",
+        "synsetId": "02681592-n",
+        "definition": "street names for methylenedioxymethamphetamine",
+        "examples": [],
+        "synonyms": [
+          "Adam",
+          "ecstasy",
+          "XTC",
+          "disco biscuit",
+          "cristal",
+          "X",
+          "hug drug"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00072."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "go%1:06:00::",
+          "02681592-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "new#a#1",
+      "lemma": "new",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "new%5:00:02:late:01",
+        "synsetId": "00824777-s",
+        "definition": "in use after medieval times",
+        "examples": [
+          "New Eqyptian was the language of the 18th to 21st dynasties"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00134."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "new%5:00:02:late:01",
+          "00824777-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "new#a#2",
+      "lemma": "new",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "new%5:00:01:late:01",
+        "synsetId": "00824544-s",
+        "definition": "used of a living language; being the current stage in its development",
+        "examples": [
+          "Modern English",
+          "New Hebrew is Israeli Hebrew"
+        ],
+        "synonyms": [
+          "Modern"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00134."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "new%5:00:01:late:01",
+          "00824544-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "new#a#3",
+      "lemma": "new",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "new%3:00:00::",
+        "synsetId": "01645077-a",
+        "definition": "not of long duration; having just (or relatively recently) come into being or been made or acquired or discovered",
+        "examples": [
+          "a new law",
+          "new cars",
+          "a new comet",
+          "a new friend",
+          "a new year",
+          "the New World"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00134."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "new%3:00:00::",
+          "01645077-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "now#n#1",
+      "lemma": "now",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "now%1:28:00::",
+        "synsetId": "15144861-n",
+        "definition": "the momentary present",
+        "examples": [
+          "Now is a good time to do it",
+          "it worked up to right now"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00139."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "now%1:28:00::",
+          "15144861-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "now#r#2",
+      "lemma": "now",
+      "partOfSpeech": "r",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "now%4:02:05::",
+        "synsetId": "00049971-r",
+        "definition": "in the historical present; at this point in the narration of a series of past events",
+        "examples": [
+          "President Kennedy now calls in the National Guard",
+          "Washington now decides to cross the Delaware",
+          "the ship is now listing to port"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00139."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "now%4:02:05::",
+          "00049971-r"
+        ]
+      }
+    },
+    {
+      "candidateId": "now#r#3",
+      "lemma": "now",
+      "partOfSpeech": "r",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "now%4:02:00::",
+        "synsetId": "00049013-r",
+        "definition": "in these times",
+        "examples": [
+          "it is solely by their language that the upper classes nowadays are distinguished",
+          "we now rarely see horse-drawn vehicles on city streets",
+          "today almost every home has television"
+        ],
+        "synonyms": [
+          "nowadays",
+          "today"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00139."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "now%4:02:00::",
+          "00049013-r"
+        ]
+      }
+    },
+    {
+      "candidateId": "good#a#1",
+      "lemma": "good",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "good%3:00:01::",
+        "synsetId": "01126910-a",
+        "definition": "having desirable or positive qualities especially those suitable for a thing specified",
+        "examples": [
+          "good news from the hospital",
+          "a good report card",
+          "when she was good she was very very good",
+          "a good knife is one good for cutting",
+          "this stump will make a good picnic table",
+          "a good check",
+          "a good joke",
+          "a good exterior paint",
+          "a good secretary",
+          "a good dress for the office"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00074."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "good%3:00:01::",
+          "01126910-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "good#a#2",
+      "lemma": "good",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "good%5:00:00:ample:00",
+        "synsetId": "00106819-s",
+        "definition": "having the normally expected amount",
+        "examples": [
+          "gives full measure",
+          "gives good measure",
+          "a good mile from here"
+        ],
+        "synonyms": [
+          "full"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00074."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "good%5:00:00:ample:00",
+          "00106819-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "good#a#3",
+      "lemma": "good",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "good%3:00:02::",
+        "synsetId": "01133477-a",
+        "definition": "morally admirable",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00074."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "good%3:00:02::",
+          "01133477-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "first#a#1",
+      "lemma": "first",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "first%3:00:00::",
+        "synsetId": "01014459-a",
+        "definition": "preceding all others in time or space or degree",
+        "examples": [
+          "the first house on the right",
+          "the first day of spring",
+          "his first political race",
+          "her first baby",
+          "the first time",
+          "the first meetings of the new party",
+          "the first phase of his training"
+        ],
+        "synonyms": [
+          "1st"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00383."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "first%3:00:00::",
+          "01014459-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "first#a#2",
+      "lemma": "first",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "first%3:00:03::",
+        "synsetId": "01019807-a",
+        "definition": "highest in pitch or chief among parts or voices or instruments or orchestra sections",
+        "examples": [
+          "first soprano",
+          "the first violin section",
+          "played first horn"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00383."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "first%3:00:03::",
+          "01019807-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "first#a#3",
+      "lemma": "first",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "first%5:00:01:opening:00",
+        "synsetId": "01012803-s",
+        "definition": "serving to begin",
+        "examples": [
+          "the beginning canto of the poem",
+          "the first verse"
+        ],
+        "synonyms": [
+          "beginning"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00383."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "first%5:00:01:opening:00",
+          "01012803-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "well#a#1",
+      "lemma": "well",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "well%3:00:01::",
+        "synsetId": "02551348-a",
+        "definition": "in good health especially after having suffered illness or injury",
+        "examples": [
+          "appears to be entirely well",
+          "the wound is nearly well",
+          "a well man",
+          "I think I'm well; at least I feel well"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00260."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "well%3:00:01::",
+          "02551348-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "well#a#2",
+      "lemma": "well",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "well%5:00:00:fortunate:00",
+        "synsetId": "01052461-s",
+        "definition": "resulting favorably",
+        "examples": [
+          "it's a good thing that I wasn't there",
+          "it is good that you stayed",
+          "it is well that no one saw you",
+          "all's well that ends well"
+        ],
+        "synonyms": [
+          "good"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00260."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "well%5:00:00:fortunate:00",
+          "01052461-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "well#a#3",
+      "lemma": "well",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "well%5:00:00:advisable:00",
+        "synsetId": "00068247-s",
+        "definition": "wise or advantageous and hence advisable",
+        "examples": [
+          "it would be well to start early"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00260."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "well%5:00:00:advisable:00",
+          "00068247-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "like#a#1",
+      "lemma": "like",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "like%3:00:00::",
+        "synsetId": "01412553-a",
+        "definition": "resembling or similar; having the same or some of the same characteristics; often used in combination",
+        "examples": [
+          "suits of like design",
+          "a limited circle of like minds",
+          "members of the cat family have like dispositions",
+          "as like as two peas in a pod",
+          "doglike devotion",
+          "a dreamlike quality"
+        ],
+        "synonyms": [
+          "similar"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00109."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "like%3:00:00::",
+          "01412553-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "like#a#2",
+      "lemma": "like",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "like%3:00:02::",
+        "synsetId": "01413922-a",
+        "definition": "equal in amount or value",
+        "examples": [
+          "like amounts",
+          "the same amount",
+          "gave one six blows and the other a like number",
+          "the same number"
+        ],
+        "synonyms": [
+          "same"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00109."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "like%3:00:02::",
+          "01413922-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "like#a#3",
+      "lemma": "like",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "like%3:00:04::",
+        "synsetId": "01413463-a",
+        "definition": "having the same or similar characteristics",
+        "examples": [
+          "all politicians are alike",
+          "they looked utterly alike",
+          "friends are generally alike in background and taste"
+        ],
+        "synonyms": [
+          "alike",
+          "similar"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00109."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "like%3:00:04::",
+          "01413463-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "get#n#1",
+      "lemma": "get",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "get%1:04:00::",
+        "synsetId": "00568933-n",
+        "definition": "a return on a shot that seemed impossible to reach and would normally have resulted in a point for the opponent",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00070."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "get%1:04:00::",
+          "00568933-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "get#v#2",
+      "lemma": "get",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "get%2:40:00::",
+        "synsetId": "02215637-v",
+        "definition": "come into the possession of something concrete or abstract",
+        "examples": [
+          "She got a lot of paintings from her uncle",
+          "They acquired a new pet",
+          "Get your results the next day",
+          "Get permission to take a few days off from work"
+        ],
+        "synonyms": [
+          "acquire"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00070."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "get%2:40:00::",
+          "02215637-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "get#v#3",
+      "lemma": "get",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "get%2:30:00::",
+        "synsetId": "00149403-v",
+        "definition": "enter or assume a certain state or condition",
+        "examples": [
+          "He became annoyed when he heard the bad news",
+          "It must be getting more serious",
+          "her face went red with anger",
+          "She went into ecstasy",
+          "Get going!"
+        ],
+        "synonyms": [
+          "become",
+          "go"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00070."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "get%2:30:00::",
+          "00149403-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "know#n#1",
+      "lemma": "know",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "know%1:09:00::",
+        "synsetId": "05813020-n",
+        "definition": "the fact of being aware of information that is known to few people",
+        "examples": [
+          "he is always in the know"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00106."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "know%1:09:00::",
+          "05813020-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "know#v#2",
+      "lemma": "know",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "know%2:31:01::",
+        "synsetId": "00596016-v",
+        "definition": "be cognizant or aware of a fact or a specific piece of information; possess knowledge or information about",
+        "examples": [
+          "I know that the President lied to the people",
+          "I want to know who is winning the game!",
+          "I know it's time"
+        ],
+        "synonyms": [
+          "cognize",
+          "cognise"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00106."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "know%2:31:01::",
+          "00596016-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "know#v#3",
+      "lemma": "know",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "know%2:31:03::",
+        "synsetId": "00597330-v",
+        "definition": "know how to do or perform something",
+        "examples": [
+          "She knows how to knit",
+          "Does your husband know how to cook?"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00106."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "know%2:31:03::",
+          "00597330-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "see#n#1",
+      "lemma": "see",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "see%1:15:00::",
+        "synsetId": "08604380-n",
+        "definition": "the seat within a bishop's diocese where the bishop's cathedral is located",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00198."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "see%1:15:00::",
+          "08604380-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "see#v#2",
+      "lemma": "see",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "see%2:39:00::",
+        "synsetId": "02133754-v",
+        "definition": "perceive by sight or have the power to perceive by sight",
+        "examples": [
+          "You have to be a good observer to see all the details",
+          "Can you see the bird in that tree?",
+          "He is blind — he cannot see"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00198."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "see%2:39:00::",
+          "02133754-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "see#v#3",
+      "lemma": "see",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "see%2:31:01::",
+        "synsetId": "00592510-v",
+        "definition": "perceive (an idea or situation) mentally",
+        "examples": [
+          "Now I see!",
+          "I just can't see your point",
+          "Does she realize how important this decision is?",
+          "I don't understand the idea"
+        ],
+        "synonyms": [
+          "understand",
+          "realize",
+          "realise"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00198."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "see%2:31:01::",
+          "00592510-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "make#n#1",
+      "lemma": "make",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "make%1:09:00::",
+        "synsetId": "05853667-n",
+        "definition": "a recognizable kind",
+        "examples": [
+          "there's a new brand of hero in the movies now",
+          "what make of car is that?"
+        ],
+        "synonyms": [
+          "brand"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00120."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "make%1:09:00::",
+          "05853667-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "make#n#2",
+      "lemma": "make",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "make%1:04:00::",
+        "synsetId": "00341289-n",
+        "definition": "the act of mixing cards haphazardly",
+        "examples": [],
+        "synonyms": [
+          "shuffle",
+          "shuffling"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00120."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "make%1:04:00::",
+          "00341289-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "make#v#3",
+      "lemma": "make",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "make%2:41:00::",
+        "synsetId": "02566500-v",
+        "definition": "engage in",
+        "examples": [
+          "make love, not war",
+          "make an effort",
+          "do research",
+          "do nothing",
+          "make revolution"
+        ],
+        "synonyms": [
+          "do"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00120."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "make%2:41:00::",
+          "02566500-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "think#n#1",
+      "lemma": "think",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "think%1:09:00::",
+        "synsetId": "05794377-n",
+        "definition": "an instance of deliberate thinking",
+        "examples": [
+          "I need to give it a good think"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00231."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "think%1:09:00::",
+          "05794377-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "think#v#2",
+      "lemma": "think",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "think%2:31:01::",
+        "synsetId": "00691086-v",
+        "definition": "judge or regard; look upon; judge",
+        "examples": [
+          "I think he is very smart",
+          "I believe her to be very smart",
+          "I think that he is her boyfriend",
+          "The racist conceives such people to be inferior"
+        ],
+        "synonyms": [
+          "believe",
+          "consider",
+          "conceive"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00231."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "think%2:31:01::",
+          "00691086-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "think#v#3",
+      "lemma": "think",
+      "partOfSpeech": "v",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "think%2:31:03::",
+        "synsetId": "00633399-v",
+        "definition": "expect, believe, or suppose",
+        "examples": [
+          "I imagine she earned a lot of money with her new novel",
+          "I thought to find her in a bad state",
+          "he didn't think to find her in the kitchen",
+          "I guess she is angry at me for standing her up"
+        ],
+        "synonyms": [
+          "opine",
+          "suppose",
+          "imagine",
+          "reckon",
+          "guess"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00231."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "think%2:31:03::",
+          "00633399-v"
+        ]
+      }
+    },
+    {
+      "candidateId": "so#n#1",
+      "lemma": "so",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "so%1:10:00::",
+        "synsetId": "06881894-n",
+        "definition": "the syllable naming the fifth (dominant) note of any musical scale in solmization",
+        "examples": [],
+        "synonyms": [
+          "sol",
+          "soh"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00207."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "so%1:10:00::",
+          "06881894-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "so#r#2",
+      "lemma": "so",
+      "partOfSpeech": "r",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "so%4:02:02::",
+        "synsetId": "00147630-r",
+        "definition": "to a very great extent or degree",
+        "examples": [
+          "the idea is so obvious",
+          "never been so happy",
+          "I love you so",
+          "my head aches so!"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00207."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "so%4:02:02::",
+          "00147630-r"
+        ]
+      }
+    },
+    {
+      "candidateId": "so#r#3",
+      "lemma": "so",
+      "partOfSpeech": "r",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "so%4:02:06::",
+        "synsetId": "00119259-r",
+        "definition": "in a manner that facilitates",
+        "examples": [
+          "he observed the snakes so he could describe their behavior",
+          "he stooped down so he could pick up his hat"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00207."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "so%4:02:06::",
+          "00119259-r"
+        ]
+      }
+    },
+    {
+      "candidateId": "one#a#1",
+      "lemma": "one",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "one%5:00:00:cardinal:00",
+        "synsetId": "02193977-s",
+        "definition": "used of a single unit or thing; not two or more",
+        "examples": [
+          "‘ane’ is Scottish"
+        ],
+        "synonyms": [
+          "1",
+          "i",
+          "ane"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00145."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "one%5:00:00:cardinal:00",
+          "02193977-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "one#a#2",
+      "lemma": "one",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "one%5:00:00:united:00",
+        "synsetId": "02487360-s",
+        "definition": "having the indivisible character of a unit",
+        "examples": [
+          "a unitary action",
+          "spoke with one voice"
+        ],
+        "synonyms": [
+          "unitary"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00145."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "one%5:00:00:united:00",
+          "02487360-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "one#a#3",
+      "lemma": "one",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "one%5:00:00:same:00",
+        "synsetId": "02071831-s",
+        "definition": "of the same kind or quality",
+        "examples": [
+          "two animals of one species"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00145."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "one%5:00:00:same:00",
+          "02071831-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "back#a#1",
+      "lemma": "back",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "back%3:00:00::",
+        "synsetId": "00199168-a",
+        "definition": "related to or located at the back",
+        "examples": [
+          "the back yard",
+          "the back entrance"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00013."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "back%3:00:00::",
+          "00199168-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "back#a#2",
+      "lemma": "back",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "back%5:00:00:posterior:00",
+        "synsetId": "00132764-s",
+        "definition": "located at or near the back of an animal",
+        "examples": [
+          "back (or hind) legs",
+          "the hinder part of a carcass"
+        ],
+        "synonyms": [
+          "hind",
+          "hinder"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00013."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "back%5:00:00:posterior:00",
+          "00132764-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "back#a#3",
+      "lemma": "back",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "back%5:00:00:noncurrent:00",
+        "synsetId": "00672052-s",
+        "definition": "of an earlier date",
+        "examples": [
+          "back issues of the magazine"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00013."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "back%5:00:00:noncurrent:00",
+          "00672052-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "home#a#1",
+      "lemma": "home",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "home%3:00:00::",
+        "synsetId": "01222498-a",
+        "definition": "used of your own ground",
+        "examples": [
+          "a home game"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00086."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "home%3:00:00::",
+          "01222498-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "home#a#2",
+      "lemma": "home",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "home%3:01:00::",
+        "synsetId": "02753598-a",
+        "definition": "relating to or being where one lives or where one's roots are",
+        "examples": [
+          "my home town"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00086."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "home%3:01:00::",
+          "02753598-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "home#a#3",
+      "lemma": "home",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "home%5:00:00:domestic:00",
+        "synsetId": "01042014-s",
+        "definition": "inside the country",
+        "examples": [
+          "the British Home Office has broader responsibilities than the United States Department of the Interior",
+          "the nation's internal politics"
+        ],
+        "synonyms": [
+          "interior",
+          "internal",
+          "national"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00086."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "home%5:00:00:domestic:00",
+          "01042014-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "service#n#1",
+      "lemma": "service",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "service%1:04:08::",
+        "synsetId": "00578562-n",
+        "definition": "work done by one person or group that benefits another",
+        "examples": [
+          "budget separately for goods and services"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00200."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "service%1:04:08::",
+          "00578562-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "service#n#2",
+      "lemma": "service",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "service%1:04:00::",
+        "synsetId": "01212066-n",
+        "definition": "an act of help or assistance; something (such as a tool, software or system) used to render said help or assistance",
+        "examples": [
+          "he did them a service"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00200."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "service%1:04:00::",
+          "01212066-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "service#n#3",
+      "lemma": "service",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "service%1:04:01::",
+        "synsetId": "01034072-n",
+        "definition": "the act of public worship following prescribed rules",
+        "examples": [
+          "the Sunday service"
+        ],
+        "synonyms": [
+          "religious service",
+          "divine service"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00200."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "service%1:04:01::",
+          "01034072-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "page#n#1",
+      "lemma": "page",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "page%1:10:00::",
+        "synsetId": "06267274-n",
+        "definition": "one side of one leaf (of a book or magazine or newspaper or letter etc.) or the written or pictorial matter it contains",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00153."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "page%1:10:00::",
+          "06267274-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "page#n#2",
+      "lemma": "page",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "page%1:18:03::",
+        "synsetId": "10411115-n",
+        "definition": "a boy who is employed to run errands",
+        "examples": [],
+        "synonyms": [
+          "pageboy"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00153."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "page%1:18:03::",
+          "10411115-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "page#n#3",
+      "lemma": "page",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "page%1:18:02::",
+        "synsetId": "10410947-n",
+        "definition": "a youthful attendant at official functions or ceremonies such as legislative functions and weddings",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00153."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "page%1:18:02::",
+          "10410947-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "want#n#1",
+      "lemma": "want",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "want%1:26:00::",
+        "synsetId": "14517010-n",
+        "definition": "a state of extreme poverty",
+        "examples": [],
+        "synonyms": [
+          "privation",
+          "deprivation",
+          "neediness"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00254."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "want%1:26:00::",
+          "14517010-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "want#n#2",
+      "lemma": "want",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "want%1:26:01::",
+        "synsetId": "14472871-n",
+        "definition": "the state of needing something that is absent or unavailable",
+        "examples": [
+          "there is a serious lack of insight into the problem",
+          "water is the critical deficiency in desert regions",
+          "for want of a nail the shoe was lost"
+        ],
+        "synonyms": [
+          "lack",
+          "deficiency"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00254."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "want%1:26:01::",
+          "14472871-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "want#n#3",
+      "lemma": "want",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "want%1:17:00::",
+        "synsetId": "09390888-n",
+        "definition": "anything that is necessary but lacking",
+        "examples": [
+          "he had sufficient means to meet his simple needs",
+          "I tried to supply his wants"
+        ],
+        "synonyms": [
+          "need"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00254."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "want%1:17:00::",
+          "09390888-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "information#n#1",
+      "lemma": "information",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "information%1:10:00::",
+        "synsetId": "06646883-n",
+        "definition": "a message received and understood",
+        "examples": [],
+        "synonyms": [
+          "info"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00094."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "information%1:10:00::",
+          "06646883-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "information#n#2",
+      "lemma": "information",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "information%1:09:00::",
+        "synsetId": "05824413-n",
+        "definition": "knowledge acquired through study or experience or instruction",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00094."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "information%1:09:00::",
+          "05824413-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "information#n#3",
+      "lemma": "information",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "information%1:10:02::",
+        "synsetId": "07252221-n",
+        "definition": "formal accusation of a crime",
+        "examples": [],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00094."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "information%1:10:02::",
+          "07252221-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "people#n#1",
+      "lemma": "people",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "people%1:14:00::",
+        "synsetId": "07958392-n",
+        "definition": "(plural) any group of human beings (men or women or children) collectively",
+        "examples": [
+          "old people",
+          "there were at least 200 people in the audience"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00486."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "people%1:14:00::",
+          "07958392-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "people#n#2",
+      "lemma": "people",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "people%1:14:01::",
+        "synsetId": "08177175-n",
+        "definition": "the body of citizens of a state or country",
+        "examples": [
+          "the Spanish people"
+        ],
+        "synonyms": [
+          "citizenry"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00486."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "people%1:14:01::",
+          "08177175-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "people#n#3",
+      "lemma": "people",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "people%1:14:02::",
+        "synsetId": "07987588-n",
+        "definition": "members of a family line",
+        "examples": [
+          "his people have been farmers for generations",
+          "are your people still alive?"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00486."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "people%1:14:02::",
+          "07987588-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "said#a#1",
+      "lemma": "said",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "said%5:00:00:same:02",
+        "synsetId": "02076134-s",
+        "definition": "being the one previously mentioned or spoken of",
+        "examples": [
+          "works of all the aforementioned authors",
+          "said party has denied the charges"
+        ],
+        "synonyms": [
+          "aforesaid",
+          "aforementioned"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00189."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "said%5:00:00:same:02",
+          "02076134-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "two#a#1",
+      "lemma": "two",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "two%5:00:00:cardinal:00",
+        "synsetId": "02194109-s",
+        "definition": "being one more than one",
+        "examples": [
+          "he received two messages"
+        ],
+        "synonyms": [
+          "2",
+          "ii"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00240."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "two%5:00:00:cardinal:00",
+          "02194109-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "two#n#2",
+      "lemma": "two",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "two%1:23:00::",
+        "synsetId": "13765409-n",
+        "definition": "the cardinal number that is the sum of one and one or a numeral representing this number",
+        "examples": [],
+        "synonyms": [
+          "2",
+          "II",
+          "deuce"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00240."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "two%1:23:00::",
+          "13765409-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "two#n#3",
+      "lemma": "two",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "two%1:06:00::",
+        "synsetId": "03187461-n",
+        "definition": "one of the four playing cards in a deck that have two spots",
+        "examples": [],
+        "synonyms": [
+          "deuce"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00240."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "two%1:06:00::",
+          "03187461-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "much#a#1",
+      "lemma": "much",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "much%3:00:00::",
+        "synsetId": "01557986-a",
+        "definition": "(quantifier used with mass nouns) great in quantity or degree or extent",
+        "examples": [
+          "not much rain",
+          "much affection",
+          "much grain is in storage"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00857."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "much%3:00:00::",
+          "01557986-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "much#n#2",
+      "lemma": "much",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "much%1:23:00::",
+        "synsetId": "13798833-n",
+        "definition": "a great amount or extent",
+        "examples": [
+          "they did much for humanity"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00857."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "much%1:23:00::",
+          "13798833-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "much#r#3",
+      "lemma": "much",
+      "partOfSpeech": "r",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "much%4:02:00::",
+        "synsetId": "00059624-r",
+        "definition": "to a great degree or extent",
+        "examples": [
+          "she's much better now"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00857."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "much%4:02:00::",
+          "00059624-r"
+        ]
+      }
+    },
+    {
+      "candidateId": "time#n#1",
+      "lemma": "time",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "time%1:11:00::",
+        "synsetId": "07324217-n",
+        "definition": "an instance or single occasion for some event",
+        "examples": [
+          "this time he succeeded",
+          "he called four times",
+          "he could do ten at a clip"
+        ],
+        "synonyms": [
+          "clip"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00234."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "time%1:11:00::",
+          "07324217-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "time#n#2",
+      "lemma": "time",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "time%1:28:05::",
+        "synsetId": "15295388-n",
+        "definition": "a period of time considered as a resource under your control and sufficient to accomplish something",
+        "examples": [
+          "take time to smell the roses",
+          "I didn't have time to finish",
+          "it took more than half my time",
+          "he waited for a long time"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00234."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "time%1:28:05::",
+          "15295388-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "time#n#3",
+      "lemma": "time",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "time%1:28:00::",
+        "synsetId": "15147173-n",
+        "definition": "an indefinite period (usually marked by specific attributes or activities)",
+        "examples": [
+          "the time of year for planting",
+          "he was a great actor in his time"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00234."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "time%1:28:00::",
+          "15147173-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "way#n#1",
+      "lemma": "way",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "way%1:07:01::",
+        "synsetId": "04936080-n",
+        "definition": "how something is done or how it happens",
+        "examples": [
+          "her dignified manner",
+          "his rapid manner of talking",
+          "their nomadic mode of existence",
+          "in the characteristic New York style",
+          "a lonely way of life",
+          "in an abrasive fashion"
+        ],
+        "synonyms": [
+          "manner",
+          "mode",
+          "style",
+          "fashion"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00256."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "way%1:07:01::",
+          "04936080-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "way#n#2",
+      "lemma": "way",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "way%1:04:01::",
+        "synsetId": "00173531-n",
+        "definition": "to have the ability to produce a particular effect or achieve an end",
+        "examples": [
+          "a means of control",
+          "an example is the best agency of instruction",
+          "the true way to success"
+        ],
+        "synonyms": [
+          "means",
+          "agency"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00256."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "way%1:04:01::",
+          "00173531-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "way#n#3",
+      "lemma": "way",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "way%1:15:00::",
+        "synsetId": "08697710-n",
+        "definition": "a line leading to a place or point",
+        "examples": [
+          "he looked the other direction",
+          "didn't know the way home"
+        ],
+        "synonyms": [
+          "direction"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00256."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "way%1:15:00::",
+          "08697710-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "free#a#1",
+      "lemma": "free",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "free%3:00:00::",
+        "synsetId": "01065188-a",
+        "definition": "not limited or hampered; not under compulsion or restraint",
+        "examples": [
+          "free enterprise",
+          "a free port",
+          "a free country",
+          "I have an hour free",
+          "free will",
+          "free of racism",
+          "feel free to stay as long as you wish",
+          "a free choice"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00063."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "free%3:00:00::",
+          "01065188-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "free#a#2",
+      "lemma": "free",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "free%3:00:02::",
+        "synsetId": "01062062-a",
+        "definition": "unconstrained or not chemically bound in a molecule or not fixed and capable of relatively unrestricted motion",
+        "examples": [
+          "free expansion",
+          "free oxygen",
+          "a free electron"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00063."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "free%3:00:02::",
+          "01062062-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "free#a#3",
+      "lemma": "free",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "free%5:00:00:unpaid:00",
+        "synsetId": "01714713-s",
+        "definition": "costing nothing",
+        "examples": [
+          "complimentary tickets",
+          "free admission"
+        ],
+        "synonyms": [
+          "complimentary",
+          "costless",
+          "gratis",
+          "gratuitous"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00063."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "free%5:00:00:unpaid:00",
+          "01714713-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "news#n#1",
+      "lemma": "news",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "news%1:10:00::",
+        "synsetId": "06654787-n",
+        "definition": "information about recent and important events",
+        "examples": [
+          "they awaited news of the outcome"
+        ],
+        "synonyms": [
+          "intelligence",
+          "tidings",
+          "word"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00135."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "news%1:10:00::",
+          "06654787-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "news#n#2",
+      "lemma": "news",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "news%1:10:01::",
+        "synsetId": "06693922-n",
+        "definition": "information reported in a newspaper or news magazine",
+        "examples": [
+          "the news of my death was greatly exaggerated"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00135."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "news%1:10:01::",
+          "06693922-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "news#n#3",
+      "lemma": "news",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "news%1:10:02::",
+        "synsetId": "06632357-n",
+        "definition": "a program devoted to current events, often using interviews and commentary",
+        "examples": [
+          "we watch the 7 o'clock news every night"
+        ],
+        "synonyms": [
+          "news program",
+          "news show"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00135."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "news%1:10:02::",
+          "06632357-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "site#n#1",
+      "lemma": "site",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "site%1:15:00::",
+        "synsetId": "08668822-n",
+        "definition": "the piece of land on which something is located (or is to be located)",
+        "examples": [
+          "a good site for the school"
+        ],
+        "synonyms": [
+          "land site"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00206."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "site%1:15:00::",
+          "08668822-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "site#n#2",
+      "lemma": "site",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "site%1:15:02::",
+        "synsetId": "08640525-n",
+        "definition": "physical position in relation to the surroundings",
+        "examples": [
+          "the sites are determined by highly specific sequences of nucleotides"
+        ],
+        "synonyms": [
+          "situation"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00206."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "site%1:15:02::",
+          "08640525-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "site#n#3",
+      "lemma": "site",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "site%1:10:00::",
+        "synsetId": "06370600-n",
+        "definition": "a computer connected to the internet that maintains a series of web pages on the World Wide Web; a computer connected to the internet that maintains a series of web pages on the World Wide Web",
+        "examples": [
+          "the Israeli web site was damaged by hostile hackers"
+        ],
+        "synonyms": [
+          "web site",
+          "website",
+          "internet site"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00206."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "site%1:10:00::",
+          "06370600-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "online#a#1",
+      "lemma": "online",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "online%3:00:02::",
+        "synsetId": "01655325-a",
+        "definition": "on a regular route of a railroad or bus or airline system",
+        "examples": [
+          "on-line industries"
+        ],
+        "synonyms": [
+          "on-line"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00146."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "online%3:00:02::",
+          "01655325-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "online#a#2",
+      "lemma": "online",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "online%3:00:00::",
+        "synsetId": "01654843-a",
+        "definition": "connected to a computer network or accessible by computer",
+        "examples": [
+          "an on-line database"
+        ],
+        "synonyms": [
+          "on-line"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00146."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "online%3:00:00::",
+          "01654843-a"
+        ]
+      }
+    },
+    {
+      "candidateId": "online#a#3",
+      "lemma": "online",
+      "partOfSpeech": "a",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "online%5:00:00:current:00",
+        "synsetId": "00671159-s",
+        "definition": "being in progress now",
+        "examples": [
+          "on-line editorial projects"
+        ],
+        "synonyms": [
+          "on-line"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00146."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "online%5:00:00:current:00",
+          "00671159-s"
+        ]
+      }
+    },
+    {
+      "candidateId": "view#n#1",
+      "lemma": "view",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "view%1:09:02::",
+        "synsetId": "06218486-n",
+        "definition": "a way of regarding situations or topics etc.",
+        "examples": [
+          "consider what follows from the positivist view"
+        ],
+        "synonyms": [
+          "position",
+          "perspective"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00252."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "view%1:09:02::",
+          "06218486-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "view#n#2",
+      "lemma": "view",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "view%1:09:01::",
+        "synsetId": "05941982-n",
+        "definition": "the visual percept of a region",
+        "examples": [
+          "the most desirable feature of the park are the beautiful views"
+        ],
+        "synonyms": [
+          "aspect",
+          "prospect",
+          "scene",
+          "vista",
+          "panorama"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00252."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "view%1:09:01::",
+          "05941982-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "view#n#3",
+      "lemma": "view",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "view%1:04:00::",
+        "synsetId": "00883327-n",
+        "definition": "the act of looking or seeing or observing",
+        "examples": [
+          "he tried to get a better view of it",
+          "his survey of the battlefield was limited"
+        ],
+        "synonyms": [
+          "survey",
+          "sight"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00252."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "view%1:04:00::",
+          "00883327-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "contact#n#1",
+      "lemma": "contact",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "contact%1:04:02::",
+        "synsetId": "00040035-n",
+        "definition": "close interaction",
+        "examples": [
+          "they kept in daily contact",
+          "they claimed that they had been in contact with extraterrestrial beings"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00038."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "contact%1:04:02::",
+          "00040035-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "contact#n#2",
+      "lemma": "contact",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "contact%1:04:00::",
+        "synsetId": "00125700-n",
+        "definition": "the act of touching physically",
+        "examples": [
+          "her fingers came in contact with the light switch"
+        ],
+        "synonyms": [
+          "physical contact"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00038."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "contact%1:04:00::",
+          "00125700-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "contact#n#3",
+      "lemma": "contact",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "contact%1:26:00::",
+        "synsetId": "14442914-n",
+        "definition": "the state or condition of touching or of being in immediate proximity",
+        "examples": [
+          "litmus paper turns red on contact with an acid"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00038."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "contact%1:26:00::",
+          "14442914-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "search#n#1",
+      "lemma": "search",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "search%1:04:00::",
+        "synsetId": "00947217-n",
+        "definition": "the activity of looking thoroughly in order to find something or someone",
+        "examples": [],
+        "synonyms": [
+          "hunt",
+          "hunting"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00195."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "search%1:04:00::",
+          "00947217-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "search#n#2",
+      "lemma": "search",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "search%1:04:02::",
+        "synsetId": "00638597-n",
+        "definition": "an investigation seeking answers",
+        "examples": [
+          "a thorough search of the ledgers revealed nothing",
+          "the outcome justified the search"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00195."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "search%1:04:02::",
+          "00638597-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "search#n#3",
+      "lemma": "search",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "search%1:22:00::",
+        "synsetId": "13574763-n",
+        "definition": "an operation that determines whether one or more of a set of items has a specified property",
+        "examples": [
+          "they wrote a program to do a table lookup"
+        ],
+        "synonyms": [
+          "lookup"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00195."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "search%1:22:00::",
+          "13574763-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "web#n#1",
+      "lemma": "web",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "web%1:17:00::",
+        "synsetId": "09500167-n",
+        "definition": "an intricate network suggesting something that was formed by weaving or interweaving",
+        "examples": [
+          "the trees cast a delicate web of shadows over the lawn"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00258."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "web%1:17:00::",
+          "09500167-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "web#n#2",
+      "lemma": "web",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "web%1:06:00::",
+        "synsetId": "04575843-n",
+        "definition": "an intricate trap that entangles or ensnares its victim",
+        "examples": [],
+        "synonyms": [
+          "entanglement"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00258."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "web%1:06:00::",
+          "04575843-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "web#n#3",
+      "lemma": "web",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "web%1:05:01::",
+        "synsetId": "01900632-n",
+        "definition": "the flattened weblike part of a feather consisting of a series of barbs on either side of the shaft",
+        "examples": [],
+        "synonyms": [
+          "vane"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00258."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "web%1:05:01::",
+          "01900632-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "click#n#1",
+      "lemma": "click",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "click%1:11:00::",
+        "synsetId": "07393823-n",
+        "definition": "a short light metallic sound",
+        "examples": [],
+        "synonyms": [
+          "chink",
+          "clink"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00033."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "click%1:11:00::",
+          "07393823-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "click#n#2",
+      "lemma": "click",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "click%1:10:00::",
+        "synsetId": "07132918-n",
+        "definition": "a stop consonant made by the suction of air into the mouth (as in Bantu)",
+        "examples": [],
+        "synonyms": [
+          "suction stop"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00033."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "click%1:10:00::",
+          "07132918-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "click#n#3",
+      "lemma": "click",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "click%1:06:00::",
+        "synsetId": "03907626-n",
+        "definition": "a hinged catch that fits into a notch of a ratchet to move a wheel forward or prevent it from moving backward",
+        "examples": [],
+        "synonyms": [
+          "pawl",
+          "detent",
+          "dog"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00033."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "click%1:06:00::",
+          "03907626-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "services#n#1",
+      "lemma": "services",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "services%1:04:00::",
+        "synsetId": "00586211-n",
+        "definition": "performance of duties or provision of space and equipment helpful to others",
+        "examples": [
+          "the mayor tried to maintain city services",
+          "the medical services are excellent"
+        ],
+        "synonyms": []
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00201."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "services%1:04:00::",
+          "00586211-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "pm#n#1",
+      "lemma": "pm",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "pm%1:04:00::",
+        "synsetId": "00142216-n",
+        "definition": "an examination and dissection of a dead body to determine cause of death or the changes produced by disease",
+        "examples": [],
+        "synonyms": [
+          "autopsy",
+          "necropsy",
+          "postmortem",
+          "post-mortem",
+          "postmortem examination",
+          "post-mortem examination"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00159."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "pm%1:04:00::",
+          "00142216-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "pm#n#2",
+      "lemma": "pm",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "pm%1:18:00::",
+        "synsetId": "09926654-n",
+        "definition": "the person who holds the position of head of the government in the United Kingdom",
+        "examples": [],
+        "synonyms": [
+          "prime minister",
+          "premier"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00159."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "pm%1:18:00::",
+          "09926654-n"
+        ]
+      }
+    },
+    {
+      "candidateId": "pm#n#3",
+      "lemma": "pm",
+      "partOfSpeech": "n",
+      "targetRowId": null,
+      "sourceSense": {
+        "entryId": null,
+        "senseId": "pm%1:10:00::",
+        "synsetId": "06292501-n",
+        "definition": "modulation of the phase of the carrier wave",
+        "examples": [],
+        "synonyms": [
+          "phase modulation"
+        ]
+      },
+      "review": {
+        "status": "pending",
+        "selected": false,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": "Source grade 1; selected for grade-1 introduced meaning review from word_en_00159."
+      },
+      "provenance": {
+        "sourceId": "open-english-wordnet",
+        "sourceVersion": "2025",
+        "license": "CC-BY-4.0",
+        "importedFieldPolicy": "reference_candidate_only",
+        "upstreamIds": [
+          "pm%1:10:00::",
+          "06292501-n"
+        ]
+      }
+    }
+  ],
+  "missing": []
+}

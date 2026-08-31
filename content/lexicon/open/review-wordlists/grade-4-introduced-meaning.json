@@ -20,8 +20,23 @@
     "rawGradeRows": 896,
     "candidatePool": 894,
     "excludedOrDeduplicated": 2,
-    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing",
-    "reviewStatus": "pending_sense_and_editorial_review"
+    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
+    "reviewStatus": "pending_sense_and_editorial_review",
+    "semanticResolution": {
+      "sourceId": "open-english-wordnet",
+      "sourceVersion": "2025",
+      "requestedTarget": 400,
+      "eligibleCandidatePool": 894,
+      "overscanRequested": 1200,
+      "overscanSelected": 894,
+      "resolvableInOverscan": 878,
+      "skippedUnresolved": 16,
+      "selectedResolved": 400,
+      "targetShortfall": 0,
+      "filledRequestedTarget": true,
+      "exhaustedEligiblePool": true,
+      "policy": "meaning_queue_backfill_only_no_runtime_publish"
+    }
   },
   "items": [
     {
@@ -3623,19 +3638,6 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04384."
     },
     {
-      "lemma": "hearted",
-      "sourceCorpusId": "word_en_12413",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 4,
-      "sourceZipf": 3.77,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 16.54,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12413."
-    },
-    {
       "lemma": "herd",
       "sourceCorpusId": "word_en_06676",
       "sourcePartOfSpeech": "noun",
@@ -3718,6 +3720,19 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12225."
     },
     {
+      "lemma": "geology",
+      "sourceCorpusId": "word_en_12333",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.52,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12333."
+    },
+    {
       "lemma": "heavenly",
       "sourceCorpusId": "word_en_06630",
       "sourcePartOfSpeech": "adjective",
@@ -3730,6 +3745,19 @@
       ],
       "priorityScore": 16.52,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06630."
+    },
+    {
+      "lemma": "recycling",
+      "sourceCorpusId": "word_en_13723",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.76,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.52,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13723."
     },
     {
       "lemma": "stubborn",
@@ -3759,6 +3787,51 @@
       ],
       "priorityScore": 16.5,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02835."
+    },
+    {
+      "lemma": "deed",
+      "sourceCorpusId": "word_en_04330",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.5,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04330."
+    },
+    {
+      "lemma": "gallon",
+      "sourceCorpusId": "word_en_12317",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.5,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12317."
+    },
+    {
+      "lemma": "gown",
+      "sourceCorpusId": "word_en_06289",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.5,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06289."
     },
     {
       "lemma": "lifelong",
@@ -3819,6 +3892,61 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10122."
     },
     {
+      "lemma": "baggage",
+      "sourceCorpusId": "word_en_02189",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.48,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02189."
+    },
+    {
+      "lemma": "ecology",
+      "sourceCorpusId": "word_en_12129",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.48,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12129."
+    },
+    {
+      "lemma": "ingredient",
+      "sourceCorpusId": "word_en_12530",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.48,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12530."
+    },
+    {
+      "lemma": "nod",
+      "sourceCorpusId": "word_en_13045",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.48,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13045."
+    },
+    {
       "lemma": "vain",
       "sourceCorpusId": "word_en_14980",
       "sourcePartOfSpeech": "adjective",
@@ -3830,6 +3958,19 @@
       ],
       "priorityScore": 16.48,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14980."
+    },
+    {
+      "lemma": "whisper",
+      "sourceCorpusId": "word_en_15120",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.74,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.48,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15120."
     },
     {
       "lemma": "worthwhile",
@@ -3845,6 +3986,33 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15189."
     },
     {
+      "lemma": "devotion",
+      "sourceCorpusId": "word_en_04539",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.46,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04539."
+    },
+    {
+      "lemma": "flavour",
+      "sourceCorpusId": "word_en_12267",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.46,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12267."
+    },
+    {
       "lemma": "owing",
       "sourceCorpusId": "word_en_13221",
       "sourcePartOfSpeech": "adjective",
@@ -3858,6 +4026,125 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13221."
     },
     {
+      "lemma": "popcorn",
+      "sourceCorpusId": "word_en_13452",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.46,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13452."
+    },
+    {
+      "lemma": "sorrow",
+      "sourceCorpusId": "word_en_14275",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.46,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14275."
+    },
+    {
+      "lemma": "warranty",
+      "sourceCorpusId": "word_en_11539",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.73,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 16.46,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11539."
+    },
+    {
+      "lemma": "motto",
+      "sourceCorpusId": "word_en_12938",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12938."
+    },
+    {
+      "lemma": "obstacle",
+      "sourceCorpusId": "word_en_10826",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10826."
+    },
+    {
+      "lemma": "razor",
+      "sourceCorpusId": "word_en_13680",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13680."
+    },
+    {
+      "lemma": "slogan",
+      "sourceCorpusId": "word_en_14206",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14206."
+    },
+    {
+      "lemma": "strawberry",
+      "sourceCorpusId": "word_en_14413",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14413."
+    },
+    {
+      "lemma": "tile",
+      "sourceCorpusId": "word_en_14682",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.72,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.44,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14682."
+    },
+    {
       "lemma": "abnormal",
       "sourceCorpusId": "word_en_11561",
       "sourcePartOfSpeech": "adjective",
@@ -3869,6 +4156,22 @@
       ],
       "priorityScore": 16.42,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11561."
+    },
+    {
+      "lemma": "calf",
+      "sourceCorpusId": "word_en_02880",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.42,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02880."
     },
     {
       "lemma": "downward",
@@ -3900,6 +4203,32 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06815."
     },
     {
+      "lemma": "limitation",
+      "sourceCorpusId": "word_en_12668",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.42,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12668."
+    },
+    {
+      "lemma": "sticker",
+      "sourceCorpusId": "word_en_14384",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.71,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.42,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14384."
+    },
+    {
       "lemma": "upward",
       "sourceCorpusId": "word_en_14960",
       "sourcePartOfSpeech": "adjective",
@@ -3911,6 +4240,47 @@
       ],
       "priorityScore": 16.42,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14960."
+    },
+    {
+      "lemma": "alphabet",
+      "sourceCorpusId": "word_en_11614",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11614."
+    },
+    {
+      "lemma": "bracelet",
+      "sourceCorpusId": "word_en_02649",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02649."
+    },
+    {
+      "lemma": "capsule",
+      "sourceCorpusId": "word_en_02947",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02947."
     },
     {
       "lemma": "irregular",
@@ -3942,6 +4312,33 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_07596."
     },
     {
+      "lemma": "jumper",
+      "sourceCorpusId": "word_en_07607",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_07607."
+    },
+    {
+      "lemma": "pottery",
+      "sourceCorpusId": "word_en_13473",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.7,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.4,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13473."
+    },
+    {
       "lemma": "stylish",
       "sourceCorpusId": "word_en_14442",
       "sourcePartOfSpeech": "adjective",
@@ -3953,6 +4350,22 @@
       ],
       "priorityScore": 16.4,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14442."
+    },
+    {
+      "lemma": "flock",
+      "sourceCorpusId": "word_en_05825",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.69,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.38,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05825."
     },
     {
       "lemma": "helpless",
@@ -3969,6 +4382,93 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06662."
     },
     {
+      "lemma": "mustard",
+      "sourceCorpusId": "word_en_12965",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.69,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.38,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12965."
+    },
+    {
+      "lemma": "sophomore",
+      "sourceCorpusId": "word_en_14273",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.69,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.38,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14273."
+    },
+    {
+      "lemma": "honeymoon",
+      "sourceCorpusId": "word_en_06795",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.36,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06795."
+    },
+    {
+      "lemma": "jewel",
+      "sourceCorpusId": "word_en_07519",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.36,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_07519."
+    },
+    {
+      "lemma": "sidewalk",
+      "sourceCorpusId": "word_en_14140",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.68,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.36,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14140."
+    },
+    {
+      "lemma": "bakery",
+      "sourceCorpusId": "word_en_02198",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.34,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02198."
+    },
+    {
       "lemma": "dusty",
       "sourceCorpusId": "word_en_04944",
       "sourcePartOfSpeech": "adjective",
@@ -3983,6 +4483,58 @@
       ],
       "priorityScore": 16.34,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04944."
+    },
+    {
+      "lemma": "gardening",
+      "sourceCorpusId": "word_en_12319",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.34,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12319."
+    },
+    {
+      "lemma": "harness",
+      "sourceCorpusId": "word_en_12401",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.34,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12401."
+    },
+    {
+      "lemma": "molecule",
+      "sourceCorpusId": "word_en_12894",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.34,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12894."
+    },
+    {
+      "lemma": "parcel",
+      "sourceCorpusId": "word_en_13267",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.67,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.34,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13267."
     },
     {
       "lemma": "ripe",
@@ -4040,6 +4592,236 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10452."
     },
     {
+      "lemma": "freezer",
+      "sourceCorpusId": "word_en_05998",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.66,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.32,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05998."
+    },
+    {
+      "lemma": "discomfort",
+      "sourceCorpusId": "word_en_10341",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.65,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 16.3,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10341."
+    },
+    {
+      "lemma": "vacancy",
+      "sourceCorpusId": "word_en_14975",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.65,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.3,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14975."
+    },
+    {
+      "lemma": "camel",
+      "sourceCorpusId": "word_en_02898",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02898."
+    },
+    {
+      "lemma": "checkout",
+      "sourceCorpusId": "word_en_11842",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11842."
+    },
+    {
+      "lemma": "comet",
+      "sourceCorpusId": "word_en_03522",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03522."
+    },
+    {
+      "lemma": "deficiency",
+      "sourceCorpusId": "word_en_12014",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12014."
+    },
+    {
+      "lemma": "kitten",
+      "sourceCorpusId": "word_en_07706",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_07706."
+    },
+    {
+      "lemma": "salesman",
+      "sourceCorpusId": "word_en_13955",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13955."
+    },
+    {
+      "lemma": "symptom",
+      "sourceCorpusId": "word_en_14545",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14545."
+    },
+    {
+      "lemma": "tuna",
+      "sourceCorpusId": "word_en_14815",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14815."
+    },
+    {
+      "lemma": "viewpoint",
+      "sourceCorpusId": "word_en_15009",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.64,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.28,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15009."
+    },
+    {
+      "lemma": "accessory",
+      "sourceCorpusId": "word_en_11571",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.26,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11571."
+    },
+    {
+      "lemma": "gee",
+      "sourceCorpusId": "word_en_06139",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.26,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06139."
+    },
+    {
+      "lemma": "groom",
+      "sourceCorpusId": "word_en_06379",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.26,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06379."
+    },
+    {
+      "lemma": "guitarist",
+      "sourceCorpusId": "word_en_12379",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.26,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12379."
+    },
+    {
+      "lemma": "safari",
+      "sourceCorpusId": "word_en_13944",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.63,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.26,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13944."
+    },
+    {
       "lemma": "unlucky",
       "sourceCorpusId": "word_en_14918",
       "sourcePartOfSpeech": "adjective",
@@ -4079,6 +4861,36 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11994."
     },
     {
+      "lemma": "fuss",
+      "sourceCorpusId": "word_en_06068",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.62,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.24,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06068."
+    },
+    {
+      "lemma": "gorilla",
+      "sourceCorpusId": "word_en_06266",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.62,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.24,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06266."
+    },
+    {
       "lemma": "lawful",
       "sourceCorpusId": "word_en_12629",
       "sourcePartOfSpeech": "adjective",
@@ -4090,6 +4902,75 @@
       ],
       "priorityScore": 16.24,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12629."
+    },
+    {
+      "lemma": "beaver",
+      "sourceCorpusId": "word_en_02319",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.61,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.22,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02319."
+    },
+    {
+      "lemma": "caller",
+      "sourceCorpusId": "word_en_02882",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.61,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 16.22,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02882."
+    },
+    {
+      "lemma": "cv",
+      "sourceCorpusId": "word_en_11984",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.61,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.22,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11984."
+    },
+    {
+      "lemma": "mosquito",
+      "sourceCorpusId": "word_en_12922",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.61,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.22,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12922."
+    },
+    {
+      "lemma": "novelist",
+      "sourceCorpusId": "word_en_13075",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.61,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.22,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13075."
     },
     {
       "lemma": "careless",
@@ -4140,6 +5021,19 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04161."
     },
     {
+      "lemma": "gymnastics",
+      "sourceCorpusId": "word_en_12382",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.6,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.2,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12382."
+    },
+    {
       "lemma": "humorous",
       "sourceCorpusId": "word_en_10547",
       "sourcePartOfSpeech": "adjective",
@@ -4156,6 +5050,19 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10547."
     },
     {
+      "lemma": "ness",
+      "sourceCorpusId": "word_en_13020",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.6,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.2,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13020."
+    },
+    {
       "lemma": "prosperous",
       "sourceCorpusId": "word_en_13575",
       "sourcePartOfSpeech": "adjective",
@@ -4167,6 +5074,19 @@
       ],
       "priorityScore": 16.2,
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13575."
+    },
+    {
+      "lemma": "admiration",
+      "sourceCorpusId": "word_en_11588",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.59,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11588."
     },
     {
       "lemma": "courageous",
@@ -4183,473 +5103,294 @@
       "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04002."
     },
     {
-      "lemma": "bent",
-      "sourceCorpusId": "word_en_02425",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "garment",
+      "sourceCorpusId": "word_en_12320",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.99,
+      "sourceZipf": 3.59,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12320."
+    },
+    {
+      "lemma": "librarian",
+      "sourceCorpusId": "word_en_12649",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.59,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12649."
+    },
+    {
+      "lemma": "nucleus",
+      "sourceCorpusId": "word_en_13079",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.59,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13079."
+    },
+    {
+      "lemma": "organism",
+      "sourceCorpusId": "word_en_10861",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.59,
       "sourceTags": [
         "default",
+        "derived_from_misspelling_target",
         "often_misspelled",
         "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
+        "source:common_misspelled"
       ],
-      "priorityScore": 14.98,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02425."
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10861."
     },
     {
-      "lemma": "negotiate",
-      "sourceCorpusId": "word_en_13008",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "sponge",
+      "sourceCorpusId": "word_en_14328",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.99,
+      "sourceZipf": 3.59,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.98,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13008."
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14328."
     },
     {
-      "lemma": "propose",
-      "sourceCorpusId": "word_en_13568",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "tease",
+      "sourceCorpusId": "word_en_14589",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.99,
+      "sourceZipf": 3.59,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.98,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13568."
+      "priorityScore": 16.18,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14589."
     },
     {
-      "lemma": "upload",
-      "sourceCorpusId": "word_en_14955",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "columnist",
+      "sourceCorpusId": "word_en_11886",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.99,
+      "sourceZipf": 3.58,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.98,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14955."
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11886."
     },
     {
-      "lemma": "adapt",
-      "sourceCorpusId": "word_en_01292",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "cushion",
+      "sourceCorpusId": "word_en_11983",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.98,
+      "sourceZipf": 3.58,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11983."
+    },
+    {
+      "lemma": "festive",
+      "sourceCorpusId": "word_en_12248",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.58,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12248."
+    },
+    {
+      "lemma": "improper",
+      "sourceCorpusId": "word_en_12490",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.58,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12490."
+    },
+    {
+      "lemma": "pineapple",
+      "sourceCorpusId": "word_en_10937",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.58,
       "sourceTags": [
         "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.96,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01292."
-    },
-    {
-      "lemma": "construct",
-      "sourceCorpusId": "word_en_11927",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.98,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.96,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11927."
-    },
-    {
-      "lemma": "expose",
-      "sourceCorpusId": "word_en_05522",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.98,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.96,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05522."
-    },
-    {
-      "lemma": "forbidden",
-      "sourceCorpusId": "word_en_05884",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.96,
-      "sourceTags": [
-        "default",
+        "derived_from_misspelling_target",
         "often_misspelled",
         "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
+        "source:common_misspelled"
       ],
-      "priorityScore": 14.92,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05884."
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10937."
     },
     {
-      "lemma": "melt",
-      "sourceCorpusId": "word_en_12804",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "similarity",
+      "sourceCorpusId": "word_en_11244",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.96,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.92,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12804."
-    },
-    {
-      "lemma": "stir",
-      "sourceCorpusId": "word_en_14392",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.96,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.92,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14392."
-    },
-    {
-      "lemma": "annoyed",
-      "sourceCorpusId": "word_en_01689",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.95,
+      "sourceZipf": 3.58,
       "sourceTags": [
         "default",
+        "derived_from_misspelling_target",
         "often_misspelled",
         "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
+        "source:common_misspelled"
       ],
-      "priorityScore": 14.9,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01689."
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11244."
     },
     {
-      "lemma": "cough",
-      "sourceCorpusId": "word_en_03976",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "trumpet",
+      "sourceCorpusId": "word_en_14800",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.95,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.9,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03976."
-    },
-    {
-      "lemma": "punish",
-      "sourceCorpusId": "word_en_13602",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.95,
+      "sourceZipf": 3.58,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.9,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13602."
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14800."
     },
     {
-      "lemma": "leap",
-      "sourceCorpusId": "word_en_07852",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "wrapping",
+      "sourceCorpusId": "word_en_15193",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.94,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.88,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_07852."
-    },
-    {
-      "lemma": "locate",
-      "sourceCorpusId": "word_en_12689",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.94,
+      "sourceZipf": 3.58,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.88,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12689."
+      "priorityScore": 16.16,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15193."
     },
     {
-      "lemma": "arise",
-      "sourceCorpusId": "word_en_01882",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "poisonous",
+      "sourceCorpusId": "word_en_13433",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 4,
-      "sourceZipf": 3.93,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.86,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01882."
-    },
-    {
-      "lemma": "bore",
-      "sourceCorpusId": "word_en_02604",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.93,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.86,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02604."
-    },
-    {
-      "lemma": "translate",
-      "sourceCorpusId": "word_en_14755",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.93,
+      "sourceZipf": 3.57,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.86,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14755."
+      "priorityScore": 16.14,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13433."
     },
     {
-      "lemma": "educate",
-      "sourceCorpusId": "word_en_12136",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "shameful",
+      "sourceCorpusId": "word_en_14089",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 4,
-      "sourceZipf": 3.92,
+      "sourceZipf": 3.57,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.84,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12136."
+      "priorityScore": 16.14,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14089."
     },
     {
-      "lemma": "outline",
-      "sourceCorpusId": "word_en_13178",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "swollen",
+      "sourceCorpusId": "word_en_14537",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 4,
-      "sourceZipf": 3.92,
+      "sourceZipf": 3.57,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.84,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13178."
+      "priorityScore": 16.14,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14537."
     },
     {
-      "lemma": "amazed",
-      "sourceCorpusId": "word_en_01598",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "blush",
+      "sourceCorpusId": "word_en_11753",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.91,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.82,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01598."
-    },
-    {
-      "lemma": "glance",
-      "sourceCorpusId": "word_en_06218",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.91,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.82,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06218."
-    },
-    {
-      "lemma": "stare",
-      "sourceCorpusId": "word_en_14360",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.91,
+      "sourceZipf": 3.56,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.82,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14360."
+      "priorityScore": 16.12,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11753."
     },
     {
-      "lemma": "toss",
-      "sourceCorpusId": "word_en_14721",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "calculator",
+      "sourceCorpusId": "word_en_10159",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.91,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.82,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14721."
-    },
-    {
-      "lemma": "conclude",
-      "sourceCorpusId": "word_en_11915",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.9,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.8,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11915."
-    },
-    {
-      "lemma": "rebuild",
-      "sourceCorpusId": "word_en_13699",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.9,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.8,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13699."
-    },
-    {
-      "lemma": "unite",
-      "sourceCorpusId": "word_en_14909",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.9,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.8,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14909."
-    },
-    {
-      "lemma": "counseling",
-      "sourceCorpusId": "word_en_03984",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.89,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.78,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03984."
-    },
-    {
-      "lemma": "emerge",
-      "sourceCorpusId": "word_en_05115",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.89,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.78,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05115."
-    },
-    {
-      "lemma": "gifted",
-      "sourceCorpusId": "word_en_06196",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.89,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.78,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06196."
-    },
-    {
-      "lemma": "consume",
-      "sourceCorpusId": "word_en_11928",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.88,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.76,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11928."
-    },
-    {
-      "lemma": "calculate",
-      "sourceCorpusId": "word_en_10157",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.87,
+      "sourceZipf": 3.56,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target",
         "source:cefr_j"
       ],
-      "priorityScore": 14.74,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10157."
+      "priorityScore": 16.12,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10159."
     },
     {
-      "lemma": "constitute",
-      "sourceCorpusId": "word_en_11926",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "hardship",
+      "sourceCorpusId": "word_en_12398",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.85,
+      "sourceZipf": 3.56,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.7,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11926."
+      "priorityScore": 16.12,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12398."
     },
     {
-      "lemma": "analyze",
-      "sourceCorpusId": "word_en_01639",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "lettuce",
+      "sourceCorpusId": "word_en_12647",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.84,
+      "sourceZipf": 3.56,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.12,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12647."
+    },
+    {
+      "lemma": "cabbage",
+      "sourceCorpusId": "word_en_02856",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
       "sourceTags": [
         "default",
         "often_misspelled",
@@ -4657,1060 +5398,317 @@
         "source:common_misspelled",
         "source:hermit"
       ],
-      "priorityScore": 14.68,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01639."
+      "priorityScore": 16.1,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02856."
     },
     {
-      "lemma": "convey",
-      "sourceCorpusId": "word_en_11940",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.83,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.66,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11940."
-    },
-    {
-      "lemma": "depressing",
-      "sourceCorpusId": "word_en_04433",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.83,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.66,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04433."
-    },
-    {
-      "lemma": "entertain",
-      "sourceCorpusId": "word_en_05217",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.83,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.66,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05217."
-    },
-    {
-      "lemma": "shave",
-      "sourceCorpusId": "word_en_14095",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.83,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.66,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14095."
-    },
-    {
-      "lemma": "despair",
-      "sourceCorpusId": "word_en_04476",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.82,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.64,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04476."
-    },
-    {
-      "lemma": "endure",
-      "sourceCorpusId": "word_en_05181",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.82,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.64,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05181."
-    },
-    {
-      "lemma": "absorb",
-      "sourceCorpusId": "word_en_11567",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.81,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.62,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11567."
-    },
-    {
-      "lemma": "glimpse",
-      "sourceCorpusId": "word_en_06224",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.81,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.62,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06224."
-    },
-    {
-      "lemma": "spoil",
-      "sourceCorpusId": "word_en_14325",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.81,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.62,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14325."
-    },
-    {
-      "lemma": "undergo",
-      "sourceCorpusId": "word_en_14861",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.81,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.62,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14861."
-    },
-    {
-      "lemma": "minimize",
-      "sourceCorpusId": "word_en_12853",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.8,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.6,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12853."
-    },
-    {
-      "lemma": "restrict",
-      "sourceCorpusId": "word_en_13833",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.8,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.6,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13833."
-    },
-    {
-      "lemma": "seize",
-      "sourceCorpusId": "word_en_14043",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.8,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.6,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14043."
-    },
-    {
-      "lemma": "distribute",
-      "sourceCorpusId": "word_en_12085",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.79,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.58,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12085."
-    },
-    {
-      "lemma": "hesitate",
-      "sourceCorpusId": "word_en_06694",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.79,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.58,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06694."
-    },
-    {
-      "lemma": "modify",
-      "sourceCorpusId": "word_en_12891",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.79,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.58,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12891."
-    },
-    {
-      "lemma": "surround",
-      "sourceCorpusId": "word_en_11366",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.79,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 14.58,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11366."
-    },
-    {
-      "lemma": "conquer",
-      "sourceCorpusId": "word_en_03737",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.77,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.54,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03737."
-    },
-    {
-      "lemma": "amusing",
-      "sourceCorpusId": "word_en_01633",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.76,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.52,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01633."
-    },
-    {
-      "lemma": "attach",
-      "sourceCorpusId": "word_en_11688",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.75,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.5,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11688."
-    },
-    {
-      "lemma": "regain",
-      "sourceCorpusId": "word_en_13747",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.73,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.46,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13747."
-    },
-    {
-      "lemma": "renew",
-      "sourceCorpusId": "word_en_13789",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.73,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.46,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13789."
-    },
-    {
-      "lemma": "resemble",
-      "sourceCorpusId": "word_en_11153",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.73,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 14.46,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11153."
-    },
-    {
-      "lemma": "bleed",
-      "sourceCorpusId": "word_en_02518",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.72,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.44,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_02518."
-    },
-    {
-      "lemma": "choke",
-      "sourceCorpusId": "word_en_03277",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.72,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.44,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03277."
-    },
-    {
-      "lemma": "accuse",
-      "sourceCorpusId": "word_en_01224",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.71,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.42,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01224."
-    },
-    {
-      "lemma": "appoint",
-      "sourceCorpusId": "word_en_11664",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.7,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.4,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11664."
-    },
-    {
-      "lemma": "emphasize",
-      "sourceCorpusId": "word_en_12154",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.69,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.38,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12154."
-    },
-    {
-      "lemma": "drown",
-      "sourceCorpusId": "word_en_04904",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.68,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.36,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04904."
-    },
-    {
-      "lemma": "greeting",
-      "sourceCorpusId": "word_en_06356",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.68,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.36,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06356."
-    },
-    {
-      "lemma": "depart",
-      "sourceCorpusId": "word_en_04424",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.67,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.34,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04424."
-    },
-    {
-      "lemma": "disappoint",
-      "sourceCorpusId": "word_en_04644",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.67,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.34,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_04644."
-    },
-    {
-      "lemma": "govern",
-      "sourceCorpusId": "word_en_12355",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.67,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.34,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12355."
-    },
-    {
-      "lemma": "assign",
-      "sourceCorpusId": "word_en_11679",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.66,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.32,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11679."
-    },
-    {
-      "lemma": "knit",
-      "sourceCorpusId": "word_en_12616",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.66,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.32,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12616."
-    },
-    {
-      "lemma": "remark",
-      "sourceCorpusId": "word_en_13781",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.66,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.32,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13781."
-    },
-    {
-      "lemma": "repay",
-      "sourceCorpusId": "word_en_13796",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.66,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.32,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13796."
-    },
-    {
-      "lemma": "fetch",
-      "sourceCorpusId": "word_en_05705",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.65,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.3,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05705."
-    },
-    {
-      "lemma": "swell",
-      "sourceCorpusId": "word_en_14530",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.64,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.28,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14530."
-    },
-    {
-      "lemma": "thirst",
-      "sourceCorpusId": "word_en_14646",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.64,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.28,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14646."
-    },
-    {
-      "lemma": "reproduce",
-      "sourceCorpusId": "word_en_13805",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.63,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.26,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13805."
-    },
-    {
-      "lemma": "attain",
-      "sourceCorpusId": "word_en_10111",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.6,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 14.2,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10111."
-    },
-    {
-      "lemma": "motivate",
-      "sourceCorpusId": "word_en_12930",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.6,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.2,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12930."
-    },
-    {
-      "lemma": "discourage",
-      "sourceCorpusId": "word_en_12061",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.57,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.14,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12061."
-    },
-    {
-      "lemma": "undo",
-      "sourceCorpusId": "word_en_14873",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.57,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.14,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14873."
-    },
-    {
-      "lemma": "mash",
-      "sourceCorpusId": "word_en_12762",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "fragment",
+      "sourceCorpusId": "word_en_12297",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
       "sourceZipf": 3.55,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 14.1,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12762."
+      "priorityScore": 16.1,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12297."
     },
     {
-      "lemma": "haunt",
-      "sourceCorpusId": "word_en_06587",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "heater",
+      "sourceCorpusId": "word_en_12416",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12416."
+    },
+    {
+      "lemma": "safeguard",
+      "sourceCorpusId": "word_en_13946",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13946."
+    },
+    {
+      "lemma": "telegram",
+      "sourceCorpusId": "word_en_14598",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14598."
+    },
+    {
+      "lemma": "turbulence",
+      "sourceCorpusId": "word_en_14818",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.55,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.1,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14818."
+    },
+    {
+      "lemma": "kettle",
+      "sourceCorpusId": "word_en_07657",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
       "sourceZipf": 3.54,
       "sourceTags": [
         "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.08,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06587."
-    },
-    {
-      "lemma": "cherish",
-      "sourceCorpusId": "word_en_03236",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.52,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 14.04,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03236."
-    },
-    {
-      "lemma": "disable",
-      "sourceCorpusId": "word_en_12056",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.52,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.04,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12056."
-    },
-    {
-      "lemma": "boast",
-      "sourceCorpusId": "word_en_11754",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.51,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.02,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11754."
-    },
-    {
-      "lemma": "dedicate",
-      "sourceCorpusId": "word_en_12008",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.51,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 14.02,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12008."
-    },
-    {
-      "lemma": "accurately",
-      "sourceCorpusId": "word_en_11575",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.99,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.98,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11575."
-    },
-    {
-      "lemma": "lightly",
-      "sourceCorpusId": "word_en_12661",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.96,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.92,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12661."
-    },
-    {
-      "lemma": "socially",
-      "sourceCorpusId": "word_en_14246",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.96,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.92,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14246."
-    },
-    {
-      "lemma": "supposedly",
-      "sourceCorpusId": "word_en_11351",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.96,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
         "often_misspelled",
         "source:cefr_j",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 12.92,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11351."
-    },
-    {
-      "lemma": "terribly",
-      "sourceCorpusId": "word_en_14617",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.91,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.82,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14617."
-    },
-    {
-      "lemma": "positively",
-      "sourceCorpusId": "word_en_13460",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.89,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.78,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13460."
-    },
-    {
-      "lemma": "illegally",
-      "sourceCorpusId": "word_en_06982",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.87,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
+        "source:common_misspelled",
         "source:hermit"
       ],
-      "priorityScore": 12.74,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_06982."
+      "priorityScore": 16.08,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_07657."
     },
     {
-      "lemma": "steadily",
-      "sourceCorpusId": "word_en_14369",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "runaway",
+      "sourceCorpusId": "word_en_13932",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.84,
+      "sourceZipf": 3.54,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 12.68,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14369."
+      "priorityScore": 16.08,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13932."
     },
     {
-      "lemma": "afterward",
-      "sourceCorpusId": "word_en_11605",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "waterfall",
+      "sourceCorpusId": "word_en_15071",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.83,
+      "sourceZipf": 3.54,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 12.66,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11605."
+      "priorityScore": 16.08,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15071."
     },
     {
-      "lemma": "tightly",
-      "sourceCorpusId": "word_en_14679",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.76,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.52,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14679."
-    },
-    {
-      "lemma": "unusually",
-      "sourceCorpusId": "word_en_14944",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.76,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.52,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14944."
-    },
-    {
-      "lemma": "indirectly",
-      "sourceCorpusId": "word_en_12508",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.71,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.42,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12508."
-    },
-    {
-      "lemma": "outdoors",
-      "sourceCorpusId": "word_en_13171",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.71,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.42,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13171."
-    },
-    {
-      "lemma": "wildly",
-      "sourceCorpusId": "word_en_15131",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.71,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.42,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15131."
-    },
-    {
-      "lemma": "whichever",
-      "sourceCorpusId": "word_en_15116",
-      "sourcePartOfSpeech": "other",
-      "sourceGrade": 4,
-      "sourceZipf": 3.7,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.4,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15116."
-    },
-    {
-      "lemma": "visually",
-      "sourceCorpusId": "word_en_15027",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.68,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.36,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15027."
-    },
-    {
-      "lemma": "strangely",
-      "sourceCorpusId": "word_en_14409",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.67,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.34,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14409."
-    },
-    {
-      "lemma": "evenly",
-      "sourceCorpusId": "word_en_12197",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.65,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.3,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12197."
-    },
-    {
-      "lemma": "violently",
-      "sourceCorpusId": "word_en_15019",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.62,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.24,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_15019."
-    },
-    {
-      "lemma": "indoors",
-      "sourceCorpusId": "word_en_12510",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.6,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.2,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12510."
-    },
-    {
-      "lemma": "oneself",
-      "sourceCorpusId": "word_en_13127",
-      "sourcePartOfSpeech": "other",
-      "sourceGrade": 4,
-      "sourceZipf": 3.55,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.1,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13127."
-    },
-    {
-      "lemma": "distinctly",
-      "sourceCorpusId": "word_en_12081",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "favourable",
+      "sourceCorpusId": "word_en_10463",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 4,
       "sourceZipf": 3.53,
       "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.06,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12081."
-    },
-    {
-      "lemma": "aloud",
-      "sourceCorpusId": "word_en_11613",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.51,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 12.02,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11613."
-    },
-    {
-      "lemma": "anyhow",
-      "sourceCorpusId": "word_en_01727",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.48,
-      "sourceTags": [
-        "default",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 11.96,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_01727."
-    },
-    {
-      "lemma": "continuously",
-      "sourceCorpusId": "word_en_10275",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 4,
-      "sourceZipf": 3.97,
-      "sourceTags": [
         "default",
         "derived_from_misspelling_target",
         "often_misspelled",
         "source:cefr_j",
         "source:common_misspelled"
       ],
-      "priorityScore": 11.94,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10275."
+      "priorityScore": 16.06,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10463."
     },
     {
-      "lemma": "politely",
-      "sourceCorpusId": "word_en_13441",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "magician",
+      "sourceCorpusId": "word_en_10679",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 4,
-      "sourceZipf": 3.47,
+      "sourceZipf": 3.53,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 16.06,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10679."
+    },
+    {
+      "lemma": "bilingual",
+      "sourceCorpusId": "word_en_11736",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
       "sourceTags": [
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 11.94,
-      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13441."
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11736."
+    },
+    {
+      "lemma": "chuckle",
+      "sourceCorpusId": "word_en_03305",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_03305."
+    },
+    {
+      "lemma": "examiner",
+      "sourceCorpusId": "word_en_12205",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12205."
+    },
+    {
+      "lemma": "fluent",
+      "sourceCorpusId": "word_en_12275",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12275."
+    },
+    {
+      "lemma": "flute",
+      "sourceCorpusId": "word_en_05847",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "default",
+        "source:cefr_j",
+        "source:hermit"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_05847."
+    },
+    {
+      "lemma": "outward",
+      "sourceCorpusId": "word_en_13189",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13189."
+    },
+    {
+      "lemma": "stricken",
+      "sourceCorpusId": "word_en_14419",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14419."
+    },
+    {
+      "lemma": "unfit",
+      "sourceCorpusId": "word_en_14890",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 4,
+      "sourceZipf": 3.52,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.04,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_14890."
+    },
+    {
+      "lemma": "chemist",
+      "sourceCorpusId": "word_en_11846",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.02,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_11846."
+    },
+    {
+      "lemma": "diligence",
+      "sourceCorpusId": "word_en_12048",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.02,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_12048."
+    },
+    {
+      "lemma": "nutrient",
+      "sourceCorpusId": "word_en_10820",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "source:cefr_j"
+      ],
+      "priorityScore": 16.02,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_10820."
+    },
+    {
+      "lemma": "outlaw",
+      "sourceCorpusId": "word_en_13176",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.02,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13176."
+    },
+    {
+      "lemma": "parachute",
+      "sourceCorpusId": "word_en_13258",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 4,
+      "sourceZipf": 3.51,
+      "sourceTags": [
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 16.02,
+      "notes": "Source grade 4; selected for grade-4 introduced meaning review from word_en_13258."
     }
   ]
 }

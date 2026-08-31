@@ -16,27 +16,29 @@
     "mode": "introduced",
     "purpose": "meaning",
     "requested": 400,
-    "selected": 400,
+    "selected": 280,
     "rawGradeRows": 1094,
     "candidatePool": 1093,
     "excludedOrDeduplicated": 1,
-    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing",
-    "reviewStatus": "pending_sense_and_editorial_review"
+    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
+    "reviewStatus": "pending_sense_and_editorial_review",
+    "semanticResolution": {
+      "sourceId": "open-english-wordnet",
+      "sourceVersion": "2025",
+      "requestedTarget": 400,
+      "eligibleCandidatePool": 1093,
+      "overscanRequested": 1200,
+      "overscanSelected": 1093,
+      "resolvableInOverscan": 280,
+      "skippedUnresolved": 813,
+      "selectedResolved": 280,
+      "targetShortfall": 120,
+      "filledRequestedTarget": false,
+      "exhaustedEligiblePool": true,
+      "policy": "meaning_queue_backfill_only_no_runtime_publish"
+    }
   },
   "items": [
-    {
-      "lemma": "caitlyn",
-      "sourceCorpusId": "word_en_02869",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.99,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02869."
-    },
     {
       "lemma": "forerunner",
       "sourceCorpusId": "word_en_10478",
@@ -92,19 +94,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10152."
     },
     {
-      "lemma": "callie",
-      "sourceCorpusId": "word_en_02883",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.97,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.94,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02883."
-    },
-    {
       "lemma": "posthumous",
       "sourceCorpusId": "word_en_10971",
       "sourcePartOfSpeech": "adjective",
@@ -116,33 +105,6 @@
       ],
       "priorityScore": 10.94,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10971."
-    },
-    {
-      "lemma": "untill",
-      "sourceCorpusId": "word_en_09818",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.97,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.94,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09818."
-    },
-    {
-      "lemma": "zionists",
-      "sourceCorpusId": "word_en_11560",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.97,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.94,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11560."
     },
     {
       "lemma": "archetype",
@@ -173,33 +135,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10331."
     },
     {
-      "lemma": "strat",
-      "sourceCorpusId": "word_en_09369",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.96,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09369."
-    },
-    {
-      "lemma": "argh",
-      "sourceCorpusId": "word_en_01871",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.95,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01871."
-    },
-    {
       "lemma": "buoyancy",
       "sourceCorpusId": "word_en_10151",
       "sourcePartOfSpeech": "noun",
@@ -211,19 +146,6 @@
       ],
       "priorityScore": 10.9,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10151."
-    },
-    {
-      "lemma": "consonants",
-      "sourceCorpusId": "word_en_10254",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.95,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10254."
     },
     {
       "lemma": "delirious",
@@ -239,19 +161,6 @@
       ],
       "priorityScore": 10.9,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10311."
-    },
-    {
-      "lemma": "goddammit",
-      "sourceCorpusId": "word_en_06241",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.95,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06241."
     },
     {
       "lemma": "subspecies",
@@ -375,19 +284,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10492."
     },
     {
-      "lemma": "groans",
-      "sourceCorpusId": "word_en_06376",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.93,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.86,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06376."
-    },
-    {
       "lemma": "milieu",
       "sourceCorpusId": "word_en_10732",
       "sourcePartOfSpeech": "noun",
@@ -412,58 +308,6 @@
       ],
       "priorityScore": 10.86,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11282."
-    },
-    {
-      "lemma": "edie",
-      "sourceCorpusId": "word_en_05002",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05002."
-    },
-    {
-      "lemma": "gothenburg",
-      "sourceCorpusId": "word_en_10505",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10505."
-    },
-    {
-      "lemma": "grunts",
-      "sourceCorpusId": "word_en_06396",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06396."
-    },
-    {
-      "lemma": "guadalupe",
-      "sourceCorpusId": "word_en_10512",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10512."
     },
     {
       "lemma": "guatemalan",
@@ -531,59 +375,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04032."
     },
     {
-      "lemma": "evie",
-      "sourceCorpusId": "word_en_05361",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.91,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.82,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05361."
-    },
-    {
-      "lemma": "aggrieved",
-      "sourceCorpusId": "word_en_10053",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.9,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10053."
-    },
-    {
-      "lemma": "habeas",
-      "sourceCorpusId": "word_en_10520",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.9,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10520."
-    },
-    {
-      "lemma": "holliday",
-      "sourceCorpusId": "word_en_06770",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.9,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06770."
-    },
-    {
       "lemma": "divination",
       "sourceCorpusId": "word_en_10360",
       "sourcePartOfSpeech": "noun",
@@ -608,19 +399,6 @@
       ],
       "priorityScore": 10.78,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11397."
-    },
-    {
-      "lemma": "darlin",
-      "sourceCorpusId": "word_en_04243",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.88,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.76,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04243."
     },
     {
       "lemma": "emblematic",
@@ -662,47 +440,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01614."
     },
     {
-      "lemma": "gottlieb",
-      "sourceCorpusId": "word_en_10506",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.86,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10506."
-    },
-    {
-      "lemma": "vassals",
-      "sourceCorpusId": "word_en_11512",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.86,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11512."
-    },
-    {
-      "lemma": "prairies",
-      "sourceCorpusId": "word_en_10979",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.85,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.7,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10979."
-    },
-    {
       "lemma": "emissary",
       "sourceCorpusId": "word_en_10391",
       "sourcePartOfSpeech": "noun",
@@ -716,61 +453,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10391."
     },
     {
-      "lemma": "francine",
-      "sourceCorpusId": "word_en_05968",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.84,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.68,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05968."
-    },
-    {
-      "lemma": "jeannie",
-      "sourceCorpusId": "word_en_07489",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.84,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.68,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07489."
-    },
-    {
-      "lemma": "strictest",
-      "sourceCorpusId": "word_en_11303",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.84,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.68,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11303."
-    },
-    {
-      "lemma": "heros",
-      "sourceCorpusId": "word_en_06687",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.83,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06687."
-    },
-    {
       "lemma": "peninsular",
       "sourceCorpusId": "word_en_10896",
       "sourcePartOfSpeech": "adjective",
@@ -782,45 +464,6 @@
       ],
       "priorityScore": 10.66,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10896."
-    },
-    {
-      "lemma": "potsdam",
-      "sourceCorpusId": "word_en_10972",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.83,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10972."
-    },
-    {
-      "lemma": "rebellions",
-      "sourceCorpusId": "word_en_11079",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.83,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11079."
-    },
-    {
-      "lemma": "archetypes",
-      "sourceCorpusId": "word_en_10096",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.82,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.64,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10096."
     },
     {
       "lemma": "brimstone",
@@ -914,19 +557,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10104."
     },
     {
-      "lemma": "caucuses",
-      "sourceCorpusId": "word_en_10178",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.81,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10178."
-    },
-    {
       "lemma": "ciao",
       "sourceCorpusId": "word_en_03313",
       "sourcePartOfSpeech": "noun",
@@ -938,45 +568,6 @@
       ],
       "priorityScore": 10.62,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03313."
-    },
-    {
-      "lemma": "aircraft's",
-      "sourceCorpusId": "word_en_10056",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.8,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10056."
-    },
-    {
-      "lemma": "frasier",
-      "sourceCorpusId": "word_en_05981",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.8,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05981."
-    },
-    {
-      "lemma": "gracias",
-      "sourceCorpusId": "word_en_06297",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.79,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.58,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06297."
     },
     {
       "lemma": "inaudible",
@@ -1016,19 +607,6 @@
       ],
       "priorityScore": 10.52,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10050."
-    },
-    {
-      "lemma": "bonjour",
-      "sourceCorpusId": "word_en_02586",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.76,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.52,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02586."
     },
     {
       "lemma": "mucous",
@@ -1072,58 +650,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11238."
     },
     {
-      "lemma": "galatians",
-      "sourceCorpusId": "word_en_10493",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.75,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10493."
-    },
-    {
-      "lemma": "couldn",
-      "sourceCorpusId": "word_en_03979",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.74,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.48,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03979."
-    },
-    {
-      "lemma": "giulia",
-      "sourceCorpusId": "word_en_10500",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.74,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.48,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10500."
-    },
-    {
-      "lemma": "innit",
-      "sourceCorpusId": "word_en_07215",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.74,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.48,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07215."
-    },
-    {
       "lemma": "phonograph",
       "sourceCorpusId": "word_en_10933",
       "sourcePartOfSpeech": "noun",
@@ -1149,32 +675,6 @@
       ],
       "priorityScore": 10.48,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09657."
-    },
-    {
-      "lemma": "beeps",
-      "sourceCorpusId": "word_en_02345",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.73,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02345."
-    },
-    {
-      "lemma": "growls",
-      "sourceCorpusId": "word_en_06388",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.73,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06388."
     },
     {
       "lemma": "emphysema",
@@ -1203,19 +703,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10869."
     },
     {
-      "lemma": "aaah",
-      "sourceCorpusId": "word_en_01111",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.71,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01111."
-    },
-    {
       "lemma": "cyan",
       "sourceCorpusId": "word_en_10294",
       "sourcePartOfSpeech": "noun",
@@ -1227,19 +714,6 @@
       ],
       "priorityScore": 10.42,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10294."
-    },
-    {
-      "lemma": "leibniz",
-      "sourceCorpusId": "word_en_10654",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.7,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.4,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10654."
     },
     {
       "lemma": "separatism",
@@ -1268,152 +742,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10647."
     },
     {
-      "lemma": "axl",
-      "sourceCorpusId": "word_en_02160",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.68,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.36,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02160."
-    },
-    {
-      "lemma": "grammer",
-      "sourceCorpusId": "word_en_06313",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.67,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.34,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06313."
-    },
-    {
-      "lemma": "liaisons",
-      "sourceCorpusId": "word_en_10660",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.66,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.32,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10660."
-    },
-    {
-      "lemma": "yousef",
-      "sourceCorpusId": "word_en_11557",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.66,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.32,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11557."
-    },
-    {
-      "lemma": "agh",
-      "sourceCorpusId": "word_en_01424",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.65,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.3,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01424."
-    },
-    {
-      "lemma": "altho",
-      "sourceCorpusId": "word_en_01584",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.65,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.3,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01584."
-    },
-    {
-      "lemma": "frome",
-      "sourceCorpusId": "word_en_06019",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.65,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.3,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06019."
-    },
-    {
-      "lemma": "giulio",
-      "sourceCorpusId": "word_en_10501",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.65,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.3,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10501."
-    },
-    {
-      "lemma": "dings",
-      "sourceCorpusId": "word_en_04612",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.64,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.28,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04612."
-    },
-    {
-      "lemma": "sistine",
-      "sourceCorpusId": "word_en_11250",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.64,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.28,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11250."
-    },
-    {
-      "lemma": "aerials",
-      "sourceCorpusId": "word_en_10039",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.63,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.26,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10039."
-    },
-    {
       "lemma": "emigrant",
       "sourceCorpusId": "word_en_10385",
       "sourcePartOfSpeech": "noun",
@@ -1425,33 +753,6 @@
       ],
       "priorityScore": 10.26,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10385."
-    },
-    {
-      "lemma": "inbetween",
-      "sourceCorpusId": "word_en_07067",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.62,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.24,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07067."
-    },
-    {
-      "lemma": "kitt",
-      "sourceCorpusId": "word_en_07705",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.62,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.24,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07705."
     },
     {
       "lemma": "habsburg",
@@ -1467,86 +768,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10521."
     },
     {
-      "lemma": "puccini",
-      "sourceCorpusId": "word_en_11057",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.61,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.22,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11057."
-    },
-    {
-      "lemma": "wierd",
-      "sourceCorpusId": "word_en_09942",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.61,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.22,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09942."
-    },
-    {
-      "lemma": "emissaries",
-      "sourceCorpusId": "word_en_10390",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.6,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.2,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10390."
-    },
-    {
-      "lemma": "likud",
-      "sourceCorpusId": "word_en_10665",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.6,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.2,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10665."
-    },
-    {
-      "lemma": "millenium",
-      "sourceCorpusId": "word_en_08090",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.6,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.2,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08090."
-    },
-    {
-      "lemma": "montserrat",
-      "sourceCorpusId": "word_en_10766",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.59,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.18,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10766."
-    },
-    {
       "lemma": "rococo",
       "sourceCorpusId": "word_en_11184",
       "sourcePartOfSpeech": "noun",
@@ -1560,32 +781,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11184."
     },
     {
-      "lemma": "vagaries",
-      "sourceCorpusId": "word_en_11506",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.59,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.18,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11506."
-    },
-    {
-      "lemma": "gauguin",
-      "sourceCorpusId": "word_en_10494",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.57,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 10.14,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10494."
-    },
-    {
       "lemma": "heredity",
       "sourceCorpusId": "word_en_10529",
       "sourcePartOfSpeech": "noun",
@@ -1597,20 +792,6 @@
       ],
       "priorityScore": 10.14,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10529."
-    },
-    {
-      "lemma": "malcom",
-      "sourceCorpusId": "word_en_07998",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.57,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.14,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07998."
     },
     {
       "lemma": "vermillion",
@@ -1638,19 +819,6 @@
       ],
       "priorityScore": 10.12,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10144."
-    },
-    {
-      "lemma": "darrin",
-      "sourceCorpusId": "word_en_04247",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.56,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 10.12,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04247."
     },
     {
       "lemma": "guttural",
@@ -1694,47 +862,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11071."
     },
     {
-      "lemma": "sherif",
-      "sourceCorpusId": "word_en_09220",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.53,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.06,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09220."
-    },
-    {
-      "lemma": "wass",
-      "sourceCorpusId": "word_en_09913",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.51,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 10.02,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09913."
-    },
-    {
-      "lemma": "foundries",
-      "sourceCorpusId": "word_en_10486",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.49,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10486."
-    },
-    {
       "lemma": "meerkat",
       "sourceCorpusId": "word_en_10712",
       "sourcePartOfSpeech": "noun",
@@ -1746,19 +873,6 @@
       ],
       "priorityScore": 9.98,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10712."
-    },
-    {
-      "lemma": "pogroms",
-      "sourceCorpusId": "word_en_10947",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.49,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10947."
     },
     {
       "lemma": "repentant",
@@ -1774,33 +888,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11141."
     },
     {
-      "lemma": "submachine",
-      "sourceCorpusId": "word_en_11317",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.49,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11317."
-    },
-    {
-      "lemma": "aircrafts",
-      "sourceCorpusId": "word_en_01473",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.48,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.96,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01473."
-    },
-    {
       "lemma": "unaccompanied",
       "sourceCorpusId": "word_en_11457",
       "sourcePartOfSpeech": "adjective",
@@ -1812,19 +899,6 @@
       ],
       "priorityScore": 9.96,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11457."
-    },
-    {
-      "lemma": "aii",
-      "sourceCorpusId": "word_en_01465",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.47,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 9.94,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01465."
     },
     {
       "lemma": "paraphernalia",
@@ -1853,32 +927,6 @@
       ],
       "priorityScore": 9.94,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11201."
-    },
-    {
-      "lemma": "colonizers",
-      "sourceCorpusId": "word_en_10204",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.46,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10204."
-    },
-    {
-      "lemma": "invertebrates",
-      "sourceCorpusId": "word_en_10635",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.96,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10635."
     },
     {
       "lemma": "milligram",
@@ -1933,20 +981,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10556."
     },
     {
-      "lemma": "momento",
-      "sourceCorpusId": "word_en_08140",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.44,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.88,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08140."
-    },
-    {
       "lemma": "aerodynamics",
       "sourceCorpusId": "word_en_10040",
       "sourcePartOfSpeech": "noun",
@@ -1958,48 +992,6 @@
       ],
       "priorityScore": 9.86,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10040."
-    },
-    {
-      "lemma": "creedence",
-      "sourceCorpusId": "word_en_04061",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.43,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.86,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04061."
-    },
-    {
-      "lemma": "identifiers",
-      "sourceCorpusId": "word_en_10555",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.93,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.86,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10555."
-    },
-    {
-      "lemma": "morissette",
-      "sourceCorpusId": "word_en_10767",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.43,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.86,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10767."
     },
     {
       "lemma": "pomegranate",
@@ -2028,32 +1020,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11030."
     },
     {
-      "lemma": "buzzes",
-      "sourceCorpusId": "word_en_02849",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.42,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 9.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02849."
-    },
-    {
-      "lemma": "hierarchies",
-      "sourceCorpusId": "word_en_10533",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10533."
-    },
-    {
       "lemma": "rechargeable",
       "sourceCorpusId": "word_en_11088",
       "sourcePartOfSpeech": "adjective",
@@ -2078,19 +1044,6 @@
       ],
       "priorityScore": 9.84,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11442."
-    },
-    {
-      "lemma": "bernoulli",
-      "sourceCorpusId": "word_en_10138",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.41,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.82,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10138."
     },
     {
       "lemma": "polyphonic",
@@ -2210,20 +1163,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11495."
     },
     {
-      "lemma": "vell",
-      "sourceCorpusId": "word_en_09860",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.38,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.76,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09860."
-    },
-    {
       "lemma": "preoccupation",
       "sourceCorpusId": "word_en_10997",
       "sourcePartOfSpeech": "noun",
@@ -2237,34 +1176,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10997."
     },
     {
-      "lemma": "inspite",
-      "sourceCorpusId": "word_en_07251",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.36,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07251."
-    },
-    {
-      "lemma": "pharoah",
-      "sourceCorpusId": "word_en_08509",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.36,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08509."
-    },
-    {
       "lemma": "probabilistic",
       "sourceCorpusId": "word_en_11015",
       "sourcePartOfSpeech": "adjective",
@@ -2276,20 +1187,6 @@
       ],
       "priorityScore": 9.72,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11015."
-    },
-    {
-      "lemma": "clas",
-      "sourceCorpusId": "word_en_03359",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.35,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.7,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03359."
     },
     {
       "lemma": "dravidian",
@@ -2344,20 +1241,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10722."
     },
     {
-      "lemma": "beng",
-      "sourceCorpusId": "word_en_02417",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.34,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.68,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02417."
-    },
-    {
       "lemma": "contemporaneous",
       "sourceCorpusId": "word_en_10267",
       "sourcePartOfSpeech": "adjective",
@@ -2410,20 +1293,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11311."
     },
     {
-      "lemma": "ukranian",
-      "sourceCorpusId": "word_en_09730",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.33,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09730."
-    },
-    {
       "lemma": "undetectable",
       "sourceCorpusId": "word_en_11473",
       "sourcePartOfSpeech": "adjective",
@@ -2437,21 +1306,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11473."
     },
     {
-      "lemma": "abundances",
-      "sourceCorpusId": "word_en_10007",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.32,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.64,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10007."
-    },
-    {
       "lemma": "omnivorous",
       "sourceCorpusId": "word_en_10842",
       "sourcePartOfSpeech": "adjective",
@@ -2463,19 +1317,6 @@
       ],
       "priorityScore": 9.64,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10842."
-    },
-    {
-      "lemma": "spoonfuls",
-      "sourceCorpusId": "word_en_11284",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.32,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.64,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11284."
     },
     {
       "lemma": "bergamot",
@@ -2504,21 +1345,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10257."
     },
     {
-      "lemma": "pronouncements",
-      "sourceCorpusId": "word_en_11035",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.81,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11035."
-    },
-    {
       "lemma": "guanine",
       "sourceCorpusId": "word_en_10513",
       "sourcePartOfSpeech": "noun",
@@ -2532,19 +1358,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10513."
     },
     {
-      "lemma": "jarod",
-      "sourceCorpusId": "word_en_07475",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.3,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 9.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07475."
-    },
-    {
       "lemma": "parliamentarian",
       "sourceCorpusId": "word_en_10884",
       "sourcePartOfSpeech": "noun",
@@ -2556,19 +1369,6 @@
       ],
       "priorityScore": 9.6,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10884."
-    },
-    {
-      "lemma": "shopkeepers",
-      "sourceCorpusId": "word_en_11236",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.8,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11236."
     },
     {
       "lemma": "conspirator",
@@ -2595,19 +1395,6 @@
       ],
       "priorityScore": 9.58,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10296."
-    },
-    {
-      "lemma": "iet",
-      "sourceCorpusId": "word_en_06967",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.29,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 9.58,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06967."
     },
     {
       "lemma": "inadvertent",
@@ -2637,19 +1424,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09270."
     },
     {
-      "lemma": "misfortunes",
-      "sourceCorpusId": "word_en_10749",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.78,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.56,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10749."
-    },
-    {
       "lemma": "principality",
       "sourceCorpusId": "word_en_11011",
       "sourcePartOfSpeech": "noun",
@@ -2676,47 +1450,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11195."
     },
     {
-      "lemma": "octahedral",
-      "sourceCorpusId": "word_en_10833",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.27,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.54,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10833."
-    },
-    {
-      "lemma": "peice",
-      "sourceCorpusId": "word_en_08446",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.27,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.54,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08446."
-    },
-    {
-      "lemma": "sargeant",
-      "sourceCorpusId": "word_en_09137",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.27,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.54,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09137."
-    },
-    {
       "lemma": "unbeknownst",
       "sourceCorpusId": "word_en_11462",
       "sourcePartOfSpeech": "adjective",
@@ -2730,20 +1463,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11462."
     },
     {
-      "lemma": "mariage",
-      "sourceCorpusId": "word_en_08022",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.26,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.52,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08022."
-    },
-    {
       "lemma": "carmelite",
       "sourceCorpusId": "word_en_10165",
       "sourcePartOfSpeech": "noun",
@@ -2755,32 +1474,6 @@
       ],
       "priorityScore": 9.5,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10165."
-    },
-    {
-      "lemma": "hasn",
-      "sourceCorpusId": "word_en_06572",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.25,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 9.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06572."
-    },
-    {
-      "lemma": "ifyou",
-      "sourceCorpusId": "word_en_06968",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.25,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 9.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06968."
     },
     {
       "lemma": "incompatibility",
@@ -2798,33 +1491,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10582."
     },
     {
-      "lemma": "millenia",
-      "sourceCorpusId": "word_en_08087",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.25,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08087."
-    },
-    {
-      "lemma": "misdemeanors",
-      "sourceCorpusId": "word_en_10748",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.75,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10748."
-    },
-    {
       "lemma": "toroidal",
       "sourceCorpusId": "word_en_11421",
       "sourcePartOfSpeech": "adjective",
@@ -2838,20 +1504,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11421."
     },
     {
-      "lemma": "usefull",
-      "sourceCorpusId": "word_en_09830",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.25,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09830."
-    },
-    {
       "lemma": "haemorrhage",
       "sourceCorpusId": "word_en_10522",
       "sourcePartOfSpeech": "noun",
@@ -2863,20 +1515,6 @@
       ],
       "priorityScore": 9.48,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10522."
-    },
-    {
-      "lemma": "powerfull",
-      "sourceCorpusId": "word_en_08615",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.24,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.48,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08615."
     },
     {
       "lemma": "receivership",
@@ -2905,47 +1543,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11228."
     },
     {
-      "lemma": "guage",
-      "sourceCorpusId": "word_en_06402",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.23,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06402."
-    },
-    {
-      "lemma": "nickle",
-      "sourceCorpusId": "word_en_08225",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.23,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08225."
-    },
-    {
-      "lemma": "pollinators",
-      "sourceCorpusId": "word_en_10952",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.73,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10952."
-    },
-    {
       "lemma": "subjugation",
       "sourceCorpusId": "word_en_11316",
       "sourcePartOfSpeech": "noun",
@@ -2957,88 +1554,6 @@
       ],
       "priorityScore": 9.46,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11316."
-    },
-    {
-      "lemma": "pavillion",
-      "sourceCorpusId": "word_en_08436",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.22,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.44,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08436."
-    },
-    {
-      "lemma": "carribean",
-      "sourceCorpusId": "word_en_02997",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.21,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02997."
-    },
-    {
-      "lemma": "multipliers",
-      "sourceCorpusId": "word_en_10776",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.71,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10776."
-    },
-    {
-      "lemma": "troup",
-      "sourceCorpusId": "word_en_09707",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.21,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09707."
-    },
-    {
-      "lemma": "carefull",
-      "sourceCorpusId": "word_en_02964",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.2,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.4,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02964."
-    },
-    {
-      "lemma": "descriptors",
-      "sourceCorpusId": "word_en_10323",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 6,
-      "sourceZipf": 2.7,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 9.4,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10323."
     },
     {
       "lemma": "interrelated",
@@ -3054,6 +1569,21 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10630."
     },
     {
+      "lemma": "ophthalmologist",
+      "sourceCorpusId": "word_en_10845",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.7,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 9.4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10845."
+    },
+    {
       "lemma": "unsurprising",
       "sourceCorpusId": "word_en_11499",
       "sourcePartOfSpeech": "adjective",
@@ -3067,18 +1597,19 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11499."
     },
     {
-      "lemma": "wonderfull",
-      "sourceCorpusId": "word_en_09964",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "restaurateur",
+      "sourceCorpusId": "word_en_11167",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.19,
+      "sourceZipf": 2.68,
       "sourceTags": [
         "default",
+        "derived_from_misspelling_target",
         "often_misspelled",
         "source:common_misspelled"
       ],
-      "priorityScore": 9.38,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09964."
+      "priorityScore": 9.36,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11167."
     },
     {
       "lemma": "disobedient",
@@ -3094,18 +1625,149 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10347."
     },
     {
-      "lemma": "portugese",
-      "sourceCorpusId": "word_en_08581",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "imitator",
+      "sourceCorpusId": "word_en_10561",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.12,
+      "sourceZipf": 2.17,
       "sourceTags": [
         "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.34,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10561."
+    },
+    {
+      "lemma": "trustworthiness",
+      "sourceCorpusId": "word_en_11449",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.67,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.34,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11449."
+    },
+    {
+      "lemma": "asphyxiation",
+      "sourceCorpusId": "word_en_10105",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.65,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.3,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10105."
+    },
+    {
+      "lemma": "bilingualism",
+      "sourceCorpusId": "word_en_10143",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.65,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.3,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10143."
+    },
+    {
+      "lemma": "apologetics",
+      "sourceCorpusId": "word_en_10085",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.64,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.28,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10085."
+    },
+    {
+      "lemma": "caisson",
+      "sourceCorpusId": "word_en_10156",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.14,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.28,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10156."
+    },
+    {
+      "lemma": "exoskeleton",
+      "sourceCorpusId": "word_en_10443",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.64,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.28,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10443."
+    },
+    {
+      "lemma": "expropriation",
+      "sourceCorpusId": "word_en_10450",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.64,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.28,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10450."
+    },
+    {
+      "lemma": "maneuverability",
+      "sourceCorpusId": "word_en_10689",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.64,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
         "often_misspelled",
         "source:common_misspelled"
       ],
+      "priorityScore": 9.28,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10689."
+    },
+    {
+      "lemma": "libertarianism",
+      "sourceCorpusId": "word_en_10662",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.62,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
       "priorityScore": 9.24,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08581."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10662."
+    },
+    {
+      "lemma": "materialist",
+      "sourceCorpusId": "word_en_10702",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.61,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.22,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10702."
     },
     {
       "lemma": "unrepentant",
@@ -3121,9 +1783,9 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11493."
     },
     {
-      "lemma": "laparoscopic",
-      "sourceCorpusId": "word_en_10650",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "paleolithic",
+      "sourceCorpusId": "word_en_10872",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
       "sourceZipf": 2.59,
       "sourceTags": [
@@ -3131,35 +1793,22 @@
         "derived_from_misspelling_target"
       ],
       "priorityScore": 9.18,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10650."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10872."
     },
     {
-      "lemma": "nowe",
-      "sourceCorpusId": "word_en_08253",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "hippopotamus",
+      "sourceCorpusId": "word_en_10540",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.09,
+      "sourceZipf": 2.56,
       "sourceTags": [
         "default",
+        "derived_from_misspelling_target",
         "often_misspelled",
         "source:common_misspelled"
       ],
-      "priorityScore": 9.18,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08253."
-    },
-    {
-      "lemma": "rediculous",
-      "sourceCorpusId": "word_en_08912",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.08,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 9.16,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08912."
+      "priorityScore": 9.12,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10540."
     },
     {
       "lemma": "puritanical",
@@ -3175,6 +1824,32 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11060."
     },
     {
+      "lemma": "penetrator",
+      "sourceCorpusId": "word_en_10894",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.02,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.04,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10894."
+    },
+    {
+      "lemma": "cassowary",
+      "sourceCorpusId": "word_en_10173",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.01,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 9.02,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10173."
+    },
+    {
       "lemma": "hydrophilic",
       "sourceCorpusId": "word_en_10549",
       "sourcePartOfSpeech": "adjective",
@@ -3188,71 +1863,17 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10549."
     },
     {
-      "lemma": "configurable",
-      "sourceCorpusId": "word_en_10239",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "hieroglyph",
+      "sourceCorpusId": "word_en_10535",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.49,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10239."
-    },
-    {
-      "lemma": "misspelled",
-      "sourceCorpusId": "word_en_10755",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.99,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10755."
-    },
-    {
-      "lemma": "renovating",
-      "sourceCorpusId": "word_en_11135",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.99,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11135."
-    },
-    {
-      "lemma": "stirs",
-      "sourceCorpusId": "word_en_11292",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.99,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.98,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11292."
-    },
-    {
-      "lemma": "hoisted",
-      "sourceCorpusId": "word_en_10542",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.98,
+      "sourceZipf": 1.98,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
       "priorityScore": 8.96,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10542."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10535."
     },
     {
       "lemma": "obstructed",
@@ -3266,6 +1887,19 @@
       ],
       "priorityScore": 8.96,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10828."
+    },
+    {
+      "lemma": "singsong",
+      "sourceCorpusId": "word_en_11249",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.98,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 8.96,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11249."
     },
     {
       "lemma": "growling",
@@ -3296,58 +1930,17 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11083."
     },
     {
-      "lemma": "wielded",
-      "sourceCorpusId": "word_en_11547",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.97,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.94,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11547."
-    },
-    {
-      "lemma": "fiel",
-      "sourceCorpusId": "word_en_05717",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "sepulcher",
+      "sourceCorpusId": "word_en_11227",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
       "sourceZipf": 1.96,
       "sourceTags": [
         "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05717."
-    },
-    {
-      "lemma": "larg",
-      "sourceCorpusId": "word_en_07791",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.96,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07791."
-    },
-    {
-      "lemma": "annulled",
-      "sourceCorpusId": "word_en_10077",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.95,
-      "sourceTags": [
-        "default",
         "derived_from_misspelling_target"
       ],
-      "priorityScore": 8.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10077."
+      "priorityScore": 8.92,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11227."
     },
     {
       "lemma": "blaring",
@@ -3361,33 +1954,6 @@
       ],
       "priorityScore": 8.9,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02514."
-    },
-    {
-      "lemma": "payed",
-      "sourceCorpusId": "word_en_08437",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.95,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08437."
-    },
-    {
-      "lemma": "reelected",
-      "sourceCorpusId": "word_en_11101",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.95,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11101."
     },
     {
       "lemma": "rarified",
@@ -3417,6 +1983,19 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11074."
     },
     {
+      "lemma": "infallibility",
+      "sourceCorpusId": "word_en_10606",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.43,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 8.86,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10606."
+    },
+    {
       "lemma": "exacerbate",
       "sourceCorpusId": "word_en_10427",
       "sourcePartOfSpeech": "verb",
@@ -3428,73 +2007,6 @@
       ],
       "priorityScore": 8.84,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10427."
-    },
-    {
-      "lemma": "existant",
-      "sourceCorpusId": "word_en_05457",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.92,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05457."
-    },
-    {
-      "lemma": "forseeable",
-      "sourceCorpusId": "word_en_05931",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.92,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05931."
-    },
-    {
-      "lemma": "gasps",
-      "sourceCorpusId": "word_en_06123",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06123."
-    },
-    {
-      "lemma": "martyred",
-      "sourceCorpusId": "word_en_10700",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.92,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.84,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10700."
-    },
-    {
-      "lemma": "applauding",
-      "sourceCorpusId": "word_en_01779",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.91,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.82,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01779."
     },
     {
       "lemma": "elicited",
@@ -3510,18 +2022,17 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10379."
     },
     {
-      "lemma": "florescent",
-      "sourceCorpusId": "word_en_05831",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "readmission",
+      "sourceCorpusId": "word_en_11077",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 1.91,
+      "sourceZipf": 2.41,
       "sourceTags": [
         "default",
-        "often_misspelled",
-        "source:common_misspelled"
+        "derived_from_misspelling_target"
       ],
       "priorityScore": 8.82,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05831."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11077."
     },
     {
       "lemma": "unchangeable",
@@ -3535,60 +2046,6 @@
       ],
       "priorityScore": 8.82,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11465."
-    },
-    {
-      "lemma": "alltime",
-      "sourceCorpusId": "word_en_01559",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.9,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01559."
-    },
-    {
-      "lemma": "groaning",
-      "sourceCorpusId": "word_en_06375",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.9,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06375."
-    },
-    {
-      "lemma": "unforseen",
-      "sourceCorpusId": "word_en_09761",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.9,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09761."
-    },
-    {
-      "lemma": "smelting",
-      "sourceCorpusId": "word_en_11256",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.89,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.78,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11256."
     },
     {
       "lemma": "conceited",
@@ -3619,32 +2076,30 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06743."
     },
     {
-      "lemma": "omitting",
-      "sourceCorpusId": "word_en_10841",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "infantryman",
+      "sourceCorpusId": "word_en_10608",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.88,
+      "sourceZipf": 2.38,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
       "priorityScore": 8.76,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10841."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10608."
     },
     {
-      "lemma": "chirping",
-      "sourceCorpusId": "word_en_03267",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "cartographer",
+      "sourceCorpusId": "word_en_10171",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.87,
+      "sourceZipf": 2.37,
       "sourceTags": [
         "default",
-        "often_misspelled",
-        "source:common_misspelled",
-        "source:hermit"
+        "derived_from_misspelling_target"
       ],
       "priorityScore": 8.74,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03267."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10171."
     },
     {
       "lemma": "iconoclastic",
@@ -3660,18 +2115,30 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10554."
     },
     {
-      "lemma": "heathy",
-      "sourceCorpusId": "word_en_06627",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "bemusement",
+      "sourceCorpusId": "word_en_10135",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
       "sourceZipf": 1.86,
       "sourceTags": [
         "default",
-        "often_misspelled",
-        "source:common_misspelled"
+        "derived_from_misspelling_target"
       ],
       "priorityScore": 8.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06627."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10135."
+    },
+    {
+      "lemma": "burin",
+      "sourceCorpusId": "word_en_10155",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.86,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 8.72,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10155."
     },
     {
       "lemma": "addressable",
@@ -3700,20 +2167,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10690."
     },
     {
-      "lemma": "independant",
-      "sourceCorpusId": "word_en_07120",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 2.35,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.7,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07120."
-    },
-    {
       "lemma": "formalized",
       "sourceCorpusId": "word_en_10482",
       "sourcePartOfSpeech": "verb",
@@ -3727,19 +2180,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10482."
     },
     {
-      "lemma": "honking",
-      "sourceCorpusId": "word_en_06797",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.84,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.68,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06797."
-    },
-    {
       "lemma": "chattering",
       "sourceCorpusId": "word_en_03202",
       "sourcePartOfSpeech": "verb",
@@ -3751,19 +2191,6 @@
       ],
       "priorityScore": 8.66,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03202."
-    },
-    {
-      "lemma": "chuckling",
-      "sourceCorpusId": "word_en_03307",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.83,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03307."
     },
     {
       "lemma": "thickening",
@@ -3805,73 +2232,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10169."
     },
     {
-      "lemma": "helpfull",
-      "sourceCorpusId": "word_en_06660",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.82,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.64,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06660."
-    },
-    {
-      "lemma": "johannine",
-      "sourceCorpusId": "word_en_10642",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.82,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.64,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10642."
-    },
-    {
-      "lemma": "seperate",
-      "sourceCorpusId": "word_en_09190",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.82,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.64,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09190."
-    },
-    {
-      "lemma": "aren",
-      "sourceCorpusId": "word_en_01867",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.81,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01867."
-    },
-    {
-      "lemma": "exclaims",
-      "sourceCorpusId": "word_en_05418",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.81,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05418."
-    },
-    {
       "lemma": "peripatetic",
       "sourceCorpusId": "word_en_10905",
       "sourcePartOfSpeech": "adjective",
@@ -3883,19 +2243,6 @@
       ],
       "priorityScore": 8.62,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10905."
-    },
-    {
-      "lemma": "supplanted",
-      "sourceCorpusId": "word_en_11347",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.81,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11347."
     },
     {
       "lemma": "aggravate",
@@ -3941,73 +2288,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04051."
     },
     {
-      "lemma": "occured",
-      "sourceCorpusId": "word_en_08298",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.8,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08298."
-    },
-    {
-      "lemma": "retaliated",
-      "sourceCorpusId": "word_en_11174",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.8,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11174."
-    },
-    {
-      "lemma": "decidable",
-      "sourceCorpusId": "word_en_10298",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.79,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.58,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10298."
-    },
-    {
-      "lemma": "happend",
-      "sourceCorpusId": "word_en_06522",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.79,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.58,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06522."
-    },
-    {
-      "lemma": "journeyed",
-      "sourceCorpusId": "word_en_10643",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.79,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.58,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10643."
-    },
-    {
       "lemma": "linnaean",
       "sourceCorpusId": "word_en_10668",
       "sourcePartOfSpeech": "adjective",
@@ -4019,19 +2299,6 @@
       ],
       "priorityScore": 8.58,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10668."
-    },
-    {
-      "lemma": "receded",
-      "sourceCorpusId": "word_en_11082",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.78,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.56,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11082."
     },
     {
       "lemma": "surreptitious",
@@ -4049,43 +2316,58 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11364."
     },
     {
-      "lemma": "intervenes",
-      "sourceCorpusId": "word_en_10632",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "muhammadan",
+      "sourceCorpusId": "word_en_08168",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.77,
+      "sourceZipf": 1.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 8.54,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08168."
+    },
+    {
+      "lemma": "polysaccharide",
+      "sourceCorpusId": "word_en_10959",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.27,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
       "priorityScore": 8.54,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10632."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10959."
     },
     {
-      "lemma": "bluffing",
-      "sourceCorpusId": "word_en_02551",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "hinderance",
+      "sourceCorpusId": "word_en_06730",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.76,
+      "sourceZipf": 1.76,
       "sourceTags": [
         "default",
-        "source:hermit"
+        "often_misspelled",
+        "source:common_misspelled"
       ],
       "priorityScore": 8.52,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02551."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06730."
     },
     {
-      "lemma": "heil",
-      "sourceCorpusId": "word_en_06646",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "vilification",
+      "sourceCorpusId": "word_en_11521",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.76,
+      "sourceZipf": 2.26,
       "sourceTags": [
         "default",
-        "source:hermit"
+        "derived_from_misspelling_target"
       ],
       "priorityScore": 8.52,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06646."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11521."
     },
     {
       "lemma": "decompose",
@@ -4103,19 +2385,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10302."
     },
     {
-      "lemma": "suppresses",
-      "sourceCorpusId": "word_en_11354",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.75,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 8.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11354."
-    },
-    {
       "lemma": "monotypic",
       "sourceCorpusId": "word_en_10764",
       "sourcePartOfSpeech": "adjective",
@@ -4127,19 +2396,6 @@
       ],
       "priorityScore": 8.48,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10764."
-    },
-    {
-      "lemma": "imitates",
-      "sourceCorpusId": "word_en_07008",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.73,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07008."
     },
     {
       "lemma": "recuperate",
@@ -4168,6 +2424,20 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11553."
     },
     {
+      "lemma": "dependance",
+      "sourceCorpusId": "word_en_04427",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.72,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 8.44,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04427."
+    },
+    {
       "lemma": "enumerable",
       "sourceCorpusId": "word_en_10416",
       "sourcePartOfSpeech": "adjective",
@@ -4181,72 +2451,30 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10416."
     },
     {
-      "lemma": "desireable",
-      "sourceCorpusId": "word_en_04469",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "interregnum",
+      "sourceCorpusId": "word_en_10629",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 1.71,
+      "sourceZipf": 2.21,
       "sourceTags": [
         "default",
-        "often_misspelled",
-        "source:common_misspelled"
+        "derived_from_misspelling_target"
       ],
       "priorityScore": 8.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04469."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10629."
     },
     {
-      "lemma": "grunting",
-      "sourceCorpusId": "word_en_06395",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "illegitimacy",
+      "sourceCorpusId": "word_en_10557",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.71,
+      "sourceZipf": 2.2,
       "sourceTags": [
         "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06395."
-    },
-    {
-      "lemma": "psuedo",
-      "sourceCorpusId": "word_en_08790",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.71,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08790."
-    },
-    {
-      "lemma": "foreward",
-      "sourceCorpusId": "word_en_05901",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.7,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
+        "derived_from_misspelling_target"
       ],
       "priorityScore": 8.4,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05901."
-    },
-    {
-      "lemma": "beeping",
-      "sourceCorpusId": "word_en_02344",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.69,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.38,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02344."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10557."
     },
     {
       "lemma": "exclaiming",
@@ -4288,24 +2516,22 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11053."
     },
     {
-      "lemma": "indented",
-      "sourceCorpusId": "word_en_10593",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "preeminence",
+      "sourceCorpusId": "word_en_10991",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.65,
+      "sourceZipf": 2.12,
       "sourceTags": [
         "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
+        "derived_from_misspelling_target"
       ],
-      "priorityScore": 8.3,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10593."
+      "priorityScore": 8.24,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10991."
     },
     {
-      "lemma": "accessable",
-      "sourceCorpusId": "word_en_01184",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "cannister",
+      "sourceCorpusId": "word_en_02927",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
       "sourceZipf": 1.61,
       "sourceTags": [
@@ -4314,7 +2540,7 @@
         "source:common_misspelled"
       ],
       "priorityScore": 8.22,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01184."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02927."
     },
     {
       "lemma": "exonerate",
@@ -4343,45 +2569,30 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11489."
     },
     {
-      "lemma": "diety",
-      "sourceCorpusId": "word_en_04583",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "ethnocentrism",
+      "sourceCorpusId": "word_en_10423",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 1.6,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.2,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04583."
-    },
-    {
-      "lemma": "comming",
-      "sourceCorpusId": "word_en_03560",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.58,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.16,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03560."
-    },
-    {
-      "lemma": "occasioned",
-      "sourceCorpusId": "word_en_10830",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.58,
+      "sourceZipf": 2.09,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
-      "priorityScore": 8.16,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10830."
+      "priorityScore": 8.18,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10423."
+    },
+    {
+      "lemma": "pessary",
+      "sourceCorpusId": "word_en_10919",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.57,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 8.14,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10919."
     },
     {
       "lemma": "ameliorate",
@@ -4410,34 +2621,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10383."
     },
     {
-      "lemma": "resistent",
-      "sourceCorpusId": "word_en_09043",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.56,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.12,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09043."
-    },
-    {
-      "lemma": "dessicated",
-      "sourceCorpusId": "word_en_04485",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.55,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.1,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04485."
-    },
-    {
       "lemma": "irregardless",
       "sourceCorpusId": "word_en_07410",
       "sourcePartOfSpeech": "adjective",
@@ -4450,33 +2633,6 @@
       ],
       "priorityScore": 8.1,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07410."
-    },
-    {
-      "lemma": "inhales",
-      "sourceCorpusId": "word_en_07188",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.54,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 8.08,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07188."
-    },
-    {
-      "lemma": "scaleable",
-      "sourceCorpusId": "word_en_09152",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.54,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.08,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09152."
     },
     {
       "lemma": "unsurprised",
@@ -4492,20 +2648,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11498."
     },
     {
-      "lemma": "miliary",
-      "sourceCorpusId": "word_en_08083",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 6,
-      "sourceZipf": 1.53,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 8.06,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08083."
-    },
-    {
       "lemma": "levitate",
       "sourceCorpusId": "word_en_10655",
       "sourcePartOfSpeech": "verb",
@@ -4517,6 +2659,19 @@
       ],
       "priorityScore": 8.04,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10655."
+    },
+    {
+      "lemma": "acclimatization",
+      "sourceCorpusId": "word_en_10011",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 2.01,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 8.02,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10011."
     },
     {
       "lemma": "emanate",
@@ -4532,36 +2687,6 @@
       ],
       "priorityScore": 8.02,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10381."
-    },
-    {
-      "lemma": "clattering",
-      "sourceCorpusId": "word_en_03370",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.48,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 7.96,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03370."
-    },
-    {
-      "lemma": "propagates",
-      "sourceCorpusId": "word_en_11036",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.48,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 7.96,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11036."
     },
     {
       "lemma": "besieging",
@@ -4590,46 +2715,17 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10481."
     },
     {
-      "lemma": "seceded",
-      "sourceCorpusId": "word_en_11218",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "insectivorous",
+      "sourceCorpusId": "word_en_10620",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 6,
-      "sourceZipf": 2.47,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 7.94,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11218."
-    },
-    {
-      "lemma": "disintegrated",
-      "sourceCorpusId": "word_en_10344",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.96,
+      "sourceZipf": 1.97,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
-      "priorityScore": 7.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10344."
-    },
-    {
-      "lemma": "layed",
-      "sourceCorpusId": "word_en_07829",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.46,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 7.92,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07829."
+      "priorityScore": 7.94,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10620."
     },
     {
       "lemma": "amalgamated",
@@ -4645,70 +2741,43 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10069."
     },
     {
-      "lemma": "ensconced",
-      "sourceCorpusId": "word_en_10411",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "allophone",
+      "sourceCorpusId": "word_en_10065",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.45,
+      "sourceZipf": 1.43,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.9,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10411."
-    },
-    {
-      "lemma": "emanated",
-      "sourceCorpusId": "word_en_10382",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.44,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.88,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10382."
-    },
-    {
-      "lemma": "planed",
-      "sourceCorpusId": "word_en_08541",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.43,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
       ],
       "priorityScore": 7.86,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08541."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10065."
     },
     {
-      "lemma": "commemorated",
-      "sourceCorpusId": "word_en_10210",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "mithraic",
+      "sourceCorpusId": "word_en_10756",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 6,
-      "sourceZipf": 2.91,
+      "sourceZipf": 1.41,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
       "priorityScore": 7.82,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10210."
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10756."
     },
     {
-      "lemma": "decomposes",
-      "sourceCorpusId": "word_en_10303",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "relinquishment",
+      "sourceCorpusId": "word_en_11125",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.4,
+      "sourceZipf": 1.91,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
-      "priorityScore": 7.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10303."
+      "priorityScore": 7.82,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11125."
     },
     {
       "lemma": "disoriented",
@@ -4724,43 +2793,17 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10348."
     },
     {
-      "lemma": "enameled",
-      "sourceCorpusId": "word_en_10400",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "effluence",
+      "sourceCorpusId": "word_en_10376",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 6,
-      "sourceZipf": 2.4,
+      "sourceZipf": 1.39,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
-      "priorityScore": 7.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10400."
-    },
-    {
-      "lemma": "levitating",
-      "sourceCorpusId": "word_en_10658",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.4,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.8,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10658."
-    },
-    {
-      "lemma": "aggravates",
-      "sourceCorpusId": "word_en_10047",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.37,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.74,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10047."
+      "priorityScore": 7.78,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10376."
     },
     {
       "lemma": "clanging",
@@ -4776,45 +2819,18 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03351."
     },
     {
-      "lemma": "commemorates",
-      "sourceCorpusId": "word_en_10211",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "heterogenous",
+      "sourceCorpusId": "word_en_06695",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 6,
-      "sourceZipf": 2.87,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.74,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10211."
-    },
-    {
-      "lemma": "prefered",
-      "sourceCorpusId": "word_en_08643",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.37,
+      "sourceZipf": 1.86,
       "sourceTags": [
         "default",
         "often_misspelled",
         "source:common_misspelled"
       ],
-      "priorityScore": 7.74,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08643."
-    },
-    {
-      "lemma": "transfered",
-      "sourceCorpusId": "word_en_09693",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.37,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 7.74,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09693."
+      "priorityScore": 7.72,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06695."
     },
     {
       "lemma": "besiege",
@@ -4828,62 +2844,6 @@
       ],
       "priorityScore": 7.72,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10139."
-    },
-    {
-      "lemma": "streamlining",
-      "sourceCorpusId": "word_en_11298",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.86,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11298."
-    },
-    {
-      "lemma": "confides",
-      "sourceCorpusId": "word_en_10238",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.35,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 7.7,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10238."
-    },
-    {
-      "lemma": "gnawed",
-      "sourceCorpusId": "word_en_10503",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.35,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 7.7,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10503."
-    },
-    {
-      "lemma": "exhales",
-      "sourceCorpusId": "word_en_05444",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.34,
-      "sourceTags": [
-        "default",
-        "source:hermit"
-      ],
-      "priorityScore": 7.68,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05444."
     },
     {
       "lemma": "necessitate",
@@ -4901,45 +2861,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10794."
     },
     {
-      "lemma": "supplementing",
-      "sourceCorpusId": "word_en_11349",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.83,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11349."
-    },
-    {
-      "lemma": "decommissioned",
-      "sourceCorpusId": "word_en_10301",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.81,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10301."
-    },
-    {
-      "lemma": "scavenged",
-      "sourceCorpusId": "word_en_11205",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.31,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 7.62,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11205."
-    },
-    {
       "lemma": "unbalance",
       "sourceCorpusId": "word_en_11461",
       "sourcePartOfSpeech": "verb",
@@ -4953,17 +2874,44 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11461."
     },
     {
-      "lemma": "decomposing",
-      "sourceCorpusId": "word_en_10304",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "undefinable",
+      "sourceCorpusId": "word_en_11470",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 6,
-      "sourceZipf": 2.8,
+      "sourceZipf": 1.81,
       "sourceTags": [
         "default",
         "derived_from_misspelling_target"
       ],
-      "priorityScore": 7.6,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10304."
+      "priorityScore": 7.62,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11470."
+    },
+    {
+      "lemma": "ceremonious",
+      "sourceCorpusId": "word_en_10186",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.78,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7.56,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10186."
+    },
+    {
+      "lemma": "discontentment",
+      "sourceCorpusId": "word_en_04660",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 7.56,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_04660."
     },
     {
       "lemma": "sanctioning",
@@ -4979,18 +2927,17 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11191."
     },
     {
-      "lemma": "beeing",
-      "sourceCorpusId": "word_en_02342",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "fissionable",
+      "sourceCorpusId": "word_en_10471",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 6,
-      "sourceZipf": 2.25,
+      "sourceZipf": 1.77,
       "sourceTags": [
         "default",
-        "often_misspelled",
-        "source:common_misspelled"
+        "derived_from_misspelling_target"
       ],
-      "priorityScore": 7.5,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02342."
+      "priorityScore": 7.54,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10471."
     },
     {
       "lemma": "consummated",
@@ -5034,44 +2981,175 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10000."
     },
     {
-      "lemma": "honks",
-      "sourceCorpusId": "word_en_06798",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "aesthetical",
+      "sourceCorpusId": "word_en_10042",
+      "sourcePartOfSpeech": "adjective",
       "sourceGrade": 6,
-      "sourceZipf": 2.23,
+      "sourceZipf": 1.71,
       "sourceTags": [
         "default",
-        "source:hermit"
+        "derived_from_misspelling_target"
       ],
-      "priorityScore": 7.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06798."
+      "priorityScore": 7.42,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10042."
     },
     {
-      "lemma": "accidently",
-      "sourceCorpusId": "word_en_01187",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "displease",
+      "sourceCorpusId": "word_en_10350",
+      "sourcePartOfSpeech": "verb",
       "sourceGrade": 6,
-      "sourceZipf": 2.86,
+      "sourceZipf": 2.2,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7.4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10350."
+    },
+    {
+      "lemma": "disenchanted",
+      "sourceCorpusId": "word_en_10343",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.66,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7.32,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10343."
+    },
+    {
+      "lemma": "planation",
+      "sourceCorpusId": "word_en_08540",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.13,
       "sourceTags": [
         "default",
         "often_misspelled",
         "source:common_misspelled"
       ],
-      "priorityScore": 6.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01187."
+      "priorityScore": 7.26,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08540."
     },
     {
-      "lemma": "ahold",
-      "sourceCorpusId": "word_en_01458",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "surveil",
+      "sourceCorpusId": "word_en_11371",
+      "sourcePartOfSpeech": "verb",
       "sourceGrade": 6,
-      "sourceZipf": 2.86,
+      "sourceZipf": 2.11,
       "sourceTags": [
         "default",
-        "source:hermit"
+        "derived_from_misspelling_target"
       ],
-      "priorityScore": 6.72,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01458."
+      "priorityScore": 7.22,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11371."
+    },
+    {
+      "lemma": "binominal",
+      "sourceCorpusId": "word_en_02476",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 7.18,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02476."
+    },
+    {
+      "lemma": "headquarter",
+      "sourceCorpusId": "word_en_10524",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.54,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7.08,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10524."
+    },
+    {
+      "lemma": "metallurgic",
+      "sourceCorpusId": "word_en_10721",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.52,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7.04,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10721."
+    },
+    {
+      "lemma": "unchallengeable",
+      "sourceCorpusId": "word_en_11464",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.52,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7.04,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11464."
+    },
+    {
+      "lemma": "autobiographic",
+      "sourceCorpusId": "word_en_10116",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.5,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 7,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10116."
+    },
+    {
+      "lemma": "denigrating",
+      "sourceCorpusId": "word_en_10314",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.42,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 6.84,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10314."
+    },
+    {
+      "lemma": "nasalization",
+      "sourceCorpusId": "word_en_10790",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 1.4,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 6.8,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10790."
+    },
+    {
+      "lemma": "interbred",
+      "sourceCorpusId": "word_en_10623",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.83,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 6.66,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10623."
     },
     {
       "lemma": "eminently",
@@ -5087,18 +3165,18 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10389."
     },
     {
-      "lemma": "belive",
-      "sourceCorpusId": "word_en_02391",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "liquify",
+      "sourceCorpusId": "word_en_07955",
+      "sourcePartOfSpeech": "verb",
       "sourceGrade": 6,
-      "sourceZipf": 2.79,
+      "sourceZipf": 1.77,
       "sourceTags": [
         "default",
         "often_misspelled",
         "source:common_misspelled"
       ],
-      "priorityScore": 6.58,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02391."
+      "priorityScore": 6.54,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07955."
     },
     {
       "lemma": "gratefully",
@@ -5112,20 +3190,6 @@
       ],
       "priorityScore": 6.4,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10511."
-    },
-    {
-      "lemma": "truely",
-      "sourceCorpusId": "word_en_09709",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.7,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 6.4,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09709."
     },
     {
       "lemma": "publically",
@@ -5155,6 +3219,19 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10563."
     },
     {
+      "lemma": "nonoperational",
+      "sourceCorpusId": "word_en_10807",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 1.09,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 6.18,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10807."
+    },
+    {
       "lemma": "usefully",
       "sourceCorpusId": "word_en_11504",
       "sourcePartOfSpeech": "adverb",
@@ -5166,6 +3243,19 @@
       ],
       "priorityScore": 6.16,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11504."
+    },
+    {
+      "lemma": "foretelling",
+      "sourceCorpusId": "word_en_10479",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.03,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 6.06,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10479."
     },
     {
       "lemma": "classically",
@@ -5194,6 +3284,19 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11061."
     },
     {
+      "lemma": "administrate",
+      "sourceCorpusId": "word_en_10028",
+      "sourcePartOfSpeech": "verb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.95,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 5.9,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10028."
+    },
+    {
       "lemma": "subconsciously",
       "sourceCorpusId": "word_en_11314",
       "sourcePartOfSpeech": "adverb",
@@ -5207,31 +3310,32 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11314."
     },
     {
-      "lemma": "sence",
-      "sourceCorpusId": "word_en_09187",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "indite",
+      "sourceCorpusId": "word_en_07144",
+      "sourcePartOfSpeech": "verb",
       "sourceGrade": 6,
-      "sourceZipf": 2.38,
+      "sourceZipf": 1.42,
       "sourceTags": [
         "default",
         "often_misspelled",
         "source:common_misspelled"
       ],
-      "priorityScore": 5.76,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09187."
+      "priorityScore": 5.84,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07144."
     },
     {
-      "lemma": "predominately",
-      "sourceCorpusId": "word_en_10990",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "negociate",
+      "sourceCorpusId": "word_en_08208",
+      "sourcePartOfSpeech": "verb",
       "sourceGrade": 6,
-      "sourceZipf": 2.83,
+      "sourceZipf": 1.35,
       "sourceTags": [
         "default",
-        "derived_from_misspelling_target"
+        "often_misspelled",
+        "source:common_misspelled"
       ],
-      "priorityScore": 5.66,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10990."
+      "priorityScore": 5.7,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08208."
     },
     {
       "lemma": "satisfactorily",
@@ -5249,20 +3353,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11198."
     },
     {
-      "lemma": "agin",
-      "sourceCorpusId": "word_en_01427",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.28,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 5.56,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01427."
-    },
-    {
       "lemma": "philosophically",
       "sourceCorpusId": "word_en_10928",
       "sourcePartOfSpeech": "adverb",
@@ -5274,33 +3364,6 @@
       ],
       "priorityScore": 5.56,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10928."
-    },
-    {
-      "lemma": "litterally",
-      "sourceCorpusId": "word_en_07964",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.23,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 5.46,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07964."
-    },
-    {
-      "lemma": "incrementally",
-      "sourceCorpusId": "word_en_10590",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.71,
-      "sourceTags": [
-        "default",
-        "derived_from_misspelling_target"
-      ],
-      "priorityScore": 5.42,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10590."
     },
     {
       "lemma": "grammatically",
@@ -5333,20 +3396,6 @@
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11365."
     },
     {
-      "lemma": "throughly",
-      "sourceCorpusId": "word_en_09633",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 6,
-      "sourceZipf": 2.17,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:common_misspelled"
-      ],
-      "priorityScore": 5.34,
-      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09633."
-    },
-    {
       "lemma": "erratically",
       "sourceCorpusId": "word_en_10421",
       "sourcePartOfSpeech": "adverb",
@@ -5371,6 +3420,343 @@
       ],
       "priorityScore": 5.24,
       "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10099."
+    },
+    {
+      "lemma": "confidentially",
+      "sourceCorpusId": "word_en_10237",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.61,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 5.22,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10237."
+    },
+    {
+      "lemma": "phenomenally",
+      "sourceCorpusId": "word_en_10923",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.61,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 5.22,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10923."
+    },
+    {
+      "lemma": "androgeny",
+      "sourceCorpusId": "word_en_01658",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 5,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01658."
+    },
+    {
+      "lemma": "ceratin",
+      "sourceCorpusId": "word_en_03119",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 5,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_03119."
+    },
+    {
+      "lemma": "eyas",
+      "sourceCorpusId": "word_en_10458",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 5,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10458."
+    },
+    {
+      "lemma": "fanatism",
+      "sourceCorpusId": "word_en_05618",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 5,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_05618."
+    },
+    {
+      "lemma": "millepede",
+      "sourceCorpusId": "word_en_08091",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 5,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_08091."
+    },
+    {
+      "lemma": "unuseable",
+      "sourceCorpusId": "word_en_09820",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 5,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09820."
+    },
+    {
+      "lemma": "symmetrically",
+      "sourceCorpusId": "word_en_11382",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.49,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4.98,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11382."
+    },
+    {
+      "lemma": "perennially",
+      "sourceCorpusId": "word_en_10902",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.43,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4.86,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10902."
+    },
+    {
+      "lemma": "bilaterally",
+      "sourceCorpusId": "word_en_10142",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.36,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4.72,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10142."
+    },
+    {
+      "lemma": "indistinctly",
+      "sourceCorpusId": "word_en_07143",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.26,
+      "sourceTags": [
+        "default",
+        "source:hermit"
+      ],
+      "priorityScore": 4.52,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_07143."
+    },
+    {
+      "lemma": "inefficiently",
+      "sourceCorpusId": "word_en_10603",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.23,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4.46,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10603."
+    },
+    {
+      "lemma": "disparagingly",
+      "sourceCorpusId": "word_en_10349",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2.09,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4.18,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10349."
+    },
+    {
+      "lemma": "algebraical",
+      "sourceCorpusId": "word_en_01513",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01513."
+    },
+    {
+      "lemma": "androgenous",
+      "sourceCorpusId": "word_en_01657",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01657."
+    },
+    {
+      "lemma": "antiapartheid",
+      "sourceCorpusId": "word_en_01713",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_01713."
+    },
+    {
+      "lemma": "atheistical",
+      "sourceCorpusId": "word_en_02022",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_02022."
+    },
+    {
+      "lemma": "geometrician",
+      "sourceCorpusId": "word_en_06171",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_06171."
+    },
+    {
+      "lemma": "membranophone",
+      "sourceCorpusId": "word_en_10713",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10713."
+    },
+    {
+      "lemma": "nasalisation",
+      "sourceCorpusId": "word_en_10789",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_10789."
+    },
+    {
+      "lemma": "satirically",
+      "sourceCorpusId": "word_en_11197",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 2,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11197."
+    },
+    {
+      "lemma": "spermatozoan",
+      "sourceCorpusId": "word_en_09324",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09324."
+    },
+    {
+      "lemma": "undecideable",
+      "sourceCorpusId": "word_en_09749",
+      "sourcePartOfSpeech": "adjective",
+      "sourceGrade": 6,
+      "sourceZipf": 0,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 4,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_09749."
+    },
+    {
+      "lemma": "primitively",
+      "sourceCorpusId": "word_en_11008",
+      "sourcePartOfSpeech": "adverb",
+      "sourceGrade": 6,
+      "sourceZipf": 1.76,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target"
+      ],
+      "priorityScore": 3.52,
+      "notes": "Source grade 6; selected for grade-6 introduced meaning review from word_en_11008."
     }
   ]
 }

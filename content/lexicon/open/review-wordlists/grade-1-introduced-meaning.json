@@ -20,8 +20,23 @@
     "rawGradeRows": 139,
     "candidatePool": 37,
     "excludedOrDeduplicated": 102,
-    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing",
-    "reviewStatus": "pending_sense_and_editorial_review"
+    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
+    "reviewStatus": "pending_sense_and_editorial_review",
+    "semanticResolution": {
+      "sourceId": "open-english-wordnet",
+      "sourceVersion": "2025",
+      "requestedTarget": 400,
+      "eligibleCandidatePool": 37,
+      "overscanRequested": 1200,
+      "overscanSelected": 37,
+      "resolvableInOverscan": 37,
+      "skippedUnresolved": 0,
+      "selectedResolved": 37,
+      "targetShortfall": 363,
+      "filledRequestedTarget": false,
+      "exhaustedEligiblePool": true,
+      "policy": "meaning_queue_backfill_only_no_runtime_publish"
+    }
   },
   "items": [
     {

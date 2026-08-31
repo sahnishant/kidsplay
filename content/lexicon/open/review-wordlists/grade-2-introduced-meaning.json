@@ -20,8 +20,23 @@
     "rawGradeRows": 1494,
     "candidatePool": 1403,
     "excludedOrDeduplicated": 91,
-    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing",
-    "reviewStatus": "pending_sense_and_editorial_review"
+    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
+    "reviewStatus": "pending_sense_and_editorial_review",
+    "semanticResolution": {
+      "sourceId": "open-english-wordnet",
+      "sourceVersion": "2025",
+      "requestedTarget": 400,
+      "eligibleCandidatePool": 1403,
+      "overscanRequested": 1200,
+      "overscanSelected": 1200,
+      "resolvableInOverscan": 1119,
+      "skippedUnresolved": 81,
+      "selectedResolved": 400,
+      "targetShortfall": 0,
+      "filledRequestedTarget": true,
+      "exhaustedEligiblePool": false,
+      "policy": "meaning_queue_backfill_only_no_runtime_publish"
+    }
   },
   "items": [
     {
@@ -962,26 +977,6 @@
       ],
       "priorityScore": 40.64,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00171."
-    },
-    {
-      "lemma": "although",
-      "sourceCorpusId": "word_en_00633",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 2,
-      "sourceZipf": 5.3,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 40.6,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00633."
     },
     {
       "lemma": "father",
@@ -2630,25 +2625,6 @@
       ],
       "priorityScore": 35.22,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00462."
-    },
-    {
-      "lemma": "until",
-      "sourceCorpusId": "word_en_00993",
-      "sourcePartOfSpeech": "noun",
-      "sourceGrade": 2,
-      "sourceZipf": 5.61,
-      "sourceTags": [
-        "fry_b7",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 35.22,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00993."
     },
     {
       "lemma": "company",
@@ -5916,6 +5892,26 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04308."
     },
     {
+      "lemma": "hair",
+      "sourceCorpusId": "word_en_06471",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.08,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 31.16,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06471."
+    },
+    {
       "lemma": "however",
       "sourceCorpusId": "word_en_00407",
       "sourcePartOfSpeech": "adverb",
@@ -5934,6 +5930,106 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00407."
     },
     {
+      "lemma": "race",
+      "sourceCorpusId": "word_en_13634",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.08,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.16,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13634."
+    },
+    {
+      "lemma": "bed",
+      "sourceCorpusId": "word_en_02335",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 31.14,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02335."
+    },
+    {
+      "lemma": "daughter",
+      "sourceCorpusId": "word_en_04255",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 31.14,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04255."
+    },
+    {
+      "lemma": "hospital",
+      "sourceCorpusId": "word_en_06831",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.07,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 31.14,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06831."
+    },
+    {
+      "lemma": "voice",
+      "sourceCorpusId": "word_en_15034",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.07,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.14,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_15034."
+    },
+    {
+      "lemma": "army",
+      "sourceCorpusId": "word_en_01896",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.06,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 31.12,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01896."
+    },
+    {
       "lemma": "huge",
       "sourceCorpusId": "word_en_06865",
       "sourcePartOfSpeech": "adjective",
@@ -5950,6 +6046,38 @@
       ],
       "priorityScore": 31.12,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06865."
+    },
+    {
+      "lemma": "sea",
+      "sourceCorpusId": "word_en_14022",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.06,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.12,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14022."
+    },
+    {
+      "lemma": "success",
+      "sourceCorpusId": "word_en_11332",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.06,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 31.12,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_11332."
     },
     {
       "lemma": "already",
@@ -5987,6 +6115,40 @@
       ],
       "priorityScore": 31.1,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04332."
+    },
+    {
+      "lemma": "truth",
+      "sourceCorpusId": "word_en_14803",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.05,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.1,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14803."
+    },
+    {
+      "lemma": "ball",
+      "sourceCorpusId": "word_en_02203",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.04,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 31.08,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02203."
     },
     {
       "lemma": "dark",
@@ -6067,6 +6229,136 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00547."
     },
     {
+      "lemma": "wall",
+      "sourceCorpusId": "word_en_15053",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.04,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.08,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_15053."
+    },
+    {
+      "lemma": "february",
+      "sourceCorpusId": "word_en_00759",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.03,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:fry",
+        "source:hermit",
+        "source:uk_y3",
+        "source:uk_y3_y4",
+        "source:uk_y4",
+        "uk_y3",
+        "uk_year:3"
+      ],
+      "priorityScore": 31.06,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00759."
+    },
+    {
+      "lemma": "pain",
+      "sourceCorpusId": "word_en_13237",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.03,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.06,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13237."
+    },
+    {
+      "lemma": "respect",
+      "sourceCorpusId": "word_en_13824",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.03,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 31.06,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13824."
+    },
+    {
+      "lemma": "eight",
+      "sourceCorpusId": "word_en_00731",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.02,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:dolch",
+        "source:hermit",
+        "source:uk_y3",
+        "source:uk_y3_y4",
+        "source:uk_y4",
+        "uk_y3",
+        "uk_year:3"
+      ],
+      "priorityScore": 31.04,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00731."
+    },
+    {
+      "lemma": "weight",
+      "sourceCorpusId": "word_en_01006",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.02,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry",
+        "source:hermit",
+        "source:uk_y3",
+        "source:uk_y3_y4",
+        "source:uk_y4",
+        "uk_y3",
+        "uk_year:3"
+      ],
+      "priorityScore": 31.04,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01006."
+    },
+    {
+      "lemma": "committee",
+      "sourceCorpusId": "word_en_03576",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.01,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 31.02,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03576."
+    },
+    {
       "lemma": "double",
       "sourceCorpusId": "word_en_04830",
       "sourcePartOfSpeech": "adjective",
@@ -6082,6 +6374,81 @@
       ],
       "priorityScore": 31.02,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04830."
+    },
+    {
+      "lemma": "station",
+      "sourceCorpusId": "word_en_11288",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5.01,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 31.02,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_11288."
+    },
+    {
+      "lemma": "cross",
+      "sourceCorpusId": "word_en_04103",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 31,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04103."
+    },
+    {
+      "lemma": "ice",
+      "sourceCorpusId": "word_en_06942",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 31,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06942."
+    },
+    {
+      "lemma": "individual",
+      "sourceCorpusId": "word_en_07145",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 5,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry",
+        "source:hermit",
+        "source:uk_y5",
+        "source:uk_y5_y6",
+        "source:uk_y6",
+        "uk_y5",
+        "uk_year:5"
+      ],
+      "priorityScore": 31,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07145."
     },
     {
       "lemma": "fair",
@@ -6101,6 +6468,22 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05597."
     },
     {
+      "lemma": "train",
+      "sourceCorpusId": "word_en_14740",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.96,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.92,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14740."
+    },
+    {
       "lemma": "wash",
       "sourceCorpusId": "word_en_00599",
       "sourcePartOfSpeech": "verb",
@@ -6118,6 +6501,162 @@
       ],
       "priorityScore": 30.92,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00599."
+    },
+    {
+      "lemma": "judge",
+      "sourceCorpusId": "word_en_07584",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.9,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07584."
+    },
+    {
+      "lemma": "letter",
+      "sourceCorpusId": "word_en_07908",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.95,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.9,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07908."
+    },
+    {
+      "lemma": "sister",
+      "sourceCorpusId": "word_en_14163",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.95,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.9,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14163."
+    },
+    {
+      "lemma": "rule",
+      "sourceCorpusId": "word_en_13928",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.94,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.88,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13928."
+    },
+    {
+      "lemma": "dance",
+      "sourceCorpusId": "word_en_04215",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.93,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.86,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04215."
+    },
+    {
+      "lemma": "weekend",
+      "sourceCorpusId": "word_en_15091",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.93,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.86,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_15091."
+    },
+    {
+      "lemma": "band",
+      "sourceCorpusId": "word_en_02215",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.92,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.84,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02215."
+    },
+    {
+      "lemma": "address",
+      "sourceCorpusId": "word_en_00626",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.91,
+      "sourceTags": [
+        "often_misspelled",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:fry",
+        "source:hermit",
+        "source:uk_y3",
+        "source:uk_y3_y4",
+        "source:uk_y4",
+        "uk_y3",
+        "uk_year:3"
+      ],
+      "priorityScore": 30.82,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00626."
+    },
+    {
+      "lemma": "dream",
+      "sourceCorpusId": "word_en_04870",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.91,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.82,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04870."
     },
     {
       "lemma": "rich",
@@ -6150,6 +6689,60 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14528."
     },
     {
+      "lemma": "touch",
+      "sourceCorpusId": "word_en_14723",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.91,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.82,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14723."
+    },
+    {
+      "lemma": "doctor",
+      "sourceCorpusId": "word_en_04774",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.9,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.8,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04774."
+    },
+    {
+      "lemma": "fish",
+      "sourceCorpusId": "word_en_05779",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.9,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.8,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05779."
+    },
+    {
       "lemma": "glad",
       "sourceCorpusId": "word_en_06214",
       "sourcePartOfSpeech": "adjective",
@@ -6168,6 +6761,24 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06214."
     },
     {
+      "lemma": "machine",
+      "sourceCorpusId": "word_en_10677",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.9,
+      "sourceTags": [
+        "default",
+        "derived_from_misspelling_target",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled"
+      ],
+      "priorityScore": 30.8,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_10677."
+    },
+    {
       "lemma": "sick",
       "sourceCorpusId": "word_en_14138",
       "sourcePartOfSpeech": "adjective",
@@ -6181,6 +6792,76 @@
       ],
       "priorityScore": 30.76,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14138."
+    },
+    {
+      "lemma": "teacher",
+      "sourceCorpusId": "word_en_14584",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.88,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.76,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14584."
+    },
+    {
+      "lemma": "catch",
+      "sourceCorpusId": "word_en_03050",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.87,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.74,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03050."
+    },
+    {
+      "lemma": "coffee",
+      "sourceCorpusId": "word_en_03451",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.72,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03451."
+    },
+    {
+      "lemma": "interview",
+      "sourceCorpusId": "word_en_07331",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.86,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.72,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07331."
     },
     {
       "lemma": "fat",
@@ -6216,6 +6897,68 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14210."
     },
     {
+      "lemma": "speech",
+      "sourceCorpusId": "word_en_14306",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.85,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.7,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14306."
+    },
+    {
+      "lemma": "tree",
+      "sourceCorpusId": "word_en_14772",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.85,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.7,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14772."
+    },
+    {
+      "lemma": "airport",
+      "sourceCorpusId": "word_en_01477",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.84,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.68,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01477."
+    },
+    {
+      "lemma": "partner",
+      "sourceCorpusId": "word_en_13282",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.84,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.68,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13282."
+    },
+    {
       "lemma": "sad",
       "sourceCorpusId": "word_en_13941",
       "sourcePartOfSpeech": "adjective",
@@ -6229,6 +6972,123 @@
       ],
       "priorityScore": 30.68,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13941."
+    },
+    {
+      "lemma": "worry",
+      "sourceCorpusId": "word_en_15181",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.84,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.68,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_15181."
+    },
+    {
+      "lemma": "bus",
+      "sourceCorpusId": "word_en_02819",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.83,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.66,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02819."
+    },
+    {
+      "lemma": "mouth",
+      "sourceCorpusId": "word_en_12947",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.83,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.66,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_12947."
+    },
+    {
+      "lemma": "throw",
+      "sourceCorpusId": "word_en_14662",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.83,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.66,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14662."
+    },
+    {
+      "lemma": "hill",
+      "sourceCorpusId": "word_en_06724",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.82,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.64,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06724."
+    },
+    {
+      "lemma": "seat",
+      "sourceCorpusId": "word_en_14028",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.82,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.64,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14028."
+    },
+    {
+      "lemma": "animal",
+      "sourceCorpusId": "word_en_01670",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.81,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.62,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01670."
     },
     {
       "lemma": "healthy",
@@ -6249,6 +7109,42 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06615."
     },
     {
+      "lemma": "bag",
+      "sourceCorpusId": "word_en_02188",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.79,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.58,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02188."
+    },
+    {
+      "lemma": "camp",
+      "sourceCorpusId": "word_en_02903",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.79,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.58,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02903."
+    },
+    {
       "lemma": "correct",
       "sourceCorpusId": "word_en_03944",
       "sourcePartOfSpeech": "adjective",
@@ -6267,6 +7163,224 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03944."
     },
     {
+      "lemma": "cat",
+      "sourceCorpusId": "word_en_03040",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.78,
+      "sourceTags": [
+        "default",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.56,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03040."
+    },
+    {
+      "lemma": "dinner",
+      "sourceCorpusId": "word_en_04614",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.78,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.56,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04614."
+    },
+    {
+      "lemma": "bridge",
+      "sourceCorpusId": "word_en_02703",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.77,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.54,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02703."
+    },
+    {
+      "lemma": "apple",
+      "sourceCorpusId": "word_en_01781",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.76,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.52,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01781."
+    },
+    {
+      "lemma": "horse",
+      "sourceCorpusId": "word_en_06827",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.76,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.52,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06827."
+    },
+    {
+      "lemma": "corner",
+      "sourceCorpusId": "word_en_03932",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.5,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03932."
+    },
+    {
+      "lemma": "farm",
+      "sourceCorpusId": "word_en_05629",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.75,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.5,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05629."
+    },
+    {
+      "lemma": "arm",
+      "sourceCorpusId": "word_en_01888",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.73,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.46,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01888."
+    },
+    {
+      "lemma": "mountain",
+      "sourceCorpusId": "word_en_12941",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.73,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.46,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_12941."
+    },
+    {
+      "lemma": "sport",
+      "sourceCorpusId": "word_en_14331",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.73,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.46,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14331."
+    },
+    {
+      "lemma": "tea",
+      "sourceCorpusId": "word_en_14582",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.73,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.46,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14582."
+    },
+    {
+      "lemma": "afternoon",
+      "sourceCorpusId": "word_en_01403",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.72,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.44,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01403."
+    },
+    {
       "lemma": "festival",
       "sourceCorpusId": "word_en_05704",
       "sourcePartOfSpeech": "adjective",
@@ -6282,6 +7396,107 @@
       ],
       "priorityScore": 30.44,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05704."
+    },
+    {
+      "lemma": "hello",
+      "sourceCorpusId": "word_en_06655",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.72,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.44,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06655."
+    },
+    {
+      "lemma": "pair",
+      "sourceCorpusId": "word_en_13243",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.72,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.44,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13243."
+    },
+    {
+      "lemma": "sky",
+      "sourceCorpusId": "word_en_14186",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.72,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.44,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14186."
+    },
+    {
+      "lemma": "bear",
+      "sourceCorpusId": "word_en_02300",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.42,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02300."
+    },
+    {
+      "lemma": "boat",
+      "sourceCorpusId": "word_en_02556",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.71,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:hermit"
+      ],
+      "priorityScore": 30.42,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02556."
+    },
+    {
+      "lemma": "rain",
+      "sourceCorpusId": "word_en_13652",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.71,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.42,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13652."
     },
     {
       "lemma": "terrible",
@@ -6331,6 +7546,26 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01400."
     },
     {
+      "lemma": "chair",
+      "sourceCorpusId": "word_en_03137",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.69,
+      "sourceTags": [
+        "default",
+        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:common_misspelled",
+        "source:de_curriculum_en",
+        "source:hermit"
+      ],
+      "priorityScore": 30.38,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03137."
+    },
+    {
       "lemma": "expensive",
       "sourceCorpusId": "word_en_05489",
       "sourcePartOfSpeech": "adjective",
@@ -6347,6 +7582,22 @@
       ],
       "priorityScore": 30.38,
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05489."
+    },
+    {
+      "lemma": "pool",
+      "sourceCorpusId": "word_en_13450",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.67,
+      "sourceTags": [
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added"
+      ],
+      "priorityScore": 30.34,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13450."
     },
     {
       "lemma": "angry",
@@ -6367,645 +7618,80 @@
       "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01668."
     },
     {
-      "lemma": "orange",
-      "sourceCorpusId": "word_en_13142",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.62,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 30.24,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13142."
-    },
-    {
-      "lemma": "bright",
-      "sourceCorpusId": "word_en_02712",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.61,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 30.22,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02712."
-    },
-    {
-      "lemma": "thought",
-      "sourceCorpusId": "word_en_00980",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.59,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 30.18,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00980."
-    },
-    {
-      "lemma": "dirty",
-      "sourceCorpusId": "word_en_04633",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.55,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:hermit"
-      ],
-      "priorityScore": 30.1,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04633."
-    },
-    {
-      "lemma": "pink",
-      "sourceCorpusId": "word_en_13397",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.52,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 30.04,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13397."
-    },
-    {
-      "lemma": "tall",
-      "sourceCorpusId": "word_en_14566",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.52,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 30.04,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14566."
-    },
-    {
-      "lemma": "grey",
-      "sourceCorpusId": "word_en_12372",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.48,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 29.96,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_12372."
-    },
-    {
-      "lemma": "gray",
-      "sourceCorpusId": "word_en_06340",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.45,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:hermit"
-      ],
-      "priorityScore": 29.9,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06340."
-    },
-    {
-      "lemma": "hungry",
-      "sourceCorpusId": "word_en_06895",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.45,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.9,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06895."
-    },
-    {
-      "lemma": "wait",
-      "sourceCorpusId": "word_en_15046",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.35,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 29.7,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_15046."
-    },
-    {
-      "lemma": "delicious",
-      "sourceCorpusId": "word_en_04381",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.34,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.68,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04381."
-    },
-    {
-      "lemma": "lazy",
-      "sourceCorpusId": "word_en_07833",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.24,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.48,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07833."
-    },
-    {
-      "lemma": "hear",
-      "sourceCorpusId": "word_en_06617",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.23,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:hermit"
-      ],
-      "priorityScore": 29.46,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06617."
-    },
-    {
-      "lemma": "guess",
-      "sourceCorpusId": "word_en_06416",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.17,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.34,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06416."
-    },
-    {
-      "lemma": "follow",
-      "sourceCorpusId": "word_en_05858",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.14,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.28,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05858."
-    },
-    {
-      "lemma": "complete",
-      "sourceCorpusId": "word_en_00691",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.1,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 29.2,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00691."
-    },
-    {
-      "lemma": "increase",
-      "sourceCorpusId": "word_en_00808",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.08,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 29.16,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00808."
-    },
-    {
-      "lemma": "sunny",
-      "sourceCorpusId": "word_en_14482",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.07,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 29.14,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14482."
-    },
-    {
-      "lemma": "forget",
-      "sourceCorpusId": "word_en_05905",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.06,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.12,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05905."
-    },
-    {
-      "lemma": "listen",
-      "sourceCorpusId": "word_en_12677",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.06,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 29.12,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_12677."
-    },
-    {
-      "lemma": "expect",
-      "sourceCorpusId": "word_en_05476",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.01,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 29.02,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05476."
-    },
-    {
-      "lemma": "agree",
-      "sourceCorpusId": "word_en_01435",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.97,
-      "sourceTags": [
-        "default",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:hermit"
-      ],
-      "priorityScore": 28.94,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01435."
-    },
-    {
-      "lemma": "spend",
-      "sourceCorpusId": "word_en_14311",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.97,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 28.94,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14311."
-    },
-    {
-      "lemma": "evening",
-      "sourceCorpusId": "word_en_05347",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.86,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cambridge_yle_starters",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:hermit"
-      ],
-      "priorityScore": 28.72,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05347."
-    },
-    {
-      "lemma": "ring",
-      "sourceCorpusId": "word_en_13880",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.81,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:curriculum_added"
-      ],
-      "priorityScore": 28.62,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13880."
-    },
-    {
-      "lemma": "dress",
-      "sourceCorpusId": "word_en_04876",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.76,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:hermit"
-      ],
-      "priorityScore": 28.52,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04876."
-    },
-    {
-      "lemma": "beautiful",
-      "sourceCorpusId": "word_en_00305",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 5.22,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 28.44,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00305."
-    },
-    {
-      "lemma": "certain",
-      "sourceCorpusId": "word_en_00678",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 5.16,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 28.32,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00678."
-    },
-    {
-      "lemma": "discuss",
-      "sourceCorpusId": "word_en_04672",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "leg",
+      "sourceCorpusId": "word_en_07867",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
       "sourceZipf": 4.66,
       "sourceTags": [
         "default",
         "often_misspelled",
         "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
         "source:cefr_j",
         "source:common_misspelled",
+        "source:de_curriculum_en",
         "source:hermit"
       ],
-      "priorityScore": 28.32,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04672."
+      "priorityScore": 30.32,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07867."
     },
     {
-      "lemma": "forward",
-      "sourceCorpusId": "word_en_00767",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "lunch",
+      "sourceCorpusId": "word_en_12719",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
-      "sourceZipf": 5.12,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 28.24,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00767."
-    },
-    {
-      "lemma": "poor",
-      "sourceCorpusId": "word_en_00499",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 5.09,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 28.18,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00499."
-    },
-    {
-      "lemma": "foreign",
-      "sourceCorpusId": "word_en_05892",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 5.08,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y5",
-        "source:uk_y5_y6",
-        "source:uk_y6",
-        "uk_y5",
-        "uk_year:5"
-      ],
-      "priorityScore": 28.16,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05892."
-    },
-    {
-      "lemma": "nothing",
-      "sourceCorpusId": "word_en_13066",
-      "sourcePartOfSpeech": "other",
-      "sourceGrade": 2,
-      "sourceZipf": 5.55,
+      "sourceZipf": 4.66,
       "sourceTags": [
         "source:cambridge_yle_flyers",
         "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 28.1,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13066."
+      "priorityScore": 30.32,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_12719."
     },
     {
-      "lemma": "exciting",
-      "sourceCorpusId": "word_en_05416",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "milk",
+      "sourceCorpusId": "word_en_12846",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
-      "sourceZipf": 4.54,
+      "sourceZipf": 4.66,
       "sourceTags": [
-        "default",
-        "often_misspelled",
+        "source:cambridge_yle_flyers",
+        "source:cambridge_yle_movers",
+        "source:cambridge_yle_starters",
+        "source:cefr_j",
+        "source:curriculum_added",
+        "source:de_curriculum_en"
+      ],
+      "priorityScore": 30.32,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_12846."
+    },
+    {
+      "lemma": "snow",
+      "sourceCorpusId": "word_en_14229",
+      "sourcePartOfSpeech": "noun",
+      "sourceGrade": 2,
+      "sourceZipf": 4.66,
+      "sourceTags": [
         "source:cambridge_yle_flyers",
         "source:cambridge_yle_movers",
         "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
+        "source:curriculum_added",
+        "source:de_curriculum_en"
       ],
-      "priorityScore": 28.08,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05416."
+      "priorityScore": 30.32,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14229."
     },
     {
-      "lemma": "straight",
-      "sourceCorpusId": "word_en_00960",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "kitchen",
+      "sourceCorpusId": "word_en_07703",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
-      "sourceZipf": 5.04,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 28.08,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00960."
-    },
-    {
-      "lemma": "hat",
-      "sourceCorpusId": "word_en_06576",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.53,
+      "sourceZipf": 4.65,
       "sourceTags": [
         "default",
         "often_misspelled",
@@ -7016,143 +7702,30 @@
         "source:de_curriculum_en",
         "source:hermit"
       ],
-      "priorityScore": 28.06,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_06576."
+      "priorityScore": 30.3,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_07703."
     },
     {
-      "lemma": "particular",
-      "sourceCorpusId": "word_en_00877",
-      "sourcePartOfSpeech": "adjective",
+      "lemma": "smile",
+      "sourceCorpusId": "word_en_14214",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
-      "sourceZipf": 5,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 28,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00877."
-    },
-    {
-      "lemma": "though",
-      "sourceCorpusId": "word_en_00979",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.5,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 28,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00979."
-    },
-    {
-      "lemma": "everyone",
-      "sourceCorpusId": "word_en_05354",
-      "sourcePartOfSpeech": "pronoun",
-      "sourceGrade": 2,
-      "sourceZipf": 5.47,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 27.94,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05354."
-    },
-    {
-      "lemma": "almost",
-      "sourceCorpusId": "word_en_01563",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.39,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 27.78,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01563."
-    },
-    {
-      "lemma": "collect",
-      "sourceCorpusId": "word_en_03474",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.37,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 27.74,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_03474."
-    },
-    {
-      "lemma": "wild",
-      "sourceCorpusId": "word_en_00608",
-      "sourcePartOfSpeech": "adjective",
-      "sourceGrade": 2,
-      "sourceZipf": 4.8,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 27.6,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00608."
-    },
-    {
-      "lemma": "outside",
-      "sourceCorpusId": "word_en_13186",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.25,
+      "sourceZipf": 4.64,
       "sourceTags": [
         "source:cambridge_yle_flyers",
         "source:cambridge_yle_movers",
         "source:cefr_j",
         "source:curriculum_added"
       ],
-      "priorityScore": 27.5,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13186."
+      "priorityScore": 30.28,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_14214."
     },
     {
-      "lemma": "duck",
-      "sourceCorpusId": "word_en_04921",
-      "sourcePartOfSpeech": "verb",
+      "lemma": "bird",
+      "sourceCorpusId": "word_en_02479",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
-      "sourceZipf": 4.21,
+      "sourceZipf": 4.63,
       "sourceTags": [
         "default",
         "often_misspelled",
@@ -7164,628 +7737,26 @@
         "source:de_curriculum_en",
         "source:hermit"
       ],
-      "priorityScore": 27.42,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_04921."
+      "priorityScore": 30.26,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02479."
     },
     {
-      "lemma": "tomorrow",
-      "sourceCorpusId": "word_en_11418",
-      "sourcePartOfSpeech": "adverb",
+      "lemma": "bowl",
+      "sourceCorpusId": "word_en_02635",
+      "sourcePartOfSpeech": "noun",
       "sourceGrade": 2,
-      "sourceZipf": 5.02,
+      "sourceZipf": 4.63,
       "sourceTags": [
         "default",
-        "derived_from_misspelling_target",
         "often_misspelled",
         "source:cambridge_yle_flyers",
         "source:cambridge_yle_movers",
         "source:cefr_j",
         "source:common_misspelled",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 27.04,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_11418."
-    },
-    {
-      "lemma": "ahead",
-      "sourceCorpusId": "word_en_01453",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.01,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cambridge_yle_flyers",
-        "source:cefr_j",
-        "source:common_misspelled",
         "source:hermit"
       ],
-      "priorityScore": 27.02,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01453."
-    },
-    {
-      "lemma": "yesterday",
-      "sourceCorpusId": "word_en_15206",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.91,
-      "sourceTags": [
-        "source:cambridge_yle_flyers",
-        "source:cambridge_yle_movers",
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:de_curriculum_en"
-      ],
-      "priorityScore": 26.82,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_15206."
-    },
-    {
-      "lemma": "pass",
-      "sourceCorpusId": "word_en_00479",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.05,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 26.1,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00479."
-    },
-    {
-      "lemma": "says",
-      "sourceCorpusId": "word_en_00193",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.49,
-      "sourceTags": [
-        "often_misspelled",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit",
-        "source:uk_y1",
-        "source:uk_y1_y2",
-        "uk_y1",
-        "uk_year:1"
-      ],
-      "priorityScore": 25.98,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00193."
-    },
-    {
-      "lemma": "improve",
-      "sourceCorpusId": "word_en_00411",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.79,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 25.58,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00411."
-    },
-    {
-      "lemma": "prove",
-      "sourceCorpusId": "word_en_00512",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.77,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 25.54,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00512."
-    },
-    {
-      "lemma": "actually",
-      "sourceCorpusId": "word_en_00624",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.49,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 24.98,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00624."
-    },
-    {
-      "lemma": "probably",
-      "sourceCorpusId": "word_en_00900",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.37,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 24.74,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00900."
-    },
-    {
-      "lemma": "breathe",
-      "sourceCorpusId": "word_en_00660",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 4.26,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 24.52,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00660."
-    },
-    {
-      "lemma": "especially",
-      "sourceCorpusId": "word_en_05302",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.21,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y5",
-        "source:uk_y5_y6",
-        "source:uk_y6",
-        "uk_y5",
-        "uk_year:5"
-      ],
-      "priorityScore": 24.42,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_05302."
-    },
-    {
-      "lemma": "found",
-      "sourceCorpusId": "word_en_00390",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.68,
-      "sourceTags": [
-        "dolch_g2",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:dolch",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 24.36,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00390."
-    },
-    {
-      "lemma": "let",
-      "sourceCorpusId": "word_en_00107",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.6,
-      "sourceTags": [
-        "dolch_g1",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:dolch",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 24.2,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00107."
-    },
-    {
-      "lemma": "perhaps",
-      "sourceCorpusId": "word_en_13346",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.09,
-      "sourceTags": [
-        "source:cefr_j",
-        "source:curriculum_added",
-        "source:uk_y3_y4"
-      ],
-      "priorityScore": 24.18,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_13346."
-    },
-    {
-      "lemma": "live",
-      "sourceCorpusId": "word_en_00115",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.54,
-      "sourceTags": [
-        "dolch_g1",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:dolch",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 24.08,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00115."
-    },
-    {
-      "lemma": "tell",
-      "sourceCorpusId": "word_en_00574",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.53,
-      "sourceTags": [
-        "dolch_g2",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:de_curriculum_en",
-        "source:dolch",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 24.06,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00574."
-    },
-    {
-      "lemma": "call",
-      "sourceCorpusId": "word_en_00321",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.51,
-      "sourceTags": [
-        "dolch_g2",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:dolch",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 24.02,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00321."
-    },
-    {
-      "lemma": "everybody",
-      "sourceCorpusId": "word_en_00372",
-      "sourcePartOfSpeech": "pronoun",
-      "sourceGrade": 2,
-      "sourceZipf": 4.84,
-      "sourceTags": [
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 23.68,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00372."
-    },
-    {
-      "lemma": "told",
-      "sourceCorpusId": "word_en_00585",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.54,
-      "sourceTags": [
-        "often_misspelled",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y1_y2",
-        "source:uk_y2",
-        "uk_y2",
-        "uk_year:2"
-      ],
-      "priorityScore": 23.08,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00585."
-    },
-    {
-      "lemma": "according",
-      "sourceCorpusId": "word_en_01212",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.28,
-      "sourceTags": [
-        "source:hermit",
-        "source:uk_y5",
-        "source:uk_y6",
-        "uk_y5",
-        "uk_year:5"
-      ],
-      "priorityScore": 22.56,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01212."
-    },
-    {
-      "lemma": "heard",
-      "sourceCorpusId": "word_en_00794",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.27,
-      "sourceTags": [
-        "often_misspelled",
-        "source:common_misspelled",
-        "source:hermit",
-        "source:uk_y3",
-        "source:uk_y3_y4",
-        "source:uk_y4",
-        "uk_y3",
-        "uk_year:3"
-      ],
-      "priorityScore": 22.54,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00794."
-    },
-    {
-      "lemma": "used",
-      "sourceCorpusId": "word_en_00247",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.8,
-      "sourceTags": [
-        "fry_b2",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 21.6,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00247."
-    },
-    {
-      "lemma": "set",
-      "sourceCorpusId": "word_en_00202",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.59,
-      "sourceTags": [
-        "fry_b2",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 21.18,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00202."
-    },
-    {
-      "lemma": "change",
-      "sourceCorpusId": "word_en_00328",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.54,
-      "sourceTags": [
-        "fry_b4",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 21.08,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00328."
-    },
-    {
-      "lemma": "support",
-      "sourceCorpusId": "word_en_00219",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.53,
-      "sourceTags": [
-        "fry_b2",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 21.06,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00219."
-    },
-    {
-      "lemma": "including",
-      "sourceCorpusId": "word_en_00413",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.52,
-      "sourceTags": [
-        "fry_b4",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 21.04,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00413."
-    },
-    {
-      "lemma": "united",
-      "sourceCorpusId": "word_en_00244",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.47,
-      "sourceTags": [
-        "fry_b3",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 20.94,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00244."
-    },
-    {
-      "lemma": "working",
-      "sourceCorpusId": "word_en_00613",
-      "sourcePartOfSpeech": "verb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.45,
-      "sourceTags": [
-        "fry_b6",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 20.9,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00613."
-    },
-    {
-      "lemma": "something",
-      "sourceCorpusId": "word_en_00554",
-      "sourcePartOfSpeech": "pronoun",
-      "sourceGrade": 2,
-      "sourceZipf": 5.81,
-      "sourceTags": [
-        "fry_b6",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 19.62,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00554."
-    },
-    {
-      "lemma": "since",
-      "sourceCorpusId": "word_en_00546",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.75,
-      "sourceTags": [
-        "fry_b4",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 19.5,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00546."
-    },
-    {
-      "lemma": "ever",
-      "sourceCorpusId": "word_en_00745",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.66,
-      "sourceTags": [
-        "fry_b8",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 19.32,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_00745."
-    },
-    {
-      "lemma": "yet",
-      "sourceCorpusId": "word_en_01016",
-      "sourcePartOfSpeech": "adverb",
-      "sourceGrade": 2,
-      "sourceZipf": 5.54,
-      "sourceTags": [
-        "fry_b7",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:fry",
-        "source:hermit"
-      ],
-      "priorityScore": 19.08,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01016."
-    },
-    {
-      "lemma": "anything",
-      "sourceCorpusId": "word_en_01731",
-      "sourcePartOfSpeech": "pronoun",
-      "sourceGrade": 2,
-      "sourceZipf": 5.55,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 16.1,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01731."
-    },
-    {
-      "lemma": "anyone",
-      "sourceCorpusId": "word_en_01730",
-      "sourcePartOfSpeech": "pronoun",
-      "sourceGrade": 2,
-      "sourceZipf": 5.38,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 15.76,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01730."
-    },
-    {
-      "lemma": "anybody",
-      "sourceCorpusId": "word_en_01726",
-      "sourcePartOfSpeech": "pronoun",
-      "sourceGrade": 2,
-      "sourceZipf": 4.56,
-      "sourceTags": [
-        "default",
-        "often_misspelled",
-        "source:cefr_j",
-        "source:common_misspelled",
-        "source:hermit"
-      ],
-      "priorityScore": 14.12,
-      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_01726."
+      "priorityScore": 30.26,
+      "notes": "Source grade 2; selected for grade-2 introduced meaning review from word_en_02635."
     }
   ]
 }
