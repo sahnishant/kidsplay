@@ -9,15 +9,6 @@
     "topic": "Class 3 - Plants and Animals",
     "entries": [
       {
-        "id": "leaves-food-sunlight",
-        "rowId": "kr.sof3.plants.leaves.food.sunlight",
-        "subject": { "id": "leaves-food-sunlight", "label": "Leaves" },
-        "relation": "help_with",
-        "object": { "id": "leaves-food-sunlight-object", "label": "using sunlight to help the plant make food" },
-        "conceptIds": ["sof3.plants.leaves-food"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
-      },
-      {
         "id": "seed-germination",
         "rowId": "kr.sof3.plants.seed.germination.conditions",
         "subject": { "id": "seed-germination", "label": "A germinating seed" },
@@ -25,33 +16,6 @@
         "object": { "id": "seed-germination-object", "label": "suitable water, air and warmth to begin growing" },
         "conceptIds": ["sof3.plants.germination"],
         "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
-      },
-      {
-        "id": "herbivores",
-        "rowId": "kr.sof3.animals.diet.herbivore.plants",
-        "subject": { "id": "herbivores", "label": "Herbivores" },
-        "relation": "eat",
-        "object": { "id": "herbivores-object", "label": "plants or plant parts as their food" },
-        "conceptIds": ["sof3.animals.herbivores"],
-        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
-      },
-      {
-        "id": "carnivores",
-        "rowId": "kr.sof3.animals.diet.carnivore.animals",
-        "subject": { "id": "carnivores", "label": "Carnivores" },
-        "relation": "eat",
-        "object": { "id": "carnivores-object", "label": "other animals as their food" },
-        "conceptIds": ["sof3.animals.carnivores"],
-        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
-      },
-      {
-        "id": "omnivores",
-        "rowId": "kr.sof3.animals.diet.omnivore.both",
-        "subject": { "id": "omnivores", "label": "Omnivores" },
-        "relation": "eat",
-        "object": { "id": "omnivores-object", "label": "both plant food and animal food" },
-        "conceptIds": ["sof3.animals.omnivores"],
-        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
       },
       {
         "id": "animal-features-habitat",
@@ -66,7 +30,7 @@
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-open-scope",
-      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Plants and Animals topic family; these are not claimed as exact official SOF row mappings. Existing canonical Class 2 facts are reused instead of duplicated where equivalent."
+      "scopeNote": "Editorial current-Class-3 breadth rows inside the reviewed SOF Plants and Animals topic family. Leaf food-making and herbivore/carnivore/omnivore facts reuse the newer canonical Class 3 rows instead of being duplicated here; exact official row placement is not claimed."
     }
   },
   {
@@ -86,15 +50,6 @@
         "object": { "id": "muscles-movement-object", "label": "moving body parts" },
         "conceptIds": ["sof3.human.muscles"],
         "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] }
-      },
-      {
-        "id": "lungs-gas-exchange",
-        "rowId": "kr.sof3.human.lungs.oxygen.carbon-dioxide",
-        "subject": { "id": "lungs-gas-exchange", "label": "The lungs" },
-        "relation": "help_with",
-        "object": { "id": "lungs-gas-exchange-object", "label": "taking oxygen into the body and removing carbon dioxide" },
-        "conceptIds": ["sof3.human.lungs-gases"],
-        "meta": { "knowledgeLevel": "intermediate", "skills": ["recall", "reasoning"] }
       },
       {
         "id": "digestion",
@@ -118,7 +73,7 @@
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-open-scope",
-      "scopeNote": "Editorial current-Class-3 Human Body depth that extends beyond reused canonical brain/bones basics; exact official row placement is not claimed."
+      "scopeNote": "Editorial current-Class-3 Human Body depth that extends the canonical body-organ bank. Lung gas-exchange reuses the newer canonical Class 3 breathing row instead of being duplicated here; exact official row placement is not claimed."
     }
   },
   {
@@ -170,7 +125,7 @@
     "authoring": {
       "status": "reviewed",
       "source": "kidsplay-editorial-open-scope",
-      "scopeNote": "Editorial current-Class-3 Earth and Universe depth that extends beyond reused canonical Moon-reflection and Earth-position facts; exact official row placement is not claimed."
+      "scopeNote": "Editorial current-Class-3 Earth and Universe depth that extends canonical Moon, Sun, planet and day/night rows; exact official row placement is not claimed."
     }
   }
 ]
