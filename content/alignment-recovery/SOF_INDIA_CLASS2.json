@@ -1,0 +1,50 @@
+{
+  "schemaVersion": 1,
+  "profileRef": "SOF_INDIA_CLASS2",
+  "checkedOn": "2026-08-31",
+  "leads": [
+    {
+      "id": "nso-class2-2021-22-fid-33351",
+      "academicYear": "2021-22",
+      "candidateUrl": "https://sofworld.org/download/file/fid/33351",
+      "status": "blocked_uninspectable",
+      "evidenceEligible": false,
+      "discoveryBasis": "adjacent_official_fids",
+      "officialContextUrls": [
+        "https://sofworld.org/download/file/fid/33350",
+        "https://sofworld.org/download/file/fid/33352"
+      ],
+      "note": "Official SOF fid/33350 is directly inspectable as the 2021-22 NSO Class 1 sample and fid/33352 as the 2021-22 NSO Class 3 sample. The adjacent fid/33351 remains a strong Class 2 recovery lead, but adjacency is not evidence and the candidate itself was not directly inspectable in this pass."
+    },
+    {
+      "id": "nso-class2-2020-21-search",
+      "academicYear": "2020-21",
+      "candidateUrl": "https://sofworld.org/download/file/fid/32465",
+      "status": "rejected_wrong_olympiad",
+      "evidenceEligible": false,
+      "discoveryBasis": "official_search_result",
+      "officialContextUrls": [],
+      "note": "The directly inspectable SOF Class 2 2020-21 result at fid/32465 is National Cyber Olympiad, not National Science Olympiad. It is explicitly rejected for NSO row evidence. No directly inspectable official Class 2 NSO 2020-21 paper was recovered in this pass."
+    },
+    {
+      "id": "nso-class2-2017-18-search",
+      "academicYear": "2017-18",
+      "candidateUrl": null,
+      "status": "saturated_no_official_artifact",
+      "evidenceEligible": false,
+      "discoveryBasis": "official_domain_search",
+      "officialContextUrls": [],
+      "note": "Searches recovered third-party copies and references but no directly inspectable named-year SOF-hosted Class 2 NSO 2017-18 artifact. Mirrors remain research leads only and are not admitted as evidence."
+    },
+    {
+      "id": "nso-class2-legacy-class2-7-year-binding",
+      "academicYear": null,
+      "candidateUrl": "https://sofworld.org/sites/default/files/Class-2_7.pdf",
+      "status": "blocked_year_unbound",
+      "evidenceEligible": false,
+      "discoveryBasis": "official_legacy_artifact",
+      "officialContextUrls": [],
+      "note": "The official legacy Class-2_7.pdf contains an inspectable lungs-help-breathing match, but no reproducible official named academic year was recovered. The historical_class2 contract therefore continues to block promotion of that row."
+    }
+  ]
+}
