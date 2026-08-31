@@ -27,7 +27,7 @@
     "validate:planner": "node scripts/validate-planner.mjs",
     "validate:outputs": "node scripts/validate-output-engines.mjs",
     "validate:taxonomies": "node scripts/validate-taxonomies.mjs",
-    "validate:alignment": "node scripts/validate-alignment.mjs && node scripts/validate-profile-inheritance.mjs && node scripts/validate-alignment-reviews.mjs",
+    "validate:alignment": "node scripts/validate-alignment.mjs && node scripts/validate-profile-inheritance.mjs && node scripts/validate-alignment-reviews.mjs && node scripts/validate-alignment-recovery.mjs",
     "validate:profile-composition": "node scripts/validate-profile-composition.mjs",
     "validate:pack-composition": "node scripts/validate-pack-composition.mjs",
     "validate:profile-scope-targets": "node scripts/validate-profile-scope-targets.mjs",
