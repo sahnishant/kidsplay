@@ -25,6 +25,7 @@
     { "knowledgeRef": "kr.vocab.antonym.early.late", "senseKey": "early#before-expected-time" },
     { "knowledgeRef": "kr.vocab.antonym.narrow.wide", "senseKey": "narrow#small-width" },
     { "knowledgeRef": "kr.vocab.antonym.smooth.rough", "senseKey": "smooth#even-surface" },
-    { "knowledgeRef": "kr.vocab.antonym.ancient.modern", "senseKey": "ancient#very-old-from-long-ago" }
+    { "knowledgeRef": "kr.vocab.antonym.ancient.modern", "senseKey": "ancient#very-old-from-long-ago" },
+    { "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward", "senseKey": "pull#move-toward-by-force" }
   ]
 }
