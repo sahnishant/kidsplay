@@ -111,11 +111,11 @@
       "questionPackRef": "free.sof-class3-science-foundation.1",
       "questionCount": 5,
       "knowledgeRefs": [
-        "kr.sof3.plants.leaves.food.sunlight",
+        "kr.sof3.plants.leaves.make-food",
         "kr.sof3.plants.seed.germination.conditions",
-        "kr.sof3.animals.diet.herbivore.plants",
-        "kr.sof3.animals.diet.carnivore.animals",
-        "kr.sof3.animals.diet.omnivore.both"
+        "kr.sof3.animals.feeding.herbivore",
+        "kr.sof3.animals.feeding.carnivore",
+        "kr.sof3.animals.feeding.omnivore"
       ],
       "openingSceneRef": "scene.plants.air-fresh",
       "successSceneRef": "scene.plants.air-fresh",
