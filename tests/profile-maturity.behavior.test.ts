@@ -78,7 +78,7 @@ describe('profile maturity reporting', () => {
     expect(summary.gradeSpecificSourceRows).toBeGreaterThan(0);
     expect(summary.sharedCanonicalSourceRows).toBeGreaterThan(100);
     expect(summary.multiFormatRows).toBeGreaterThan(0);
-    expect(summary.runnableProfileQuestions).toBeGreaterThan(summary.membershipRows);
+    expect(summary.runnableProfileQuestions).toBeGreaterThan(summary.directMembershipRows);
     expect(summary.hotsQuestions).toBeGreaterThanOrEqual(5);
 
     expect(logical?.ready).toBe(true);
