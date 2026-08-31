@@ -9,11 +9,14 @@ on:
       - 'content/lexicon/open/curator-slices/grade-2-meaning-review.json'
       - 'content/lexicon/editorial-packets/**'
       - 'content/lexicon/ai-draft-overlays/**'
+      - 'content/lexicon/reviews/**'
       - 'scripts/lexicon/prepare-primary-vocabulary-editorial-packet.mjs'
       - 'scripts/lexicon/apply-primary-vocabulary-ai-draft-overlay.mjs'
       - 'scripts/lexicon/finalize-primary-vocabulary-editorial-packet.mjs'
+      - 'scripts/lexicon/import-primary-vocabulary-reviews.mjs'
       - 'tests/primary-vocabulary-editorial-packets.behavior.test.ts'
       - 'tests/primary-vocabulary-ai-draft-overlays.behavior.test.ts'
+      - 'tests/primary-vocabulary-human-review.behavior.test.ts'
       - 'package.json'
   workflow_dispatch:
 
@@ -83,10 +86,30 @@ jobs:
           }
           NODE
 
-      - name: Run focused vocabulary acceptance suite
-        run: npm run test:vocabulary-corpus
+      - name: Import accepted human review decisions
+        run: |
+          npm run lexicon:import:reviews
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          const knowledge = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed.json', 'utf8'));
+          const entries = knowledge[0]?.entries ?? [];
+          if (entries.length !== 16) throw new Error(`Expected exactly 16 reviewed vocabulary rows, got ${entries.length}`);
+          if (entries.filter((entry) => entry.meta?.primaryVocabularyGrade === 1).length !== 8) throw new Error('Expected 8 Grade 1 reviewed rows');
+          if (entries.filter((entry) => entry.meta?.primaryVocabularyGrade === 2).length !== 8) throw new Error('Expected 8 Grade 2 reviewed rows');
+          for (const entry of entries) {
+            if (entry.meta?.curation?.status !== 'reviewed') throw new Error(`${entry.id}: expected reviewed curation state`);
+            if (entry.meta?.curation?.reviewer !== 'sahnishant') throw new Error(`${entry.id}: expected sahnishant reviewer identity`);
+            if (entry.meta?.curation?.reviewedAt !== '2026-08-31') throw new Error(`${entry.id}: expected 2026-08-31 review date`);
+            if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss copy boundary failed`);
+          }
+          NODE
 
-      - name: Upload editorial packets and AI draft review overlays
+      - name: Run focused vocabulary acceptance suite
+        run: |
+          npm run test:vocabulary-corpus
+          npx vitest run tests/primary-vocabulary-human-review.behavior.test.ts
+
+      - name: Upload editorial packets and reviewed import proof
         uses: actions/upload-artifact@v7
         with:
           name: primary-vocabulary-editorial-grade1-2
@@ -95,4 +118,7 @@ jobs:
             content/lexicon/editorial-packets/grade-2-batch-001.json
             content/lexicon/editorial-packets/grade-1-batch-001.ai-draft.json
             content/lexicon/editorial-packets/grade-2-batch-001.ai-draft.json
+            content/lexicon/reviews/grade-1-batch-001.json
+            content/lexicon/reviews/grade-2-batch-001.json
+            content/knowledge/english-vocabulary-primary-reviewed.json
           if-no-files-found: error
