@@ -73,7 +73,7 @@ describe('semantic vocabulary knowledge depth', () => {
     expect(germination?.interaction?.items?.map((item) => item.semanticRef)).toEqual(['seed', 'sprout', 'young-plant']);
   });
 
-  it('uses the same pull relationship for generated learning and post-answer semantic explanation', () => {
+  it('uses the same pull relationship for generated learning and proof-backed post-answer semantic explanation', () => {
     const questions = readJson('content/questions/__generated-from-knowledge.json');
     const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     const pullRow = 'kr.vocab.force.pull.can-move-object-toward';
@@ -85,7 +85,7 @@ describe('semantic vocabulary knowledge depth', () => {
     expect(plan).toMatchObject({
       runtimeUsage: 'knowledge_reinforcement',
       senseKey: 'pull#move-toward-by-force',
-      maturity: 'V4'
+      maturity: 'V5'
     });
     expect(plan.semanticDepthPatternRefs).toContain('pull-direction-explanation');
   });
