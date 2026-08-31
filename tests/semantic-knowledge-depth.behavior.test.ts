@@ -53,11 +53,24 @@ describe('semantic vocabulary knowledge depth', () => {
       ['science.process.freeze.sequence.001', 'kr.science.process.freeze.water-to-ice'],
       ['science.process.germination.sequence.001', 'kr.science.process.germination.seed-to-young-plant']
     ]) {
-      const question = byId.get(questionId) as { knowledgeRefs?: string[]; interaction?: { type?: string; items?: unknown[] } };
+      const question = byId.get(questionId) as {
+        knowledgeRefs?: string[];
+        interaction?: { type?: string; items?: Array<{ semanticRef?: string }> };
+      };
       expect(question?.interaction?.type).toBe('sequence_order');
       expect(question?.interaction?.items?.length).toBeGreaterThanOrEqual(2);
       expect(question?.knowledgeRefs).toEqual([rowId]);
     }
+
+    const melt = byId.get('science.process.melt.sequence.001') as {
+      interaction?: { items?: Array<{ semanticRef?: string }> };
+    };
+    expect(melt?.interaction?.items?.map((item) => item.semanticRef)).toEqual(['ice', 'water']);
+
+    const germination = byId.get('science.process.germination.sequence.001') as {
+      interaction?: { items?: Array<{ semanticRef?: string }> };
+    };
+    expect(germination?.interaction?.items?.map((item) => item.semanticRef)).toEqual(['seed', 'sprout', 'young-plant']);
   });
 
   it('uses the same pull relationship for generated learning and post-answer semantic explanation', () => {
