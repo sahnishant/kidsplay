@@ -1,9 +1,6 @@
 <script lang="ts">
   import VisualEntity from './VisualEntity.svelte';
-  import {
-    resolveVocabularyVisualPlan,
-    type VocabularyVisualRuntimePlan
-  } from './vocabularyVisualRegistry';
+  import { resolveVocabularyVisualPlan } from './vocabularyVisualRegistry';
 
   let {
     senseKey,
@@ -14,20 +11,27 @@
   } = $props();
 
   let plan = $derived(resolveVocabularyVisualPlan(senseKey));
-  let motionEnabled = $derived(Boolean(plan && plan.motionPolicy !== 'none'));
   let parameters = $derived(plan?.parameters ?? {});
-  let density = $derived(String(parameters.density ?? 'medium'));
-  let buildingCount = $derived(density === 'high' ? 7 : density === 'low' ? 3 : 5);
-  let buildings = $derived(Array.from({ length: buildingCount }, (_, index) => index));
+  let motionEnabled = $derived(Boolean(plan && plan.motionPolicy !== 'none'));
   let relation = $derived(String(parameters.relation ?? 'inside'));
   let dimension = $derived(String(parameters.dimension ?? 'size'));
   let target = $derived(String(parameters.target ?? parameters.quantity ?? parameters.comparison ?? 'target'));
   let contrast = $derived(String(parameters.contrast ?? 'contrast'));
   let action = $derived(String(parameters.action ?? 'move'));
   let state = $derived(String(parameters.state ?? 'state'));
-  let expression = $derived(String(parameters.expression ?? 'happy'));
-  let transitionFrom = $derived(String(parameters.from ?? 'before'));
-  let transitionTo = $derived(String(parameters.to ?? 'after'));
+  let density = $derived(String(parameters.density ?? 'medium'));
+  let buildingCount = $derived(density === 'high' ? 7 : density === 'low' ? 3 : 5);
+  let buildings = $derived(Array.from({ length: buildingCount }, (_, index) => index));
+
+  const ink = '#40566b';
+  const softInk = '#71899a';
+  const blue = '#79abc8';
+  const paleBlue = '#cbe7f2';
+  const green = '#88b56d';
+  const gold = '#e3aa55';
+  const red = '#d96f5b';
+  const brown = '#a96f4f';
+  const cream = '#fff0bd';
 
   function labelFor(value: unknown): string {
     return String(value ?? '')
@@ -35,8 +39,21 @@
       .replace(/\b\w/g, (letter) => letter.toUpperCase());
   }
 
-  function accessibleLabel(value: VocabularyVisualRuntimePlan): string {
-    return `Visual explanation for ${value.lemma}: ${labelFor(value.strategy)}.`;
+  function relationPosition(value: string): { x: number; y: number } {
+    if (value === 'on-top-of' || value === 'above') return { x: 160, y: 34 };
+    if (value === 'below') return { x: 160, y: 139 };
+    if (value === 'behind') return { x: 197, y: 88 };
+    if (value === 'beside' || value === 'near') return { x: 226, y: 91 };
+    if (value === 'outside') return { x: 248, y: 132 };
+    return { x: 160, y: 91 };
+  }
+
+  function sizePair(): { target: number; contrast: number } {
+    return ['small', 'tiny'].includes(target) ? { target: 24, contrast: 49 } : { target: 50, contrast: 26 };
+  }
+
+  function heightPair(): { target: number; contrast: number } {
+    return target === 'short' ? { target: 38, contrast: 78 } : { target: 78, contrast: 38 };
   }
 </script>
 
@@ -49,363 +66,227 @@
     data-vocabulary-strategy={plan.strategy}
     data-scene-template={plan.sceneTemplate ?? 'direct'}
     data-motion-policy={plan.motionPolicy}
-    aria-label={accessibleLabel(plan)}
+    aria-label={`Visual explanation for ${plan.lemma}: ${labelFor(plan.strategy)}.`}
   >
     {#if plan.strategy === 'direct_entity' && plan.visualRef}
       <div class="direct-entity" data-scene-kind="direct-entity">
         <VisualEntity visualRef={plan.visualRef} decorative={false} label={plan.lemma} />
       </div>
-
-    {:else if plan.strategy === 'place_scene'}
-      <div class="place-stage" data-scene-kind="place" data-place-kind={String(parameters.placeKind ?? plan.sceneTemplate ?? 'place')}>
-        <div class="sky-disc" aria-hidden="true"></div>
-        {#if plan.sceneTemplate === 'settlement'}
-          <div class="settlement" data-density={density} data-traffic={String(parameters.traffic ?? 'medium')}>
-            {#each buildings as building}
-              <span class="building" data-building={building} aria-hidden="true">
-                <i></i><i></i><i></i><b></b>
-              </span>
-            {/each}
-          </div>
-          {#if parameters.farmland === 'high'}
-            <div class="farmland" aria-hidden="true"><span></span><span></span><span></span></div>
-          {/if}
-          {#if parameters.traffic === 'high' || parameters.traffic === 'medium'}
-            <div class="road"><span class="vehicle" aria-hidden="true"></span></div>
-          {:else}
-            <div class="path" aria-hidden="true"></div>
-          {/if}
-        {:else}
-          <div class="generic-place-building" aria-hidden="true"><i></i><i></i><i></i><b></b></div>
-          <div class="place-marker">{labelFor(parameters.placeKind ?? plan.lemma)}</div>
-        {/if}
-        <strong class="scene-word">{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'spatial_relation'}
-      <div class="relation-stage" data-scene-kind="spatial-relation" data-relation={relation}>
-        <div class="reference-object reference-a" aria-hidden="true"></div>
-        {#if relation === 'between'}<div class="reference-object reference-b" aria-hidden="true"></div>{/if}
-        <div class="relation-subject" aria-hidden="true"></div>
-        <strong class="relation-label">{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'attribute_contrast'}
-      <div class="contrast-stage" data-scene-kind="attribute-contrast" data-dimension={dimension}>
-        <article class="contrast-card contrast-card--target" data-value={target}>
-          {#if dimension === 'size' || dimension === 'height' || dimension === 'length' || dimension === 'weight' || dimension === 'hardness'}
-            <span class="metric-shape target-shape" aria-hidden="true"></span>
-          {:else if dimension === 'speed'}
-            <span class="speed-lane" aria-hidden="true"><i class="speed-dot speed-dot--target"></i><b></b><b></b><b></b></span>
-          {:else if dimension === 'age-state'}
-            <span class="age-building age-building--old" aria-hidden="true"><i></i><i></i><b></b></span>
-          {:else if dimension === 'temperature'}
-            <span class="temperature-symbol temperature-symbol--hot" aria-hidden="true">☀</span>
-            <span class="thermometer thermometer--high" aria-hidden="true"><i></i></span>
-          {:else if dimension === 'width'}
-            <span class="width-bar width-bar--target" aria-hidden="true"></span>
-          {:else if dimension === 'texture'}
-            <span class="texture-line texture-line--smooth" aria-hidden="true"></span>
-          {:else if dimension === 'fill-level'}
-            <span class="cup cup--full" aria-hidden="true"><i></i></span>
-          {:else}
-            <span class="metric-shape target-shape" aria-hidden="true"></span>
-          {/if}
-          <strong>{labelFor(target)}</strong>
-        </article>
-        <span class="compare-mark" aria-hidden="true">↔</span>
-        <article class="contrast-card contrast-card--contrast" data-value={contrast}>
-          {#if dimension === 'size' || dimension === 'height' || dimension === 'length' || dimension === 'weight' || dimension === 'hardness'}
-            <span class="metric-shape contrast-shape" aria-hidden="true"></span>
-          {:else if dimension === 'speed'}
-            <span class="speed-lane" aria-hidden="true"><i class="speed-dot speed-dot--slow"></i><b></b></span>
-          {:else if dimension === 'age-state'}
-            <span class="age-building age-building--modern" aria-hidden="true"><i></i><i></i><i></i><b></b></span>
-          {:else if dimension === 'temperature'}
-            <span class="temperature-symbol temperature-symbol--cold" aria-hidden="true">❄</span>
-            <span class="thermometer thermometer--low" aria-hidden="true"><i></i></span>
-          {:else if dimension === 'width'}
-            <span class="width-bar width-bar--contrast" aria-hidden="true"></span>
-          {:else if dimension === 'texture'}
-            <span class="texture-line texture-line--rough" aria-hidden="true"></span>
-          {:else if dimension === 'fill-level'}
-            <span class="cup cup--empty" aria-hidden="true"><i></i></span>
-          {:else}
-            <span class="metric-shape contrast-shape" aria-hidden="true"></span>
-          {/if}
-          <strong>{labelFor(contrast)}</strong>
-        </article>
-      </div>
-
-    {:else if plan.strategy === 'quantity_scene'}
-      <div class="quantity-stage" data-scene-kind="quantity" data-quantity={String(parameters.quantity ?? parameters.comparison ?? parameters.fraction ?? '')}>
-        <article class="quantity-group quantity-group--few">
-          <div aria-hidden="true"><i></i><i></i></div>
-          <strong>{labelFor(parameters.quantity ?? parameters.fraction ?? 'few')}</strong>
-        </article>
-        <span class="compare-mark" aria-hidden="true">↔</span>
-        <article class="quantity-group quantity-group--many">
-          <div aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
-          <strong>{parameters.comparison === 'scarce' ? 'More would be available' : 'More'}</strong>
-        </article>
-      </div>
-
-    {:else if plan.strategy === 'expression_scene'}
-      <div class="expression-stage" data-scene-kind="expression" data-expression={expression}>
-        <div class="face" aria-hidden="true"><i class="eye eye--left"></i><i class="eye eye--right"></i><b class="mouth"></b></div>
-        <strong>{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'state_scene'}
-      <div class="state-stage" data-scene-kind="state" data-state={state}>
-        {#if state === 'fragile'}
-          <div class="fragile-glass" aria-hidden="true"><i></i><b></b></div>
-          <div class="care-cue">Handle gently</div>
-        {:else if state === 'silent'}
-          <div class="speaker" aria-hidden="true"><i></i><b>×</b></div>
-          <div class="care-cue">No sound</div>
-        {:else}
-          <div class="state-object" aria-hidden="true"></div>
-        {/if}
-        <strong>{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'action_scene'}
-      <div class="action-stage" data-scene-kind="action" data-action={action}>
-        {#if action === 'observe'}
-          <div class="observer" aria-hidden="true"><span class="actor-head"></span><span class="actor-body"></span></div>
-          <div class="focus-target" aria-hidden="true"><i></i><b></b></div>
-          <span class="sight-line" aria-hidden="true"></span>
-        {:else}
-          <div class="generic-actor" aria-hidden="true"><span class="actor-head"></span><span class="actor-body"></span><i></i><b></b></div>
-          <span class="action-arrow" aria-hidden="true">→</span>
-        {/if}
-        <strong>{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'cause_effect'}
-      <div class="force-stage" data-scene-kind="cause-effect" data-action={action}>
-        <div class="generic-actor" aria-hidden="true"><span class="actor-head"></span><span class="actor-body"></span></div>
-        <span class="force-arrow" class:force-arrow--pull={action === 'pull'} aria-hidden="true">{action === 'pull' ? '←' : '→'}</span>
-        <div class="movable-box" aria-hidden="true"></div>
-        <strong>{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'process_scene'}
-      <div class="transition-stage" data-scene-kind="state-transition" data-from={transitionFrom} data-to={transitionTo}>
-        <article class="transition-state transition-state--from">
-          {#if parameters.dimension === 'fill-level'}<span class="cup cup--empty" aria-hidden="true"><i></i></span>{:else}<span class="door door--closed" aria-hidden="true"><i></i></span>{/if}
-          <strong>{labelFor(transitionFrom)}</strong>
-        </article>
-        <span class="transition-arrow" aria-hidden="true">→</span>
-        <article class="transition-state transition-state--to">
-          {#if parameters.dimension === 'fill-level'}<span class="cup cup--full" aria-hidden="true"><i></i></span>{:else}<span class="door door--open" aria-hidden="true"><i></i></span>{/if}
-          <strong>{labelFor(transitionTo)}</strong>
-        </article>
-      </div>
-
-    {:else if plan.strategy === 'sequence_scene'}
-      <div class="sequence-stage" data-scene-kind="sequence">
-        <article class="sequence-step sequence-step--first"><span>1</span><strong>{parameters.timeRelation === 'before-expected' ? 'Earlier' : 'Before'}</strong></article>
-        <span class="sequence-arrow" aria-hidden="true">→</span>
-        <article class="sequence-step sequence-step--next"><span>2</span><strong>{parameters.timeRelation === 'after-expected' ? 'Later' : 'Next'}</strong></article>
-        <div class="sequence-focus">{plan.lemma}</div>
-      </div>
-
-    {:else if plan.strategy === 'part_whole'}
-      <div class="part-whole-stage" data-scene-kind="part-whole">
-        <div class="member-group" aria-hidden="true"><i></i><i class="member-focus"></i><i></i><i></i></div>
-        <span class="focus-ring" aria-hidden="true"></span>
-        <strong>{plan.lemma}</strong>
-      </div>
-
-    {:else if plan.strategy === 'comparison_scene'}
-      <div class="comparison-stage" data-scene-kind="comparison">
-        <div class="comparison-pair comparison-pair--left" aria-hidden="true"><i></i><i></i></div>
-        <span class="compare-mark" aria-hidden="true">↔</span>
-        <div class="comparison-pair comparison-pair--right" aria-hidden="true"><i></i><i class="different"></i></div>
-        <strong>{plan.lemma}</strong>
-      </div>
-
     {:else}
-      <div class="scene-fallback" data-scene-kind="fallback"><strong>{plan.lemma}</strong></div>
+      <svg class="semantic-svg" viewBox="0 0 320 176" role="img" aria-hidden="true">
+        <rect x="0" y="0" width="320" height="176" rx="20" fill="#f7fbff" />
+        <rect x="0" y="111" width="320" height="65" fill="#eef7e6" />
+
+        {#if plan.strategy === 'place_scene'}
+          <g data-scene-kind="place" data-place-kind={String(parameters.placeKind ?? plan.sceneTemplate ?? 'place')}>
+            <circle cx="269" cy="29" r="15" fill="#ffd866" />
+            {#if plan.sceneTemplate === 'settlement'}
+              <g data-density={density} data-traffic={String(parameters.traffic ?? 'medium')}>
+                {#each buildings as building}
+                  {@const x = 36 + building * 36}
+                  {@const h = density === 'high' ? (building % 3 === 1 ? 76 : building % 3 === 2 ? 61 : 47) : density === 'low' ? 40 : building % 2 ? 57 : 44}
+                  <rect x={x} y={111 - h} width={density === 'low' ? 42 : 31} height={h} rx="4" fill={cream} stroke={ink} stroke-width="3" />
+                  <rect x={x + 5} y={111 - h + 11} width="7" height="8" fill={paleBlue} stroke={ink} stroke-width="1" />
+                  <rect x={x + 18} y={111 - h + 11} width="7" height="8" fill={paleBlue} stroke={ink} stroke-width="1" />
+                  <rect x={x + 12} y="96" width="8" height="15" fill={brown} />
+                {/each}
+                {#if parameters.farmland === 'high'}
+                  <path d="M8 132 L86 132 M11 140 L80 140 M15 148 L74 148" stroke={green} stroke-width="4" stroke-linecap="round" />
+                {/if}
+                {#if parameters.traffic === 'high' || parameters.traffic === 'medium'}
+                  <path d="M83 164 L320 130" stroke="#747b80" stroke-width="19" />
+                  <path d="M93 160 L309 132" stroke="#fff0a4" stroke-width="2" stroke-dasharray="11 9" />
+                  <g class:motion-travel={motionEnabled && parameters.traffic === 'high'}>
+                    <rect x="211" y="135" width="22" height="11" rx="3" fill={red} />
+                    <circle cx="216" cy="147" r="3" fill={ink} /><circle cx="229" cy="147" r="3" fill={ink} />
+                  </g>
+                {:else}
+                  <path d="M112 176 Q175 140 250 132" stroke="#d7bd8a" stroke-width="18" fill="none" />
+                {/if}
+              </g>
+            {:else}
+              <rect x="112" y="48" width="96" height="77" rx="5" fill={cream} stroke={ink} stroke-width="4" />
+              <rect x="128" y="65" width="18" height="17" fill={paleBlue} stroke={ink} stroke-width="2" />
+              <rect x="173" y="65" width="18" height="17" fill={paleBlue} stroke={ink} stroke-width="2" />
+              <rect x="149" y="94" width="22" height="31" fill={brown} />
+              <text x="160" y="35" text-anchor="middle" font-size="13" font-weight="800" fill={ink}>{labelFor(parameters.placeKind ?? plan.lemma)}</text>
+            {/if}
+          </g>
+
+        {:else if plan.strategy === 'spatial_relation'}
+          {@const pos = relationPosition(relation)}
+          <g data-scene-kind="spatial-relation" data-relation={relation}>
+            {#if relation === 'between'}
+              <rect x="72" y="64" width="67" height="51" rx="7" fill={cream} stroke={ink} stroke-width="4" />
+              <rect x="181" y="64" width="67" height="51" rx="7" fill={cream} stroke={ink} stroke-width="4" />
+            {:else}
+              <rect x="122" y="64" width="76" height="55" rx="7" fill={cream} stroke={ink} stroke-width="4" />
+            {/if}
+            <circle cx={pos.x} cy={pos.y} r="15" fill={red} stroke="#a44337" stroke-width="3" />
+          </g>
+
+        {:else if plan.strategy === 'attribute_contrast'}
+          <g data-scene-kind="attribute-contrast" data-dimension={dimension}>
+            <rect x="25" y="21" width="118" height="132" rx="16" fill="#ffffffd9" stroke="#dce3e7" />
+            <rect x="177" y="21" width="118" height="132" rx="16" fill="#ffffffd9" stroke="#dce3e7" />
+            {#if dimension === 'size'}
+              {@const pair = sizePair()}
+              <circle cx="84" cy="82" r={pair.target} fill={blue} stroke={ink} stroke-width="3" />
+              <circle cx="236" cy="82" r={pair.contrast} fill={blue} stroke={ink} stroke-width="3" />
+            {:else if dimension === 'height'}
+              {@const pair = heightPair()}
+              <rect x="64" y={124 - pair.target} width="40" height={pair.target} rx="8" fill={blue} stroke={ink} stroke-width="3" />
+              <rect x="216" y={124 - pair.contrast} width="40" height={pair.contrast} rx="8" fill={blue} stroke={ink} stroke-width="3" />
+            {:else if dimension === 'length'}
+              <rect x="42" y="70" width="83" height="27" rx="8" fill={blue} stroke={ink} stroke-width="3" />
+              <rect x="215" y="70" width="43" height="27" rx="8" fill={blue} stroke={ink} stroke-width="3" />
+            {:else if dimension === 'weight'}
+              <rect x="51" y="55" width="66" height="58" rx="8" fill={blue} stroke={ink} stroke-width="3" />
+              <rect x="214" y="66" width="44" height="38" rx="8" fill={blue} stroke={ink} stroke-width="3" />
+              <path d="M43 121 H125 M208 111 H265" stroke={softInk} stroke-width="3" />
+            {:else if dimension === 'speed'}
+              <path d="M42 104 H126 M194 104 H278" stroke={softInk} stroke-width="3" />
+              <g class:motion-travel={motionEnabled}>
+                <circle cx="112" cy="91" r="13" fill={red} /><path d="M45 72 H73 M52 82 H84" stroke={blue} stroke-width="4" />
+              </g>
+              <circle cx="218" cy="91" r="13" fill={red} /><path d="M195 78 H209" stroke={blue} stroke-width="4" />
+            {:else if dimension === 'age-state'}
+              <rect x="49" y="51" width="69" height="69" rx="3" fill="#d7c09e" stroke={ink} stroke-width="3" />
+              <path d="M72 56 L89 81 L79 108" stroke={brown} stroke-width="3" fill="none" />
+              <rect x="211" y="36" width="51" height="84" rx="3" fill={paleBlue} stroke={ink} stroke-width="3" />
+              <rect x="220" y="49" width="9" height="12" fill="#fff" /><rect x="242" y="49" width="9" height="12" fill="#fff" />
+              <rect x="220" y="70" width="9" height="12" fill="#fff" /><rect x="242" y="70" width="9" height="12" fill="#fff" />
+            {:else if dimension === 'temperature'}
+              <circle cx="84" cy="65" r="23" fill="#ffd866" />
+              <path d="M84 27 V18 M84 112 V103 M46 65 H37 M131 65 H122 M57 38 L50 31 M118 99 L111 92 M111 38 L118 31 M50 99 L57 92" stroke={gold} stroke-width="4" />
+              <text x="236" y="77" text-anchor="middle" font-size="42" fill={blue}>❄</text>
+            {:else if dimension === 'width'}
+              <rect x="72" y="48" width="27" height="75" rx="6" fill={blue} stroke={ink} stroke-width="3" />
+              <rect x="196" y="61" width="80" height="49" rx="6" fill={blue} stroke={ink} stroke-width="3" />
+            {:else if dimension === 'texture'}
+              <path d="M43 83 H125" stroke={blue} stroke-width="7" stroke-linecap="round" />
+              <path d="M195 91 L207 72 L220 94 L234 70 L248 94 L263 72 L278 91" stroke={blue} stroke-width="6" fill="none" stroke-linejoin="round" />
+            {:else if dimension === 'fill-level'}
+              <path d="M61 45 H107 L102 119 H66 Z" fill="#fff" stroke={ink} stroke-width="4" />
+              <path d="M65 70 H103 L100 115 H68 Z" fill={blue} />
+              <path d="M213 45 H259 L254 119 H218 Z" fill="#fff" stroke={ink} stroke-width="4" />
+              <path d="M217 108 H255 L254 115 H218 Z" fill={blue} />
+            {:else}
+              <circle cx="84" cy="82" r="45" fill={blue} stroke={ink} stroke-width="3" />
+              <circle cx="236" cy="82" r="25" fill={blue} stroke={ink} stroke-width="3" />
+            {/if}
+            <text x="84" y="142" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{labelFor(target)}</text>
+            <text x="236" y="142" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{labelFor(contrast)}</text>
+            <text x="160" y="89" text-anchor="middle" font-size="20" font-weight="900" fill={softInk}>↔</text>
+          </g>
+
+        {:else if plan.strategy === 'quantity_scene'}
+          <g data-scene-kind="quantity" data-quantity={String(parameters.quantity ?? parameters.comparison ?? parameters.fraction ?? '')}>
+            <rect x="25" y="28" width="118" height="119" rx="16" fill="#ffffffd9" stroke="#dce3e7" />
+            <rect x="177" y="28" width="118" height="119" rx="16" fill="#ffffffd9" stroke="#dce3e7" />
+            <circle cx="68" cy="73" r="12" fill={green} /><circle cx="101" cy="95" r="12" fill={green} />
+            {#each [[210,61],[241,58],[267,76],[210,101],[244,97],[271,112]] as point}
+              <circle cx={point[0]} cy={point[1]} r="10" fill={green} />
+            {/each}
+            <text x="84" y="133" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{labelFor(parameters.quantity ?? parameters.fraction ?? 'few')}</text>
+            <text x="236" y="133" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{parameters.comparison === 'scarce' ? 'More available' : 'More'}</text>
+            <text x="160" y="91" text-anchor="middle" font-size="20" font-weight="900" fill={softInk}>↔</text>
+          </g>
+
+        {:else if plan.strategy === 'expression_scene'}
+          <g data-scene-kind="expression" data-expression={String(parameters.expression ?? 'happy')} class:motion-bob={motionEnabled}>
+            <circle cx="160" cy="82" r="48" fill="#ffd98a" stroke="#7a6241" stroke-width="4" />
+            <circle cx="143" cy="69" r="5" fill="#333" /><circle cx="177" cy="69" r="5" fill="#333" />
+            <path d="M139 94 Q160 116 181 94" stroke="#8f4f46" stroke-width="5" fill="none" stroke-linecap="round" />
+          </g>
+
+        {:else if plan.strategy === 'state_scene'}
+          <g data-scene-kind="state" data-state={state}>
+            {#if state === 'fragile'}
+              <path d="M127 37 H193 L186 127 H134 Z" fill="#e9f7fb" stroke={ink} stroke-width="4" />
+              <path d="M157 45 L170 77 L157 104 L173 126" stroke={brown} stroke-width="4" fill="none" />
+              <text x="160" y="151" text-anchor="middle" font-size="12" font-weight="800" fill={ink}>Handle gently</text>
+            {:else if state === 'silent'}
+              <path d="M105 74 H128 L164 48 V116 L128 91 H105 Z" fill={softInk} />
+              <text x="213" y="102" text-anchor="middle" font-size="58" font-weight="700" fill={red}>×</text>
+              <text x="160" y="147" text-anchor="middle" font-size="12" font-weight="800" fill={ink}>No sound</text>
+            {:else}
+              <rect x="122" y="48" width="76" height="76" rx="16" fill={blue} stroke={ink} stroke-width="3" />
+            {/if}
+          </g>
+
+        {:else if plan.strategy === 'action_scene'}
+          <g data-scene-kind="action" data-action={action}>
+            <circle cx="100" cy="62" r="17" fill="#d69b72" stroke="#7c5a43" stroke-width="3" />
+            <rect x="81" y="80" width="38" height="48" rx="13" fill={blue} />
+            {#if action === 'observe'}
+              <circle cx="221" cy="77" r="27" fill="#fff" stroke={ink} stroke-width="4" class:motion-focus={motionEnabled} />
+              <circle cx="221" cy="77" r="9" fill={blue} />
+              <path d="M239 96 L260 118" stroke={ink} stroke-width="6" />
+              <path d="M124 75 L187 76" stroke={softInk} stroke-width="3" stroke-dasharray="7 6" />
+            {:else}
+              <text x="213" y="90" text-anchor="middle" font-size="36" font-weight="900" fill={ink}>→</text>
+            {/if}
+          </g>
+
+        {:else if plan.strategy === 'cause_effect'}
+          <g data-scene-kind="cause-effect" data-action={action}>
+            <circle cx="72" cy="61" r="16" fill="#d69b72" stroke="#7c5a43" stroke-width="3" />
+            <rect x="55" y="79" width="34" height="43" rx="12" fill={blue} />
+            <text x="156" y="93" text-anchor="middle" font-size="38" font-weight="900" fill={ink}>{action === 'pull' ? '←' : '→'}</text>
+            <rect class="movable-box" class:motion-pull={motionEnabled && action === 'pull'} class:motion-push={motionEnabled && action !== 'pull'} x="208" y="66" width="57" height="57" rx="7" fill="#d9ad72" stroke="#70553f" stroke-width="4" />
+          </g>
+
+        {:else if plan.strategy === 'process_scene'}
+          <g data-scene-kind="state-transition" data-from={String(parameters.from ?? 'before')} data-to={String(parameters.to ?? 'after')}>
+            {#if parameters.dimension === 'fill-level'}
+              <path d="M54 46 H106 L101 122 H59 Z" fill="#fff" stroke={ink} stroke-width="4" /><path d="M58 111 H102 L101 119 H59 Z" fill={blue} />
+              <path d="M214 46 H266 L261 122 H219 Z" fill="#fff" stroke={ink} stroke-width="4" /><path d="M218 69 H262 L261 119 H219 Z" fill={blue} />
+            {:else}
+              <g><rect x="55" y="43" width="51" height="82" fill="#d9ad72" stroke="#70553f" stroke-width="5" /><circle cx="96" cy="84" r="4" fill="#70553f" /></g>
+              <g class:motion-open={motionEnabled}><path d="M217 43 L266 51 L252 125 L217 125 Z" fill="#d9ad72" stroke="#70553f" stroke-width="5" /><circle cx="250" cy="85" r="4" fill="#70553f" /></g>
+            {/if}
+            <text x="160" y="91" text-anchor="middle" font-size="27" font-weight="900" fill={ink}>→</text>
+            <text x="80" y="148" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{labelFor(parameters.from ?? 'before')}</text>
+            <text x="240" y="148" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{labelFor(parameters.to ?? 'after')}</text>
+          </g>
+
+        {:else if plan.strategy === 'sequence_scene'}
+          <g data-scene-kind="sequence">
+            <rect x="45" y="48" width="88" height="77" rx="14" fill="#fff" stroke="#dce3e7" />
+            <rect x="187" y="48" width="88" height="77" rx="14" fill="#fff" stroke="#dce3e7" />
+            <circle cx="89" cy="74" r="18" fill={blue} /><text x="89" y="80" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">1</text>
+            <circle cx="231" cy="74" r="18" fill={blue} /><text x="231" y="80" text-anchor="middle" font-size="17" font-weight="900" fill="#fff">2</text>
+            <text x="89" y="110" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{parameters.timeRelation === 'before-expected' ? 'Earlier' : 'Before'}</text>
+            <text x="231" y="110" text-anchor="middle" font-size="11" font-weight="800" fill={ink}>{parameters.timeRelation === 'after-expected' ? 'Later' : 'Next'}</text>
+            <text x="160" y="91" text-anchor="middle" font-size="25" font-weight="900" fill={ink}>→</text>
+          </g>
+
+        {:else if plan.strategy === 'part_whole'}
+          <g data-scene-kind="part-whole">
+            {#each [100,135,170,205] as x, index}
+              <circle cx={x} cy="88" r={index === 2 ? 17 : 13} fill={index === 2 ? gold : blue} stroke={ink} stroke-width="2" />
+            {/each}
+            <circle cx="170" cy="88" r="26" fill="none" stroke="#d07e35" stroke-width="3" stroke-dasharray="6 5" class:motion-focus={motionEnabled} />
+          </g>
+
+        {:else if plan.strategy === 'comparison_scene'}
+          <g data-scene-kind="comparison">
+            <rect x="53" y="59" width="31" height="31" rx="6" fill={blue} /><rect x="92" y="59" width="31" height="31" rx="6" fill={blue} />
+            <rect x="198" y="59" width="31" height="31" rx="6" fill={blue} /><circle cx="252" cy="75" r="16" fill={gold} />
+            <text x="160" y="84" text-anchor="middle" font-size="24" font-weight="900" fill={ink}>↔</text>
+          </g>
+
+        {:else}
+          <g data-scene-kind="fallback"><text x="160" y="90" text-anchor="middle" font-size="18" font-weight="800" fill={ink}>{plan.lemma}</text></g>
+        {/if}
+
+        <text x="16" y="160" font-size="12" font-weight="850" fill={ink}>{plan.lemma}</text>
+      </svg>
     {/if}
   </section>
 {/if}
 
 <style>
-  .vocabulary-semantic-scene {
-    --ink: #26323b;
-    --line: rgba(38,50,59,.16);
-    --paper: #fffdf7;
-    position: relative;
-    width: 100%;
-    min-height: 176px;
-    overflow: hidden;
-    border: 1px solid var(--line);
-    border-radius: 22px;
-    background: linear-gradient(180deg,#f7fbff 0 58%,#eef7e6 58% 100%);
-    color: var(--ink);
-  }
-  .compact { min-height: 138px; border-radius: 18px; }
-  .direct-entity { width: min(160px, 42vw); height: 150px; margin: 12px auto; }
-  .scene-word, .relation-label { position: absolute; left: 12px; bottom: 9px; padding: 5px 9px; border-radius: 999px; background: rgba(255,255,255,.9); font-size: .74rem; text-transform: capitalize; }
-
-  .place-stage { position: relative; min-height: 176px; height: 100%; }
-  .sky-disc { position: absolute; width: 28px; height: 28px; border-radius: 50%; right: 14%; top: 13%; background: #ffd866; box-shadow: 0 0 0 7px rgba(255,216,102,.16); }
-  .settlement { position: absolute; left: 8%; right: 8%; bottom: 35px; height: 92px; display: flex; align-items: flex-end; justify-content: center; gap: 5px; }
-  .building, .generic-place-building, .age-building { position: relative; display: inline-block; width: 34px; height: 54px; border: 3px solid #40566b; border-radius: 5px 5px 2px 2px; background: #fff0bd; box-sizing: border-box; }
-  .settlement[data-density="high"] .building:nth-child(2n) { height: 75px; }
-  .settlement[data-density="high"] .building:nth-child(3n) { height: 88px; }
-  .settlement[data-density="low"] .building { width: 42px; height: 44px; }
-  .building i, .generic-place-building i, .age-building i { display: inline-block; width: 7px; height: 8px; margin: 8px 2px 0; background: #bde1ef; border: 1px solid #40566b; }
-  .building b, .generic-place-building b, .age-building b { position: absolute; width: 9px; height: 17px; bottom: 0; left: calc(50% - 4px); background: #a96b50; }
-  .farmland { position: absolute; left: 2%; bottom: 18px; width: 27%; display: grid; gap: 3px; transform: skewX(-12deg); }
-  .farmland span { height: 4px; border-radius: 99px; background: #88b56d; }
-  .road { position: absolute; left: 25%; right: 0; bottom: 8px; height: 18px; background: #6d7379; transform: skewX(-16deg); }
-  .road::after { content: ''; position: absolute; left: 10%; right: 10%; top: 8px; border-top: 2px dashed #fff4a2; }
-  .vehicle { position: absolute; width: 20px; height: 10px; border-radius: 4px; left: 48%; top: 3px; background: #df6f5b; z-index: 1; }
-  .path { position: absolute; width: 55%; height: 18px; bottom: 7px; left: 32%; border-radius: 50%; background: #d7bd8a; transform: rotate(-7deg); }
-  .generic-place-building { position: absolute; width: 92px; height: 88px; left: calc(50% - 46px); bottom: 34px; }
-  .generic-place-building i { width: 14px; height: 15px; }
-  .generic-place-building b { width: 18px; height: 28px; left: calc(50% - 9px); }
-  .place-marker { position: absolute; left: 50%; top: 18px; transform: translateX(-50%); padding: 5px 9px; border-radius: 999px; background: rgba(255,255,255,.86); font-weight: 850; font-size: .72rem; }
-
-  .relation-stage { position: relative; min-height: 176px; }
-  .reference-object { position: absolute; width: 76px; height: 58px; left: calc(50% - 38px); top: 58px; border: 4px solid #526879; border-radius: 9px; background: #f6dfaa; }
-  .relation-subject { position: absolute; width: 30px; height: 30px; border-radius: 50%; background: #dd6f5c; border: 3px solid #a44337; z-index: 2; }
-  .relation-stage[data-relation="inside"] .relation-subject { left: calc(50% - 15px); top: 72px; }
-  .relation-stage[data-relation="on-top-of"] .relation-subject { left: calc(50% - 15px); top: 24px; }
-  .relation-stage[data-relation="below"] .relation-subject { left: calc(50% - 15px); top: 126px; }
-  .relation-stage[data-relation="above"] .relation-subject { left: calc(50% - 15px); top: 15px; }
-  .relation-stage[data-relation="behind"] .relation-subject { left: calc(50% + 20px); top: 72px; z-index: 0; opacity: .7; }
-  .relation-stage[data-relation="beside"] .relation-subject { left: calc(50% + 55px); top: 72px; }
-  .relation-stage[data-relation="outside"] .relation-subject { left: calc(50% + 70px); top: 110px; }
-  .relation-stage[data-relation="near"] .relation-subject { left: calc(50% + 45px); top: 72px; }
-  .relation-stage[data-relation="between"] .reference-a { left: calc(50% - 104px); }
-  .relation-stage[data-relation="between"] .reference-b { left: calc(50% + 28px); }
-  .relation-stage[data-relation="between"] .relation-subject { left: calc(50% - 15px); top: 73px; }
-
-  .contrast-stage, .quantity-stage, .transition-stage { min-height: 176px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 9px; padding: 16px; box-sizing: border-box; }
-  .contrast-card, .quantity-group, .transition-state { min-width: 0; height: 132px; display: grid; place-items: center; align-content: center; gap: 8px; border: 1px solid rgba(38,50,59,.11); border-radius: 18px; background: rgba(255,255,255,.82); text-align: center; }
-  .contrast-card strong, .quantity-group strong, .transition-state strong { max-width: 100%; font-size: .72rem; line-height: 1.1; overflow-wrap: anywhere; }
-  .compare-mark, .transition-arrow, .sequence-arrow { font-weight: 950; font-size: 1.25rem; opacity: .65; }
-  .metric-shape { display: block; border-radius: 50%; background: #6eabd0; border: 3px solid #3f7898; }
-  .target-shape { width: 72px; height: 72px; }
-  .contrast-shape { width: 38px; height: 38px; }
-  .contrast-stage[data-dimension="height"] .target-shape { width: 38px; height: 82px; border-radius: 11px; }
-  .contrast-stage[data-dimension="height"] .contrast-shape { width: 38px; height: 43px; border-radius: 11px; }
-  .contrast-stage[data-dimension="length"] .target-shape { width: 88px; height: 24px; border-radius: 11px; }
-  .contrast-stage[data-dimension="length"] .contrast-shape { width: 43px; height: 24px; border-radius: 11px; }
-  .contrast-stage[data-dimension="weight"] .target-shape { width: 66px; height: 56px; border-radius: 9px; box-shadow: 0 9px 0 -4px rgba(38,50,59,.25); }
-  .contrast-stage[data-dimension="weight"] .contrast-shape { width: 45px; height: 36px; border-radius: 9px; box-shadow: 0 4px 0 -3px rgba(38,50,59,.2); }
-  .speed-lane { position: relative; display: block; width: 88px; height: 45px; border-bottom: 3px solid #82909a; }
-  .speed-lane b { display: block; width: 20px; border-top: 3px solid #8bb8d1; margin: 7px 0; }
-  .speed-dot { position: absolute; width: 22px; height: 22px; border-radius: 50%; right: 6px; bottom: 3px; background: #df6f5b; }
-  .motion-enabled .speed-dot--target { animation: vocabulary-travel 1.25s ease-in-out infinite alternate; }
-  .age-building--old { width: 62px; height: 62px; transform: rotate(-1deg); background: #d7c09e; }
-  .age-building--old::after { content: ''; position: absolute; width: 22px; border-top: 3px solid #9a674f; transform: rotate(55deg); top: 29px; left: 18px; }
-  .age-building--modern { width: 54px; height: 82px; background: #c6e4ee; }
-  .temperature-symbol { font-size: 2.2rem; line-height: 1; }
-  .thermometer { position: relative; display: block; width: 14px; height: 55px; border: 3px solid #56636c; border-radius: 10px; background: #fff; }
-  .thermometer::after { content: ''; position: absolute; width: 22px; height: 22px; border: 3px solid #56636c; border-radius: 50%; bottom: -14px; left: -7px; background: #fff; }
-  .thermometer i { position: absolute; bottom: 2px; left: 3px; right: 3px; border-radius: 9px; background: #df6f5b; }
-  .thermometer--high i { height: 43px; }
-  .thermometer--low i { height: 14px; background: #6eaed8; }
-  .width-bar { display: block; height: 40px; border-radius: 8px; background: #6eabd0; border: 3px solid #3f7898; }
-  .width-bar--target { width: 32px; }
-  .width-bar--contrast { width: 82px; }
-  .texture-line { display: block; width: 92px; height: 34px; }
-  .texture-line--smooth { border-bottom: 5px solid #5e93ae; border-radius: 50%; }
-  .texture-line--rough { background: linear-gradient(135deg, transparent 40%, #5e93ae 41% 53%, transparent 54%) 0 0/18px 18px; }
-  .cup { position: relative; display: block; width: 55px; height: 70px; border: 4px solid #526879; border-top-width: 2px; border-radius: 4px 4px 13px 13px; overflow: hidden; background: #fff; }
-  .cup i { position: absolute; left: 0; right: 0; bottom: 0; background: #6cb9dc; }
-  .cup--full i { height: 78%; }
-  .cup--empty i { height: 12%; }
-
-  .quantity-group > div { width: 92px; min-height: 68px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 7px; }
-  .quantity-group i { width: 22px; height: 22px; border-radius: 50%; background: #7aaa6c; border: 2px solid #527a47; }
-  .quantity-group--few i { opacity: .9; }
-
-  .expression-stage, .state-stage, .action-stage, .force-stage, .part-whole-stage, .comparison-stage { min-height: 176px; display: grid; place-items: center; align-content: center; gap: 8px; position: relative; }
-  .face { position: relative; width: 96px; height: 96px; border-radius: 50%; background: #ffd98a; border: 4px solid #7a6241; }
-  .eye { position: absolute; top: 31px; width: 9px; height: 12px; border-radius: 50%; background: #3b3b3b; }
-  .eye--left { left: 26px; } .eye--right { right: 26px; }
-  .mouth { position: absolute; left: 28px; right: 28px; bottom: 22px; height: 18px; border-bottom: 5px solid #8f4f46; border-radius: 0 0 30px 30px; }
-  .motion-enabled .face { animation: vocabulary-gentle-bob 1.6s ease-in-out infinite alternate; }
-  .fragile-glass { position: relative; width: 62px; height: 82px; border: 4px solid #63869a; border-radius: 5px 5px 14px 14px; background: rgba(193,230,242,.35); }
-  .fragile-glass i, .fragile-glass b { position: absolute; width: 4px; background: #76564d; transform-origin: top; }
-  .fragile-glass i { height: 36px; left: 29px; top: 7px; transform: rotate(23deg); }
-  .fragile-glass b { height: 27px; left: 39px; top: 34px; transform: rotate(-42deg); }
-  .care-cue { padding: 4px 8px; border-radius: 999px; background: rgba(255,255,255,.9); font-size: .7rem; font-weight: 800; }
-  .speaker { position: relative; width: 90px; height: 72px; }
-  .speaker i { position: absolute; width: 35px; height: 35px; left: 8px; top: 18px; background: #71899a; clip-path: polygon(0 30%,40% 30%,100% 0,100% 100%,40% 70%,0 70%); }
-  .speaker b { position: absolute; font-size: 3rem; right: 8px; top: 1px; color: #c95b52; }
-  .state-object { width: 72px; height: 72px; border-radius: 16px; background: #89a9bb; }
-
-  .observer, .generic-actor { position: relative; width: 54px; height: 88px; }
-  .actor-head { position: absolute; width: 34px; height: 34px; left: 10px; top: 0; border-radius: 50%; background: #d69b72; border: 3px solid #7c5a43; }
-  .actor-body { position: absolute; width: 42px; height: 48px; left: 6px; top: 37px; border-radius: 16px 16px 8px 8px; background: #7aa6c6; }
-  .action-stage { grid-template-columns: 62px 80px; grid-template-rows: 1fr auto; column-gap: 28px; }
-  .action-stage strong { grid-column: 1 / -1; }
-  .focus-target { position: relative; width: 58px; height: 58px; border-radius: 50%; border: 4px solid #58758a; background: #fff; }
-  .focus-target i { position: absolute; width: 19px; height: 19px; border-radius: 50%; background: #7aa6c6; left: 16px; top: 16px; }
-  .focus-target b { position: absolute; width: 32px; border-top: 5px solid #58758a; transform: rotate(45deg); right: -22px; bottom: -8px; }
-  .sight-line { position: absolute; width: 74px; border-top: 3px dashed rgba(76,111,132,.55); left: calc(50% - 44px); top: 74px; transform: rotate(-5deg); }
-  .motion-enabled .focus-target { animation: vocabulary-focus 1.4s ease-in-out infinite alternate; }
-  .generic-actor i, .generic-actor b { position: absolute; width: 28px; border-top: 5px solid #526879; top: 54px; }
-  .generic-actor i { left: -11px; transform: rotate(-35deg); } .generic-actor b { right: -11px; transform: rotate(35deg); }
-  .action-arrow { position: absolute; right: 18%; top: 49%; font-size: 2rem; }
-  .force-stage { grid-template-columns: 60px 55px 62px; column-gap: 15px; }
-  .force-stage strong { grid-column: 1 / -1; }
-  .force-arrow { font-size: 2rem; font-weight: 950; }
-  .movable-box { width: 56px; height: 56px; border: 4px solid #70553f; border-radius: 7px; background: #d9ad72; }
-  .motion-enabled .force-stage[data-action="push"] .movable-box { animation: vocabulary-push 1.4s ease-in-out infinite alternate; }
-  .motion-enabled .force-stage[data-action="pull"] .movable-box { animation: vocabulary-pull 1.4s ease-in-out infinite alternate; }
-
-  .door { position: relative; display: block; width: 48px; height: 80px; border: 5px solid #70553f; background: #d9ad72; transform-origin: left center; }
-  .door i { position: absolute; width: 7px; height: 7px; border-radius: 50%; right: 6px; top: 36px; background: #70553f; }
-  .door--open { transform: perspective(120px) rotateY(-38deg); }
-  .motion-enabled .transition-state--to .door--open { animation: vocabulary-door-open 1.5s ease-in-out infinite alternate; }
-
-  .sequence-stage { min-height: 176px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 10px; padding: 20px; position: relative; }
-  .sequence-step { display: grid; place-items: center; gap: 7px; padding: 14px 8px; border-radius: 18px; background: rgba(255,255,255,.82); }
-  .sequence-step span { display: grid; place-items: center; width: 35px; height: 35px; border-radius: 50%; background: #7aa6c6; color: #fff; font-weight: 900; }
-  .sequence-step strong { font-size: .75rem; }
-  .sequence-focus { position: absolute; left: 50%; bottom: 7px; transform: translateX(-50%); font-weight: 900; text-transform: capitalize; }
-
-  .member-group { position: relative; width: 150px; display: flex; justify-content: center; gap: 10px; }
-  .member-group i { width: 27px; height: 27px; border-radius: 50%; background: #7aa6c6; border: 3px solid #58758a; }
-  .member-group .member-focus { background: #e4a653; transform: scale(1.25); }
-  .focus-ring { position: absolute; width: 43px; height: 43px; border: 3px dashed #d07e35; border-radius: 50%; top: 49px; left: calc(50% - 21px); }
-  .motion-enabled .focus-ring { animation: vocabulary-focus 1.4s ease-in-out infinite alternate; }
-
-  .comparison-stage { grid-template-columns: 80px auto 80px; }
-  .comparison-stage strong { grid-column: 1 / -1; }
-  .comparison-pair { display: flex; gap: 7px; }
-  .comparison-pair i { width: 30px; height: 30px; border-radius: 7px; background: #7aa6c6; }
-  .comparison-pair .different { border-radius: 50%; background: #e4a653; }
-  .scene-fallback { min-height: 176px; display: grid; place-items: center; }
-
-  @keyframes vocabulary-travel { from { transform: translateX(-44px); } to { transform: translateX(0); } }
-  @keyframes vocabulary-gentle-bob { from { transform: translateY(0); } to { transform: translateY(-5px); } }
-  @keyframes vocabulary-focus { from { transform: scale(.94); opacity: .72; } to { transform: scale(1.06); opacity: 1; } }
-  @keyframes vocabulary-push { from { transform: translateX(-8px); } to { transform: translateX(14px); } }
-  @keyframes vocabulary-pull { from { transform: translateX(12px); } to { transform: translateX(-10px); } }
-  @keyframes vocabulary-door-open { from { transform: perspective(120px) rotateY(-12deg); } to { transform: perspective(120px) rotateY(-48deg); } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .vocabulary-semantic-scene *, .vocabulary-semantic-scene *::before, .vocabulary-semantic-scene *::after {
-      animation-duration: .001ms !important;
-      animation-iteration-count: 1 !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
-  @media (max-width: 420px) {
-    .contrast-stage, .quantity-stage, .transition-stage { padding: 9px; gap: 5px; }
-    .contrast-card, .quantity-group, .transition-state { height: 119px; }
-    .target-shape { width: 60px; height: 60px; }
-    .contrast-shape { width: 34px; height: 34px; }
-  }
+  .vocabulary-semantic-scene{width:100%;min-height:176px;overflow:hidden;border:1px solid rgba(38,50,59,.16);border-radius:22px;background:#f7fbff}.compact{min-height:138px;border-radius:18px}.semantic-svg{display:block;width:100%;height:176px}.compact .semantic-svg{height:138px}.direct-entity{width:min(160px,42vw);height:150px;margin:12px auto}.motion-travel{animation:vocab-travel 1.3s ease-in-out infinite alternate}.motion-bob{animation:vocab-bob 1.5s ease-in-out infinite alternate}.motion-focus{transform-box:fill-box;transform-origin:center;animation:vocab-focus 1.35s ease-in-out infinite alternate}.motion-push{animation:vocab-push 1.35s ease-in-out infinite alternate}.motion-pull{animation:vocab-pull 1.35s ease-in-out infinite alternate}.motion-open{transform-box:fill-box;transform-origin:left center;animation:vocab-open 1.5s ease-in-out infinite alternate}@keyframes vocab-travel{from{transform:translateX(-33px)}to{transform:translateX(0)}}@keyframes vocab-bob{from{transform:translateY(0)}to{transform:translateY(-5px)}}@keyframes vocab-focus{from{transform:scale(.93);opacity:.7}to{transform:scale(1.06);opacity:1}}@keyframes vocab-push{from{transform:translateX(-7px)}to{transform:translateX(13px)}}@keyframes vocab-pull{from{transform:translateX(12px)}to{transform:translateX(-9px)}}@keyframes vocab-open{from{transform:skewY(0deg) scaleX(1)}to{transform:skewY(-7deg) scaleX(.76)}}@media(prefers-reduced-motion:reduce){.vocabulary-semantic-scene *{animation:none!important}}
 </style>
