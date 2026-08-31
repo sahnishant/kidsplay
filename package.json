@@ -14,6 +14,9 @@
     "lexicon:select:primary": "node scripts/lexicon/select-grade-vocabulary.mjs",
     "lexicon:resolve:primary": "node scripts/lexicon/build-grade-sense-review.mjs",
     "lexicon:profile-slice:primary": "node scripts/lexicon/build-primary-vocabulary-profile-slice.mjs",
+    "lexicon:reband:primary": "node scripts/lexicon/reband-primary-grade-corpus.mjs",
+    "lexicon:export:review-slice": "node scripts/lexicon/export-primary-vocabulary-sense-slice.mjs",
+    "lexicon:import:reviews": "node scripts/lexicon/import-primary-vocabulary-reviews.mjs",
     "report:lexicon-corpus": "node scripts/lexicon/report-primary-grade-corpus.mjs",
     "report:coverage": "node scripts/report-learning-coverage.mjs",
     "report:profile": "node scripts/report-learning-coverage.mjs",
@@ -32,7 +35,7 @@
     "validate:planner": "node scripts/validate-planner.mjs",
     "validate:outputs": "node scripts/validate-output-engines.mjs",
     "validate:taxonomies": "node scripts/validate-taxonomies.mjs",
-    "validate:alignment": "node scripts/validate-alignment.mjs && node scripts/validate-profile-inheritance.mjs && node scripts/validate-alignment-reviews.mjs",
+    "validate:alignment": "node scripts/validate-alignment.mjs && node scripts/validate-profile-inheritance.mjs && node scripts/validate-alignment-reviews.mjs && node scripts/validate-alignment-recovery.mjs",
     "validate:profile-composition": "node scripts/validate-profile-composition.mjs",
     "validate:pack-composition": "node scripts/validate-pack-composition.mjs",
     "validate:profile-scope-targets": "node scripts/validate-profile-scope-targets.mjs",
@@ -55,10 +58,7 @@
     "check": "npm run build && npm run test:run",
     "android:add": "npx cap add android",
     "android:sync": "npm run build && npx cap sync android",
-    "android:open": "npx cap open android",
-    "lexicon:reband:primary": "node scripts/lexicon/reband-primary-grade-corpus.mjs",
-    "lexicon:export:review-slice": "node scripts/lexicon/export-primary-vocabulary-sense-slice.mjs",
-    "lexicon:import:reviews": "node scripts/lexicon/import-primary-vocabulary-reviews.mjs"
+    "android:open": "npx cap open android"
   },
   "dependencies": {
     "@capacitor/core": "8.5.0",
