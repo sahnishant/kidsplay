@@ -14,7 +14,7 @@ question / story / canonical concept
         -> lightweight CSS/SVG motion
 ```
 
-A presentation variant is not a new knowledge entity. For example, `animation.variant.dog.happy` and `animation.variant.dog.worried` are visual states of the same semantic identity `dog`.
+A presentation variant is not a new knowledge entity. For example, `animation.variant.dog-happy-state` and `animation.variant.dog-worried-state` are visual states of the same semantic identity `dog`. Their aliases are deliberately namespaced as animation-state phrases so they cannot compete with ordinary semantic visual inference.
 
 ## Composition contract
 
