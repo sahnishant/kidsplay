@@ -238,7 +238,7 @@ test.describe('Kidsplay child journeys', () => {
 
     expect(await page.evaluate(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
     await openPlayer(page);
-    const motion = page.locator('.motion--bounce').first();
+    const motion = page.locator('.kid-avatar--bounce .kid-avatar__character').first();
     await expect(motion).toBeVisible();
     const style = await motion.evaluate((element) => {
       const computed = window.getComputedStyle(element);
