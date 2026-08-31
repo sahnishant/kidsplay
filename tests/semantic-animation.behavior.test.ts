@@ -15,9 +15,10 @@ describe('semantic animation composition', () => {
   it('stores reusable visual states against one semantic dog identity', () => {
     const dogStates = getAnimationCompositions().filter((item) => item.semanticRef === 'dog');
     const dogStateIds = new Set(dogStates.map((item) => item.id));
+    const expressions = new Set(dogStates.map((item) => item.subject.expression));
+    const poses = new Set(dogStates.map((item) => item.subject.pose));
 
     expect(dogStates.length).toBeGreaterThanOrEqual(3);
-    expect(dogStateIds).toEqual(expect.objectContaining ? dogStateIds : dogStateIds);
     for (const baselineId of [
       'animation.dog.happy-bone',
       'animation.dog.worried-water',
@@ -25,14 +26,11 @@ describe('semantic animation composition', () => {
     ]) {
       expect(dogStateIds.has(baselineId), `${baselineId} should remain available`).toBe(true);
     }
-    expect(new Set(dogStates.map((item) => item.subject.expression))).toEqual(
-      expect.objectContaining ? new Set(dogStates.map((item) => item.subject.expression)) : new Set()
-    );
-    expect(new Set(dogStates.map((item) => item.subject.expression)).has('happy')).toBe(true);
-    expect(new Set(dogStates.map((item) => item.subject.expression)).has('worried')).toBe(true);
-    expect(new Set(dogStates.map((item) => item.subject.expression)).has('curious')).toBe(true);
-    expect(new Set(dogStates.map((item) => item.subject.pose)).has('stand')).toBe(true);
-    expect(new Set(dogStates.map((item) => item.subject.pose)).has('sit')).toBe(true);
+    for (const baselineExpression of ['happy', 'worried', 'curious']) {
+      expect(expressions.has(baselineExpression as 'happy' | 'worried' | 'curious')).toBe(true);
+    }
+    expect(poses.has('stand')).toBe(true);
+    expect(poses.has('sit')).toBe(true);
     expect(dogStates.every((item) => item.subject.orientation === 'side')).toBe(true);
     expect(dogStates.every((item) => item.parts.length >= 1)).toBe(true);
   });
