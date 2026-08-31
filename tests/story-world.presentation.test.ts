@@ -69,7 +69,7 @@ describe('Dheu viewport story-world presentation', () => {
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeTruthy();
-    expect(dialog.textContent).toContain('Warm-up tease');
+    expect(dialog.textContent).toContain('Tricky twist');
     expect(screen.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeTruthy();
     expect(screen.getByLabelText('Story beat 1 of 3')).toBeTruthy();
     expect(screen.getByText(/Some animals live in water/)).toBeTruthy();
