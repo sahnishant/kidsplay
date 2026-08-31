@@ -1,0 +1,34 @@
+[
+  {
+    "id": "sof3.matter.occupies-space",
+    "statement": "Matter occupies space.",
+    "subject": "Science",
+    "topic": "Class 3 - Matter and Materials",
+    "subtopic": "Matter",
+    "gradeBands": [3]
+  },
+  {
+    "id": "sof3.matter.solid-shape",
+    "statement": "A solid keeps its own shape under ordinary conditions.",
+    "subject": "Science",
+    "topic": "Class 3 - Matter and Materials",
+    "subtopic": "Solids",
+    "gradeBands": [3]
+  },
+  {
+    "id": "sof3.matter.liquid-shape",
+    "statement": "A liquid takes the shape of the part of its container that it fills.",
+    "subject": "Science",
+    "topic": "Class 3 - Matter and Materials",
+    "subtopic": "Liquids",
+    "gradeBands": [3]
+  },
+  {
+    "id": "sof3.matter.gas-spread",
+    "statement": "A gas spreads through the available space in a container.",
+    "subject": "Science",
+    "topic": "Class 3 - Matter and Materials",
+    "subtopic": "Gases",
+    "gradeBands": [3]
+  }
+]
