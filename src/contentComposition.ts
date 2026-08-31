@@ -6,11 +6,11 @@ export interface ComposableMembershipMember<TFit extends string> {
 export interface ComposableMembership<TFit extends string> {
   profileRef: string;
   members: ComposableMembershipMember<TFit>[];
-  includeProfiles?: Array<{
+  inherits?: Array<{
     profileRef: string;
-    mode?: 'direct';
-    fit?: TFit;
-    reason?: string;
+    memberScope?: 'direct';
+    fit: TFit;
+    basis?: string;
   }>;
 }
 
@@ -28,27 +28,29 @@ export function resolveRuntimeMembership<TFit extends string>(
   const membership = membershipByRef.get(profileRef);
   if (!membership) throw new Error(`Unknown profile membership ${profileRef}`);
 
-  const membersByRow = new Map(
-    membership.members.map((member) => [member.rowId, { ...member }])
-  );
+  const membersByRow = new Map<string, ComposableMembershipMember<TFit>>();
   const seenProfiles = new Set<string>();
-  for (const include of membership.includeProfiles ?? []) {
-    if (seenProfiles.has(include.profileRef)) {
-      throw new Error(`${profileRef}: duplicate included profile ${include.profileRef}`);
+  for (const inheritance of membership.inherits ?? []) {
+    if (seenProfiles.has(inheritance.profileRef)) {
+      throw new Error(`${profileRef}: duplicate inherited profile ${inheritance.profileRef}`);
     }
-    seenProfiles.add(include.profileRef);
-    if (include.mode && include.mode !== 'direct') {
-      throw new Error(`${profileRef}: unsupported include mode ${include.mode}`);
+    seenProfiles.add(inheritance.profileRef);
+    if (inheritance.memberScope && inheritance.memberScope !== 'direct') {
+      throw new Error(`${profileRef}: unsupported inheritance scope ${inheritance.memberScope}`);
     }
-    const source = membershipByRef.get(include.profileRef);
-    if (!source) throw new Error(`${profileRef}: unknown included profile ${include.profileRef}`);
+    const source = membershipByRef.get(inheritance.profileRef);
+    if (!source) throw new Error(`${profileRef}: unknown inherited profile ${inheritance.profileRef}`);
     for (const member of source.members) {
       if (membersByRow.has(member.rowId)) continue;
       membersByRow.set(member.rowId, {
         ...member,
-        fit: include.fit ?? member.fit
+        fit: inheritance.fit ?? member.fit
       });
     }
+  }
+
+  for (const member of membership.members) {
+    membersByRow.set(member.rowId, { ...member });
   }
 
   return {
