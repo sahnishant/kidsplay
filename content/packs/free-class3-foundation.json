@@ -1,7 +1,7 @@
 {
   "id": "free-class3-foundation",
   "kind": "learning_pack",
-  "title": "Class 3 Science Foundation",
+  "title": "Class 3 Science and Reasoning Foundation",
   "access": { "type": "free" },
   "profileRef": "SOF_INDIA_CLASS3",
   "questionRefs": [
@@ -22,6 +22,17 @@
     "sof3.soil-water-weather.memory.generated.001",
     "sof3.soil-water-weather.match.generated.001",
     "sof3.measurement-space.memory.generated.001",
-    "sof3.measurement-space.match.generated.001"
+    "sof3.measurement-space.match.generated.001",
+
+    "sof3.matter.memory.generated.001",
+    "sof3.matter.match.generated.001",
+
+    "reasoning.alphabet.arrange.generated.001",
+    "reasoning.figure-matrix.symbols.generated.001",
+    "reasoning.grouping.figures.generated.001",
+    "reasoning.mirror.right.generated.001",
+    "reasoning.combinations.outfits.generated.001",
+    "reasoning.clock.elapsed.generated.001",
+    "reasoning.calendar.days-after.generated.001"
   ]
 }
