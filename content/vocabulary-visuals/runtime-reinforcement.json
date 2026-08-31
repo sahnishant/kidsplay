@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-runtime-reinforcement.001",
+  "issueRef": 80,
+  "policy": {
+    "phase": "post_answer_only",
+    "structuredAssessmentAllowed": false,
+    "questionSchemaCoupling": false
+  },
+  "mappings": [
+    { "knowledgeRef": "kr.vocab.meaning.enormous.very-large", "senseKey": "enormous#very-large-size" },
+    { "knowledgeRef": "kr.vocab.meaning.fragile.easily-broken", "senseKey": "fragile#easily-broken" },
+    { "knowledgeRef": "kr.vocab.meaning.rapid.very-fast", "senseKey": "rapid#very-fast" },
+    { "knowledgeRef": "kr.vocab.meaning.ancient.very-old", "senseKey": "ancient#very-old-from-long-ago" },
+    { "knowledgeRef": "kr.vocab.meaning.cheerful.happy-positive", "senseKey": "cheerful#happy-positive" },
+    { "knowledgeRef": "kr.vocab.meaning.scarce.hard-to-find", "senseKey": "scarce#not-enough-hard-to-find" },
+    { "knowledgeRef": "kr.vocab.meaning.silent.no-sound", "senseKey": "silent#making-no-sound" },
+    { "knowledgeRef": "kr.vocab.meaning.observe.watch-carefully", "senseKey": "observe#watch-carefully" },
+    { "knowledgeRef": "kr.vocab.synonym.happy.glad", "senseKey": "happy#positive-emotional-state" },
+    { "knowledgeRef": "kr.vocab.synonym.quick.fast", "senseKey": "quick#fast-speed" },
+    { "knowledgeRef": "kr.vocab.synonym.small.tiny", "senseKey": "small#small-size" },
+    { "knowledgeRef": "kr.vocab.synonym.large.big", "senseKey": "large#big-size" },
+    { "knowledgeRef": "kr.vocab.synonym.quiet.silent", "senseKey": "quiet#making-little-or-no-sound" },
+    { "knowledgeRef": "kr.vocab.antonym.hot.cold", "senseKey": "hot#high-temperature" },
+    { "knowledgeRef": "kr.vocab.antonym.early.late", "senseKey": "early#before-expected-time" },
+    { "knowledgeRef": "kr.vocab.antonym.narrow.wide", "senseKey": "narrow#small-width" },
+    { "knowledgeRef": "kr.vocab.antonym.smooth.rough", "senseKey": "smooth#even-surface" },
+    { "knowledgeRef": "kr.vocab.antonym.ancient.modern", "senseKey": "ancient#very-old-from-long-ago" }
+  ]
+}
