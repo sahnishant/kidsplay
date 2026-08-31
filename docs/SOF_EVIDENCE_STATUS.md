@@ -1,161 +1,73 @@
-# SOF Class 2 exact-evidence status
+# SOF Class 2 evidence status
 
-Checkpoint: 2026-08-30
+Checkpoint: 2026-08-31
 
-This file is a compact status checkpoint. The contract/rationale remains in `docs/SOF_ROW_REVIEW.md`; the machine-readable truth remains in `content/alignment-reviews/SOF_INDIA_CLASS2.json` and `content/alignment-sources/registry.json`.
-
-## Current numbers
+## Current truth
 
 - Profile: `SOF_INDIA_CLASS2`
 - Profile provenance: `prototype_unverified`
 - Academic year being prepared for: `2026-27`
-- Current profile membership: **182 canonical rows**
-- Current learnables: **185**
-- Exact reproducible row/skill evidence: **27 / 182**
-- Current-year direct evidence: **13**
-- Historical official Class 2 direct evidence with per-row current-year scope binding: **14**
-- Rows still pending exact row/skill evidence: **155**
-- Current recorded fit basis for direct evidence: `editorial_retained`
+- Current direct membership: **182 canonical rows**
+- Exact reproducible official row/skill anchors: **27 / 182**
+- Current-year direct anchors: **13**
+- Historical named-year Class 2 anchors with current-scope binding: **14**
+- Terminally reviewed rows with no exact public official anchor found: **155 / 182**
+- Rows with a terminal evidence disposition: **182 / 182**
+- Rows still pending terminal evidence review: **0**
 
-The evidence count only advances when a reproducible official fact/skill anchor exists. Broad topic presence alone does not count as exact row evidence.
+The exact-anchor count did **not** increase to manufacture closure. `reviewed_no_exact_public_anchor` is a terminal research/audit disposition, not official provenance and not a claim that the fact never appeared in SOF.
 
-## What an evidence row means
+## Machine-readable truth
 
-A checked row means there is a reproducible official source establishing the fact/skill at Class 2 and the row remains in the current prototype profile.
+Three artifacts intentionally model different claims:
 
-It does **not** mean:
+1. `content/alignment-reviews/SOF_INDIA_CLASS2.json` — the **27 exact official anchors**. This remains the only row-level artifact that can say an exact official fact/skill anchor exists.
+2. `content/alignment-recovery/SOF_INDIA_CLASS2.json` — blocked, rejected or saturated official-source recovery leads. These remain `evidenceEligible: false`.
+3. `content/alignment-terminal-reviews/SOF_INDIA_CLASS2.json` — the **182/182 terminal review contract**. Exact-evidence rows resolve to `exact_official_anchor`; every other frozen membership row resolves to `reviewed_no_exact_public_anchor` under the audited accessible public official corpus.
 
-- the whole profile is officially verified;
-- the exact question will recur;
-- SOF assigned Kidsplay's `core`, `review`, `stretch` or `challenge` fit;
-- a historical paper alone proves current-year placement.
+`node scripts/report-sof-row-review.mjs --json` expands the terminal policy to every current membership row and reports exact, no-exact and pending counts separately.
 
-`fitBasis: editorial_retained` explicitly preserves this distinction.
+## Exact-evidence contract
 
-## Temporal rules
+An exact official anchor requires a reproducible reviewed SOF assessment source, a narrow locator and `direct_fact` or `direct_skill` evidence. Current-year evidence must bind to `2026-27`. Historical Class 2 evidence requires a named historical year plus a per-row current-year scope source and locator.
 
-### Current year
+The following do not qualify as exact row evidence:
 
-`temporalBasis: current_year` requires the direct evidence source's `academicYear` to equal the profile academic year (`2026-27`).
+- syllabus/topic presence alone;
+- keyword or semantic near-matches;
+- repeated copies of an already-counted fact across years;
+- visual inference when the needed fact cannot be reproduced directly;
+- paid or access-restricted papers/test banks;
+- wrong-olympiad material;
+- third-party mirrors or answer-key-only references.
 
-### Historical Class 2
+Kidsplay `core`, `review`, `stretch` and `challenge` values remain editorial planning metadata unless a separate source explicitly supports such a classification. Existing exact anchors use `fitBasis: editorial_retained`.
 
-`temporalBasis: historical_class2` requires all of the following:
+## Terminal review contract
 
-1. A reviewed official Class 2 assessment from a different named academic year.
-2. `currentScopeSourceRef` pointing to current-year `official_scope` evidence in the same review.
-3. `currentScopeLocator` naming the specific retained 2026-27 topic/category that keeps the row eligible.
-4. The direct fact/skill itself must be reproducible from the historical source; visual-only assumptions are not admitted when the relevant figure cannot be inspected.
+`content/alignment-terminal-reviews/SOF_INDIA_CLASS2.json` freezes the membership, exact-review and recovery inputs by Git blob SHA. CI recomputes those hashes. If membership, exact evidence or recovery results change without an explicit terminal-audit refresh, validation fails closed.
 
-Current reviewed named-year historical source set:
+The terminal disposition `reviewed_no_exact_public_anchor` means only:
 
-- `sof.nso.class2.sample-paper.2025-26`
-- `sof.nso.class2.sample-paper.2024-25`
-- `sof.nso.class2.sample-paper.2023-24`
-- `sof.nso.class2.sample-paper.2022-23`
-- `sof.nso.class2.sample-paper.2019-20`
-- `sof.nso.class2.sample-paper.2018-19`
-- `sof.nso.class2.sample-paper.2016-17`
-- `sof.nso.class2.sample-paper.2015-16`
-- `sof.nso.class2.sample-paper.2014-15`
-- `sof.nso.class2.sample-paper.2013-14`
+> No reproducible exact public official row/skill anchor was found for this canonical row in the accessible official corpus audited through 2026-08-31.
 
-`sof.nso.class2.level2.sample.undated` and `sof.nso.class2.sample-paper.legacy-undated-class2-7` are also registered as reviewed official archive material, but they have no named academic year and therefore cannot be used as `historical_class2` row evidence.
+It does **not** mean the concept was never assessed, that the row is officially rejected, or that its current profile placement has become officially verified.
 
-### Public sample-source saturation
+## Source-recovery closure
 
-The official 2023-24 Class 2 paper was reviewed and registered even though it adds **zero new exact rows**. Its science/achievers items repeat themes already directly evidenced from other official years: skin/touch, cousin relationships, woollen clothes in winter, leaf makes food, animal-pulled tonga and family-tree reasoning.
+The recovery registry currently contains four terminal non-evidence leads:
 
-The official named-year **2018-19** Class 2 paper is now also registered after direct review from SOF's own download endpoint. Its inspectable questions repeat already-evidenced ranking, skin/touch, cousin, flower/seed, cotton/fibre, planet-order and family-tree themes. Its cycle item establishes only that a cycle has no engine and is not animal-pulled, not the narrower canonical bicycle-pedal fact; its generic air-properties question likewise does not prove narrower pending balloon- or object-specific rows. It therefore adds **zero new exact row anchors** while closing a source-recovery target without weakening the evidence contract.
+- 2021-22 adjacent SOF file lead: `blocked_uninspectable`;
+- 2020-21 Class 2 search hit: `rejected_wrong_olympiad`;
+- 2017-18 official-domain search: `saturated_no_official_artifact`;
+- legacy `Class-2_7.pdf`: `blocked_year_unbound`.
 
-The legacy official SOF-hosted **2016-17** Class 2 sample has also been reviewed and registered with **zero new exact rows**. Its useful questions overlap already-evidenced ranking, skin/touch, cousin, flower/seed, cotton/fibre, planet-order and family-tree themes. Other items either do not match a currently pending canonical row exactly or would require broadening a row beyond what the source actually states.
-
-Issue #19 added reproducible archive review of the official **2015-16** and **2014-15** Class 2 samples and the undated official Level-II Class 2 sample. These archive sources add **zero new exact rows** by themselves. The 2015-16 three-state repeating-figure question is not promoted to the narrower two-symbol alternating-pattern row; its generic air-property statement is not promoted to the balloon-specific row. The 2014-15 monsoon-season image is not promoted to rainwear rows, and its cycle-without-engine question does not prove the canonical bicycle-pedal fact. The undated Level-II sample cannot satisfy the named-year historical contract.
-
-Evidence pass #31 extends that saturation record with two further official SOF-hosted artifacts. The named **2013-14** Class 2 sample adds zero new exact anchors: its inspectable skin/touch, cousin, flower/seed, cotton/fibre and Mercury/Venus/Earth/Mars items repeat rows already evidenced from other years. Its cycle item establishes only that a cycle has no engine and is not animal-pulled; it does not prove the narrower canonical `kr.transport.bicycle.feature.pedal` fact. Its season figure likewise does not exactly prove current raincoat/gumboots rows.
-
-The separate official legacy `Class-2_7.pdf` sample contains a strong semantic match for pending `kr.human.lungs.function.breathe` (the organ that helps in breathing is lungs), plus other familiar Class 2 items. However, the PDF exposes no named academic year. The validator therefore correctly blocks it as `historical_class2` evidence until the year is established reproducibly from an official source. The source is registered as reviewed so a future pass does not rediscover the lungs item and incorrectly weaken the temporal contract.
-
-A separate re-review of the already registered 2019-20 paper did produce one genuinely missed exact claim: question 13 explicitly asks for the order of **planets** and includes Earth in the correct Mercury–Venus–Earth–Mars sequence. That directly anchors `kr.universe.earth.type.planet`; the same question was already used for Mercury-nearest and Earth-third facts, so this is a distinct explicit fact from one source, not a duplicate-year count.
-
-Third-party mirrors, answer-key-only material, inaccessible paid test banks/workbooks and cross-olympiad hits are not admitted as row evidence. Recording reviewed-but-redundant sources prevents future work from rediscovering them and incorrectly treating repeated sample questions as new evidence. **Reviewed sources and evidenced rows are different metrics.** Public SOF Class 2 samples are small and substantially repetitive.
-
-The 155-row backlog must not be closed by counting syllabus headings, duplicate yearly questions, inaccessible paid material, non-official mirrors, cross-olympiad material or uninspectable visual assumptions as exact row evidence.
-
-## Current-year direct anchors — 13
-
-- `kr.universe.earth.rotation.day-night`
-- `kr.reasoning.ranking.position.between`
-- `kr.air.windmill.turned-by.wind`
-- `kr.plants.general.provide-food-shelter`
-- `kr.plants.indigo.use.dye`
-- `kr.plants.general.air.cool-fresh`
-- `kr.plants.cardamom.use.spice`
-- `kr.rocks.emerald.type.gemstone`
-- `kr.water.sea.feature.salty`
-- `kr.earth.plateau.alias.tableland`
-- `kr.universe.orbit.definition.planet-path`
-- `kr.animals.rhinoceros.threat.killed-for-horns`
-- `kr.safety.road-sign.steep-descent`
-
-## Historical direct anchors — 14
-
-- `kr.reasoning.ranking.height.shortest`
-- `kr.human.skin.sense.touch`
-- `kr.family.cousin.relationship.aunt-uncle-child`
-- `kr.clothing.wool.weather.winter`
-- `kr.transport.tonga.power.animal-pulled`
-- `kr.air.kite.moved-by.wind`
-- `kr.air.sailboat.moved-by.wind`
-- `kr.plants.cotton.use.fibre`
-- `kr.universe.mercury.position.closest-sun`
-- `kr.universe.earth.position.third`
-- `kr.universe.earth.type.planet`
-- `kr.family.family-tree.purpose.relationships`
-- `kr.plants.leaves.function.make-food`
-- `kr.plants.flower.function.make-seeds`
-
-## Evidence-driven canonical expansion
-
-Evidence-backed facts are stored as ordinary reusable canonical knowledge rather than one-off mock questions or new engines. Existing anchors include:
-
-- plants provide food/shelter to animals;
-- indigo gives dye;
-- plants help keep air cool/fresh;
-- cardamom is a flavouring spice;
-- sea water is salty;
-- emerald is a gemstone;
-- plateau is also called tableland;
-- orbit is the fixed path of a planet around the Sun;
-- tonga is animal-pulled transport;
-- rhinoceros is threatened by people killing it for its horns;
-- moving air helps a kite fly;
-- wind pushes a sailboat's sail;
-- a steep-descent road sign warns of a steep downhill road ahead.
-
-The latest source-saturation pass adds **no row evidence**. No knowledge row, profile membership or editorial fit was changed, so the profile denominator remains 182 and exact evidence remains 27.
-
-All reuse the existing canonical data → formatter → engine pipeline.
+A future pass should reopen terminal review only when materially new inspectable official public evidence appears. A newly recovered exact source may increase the 27-anchor count; it must not silently convert old near-matches or inaccessible material into evidence.
 
 ## Validation
 
-Normal `npm run validate:alignment` rejects, among other things:
+`npm run validate:alignment` now includes the terminal-review gate. It rejects stale audit snapshots, non-terminal recovery records, missing recovery bindings, unsupported exact source types/domains, duplicate/non-member exact rows, weakened evidence exclusions and any Class 2 membership row without a terminal disposition.
 
-- malformed/non-consecutive academic-year labels;
-- unknown or duplicate evidence rows;
-- membership rows that are not canonical knowledge;
-- duplicate alignment/provenance source references;
-- profile/membership academic-year mismatches;
-- non-reviewed/non-official evidence sources;
-- current-year evidence from the wrong academic year;
-- historical evidence without a distinct historical assessment year;
-- historical evidence without a per-row current-year scope source and locator;
-- invalid fit bases;
-- keep decisions whose fit no longer matches the profile membership;
-- a falsely completed review that does not retain/refit evidence for every current membership row.
+The operational invariant is therefore:
 
-`node scripts/report-sof-row-review.mjs` / `--json` is the operational queue. Work should continue **core-first** and should prefer current-year exact evidence over historical precedent where both are reproducible.
-
-## Next evidence target
-
-**155 rows remain pending.** Highest-value source work now is to locate named-year official Class 2 artifacts for 2017-18, 2020-21 and 2021-22, or an official year binding for `Class-2_7.pdf`. Continue without relaxing the distinction between topic scope, exact row inclusion and Kidsplay editorial fit. The profile must remain `prototype_unverified` until the intended verified scope has a reproducible row-level trail.
+**182 membership rows = 27 exact official anchors + 155 terminal no-exact-public-anchor dispositions + 0 pending.**
