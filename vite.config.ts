@@ -11,6 +11,7 @@ const normalizePath = (value: string): string => value.replaceAll('\\', '/');
 const questionRoot = `${normalizePath(resolve(projectRoot, 'content/questions'))}/`;
 const membershipRoot = `${normalizePath(resolve(projectRoot, 'content/profile-memberships'))}/`;
 const resolvedMembershipPath = normalizePath(resolve(projectRoot, 'content/index/__generated-profile-memberships.json'));
+const runtimeJsonPrefix = '\0kidsplay-runtime-json:';
 
 function cleanModuleId(id: string): string {
   return normalizePath(id.split('?')[0]);
@@ -28,9 +29,19 @@ function runtimeJsonAssetPlugin(): Plugin {
     name: 'kidsplay-runtime-json-assets',
     apply: 'build',
     enforce: 'pre',
+    async resolveId(source, importer) {
+      if (source.startsWith(runtimeJsonPrefix)) return source;
+
+      const direct = cleanModuleId(source);
+      if (isRuntimeContentJson(direct)) return `${runtimeJsonPrefix}${direct}`;
+
+      const resolved = await this.resolve(source, importer, { skipSelf: true });
+      if (!resolved || !isRuntimeContentJson(resolved.id)) return null;
+      return `${runtimeJsonPrefix}${cleanModuleId(resolved.id)}`;
+    },
     async load(id: string): Promise<string | null> {
-      const cleanId = cleanModuleId(id);
-      if (!isRuntimeContentJson(cleanId)) return null;
+      if (!id.startsWith(runtimeJsonPrefix)) return null;
+      const cleanId = id.slice(runtimeJsonPrefix.length);
 
       const source = await readFile(cleanId, 'utf8');
       const sourceLabel = normalizePath(relative(projectRoot, cleanId));
