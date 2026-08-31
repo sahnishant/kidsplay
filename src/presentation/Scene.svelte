@@ -2,6 +2,7 @@
   import type { SceneIconId, SceneMotion } from './sceneTypes';
   import SceneIcon from './SceneIcon.svelte';
   import SemanticAnimation from './SemanticAnimation.svelte';
+  import VocabularySemanticScene from './VocabularySemanticScene.svelte';
 
   interface SceneEntity {
     id: string;
@@ -27,16 +28,20 @@
   const scenes = Object.values(sceneModules)
     .flatMap((value) => (Array.isArray(value) ? (value as SceneDefinition[]) : []));
   const byId = new Map(scenes.map((scene) => [scene.id, scene]));
+  const vocabularyPrefix = 'vocabulary:';
 
   let { sceneId }: { sceneId: string } = $props();
-  let scene = $derived(byId.get(sceneId));
+  let vocabularySenseKey = $derived(sceneId.startsWith(vocabularyPrefix) ? sceneId.slice(vocabularyPrefix.length) : null);
+  let scene = $derived(vocabularySenseKey ? null : byId.get(sceneId));
 
   function iconName(value: string): SceneIconId {
     return value as SceneIconId;
   }
 </script>
 
-{#if scene}
+{#if vocabularySenseKey}
+  <VocabularySemanticScene senseKey={vocabularySenseKey} />
+{:else if scene}
   <div class={`scene scene--${scene.theme}`} role="img" aria-label={scene.ariaLabel} data-animation-ref={scene.animationRef}>
     {#if scene.animationRef}
       <SemanticAnimation animationId={scene.animationRef} embedded decorative />
