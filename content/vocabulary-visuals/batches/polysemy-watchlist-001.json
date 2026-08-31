@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-strategy.polysemy-watchlist.001",
+  "issueRef": 76,
+  "status": "sense_resolution_required",
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "visualSelectionBlockedUntilSenseResolution": true
+  },
+  "items": [
+    { "lemma": "bank", "senseKey": "bank#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "bat", "senseKey": "bat#unresolved", "partOfSpeech": "noun", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "spring", "senseKey": "spring#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "watch", "senseKey": "watch#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "right", "senseKey": "right#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "left", "senseKey": "left#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "match", "senseKey": "match#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "fair", "senseKey": "fair#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "fly", "senseKey": "fly#unresolved-noun-or-other-sense", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "kind", "senseKey": "kind#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "current", "senseKey": "current#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "point", "senseKey": "point#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "ring", "senseKey": "ring#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "plant", "senseKey": "plant#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "train", "senseKey": "train#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "wave", "senseKey": "wave#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "rock", "senseKey": "rock#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "light", "senseKey": "light#unresolved-other-senses", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "park", "senseKey": "park#unresolved-verb-or-other-sense", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" },
+    { "lemma": "play", "senseKey": "play#unresolved", "partOfSpeech": "multiple", "strategy": "sense_unresolved", "maturity": "V1", "motionPolicy": "none", "answerSafety": "explanation_only" }
+  ]
+}
