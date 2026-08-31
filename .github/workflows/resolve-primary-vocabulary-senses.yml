@@ -64,6 +64,9 @@ jobs:
       - name: Validate sense-review provenance
         run: npm run validate:lexicon-senses
 
+      - name: Run vocabulary corpus and delivery acceptance tests
+        run: npm run test:vocabulary-corpus
+
       - name: Run full Kidsplay regression check
         run: npm run check
 
