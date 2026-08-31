@@ -1,5 +1,4 @@
 <script lang="ts">
-  import sceneJson from '../../content/scenes/animals.json';
   import type { SceneIconId, SceneMotion } from './sceneTypes';
   import SceneIcon from './SceneIcon.svelte';
   import SemanticAnimation from './SemanticAnimation.svelte';
@@ -21,9 +20,15 @@
     entities?: SceneEntity[];
   }
 
-  let { sceneId }: { sceneId: string } = $props();
-  const scenes = sceneJson as unknown as SceneDefinition[];
+  const sceneModules = import.meta.glob('../../content/scenes/*.json', {
+    eager: true,
+    import: 'default'
+  }) as Record<string, unknown>;
+  const scenes = Object.values(sceneModules)
+    .flatMap((value) => (Array.isArray(value) ? (value as SceneDefinition[]) : []));
   const byId = new Map(scenes.map((scene) => [scene.id, scene]));
+
+  let { sceneId }: { sceneId: string } = $props();
   let scene = $derived(byId.get(sceneId));
 
   function iconName(value: string): SceneIconId {

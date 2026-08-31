@@ -14,7 +14,7 @@ question / story / canonical concept
         -> lightweight CSS/SVG motion
 ```
 
-A presentation variant is not a new knowledge entity. For example, `animation.variant.dog-happy-state` and `animation.variant.dog-worried-state` are visual states of the same semantic identity `dog`. Their aliases are deliberately namespaced as animation-state phrases so they cannot compete with ordinary semantic visual inference. Subject variants also declare `animationIdentityRef`; validation requires it to equal the composition `semanticRef`, preventing an unrelated presentation variant from being accepted as the subject of another semantic identity.
+A presentation variant is not a new knowledge entity. For example, `animation.variant.dog-happy-state` and `animation.variant.dog-worried-state` are visual states of the same semantic identity `dog`. Their aliases are deliberately namespaced as animation-state phrases so they cannot compete with ordinary semantic visual inference. Subject variants also declare `animationIdentityRef`; validation requires it to equal the composition `semanticRef`, preventing an unrelated presentation variant from being accepted as the subject of another semantic identity. `animationIdentityRef` is reserved for `animation.variant.*` presentation visuals, and their aliases may not collapse back to the bare semantic identity.
 
 ## Composition contract
 
@@ -36,7 +36,7 @@ The initial proof intentionally reuses one dog identity across:
 
 ## Integration rule
 
-Existing scene ids can point at an `animationRef`. This preserves every current question/story caller while replacing bespoke scene primitives with reusable composition content. A composed scene must use the same theme as its referenced animation because the embedded composition deliberately inherits the scene background. Assessment logic remains unchanged, so the existing rule that inferred reinforcement scenes are suppressed in structured mocks still applies.
+Existing scene ids can point at an `animationRef`. This preserves every current question/story caller while replacing bespoke scene primitives with reusable composition content. Scene packs are discovered from `content/scenes/*.json`, matching the validator and the glob-based visual/animation registries, so adding a new scene pack does not require editing `Scene.svelte`. A composed scene must use the same theme as its referenced animation because the embedded composition deliberately inherits the scene background. Assessment logic remains unchanged, so the existing rule that inferred reinforcement scenes are suppressed in structured mocks still applies.
 
 ## Asset and licensing rule
 
@@ -51,6 +51,7 @@ All motion remains optional under `prefers-reduced-motion`; learning meaning mus
 ## Validation
 
 - `scripts/validate-animations.mjs` fails closed on unknown visual refs, subject-variant identity mismatches, invalid pose/expression vocabulary, unsupported composition-part motion, invalid coordinates, duplicate ids or ambiguous visual/text parts.
+- `scripts/validate-visuals.mjs` reserves `animationIdentityRef` for namespaced animation variants and prevents a variant alias from claiming the bare canonical identity.
 - `scripts/validate-scenes.mjs` requires each scene to use either a registered semantic composition or the legacy primitive list, never an unvalidated mixture, and rejects scene/composition theme mismatches.
 - `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, subject identity binding, orientation-aware ranked state fallback and existing-scene integration.
 
