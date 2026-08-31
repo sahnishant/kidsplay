@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-runtime-template-proofs.001",
+  "issueRef": 80,
+  "policy": {
+    "childFacingKnowledgeMapping": false,
+    "profilePlacementInferred": false,
+    "assessmentUsageAllowed": false
+  },
+  "senseKeys": [
+    "village#settlement",
+    "under#below-reference",
+    "pull#move-toward-by-force",
+    "open#change-from-closed",
+    "same#matching-in-target-dimension"
+  ]
+}
