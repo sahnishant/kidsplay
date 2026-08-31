@@ -71,7 +71,10 @@ describe('semantic animation coverage and safety invariants', () => {
   });
 
   it('keeps every composition meaningful when motion is disabled', () => {
-    const source = readFileSync(new URL('../src/presentation/SemanticAnimation.svelte', import.meta.url), 'utf8');
+    // Vitest can transform import.meta.url into a non-file URL on Windows. The
+    // test runner's working directory is the repository root on every CI OS,
+    // so use the repo-relative source path instead of URL-based file access.
+    const source = readFileSync('src/presentation/SemanticAnimation.svelte', 'utf8');
     expect(source).toContain('@media (prefers-reduced-motion: reduce)');
     expect(source).toContain('animation: none !important');
 
