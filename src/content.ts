@@ -130,25 +130,19 @@ export interface GoalReadinessSummary {
   status: GoalReadinessStatus;
 }
 
-// `?runtime` is intentionally inert in dev/test. The production Vite plugin
-// resolves these bulk JSON imports to virtual modules backed by emitted static
-// assets, so the validated data stays local/offline without bloating JS.
 const questionModules = import.meta.glob('../content/questions/*.json', {
   eager: true,
-  import: 'default',
-  query: '?runtime'
+  import: 'default'
 }) as Record<string, unknown>;
 
 const membershipModules = import.meta.glob('../content/profile-memberships/*.json', {
   eager: true,
-  import: 'default',
-  query: '?runtime'
+  import: 'default'
 }) as Record<string, unknown>;
 
 const resolvedMembershipModules = import.meta.glob('../content/index/__generated-profile-memberships.json', {
   eager: true,
-  import: 'default',
-  query: '?runtime'
+  import: 'default'
 }) as Record<string, unknown>;
 
 const questionBank = Object.values(questionModules).flatMap((value) =>
@@ -523,54 +517,72 @@ export function getProfilePatternMockQuestions(
   });
   const questions = sections.flat();
   if (questions.length !== patternBlueprint.totalQuestions) {
-    throw new Error(`Assessment blueprint ${patternBlueprint.id} assembled ${questions.length}/${patternBlueprint.totalQuestions} questions`);
+    throw new Error(
+      `Assessment blueprint ${patternBlueprint.id} expected ${patternBlueprint.totalQuestions} questions but built ${questions.length}`
+    );
   }
   return questions;
 }
 
-export function getPatternMockBlueprint(profileRef: string): AssessmentBlueprint {
-  if (profileRef !== patternBlueprint.profileRef) {
-    throw new Error(`Assessment blueprint ${patternBlueprint.id} targets ${patternBlueprint.profileRef}, not ${profileRef}`);
-  }
-  return patternBlueprint;
-}
-
 export function getGoalReadiness(
   profileRef: string,
-  mastery: Record<string, MasteryCounter>
+  mastery: Record<string, MasteryCounter> = {}
 ): GoalReadinessSummary {
   const membership = getMembership(profileRef);
-  const memberRows = membership.members.map((member) => member.rowId);
-  const totalRows = memberRows.length;
-  const practicedRows = memberRows.filter((rowId) => (mastery[rowId]?.totalWeight ?? 0) > 0).length;
-  const readyRows = memberRows.filter((rowId) => {
-    const counter = mastery[rowId];
-    if (!counter || counter.totalWeight <= 0) return false;
-    return counter.correctWeight / counter.totalWeight >= 0.7;
-  }).length;
-  const groups = new Set(memberRows.map(rowKnowledgeGroup));
-  const practicedGroups = new Set(
-    memberRows.filter((rowId) => (mastery[rowId]?.totalWeight ?? 0) > 0).map(rowKnowledgeGroup)
-  ).size;
-  const totalCorrectWeight = memberRows.reduce((sum, rowId) => sum + (mastery[rowId]?.correctWeight ?? 0), 0);
-  const totalWeight = memberRows.reduce((sum, rowId) => sum + (mastery[rowId]?.totalWeight ?? 0), 0);
-  const accuracy = totalWeight > 0 ? totalCorrectWeight / totalWeight : null;
-  const breadth = totalRows > 0 ? practicedRows / totalRows : 0;
-  const groupBreadth = groups.size > 0 ? practicedGroups / groups.size : 0;
-  const score = Math.min(1, breadth * 0.45 + groupBreadth * 0.35 + (accuracy ?? 0) * 0.2);
-  const status: GoalReadinessStatus = score >= 0.72 && breadth >= 0.65 && groupBreadth >= 0.8
-    ? 'mock_ready'
-    : score >= 0.28
-      ? 'building'
-      : 'getting_started';
+  const policy = goalPack.profileRef === profileRef && goalPack.masteryPolicy
+    ? goalPack.masteryPolicy
+    : { requiredAccuracy: 0.8, minimumIndependentAttempts: 3 };
+  const practiced = membership.members
+    .map((member) => ({ member, counter: mastery[member.rowId] }))
+    .filter((item): item is { member: ProfileMembershipMember; counter: MasteryCounter } =>
+      Boolean(item.counter && item.counter.totalWeight > 0)
+    );
+  const counters = practiced.map((item) => item.counter);
+  const practicedRows = counters.length;
+  const readyRows = counters.filter((counter) =>
+    counter.attempts >= policy.minimumIndependentAttempts
+      && counter.correctWeight / counter.totalWeight >= policy.requiredAccuracy
+  ).length;
+  const practicedGroups = new Set(practiced.map(({ member }) => rowKnowledgeGroup(member.rowId))).size;
+  const totalGroups = new Set(membership.members.map((member) => rowKnowledgeGroup(member.rowId))).size;
+  const totalWeight = counters.reduce((sum, counter) => sum + counter.totalWeight, 0);
+  const correctWeight = counters.reduce((sum, counter) => sum + counter.correctWeight, 0);
+  const accuracy = totalWeight > 0 ? correctWeight / totalWeight : null;
+
+  const practiceTargetRows = Math.min(
+    membership.members.length,
+    Math.max(24, Math.ceil(membership.members.length * 0.2))
+  );
+  const breadthTargetGroups = Math.min(totalGroups, Math.max(8, Math.ceil(totalGroups * 0.6)));
+  const readyTargetRows = Math.min(practiceTargetRows, Math.max(12, Math.ceil(practiceTargetRows * 0.5)));
+  const rowCoverage = practiceTargetRows ? Math.min(1, practicedRows / practiceTargetRows) : 0;
+  const breadthCoverage = breadthTargetGroups ? Math.min(1, practicedGroups / breadthTargetGroups) : 0;
+  const readyCoverage = readyTargetRows ? Math.min(1, readyRows / readyTargetRows) : 0;
+  const accuracyFactor = accuracy ?? 0;
+  const score = Math.round(
+    (rowCoverage * 0.25 + breadthCoverage * 0.25 + readyCoverage * 0.2 + accuracyFactor * 0.3) * 100
+  );
+
+  let status: GoalReadinessStatus = 'getting_started';
+  if (
+    practicedRows >= practiceTargetRows
+      && practicedGroups >= breadthTargetGroups
+      && readyRows >= readyTargetRows
+      && accuracy !== null
+      && accuracy >= policy.requiredAccuracy
+  ) {
+    status = 'mock_ready';
+  } else if (practicedRows >= 8 || practicedGroups >= 3) {
+    status = 'building';
+  }
 
   return {
     profileRef,
     practicedRows,
     readyRows,
-    totalRows,
+    totalRows: membership.members.length,
     practicedGroups,
-    totalGroups: groups.size,
+    totalGroups,
     accuracy,
     score,
     status
@@ -579,55 +591,60 @@ export function getGoalReadiness(
 
 export function createSessionForCatalogEntry(
   entryId: string,
-  options: ProfileSessionOptions = {}
+  mastery: Record<string, MasteryCounter> = {}
 ): SessionLaunch {
   if (entryId === freePack.id) {
     return {
-      id: `session.${entryId}`,
+      id: `session.${freePack.id}`,
       mode: 'free_explore',
       title: freePack.title,
-      questions: getFreeExploreQuestions(options)
+      questions: getFreeExploreQuestions({ count: 8, mastery })
     };
   }
 
   if (entryId === vocabularyPack.id) {
     return {
-      id: `session.${entryId}`,
+      id: `session.${vocabularyPack.id}`,
       mode: 'free_explore',
       title: vocabularyPack.title,
-      questions: getFreeVocabularyExploreQuestions(options)
+      questions: getFreeVocabularyExploreQuestions({ count: 8, mastery })
     };
   }
 
   if (entryId === goalPack.id) {
-    if (!goalPack.profileRef) throw new Error(`Goal ${goalPack.id} has no profileRef`);
+    const profileQuestions = goalPack.profileRef
+      ? getProfileQuestions(goalPack.profileRef, { count: 8, mastery })
+      : [];
+    const questions = profileQuestions.length
+      ? profileQuestions
+      : resolveQuestionRefs(goalPack.questionRefs, goalPack.id);
+
     return {
-      id: `session.${entryId}`,
+      id: `session.${goalPack.id}`,
       mode: 'goal_learning',
       title: goalPack.title,
       profileRef: goalPack.profileRef,
-      questions: getProfileQuestions(goalPack.profileRef, options)
+      questions
     };
   }
 
-  if (entryId === goalMockEntryId) {
-    if (!goalPack.profileRef) throw new Error(`Goal ${goalPack.id} has no profileRef`);
+  if (entryId === goalMockEntryId && goalPack.profileRef) {
     return {
-      id: `session.${entryId}`,
+      id: `session.${goalMockEntryId}`,
       mode: 'goal_mock',
-      title: 'SOF Class 2 Mixed Mock',
+      title: 'Class 2 Science Olympiad: 20-Question Mixed Mock',
       profileRef: goalPack.profileRef,
-      questions: getProfileMockQuestions(goalPack.profileRef, { ...options, count: 20 })
+      questions: getProfileMockQuestions(goalPack.profileRef, { count: 20, mastery })
     };
   }
 
   if (entryId === goalPatternMockEntryId) {
     return {
-      id: `session.${entryId}`,
+      id: `session.${goalPatternMockEntryId}`,
       mode: 'goal_pattern_mock',
       title: patternBlueprint.title,
       profileRef: patternBlueprint.profileRef,
-      questions: getProfilePatternMockQuestions(patternBlueprint.profileRef, options),
+      questions: getProfilePatternMockQuestions(patternBlueprint.profileRef, { mastery }),
       sections: patternSessionSections.map((section) => ({ ...section }))
     };
   }

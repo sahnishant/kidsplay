@@ -17,7 +17,7 @@ describe('Class 3 runtime profile inheritance', () => {
     expect(refs.has('kr.sof3.birds.beak.eating')).toBe(true);
     expect(refs.has('kr.sof3.water.cycle.repeats')).toBe(true);
     expect(refs.has('kr.sof3.measurement.temperature.thermometer')).toBe(true);
-    expect(refs.has('kr.reasoning.pattern.symbols.next')).toBe(true);
+    expect(refs.has('kr.reasoning.pattern.symbols.alternating')).toBe(true);
     expect([...refs].some((rowId) => rowId.startsWith('kr.sof4.'))).toBe(false);
   });
 
