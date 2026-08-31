@@ -63,6 +63,8 @@ describe('mock resume contract integrity', () => {
     });
 
     render(App);
+    expect(screen.queryByRole('heading', { name: 'Resume your saved mock' })).toBeNull();
+    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
     expect(screen.getByRole('heading', { name: 'Resume your saved mock' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Resume saved mock' }));
@@ -70,6 +72,6 @@ describe('mock resume contract integrity', () => {
     expect(screen.getByRole('alert').textContent).toMatch(/one or more saved questions changed/i);
     expect(screen.queryByRole('heading', { name: 'Resume your saved mock' })).toBeNull();
     expect(loadMockCheckpoint()).toBeNull();
-    expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
   });
 });
