@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "compile:index": "node scripts/build-content-index.mjs",
-    "compile:content": "node scripts/compile-knowledge.mjs && node scripts/build-content-index.mjs && node scripts/compile-crosswords.mjs && node scripts/compile-mazes.mjs && node scripts/generate-asset-notices.mjs",
+    "compile:content": "node scripts/compile-knowledge.mjs && node scripts/build-content-index.mjs && node scripts/compile-crosswords.mjs && node scripts/compile-mazes.mjs && node scripts/compile-vocabulary-visual-runtime.mjs && node scripts/generate-asset-notices.mjs",
     "query:content": "npm run compile:index && node scripts/query-content.mjs",
     "plan:profile": "npm run compile:index && node scripts/plan-profile.mjs",
     "render:profile-output": "npm run compile:index && node scripts/render-profile-output.mjs",
