@@ -18,10 +18,14 @@ const packetForGrade = (grade: number) => buildEditorialPacket(
 const overlayForGrade = (grade: number) => readJson(`content/lexicon/ai-draft-overlays/grade-${grade}-batch-001-ai-draft-001.json`);
 
 describe('primary vocabulary AI draft overlays', () => {
-  it('attaches bounded real Grade 1/2 suggestions without changing human review or profile approval state', () => {
+  it('attaches bounded real Grade 1/2 suggestions without changing source packet, human review or profile approval state', () => {
     for (const grade of [1, 2]) {
       const packet = packetForGrade(grade);
+      const before = structuredClone(packet);
       const overlaid = applyAiDraftOverlay(packet, overlayForGrade(grade));
+      expect(packet).toEqual(before);
+      expect(packet.items.some((item) => item.aiDraft)).toBe(false);
+      expect(overlaid).not.toBe(packet);
       expect(overlaid.summary.words).toBe(40);
       expect(overlaid.summary.aiDraftSuggestions).toBe(8);
       expect(overlaid.aiDraftOverlay).toMatchObject({
@@ -65,7 +69,7 @@ describe('primary vocabulary AI draft overlays', () => {
     }
   });
 
-  it('rejects AI overlays that try to inject human review fields or unknown candidate senses', () => {
+  it('rejects AI overlays that try to inject human review fields, malformed identity or unknown candidate senses', () => {
     const packet = packetForGrade(1);
     const badHumanField = structuredClone(overlayForGrade(1));
     badHumanField.suggestions[0].selectedCandidateId = badHumanField.suggestions[0].proposedCandidateId;
@@ -74,6 +78,14 @@ describe('primary vocabulary AI draft overlays', () => {
     const badCandidate = structuredClone(overlayForGrade(1));
     badCandidate.suggestions[0].proposedCandidateId = 'old#a#999';
     expect(() => applyAiDraftOverlay(structuredClone(packet), badCandidate)).toThrow(/must reference a candidate sense in the packet/);
+
+    const missingOverlayId = structuredClone(overlayForGrade(1));
+    missingOverlayId.overlayId = '';
+    expect(() => applyAiDraftOverlay(structuredClone(packet), missingOverlayId)).toThrow(/requires overlayId/);
+
+    const wrongGenerator = structuredClone(overlayForGrade(1));
+    wrongGenerator.generatedBy.kind = 'human_editor';
+    expect(() => applyAiDraftOverlay(structuredClone(packet), wrongGenerator)).toThrow(/generatedBy.kind must be ai_editorial_draft/);
   });
 
   it('rejects copied OEWN wording, over-large overlays and overlays applied after editorial review', () => {
