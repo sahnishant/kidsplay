@@ -20,9 +20,11 @@ export type VocabularyVisualStrategy =
 
 export type VocabularyMotionPolicy = 'none' | 'optional_meaningful' | 'recommended_meaningful';
 export type VocabularyAnswerSafety = 'neutral_safe' | 'post_answer_only' | 'explanation_only';
+export type VocabularyRuntimeUsage = 'knowledge_reinforcement' | 'template_proof';
 
 export interface VocabularyVisualRuntimePlan {
-  knowledgeRef: string;
+  knowledgeRef: string | null;
+  runtimeUsage: VocabularyRuntimeUsage;
   senseKey: string;
   lemma: string;
   strategy: VocabularyVisualStrategy;
@@ -42,7 +44,11 @@ interface RuntimePlanFile {
 
 const runtimePlans = runtimePlansJson as RuntimePlanFile;
 const bySenseKey = new Map(runtimePlans.plans.map((plan) => [plan.senseKey, plan]));
-const byKnowledgeRef = new Map(runtimePlans.plans.map((plan) => [plan.knowledgeRef, plan]));
+const byKnowledgeRef = new Map(
+  runtimePlans.plans
+    .filter((plan): plan is VocabularyVisualRuntimePlan & { knowledgeRef: string } => Boolean(plan.knowledgeRef))
+    .map((plan) => [plan.knowledgeRef, plan])
+);
 
 export function resolveVocabularyVisualPlan(senseKey: string): VocabularyVisualRuntimePlan | null {
   return bySenseKey.get(senseKey) ?? null;
@@ -51,7 +57,7 @@ export function resolveVocabularyVisualPlan(senseKey: string): VocabularyVisualR
 export function resolveVocabularyVisualPlanForKnowledgeRefs(knowledgeRefs: string[] = []): VocabularyVisualRuntimePlan | null {
   for (const knowledgeRef of knowledgeRefs) {
     const plan = byKnowledgeRef.get(knowledgeRef);
-    if (plan) return plan;
+    if (plan?.runtimeUsage === 'knowledge_reinforcement') return plan;
   }
   return null;
 }
