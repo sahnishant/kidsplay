@@ -27,6 +27,9 @@ function assertPacket(packet) {
   if (packet?.policy?.importedGlossRuntimeAllowed !== false || packet?.policy?.aiDraftMayCountAsReviewed !== false) {
     throw new Error('Editorial packet policy must preserve the no-auto-publish boundary');
   }
+  if (packet?.policy?.requiredReviewAuthority !== 'human_editor') {
+    throw new Error('Editorial packet must require human_editor review authority');
+  }
 }
 
 function candidateMap(item) {
@@ -39,6 +42,9 @@ function reviewedDecision(item) {
 
   const lemma = clean(item?.lemma).toLowerCase();
   if (!lemma) throw new Error('Reviewed editorial item requires lemma');
+  if (editorial.reviewAuthority !== 'human_editor') {
+    throw new Error(`${lemma}: reviewed editorial item requires human_editor reviewAuthority`);
+  }
   if (!['accept', 'reject'].includes(editorial.decision)) {
     throw new Error(`${lemma}: reviewed editorial item requires decision accept or reject`);
   }
@@ -60,6 +66,7 @@ function reviewedDecision(item) {
     candidateId: selectedCandidateId,
     status: 'reviewed',
     decision: editorial.decision,
+    reviewAuthority: 'human_editor',
     reviewer,
     reviewedAt
   };
@@ -94,15 +101,20 @@ export function finalizeEditorialPacket(packet) {
 
     const placement = item?.profilePlacement ?? {};
     if (placement.status === 'reviewed') {
-      const reviewer = clean(placement.reviewer ?? item?.editorial?.reviewer);
-      const reviewedAt = clean(placement.reviewedAt ?? item?.editorial?.reviewedAt);
+      const lemma = clean(item?.lemma).toLowerCase();
+      if (placement.reviewAuthority !== 'human_editor') {
+        throw new Error(`${lemma}: reviewed profile placement requires human_editor reviewAuthority`);
+      }
+      const reviewer = clean(placement.reviewer);
+      const reviewedAt = clean(placement.reviewedAt);
       if (!reviewer || !/^\d{4}-\d{2}-\d{2}(?:T|$)/.test(reviewedAt)) {
-        throw new Error(`${clean(item?.lemma)}: reviewed profile placement requires reviewer and reviewedAt`);
+        throw new Error(`${lemma}: reviewed profile placement requires reviewer and reviewedAt`);
       }
       const approvedProfileRefs = [...new Set((placement.approvedProfileRefs ?? []).map(clean).filter(Boolean))];
       profilePlacements.push({
-        lemma: clean(item?.lemma).toLowerCase(),
+        lemma,
         status: 'reviewed',
+        reviewAuthority: 'human_editor',
         approvedProfileRefs,
         reviewer,
         reviewedAt,
@@ -127,6 +139,7 @@ export function finalizeEditorialPacket(packet) {
     policy: {
       importedGlossRuntimeAllowed: false,
       explicitEditorialReviewRequired: true,
+      requiredReviewAuthority: 'human_editor',
       profilePlacementsAreReviewRecordsOnly: true
     },
     summary: {
