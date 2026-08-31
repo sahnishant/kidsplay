@@ -36,22 +36,32 @@ for (const name of batchNames) {
   }
 }
 
-const semanticDepth = readJson('content/semantic-knowledge/vocabulary-depth-001.json');
-if (semanticDepth?.schemaVersion !== 1 || semanticDepth?.issueRef !== 84) {
-  throw new Error('Semantic vocabulary depth index must use schemaVersion 1 and issue #84');
-}
+const semanticDepthNames = readdirSync(new URL('content/semantic-knowledge/', root))
+  .filter((name) => name.endsWith('.json'))
+  .sort();
+const semanticDepthIssueRefs = new Set();
+const depthPatternIds = new Set();
 const depthPatternsByKnowledgeRef = new Map();
-for (const pattern of semanticDepth.reasoningPatterns ?? []) {
-  const patternId = String(pattern?.id ?? '').trim();
-  const visualSenseKey = String(pattern?.visualSenseKey ?? '').trim();
-  if (!patternId || !visualSenseKey) throw new Error('Semantic vocabulary depth reasoning pattern requires id and visualSenseKey');
-  if (!strategyBySenseKey.has(visualSenseKey)) throw new Error(`${patternId}: unknown vocabulary visual sense ${visualSenseKey}`);
-  const rowRefs = [...(pattern.premiseRowRefs ?? []), ...(pattern.contrastRowRefs ?? [])].map(String);
-  for (const rowRef of rowRefs) {
-    if (!canonicalRowIds.has(rowRef)) throw new Error(`${patternId}: unknown canonical semantic-depth row ${rowRef}`);
-    const values = depthPatternsByKnowledgeRef.get(rowRef) ?? [];
-    values.push({ id: patternId, visualSenseKey });
-    depthPatternsByKnowledgeRef.set(rowRef, values);
+for (const name of semanticDepthNames) {
+  const semanticDepth = readJson(`content/semantic-knowledge/${name}`);
+  if (semanticDepth?.schemaVersion !== 1 || !Number.isInteger(semanticDepth?.issueRef) || semanticDepth.issueRef < 1) {
+    throw new Error(`${name}: semantic depth pack must use schemaVersion 1 and a positive issueRef`);
+  }
+  semanticDepthIssueRefs.add(semanticDepth.issueRef);
+  for (const pattern of semanticDepth.reasoningPatterns ?? []) {
+    const patternId = String(pattern?.id ?? '').trim();
+    const visualSenseKey = String(pattern?.visualSenseKey ?? '').trim();
+    if (!patternId || !visualSenseKey) throw new Error(`${name}: semantic depth reasoning pattern requires id and visualSenseKey`);
+    if (depthPatternIds.has(patternId)) throw new Error(`${name}: duplicate semantic depth reasoning pattern ${patternId}`);
+    depthPatternIds.add(patternId);
+    if (!strategyBySenseKey.has(visualSenseKey)) throw new Error(`${patternId}: unknown vocabulary visual sense ${visualSenseKey}`);
+    const rowRefs = [...(pattern.premiseRowRefs ?? []), ...(pattern.contrastRowRefs ?? [])].map(String);
+    for (const rowRef of rowRefs) {
+      if (!canonicalRowIds.has(rowRef)) throw new Error(`${patternId}: unknown canonical semantic-depth row ${rowRef}`);
+      const values = depthPatternsByKnowledgeRef.get(rowRef) ?? [];
+      values.push({ id: patternId, visualSenseKey });
+      depthPatternsByKnowledgeRef.set(rowRef, values);
+    }
   }
 }
 
@@ -185,7 +195,7 @@ const plans = [...reinforcementPlans, ...proofPlans];
 writeFileSync(outputUrl, `${JSON.stringify({
   schemaVersion: 1,
   issueRef: 80,
-  semanticDepthIssueRef: 84,
+  semanticDepthIssueRefs: [...semanticDepthIssueRefs].sort((left, right) => left - right),
   maturityEvidence: maturityProofs.evidence,
   plans
 }, null, 2)}\n`, 'utf8');
@@ -193,5 +203,6 @@ console.log(
   `Compiled ${reinforcementPlans.length} child-facing vocabulary reinforcement plan(s) across ` +
   `${reinforcementSenseKeys.size} semantic sense(s) + ${proofPlans.length} renderer template proof plan(s); ` +
   `${maturityBySenseKey.size} proof-backed maturity promotion(s); ${strategyBySenseKey.size} audited sense strategy item(s); ` +
-  `${canonicalRowIds.size} canonical knowledge row(s) checked; ${depthPatternsByKnowledgeRef.size} semantic-depth row link(s) available.`
+  `${canonicalRowIds.size} canonical knowledge row(s) checked; ${depthPatternsByKnowledgeRef.size} semantic-depth row link(s) across ` +
+  `${semanticDepthNames.length} depth pack(s).`
 );
