@@ -50,7 +50,7 @@
       { "id": "ice", "label": "Ice", "semanticRef": "ice" },
       { "id": "liquid-water", "label": "Liquid water", "semanticRef": "water" }
     ],
-    "conceptIds": ["science.matter.melting", "science.water.states"],
+    "conceptIds": ["sof5.matter.melting", "sof4.matter.solid", "sof4.matter.liquid"],
     "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
     "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science" }
   },
@@ -68,7 +68,7 @@
       { "id": "liquid-water", "label": "Liquid water", "semanticRef": "water" },
       { "id": "ice", "label": "Ice", "semanticRef": "ice" }
     ],
-    "conceptIds": ["science.matter.freezing", "science.water.states"],
+    "conceptIds": ["science.matter.freezing", "sof4.matter.solid", "sof4.matter.liquid"],
     "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
     "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science" }
   },
@@ -87,7 +87,7 @@
       { "id": "sprout", "label": "Sprout", "semanticRef": "sprout" },
       { "id": "young-plant", "label": "Young plant", "semanticRef": "young-plant" }
     ],
-    "conceptIds": ["plants.germination", "plants.growth.sequence"],
+    "conceptIds": ["sof3.plants.germination"],
     "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
     "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science" }
   }
