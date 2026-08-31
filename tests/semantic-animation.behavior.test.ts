@@ -49,7 +49,7 @@ describe('semantic animation composition', () => {
     expect(animation?.getAttribute('data-semantic-ref')).toBe('dog');
     expect(animation?.getAttribute('data-expression')).toBe('worried');
     expect(animation?.getAttribute('data-pose')).toBe('stand');
-    expect(container.querySelector('[data-part-role="subject"] [data-visual-ref="animation.variant.dog.worried"]')).toBeTruthy();
+    expect(container.querySelector('[data-part-role="subject"] [data-visual-ref="animation.variant.dog-worried-state"]')).toBeTruthy();
     expect(container.querySelector('[data-part-id="water"][data-visual-ref="entity.habitat.water"]')).toBeTruthy();
     expect(container.querySelector('[data-part-id="question"][data-part-role="relation"]')).toBeTruthy();
     expect(screen.getByRole('img', { name: /worried dog beside water/i })).toBeTruthy();
