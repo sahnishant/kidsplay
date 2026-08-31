@@ -1,0 +1,300 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.semantic.settlements.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - Places and Settlements",
+    "entries": [
+      {
+        "id": "village-settlement",
+        "rowId": "kr.vocab.place.village.is-settlement",
+        "subject": { "id": "village", "label": "village" },
+        "relation": "is_a",
+        "object": { "id": "settlement", "label": "settlement where people live" },
+        "conceptIds": ["vocabulary.place.village", "vocabulary.place.settlement"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "town-settlement",
+        "rowId": "kr.vocab.place.town.is-settlement",
+        "subject": { "id": "town", "label": "town" },
+        "relation": "is_a",
+        "object": { "id": "settlement", "label": "settlement where people live" },
+        "conceptIds": ["vocabulary.place.town", "vocabulary.place.settlement"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "city-settlement",
+        "rowId": "kr.vocab.place.city.is-settlement",
+        "subject": { "id": "city", "label": "city" },
+        "relation": "is_a",
+        "object": { "id": "settlement", "label": "large settlement where many people live" },
+        "conceptIds": ["vocabulary.place.city", "vocabulary.place.settlement"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "town-generally-larger-village",
+        "rowId": "kr.vocab.place.town.generally-larger-than-village",
+        "subject": { "id": "town", "label": "town" },
+        "relation": "generally_larger_than",
+        "object": { "id": "village", "label": "village" },
+        "conceptIds": ["vocabulary.place.town", "vocabulary.place.village", "vocabulary.comparison.size"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "city-generally-larger-town",
+        "rowId": "kr.vocab.place.city.generally-larger-than-town",
+        "subject": { "id": "city", "label": "city" },
+        "relation": "generally_larger_than",
+        "object": { "id": "town", "label": "town" },
+        "conceptIds": ["vocabulary.place.city", "vocabulary.place.town", "vocabulary.comparison.size"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "settlements-people-live",
+        "rowId": "kr.vocab.place.settlement.people-live-there",
+        "subject": { "id": "settlement", "label": "settlement" },
+        "relation": "is_a_place_where",
+        "object": { "id": "people-live", "label": "people live" },
+        "conceptIds": ["vocabulary.place.settlement", "vocabulary.people.community"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-semantic-depth",
+      "scopeNote": "General vocabulary knowledge only. Size comparisons are explicitly qualified as general tendencies and are not curriculum/profile claims."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.semantic.force-actions.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - Actions and Force Direction",
+    "entries": [
+      {
+        "id": "push-action",
+        "rowId": "kr.vocab.force.push.is-force-action",
+        "subject": { "id": "push", "label": "push" },
+        "relation": "is_a",
+        "object": { "id": "force-action", "label": "force action" },
+        "conceptIds": ["vocabulary.action.push", "science.force.action"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "pull-action",
+        "rowId": "kr.vocab.force.pull.is-force-action",
+        "subject": { "id": "pull", "label": "pull" },
+        "relation": "is_a",
+        "object": { "id": "force-action", "label": "force action" },
+        "conceptIds": ["vocabulary.action.pull", "science.force.action"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification"] }
+      },
+      {
+        "id": "push-away",
+        "rowId": "kr.vocab.force.push.can-move-object-away",
+        "subject": { "id": "push", "label": "push" },
+        "relation": "can_move_object",
+        "object": { "id": "away-from-pusher", "label": "away from the pusher" },
+        "conceptIds": ["vocabulary.action.push", "science.force.direction"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "pull-toward",
+        "rowId": "kr.vocab.force.pull.can-move-object-toward",
+        "subject": { "id": "pull", "label": "pull" },
+        "relation": "can_move_object",
+        "object": { "id": "toward-puller", "label": "toward the puller" },
+        "conceptIds": ["vocabulary.action.pull", "science.force.direction"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "push-contrast-pull",
+        "rowId": "kr.vocab.force.push.contrasts-with-pull",
+        "subject": { "id": "push", "label": "push" },
+        "relation": "contrasts_with",
+        "object": { "id": "pull", "label": "pull" },
+        "conceptIds": ["vocabulary.action.push", "vocabulary.action.pull", "science.force.direction"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "pull-contrast-push",
+        "rowId": "kr.vocab.force.pull.contrasts-with-push",
+        "subject": { "id": "pull", "label": "pull" },
+        "relation": "contrasts_with",
+        "object": { "id": "push", "label": "push" },
+        "conceptIds": ["vocabulary.action.pull", "vocabulary.action.push", "science.force.direction"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-semantic-depth",
+      "scopeNote": "Vocabulary-first semantic action knowledge; direction claims use 'can' because the exact motion depends on the applied force and constraints."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.semantic.spatial.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - Spatial Relations",
+    "entries": [
+      {
+        "id": "under-position",
+        "rowId": "kr.vocab.spatial.under.describes-relative-position",
+        "subject": { "id": "under", "label": "under" },
+        "relation": "describes_position",
+        "object": { "id": "below-reference", "label": "below another object or place" },
+        "conceptIds": ["vocabulary.spatial.under"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "between-position",
+        "rowId": "kr.vocab.spatial.between.describes-relative-position",
+        "subject": { "id": "between", "label": "between" },
+        "relation": "describes_position",
+        "object": { "id": "middle-of-two-or-more", "label": "in the middle of two or more things" },
+        "conceptIds": ["vocabulary.spatial.between"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "inside-position",
+        "rowId": "kr.vocab.spatial.inside.describes-relative-position",
+        "subject": { "id": "inside", "label": "inside" },
+        "relation": "describes_position",
+        "object": { "id": "within-boundary", "label": "within the boundary of something" },
+        "conceptIds": ["vocabulary.spatial.inside"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "outside-position",
+        "rowId": "kr.vocab.spatial.outside.describes-relative-position",
+        "subject": { "id": "outside", "label": "outside" },
+        "relation": "describes_position",
+        "object": { "id": "beyond-boundary", "label": "beyond the boundary of something" },
+        "conceptIds": ["vocabulary.spatial.outside"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "between-requires-reference",
+        "rowId": "kr.vocab.spatial.between.uses-multiple-reference-things",
+        "subject": { "id": "between", "label": "between" },
+        "relation": "uses_reference",
+        "object": { "id": "multiple-things", "label": "two or more reference things" },
+        "conceptIds": ["vocabulary.spatial.between", "vocabulary.spatial.reference"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-semantic-depth",
+      "scopeNote": "General English spatial semantics; no board/profile placement is inferred."
+    }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.semantic.order-quantity.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - Order, Quantity and Comparison",
+    "entries": [
+      {
+        "id": "before-after",
+        "rowId": "kr.vocab.order.before.contrasts-with-after",
+        "subject": { "id": "before", "label": "before" },
+        "relation": "contrasts_with",
+        "object": { "id": "after", "label": "after" },
+        "conceptIds": ["vocabulary.order.before", "vocabulary.order.after"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "first-position",
+        "rowId": "kr.vocab.order.first.is-earliest-position",
+        "subject": { "id": "first", "label": "first" },
+        "relation": "describes_order_position",
+        "object": { "id": "earliest-position", "label": "earliest position in an order" },
+        "conceptIds": ["vocabulary.order.first"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "next-position",
+        "rowId": "kr.vocab.order.next.follows-current-position",
+        "subject": { "id": "next", "label": "next" },
+        "relation": "describes_order_position",
+        "object": { "id": "following-position", "label": "position that follows the current one" },
+        "conceptIds": ["vocabulary.order.next"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "last-position",
+        "rowId": "kr.vocab.order.last.is-final-position",
+        "subject": { "id": "last", "label": "last" },
+        "relation": "describes_order_position",
+        "object": { "id": "final-position", "label": "final position in an order" },
+        "conceptIds": ["vocabulary.order.last"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "many-few",
+        "rowId": "kr.vocab.quantity.many.contrasts-with-few",
+        "subject": { "id": "many", "label": "many" },
+        "relation": "contrasts_with",
+        "object": { "id": "few", "label": "few" },
+        "conceptIds": ["vocabulary.quantity.many", "vocabulary.quantity.few"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "more-less",
+        "rowId": "kr.vocab.quantity.more.contrasts-with-less",
+        "subject": { "id": "more", "label": "more" },
+        "relation": "contrasts_with",
+        "object": { "id": "less", "label": "less" },
+        "conceptIds": ["vocabulary.quantity.more", "vocabulary.quantity.less"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "same-different",
+        "rowId": "kr.vocab.comparison.same.contrasts-with-different",
+        "subject": { "id": "same", "label": "same" },
+        "relation": "contrasts_with",
+        "object": { "id": "different", "label": "different" },
+        "conceptIds": ["vocabulary.comparison.same", "vocabulary.comparison.different"],
+        "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "same-target-dimension",
+        "rowId": "kr.vocab.comparison.same.matches-target-dimension",
+        "subject": { "id": "same", "label": "same" },
+        "relation": "describes_comparison",
+        "object": { "id": "matching-target-dimension", "label": "matching in the feature being compared" },
+        "conceptIds": ["vocabulary.comparison.same"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "different-target-dimension",
+        "rowId": "kr.vocab.comparison.different.not-matching-target-dimension",
+        "subject": { "id": "different", "label": "different" },
+        "relation": "describes_comparison",
+        "object": { "id": "not-matching-target-dimension", "label": "not matching in the feature being compared" },
+        "conceptIds": ["vocabulary.comparison.different"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-semantic-depth",
+      "scopeNote": "General vocabulary relationships for reusable reasoning and visual teaching; no curriculum/profile claim."
+    }
+  }
+]
