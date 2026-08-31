@@ -185,45 +185,41 @@ const formatSequenceOrder = (source, recipe, units) => {
   };
 };
 
-const formatCrossword = (source, recipe, units) => ({
-  questions: [],
-  crosswordAuthoring: [{
-    id: recipe.id,
-    title: recipe.title ?? `${source.topic ?? 'Knowledge'} crossword`,
-    clues: units.map((unit) => ({
-      id: unit.rowId,
-      answer: unit.subject.label,
-      clue: capitalize(unit.object.label),
-      rowId: unit.rowId
-    }))
-  }],
-  outputContracts: []
-});
+const formatCrossword = (source, recipe, units) => {
+  const base = baseQuestion(source, recipe, units, 'Solve the crossword.');
+  return {
+    questions: [],
+    crosswordAuthoring: [{ ...base, entries: units.map((unit) => ({ id: unit.localId, answer: unit.subject.label, clue: capitalize(unit.object.label) })) }],
+    outputContracts: []
+  };
+};
 
 const formatSingleChoice = (source, recipe, units) => {
   if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit`);
-  const unit = units[0];
-  const allUnits = Array.isArray(source.units) ? source.units : [];
+  const target = units[0];
   const direction = recipe.choiceDirection ?? 'object_to_subject';
   if (!['object_to_subject', 'subject_to_object'].includes(direction)) throw new Error(`${recipe.id}: unsupported choiceDirection ${direction}`);
-  const distractorCount = Math.max(1, Number(recipe.distractorCount ?? 3));
-  const candidateUnits = allUnits.filter((candidate) => candidate.rowId !== unit.rowId);
-  const distractors = candidateUnits.slice(0, distractorCount);
-  if (!distractors.length) throw new Error(`${recipe.id}: single_choice requires at least one distractor`);
-  const optionFor = direction === 'object_to_subject'
-    ? (candidate) => ({ id: `${candidate.localId}:subject`, label: candidate.subject.label, symbol: candidate.subject.symbol, semanticRef: semanticRefFor(candidate.subject) })
-    : (candidate) => ({ id: `${candidate.localId}:object`, label: candidate.object.label, symbol: candidate.object.symbol, semanticRef: semanticRefFor(candidate.object) });
-  const base = baseQuestion(source, recipe, units, direction === 'object_to_subject' ? questionPromptFor(unit) : reverseQuestionPromptFor(unit));
+  const distractorCount = recipe.distractorCount ?? 3;
+  const distractors = source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount);
+  if (distractors.length < distractorCount) throw new Error(`${recipe.id}: not enough distractors in ${source.sourceRef}`);
+  const optionUnits = [target, ...distractors];
+  const optionSide = direction === 'subject_to_object' ? 'object' : 'subject';
+  const prompt = direction === 'subject_to_object' ? reverseQuestionPromptFor(target) : questionPromptFor(target);
+  const base = baseQuestion(source, recipe, units, prompt);
   return {
     questions: [{
       ...base,
       interaction: {
         type: 'single_choice',
         version: 1,
-        shuffleOptions: recipe.shuffleOptions ?? true,
-        options: [optionFor(unit), ...distractors.map(optionFor)]
+        shuffleOptions: true,
+        options: optionUnits.map((unit) => ({
+          id: `${unit.localId}:${optionSide}`,
+          label: unit[optionSide].label,
+          semanticRef: semanticRefFor(unit[optionSide])
+        }))
       },
-      solution: { type: 'exact_option', correctOptionIds: [direction === 'object_to_subject' ? `${unit.localId}:subject` : `${unit.localId}:object`] }
+      solution: { type: 'exact_option', correctOptionIds: [`${target.localId}:${optionSide}`] }
     }],
     crosswordAuthoring: [],
     outputContracts: []
@@ -232,17 +228,34 @@ const formatSingleChoice = (source, recipe, units) => {
 
 const formatWordBankFill = (source, recipe, units) => {
   if (units.length !== 1) throw new Error(`${recipe.id}: word_bank_fill recipe must select exactly one unit`);
-  const unit = units[0];
-  const allUnits = Array.isArray(source.units) ? source.units : [];
-  const distractorCount = Math.max(1, Number(recipe.distractorCount ?? 3));
-  const distractors = allUnits.filter((candidate) => candidate.rowId !== unit.rowId).slice(0, distractorCount);
-  const choices = [unit, ...distractors].map((candidate) => ({ id: `${candidate.localId}:subject`, label: candidate.subject.label }));
-  const base = baseQuestion(source, recipe, units, `Complete the idea: ${capitalize(unit.object.label)} — ____`);
+  const target = units[0];
+  const template = recipe.sentenceTemplate ?? '{subject} — {blank}';
+  const parts = template.split('{blank}');
+  if (parts.length !== 2) throw new Error(`${recipe.id}: sentenceTemplate must contain {blank} exactly once`);
+  const renderText = (value) => String(value).replaceAll('{subject}', target.subject.label).replaceAll('{object}', target.object.label);
+  const distractorCount = recipe.distractorCount ?? 3;
+  const bankUnits = [target, ...source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount)];
+  const before = renderText(parts[0]);
+  const after = renderText(parts[1]);
+  const segments = [];
+  if (before) segments.push({ type: 'text', value: before });
+  segments.push({ type: 'blank', id: 'answer' });
+  if (after) segments.push({ type: 'text', value: after });
+  const base = baseQuestion(source, recipe, units, 'Complete the sentence.');
   return {
     questions: [{
       ...base,
-      interaction: { type: 'word_bank_fill', version: 1, choices },
-      solution: { type: 'exact_option', correctOptionIds: [`${unit.localId}:subject`] }
+      interaction: {
+        type: 'word_bank_fill',
+        version: 1,
+        segments,
+        wordBank: bankUnits.map((unit) => ({
+          id: `${unit.localId}:object`,
+          label: unit.object.label,
+          semanticRef: semanticRefFor(unit.object)
+        }))
+      },
+      solution: { type: 'blank_answers', answers: { answer: [`${target.localId}:object`] } }
     }],
     crosswordAuthoring: [],
     outputContracts: []
