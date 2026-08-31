@@ -40,7 +40,7 @@ Curriculum anchors such as UK statutory spelling or Cambridge YLE can raise conf
 
 `.github/workflows/resolve-primary-vocabulary-senses.yml` owns the **meaning queues, OEWN sense-review output and generated profile-slice review artifacts**. It downloads the checksum-pinned official OEWN 2025 JSON release, loads its sharded `entries-*` plus POS-synset layout, rebuilds OEWN-resolvable meaning queues, validates provenance, generates profile slices from those finalized meaning queues, runs vocabulary acceptance tests and then the repository-wide regression check.
 
-The two workflows use separate concurrency groups so the latest corpus/spelling proof and the latest meaning/OEWN proof can run independently without cancelling each other. Generated data is committed only after the full repository check succeeds.
+The two workflows use separate concurrency groups so the latest corpus/spelling proof and the latest meaning/OEWN proof can run independently without cancelling each other. Deterministic corpus/queue/sense/profile artifacts are committed to this working branch only after their lane-specific validators and vocabulary acceptance tests pass. The repository-wide `npm run check` remains a later **merge gate**: an unrelated integration failure can block PR/merge without discarding already-validated branch artifacts.
 
 ## Meaning-queue backfill policy
 

@@ -38,7 +38,10 @@ jobs:
         shell: bash
         run: |
           ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
-          npm install --no-save --package-lock=false "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}"
+          TARBALL="$(npm pack --silent --pack-destination /tmp "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/@rolldown/binding-linux-x64-gnu
+          tar -xzf "/tmp/${TARBALL}" -C node_modules/@rolldown/binding-linux-x64-gnu --strip-components=1
+          node -e "require('@rolldown/binding-linux-x64-gnu')"
 
       - name: Refresh source corpus on manual sync
         if: github.event_name == 'workflow_dispatch'
@@ -60,19 +63,19 @@ jobs:
       - name: Run vocabulary corpus and delivery acceptance tests
         run: npm run test:vocabulary-corpus
 
-      - name: Run full Kidsplay regression check
-        run: npm run check
-
-      - name: Commit refreshed corpus and spelling queues if changed
+      - name: Commit lane-validated corpus and spelling queues if changed
         shell: bash
         run: |
           git add content/lexicon/open/primary-grade-corpus.json
           git add content/lexicon/open/review-wordlists/grade-*-introduced-spelling.json
           if git diff --cached --quiet; then
             echo "Primary corpus and spelling queues already current."
-            exit 0
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data: refresh primary vocabulary corpus and spelling queues"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "data: refresh primary vocabulary corpus and spelling queues"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Run repository-wide merge gate
+        run: npm run check
