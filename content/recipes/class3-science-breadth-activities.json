@@ -16,7 +16,7 @@
     "sourceRef": "knowledge.sof.class3.plants-animals-breadth.001",
     "engine": "single_choice@1",
     "forEachEntry": true,
-    "distractorCount": 3,
+    "distractorCount": 1,
     "difficulty": 2
   },
   {
@@ -36,7 +36,7 @@
     "sourceRef": "knowledge.sof.class3.human-body-breadth.001",
     "engine": "single_choice@1",
     "forEachEntry": true,
-    "distractorCount": 3,
+    "distractorCount": 2,
     "difficulty": 2
   },
   {
