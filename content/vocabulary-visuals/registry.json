@@ -1,0 +1,81 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-strategy.registry.001",
+  "issueRef": 76,
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "senseKeyRequired": true,
+    "knowledgeStoresArtImplementation": false,
+    "structuredAssessmentInferredExplanatoryVisualsAllowed": false,
+    "reducedMotionStaticMeaningRequired": true,
+    "nonCommercialAssetAdmissionAllowed": false,
+    "unresolvedSenseMustFailClosed": true
+  },
+  "strategies": [
+    { "id": "direct_entity", "description": "One unambiguous semantic entity visual." },
+    { "id": "place_scene", "description": "Composed place/environment scene." },
+    { "id": "person_role", "description": "Person plus role-defining context." },
+    { "id": "action_scene", "description": "Actor performing a semantic action." },
+    { "id": "state_scene", "description": "Entity in a visible state." },
+    { "id": "expression_scene", "description": "Expression/posture conveys emotion or condition." },
+    { "id": "attribute_contrast", "description": "Controlled contrast across one semantic dimension." },
+    { "id": "spatial_relation", "description": "Subject and reference object arranged by relation." },
+    { "id": "quantity_scene", "description": "Count/fill/repetition comparison scene." },
+    { "id": "sequence_scene", "description": "Ordered frames for time/sequence semantics." },
+    { "id": "process_scene", "description": "Before-transition-after process or state change." },
+    { "id": "part_whole", "description": "Whole entity with semantic part focus." },
+    { "id": "cause_effect", "description": "Cause event followed by visible consequence." },
+    { "id": "comparison_scene", "description": "Two or more controlled semantic scenes compared." },
+    { "id": "diagrammatic", "description": "Simple non-literal diagram such as path, orbit or cycle." },
+    { "id": "symbolic", "description": "Conventional symbol used only when it teaches the intended sense." },
+    { "id": "textual_only", "description": "Reviewed decision that a visual would misteach the sense." },
+    { "id": "sense_unresolved", "description": "Blocked until the intended sense is explicitly resolved." }
+  ],
+  "maturityLevels": [
+    { "id": "V0", "rank": 0, "description": "Unaudited." },
+    { "id": "V1", "rank": 1, "description": "Sense-safe teaching strategy assigned." },
+    { "id": "V2", "rank": 2, "description": "Semantic visual/diagram primitives available." },
+    { "id": "V3", "rank": 3, "description": "Reusable scene planner can compose the sense." },
+    { "id": "V4", "rank": 4, "description": "Meaningful optional motion is available." },
+    { "id": "V5", "rank": 5, "description": "Child-facing delivery surface consumes the visual strategy." },
+    { "id": "V6", "rank": 6, "description": "Explanation/contrast/process/deeper-knowledge integration exists." }
+  ],
+  "sceneTemplates": [
+    { "id": "settlement", "strategy": "place_scene" },
+    { "id": "place", "strategy": "place_scene" },
+    { "id": "actor-action", "strategy": "action_scene" },
+    { "id": "person-role", "strategy": "person_role" },
+    { "id": "entity-state", "strategy": "state_scene" },
+    { "id": "expression", "strategy": "expression_scene" },
+    { "id": "attribute-contrast", "strategy": "attribute_contrast" },
+    { "id": "spatial-relation", "strategy": "spatial_relation" },
+    { "id": "quantity-comparison", "strategy": "quantity_scene" },
+    { "id": "sequence", "strategy": "sequence_scene" },
+    { "id": "state-transition", "strategy": "process_scene" },
+    { "id": "part-focus", "strategy": "part_whole" },
+    { "id": "cause-effect", "strategy": "cause_effect" },
+    { "id": "comparison", "strategy": "comparison_scene" },
+    { "id": "simple-diagram", "strategy": "diagrammatic" }
+  ],
+  "animationBeats": [
+    "establish",
+    "focus",
+    "move",
+    "act",
+    "transform",
+    "compare",
+    "highlight",
+    "result",
+    "reset"
+  ],
+  "answerSafety": [
+    "neutral_safe",
+    "post_answer_only",
+    "explanation_only"
+  ],
+  "motionPolicies": [
+    "none",
+    "optional_meaningful",
+    "recommended_meaningful"
+  ]
+}
