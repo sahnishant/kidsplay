@@ -2,9 +2,9 @@ name: Browser Smoke
 
 on:
   push:
-    branches: [kidsplay]
+    branches: [kidsplay, main]
   pull_request:
-    branches: [kidsplay]
+    branches: [kidsplay, main]
   workflow_dispatch:
 
 jobs:
