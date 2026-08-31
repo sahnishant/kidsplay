@@ -1,9 +1,11 @@
 import { normalizeAssociationSet } from './associationSet.mjs';
 import { normalizeChoiceItem } from './choiceItem.mjs';
+import { normalizeProcess } from './process.mjs';
 
 const normalizers = new Map([
   ['association_set@1', normalizeAssociationSet],
-  ['choice_item@1', normalizeChoiceItem]
+  ['choice_item@1', normalizeChoiceItem],
+  ['process@1', normalizeProcess]
 ]);
 
 export function normalizeData(source) {

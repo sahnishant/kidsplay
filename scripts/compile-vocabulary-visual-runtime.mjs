@@ -36,6 +36,35 @@ for (const name of batchNames) {
   }
 }
 
+const semanticDepthNames = readdirSync(new URL('content/semantic-knowledge/', root))
+  .filter((name) => name.endsWith('.json'))
+  .sort();
+const semanticDepthIssueRefs = new Set();
+const depthPatternIds = new Set();
+const depthPatternsByKnowledgeRef = new Map();
+for (const name of semanticDepthNames) {
+  const semanticDepth = readJson(`content/semantic-knowledge/${name}`);
+  if (semanticDepth?.schemaVersion !== 1 || !Number.isInteger(semanticDepth?.issueRef) || semanticDepth.issueRef < 1) {
+    throw new Error(`${name}: semantic depth pack must use schemaVersion 1 and a positive issueRef`);
+  }
+  semanticDepthIssueRefs.add(semanticDepth.issueRef);
+  for (const pattern of semanticDepth.reasoningPatterns ?? []) {
+    const patternId = String(pattern?.id ?? '').trim();
+    const visualSenseKey = String(pattern?.visualSenseKey ?? '').trim();
+    if (!patternId || !visualSenseKey) throw new Error(`${name}: semantic depth reasoning pattern requires id and visualSenseKey`);
+    if (depthPatternIds.has(patternId)) throw new Error(`${name}: duplicate semantic depth reasoning pattern ${patternId}`);
+    depthPatternIds.add(patternId);
+    if (!strategyBySenseKey.has(visualSenseKey)) throw new Error(`${patternId}: unknown vocabulary visual sense ${visualSenseKey}`);
+    const rowRefs = [...(pattern.premiseRowRefs ?? []), ...(pattern.contrastRowRefs ?? [])].map(String);
+    for (const rowRef of rowRefs) {
+      if (!canonicalRowIds.has(rowRef)) throw new Error(`${patternId}: unknown canonical semantic-depth row ${rowRef}`);
+      const values = depthPatternsByKnowledgeRef.get(rowRef) ?? [];
+      values.push({ id: patternId, visualSenseKey });
+      depthPatternsByKnowledgeRef.set(rowRef, values);
+    }
+  }
+}
+
 const registry = readJson('content/vocabulary-visuals/registry.json');
 const maturityRanks = new Map((registry.maturityLevels ?? []).map((entry) => [entry.id, entry.rank]));
 const maturityProofs = readJson('content/vocabulary-visuals/runtime-maturity-proofs.json');
@@ -66,6 +95,13 @@ for (const promotion of maturityProofs.promotions ?? []) {
   maturityBySenseKey.set(senseKey, { maturity, basis });
 }
 
+const semanticDepthPatternRefsFor = (knowledgeRef, senseKey) => {
+  if (!knowledgeRef) return [];
+  return [...new Set((depthPatternsByKnowledgeRef.get(knowledgeRef) ?? [])
+    .filter((pattern) => pattern.visualSenseKey === senseKey)
+    .map((pattern) => pattern.id))];
+};
+
 const projectPlan = (item, runtimeUsage, knowledgeRef = null) => ({
   knowledgeRef,
   runtimeUsage,
@@ -77,7 +113,8 @@ const projectPlan = (item, runtimeUsage, knowledgeRef = null) => ({
   motionPolicy: item.motionPolicy,
   answerSafety: item.answerSafety,
   visualRef: item.visualRef ?? null,
-  parameters: item.parameters ?? {}
+  parameters: item.parameters ?? {},
+  semanticDepthPatternRefs: semanticDepthPatternRefsFor(knowledgeRef, item.senseKey)
 });
 
 const reinforcement = readJson('content/vocabulary-visuals/runtime-reinforcement.json');
@@ -100,7 +137,7 @@ const reinforcementPlans = (reinforcement.mappings ?? []).map((mapping) => {
   if (['sense_unresolved', 'textual_only'].includes(item.strategy)) {
     throw new Error(`${knowledgeRef}: runtime reinforcement cannot use blocked strategy ${item.strategy}`);
   }
-  if (!['post_answer_only', 'neutral_safe'].includes(item.answerSafety)) {
+  if (!['post_answer_only', 'neutral_safe', 'explanation_only'].includes(item.answerSafety)) {
     throw new Error(`${knowledgeRef}: runtime reinforcement requires post-answer-safe strategy; got ${item.answerSafety}`);
   }
   reinforcementSenseKeys.add(senseKey);
@@ -114,10 +151,9 @@ if (templateProofs?.policy?.profilePlacementInferred !== false) throw new Error(
 if (templateProofs?.policy?.assessmentUsageAllowed !== false) throw new Error('Vocabulary template proofs cannot be admitted to assessment surfaces');
 
 const seenProofSenseKeys = new Set();
-const proofPlans = (templateProofs.senseKeys ?? []).map((rawSenseKey) => {
+const proofPlans = (templateProofs.senseKeys ?? []).flatMap((rawSenseKey) => {
   const senseKey = String(rawSenseKey ?? '').trim();
   if (!senseKey) throw new Error('Vocabulary template proof contains an empty senseKey');
-  if (reinforcementSenseKeys.has(senseKey)) throw new Error(`${senseKey}: template proof is redundant with an admitted child-facing reinforcement sense`);
   if (seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: duplicate vocabulary template proof senseKey`);
   seenProofSenseKeys.add(senseKey);
   const item = strategyBySenseKey.get(senseKey);
@@ -126,7 +162,11 @@ const proofPlans = (templateProofs.senseKeys ?? []).map((rawSenseKey) => {
     throw new Error(`${senseKey}: template proof requires a compositional semantic strategy; got ${item.strategy}`);
   }
   if (!item.sceneTemplate) throw new Error(`${senseKey}: template proof requires sceneTemplate`);
-  return projectPlan(item, 'template_proof');
+  // A previously renderer-proven sense may later gain a real canonical knowledge mapping.
+  // Keep the original proof record conservative, but emit only the stronger knowledge plan
+  // so the runtime never carries two plans for the same sense.
+  if (reinforcementSenseKeys.has(senseKey)) return [];
+  return [projectPlan(item, 'template_proof')];
 });
 
 for (const [senseKey, proof] of maturityBySenseKey) {
@@ -135,10 +175,10 @@ for (const [senseKey, proof] of maturityBySenseKey) {
     if (!reinforcementSenseKeys.has(senseKey)) throw new Error(`${senseKey}: V5 child-facing proof has no admitted reinforcement mapping`);
     if (proof.maturity !== 'V5') throw new Error(`${senseKey}: child-facing proof must claim V5`);
   } else if (proof.basis === 'renderer_template_proof') {
-    if (!seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: renderer proof has no admitted template proof plan`);
+    if (!seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: renderer proof has no admitted template proof declaration`);
     if (proof.maturity !== 'V3') throw new Error(`${senseKey}: renderer-only proof must claim V3`);
   } else if (proof.basis === 'renderer_template_plus_meaningful_motion_proof') {
-    if (!seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: motion proof has no admitted template proof plan`);
+    if (!seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: motion proof has no admitted template proof declaration`);
     if (proof.maturity !== 'V4') throw new Error(`${senseKey}: renderer+motion proof must claim V4`);
     if (item.motionPolicy === 'none') throw new Error(`${senseKey}: V4 motion proof requires a meaningful motion policy`);
   } else {
@@ -155,6 +195,7 @@ const plans = [...reinforcementPlans, ...proofPlans];
 writeFileSync(outputUrl, `${JSON.stringify({
   schemaVersion: 1,
   issueRef: 80,
+  semanticDepthIssueRefs: [...semanticDepthIssueRefs].sort((left, right) => left - right),
   maturityEvidence: maturityProofs.evidence,
   plans
 }, null, 2)}\n`, 'utf8');
@@ -162,5 +203,6 @@ console.log(
   `Compiled ${reinforcementPlans.length} child-facing vocabulary reinforcement plan(s) across ` +
   `${reinforcementSenseKeys.size} semantic sense(s) + ${proofPlans.length} renderer template proof plan(s); ` +
   `${maturityBySenseKey.size} proof-backed maturity promotion(s); ${strategyBySenseKey.size} audited sense strategy item(s); ` +
-  `${canonicalRowIds.size} canonical knowledge row(s) checked.`
+  `${canonicalRowIds.size} canonical knowledge row(s) checked; ${depthPatternsByKnowledgeRef.size} semantic-depth row link(s) across ` +
+  `${semanticDepthNames.length} depth pack(s).`
 );

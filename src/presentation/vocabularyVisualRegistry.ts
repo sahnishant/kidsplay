@@ -34,17 +34,20 @@ export interface VocabularyVisualRuntimePlan {
   answerSafety: VocabularyAnswerSafety;
   visualRef: string | null;
   parameters: Record<string, string | number | boolean>;
+  semanticDepthPatternRefs: string[];
 }
 
 interface RuntimePlanFile {
   schemaVersion: number;
   issueRef: number;
+  semanticDepthIssueRefs: number[];
   plans: VocabularyVisualRuntimePlan[];
 }
 
 interface RawRuntimePlanFile {
   schemaVersion?: unknown;
   issueRef?: unknown;
+  semanticDepthIssueRefs?: unknown;
   plans?: unknown;
 }
 
@@ -100,6 +103,24 @@ const normalizeParameters = (value: unknown): Record<string, string | number | b
   return result;
 };
 
+const normalizeStringArray = (value: unknown, field: string): string[] => {
+  if (value === undefined || value === null) return [];
+  if (!Array.isArray(value)) throw new Error(`Vocabulary visual runtime plan ${field} must be an array`);
+  const result = value.map((item) => requiredString(item, `${field} item`));
+  if (new Set(result).size !== result.length) throw new Error(`Vocabulary visual runtime plan ${field} must not contain duplicates`);
+  return result;
+};
+
+const normalizePositiveIntegerArray = (value: unknown, field: string): number[] => {
+  if (!Array.isArray(value)) throw new Error(`Vocabulary visual runtime ${field} must be an array`);
+  const result = value.map((item) => {
+    if (!Number.isInteger(item) || Number(item) < 1) throw new Error(`Vocabulary visual runtime ${field} must contain positive integers`);
+    return Number(item);
+  });
+  if (new Set(result).size !== result.length) throw new Error(`Vocabulary visual runtime ${field} must not contain duplicates`);
+  return result;
+};
+
 const normalizePlan = (value: unknown): VocabularyVisualRuntimePlan => {
   const raw = asObject(value);
   return {
@@ -113,7 +134,8 @@ const normalizePlan = (value: unknown): VocabularyVisualRuntimePlan => {
     motionPolicy: enumValue(raw.motionPolicy, MOTION_POLICIES, 'motionPolicy'),
     answerSafety: enumValue(raw.answerSafety, ANSWER_SAFETY, 'answerSafety'),
     visualRef: optionalString(raw.visualRef, 'visualRef'),
-    parameters: normalizeParameters(raw.parameters)
+    parameters: normalizeParameters(raw.parameters),
+    semanticDepthPatternRefs: normalizeStringArray(raw.semanticDepthPatternRefs, 'semanticDepthPatternRefs')
   };
 };
 
@@ -125,6 +147,7 @@ if (rawRuntimePlans.schemaVersion !== 1 || rawRuntimePlans.issueRef !== 80 || !A
 const runtimePlans: RuntimePlanFile = {
   schemaVersion: 1,
   issueRef: 80,
+  semanticDepthIssueRefs: normalizePositiveIntegerArray(rawRuntimePlans.semanticDepthIssueRefs, 'semanticDepthIssueRefs'),
   plans: rawRuntimePlans.plans.map(normalizePlan)
 };
 
@@ -148,5 +171,9 @@ export function resolveVocabularyVisualPlanForKnowledgeRefs(knowledgeRefs: strin
 }
 
 export function getVocabularyVisualRuntimePlans(): VocabularyVisualRuntimePlan[] {
-  return runtimePlans.plans.map((plan) => ({ ...plan, parameters: { ...plan.parameters } }));
+  return runtimePlans.plans.map((plan) => ({
+    ...plan,
+    parameters: { ...plan.parameters },
+    semanticDepthPatternRefs: [...plan.semanticDepthPatternRefs]
+  }));
 }

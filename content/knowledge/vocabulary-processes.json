@@ -1,0 +1,94 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.process.open.001",
+    "kind": "process",
+    "version": 1,
+    "rowId": "kr.vocab.process.open.closed-to-open",
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - State Changes",
+    "label": "opening something",
+    "stages": [
+      { "id": "closed", "label": "Closed", "semanticRef": "closed" },
+      { "id": "open", "label": "Open", "semanticRef": "open" }
+    ],
+    "conceptIds": ["vocabulary.action.open", "vocabulary.state.closed", "vocabulary.state.open"],
+    "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-semantic-depth" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.process.fill.001",
+    "kind": "process",
+    "version": 1,
+    "rowId": "kr.vocab.process.fill.empty-to-full",
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - State Changes",
+    "label": "filling a container",
+    "stages": [
+      { "id": "empty", "label": "Empty", "semanticRef": "empty" },
+      { "id": "partly-full", "label": "Partly full", "semanticRef": "partly-full" },
+      { "id": "full", "label": "Full", "semanticRef": "full" }
+    ],
+    "conceptIds": ["vocabulary.action.fill", "vocabulary.state.empty", "vocabulary.state.full"],
+    "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-semantic-depth" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.science.process.melt-ice.001",
+    "kind": "process",
+    "version": 1,
+    "rowId": "kr.science.process.melt.ice-to-liquid-water",
+    "language": "en",
+    "subject": "Science",
+    "topic": "Matter - State Changes",
+    "label": "ice melting into liquid water",
+    "stages": [
+      { "id": "ice", "label": "Ice", "semanticRef": "ice" },
+      { "id": "liquid-water", "label": "Liquid water", "semanticRef": "water" }
+    ],
+    "conceptIds": ["sof5.matter.melting", "sof4.matter.solid", "sof4.matter.liquid"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.science.process.freeze-water.001",
+    "kind": "process",
+    "version": 1,
+    "rowId": "kr.science.process.freeze.water-to-ice",
+    "language": "en",
+    "subject": "Science",
+    "topic": "Matter - State Changes",
+    "label": "liquid water freezing into ice",
+    "stages": [
+      { "id": "liquid-water", "label": "Liquid water", "semanticRef": "water" },
+      { "id": "ice", "label": "Ice", "semanticRef": "ice" }
+    ],
+    "conceptIds": ["science.matter.freezing", "sof4.matter.solid", "sof4.matter.liquid"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.science.process.germination.001",
+    "kind": "process",
+    "version": 1,
+    "rowId": "kr.science.process.germination.seed-to-young-plant",
+    "language": "en",
+    "subject": "Science",
+    "topic": "Plants - Growth",
+    "label": "a seed beginning to grow",
+    "stages": [
+      { "id": "seed", "label": "Seed", "semanticRef": "seed" },
+      { "id": "sprout", "label": "Sprout", "semanticRef": "sprout" },
+      { "id": "young-plant", "label": "Young plant", "semanticRef": "young-plant" }
+    ],
+    "conceptIds": ["sof3.plants.germination"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-elementary-science" }
+  }
+]

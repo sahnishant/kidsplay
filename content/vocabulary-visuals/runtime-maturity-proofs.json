@@ -3,12 +3,13 @@
   "id": "vocabulary.visual-runtime-maturity.001",
   "issueRef": 80,
   "evidence": {
-    "workflowRunId": 33407137452,
-    "headSha": "ee8f4b55c63f79e185687bdf4766e6bd9efe2b63",
+    "workflowRunId": 33419049176,
+    "headSha": "6f6904e8da5293ed6b7ed7bd26e83f67f71f521c",
     "proof": [
       "full_check_green",
       "presentation_tests_green",
       "bundle_budget_green",
+      "browser_child_journeys_green",
       "android_apk_green",
       "offline_relaunch_rotation_green"
     ]
@@ -37,11 +38,11 @@
     { "senseKey": "early#before-expected-time", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
     { "senseKey": "narrow#small-width", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
     { "senseKey": "smooth#even-surface", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "pull#move-toward-by-force", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
 
     { "senseKey": "village#settlement", "maturity": "V3", "basis": "renderer_template_proof" },
     { "senseKey": "under#below-reference", "maturity": "V3", "basis": "renderer_template_proof" },
     { "senseKey": "same#matching-in-target-dimension", "maturity": "V3", "basis": "renderer_template_proof" },
-    { "senseKey": "pull#move-toward-by-force", "maturity": "V4", "basis": "renderer_template_plus_meaningful_motion_proof" },
     { "senseKey": "open#change-from-closed", "maturity": "V4", "basis": "renderer_template_plus_meaningful_motion_proof" }
   ]
 }

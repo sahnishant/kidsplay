@@ -1,0 +1,43 @@
+[
+  {"id":"vocabulary.place.village","statement":"A village is a settlement where people live, usually with fewer buildings and people than a large town or city.","subject":"English","topic":"Vocabulary","subtopic":"Places and settlements","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.place.town","statement":"A town is a settlement where people live and commonly includes homes, roads, shops and other community places.","subject":"English","topic":"Vocabulary","subtopic":"Places and settlements","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.place.city","statement":"A city is a large settlement where many people live and where buildings, roads and services are usually concentrated.","subject":"English","topic":"Vocabulary","subtopic":"Places and settlements","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.place.settlement","statement":"A settlement is a place where a community of people lives.","subject":"English","topic":"Vocabulary","subtopic":"Places and settlements","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.comparison.size","statement":"Size comparisons describe how large or small one thing is relative to another.","subject":"English","topic":"Vocabulary","subtopic":"Comparison","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.people.community","statement":"A community is a group of people connected by a place, activity or shared life.","subject":"English","topic":"Vocabulary","subtopic":"People and community","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"vocabulary.action.push","statement":"Push means applying force to move or try to move something away from the pusher.","subject":"English","topic":"Vocabulary","subtopic":"Actions","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.action.pull","statement":"Pull means applying force to move or try to move something toward the puller.","subject":"English","topic":"Vocabulary","subtopic":"Actions","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.action.open","statement":"Open can describe changing something from a closed state so that an entrance, space or access becomes available.","subject":"English","topic":"Vocabulary","subtopic":"Actions and state changes","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.action.fill","statement":"Fill means adding material or contents so that available space in something becomes occupied.","subject":"English","topic":"Vocabulary","subtopic":"Actions and state changes","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"vocabulary.spatial.under","statement":"Under describes a position below another object or place.","subject":"English","topic":"Vocabulary","subtopic":"Spatial relations","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.spatial.between","statement":"Between describes a position in the middle of two or more reference things.","subject":"English","topic":"Vocabulary","subtopic":"Spatial relations","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.spatial.inside","statement":"Inside describes a position within the boundary of something.","subject":"English","topic":"Vocabulary","subtopic":"Spatial relations","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.spatial.outside","statement":"Outside describes a position beyond the boundary of something.","subject":"English","topic":"Vocabulary","subtopic":"Spatial relations","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.spatial.reference","statement":"A spatial relation tells where something is relative to one or more reference things.","subject":"English","topic":"Vocabulary","subtopic":"Spatial relations","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"vocabulary.order.before","statement":"Before means earlier than another event or position in a sequence.","subject":"English","topic":"Vocabulary","subtopic":"Order and sequence","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.order.after","statement":"After means later than another event or position in a sequence.","subject":"English","topic":"Vocabulary","subtopic":"Order and sequence","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.order.first","statement":"First describes the earliest or initial position in an order.","subject":"English","topic":"Vocabulary","subtopic":"Order and sequence","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.order.next","statement":"Next describes the position that follows the current one in an order.","subject":"English","topic":"Vocabulary","subtopic":"Order and sequence","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.order.last","statement":"Last describes the final position in an order.","subject":"English","topic":"Vocabulary","subtopic":"Order and sequence","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"vocabulary.quantity.many","statement":"Many describes a relatively large number of countable things.","subject":"English","topic":"Vocabulary","subtopic":"Quantity","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.quantity.few","statement":"Few describes a relatively small number of countable things.","subject":"English","topic":"Vocabulary","subtopic":"Quantity","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.quantity.more","statement":"More describes a greater quantity or number in a comparison.","subject":"English","topic":"Vocabulary","subtopic":"Quantity","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.quantity.less","statement":"Less describes a smaller amount in a comparison.","subject":"English","topic":"Vocabulary","subtopic":"Quantity","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.comparison.same","statement":"Same means matching in the feature or identity being compared.","subject":"English","topic":"Vocabulary","subtopic":"Comparison","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.comparison.different","statement":"Different means not matching in the feature or identity being compared.","subject":"English","topic":"Vocabulary","subtopic":"Comparison","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"vocabulary.state.full","statement":"Full describes a container or space holding as much as its chosen capacity or context allows.","subject":"English","topic":"Vocabulary","subtopic":"States","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.state.empty","statement":"Empty describes a container or space with no relevant contents inside it.","subject":"English","topic":"Vocabulary","subtopic":"States","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.state.closed","statement":"Closed describes something shut so that an opening or access is not available in the usual way.","subject":"English","topic":"Vocabulary","subtopic":"States","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.state.open","statement":"Open describes something not closed, with an opening or access available in the relevant context.","subject":"English","topic":"Vocabulary","subtopic":"States","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.container.amount","statement":"A container's amount state can be compared using ideas such as empty, partly full and full.","subject":"English","topic":"Vocabulary","subtopic":"States and quantity","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"vocabulary.speed.fast","statement":"Fast describes movement or action happening at relatively high speed.","subject":"English","topic":"Vocabulary","subtopic":"Speed","gradeBands":[1,2,3,4,5,6]},
+  {"id":"vocabulary.speed.slow","statement":"Slow describes movement or action happening at relatively low speed.","subject":"English","topic":"Vocabulary","subtopic":"Speed","gradeBands":[1,2,3,4,5,6]},
+
+  {"id":"science.matter.freezing","statement":"Freezing changes a liquid into a solid; liquid water freezes into ice.","subject":"Science","topic":"Matter and Materials","subtopic":"Freezing","gradeBands":[4,5,6]}
+]

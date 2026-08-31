@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.vocabulary.semantic.states.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "English",
+  "topic": "Vocabulary - States and Contrasts",
+  "entries": [
+    {
+      "id": "full-container-state",
+      "rowId": "kr.vocab.state.full.describes-container-content",
+      "subject": { "id": "full", "label": "full" },
+      "relation": "describes_state_of",
+      "object": { "id": "container-content", "label": "amount inside a container" },
+      "conceptIds": ["vocabulary.state.full", "vocabulary.container.amount"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "full-empty-contrast",
+      "rowId": "kr.vocab.state.full.contrasts-with-empty",
+      "subject": { "id": "full", "label": "full" },
+      "relation": "contrasts_with",
+      "object": { "id": "empty", "label": "empty" },
+      "conceptIds": ["vocabulary.state.full", "vocabulary.state.empty", "vocabulary.container.amount"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification", "reasoning"] }
+    },
+    {
+      "id": "empty-container-state",
+      "rowId": "kr.vocab.state.empty.describes-container-content",
+      "subject": { "id": "empty", "label": "empty" },
+      "relation": "describes_state_of",
+      "object": { "id": "container-with-no-content", "label": "container with nothing inside" },
+      "conceptIds": ["vocabulary.state.empty", "vocabulary.container.amount"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "fast-slow-contrast",
+      "rowId": "kr.vocab.speed.fast.contrasts-with-slow",
+      "subject": { "id": "fast", "label": "fast" },
+      "relation": "contrasts_with",
+      "object": { "id": "slow", "label": "slow" },
+      "conceptIds": ["vocabulary.speed.fast", "vocabulary.speed.slow"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "classification", "reasoning"] }
+    },
+    {
+      "id": "fast-speed-state",
+      "rowId": "kr.vocab.speed.fast.describes-high-speed",
+      "subject": { "id": "fast", "label": "fast" },
+      "relation": "describes_speed",
+      "object": { "id": "high-speed", "label": "high speed or quick movement" },
+      "conceptIds": ["vocabulary.speed.fast"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+    },
+    {
+      "id": "slow-speed-state",
+      "rowId": "kr.vocab.speed.slow.describes-low-speed",
+      "subject": { "id": "slow", "label": "slow" },
+      "relation": "describes_speed",
+      "object": { "id": "low-speed", "label": "low speed or unhurried movement" },
+      "conceptIds": ["vocabulary.speed.slow"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "reasoning"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-semantic-depth",
+    "scopeNote": "General primary vocabulary semantics. Existing reviewed antonym rows such as hot/cold and smooth/rough remain canonical and are referenced by the depth graph instead of duplicated here."
+  }
+}

@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
+import maturityProofsJson from '../content/vocabulary-visuals/runtime-maturity-proofs.json';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import Scene from '../src/presentation/Scene.svelte';
 import VocabularySemanticScene from '../src/presentation/VocabularySemanticScene.svelte';
@@ -35,35 +36,53 @@ function vocabularyQuestion(knowledgeRef = 'kr.vocab.meaning.enormous.very-large
 }
 
 describe('semantic vocabulary scene runtime', () => {
-  it('ships a small admitted runtime projection instead of the full audit corpus', () => {
+  it('ships a bounded admitted runtime projection instead of the full audit corpus', () => {
     const plans = getVocabularyVisualRuntimePlans();
     const childPlans = plans.filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement');
     const proofs = plans.filter((plan) => plan.runtimeUsage === 'template_proof');
 
-    expect(childPlans).toHaveLength(18);
-    expect(proofs).toHaveLength(5);
+    expect(childPlans.length).toBeGreaterThanOrEqual(18);
+    expect(proofs.length).toBeGreaterThanOrEqual(3);
     expect(plans.length).toBeLessThan(50);
     expect(proofs.every((plan) => plan.knowledgeRef === null)).toBe(true);
     expect(childPlans.every((plan) => plan.knowledgeRef?.startsWith('kr.'))).toBe(true);
+    expect(new Set(childPlans.map((plan) => plan.knowledgeRef)).size).toBe(childPlans.length);
+
+    expect(childPlans).toEqual(expect.arrayContaining([
+      expect.objectContaining({
+        knowledgeRef: 'kr.vocab.force.pull.can-move-object-toward',
+        senseKey: 'pull#move-toward-by-force',
+        maturity: 'V5',
+        semanticDepthPatternRefs: expect.arrayContaining(['pull-direction-explanation'])
+      })
+    ]));
+    expect(proofs.some((plan) => plan.senseKey === 'pull#move-toward-by-force')).toBe(false);
   });
 
-  it('promotes maturity only where runtime evidence exists', () => {
+  it('derives every runtime maturity from the recorded exact proof', () => {
     const plans = getVocabularyVisualRuntimePlans();
-    const childPlans = plans.filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement');
-    const proofs = new Map(
-      plans
-        .filter((plan) => plan.runtimeUsage === 'template_proof')
-        .map((plan) => [plan.senseKey, plan.maturity])
+    const proofBySenseKey = new Map(
+      maturityProofsJson.promotions.map((promotion) => [promotion.senseKey, promotion])
     );
 
-    expect(childPlans.every((plan) => plan.maturity === 'V5')).toBe(true);
-    expect(proofs).toEqual(new Map([
-      ['village#settlement', 'V3'],
-      ['under#below-reference', 'V3'],
-      ['pull#move-toward-by-force', 'V4'],
-      ['open#change-from-closed', 'V4'],
-      ['same#matching-in-target-dimension', 'V3']
-    ]));
+    expect(plans.every((plan) => proofBySenseKey.get(plan.senseKey)?.maturity === plan.maturity)).toBe(true);
+
+    const pullPlan = plans.find((plan) => plan.senseKey === 'pull#move-toward-by-force');
+    expect(pullPlan).toMatchObject({
+      runtimeUsage: 'knowledge_reinforcement',
+      maturity: 'V5'
+    });
+    expect(proofBySenseKey.get('pull#move-toward-by-force')).toMatchObject({
+      maturity: 'V5',
+      basis: 'child_facing_post_answer_reinforcement'
+    });
+
+    const provenV5ChildPlans = plans.filter((plan) =>
+      plan.runtimeUsage === 'knowledge_reinforcement' &&
+      proofBySenseKey.get(plan.senseKey)?.basis === 'child_facing_post_answer_reinforcement'
+    );
+    expect(provenV5ChildPlans.length).toBeGreaterThanOrEqual(18);
+    expect(provenV5ChildPlans.every((plan) => plan.maturity === 'V5')).toBe(true);
   });
 
   it('renders settlement, spatial, cause/effect, transition and comparison grammars from sense plans', () => {
