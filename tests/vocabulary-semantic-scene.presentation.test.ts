@@ -49,7 +49,7 @@ describe('semantic vocabulary scene runtime', () => {
 
   it('renders settlement, spatial, cause/effect, transition and comparison grammars from sense plans', () => {
     const cases = [
-      ['village#settlement', 'settlement'],
+      ['village#settlement', 'place'],
       ['under#below-reference', 'spatial-relation'],
       ['pull#move-toward-by-force', 'cause-effect'],
       ['open#change-from-closed', 'state-transition'],
@@ -58,8 +58,10 @@ describe('semantic vocabulary scene runtime', () => {
 
     for (const [senseKey, expectedKind] of cases) {
       const { container, unmount } = render(VocabularySemanticScene, { props: { senseKey } });
-      expect(container.querySelector(`[data-vocabulary-sense="${senseKey}"]`)).toBeTruthy();
+      const root = container.querySelector(`[data-vocabulary-sense="${senseKey}"]`);
+      expect(root).toBeTruthy();
       expect(container.querySelector(`[data-scene-kind="${expectedKind}"]`)).toBeTruthy();
+      if (senseKey === 'village#settlement') expect(root?.getAttribute('data-scene-template')).toBe('settlement');
       unmount();
     }
   });
