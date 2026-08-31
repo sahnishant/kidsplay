@@ -28,6 +28,7 @@ describe('primary vocabulary human review batch 001', () => {
   const grade2Slice = readJson('content/lexicon/open/curator-slices/grade-2-meaning-review.json');
   const grade1Overlay = readJson('content/lexicon/ai-draft-overlays/grade-1-batch-001-ai-draft-001.json');
   const grade2Overlay = readJson('content/lexicon/ai-draft-overlays/grade-2-batch-001-ai-draft-001.json');
+  const checkedInKnowledge = readJson('content/knowledge/english-vocabulary-primary-reviewed.json');
 
   it('records 16 explicit human accept decisions without profile-placement inference', () => {
     for (const review of [grade1Review, grade2Review]) {
@@ -69,7 +70,7 @@ describe('primary vocabulary human review batch 001', () => {
     }
   });
 
-  it('passes the guarded importer and produces exactly 16 reviewed knowledge rows', () => {
+  it('passes the guarded importer and exactly matches the checked-in generated knowledge', () => {
     const candidates = candidateIndex([grade1Slice, grade2Slice]);
     const decisions = [...grade1Review.decisions, ...grade2Review.decisions].map((decision: any) => ({
       ...decision,
@@ -77,6 +78,7 @@ describe('primary vocabulary human review batch 001', () => {
     }));
 
     const knowledge = buildReviewedKnowledge(decisions, candidates);
+    expect(knowledge).toEqual(checkedInKnowledge);
     expect(knowledge).toHaveLength(1);
     expect(knowledge[0].entries).toHaveLength(16);
 
