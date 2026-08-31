@@ -1,14 +1,19 @@
 import { mkdirSync, readdirSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import { basename, resolve } from 'node:path';
-import { extractOewnCandidates } from './extract-oewn-candidates.mjs';
+import { extractOewnCandidates, OEWN_SOURCE_ID } from './extract-oewn-candidates.mjs';
+import { selectGradeReviewWordlist } from './select-grade-vocabulary.mjs';
 
 const DEFAULT_WORDLIST_DIR = 'content/lexicon/open/review-wordlists';
 const DEFAULT_OUTPUT_DIR = 'content/lexicon/open/sense-review';
+const DEFAULT_CORPUS = 'content/lexicon/open/primary-grade-corpus.json';
 const DEFAULT_MAX_SENSES = 3;
+const DEFAULT_TARGET_PER_GRADE = 400;
+const DEFAULT_OVERSCAN_PER_GRADE = 1200;
 const OEWN_POS_CODES = new Set(['n', 'v', 'a', 's', 'r']);
 
 const isObject = (value) => value && typeof value === 'object' && !Array.isArray(value);
 const recordId = (value) => String(value?.id ?? value?.['@id'] ?? '').trim();
+const lemmaKey = (value) => String(value ?? '').trim().toLocaleLowerCase('en');
 
 function collectSynsetRecords(node, parentKey = null, output = []) {
   if (Array.isArray(node)) {
@@ -101,6 +106,69 @@ export function buildGradeSenseReviews(oewnData, wordlists, options = {}) {
   }));
 }
 
+export function buildResolvedGradeSenseReviews(oewnData, corpus, options = {}) {
+  const maxSenses = Number.isInteger(options.maxSenses) && options.maxSenses > 0
+    ? options.maxSenses
+    : DEFAULT_MAX_SENSES;
+  const sourceVersion = String(options.sourceVersion ?? '2025');
+  const mode = String(options.mode ?? 'introduced');
+  if (!['introduced', 'cumulative'].includes(mode)) throw new Error('mode must be introduced or cumulative');
+
+  const targetPerGrade = Number.isInteger(options.targetPerGrade) && options.targetPerGrade > 0
+    ? options.targetPerGrade
+    : DEFAULT_TARGET_PER_GRADE;
+  const overscanPerGrade = Number.isInteger(options.overscanPerGrade) && options.overscanPerGrade >= targetPerGrade
+    ? options.overscanPerGrade
+    : Math.max(DEFAULT_OVERSCAN_PER_GRADE, targetPerGrade);
+  const grades = Array.isArray(options.grades) && options.grades.length
+    ? options.grades
+    : [1, 2, 3, 4, 5, 6];
+
+  return grades.map((grade) => {
+    const broadWordlist = selectGradeReviewWordlist(corpus, grade, overscanPerGrade, mode, 'meaning');
+    const broadReview = extractOewnCandidates(oewnData, broadWordlist, { maxSenses: 1, sourceVersion });
+    const resolvedLemmas = new Set(broadReview.candidates.map((candidate) => lemmaKey(candidate.lemma)));
+    const selectedItems = broadWordlist.items
+      .filter((item) => resolvedLemmas.has(lemmaKey(item.lemma)))
+      .slice(0, targetPerGrade);
+    const availableTarget = Math.min(targetPerGrade, broadWordlist.items.length);
+
+    const wordlist = {
+      ...broadWordlist,
+      selection: {
+        ...broadWordlist.selection,
+        requested: targetPerGrade,
+        selected: selectedItems.length,
+        algorithm: `${broadWordlist.selection.algorithm} + OEWN resolvability backfill`,
+        semanticResolution: {
+          sourceId: OEWN_SOURCE_ID,
+          sourceVersion,
+          overscanRequested: overscanPerGrade,
+          overscanSelected: broadWordlist.items.length,
+          resolvableInOverscan: resolvedLemmas.size,
+          skippedUnresolved: broadReview.missing.length,
+          availableTarget,
+          filledAvailableTarget: selectedItems.length === Math.min(availableTarget, resolvedLemmas.size),
+          policy: 'meaning_queue_backfill_only_no_runtime_publish'
+        }
+      },
+      items: selectedItems
+    };
+    const output = extractOewnCandidates(oewnData, wordlist, { maxSenses, sourceVersion });
+    if (output.missing.length) {
+      throw new Error(`Resolved grade ${grade} meaning queue unexpectedly retained ${output.missing.length} unresolved word(s)`);
+    }
+
+    return {
+      grade,
+      wordlistFilename: `grade-${grade}-${mode}-meaning.json`,
+      filename: `grade-${grade}-${mode}-meaning-oewn.json`,
+      wordlist,
+      output
+    };
+  });
+}
+
 function parseArgs(argv) {
   const args = {};
   for (let index = 0; index < argv.length; index += 1) {
@@ -114,43 +182,72 @@ function parseArgs(argv) {
   return args;
 }
 
+function positiveInteger(value, fallback, label) {
+  const parsed = value == null ? fallback : Number(value);
+  if (!Number.isInteger(parsed) || parsed < 1) throw new Error(`${label} must be a positive integer`);
+  return parsed;
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   if (!args.input) throw new Error('--input <Open English WordNet JSON file or unpacked JSON directory> is required');
   const inputPath = resolve(String(args.input));
   const wordlistDir = resolve(String(args['wordlist-dir'] || DEFAULT_WORDLIST_DIR));
   const outputDir = resolve(String(args['output-dir'] || DEFAULT_OUTPUT_DIR));
-  const maxSenses = Number(args['max-senses'] || DEFAULT_MAX_SENSES);
-  if (!Number.isInteger(maxSenses) || maxSenses < 1 || maxSenses > 10) throw new Error('--max-senses must be an integer from 1 to 10');
+  const maxSenses = positiveInteger(args['max-senses'], DEFAULT_MAX_SENSES, '--max-senses');
+  if (maxSenses > 10) throw new Error('--max-senses must be at most 10');
+  const sourceVersion = String(args['source-version'] || '2025');
+  const mode = String(args.mode || 'introduced');
+  if (!['introduced', 'cumulative'].includes(mode)) throw new Error('--mode must be introduced or cumulative');
 
   const oewnData = loadOewnJsonInput(inputPath);
   console.log(
     `Loaded OEWN review input: ${oewnData.lexicalEntries?.length ?? 'single-file'} lexical entr${oewnData.lexicalEntries?.length === 1 ? 'y' : 'ies'}, ` +
     `${oewnData.synsets?.length ?? 'single-file'} synsets`
   );
-  const wordlists = readdirSync(wordlistDir)
-    .filter((filename) => /^grade-[1-6]-(introduced|cumulative)-meaning\.json$/.test(filename))
-    .sort()
-    .map((filename) => ({
-      filename,
-      wordlist: JSON.parse(readFileSync(resolve(wordlistDir, filename), 'utf8'))
-    }));
-  if (!wordlists.length) throw new Error(`No meaning review wordlists found in ${wordlistDir}`);
 
+  mkdirSync(wordlistDir, { recursive: true });
   mkdirSync(outputDir, { recursive: true });
-  const outputs = buildGradeSenseReviews(oewnData, wordlists, {
-    maxSenses,
-    sourceVersion: args['source-version'] || '2025'
-  });
+
+  let outputs;
+  if (args.corpus) {
+    const targetPerGrade = positiveInteger(args['target-per-grade'], DEFAULT_TARGET_PER_GRADE, '--target-per-grade');
+    const overscanPerGrade = positiveInteger(args['overscan-per-grade'], DEFAULT_OVERSCAN_PER_GRADE, '--overscan-per-grade');
+    if (overscanPerGrade < targetPerGrade) throw new Error('--overscan-per-grade must be at least --target-per-grade');
+    const corpusPath = resolve(String(args.corpus || DEFAULT_CORPUS));
+    const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
+    outputs = buildResolvedGradeSenseReviews(oewnData, corpus, {
+      maxSenses,
+      sourceVersion,
+      mode,
+      targetPerGrade,
+      overscanPerGrade
+    });
+  } else {
+    const wordlists = readdirSync(wordlistDir)
+      .filter((filename) => new RegExp(`^grade-[1-6]-${mode}-meaning\\.json$`).test(filename))
+      .sort()
+      .map((filename) => ({
+        filename,
+        wordlist: JSON.parse(readFileSync(resolve(wordlistDir, filename), 'utf8'))
+      }));
+    if (!wordlists.length) throw new Error(`No meaning review wordlists found in ${wordlistDir}`);
+    outputs = buildGradeSenseReviews(oewnData, wordlists, { maxSenses, sourceVersion });
+  }
+
   const summary = [];
-  for (const { filename, output } of outputs) {
-    const outputPath = resolve(outputDir, filename);
-    writeFileSync(outputPath, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
+  for (const result of outputs) {
+    if (result.wordlist && result.wordlistFilename) {
+      writeFileSync(resolve(wordlistDir, result.wordlistFilename), `${JSON.stringify(result.wordlist, null, 2)}\n`, 'utf8');
+    }
+    const outputPath = resolve(outputDir, result.filename);
+    writeFileSync(outputPath, `${JSON.stringify(result.output, null, 2)}\n`, 'utf8');
     summary.push({
       file: basename(outputPath),
-      requested: output.summary.requestedWords,
-      senses: output.summary.candidateSenses,
-      missing: output.summary.missingWords
+      requested: result.output.summary.requestedWords,
+      senses: result.output.summary.candidateSenses,
+      missing: result.output.summary.missingWords,
+      overscanUnresolved: result.wordlist?.selection?.semanticResolution?.skippedUnresolved ?? null
     });
   }
   console.log(`Grade OEWN sense-review files written: ${JSON.stringify(summary)}`);

@@ -3,7 +3,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { extractOewnCandidates } from '../scripts/lexicon/extract-oewn-candidates.mjs';
-import { loadOewnJsonInput } from '../scripts/lexicon/build-grade-sense-review.mjs';
+import { buildResolvedGradeSenseReviews, loadOewnJsonInput } from '../scripts/lexicon/build-grade-sense-review.mjs';
 
 const miniOewn = {
   version: '2026-test',
@@ -165,6 +165,49 @@ describe('Open English WordNet candidate extraction', () => {
       partOfSpeech: 's',
       sourceSense: { synsetId: 'oewn-synset-sleepy-s' }
     });
+  });
+
+  it('backfills meaning queues past unresolved source candidates without publishing source glosses', () => {
+    const corpus = {
+      id: 'lexicon.primary.english.grade-candidates.001',
+      license: 'CC-BY-SA-4.0',
+      source: { id: 'grundwortschatz-voc-en', revision: 'a'.repeat(40) },
+      entries: [
+        {
+          id: 'source.unresolved-name', word: 'Ghostname', lemma: 'Ghostname', partOfSpeech: 'noun', grade: 2,
+          frequency: { zipf: 7, perMillion: 100, band: 1 },
+          gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
+          reviewStatus: 'candidate'
+        },
+        {
+          id: 'source.enormous', word: 'enormous', lemma: 'enormous', partOfSpeech: 'adjective', grade: 2,
+          frequency: { zipf: 6, perMillion: 50, band: 1 },
+          gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
+          reviewStatus: 'candidate'
+        }
+      ]
+    };
+
+    const [result] = buildResolvedGradeSenseReviews(miniOewn, corpus, {
+      grades: [2],
+      targetPerGrade: 1,
+      overscanPerGrade: 2,
+      maxSenses: 1,
+      sourceVersion: '2026-test'
+    });
+
+    expect(result.wordlist.items).toHaveLength(1);
+    expect(result.wordlist.items[0].lemma).toBe('enormous');
+    expect(result.wordlist.selection.semanticResolution).toMatchObject({
+      sourceId: 'open-english-wordnet',
+      sourceVersion: '2026-test',
+      overscanRequested: 2,
+      skippedUnresolved: 1,
+      filledAvailableTarget: true,
+      policy: 'meaning_queue_backfill_only_no_runtime_publish'
+    });
+    expect(result.output.summary).toEqual({ requestedWords: 1, candidateSenses: 1, missingWords: 0 });
+    expect(JSON.stringify(result.wordlist)).not.toContain('Very large in size or amount.');
   });
 
   it('accepts the Global WordNet JSON-LD entry/synset shape used by official interchange', () => {
