@@ -99,13 +99,13 @@ const backfillCorpus = {
       id: 'source.unresolved-name', word: 'Ghostname', lemma: 'Ghostname', partOfSpeech: 'noun', grade: 2,
       frequency: { zipf: 7, perMillion: 100, band: 1 },
       gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
-      reviewStatus: 'candidate'
+      reviewStatus: 'needs_sense_review'
     },
     {
       id: 'source.enormous', word: 'enormous', lemma: 'enormous', partOfSpeech: 'adjective', grade: 2,
       frequency: { zipf: 6, perMillion: 50, band: 1 },
       gradeEvidence: { reason: null, cefrLevel: 'A1', yleLevel: null, tags: ['source:test'] },
-      reviewStatus: 'candidate'
+      reviewStatus: 'needs_sense_review'
     }
   ]
 };

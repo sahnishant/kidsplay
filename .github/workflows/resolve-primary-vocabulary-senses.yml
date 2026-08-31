@@ -15,9 +15,9 @@ concurrency:
 
 jobs:
   resolve:
-    name: Resolve/backfill grade meaning queues against OEWN
+    name: Resolve meaning queues, curator slices and reviewed imports
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
       - name: Checkout
@@ -34,18 +34,29 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
-      - name: Restore Linux Rolldown binding omitted by cross-platform lockfile
+      - name: Restore Linux native bindings omitted by cross-platform lockfile
         shell: bash
         run: |
+          set -euo pipefail
           ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
           TARBALL="$(npm pack --silent --pack-destination /tmp "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}" | tail -n 1)"
           mkdir -p node_modules/@rolldown/binding-linux-x64-gnu
           tar -xzf "/tmp/${TARBALL}" -C node_modules/@rolldown/binding-linux-x64-gnu --strip-components=1
-          node -e "require('@rolldown/binding-linux-x64-gnu')"
+          LIGHTNING_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          LIGHTNING_TARBALL="$(npm pack --silent --pack-destination /tmp "lightningcss-linux-x64-gnu@${LIGHTNING_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/lightningcss-linux-x64-gnu
+          tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
+          node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
+
+      - name: Apply deterministic primary grade bands
+        run: |
+          npm run lexicon:reband:primary
+          npm run validate:lexicon-corpus
 
       - name: Download pinned Open English WordNet 2025 JSON
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p /tmp/oewn
           curl --fail --location --retry 5 --retry-delay 2 \
             --output /tmp/oewn/english-wordnet-2025-json.zip \
@@ -64,6 +75,7 @@ jobs:
       - name: Build OEWN-resolvable grade meaning queues
         shell: bash
         run: |
+          set -euo pipefail
           rm -rf content/lexicon/open/sense-review
           mkdir -p content/lexicon/open/sense-review content/lexicon/open/review-wordlists
           find content/lexicon/open/review-wordlists -maxdepth 1 -type f -name 'grade-*-introduced-meaning.json' -delete
@@ -79,9 +91,35 @@ jobs:
       - name: Validate sense-review provenance
         run: npm run validate:lexicon-senses
 
+      - name: Export curator-sized sense slices
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf content/lexicon/open/curator-slices
+          mkdir -p content/lexicon/open/curator-slices
+          for GRADE in 1 2 3 4 5 6; do
+            npm run lexicon:export:review-slice -- \
+              --sense-review "content/lexicon/open/sense-review/grade-${GRADE}-introduced-meaning-oewn.json" \
+              --wordlist "content/lexicon/open/review-wordlists/grade-${GRADE}-introduced-meaning.json" \
+              --limit 40 \
+              --output "content/lexicon/open/curator-slices/grade-${GRADE}-meaning-review.json"
+          done
+
+      - name: Import explicit reviewed decisions when present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if compgen -G 'content/lexicon/reviews/*.json' > /dev/null; then
+            npm run lexicon:import:reviews
+          else
+            echo "No explicit human review decisions committed yet; runtime semantic import remains empty."
+            rm -f content/knowledge/english-vocabulary-primary-reviewed.json
+          fi
+
       - name: Build curator profile slices from finalized meaning queues
         shell: bash
         run: |
+          set -euo pipefail
           rm -rf content/lexicon/open/profile-slices
           mkdir -p content/lexicon/open/profile-slices
           while IFS=: read -r PROFILE GRADE; do
@@ -102,7 +140,7 @@ jobs:
           SOF_INDIA_CLASS6:6
           EOF
 
-      - name: Verify profile slices are review-only artifacts
+      - name: Verify profile slices stay review-only
         shell: bash
         run: |
           node --input-type=module <<'NODE'
@@ -115,12 +153,8 @@ jobs:
             const slice = JSON.parse(readFileSync(resolve(directory, filename), 'utf8'));
             if (slice.status !== 'curation_review_only') throw new Error(`${filename}: invalid status`);
             const policy = slice.policy ?? {};
-            if (policy.runtimeContent !== false || policy.mutatesKnowledge !== false || policy.mutatesProfileMembership !== false) {
-              throw new Error(`${filename}: profile slice can never be runtime/mutating content`);
-            }
-            if (policy.sourceDefinitionsIncluded !== false || policy.sourceExamplesIncluded !== false || policy.boardAlignmentClaimed !== false) {
-              throw new Error(`${filename}: source prose/alignment claim leaked into profile slice policy`);
-            }
+            if (policy.runtimeContent !== false || policy.mutatesKnowledge !== false || policy.mutatesProfileMembership !== false) throw new Error(`${filename}: profile slice can never be runtime/mutating content`);
+            if (policy.sourceDefinitionsIncluded !== false || policy.sourceExamplesIncluded !== false || policy.boardAlignmentClaimed !== false) throw new Error(`${filename}: source prose/alignment claim leaked into profile slice policy`);
             if (slice.sourceSelection?.purpose !== 'meaning') throw new Error(`${filename}: expected meaning source selection`);
             if (!slice.sourceSelection?.semanticResolution) throw new Error(`${filename}: expected finalized OEWN semantic-resolution metadata`);
             if (slice.summary?.selectedCandidates !== slice.sourceSelection?.sliceSelected) throw new Error(`${filename}: slice count mismatch`);
@@ -128,23 +162,56 @@ jobs:
           console.log(`Primary vocabulary profile slices validated: ${files.length}`);
           NODE
 
-      - name: Run vocabulary corpus and delivery acceptance tests
-        run: npm run test:vocabulary-corpus
-
-      - name: Commit lane-validated meaning queues, sense reviews and profile slices if changed
+      - name: Verify reviewed semantic import when decisions exist
         shell: bash
         run: |
-          git add content/lexicon/open/review-wordlists/grade-*-introduced-meaning.json
-          git add content/lexicon/open/sense-review/
-          git add content/lexicon/open/profile-slices/
-          if git diff --cached --quiet; then
-            echo "Meaning queues, sense-review data and profile slices already current."
-          else
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "data: resolve primary vocabulary against OEWN 2025"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
+          set -euo pipefail
+          if compgen -G 'content/lexicon/reviews/*.json' > /dev/null; then
+            node --input-type=module <<'NODE'
+            import { readFileSync } from 'node:fs';
+            const path = 'content/knowledge/english-vocabulary-primary-reviewed.json';
+            const knowledge = JSON.parse(readFileSync(path, 'utf8'));
+            const entries = knowledge.flatMap((set) => set.entries ?? []);
+            if (!entries.length) throw new Error('Committed review decisions must generate at least one reviewed semantic row');
+            for (const entry of entries) {
+              if (entry.meta?.curation?.status !== 'reviewed') throw new Error(`${entry.rowId}: missing reviewed curation status`);
+              if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.rowId}: source gloss must not be copied into child content`);
+              if (!entry.meta?.curation?.candidateId) throw new Error(`${entry.rowId}: missing reviewed OEWN candidate id`);
+            }
+            console.log(`Reviewed primary semantic rows validated: ${entries.length}`);
+            NODE
           fi
+
+      - name: Run vocabulary acceptance tests
+        run: npm run test:vocabulary-corpus
 
       - name: Run repository-wide merge gate
         run: npm run check
+
+      - name: Commit lane-validated generated artifacts if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add content/lexicon/open/primary-grade-corpus.json
+          git add content/lexicon/open/review-wordlists/grade-*-introduced-meaning.json
+          git add content/lexicon/open/sense-review/
+          git add content/lexicon/open/curator-slices/
+          git add content/lexicon/open/profile-slices/
+          if [ -f content/knowledge/english-vocabulary-primary-reviewed.json ]; then
+            git add content/knowledge/english-vocabulary-primary-reviewed.json
+          else
+            git add -u content/knowledge/english-vocabulary-primary-reviewed.json 2>/dev/null || true
+          fi
+          if git diff --cached --quiet; then
+            echo "Meaning queues, review artifacts and reviewed imports already current."
+            exit 0
+          fi
+          git fetch origin "${GITHUB_REF_NAME}"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "A newer branch head exists; skip persistence because the newer push will rerun this deterministic lane."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: resolve primary vocabulary and refresh curator review slices"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
