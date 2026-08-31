@@ -39,5 +39,10 @@
   {"id":"sof3.earth.axis","statement":"Earth's axis is an imaginary line through Earth about which Earth rotates.","subject":"Science","topic":"Earth and Universe","subtopic":"Earth's axis","gradeBands":[3]},
   {"id":"sof3.earth.rotation-time","statement":"One rotation of Earth takes about one day.","subject":"Science","topic":"Earth and Universe","subtopic":"Rotation","gradeBands":[3]},
   {"id":"sof3.earth.revolution","statement":"Earth revolves around the Sun in about one year.","subject":"Science","topic":"Earth and Universe","subtopic":"Revolution","gradeBands":[3]},
-  {"id":"sof3.earth.atmosphere","statement":"Earth's atmosphere is the layer of gases surrounding Earth.","subject":"Science","topic":"Earth and Universe","subtopic":"Atmosphere","gradeBands":[3]}
+  {"id":"sof3.earth.atmosphere","statement":"Earth's atmosphere is the layer of gases surrounding Earth.","subject":"Science","topic":"Earth and Universe","subtopic":"Atmosphere","gradeBands":[3]},
+
+  {"id":"sof3.matter.occupies-space","statement":"Matter occupies space.","subject":"Science","topic":"Matter and Materials","subtopic":"Matter","gradeBands":[3]},
+  {"id":"sof3.matter.solid-shape","statement":"A solid has a fixed shape under ordinary conditions.","subject":"Science","topic":"Matter and Materials","subtopic":"Solids","gradeBands":[3]},
+  {"id":"sof3.matter.liquid-shape","statement":"A liquid takes the shape of its container while keeping its amount of matter.","subject":"Science","topic":"Matter and Materials","subtopic":"Liquids","gradeBands":[3]},
+  {"id":"sof3.matter.gas-spread","statement":"A gas spreads through the space available to it.","subject":"Science","topic":"Matter and Materials","subtopic":"Gases","gradeBands":[3]}
 ]
