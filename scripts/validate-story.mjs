@@ -85,6 +85,12 @@ for (const path of await jsonFiles('content/scenes')) {
   });
 }
 
+const learningPacks = new Map();
+for (const path of await jsonFiles('content/packs')) {
+  const pack = await readJson(path);
+  if (pack?.kind === 'learning_pack' && typeof pack.id === 'string') learningPacks.set(pack.id, pack);
+}
+
 const rewardIds = new Set();
 const freeMissionLocations = new Set();
 let freeMissionCount = 0;
@@ -96,6 +102,11 @@ for (const mission of missionsDoc.missions) {
     freeMissionCount += 1;
     requireCondition(!freeMissionLocations.has(mission.locationRef), `free story map has multiple missions at location ${mission.locationRef}`);
     freeMissionLocations.add(mission.locationRef);
+  }
+  if (mission.questionPackRef) {
+    const pack = learningPacks.get(mission.questionPackRef);
+    requireCondition(pack, `mission ${mission.id} has unknown questionPackRef ${mission.questionPackRef}`);
+    requireCondition(pack.access?.type === 'free', `mission ${mission.id} questionPackRef ${mission.questionPackRef} must be free`);
   }
   requireCondition(Number.isInteger(mission.questionCount) && mission.questionCount >= 4 && mission.questionCount <= 12, `mission ${mission.id} questionCount must be 4..12`);
   requireCondition(Array.isArray(mission.knowledgeRefs) && mission.knowledgeRefs.length >= 2, `mission ${mission.id} needs multiple knowledgeRefs`);
