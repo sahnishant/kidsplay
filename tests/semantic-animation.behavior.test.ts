@@ -22,6 +22,7 @@ describe('semantic animation composition', () => {
     expect(new Set(dogStates.map((item) => item.subject.pose))).toEqual(
       new Set(['stand', 'sit'])
     );
+    expect(dogStates.every((item) => item.subject.orientation === 'side')).toBe(true);
     expect(dogStates.every((item) => item.parts.length >= 2)).toBe(true);
   });
 
@@ -34,13 +35,18 @@ describe('semantic animation composition', () => {
   });
 
   it('resolves an exact semantic state and ranks partial matches inside the same identity', () => {
-    expect(resolveAnimationForState({ semanticRef: 'dog', expression: 'worried', pose: 'stand' })?.id)
-      .toBe('animation.dog.worried-water');
+    expect(resolveAnimationForState({
+      semanticRef: 'dog',
+      expression: 'worried',
+      pose: 'stand',
+      orientation: 'side'
+    })?.id).toBe('animation.dog.worried-water');
 
     const themeFallback = resolveAnimationForState({
       semanticRef: 'dog',
       expression: 'neutral',
       pose: 'play',
+      orientation: 'front',
       theme: 'paper'
     });
     expect(themeFallback?.semanticRef).toBe('dog');
@@ -50,6 +56,7 @@ describe('semantic animation composition', () => {
       semanticRef: 'dog',
       expression: 'worried',
       pose: 'sit',
+      orientation: 'side',
       theme: 'paper'
     });
     expect(expressionFallback?.id).toBe('animation.dog.worried-water');
@@ -66,6 +73,7 @@ describe('semantic animation composition', () => {
     expect(animation?.getAttribute('data-semantic-ref')).toBe('dog');
     expect(animation?.getAttribute('data-expression')).toBe('worried');
     expect(animation?.getAttribute('data-pose')).toBe('stand');
+    expect(animation?.getAttribute('data-orientation')).toBe('side');
     expect(container.querySelector('[data-part-role="subject"] [data-visual-ref="animation.variant.dog-worried-state"]')).toBeTruthy();
     expect(container.querySelector('[data-part-id="water"][data-visual-ref="entity.habitat.water"]')).toBeTruthy();
     expect(container.querySelector('[data-part-id="question"][data-part-role="relation"]')).toBeTruthy();

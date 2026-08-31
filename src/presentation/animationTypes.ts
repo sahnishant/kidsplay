@@ -43,5 +43,6 @@ export interface AnimationStateQuery {
   semanticRef: string;
   expression?: AnimationExpression;
   pose?: AnimationPose;
+  orientation?: AnimationOrientation;
   theme?: AnimationTheme;
 }

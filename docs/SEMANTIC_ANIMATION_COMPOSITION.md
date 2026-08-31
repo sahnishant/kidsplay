@@ -8,7 +8,7 @@ Kidsplay animation is presentation data layered on top of canonical learning sem
 question / story / canonical concept
         -> existing scene or semantic state
         -> animation composition id
-        -> semantic identity + pose + expression + props + relation/context cues
+        -> semantic identity + pose + orientation + expression + props + relation/context cues
         -> visual refs / presentation variants
         -> bundled OSS art OR Kidsplay SVG renderer
         -> lightweight CSS/SVG motion
@@ -28,11 +28,11 @@ Each composition in `content/animations/*.json` declares:
 
 The initial proof intentionally reuses one dog identity across:
 
-- happy + stand + bone + heart;
-- worried + stand + water + question;
-- curious + sit + bone + question.
+- happy + stand + side + bone + heart;
+- worried + stand + side + water + question;
+- curious + sit + side + bone + question.
 
-`resolveAnimationForState()` accepts semantic state and never leaves the requested semantic identity. Exact matches win. Partial matches are ranked by expression, then pose, then theme; authored order is only the final tie-breaker. This prevents fallback from silently selecting an unrelated or obviously less relevant state merely because it appeared first in a JSON file.
+`resolveAnimationForState()` accepts semantic state and never leaves the requested semantic identity. Exact matches can include expression, pose, orientation and theme. Partial matches are ranked by expression, then pose, then orientation, then theme; authored order is only the final tie-breaker. This prevents fallback from silently selecting an unrelated or obviously less relevant state merely because it appeared first in a JSON file.
 
 ## Integration rule
 
@@ -52,7 +52,7 @@ All motion remains optional under `prefers-reduced-motion`; learning meaning mus
 
 - `scripts/validate-animations.mjs` fails closed on unknown visual refs, subject-variant identity mismatches, invalid pose/expression vocabulary, unsupported composition-part motion, invalid coordinates, duplicate ids or ambiguous visual/text parts.
 - `scripts/validate-scenes.mjs` requires each scene to use either a registered semantic composition or the legacy primitive list, never an unvalidated mixture, and rejects scene/composition theme mismatches.
-- `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, subject identity binding, ranked state fallback and existing-scene integration.
+- `tests/semantic-animation.behavior.test.ts` proves same-identity multi-state reuse, subject identity binding, orientation-aware ranked state fallback and existing-scene integration.
 
 ## Scaling direction
 

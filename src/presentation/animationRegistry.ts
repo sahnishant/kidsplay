@@ -26,9 +26,10 @@ export function resolveAnimationComposition(animationId: string): AnimationCompo
 
 function stateMatchScore(composition: AnimationComposition, query: AnimationStateQuery): number {
   let score = 0;
-  // Expression is the strongest authored state signal, then pose, then backdrop/context.
-  if (query.expression !== undefined && composition.subject.expression === query.expression) score += 4;
-  if (query.pose !== undefined && composition.subject.pose === query.pose) score += 2;
+  // Stronger semantic state signals dominate weaker presentation context signals.
+  if (query.expression !== undefined && composition.subject.expression === query.expression) score += 8;
+  if (query.pose !== undefined && composition.subject.pose === query.pose) score += 4;
+  if (query.orientation !== undefined && composition.subject.orientation === query.orientation) score += 2;
   if (query.theme !== undefined && composition.theme === query.theme) score += 1;
   return score;
 }
@@ -45,6 +46,7 @@ export function resolveAnimationForState(query: AnimationStateQuery): AnimationC
   const exact = candidates.find((composition) =>
     (query.expression === undefined || composition.subject.expression === query.expression) &&
     (query.pose === undefined || composition.subject.pose === query.pose) &&
+    (query.orientation === undefined || composition.subject.orientation === query.orientation) &&
     (query.theme === undefined || composition.theme === query.theme)
   );
   if (exact) return exact;
