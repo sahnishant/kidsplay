@@ -1,0 +1,85 @@
+[
+  {
+    "id": "vocab.depth.settlements.compare.match.001",
+    "sourceRef": "knowledge.vocabulary.semantic.settlements.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["town-generally-larger-village", "city-generally-larger-town"],
+    "difficulty": 2,
+    "prompt": "Match each place to the place it is generally larger than."
+  },
+  {
+    "id": "vocab.depth.force.direction.match.001",
+    "sourceRef": "knowledge.vocabulary.semantic.force-actions.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["push-away", "pull-toward"],
+    "difficulty": 2,
+    "prompt": "Match push and pull to the direction an object can move."
+  },
+  {
+    "id": "vocab.depth.spatial.meaning.match.001",
+    "sourceRef": "knowledge.vocabulary.semantic.spatial.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["under-position", "between-position", "inside-position", "outside-position"],
+    "difficulty": 2,
+    "prompt": "Match each position word to what it describes."
+  },
+  {
+    "id": "vocab.depth.order.meaning.match.001",
+    "sourceRef": "knowledge.vocabulary.semantic.order-quantity.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["first-position", "next-position", "last-position"],
+    "difficulty": 2,
+    "prompt": "Match each order word to its position."
+  },
+  {
+    "id": "vocab.depth.quantity.contrast.memory.001",
+    "sourceRef": "knowledge.vocabulary.semantic.order-quantity.001",
+    "engine": "memory_pairs@1",
+    "entryIds": ["many-few", "more-less", "same-different"],
+    "difficulty": 2,
+    "prompt": "Find the vocabulary contrasts that belong together."
+  },
+  {
+    "id": "vocab.depth.states.meaning.match.001",
+    "sourceRef": "knowledge.vocabulary.semantic.states.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["full-container-state", "empty-container-state", "fast-speed-state", "slow-speed-state"],
+    "difficulty": 2,
+    "prompt": "Match each state word to the idea it describes."
+  },
+  {
+    "id": "vocab.process.open.sequence.001",
+    "sourceRef": "knowledge.vocabulary.process.open.001",
+    "engine": "sequence_order@1",
+    "difficulty": 1,
+    "prompt": "Put the opening change in order."
+  },
+  {
+    "id": "vocab.process.fill.sequence.001",
+    "sourceRef": "knowledge.vocabulary.process.fill.001",
+    "engine": "sequence_order@1",
+    "difficulty": 1,
+    "prompt": "Put the filling stages in order."
+  },
+  {
+    "id": "science.process.melt.sequence.001",
+    "sourceRef": "knowledge.science.process.melt-ice.001",
+    "engine": "sequence_order@1",
+    "difficulty": 2,
+    "prompt": "Put the melting change in order."
+  },
+  {
+    "id": "science.process.freeze.sequence.001",
+    "sourceRef": "knowledge.science.process.freeze-water.001",
+    "engine": "sequence_order@1",
+    "difficulty": 2,
+    "prompt": "Put the freezing change in order."
+  },
+  {
+    "id": "science.process.germination.sequence.001",
+    "sourceRef": "knowledge.science.process.germination.001",
+    "engine": "sequence_order@1",
+    "difficulty": 2,
+    "prompt": "Put these early plant-growth stages in order."
+  }
+]
