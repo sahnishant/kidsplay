@@ -4,10 +4,14 @@ import { readFileSync } from 'node:fs';
 const root = new URL('../', import.meta.url);
 const readText = (path) => readFileSync(new URL(path, root), 'utf8');
 const readJson = (path) => JSON.parse(readText(path));
-const gitBlobSha = (text) => createHash('sha1')
-  .update(`blob ${Buffer.byteLength(text)}\0`)
-  .update(text)
-  .digest('hex');
+const repositoryText = (text) => text.replace(/\r\n/g, '\n');
+const gitBlobSha = (text) => {
+  const canonical = repositoryText(text);
+  return createHash('sha1')
+    .update(`blob ${Buffer.byteLength(canonical)}\0`)
+    .update(canonical)
+    .digest('hex');
+};
 
 const profileRef = 'SOF_INDIA_CLASS2';
 const membershipPath = 'content/profile-memberships/SOF_INDIA_CLASS2.json';
