@@ -24,6 +24,21 @@ function isRuntimeContentJson(id: string): boolean {
     || cleanId === resolvedMembershipPath;
 }
 
+function runtimeJsonServeCompatPlugin(): Plugin {
+  return {
+    name: 'kidsplay-runtime-json-serve-compat',
+    apply: 'serve',
+    enforce: 'pre',
+    async resolveId(source, importer) {
+      if (!source.includes('runtime')) return null;
+      const cleanSource = source.split('?')[0];
+      const resolved = await this.resolve(cleanSource, importer, { skipSelf: true });
+      if (!resolved || !isRuntimeContentJson(resolved.id)) return null;
+      return cleanModuleId(resolved.id);
+    }
+  };
+}
+
 function runtimeJsonAssetPlugin(): Plugin {
   return {
     name: 'kidsplay-runtime-json-assets',
@@ -68,7 +83,7 @@ export default value;
 }
 
 export default defineConfig({
-  plugins: [runtimeJsonAssetPlugin(), svelte(), svelteTesting()],
+  plugins: [runtimeJsonServeCompatPlugin(), runtimeJsonAssetPlugin(), svelte(), svelteTesting()],
   base: './',
   server: {
     port: 5180,
