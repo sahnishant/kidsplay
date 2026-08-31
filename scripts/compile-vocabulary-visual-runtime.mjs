@@ -57,7 +57,7 @@ if (reinforcement?.policy?.structuredAssessmentAllowed !== false) throw new Erro
 if (reinforcement?.policy?.questionSchemaCoupling !== false) throw new Error('Vocabulary visual runtime reinforcement must remain presentation-only');
 
 const seenKnowledgeRefs = new Set();
-const seenRuntimeSenseKeys = new Set();
+const reinforcementSenseKeys = new Set();
 const reinforcementPlans = (reinforcement.mappings ?? []).map((mapping) => {
   const knowledgeRef = String(mapping?.knowledgeRef ?? '').trim();
   const senseKey = String(mapping?.senseKey ?? '').trim();
@@ -65,8 +65,6 @@ const reinforcementPlans = (reinforcement.mappings ?? []).map((mapping) => {
   if (!canonicalRowIds.has(knowledgeRef)) throw new Error(`${knowledgeRef}: vocabulary visual runtime mapping is not a canonical knowledge row`);
   if (seenKnowledgeRefs.has(knowledgeRef)) throw new Error(`Duplicate vocabulary visual runtime knowledgeRef ${knowledgeRef}`);
   seenKnowledgeRefs.add(knowledgeRef);
-  if (seenRuntimeSenseKeys.has(senseKey)) throw new Error(`${senseKey}: duplicate vocabulary visual runtime sense admission`);
-  seenRuntimeSenseKeys.add(senseKey);
   const item = strategyBySenseKey.get(senseKey);
   if (!item) throw new Error(`${knowledgeRef}: unknown vocabulary visual senseKey ${senseKey}`);
   if (['sense_unresolved', 'textual_only'].includes(item.strategy)) {
@@ -75,6 +73,7 @@ const reinforcementPlans = (reinforcement.mappings ?? []).map((mapping) => {
   if (!['post_answer_only', 'neutral_safe'].includes(item.answerSafety)) {
     throw new Error(`${knowledgeRef}: runtime reinforcement requires post-answer-safe strategy; got ${item.answerSafety}`);
   }
+  reinforcementSenseKeys.add(senseKey);
   return projectPlan(item, 'knowledge_reinforcement', knowledgeRef);
 });
 
@@ -84,11 +83,13 @@ if (templateProofs?.policy?.childFacingKnowledgeMapping !== false) throw new Err
 if (templateProofs?.policy?.profilePlacementInferred !== false) throw new Error('Vocabulary template proofs must not infer profile placement');
 if (templateProofs?.policy?.assessmentUsageAllowed !== false) throw new Error('Vocabulary template proofs cannot be admitted to assessment surfaces');
 
+const seenProofSenseKeys = new Set();
 const proofPlans = (templateProofs.senseKeys ?? []).map((rawSenseKey) => {
   const senseKey = String(rawSenseKey ?? '').trim();
   if (!senseKey) throw new Error('Vocabulary template proof contains an empty senseKey');
-  if (seenRuntimeSenseKeys.has(senseKey)) throw new Error(`${senseKey}: duplicate vocabulary visual runtime sense admission`);
-  seenRuntimeSenseKeys.add(senseKey);
+  if (reinforcementSenseKeys.has(senseKey)) throw new Error(`${senseKey}: template proof is redundant with an admitted child-facing reinforcement sense`);
+  if (seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: duplicate vocabulary template proof senseKey`);
+  seenProofSenseKeys.add(senseKey);
   const item = strategyBySenseKey.get(senseKey);
   if (!item) throw new Error(`${senseKey}: unknown vocabulary template proof senseKey`);
   if (['sense_unresolved', 'textual_only', 'direct_entity'].includes(item.strategy)) {
@@ -101,7 +102,7 @@ const proofPlans = (templateProofs.senseKeys ?? []).map((rawSenseKey) => {
 const plans = [...reinforcementPlans, ...proofPlans];
 writeFileSync(outputUrl, `${JSON.stringify({ schemaVersion: 1, issueRef: 80, plans }, null, 2)}\n`, 'utf8');
 console.log(
-  `Compiled ${reinforcementPlans.length} child-facing vocabulary reinforcement plan(s) + ` +
-  `${proofPlans.length} renderer template proof plan(s) from ${strategyBySenseKey.size} audited sense strategy item(s); ` +
-  `${canonicalRowIds.size} canonical knowledge row(s) checked.`
+  `Compiled ${reinforcementPlans.length} child-facing vocabulary reinforcement plan(s) across ` +
+  `${reinforcementSenseKeys.size} semantic sense(s) + ${proofPlans.length} renderer template proof plan(s) from ` +
+  `${strategyBySenseKey.size} audited sense strategy item(s); ${canonicalRowIds.size} canonical knowledge row(s) checked.`
 );
