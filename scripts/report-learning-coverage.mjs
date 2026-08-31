@@ -1,5 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs';
-import { membershipMap, resolveMembership } from './profileMemberships.mjs';
+import { createMembershipResolver, readMembershipCollections } from './profileMemberships.mjs';
 import { packMap, resolvePackQuestionRefs } from './learningPacks.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -28,36 +28,22 @@ function increment(map, key, amount = 1) {
   map.set(key, (map.get(key) ?? 0) + amount);
 }
 
-function prioritizedRows(rows) {
-  const fitPriority = { core: 0, review: 1, stretch: 2, challenge: 3 };
-  return [...rows].sort((left, right) => {
-    const fitDelta = (fitPriority[left.fit] ?? 99) - (fitPriority[right.fit] ?? 99);
-    if (fitDelta) return fitDelta;
-    const topicDelta = left.topic.localeCompare(right.topic);
-    return topicDelta || left.rowId.localeCompare(right.rowId);
-  });
-}
-
 function rowRecordsForSource(source, file) {
   const records = [];
-  const push = (row, entry = null) => {
+  const push = (row) => {
     if (!row?.rowId) return;
     records.push({
       rowId: row.rowId,
       sourceId: source.id ?? 'unknown',
       sourceFile: file,
-      sourceKind: source.kind ?? 'unknown',
-      subject: source.subject ?? null,
       topic: source.topic ?? topicForRow(row.rowId),
       knowledgeLevel: row.meta?.knowledgeLevel ?? source.meta?.knowledgeLevel ?? null,
-      skills: [...new Set([...(row.meta?.skills ?? []), ...(source.meta?.skills ?? [])])].sort(),
-      conceptIds: [...new Set([...(row.conceptIds ?? []), ...(source.conceptIds ?? []), ...(entry?.conceptIds ?? [])])].sort()
+      skills: [...new Set([...(row.meta?.skills ?? []), ...(source.meta?.skills ?? [])])].sort()
     });
   };
-
   push(source);
-  for (const entry of source.entries ?? []) push(entry, entry);
-  for (const row of source.rows ?? []) push(row, row);
+  for (const entry of source.entries ?? []) push(entry);
+  for (const row of source.rows ?? []) push(row);
   return records;
 }
 
@@ -77,13 +63,13 @@ function matchesAssessmentSelector(question, selector) {
 }
 
 const profileRef = argValue('profile', 'SOF_INDIA_CLASS2');
-const questions = readJsonObjects('content/questions/').flatMap(({ item }) => Array.isArray(item) ? item : [item]);
-const rawMemberships = readJsonObjects('content/profile-memberships/').map(({ item }) => item);
-const membershipByRef = membershipMap(rawMemberships);
-const memberships = rawMemberships.map((item) => resolveMembership(membershipByRef, item.profileRef));
-const rawMembership = rawMemberships.find((item) => item.profileRef === profileRef);
-const membership = memberships.find((item) => item.profileRef === profileRef);
-if (!membership || !rawMembership) throw new Error(`Unknown profile membership ${profileRef}`);
+const questions = readJsonObjects('content/questions/').map(({ item }) => item);
+const membershipCollections = readMembershipCollections(root);
+const resolver = createMembershipResolver(membershipCollections);
+const rawMembership = resolver.byProfile.get(profileRef);
+if (!rawMembership) throw new Error(`Unknown profile membership ${profileRef}`);
+const membership = resolver.resolve(profileRef);
+const memberships = membershipCollections.map(({ value }) => resolver.resolve(value.profileRef));
 
 const profilesRegistry = readJson('content/learning-profiles/registry.json');
 const profile = (profilesRegistry.profiles ?? []).find((item) => item.id === profileRef) ?? null;
@@ -153,6 +139,8 @@ const rows = [...memberByRow.values()].map((member) => {
   const gradeSpecificSource = Boolean(gradeToken && sourceId && sourceId.toLowerCase().includes(gradeToken));
   return {
     ...member,
+    membershipOrigin: member.origin ?? 'direct',
+    membershipSourceProfileRef: member.inheritedFromProfileRef ?? profileRef,
     topic: knowledge?.topic ?? topicForRow(member.rowId),
     sourceId,
     sourceFile: knowledge?.sourceFile ?? null,
@@ -178,8 +166,7 @@ const reusedRows = rows.filter((row) => row.reusedAcrossProfiles);
 const exclusiveRows = rows.filter((row) => !row.reusedAcrossProfiles);
 const gradeSpecificRows = rows.filter((row) => row.gradeSpecificSource);
 const sharedSourceRows = rows.filter((row) => row.sourceId && !row.gradeSpecificSource);
-const directRows = rows.filter((row) => (row.membershipOrigin ?? 'direct') === 'direct');
-const includedRows = rows.filter((row) => row.membershipOrigin === 'included');
+const inheritedRows = rows.filter((row) => row.membershipOrigin === 'inherited');
 
 const topicStats = [...new Set(rows.map((row) => row.topic))]
   .sort((left, right) => left.localeCompare(right))
@@ -188,8 +175,8 @@ const topicStats = [...new Set(rows.map((row) => row.topic))]
     return {
       topic,
       totalRows: topicRows.length,
-      directRows: topicRows.filter((row) => (row.membershipOrigin ?? 'direct') === 'direct').length,
-      includedRows: topicRows.filter((row) => row.membershipOrigin === 'included').length,
+      directRows: topicRows.filter((row) => row.membershipOrigin === 'direct').length,
+      includedRows: topicRows.filter((row) => row.membershipOrigin === 'inherited').length,
       runnableRows: topicRows.filter((row) => row.profileQuestions > 0).length,
       freeRows: topicRows.filter((row) => row.freeQuestions > 0).length,
       multiFormatRows: topicRows.filter((row) => row.engineFamilies.length >= 2).length,
@@ -200,8 +187,7 @@ const topicStats = [...new Set(rows.map((row) => row.topic))]
     };
   });
 
-const skillNames = [...new Set(rows.flatMap((row) => row.skills))].sort();
-const skillStats = skillNames.map((skill) => {
+const skillStats = [...new Set(rows.flatMap((row) => row.skills))].sort().map((skill) => {
   const skillRows = rows.filter((row) => row.skills.includes(skill));
   return {
     skill,
@@ -212,14 +198,13 @@ const skillStats = skillNames.map((skill) => {
   };
 });
 
-const sourceIds = [...new Set(rows.map((row) => row.sourceId).filter(Boolean))].sort();
-const sourceStats = sourceIds.map((sourceId) => {
+const sourceStats = [...new Set(rows.map((row) => row.sourceId).filter(Boolean))].sort().map((sourceId) => {
   const sourceRows = rows.filter((row) => row.sourceId === sourceId);
   return {
     sourceId,
     totalRows: sourceRows.length,
-    directRows: sourceRows.filter((row) => (row.membershipOrigin ?? 'direct') === 'direct').length,
-    includedRows: sourceRows.filter((row) => row.membershipOrigin === 'included').length,
+    directRows: sourceRows.filter((row) => row.membershipOrigin === 'direct').length,
+    includedRows: sourceRows.filter((row) => row.membershipOrigin === 'inherited').length,
     runnableRows: sourceRows.filter((row) => row.profileQuestions > 0).length,
     freeRows: sourceRows.filter((row) => row.freeQuestions > 0).length,
     multiFormatRows: sourceRows.filter((row) => row.engineFamilies.length >= 2).length,
@@ -228,15 +213,11 @@ const sourceStats = sourceIds.map((sourceId) => {
   };
 });
 
-const blueprints = readJsonObjects('content/assessment-blueprints/')
+const assessmentBlueprints = readJsonObjects('content/assessment-blueprints/')
   .map(({ item }) => item)
   .filter((blueprint) => blueprint.profileRef === profileRef)
-  .map((blueprint) => ({
-    id: blueprint.id,
-    academicYear: blueprint.academicYear,
-    totalQuestions: blueprint.totalQuestions,
-    totalMarks: blueprint.totalMarks,
-    sections: (blueprint.sections ?? []).map((section) => {
+  .map((blueprint) => {
+    const sections = (blueprint.sections ?? []).map((section) => {
       const availableQuestions = profileQuestions.filter((question) => matchesAssessmentSelector(question, section.selector)).length;
       return {
         id: section.id,
@@ -245,29 +226,43 @@ const blueprints = readJsonObjects('content/assessment-blueprints/')
         availableQuestions,
         ready: availableQuestions >= section.count
       };
-    })
-  }));
-for (const blueprint of blueprints) blueprint.ready = blueprint.sections.every((section) => section.ready);
+    });
+    return {
+      id: blueprint.id,
+      academicYear: blueprint.academicYear,
+      totalQuestions: blueprint.totalQuestions,
+      totalMarks: blueprint.totalMarks,
+      sections,
+      ready: sections.every((section) => section.ready)
+    };
+  });
 
-const summarizeRows = (items) => prioritizedRows(items).map((row) => ({
-  rowId: row.rowId,
-  fit: row.fit,
-  topic: row.topic,
-  sourceId: row.sourceId,
-  membershipOrigin: row.membershipOrigin ?? 'direct',
-  membershipSourceProfileRef: row.membershipSourceProfileRef ?? profileRef,
-  profileQuestions: row.profileQuestions,
-  freeQuestions: row.freeQuestions,
-  engineFamilies: row.engineFamilies,
-  membershipProfiles: row.membershipProfiles
-}));
+const summarizeRows = (items) => [...items]
+  .sort((left, right) => left.rowId.localeCompare(right.rowId))
+  .map((row) => ({
+    rowId: row.rowId,
+    fit: row.fit,
+    topic: row.topic,
+    sourceId: row.sourceId,
+    membershipOrigin: row.membershipOrigin,
+    membershipSourceProfileRef: row.membershipSourceProfileRef,
+    profileQuestions: row.profileQuestions,
+    freeQuestions: row.freeQuestions,
+    engineFamilies: row.engineFamilies,
+    membershipProfiles: row.membershipProfiles
+  }));
 
 const summary = {
   profileRef: membership.profileRef,
-  profile: profile ? { grade: profile.grade, pathway: profile.pathway, country: profile.country, alignmentStatus: profile.alignmentStatus } : null,
+  profile: profile ? {
+    grade: profile.grade,
+    pathway: profile.pathway,
+    country: profile.country,
+    alignmentStatus: profile.alignmentStatus
+  } : null,
   directMembershipRows: rawMembership.members?.length ?? 0,
-  includedProfileRefs: (rawMembership.includeProfiles ?? []).map((include) => include.profileRef),
-  includedMembershipRows: includedRows.length,
+  includedProfileRefs: (rawMembership.inherits ?? []).map((inheritance) => inheritance.profileRef),
+  includedMembershipRows: inheritedRows.length,
   membershipRows: rows.length,
   runnableProfileQuestions: profileQuestions.length,
   coveredProfileRows: coveredRows.length,
@@ -291,7 +286,7 @@ const summary = {
   topicStats,
   skillStats,
   sourceStats,
-  assessmentBlueprints: blueprints,
+  assessmentBlueprints,
   gaps: {
     uncoveredRows: summarizeRows(uncoveredRows),
     freeUncoveredRows: summarizeRows(freeUncoveredRows),
@@ -309,7 +304,7 @@ console.log('# Learning profile maturity report');
 console.log('');
 console.log(`Profile: ${summary.profileRef}${profile?.grade ? ` (grade ${profile.grade})` : ''}`);
 console.log(`Direct membership rows: ${summary.directMembershipRows}`);
-console.log(`Included profile rows: ${summary.includedMembershipRows}${summary.includedProfileRefs.length ? ` from ${summary.includedProfileRefs.join(', ')}` : ''}`);
+console.log(`Inherited profile rows: ${summary.includedMembershipRows}${summary.includedProfileRefs.length ? ` from ${summary.includedProfileRefs.join(', ')}` : ''}`);
 console.log(`Effective membership rows: ${summary.membershipRows}`);
 console.log(`Runnable profile questions: ${summary.runnableProfileQuestions}`);
 console.log(`Runnable row coverage: ${ratio(summary.coveredProfileRows, summary.membershipRows)}`);
@@ -323,55 +318,18 @@ console.log(`Reasoning questions: ${summary.reasoningQuestions}; HOTS questions:
 console.log(`Engine mix: ${Object.entries(summary.engineCounts).map(([engine, count]) => `${engine}=${count}`).join(', ') || 'none'}`);
 console.log(`Difficulty mix: ${Object.entries(summary.difficultyCounts).map(([difficulty, count]) => `${difficulty}=${count}`).join(', ') || 'none'}`);
 console.log('');
-console.log('## Topic maturity');
-console.log('');
-console.log('| Topic | Direct | Included | Runnable | Free | Multi-format | Reused | Total rows | Questions |');
-console.log('| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |');
-for (const item of topicStats) {
-  console.log(`| ${item.topic} | ${item.directRows} | ${item.includedRows} | ${item.runnableRows} | ${item.freeRows} | ${item.multiFormatRows} | ${item.reusedRows} | ${item.totalRows} | ${item.questionCount} |`);
-}
-console.log('');
-console.log('## Skill maturity');
-console.log('');
-if (!skillStats.length) {
-  console.log('- No row-level skill metadata found.');
-} else {
-  console.log('| Skill | Runnable | Free | Multi-format | Total rows |');
-  console.log('| --- | ---: | ---: | ---: | ---: |');
-  for (const item of skillStats) console.log(`| ${item.skill} | ${item.runnableRows} | ${item.freeRows} | ${item.multiFormatRows} | ${item.totalRows} |`);
-}
-console.log('');
 console.log('## Assessment readiness');
-console.log('');
-if (!blueprints.length) {
-  console.log('- No assessment blueprint targets this profile.');
-} else {
-  for (const blueprint of blueprints) {
-    console.log(`- ${blueprint.id}: ${blueprint.ready ? 'READY' : 'NOT READY'}`);
-    for (const section of blueprint.sections) console.log(`  - ${section.id}: ${section.availableQuestions}/${section.requiredQuestions} compatible questions`);
+if (!assessmentBlueprints.length) console.log('- No assessment blueprint targets this profile.');
+for (const blueprint of assessmentBlueprints) {
+  console.log(`- ${blueprint.id}: ${blueprint.ready ? 'READY' : 'NOT READY'}`);
+  for (const section of blueprint.sections) {
+    console.log(`  - ${section.id}: ${section.availableQuestions}/${section.requiredQuestions} compatible questions`);
   }
 }
 console.log('');
-console.log('## Highest-priority rows without a runnable question');
-console.log('');
-if (!summary.gaps.uncoveredRows.length) {
-  console.log('- None. Every effective profile row is exercised by at least one runnable question.');
-} else {
-  for (const row of summary.gaps.uncoveredRows.slice(0, 40)) console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}; origin=${row.membershipOrigin}; source=${row.sourceId ?? 'unknown'}`);
-}
-console.log('');
-console.log('## Effective profile rows absent from free exploration');
-console.log('');
-if (!summary.gaps.freeUncoveredRows.length) {
-  console.log('- None. Every effective profile row is exercised by a declared free learning pack.');
-} else {
-  for (const row of summary.gaps.freeUncoveredRows.slice(0, 40)) console.log(`- ${row.rowId} — topic=${row.topic}; fit=${row.fit}; origin=${row.membershipOrigin}; source=${row.sourceId ?? 'unknown'}`);
-}
-console.log('');
-console.log('## Runnable rows with only one interaction family');
-console.log('');
-if (!summary.gaps.shallowRunnableRows.length) {
-  console.log('- None. Every runnable row has at least two interaction families.');
-} else {
-  for (const row of summary.gaps.shallowRunnableRows.slice(0, 40)) console.log(`- ${row.rowId} — engines=${row.engineFamilies.join(',') || 'none'}; questions=${row.profileQuestions}`);
-}
+console.log('## Machine-readable gap summary');
+console.log(`- Runnable gaps: ${summary.gaps.uncoveredRows.length}`);
+console.log(`- Free gaps: ${summary.gaps.freeUncoveredRows.length}`);
+console.log(`- Single-engine rows: ${summary.gaps.shallowRunnableRows.length}`);
+for (const row of summary.gaps.uncoveredRows.slice(0, 40)) console.log(`  - uncovered ${row.rowId}`);
+for (const row of summary.gaps.freeUncoveredRows.slice(0, 40)) console.log(`  - not-free ${row.rowId}`);
