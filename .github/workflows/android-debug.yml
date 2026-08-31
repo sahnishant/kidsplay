@@ -124,6 +124,22 @@ jobs:
           adb shell svc wifi disable || true
           adb shell svc data disable || true
 
+          resolve_launcher_component() {
+            local component=""
+            for _ in $(seq 1 15); do
+              component="$(adb shell cmd package resolve-activity --brief \
+                -a android.intent.action.MAIN \
+                -c android.intent.category.LAUNCHER \
+                com.kidsplay.app 2>/dev/null | tr -d '\r' | tail -n 1)"
+              if [[ "$component" == com.kidsplay.app/* ]]; then
+                printf '%s\n' "$component"
+                return 0
+              fi
+              sleep 1
+            done
+            return 1
+          }
+
           wait_for_app_pid() {
             local label="$1"
             local pid=""
@@ -164,8 +180,10 @@ jobs:
 
           launch_and_assert() {
             local label="$1"
+            local component=""
             adb shell am force-stop com.kidsplay.app
-            adb shell monkey -p com.kidsplay.app -c android.intent.category.LAUNCHER 1 >/dev/null
+            component="$(resolve_launcher_component)"
+            adb shell am start -W -n "$component" | tee "android-smoke/${label}-launch.txt"
             wait_for_app_pid "$label"
             capture_rendered_screen "$label"
             dump_portrait_webview "$label"
