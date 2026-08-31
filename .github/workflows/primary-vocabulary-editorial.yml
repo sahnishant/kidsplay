@@ -36,6 +36,20 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
+      - name: Restore Linux native bindings omitted by cross-platform lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          TARBALL="$(npm pack --silent --pack-destination /tmp "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/@rolldown/binding-linux-x64-gnu
+          tar -xzf "/tmp/${TARBALL}" -C node_modules/@rolldown/binding-linux-x64-gnu --strip-components=1
+          LIGHTNING_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          LIGHTNING_TARBALL="$(npm pack --silent --pack-destination /tmp "lightningcss-linux-x64-gnu@${LIGHTNING_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/lightningcss-linux-x64-gnu
+          tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
+          node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
+
       - name: Generate prioritized Grade 1 and Grade 2 packets
         run: |
           npm run lexicon:prepare:editorial:grade1
