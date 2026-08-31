@@ -2,6 +2,7 @@
   import sceneJson from '../../content/scenes/animals.json';
   import type { SceneIconId, SceneMotion } from './sceneTypes';
   import SceneIcon from './SceneIcon.svelte';
+  import SemanticAnimation from './SemanticAnimation.svelte';
 
   interface SceneEntity {
     id: string;
@@ -16,7 +17,8 @@
     id: string;
     theme: 'grass' | 'ocean' | 'paper';
     ariaLabel: string;
-    entities: SceneEntity[];
+    animationRef?: string;
+    entities?: SceneEntity[];
   }
 
   let { sceneId }: { sceneId: string } = $props();
@@ -30,20 +32,24 @@
 </script>
 
 {#if scene}
-  <div class={`scene scene--${scene.theme}`} role="img" aria-label={scene.ariaLabel}>
-    {#each scene.entities as entity (entity.id)}
-      <span
-        class={`scene__entity scene__entity--${entity.kind}${entity.motion ? ` motion--${entity.motion}` : ''}`}
-        style={`left: ${entity.x}%; top: ${entity.y}%`}
-        aria-hidden="true"
-      >
-        {#if entity.kind === 'icon'}
-          <SceneIcon icon={iconName(entity.value)} />
-        {:else}
-          {entity.value}
-        {/if}
-      </span>
-    {/each}
+  <div class={`scene scene--${scene.theme}`} role="img" aria-label={scene.ariaLabel} data-animation-ref={scene.animationRef}>
+    {#if scene.animationRef}
+      <SemanticAnimation animationId={scene.animationRef} embedded decorative />
+    {:else}
+      {#each scene.entities ?? [] as entity (entity.id)}
+        <span
+          class={`scene__entity scene__entity--${entity.kind}${entity.motion ? ` motion--${entity.motion}` : ''}`}
+          style={`left: ${entity.x}%; top: ${entity.y}%`}
+          aria-hidden="true"
+        >
+          {#if entity.kind === 'icon'}
+            <SceneIcon icon={iconName(entity.value)} />
+          {:else}
+            {entity.value}
+          {/if}
+        </span>
+      {/each}
+    {/if}
   </div>
 {:else}
   <div class="scene" role="img" aria-label={`Missing scene ${sceneId}`}></div>
