@@ -39,8 +39,13 @@
   const locations = getStoryLocations();
   const missions = getStoryMissions();
   let selectedMissionId = $state<string | null>(null);
+  let missionBeatIndex = $state(0);
   let selectedMission = $derived(
     selectedMissionId ? missions.find((mission) => mission.id === selectedMissionId) ?? null : null
+  );
+  let selectedBeat = $derived(selectedMission?.beats[missionBeatIndex] ?? null);
+  let hasMoreMissionBeats = $derived(
+    Boolean(selectedMission && missionBeatIndex < selectedMission.beats.length - 1)
   );
   let heroName = $derived(getHeroDisplayName(childName));
   let stars = $derived(storyStarTotal(storyProgress));
@@ -89,8 +94,19 @@
     return 'Shaitanu';
   }
 
+  function openMission(missionId: string): void {
+    missionBeatIndex = 0;
+    selectedMissionId = missionId;
+  }
+
   function closeMission(): void {
     selectedMissionId = null;
+    missionBeatIndex = 0;
+  }
+
+  function advanceMissionBeat(): void {
+    if (!selectedMission || !hasMoreMissionBeats) return;
+    missionBeatIndex += 1;
   }
 </script>
 
@@ -142,7 +158,7 @@
             : mission ? `${location.label}: ${mission.title}` : `${location.label}: explore`}
           onclick={() => {
             if (!unlocked) return;
-            if (mission) selectedMissionId = mission.id;
+            if (mission) openMission(mission.id);
             else onExploreLocation(location.id);
           }}
         >
@@ -153,14 +169,17 @@
       {/each}
     </div>
 
-    {#if selectedMission}
+    {#if selectedMission && selectedBeat}
       <div class="mission-overlay" role="dialog" aria-modal="true" aria-labelledby="mission-overlay-heading">
         <header class="mission-overlay__header">
           <button type="button" class="mission-close" onclick={closeMission} aria-label="Close mission">←</button>
-          <div>
+          <div class="mission-overlay__title">
             <span class="eyebrow">STORY MISSION · {challengeLabel(selectedMission)}</span>
             <h3 id="mission-overlay-heading">{selectedMission.title}</h3>
           </div>
+          <span class="mission-beat-count" aria-label={`Story beat ${missionBeatIndex + 1} of ${selectedMission.beats.length}`}>
+            {missionBeatIndex + 1}/{selectedMission.beats.length}
+          </span>
         </header>
 
         <div class="mission-overlay__body">
@@ -178,20 +197,22 @@
             </div>
           </div>
 
-          <div class="mission-dialogue" aria-label="Mission dialogue">
-            {#each selectedMission.beats as beat}
-              <p data-speaker={beat.speakerRef}>
-                <strong>{speakerName(beat.speakerRef)}</strong>
-                <span>{beat.text.replaceAll('Dheu', heroName)}</span>
-              </p>
-            {/each}
+          <div class="mission-dialogue" aria-live="polite" aria-label="Mission dialogue">
+            <p data-speaker={selectedBeat.speakerRef}>
+              <strong>{speakerName(selectedBeat.speakerRef)}</strong>
+              <span>{selectedBeat.text.replaceAll('Dheu', heroName)}</span>
+            </p>
           </div>
         </div>
 
         <footer class="mission-overlay__actions">
-          <button class="mission-start" type="button" onclick={() => onStartMission(selectedMission!.id)}>
-            Start investigation · {selectedMission.questionCount} clues
-          </button>
+          {#if hasMoreMissionBeats}
+            <button class="mission-start" type="button" onclick={advanceMissionBeat}>Next story beat</button>
+          {:else}
+            <button class="mission-start" type="button" onclick={() => onStartMission(selectedMission!.id)}>
+              Start investigation · {selectedMission.questionCount} clues
+            </button>
+          {/if}
           <button class="mission-later" type="button" onclick={closeMission}>Not now</button>
         </footer>
       </div>
@@ -355,11 +376,13 @@
   }
 
   .mission-overlay__header {
+    min-width: 0;
     display: flex;
     align-items: center;
     gap: 9px;
   }
 
+  .mission-overlay__title { min-width: 0; flex: 1; }
   .mission-overlay__header h3 { margin: 1px 0 0; font-size: 1rem; line-height: 1.08; }
   .mission-close {
     flex: 0 0 auto;
@@ -373,16 +396,28 @@
     cursor: pointer;
   }
 
+  .mission-beat-count {
+    flex: 0 0 auto;
+    min-width: 36px;
+    padding: 5px 6px;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--muted);
+    font-size: .62rem;
+    font-weight: 850;
+    text-align: center;
+  }
+
   .mission-overlay__body {
     min-height: 0;
-    overflow: auto;
-    overscroll-behavior: contain;
+    overflow: hidden;
     display: grid;
+    grid-template-rows: auto auto minmax(0, 1fr);
     gap: 8px;
     align-content: start;
   }
 
-  .mission-scene :global(.scene) { height: clamp(110px, 22vh, 170px); }
+  .mission-scene :global(.scene) { height: clamp(100px, 20vh, 155px); }
 
   .mission-challenge {
     display: grid;
@@ -398,17 +433,21 @@
   .mission-challenge > div { display: grid; gap: 2px; }
   .mission-challenge span { color: var(--muted); font-size: .72rem; font-weight: 700; }
 
-  .mission-dialogue { display: grid; gap: 6px; }
+  .mission-dialogue {
+    min-height: 0;
+    display: grid;
+    align-items: center;
+  }
   .mission-dialogue p {
     display: grid;
-    gap: 2px;
+    gap: 3px;
     margin: 0;
-    padding: 8px 10px;
-    border-radius: 13px;
-    background: rgba(255,255,255,.78);
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255,255,255,.88);
   }
-  .mission-dialogue strong { font-size: .7rem; }
-  .mission-dialogue span { font-size: .76rem; font-weight: 650; line-height: 1.3; }
+  .mission-dialogue strong { font-size: .72rem; }
+  .mission-dialogue span { font-size: clamp(.76rem, 2.4vw, .9rem); font-weight: 650; line-height: 1.32; }
 
   .mission-overlay__actions { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 8px; }
   .mission-start, .mission-later {
@@ -433,7 +472,7 @@
     .world-place strong { font-size: .59rem; }
     .world-place small { font-size: .48rem; }
     .mission-overlay { padding: 8px; }
-    .mission-scene :global(.scene) { height: 105px; }
+    .mission-scene :global(.scene) { height: 100px; }
   }
 
   @media (max-width: 360px) {
@@ -442,6 +481,12 @@
 
   @media (max-height: 700px) {
     .story-world-viewport__header { min-height: 32px; }
-    .mission-scene :global(.scene) { height: 100px; }
+    .mission-scene :global(.scene) { height: 92px; }
+  }
+
+  @media (max-height: 500px) {
+    .mission-scene { display: none; }
+    .mission-overlay__body { grid-template-rows: auto minmax(0, 1fr); }
+    .mission-challenge { padding-block: 5px; }
   }
 </style>
