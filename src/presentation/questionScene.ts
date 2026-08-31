@@ -8,10 +8,14 @@ import type { Question } from '../contracts/question';
  */
 const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.animals.dog.domestic', 'scene.dog.happy-bone'],
+  ['kr.animals.bird.covering.feathers', 'scene.bird.branch'],
+  ['kr.sof3.birds.beak.eating', 'scene.bird.branch'],
+  ['kr.sof3.birds.wings.flight', 'scene.bird.branch'],
   ['kr.human.lungs.function.breathe', 'scene.human.lungs-breathing'],
   ['kr.air.moving.name.wind', 'scene.air.kite-wind'],
   ['kr.air.balloon.contains.air', 'scene.air.balloon-candle'],
   ['kr.air.breathing.need.air', 'scene.human.lungs-breathing'],
+  ['kr.air.candle.need-air', 'scene.air.balloon-candle'],
   ['kr.air.candle.need.air', 'scene.air.balloon-candle'],
   ['kr.air.windmill.turned-by.wind', 'scene.air.windmill'],
   ['kr.air.kite.moved-by.wind', 'scene.air.kite-wind'],
@@ -25,6 +29,9 @@ const sceneByKnowledgeRef = new Map<string, string>([
 const sceneByConceptId = new Map<string, string>([
   ['animals.dog.habitat', 'scene.dog.happy-bone'],
   ['animals.whale.habitat', 'scene.whale.swimming'],
+  ['animals.body-coverings.feathers', 'scene.bird.branch'],
+  ['sof3.birds.beaks', 'scene.bird.branch'],
+  ['sof3.birds.wings', 'scene.bird.branch'],
   ['human.organs.lungs', 'scene.human.lungs-breathing'],
   ['air.properties.wind', 'scene.air.kite-wind'],
   ['air.properties.windmill', 'scene.air.windmill'],
