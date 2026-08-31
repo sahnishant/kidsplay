@@ -143,8 +143,11 @@ describe('grade-aware primary vocabulary corpus', () => {
       profileRef: 'CBSE_INDIA_CLASS2', grade: 2, mode: 'introduced', limit: 100
     });
     expect(slice.summary.selectedCandidates).toBe(100);
+    expect(slice.summary.reviewedCandidateWords).toBeGreaterThan(0);
+    expect(slice.readyForProfileReview).toHaveLength(slice.summary.reviewedCandidateWords);
     expect(slice.summary.reviewedCandidateWords + slice.summary.pendingEditorialWords).toBe(100);
     expect(slice.sourceGradeCorpus).toMatchObject({ sourceId: 'grundwortschatz-voc-en', license: 'CC-BY-SA-4.0' });
+    expect(slice.readyForProfileReview.every((item: any) => item.kidsplayRowIds.length > 0)).toBe(true);
     expect(slice.readyForProfileReview.every((item: any) => item.kidsplayRowIds.every((rowId: string) => rowId.startsWith('kr.vocab.meaning.')))).toBe(true);
     expect(slice.policy.mutatesProfileMembership).toBe(false);
   });
