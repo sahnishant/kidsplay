@@ -5,6 +5,7 @@ import './word-search.css';
 import './interactionStyles.css';
 import './crossword.css';
 import './maze.css';
+import './viewport.css';
 import App from './App.svelte';
 
 const root = document.querySelector<HTMLElement>('#app');
