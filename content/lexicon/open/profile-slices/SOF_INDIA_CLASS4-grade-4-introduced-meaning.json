@@ -19,20 +19,20 @@
     "selected": 400,
     "sliceLimit": 100,
     "sliceSelected": 100,
-    "algorithm": "clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
+    "algorithm": "semantic-safe status + clean lemma + closed-class exclusion + dedupe + curriculum/frequency/content-POS score + POS balancing + OEWN resolvability backfill",
     "semanticResolution": {
       "sourceId": "open-english-wordnet",
       "sourceVersion": "2025",
       "requestedTarget": 400,
-      "eligibleCandidatePool": 894,
+      "eligibleCandidatePool": 1797,
       "overscanRequested": 1200,
-      "overscanSelected": 894,
-      "resolvableInOverscan": 878,
-      "skippedUnresolved": 16,
+      "overscanSelected": 1200,
+      "resolvableInOverscan": 1024,
+      "skippedUnresolved": 176,
       "selectedResolved": 400,
       "targetShortfall": 0,
       "filledRequestedTarget": true,
-      "exhaustedEligiblePool": true,
+      "exhaustedEligiblePool": false,
       "policy": "meaning_queue_backfill_only_no_runtime_publish"
     }
   },
@@ -56,8 +56,298 @@
   "readyForProfileReview": [],
   "pendingEditorialReview": [
     {
+      "lemma": "bicycle",
+      "sourceCorpusId": "word_en_00657",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "cow",
+      "sourceCorpusId": "word_en_04019",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "hurry",
+      "sourceCorpusId": "word_en_06902",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "invitation",
+      "sourceCorpusId": "word_en_07380",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "lecture",
+      "sourceCorpusId": "word_en_07863",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "helicopter",
+      "sourceCorpusId": "word_en_06653",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "sandwich",
+      "sourceCorpusId": "word_en_13968",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "ski",
+      "sourceCorpusId": "word_en_14174",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "deadline",
+      "sourceCorpusId": "word_en_04269",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "athlete",
+      "sourceCorpusId": "word_en_02028",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "drum",
+      "sourceCorpusId": "word_en_04910",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "lemon",
+      "sourceCorpusId": "word_en_07881",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "cartoon",
+      "sourceCorpusId": "word_en_03015",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "elephant",
+      "sourceCorpusId": "word_en_05069",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "monkey",
+      "sourceCorpusId": "word_en_12903",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "rainbow",
+      "sourceCorpusId": "word_en_13653",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "sunny",
+      "sourceCorpusId": "word_en_14482",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "ambulance",
+      "sourceCorpusId": "word_en_01605",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "doll",
+      "sourceCorpusId": "word_en_04788",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "rabbit",
+      "sourceCorpusId": "word_en_13633",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "tent",
+      "sourceCorpusId": "word_en_14613",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "fork",
+      "sourceCorpusId": "word_en_05915",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "headline",
+      "sourceCorpusId": "word_en_06602",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "goat",
+      "sourceCorpusId": "word_en_06238",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "banana",
+      "sourceCorpusId": "word_en_02212",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "pause",
+      "sourceCorpusId": "word_en_13303",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "fossil",
+      "sourceCorpusId": "word_en_12296",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "bean",
+      "sourceCorpusId": "word_en_02298",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
       "lemma": "harbour",
       "sourceCorpusId": "word_en_06541",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "pond",
+      "sourceCorpusId": "word_en_13448",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -86,10 +376,80 @@
       ]
     },
     {
+      "lemma": "pencil",
+      "sourceCorpusId": "word_en_10893",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "chess",
+      "sourceCorpusId": "word_en_03239",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "hobby",
+      "sourceCorpusId": "word_en_06757",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "butterfly",
+      "sourceCorpusId": "word_en_02840",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
       "lemma": "fierce",
       "sourceCorpusId": "word_en_05720",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "balloon",
+      "sourceCorpusId": "word_en_02205",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "fog",
+      "sourceCorpusId": "word_en_05854",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "frog",
+      "sourceCorpusId": "word_en_06017",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
         "kidsplay_child_definition",
         "profile_placement"
@@ -116,58 +476,8 @@
       ]
     },
     {
-      "lemma": "humour",
-      "sourceCorpusId": "word_en_06885",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "sunrise",
-      "sourceCorpusId": "word_en_14483",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "volcano",
-      "sourceCorpusId": "word_en_15035",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "dolphin",
-      "sourceCorpusId": "word_en_04793",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "chimney",
-      "sourceCorpusId": "word_en_03261",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "graceful",
-      "sourceCorpusId": "word_en_12356",
+      "lemma": "magnificent",
+      "sourceCorpusId": "word_en_12733",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -176,8 +486,68 @@
       ]
     },
     {
-      "lemma": "beak",
-      "sourceCorpusId": "word_en_11725",
+      "lemma": "freeze",
+      "sourceCorpusId": "word_en_05997",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "pour",
+      "sourceCorpusId": "word_en_13475",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "disagree",
+      "sourceCorpusId": "word_en_04635",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "retire",
+      "sourceCorpusId": "word_en_13842",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "organize",
+      "sourceCorpusId": "word_en_13152",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "float",
+      "sourceCorpusId": "word_en_05823",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "verb",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "grammar",
+      "sourceCorpusId": "word_en_00785",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -186,10 +556,30 @@
       ]
     },
     {
-      "lemma": "bark",
-      "sourceCorpusId": "word_en_02244",
+      "lemma": "cemetery",
+      "sourceCorpusId": "word_en_03107",
       "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "rhythm",
+      "sourceCorpusId": "word_en_09100",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "dictionary",
+      "sourceCorpusId": "word_en_04570",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
         "kidsplay_child_definition",
         "profile_placement"
@@ -206,8 +596,8 @@
       ]
     },
     {
-      "lemma": "thorough",
-      "sourceCorpusId": "word_en_09625",
+      "lemma": "steak",
+      "sourceCorpusId": "word_en_00558",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -226,18 +616,8 @@
       ]
     },
     {
-      "lemma": "sincere",
-      "sourceCorpusId": "word_en_09258",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "yacht",
-      "sourceCorpusId": "word_en_09980",
+      "lemma": "bargain",
+      "sourceCorpusId": "word_en_02242",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -246,8 +626,8 @@
       ]
     },
     {
-      "lemma": "prejudice",
-      "sourceCorpusId": "word_en_08648",
+      "lemma": "vegetable",
+      "sourceCorpusId": "word_en_09854",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -256,18 +636,8 @@
       ]
     },
     {
-      "lemma": "definite",
-      "sourceCorpusId": "word_en_04359",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "queue",
-      "sourceCorpusId": "word_en_08833",
+      "lemma": "leisure",
+      "sourceCorpusId": "word_en_07880",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -276,18 +646,8 @@
       ]
     },
     {
-      "lemma": "disastrous",
-      "sourceCorpusId": "word_en_04651",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "rhyme",
-      "sourceCorpusId": "word_en_09096",
+      "lemma": "convenience",
+      "sourceCorpusId": "word_en_03880",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -296,20 +656,20 @@
       ]
     },
     {
-      "lemma": "nuisance",
-      "sourceCorpusId": "word_en_08257",
+      "lemma": "disappear",
+      "sourceCorpusId": "word_en_00714",
       "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
+      "sourcePartOfSpeech": "verb",
       "reviewNeeded": [
         "kidsplay_child_definition",
         "profile_placement"
       ]
     },
     {
-      "lemma": "homemade",
-      "sourceCorpusId": "word_en_06780",
+      "lemma": "possess",
+      "sourceCorpusId": "word_en_00891",
       "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
+      "sourcePartOfSpeech": "verb",
       "reviewNeeded": [
         "kidsplay_child_definition",
         "profile_placement"
@@ -346,8 +706,58 @@
       ]
     },
     {
-      "lemma": "persuade",
-      "sourceCorpusId": "word_en_08498",
+      "lemma": "reign",
+      "sourceCorpusId": "word_en_00920",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "password",
+      "sourceCorpusId": "word_en_00480",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "seller",
+      "sourceCorpusId": "word_en_00935",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "electronics",
+      "sourceCorpusId": "word_en_00734",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "availability",
+      "sourceCorpusId": "word_en_01022",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "accommodate",
+      "sourceCorpusId": "word_en_01197",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "verb",
       "reviewNeeded": [
@@ -356,78 +766,8 @@
       ]
     },
     {
-      "lemma": "accompany",
-      "sourceCorpusId": "word_en_01205",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "interrupt",
-      "sourceCorpusId": "word_en_07325",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "correspond",
-      "sourceCorpusId": "word_en_03950",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "equip",
-      "sourceCorpusId": "word_en_05262",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "embarrass",
-      "sourceCorpusId": "word_en_05107",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "exaggerate",
-      "sourceCorpusId": "word_en_05381",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "bruise",
-      "sourceCorpusId": "word_en_02747",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "twelfth",
-      "sourceCorpusId": "word_en_09715",
+      "lemma": "affordable",
+      "sourceCorpusId": "word_en_11604",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -436,8 +776,8 @@
       ]
     },
     {
-      "lemma": "hindrance",
-      "sourceCorpusId": "word_en_06732",
+      "lemma": "bin",
+      "sourceCorpusId": "word_en_02473",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -446,8 +786,108 @@
       ]
     },
     {
-      "lemma": "mischievous",
-      "sourceCorpusId": "word_en_08111",
+      "lemma": "biology",
+      "sourceCorpusId": "word_en_02478",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "canal",
+      "sourceCorpusId": "word_en_02913",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "completion",
+      "sourceCorpusId": "word_en_10229",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "cruise",
+      "sourceCorpusId": "word_en_04121",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "departure",
+      "sourceCorpusId": "word_en_04425",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "employer",
+      "sourceCorpusId": "word_en_05156",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "explosion",
+      "sourceCorpusId": "word_en_05517",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "fever",
+      "sourceCorpusId": "word_en_05706",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "fluid",
+      "sourceCorpusId": "word_en_05844",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "folk",
+      "sourceCorpusId": "word_en_05856",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "handsome",
+      "sourceCorpusId": "word_en_06505",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -456,48 +896,8 @@
       ]
     },
     {
-      "lemma": "fax",
-      "sourceCorpusId": "word_en_00757",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "harass",
-      "sourceCorpusId": "word_en_06537",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "advertise",
-      "sourceCorpusId": "word_en_01018",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "browse",
-      "sourceCorpusId": "word_en_00662",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "verb",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "deaf",
-      "sourceCorpusId": "word_en_04271",
+      "lemma": "legitimate",
+      "sourceCorpusId": "word_en_07876",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -506,8 +906,8 @@
       ]
     },
     {
-      "lemma": "evident",
-      "sourceCorpusId": "word_en_12199",
+      "lemma": "magical",
+      "sourceCorpusId": "word_en_12732",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -516,8 +916,8 @@
       ]
     },
     {
-      "lemma": "honesty",
-      "sourceCorpusId": "word_en_06793",
+      "lemma": "motivation",
+      "sourceCorpusId": "word_en_12931",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -526,8 +926,8 @@
       ]
     },
     {
-      "lemma": "sore",
-      "sourceCorpusId": "word_en_14274",
+      "lemma": "nasty",
+      "sourceCorpusId": "word_en_12985",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -536,8 +936,28 @@
       ]
     },
     {
-      "lemma": "steep",
-      "sourceCorpusId": "word_en_14375",
+      "lemma": "outfit",
+      "sourceCorpusId": "word_en_13173",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "pension",
+      "sourceCorpusId": "word_en_13336",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "pleasant",
+      "sourceCorpusId": "word_en_10941",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -546,8 +966,8 @@
       ]
     },
     {
-      "lemma": "straw",
-      "sourceCorpusId": "word_en_14412",
+      "lemma": "portrait",
+      "sourceCorpusId": "word_en_10965",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -556,8 +976,8 @@
       ]
     },
     {
-      "lemma": "absent",
-      "sourceCorpusId": "word_en_01152",
+      "lemma": "productive",
+      "sourceCorpusId": "word_en_13548",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -566,8 +986,38 @@
       ]
     },
     {
-      "lemma": "atomic",
-      "sourceCorpusId": "word_en_02035",
+      "lemma": "slight",
+      "sourceCorpusId": "word_en_14202",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "tension",
+      "sourceCorpusId": "word_en_14612",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "twist",
+      "sourceCorpusId": "word_en_14830",
+      "sourceGrade": 4,
+      "sourcePartOfSpeech": "noun",
+      "reviewNeeded": [
+        "kidsplay_child_definition",
+        "profile_placement"
+      ]
+    },
+    {
+      "lemma": "useless",
+      "sourceCorpusId": "word_en_14967",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -576,8 +1026,8 @@
       ]
     },
     {
-      "lemma": "bump",
-      "sourceCorpusId": "word_en_02789",
+      "lemma": "backup",
+      "sourceCorpusId": "word_en_02180",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "noun",
       "reviewNeeded": [
@@ -586,98 +1036,8 @@
       ]
     },
     {
-      "lemma": "circus",
-      "sourceCorpusId": "word_en_03327",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "freshman",
-      "sourceCorpusId": "word_en_06006",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "geography",
-      "sourceCorpusId": "word_en_12332",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "habitat",
-      "sourceCorpusId": "word_en_12384",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "hazard",
-      "sourceCorpusId": "word_en_06596",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "needle",
-      "sourceCorpusId": "word_en_13002",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "whale",
-      "sourceCorpusId": "word_en_15108",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "caution",
-      "sourceCorpusId": "word_en_03080",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "delight",
-      "sourceCorpusId": "word_en_04382",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "fortunate",
-      "sourceCorpusId": "word_en_05936",
+      "lemma": "bitter",
+      "sourceCorpusId": "word_en_02493",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [
@@ -686,368 +1046,8 @@
       ]
     },
     {
-      "lemma": "handy",
-      "sourceCorpusId": "word_en_06507",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "memorable",
-      "sourceCorpusId": "word_en_12806",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "suspicion",
-      "sourceCorpusId": "word_en_14516",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "circular",
-      "sourceCorpusId": "word_en_11855",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "comedian",
-      "sourceCorpusId": "word_en_03517",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "countless",
-      "sourceCorpusId": "word_en_03994",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "flu",
-      "sourceCorpusId": "word_en_05843",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "marble",
-      "sourceCorpusId": "word_en_12755",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "pillow",
-      "sourceCorpusId": "word_en_13392",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "scholar",
-      "sourceCorpusId": "word_en_13999",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "stuffed",
-      "sourceCorpusId": "word_en_14437",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "tendency",
-      "sourceCorpusId": "word_en_11404",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "triumph",
-      "sourceCorpusId": "word_en_14788",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "ambitious",
-      "sourceCorpusId": "word_en_01604",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "blend",
-      "sourceCorpusId": "word_en_02521",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "correction",
-      "sourceCorpusId": "word_en_11946",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "critic",
-      "sourceCorpusId": "word_en_11966",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "feast",
-      "sourceCorpusId": "word_en_05663",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "frost",
-      "sourceCorpusId": "word_en_06023",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "meditation",
-      "sourceCorpusId": "word_en_12800",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "purse",
-      "sourceCorpusId": "word_en_13610",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "sigh",
-      "sourceCorpusId": "word_en_14141",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "tense",
-      "sourceCorpusId": "word_en_14611",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "adviser",
-      "sourceCorpusId": "word_en_11599",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "dull",
-      "sourceCorpusId": "word_en_04929",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "idol",
-      "sourceCorpusId": "word_en_06966",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "incorrect",
-      "sourceCorpusId": "word_en_12499",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "motive",
-      "sourceCorpusId": "word_en_12932",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "refund",
-      "sourceCorpusId": "word_en_13744",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "spice",
-      "sourceCorpusId": "word_en_14313",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "terrified",
-      "sourceCorpusId": "word_en_14619",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "adjective",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "dial",
-      "sourceCorpusId": "word_en_04547",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "ginger",
-      "sourceCorpusId": "word_en_06207",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "jar",
-      "sourceCorpusId": "word_en_07473",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "monk",
-      "sourceCorpusId": "word_en_12902",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "sleeve",
-      "sourceCorpusId": "word_en_14199",
-      "sourceGrade": 4,
-      "sourcePartOfSpeech": "noun",
-      "reviewNeeded": [
-        "kidsplay_child_definition",
-        "profile_placement"
-      ]
-    },
-    {
-      "lemma": "thankful",
-      "sourceCorpusId": "word_en_14627",
+      "lemma": "clever",
+      "sourceCorpusId": "word_en_03394",
       "sourceGrade": 4,
       "sourcePartOfSpeech": "adjective",
       "reviewNeeded": [

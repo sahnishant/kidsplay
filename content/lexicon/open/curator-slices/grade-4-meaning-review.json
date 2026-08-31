@@ -1,0 +1,2908 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_curator_sense_slice",
+  "language": "en",
+  "grade": 4,
+  "purpose": "Human sense selection and child-definition authoring. Candidate glosses are reference-only CC-BY material and are never copied automatically into runtime knowledge.",
+  "generatedFrom": {
+    "wordlistId": "vocabulary.primary.grade4.introduced.meaning.review",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "policy": {
+    "importedGlossRuntimeAllowed": false,
+    "explicitHumanDecisionRequired": true,
+    "kidsplayChildDefinitionRequiredForAccept": true
+  },
+  "summary": {
+    "words": 40,
+    "candidateSenses": 85
+  },
+  "items": [
+    {
+      "lemma": "bicycle",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.98
+      },
+      "priorityScore": 37.96,
+      "candidateSenses": [
+        {
+          "candidateId": "bicycle#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bicycle%1:06:00::",
+            "synsetId": "02837983-n",
+            "definition": "a wheeled vehicle that has two wheels and is moved by foot pedals",
+            "examples": [],
+            "synonyms": [
+              "bike",
+              "wheel",
+              "cycle"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bicycle%1:06:00::",
+              "02837983-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "cow",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.14
+      },
+      "priorityScore": 29.28,
+      "candidateSenses": [
+        {
+          "candidateId": "cow#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "cow%1:05:01::",
+            "synsetId": "02406106-n",
+            "definition": "female of domestic cattle:",
+            "examples": [],
+            "synonyms": [
+              "moo-cow"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "cow%1:05:01::",
+              "02406106-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "cow#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "cow%1:05:02::",
+            "synsetId": "01890428-n",
+            "definition": "mature female of mammals of which the male is called ‘bull’",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "cow%1:05:02::",
+              "01890428-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "cow#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "cow%1:18:00::",
+            "synsetId": "09992117-n",
+            "definition": "a large unpleasant woman",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "cow%1:18:00::",
+              "09992117-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "hurry",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.14
+      },
+      "priorityScore": 29.28,
+      "candidateSenses": [
+        {
+          "candidateId": "hurry#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hurry%1:26:00::",
+            "synsetId": "14474655-n",
+            "definition": "a condition of urgency making it necessary to hurry",
+            "examples": [
+              "in a hurry to lock the door"
+            ],
+            "synonyms": [
+              "haste"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hurry%1:26:00::",
+              "14474655-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "hurry#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hurry%1:07:00::",
+            "synsetId": "05067358-n",
+            "definition": "overly eager speed (and possible carelessness)",
+            "examples": [
+              "he soon regretted his haste"
+            ],
+            "synonyms": [
+              "haste",
+              "hastiness",
+              "hurriedness",
+              "precipitation"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hurry%1:07:00::",
+              "05067358-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "hurry#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hurry%1:04:00::",
+            "synsetId": "00556685-n",
+            "definition": "the act of moving hurriedly and in a careless manner",
+            "examples": [
+              "in his haste to leave he forgot his book"
+            ],
+            "synonyms": [
+              "haste",
+              "rush",
+              "rushing"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hurry%1:04:00::",
+              "00556685-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "invitation",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.14
+      },
+      "priorityScore": 29.28,
+      "candidateSenses": [
+        {
+          "candidateId": "invitation#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "invitation%1:10:00::",
+            "synsetId": "07200808-n",
+            "definition": "a request (spoken or written) to participate or be present or take part in something",
+            "examples": [
+              "an invitation to lunch",
+              "she threw the invitation away"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "invitation%1:10:00::",
+              "07200808-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "invitation#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "invitation%1:07:00::",
+            "synsetId": "04696397-n",
+            "definition": "a tempting allurement",
+            "examples": [
+              "she was an invitation to trouble"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "invitation%1:07:00::",
+              "04696397-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "lecture",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.14
+      },
+      "priorityScore": 29.28,
+      "candidateSenses": [
+        {
+          "candidateId": "lecture#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "lecture%1:10:00::",
+            "synsetId": "07255209-n",
+            "definition": "a speech that is open to the public",
+            "examples": [
+              "he attended a lecture on telecommunications"
+            ],
+            "synonyms": [
+              "public lecture",
+              "talk"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lecture%1:10:00::",
+              "07255209-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "lecture#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "lecture%1:10:01::",
+            "synsetId": "06726869-n",
+            "definition": "a lengthy rebuke",
+            "examples": [
+              "a good lecture was my father's idea of discipline",
+              "the teacher gave him a talking to"
+            ],
+            "synonyms": [
+              "speech",
+              "talking to"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lecture%1:10:01::",
+              "06726869-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "lecture#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "lecture%1:04:00::",
+            "synsetId": "00894541-n",
+            "definition": "teaching by giving a discourse on some subject (typically to a class)",
+            "examples": [],
+            "synonyms": [
+              "lecturing"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lecture%1:04:00::",
+              "00894541-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "helicopter",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.13
+      },
+      "priorityScore": 29.26,
+      "candidateSenses": [
+        {
+          "candidateId": "helicopter#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "helicopter%1:06:00::",
+            "synsetId": "03517291-n",
+            "definition": "an aircraft without wings that obtains its lift from the rotation of overhead blades",
+            "examples": [],
+            "synonyms": [
+              "chopper",
+              "whirlybird",
+              "eggbeater"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "helicopter%1:06:00::",
+              "03517291-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sandwich",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.13
+      },
+      "priorityScore": 29.26,
+      "candidateSenses": [
+        {
+          "candidateId": "sandwich#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sandwich%1:13:00::",
+            "synsetId": "07711710-n",
+            "definition": "two (or more) slices of bread with a filling between them",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sandwich%1:13:00::",
+              "07711710-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "ski",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.13
+      },
+      "priorityScore": 29.26,
+      "candidateSenses": [
+        {
+          "candidateId": "ski#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "ski%1:06:00::",
+            "synsetId": "04235116-n",
+            "definition": "narrow wood or metal or plastic runners used in pairs for gliding over snow",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ski%1:06:00::",
+              "04235116-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "deadline",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.12
+      },
+      "priorityScore": 29.24,
+      "candidateSenses": [
+        {
+          "candidateId": "deadline#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "deadline%1:28:00::",
+            "synsetId": "15204935-n",
+            "definition": "the point in time at which something must be completed",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "deadline%1:28:00::",
+              "15204935-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "athlete",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.11
+      },
+      "priorityScore": 29.22,
+      "candidateSenses": [
+        {
+          "candidateId": "athlete#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "athlete%1:18:00::",
+            "synsetId": "09839665-n",
+            "definition": "a person trained to compete in sports",
+            "examples": [],
+            "synonyms": [
+              "jock"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "athlete%1:18:00::",
+              "09839665-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "drum",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.11
+      },
+      "priorityScore": 29.22,
+      "candidateSenses": [
+        {
+          "candidateId": "drum#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "drum%1:06:00::",
+            "synsetId": "03254272-n",
+            "definition": "a musical percussion instrument; usually consists of a hollow cylinder with a membrane stretched across each end",
+            "examples": [],
+            "synonyms": [
+              "membranophone",
+              "tympan"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "drum%1:06:00::",
+              "03254272-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "drum#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "drum%1:11:00::",
+            "synsetId": "07398075-n",
+            "definition": "the sound of a drum",
+            "examples": [
+              "he could hear the drums before he heard the fifes"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "drum%1:11:00::",
+              "07398075-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "drum#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "drum%1:25:00::",
+            "synsetId": "13923904-n",
+            "definition": "a bulging cylindrical shape; hollow with flat ends",
+            "examples": [],
+            "synonyms": [
+              "barrel"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "drum%1:25:00::",
+              "13923904-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "lemon",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.1
+      },
+      "priorityScore": 29.2,
+      "candidateSenses": [
+        {
+          "candidateId": "lemon#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "lemon%1:13:00::",
+            "synsetId": "07765558-n",
+            "definition": "yellow oval fruit with juicy acidic flesh",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lemon%1:13:00::",
+              "07765558-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "lemon#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "lemon%1:07:00::",
+            "synsetId": "04973720-n",
+            "definition": "a strong yellow color",
+            "examples": [],
+            "synonyms": [
+              "gamboge",
+              "lemon yellow",
+              "maize"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lemon%1:07:00::",
+              "04973720-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "lemon#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "lemon%1:20:00::",
+            "synsetId": "12732356-n",
+            "definition": "a small evergreen tree that originated in Asia but is widely cultivated for its fruit",
+            "examples": [],
+            "synonyms": [
+              "lemon tree",
+              "Citrus limon"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lemon%1:20:00::",
+              "12732356-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "cartoon",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.08
+      },
+      "priorityScore": 29.16,
+      "candidateSenses": [
+        {
+          "candidateId": "cartoon#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "cartoon%1:10:00::",
+            "synsetId": "06793517-n",
+            "definition": "a humorous or satirical drawing published in a newspaper or magazine",
+            "examples": [],
+            "synonyms": [
+              "sketch"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "cartoon%1:10:00::",
+              "06793517-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "cartoon#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "cartoon%1:10:02::",
+            "synsetId": "06628817-n",
+            "definition": "a film made by photographing a series of cartoon drawings to give the illusion of movement when projected in rapid sequence",
+            "examples": [],
+            "synonyms": [
+              "animated cartoon",
+              "toon"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "cartoon%1:10:02::",
+              "06628817-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "elephant",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.08
+      },
+      "priorityScore": 29.16,
+      "candidateSenses": [
+        {
+          "candidateId": "elephant#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "elephant%1:05:00::",
+            "synsetId": "02506148-n",
+            "definition": "five-toed pachyderm",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "elephant%1:05:00::",
+              "02506148-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "elephant#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "elephant%1:10:00::",
+            "synsetId": "06894712-n",
+            "definition": "the symbol of the Republican Party; introduced in cartoons by Thomas Nast in 1874",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "elephant%1:10:00::",
+              "06894712-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "monkey",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.07
+      },
+      "priorityScore": 29.14,
+      "candidateSenses": [
+        {
+          "candidateId": "monkey#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "monkey%1:05:00::",
+            "synsetId": "02486953-n",
+            "definition": "any of various long-tailed primates (excluding the prosimians)",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "monkey%1:05:00::",
+              "02486953-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "monkey#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "monkey%1:18:00::",
+            "synsetId": "10219666-n",
+            "definition": "one who is playfully mischievous",
+            "examples": [],
+            "synonyms": [
+              "imp",
+              "scamp",
+              "rascal",
+              "rapscallion",
+              "scalawag",
+              "scallywag"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "monkey%1:18:00::",
+              "10219666-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "rainbow",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.07
+      },
+      "priorityScore": 29.14,
+      "candidateSenses": [
+        {
+          "candidateId": "rainbow#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "rainbow%1:17:00::",
+            "synsetId": "09426302-n",
+            "definition": "an arc of colored light in the sky caused by refraction of the sun's rays by rain",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "rainbow%1:17:00::",
+              "09426302-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "rainbow#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "rainbow%1:09:00::",
+            "synsetId": "05959849-n",
+            "definition": "an illusory hope",
+            "examples": [
+              "chasing rainbows"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "rainbow%1:09:00::",
+              "05959849-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sunny",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.07
+      },
+      "priorityScore": 29.14,
+      "candidateSenses": [
+        {
+          "candidateId": "sunny#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sunny%5:00:00:cheerful:00",
+            "synsetId": "00365018-s",
+            "definition": "bright and pleasant; promoting a feeling of cheer",
+            "examples": [
+              "a cheery hello",
+              "a gay sunny room",
+              "a sunny smile"
+            ],
+            "synonyms": [
+              "cheery",
+              "gay"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sunny%5:00:00:cheerful:00",
+              "00365018-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "sunny#s#2",
+          "partOfSpeech": "s",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sunny%5:00:01:light:06",
+            "synsetId": "85737845-s",
+            "definition": "associated with the presence of sunlight",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sunny%5:00:01:light:06",
+              "85737845-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "ambulance",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.06
+      },
+      "priorityScore": 29.12,
+      "candidateSenses": [
+        {
+          "candidateId": "ambulance#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "ambulance%1:06:00::",
+            "synsetId": "02703861-n",
+            "definition": "a vehicle that takes people to and from hospitals",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ambulance%1:06:00::",
+              "02703861-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "doll",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.06
+      },
+      "priorityScore": 29.12,
+      "candidateSenses": [
+        {
+          "candidateId": "doll#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "doll%1:06:00::",
+            "synsetId": "03223838-n",
+            "definition": "a small replica of a person; used as a toy",
+            "examples": [],
+            "synonyms": [
+              "dolly"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "doll%1:06:00::",
+              "03223838-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "doll#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "doll%1:18:00::",
+            "synsetId": "10008583-n",
+            "definition": "informal terms for a (young) woman",
+            "examples": [],
+            "synonyms": [
+              "dame",
+              "wench",
+              "skirt",
+              "chick",
+              "bird"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "doll%1:18:00::",
+              "10008583-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "rabbit",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.05
+      },
+      "priorityScore": 29.1,
+      "candidateSenses": [
+        {
+          "candidateId": "rabbit#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "rabbit%1:05:00::",
+            "synsetId": "02326697-n",
+            "definition": "any of various burrowing animals of the family Leporidae having long ears and short tails; some domesticated and raised for pets or food",
+            "examples": [],
+            "synonyms": [
+              "coney",
+              "cony"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "rabbit%1:05:00::",
+              "02326697-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "rabbit#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "rabbit%1:27:00::",
+            "synsetId": "14789503-n",
+            "definition": "the fur of a rabbit",
+            "examples": [],
+            "synonyms": [
+              "lapin"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "rabbit%1:27:00::",
+              "14789503-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "rabbit#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "rabbit%1:13:00::",
+            "synsetId": "07682266-n",
+            "definition": "flesh of any of various rabbits or hares (wild or domesticated) eaten as food",
+            "examples": [],
+            "synonyms": [
+              "hare"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "rabbit%1:13:00::",
+              "07682266-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "tent",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.05
+      },
+      "priorityScore": 29.1,
+      "candidateSenses": [
+        {
+          "candidateId": "tent#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "tent%1:06:00::",
+            "synsetId": "04418399-n",
+            "definition": "a portable shelter (usually of canvas stretched over supporting poles and fastened to the ground with ropes and pegs)",
+            "examples": [
+              "he pitched his tent near the creek"
+            ],
+            "synonyms": [
+              "collapsible shelter"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "tent%1:06:00::",
+              "04418399-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "tent#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "tent%1:17:00::",
+            "synsetId": "09479040-n",
+            "definition": "a web that resembles a tent or carpet",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "tent%1:17:00::",
+              "09479040-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "fork",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.03
+      },
+      "priorityScore": 29.06,
+      "candidateSenses": [
+        {
+          "candidateId": "fork#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fork%1:06:00::",
+            "synsetId": "03388794-n",
+            "definition": "a utensil with two or more prongs, used for serving or eating food",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fork%1:06:00::",
+              "03388794-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fork#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fork%1:04:00::",
+            "synsetId": "00389200-n",
+            "definition": "the act of branching out or dividing into branches",
+            "examples": [],
+            "synonyms": [
+              "branching",
+              "ramification",
+              "forking"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fork%1:04:00::",
+              "00389200-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fork#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fork%1:25:00::",
+            "synsetId": "13937280-n",
+            "definition": "the region of the angle formed by the junction of two branches",
+            "examples": [
+              "they took the south fork",
+              "he climbed into the crotch of a tree"
+            ],
+            "synonyms": [
+              "crotch"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fork%1:25:00::",
+              "13937280-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "headline",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.03
+      },
+      "priorityScore": 29.06,
+      "candidateSenses": [
+        {
+          "candidateId": "headline#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "headline%1:10:00::",
+            "synsetId": "06355831-n",
+            "definition": "the heading or caption of a newspaper article",
+            "examples": [],
+            "synonyms": [
+              "newspaper headline"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "headline%1:10:00::",
+              "06355831-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "goat",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.02
+      },
+      "priorityScore": 29.04,
+      "candidateSenses": [
+        {
+          "candidateId": "goat#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "goat%1:18:01::",
+            "synsetId": "09772829-n",
+            "definition": "(astrology) a person who is born while the sun is in Capricorn",
+            "examples": [],
+            "synonyms": [
+              "Capricorn"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "goat%1:18:01::",
+              "09772829-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "goat#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "goat%1:05:00::",
+            "synsetId": "02419165-n",
+            "definition": "any of numerous agile ruminants related to sheep but having a beard and straight horns",
+            "examples": [],
+            "synonyms": [
+              "caprine animal"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "goat%1:05:00::",
+              "02419165-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "goat#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "goat%1:18:00::",
+            "synsetId": "09904118-n",
+            "definition": "a victim of ridicule or pranks",
+            "examples": [],
+            "synonyms": [
+              "butt",
+              "laughingstock",
+              "stooge"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "goat%1:18:00::",
+              "09904118-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "banana",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4
+      },
+      "priorityScore": 29,
+      "candidateSenses": [
+        {
+          "candidateId": "banana#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "banana%1:20:00::",
+            "synsetId": "12372804-n",
+            "definition": "any of several tropical and subtropical treelike herbs of the genus Musa having a terminal crown of large entire leaves and usually bearing hanging clusters of elongated fruits",
+            "examples": [],
+            "synonyms": [
+              "banana tree"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "banana%1:20:00::",
+              "12372804-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "banana#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "banana%1:13:00::",
+            "synsetId": "07769568-n",
+            "definition": "elongated crescent-shaped yellow fruit with soft sweet flesh",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "banana%1:13:00::",
+              "07769568-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "pause",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4
+      },
+      "priorityScore": 29,
+      "candidateSenses": [
+        {
+          "candidateId": "pause#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pause%1:28:00::",
+            "synsetId": "15295994-n",
+            "definition": "a time interval during which there is a temporary cessation of something",
+            "examples": [],
+            "synonyms": [
+              "intermission",
+              "break",
+              "interruption",
+              "suspension"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pause%1:28:00::",
+              "15295994-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "pause#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pause%1:04:00::",
+            "synsetId": "01064741-n",
+            "definition": "temporary inactivity",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pause%1:04:00::",
+              "01064741-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "fossil",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.99
+      },
+      "priorityScore": 28.98,
+      "candidateSenses": [
+        {
+          "candidateId": "fossil#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fossil%1:18:00::",
+            "synsetId": "10042633-n",
+            "definition": "someone whose style is out of fashion",
+            "examples": [],
+            "synonyms": [
+              "dodo",
+              "fogy",
+              "fogey"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fossil%1:18:00::",
+              "10042633-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fossil#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fossil%1:17:00::",
+            "synsetId": "09307495-n",
+            "definition": "the remains (or an impression) of a plant or animal that existed in a past geological age and that has been excavated from the soil",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fossil%1:17:00::",
+              "09307495-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "bean",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.98
+      },
+      "priorityScore": 28.96,
+      "candidateSenses": [
+        {
+          "candidateId": "bean#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bean%1:13:00::",
+            "synsetId": "07740688-n",
+            "definition": "any of various edible seeds of plants of the family Leguminosae used for food",
+            "examples": [],
+            "synonyms": [
+              "edible bean"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bean%1:13:00::",
+              "07740688-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "bean#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bean%1:20:02::",
+            "synsetId": "13157075-n",
+            "definition": "any of various seeds or fruits that are beans or resemble beans",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bean%1:20:02::",
+              "13157075-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "bean#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bean%1:20:00::",
+            "synsetId": "12576812-n",
+            "definition": "any of various leguminous plants grown for their edible seeds and pods",
+            "examples": [],
+            "synonyms": [
+              "bean plant"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bean%1:20:00::",
+              "12576812-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "harbour",
+      "grade": 4,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.98
+      },
+      "priorityScore": 28.96,
+      "candidateSenses": [
+        {
+          "candidateId": "harbour#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "harbour%1:15:00::",
+            "synsetId": "08656633-n",
+            "definition": "a sheltered port where ships can take on or discharge cargo",
+            "examples": [],
+            "synonyms": [
+              "seaport",
+              "haven",
+              "harbor"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "harbour%1:15:00::",
+              "08656633-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "harbour#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "harbour%1:06:00::",
+            "synsetId": "03497351-n",
+            "definition": "a place of refuge and comfort and security",
+            "examples": [],
+            "synonyms": [
+              "harbor"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "harbour%1:06:00::",
+              "03497351-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "pond",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.98
+      },
+      "priorityScore": 28.96,
+      "candidateSenses": [
+        {
+          "candidateId": "pond#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pond%1:17:00::",
+            "synsetId": "09420266-n",
+            "definition": "a small lake",
+            "examples": [
+              "the pond was too small for sailing"
+            ],
+            "synonyms": [
+              "pool"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pond%1:17:00::",
+              "09420266-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "puzzle",
+      "grade": 4,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.96
+      },
+      "priorityScore": 28.92,
+      "candidateSenses": [
+        {
+          "candidateId": "puzzle#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "puzzle%1:10:00::",
+            "synsetId": "06797496-n",
+            "definition": "a particularly baffling problem that is said to have a correct solution",
+            "examples": [
+              "he loved to solve chessmate puzzles",
+              "that's a real puzzler"
+            ],
+            "synonyms": [
+              "puzzler",
+              "mystifier",
+              "teaser"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "puzzle%1:10:00::",
+              "06797496-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "puzzle#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "puzzle%1:06:00::",
+            "synsetId": "04034791-n",
+            "definition": "a game that tests your ingenuity",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "puzzle%1:06:00::",
+              "04034791-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "ballet",
+      "grade": 4,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.95
+      },
+      "priorityScore": 28.9,
+      "candidateSenses": [
+        {
+          "candidateId": "ballet#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "ballet%1:04:00::",
+            "synsetId": "00529704-n",
+            "definition": "a theatrical representation of a story that is performed to music by trained dancers",
+            "examples": [],
+            "synonyms": [
+              "concert dance"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ballet%1:04:00::",
+              "00529704-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "ballet#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "ballet%1:10:00::",
+            "synsetId": "07068376-n",
+            "definition": "music written for a ballet",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ballet%1:10:00::",
+              "07068376-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "pencil",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.95
+      },
+      "priorityScore": 28.9,
+      "candidateSenses": [
+        {
+          "candidateId": "pencil#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pencil%1:06:00::",
+            "synsetId": "03914323-n",
+            "definition": "a thin cylindrical pointed writing implement; a rod of marking substance encased in wood",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pencil%1:06:00::",
+              "03914323-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "pencil#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pencil%1:27:00::",
+            "synsetId": "14820918-n",
+            "definition": "graphite (or a similar substance) used in such a way as to be a medium of communication",
+            "examples": [
+              "the words were scribbled in pencil",
+              "this artist's favorite medium is pencil"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pencil%1:27:00::",
+              "14820918-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "pencil#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pencil%1:25:00::",
+            "synsetId": "13885623-n",
+            "definition": "a figure formed by a set of straight lines or light rays meeting at a point",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pencil%1:25:00::",
+              "13885623-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "chess",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.94
+      },
+      "priorityScore": 28.88,
+      "candidateSenses": [
+        {
+          "candidateId": "chess#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "chess%1:20:00::",
+            "synsetId": "12131755-n",
+            "definition": "weedy annual native to Europe but widely distributed as a weed especially in wheat",
+            "examples": [],
+            "synonyms": [
+              "cheat",
+              "Bromus secalinus"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "chess%1:20:00::",
+              "12131755-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "chess#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "chess%1:04:00::",
+            "synsetId": "00504248-n",
+            "definition": "a board game for two players who move their 16 pieces according to specific rules; the object is to checkmate the opponent's king",
+            "examples": [],
+            "synonyms": [
+              "chess game"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "chess%1:04:00::",
+              "00504248-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "hobby",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.94
+      },
+      "priorityScore": 28.88,
+      "candidateSenses": [
+        {
+          "candidateId": "hobby#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hobby%1:04:00::",
+            "synsetId": "00433629-n",
+            "definition": "an auxiliary activity",
+            "examples": [],
+            "synonyms": [
+              "avocation",
+              "by-line",
+              "pursuit",
+              "sideline",
+              "spare-time activity"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hobby%1:04:00::",
+              "00433629-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "hobby#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hobby%1:06:00::",
+            "synsetId": "03528796-n",
+            "definition": "a child's plaything consisting of an imitation horse mounted on rockers; the child straddles it and pretends to ride",
+            "examples": [],
+            "synonyms": [
+              "hobbyhorse",
+              "rocking horse"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hobby%1:06:00::",
+              "03528796-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "hobby#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hobby%1:05:00::",
+            "synsetId": "01615117-n",
+            "definition": "small Old World falcon formerly trained and flown at small birds",
+            "examples": [],
+            "synonyms": [
+              "Falco subbuteo"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hobby%1:05:00::",
+              "01615117-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "butterfly",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.93
+      },
+      "priorityScore": 28.86,
+      "candidateSenses": [
+        {
+          "candidateId": "butterfly#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "butterfly%1:05:00::",
+            "synsetId": "02276911-n",
+            "definition": "diurnal insect typically having a slender body with knobbed antennae and broad colorful wings",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "butterfly%1:05:00::",
+              "02276911-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "butterfly#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "butterfly%1:04:00::",
+            "synsetId": "00571891-n",
+            "definition": "a swimming stroke in which the arms are thrown forward together out of the water while the feet kick up and down",
+            "examples": [],
+            "synonyms": [
+              "butterfly stroke"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "butterfly%1:04:00::",
+              "00571891-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "fierce",
+      "grade": 4,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 28.84,
+      "candidateSenses": [
+        {
+          "candidateId": "fierce#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fierce%5:00:00:violent:00",
+            "synsetId": "02521586-s",
+            "definition": "marked by extreme and violent energy",
+            "examples": [
+              "a ferocious beating",
+              "fierce fighting",
+              "a furious battle"
+            ],
+            "synonyms": [
+              "ferocious",
+              "furious",
+              "savage"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fierce%5:00:00:violent:00",
+              "02521586-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "fierce#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fierce%5:00:00:intense:00",
+            "synsetId": "01515606-s",
+            "definition": "marked by extreme intensity of emotions or convictions; inclined to react violently; fervid",
+            "examples": [
+              "fierce loyalty",
+              "in a tearing rage",
+              "vehement dislike",
+              "violent passions"
+            ],
+            "synonyms": [
+              "tearing",
+              "vehement",
+              "violent",
+              "trigger-happy"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fierce%5:00:00:intense:00",
+              "01515606-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "fierce#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fierce%5:00:00:merciless:00",
+            "synsetId": "01511487-s",
+            "definition": "ruthless in competition",
+            "examples": [
+              "cutthroat competition",
+              "bowelless readiness to take advantage"
+            ],
+            "synonyms": [
+              "cutthroat",
+              "bowelless"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fierce%5:00:00:merciless:00",
+              "01511487-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "balloon",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.9
+      },
+      "priorityScore": 28.8,
+      "candidateSenses": [
+        {
+          "candidateId": "balloon#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "balloon%1:06:00::",
+            "synsetId": "02785116-n",
+            "definition": "large tough nonrigid bag filled with gas or heated air",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "balloon%1:06:00::",
+              "02785116-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "balloon#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "balloon%1:06:01::",
+            "synsetId": "02785352-n",
+            "definition": "small thin inflatable rubber bag with narrow neck",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "balloon%1:06:01::",
+              "02785352-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "fog",
+      "grade": 4,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.9
+      },
+      "priorityScore": 28.8,
+      "candidateSenses": [
+        {
+          "candidateId": "fog#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fog%1:19:00::",
+            "synsetId": "11478731-n",
+            "definition": "droplets of water vapor suspended in the air near the ground",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fog%1:19:00::",
+              "11478731-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fog#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fog%1:26:01::",
+            "synsetId": "14545250-n",
+            "definition": "an atmosphere in which visibility is reduced because of a cloud of some substance",
+            "examples": [],
+            "synonyms": [
+              "fogginess",
+              "murk",
+              "murkiness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fog%1:26:01::",
+              "14545250-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fog#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fog%1:09:00::",
+            "synsetId": "05692366-n",
+            "definition": "confusion characterized by lack of clarity",
+            "examples": [],
+            "synonyms": [
+              "daze",
+              "haze"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fog%1:09:00::",
+              "05692366-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "frog",
+      "grade": 4,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.89
+      },
+      "priorityScore": 28.78,
+      "candidateSenses": [
+        {
+          "candidateId": "frog#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "frog%1:05:00::",
+            "synsetId": "01642406-n",
+            "definition": "any of various tailless stout-bodied amphibians with long hind limbs for leaping; semiaquatic and terrestrial species",
+            "examples": [],
+            "synonyms": [
+              "toad",
+              "toad frog",
+              "anuran",
+              "batrachian",
+              "salientian"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "frog%1:05:00::",
+              "01642406-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "frog#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "frog%1:18:00::",
+            "synsetId": "09728044-n",
+            "definition": "a person of French descent",
+            "examples": [],
+            "synonyms": [
+              "Gaul"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "frog%1:18:00::",
+              "09728044-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "frog#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "frog%1:06:00::",
+            "synsetId": "03403297-n",
+            "definition": "a decorative loop of braid or cord",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "frog%1:06:00::",
+              "03403297-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    }
+  ]
+}
