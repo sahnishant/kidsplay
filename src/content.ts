@@ -189,7 +189,7 @@ function requireFreePack(packId: string): LearningPack {
 
 const profiles = (profileRegistry as ProfileRegistry).profiles;
 const freePack = requireFreePack('free.animals-foundation.1');
-const vocabularyPack = requireFreePack('free.vocabulary-foundation.1');
+const vocabularyPack = requireFreePack('free.english-vocabulary.foundation.1');
 const goalPack = olympiadPrototypePack as GoalPath;
 const patternBlueprint = patternBlueprintJson as AssessmentBlueprint;
 const goalMockEntryId = `${goalPack.id}.mixed-mock`;
