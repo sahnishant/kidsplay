@@ -25,9 +25,16 @@ function runAssetValidator(rootDir?: string): string {
   });
 }
 
+function expectValidatedAssetCountAtLeast(output: string, minimum: number): void {
+  const match = /Validated (\d+) bundled open asset\(s\) from (\d+) source\(s\)\./.exec(output);
+  expect(match).not.toBeNull();
+  expect(Number(match?.[1] ?? 0)).toBeGreaterThanOrEqual(minimum);
+  expect(Number(match?.[2] ?? 0)).toBeGreaterThanOrEqual(1);
+}
+
 describe('OSS semantic asset integration', () => {
   it('validates every bundled asset offline through the standalone Node authoring command', () => {
-    expect(runAssetValidator()).toContain('Validated 10 bundled open asset(s) from 1 source(s).');
+    expectValidatedAssetCountAtLeast(runAssetValidator(), 34);
   });
 
   it('accepts Windows CRLF SVG materialization but still fails closed on real content drift', () => {
@@ -44,7 +51,7 @@ describe('OSS semantic asset integration', () => {
       const canonicalDog = readFileSync(dogPath, 'utf8').replace(/\r\n/g, '\n');
       writeFileSync(dogPath, canonicalDog.replace(/\n/g, '\r\n'), 'utf8');
 
-      expect(runAssetValidator(fixtureRoot)).toContain('Validated 10 bundled open asset(s) from 1 source(s).');
+      expectValidatedAssetCountAtLeast(runAssetValidator(fixtureRoot), 34);
 
       writeFileSync(dogPath, canonicalDog.replace('</svg>', '<!-- tampered -->\n</svg>'), 'utf8');
       expect(() => runAssetValidator(fixtureRoot)).toThrow();
@@ -53,10 +60,10 @@ describe('OSS semantic asset integration', () => {
     }
   });
 
-  it('maps the proof set to semantic visual ids without changing renderer fallbacks', () => {
+  it('maps the expanded semantic set without changing renderer fallbacks', () => {
     const definitions = getBundledAssetDefinitions();
-    expect(definitions).toHaveLength(10);
-    expect(new Set(definitions.flatMap((definition) => definition.visualRefs)).size).toBe(10);
+    expect(definitions.length).toBeGreaterThanOrEqual(34);
+    expect(new Set(definitions.flatMap((definition) => definition.visualRefs)).size).toBeGreaterThanOrEqual(35);
 
     expect(resolveAssetRefForVisualRef('entity.animal.dog')).toBe('fluent.dog.flat');
     expect(resolveBundledAsset('fluent.dog.flat')?.url).toBe('/assets/open/fluent/dog.svg');
@@ -66,10 +73,20 @@ describe('OSS semantic asset integration', () => {
     expect(dog?.renderer).toBe('scene-icon');
     expect(dog?.glyph).toBe('dog-happy');
 
+    expect(resolveAssetRefForVisualRef('entity.animal.cat')).toBe('fluent.cat.flat');
+    expect(resolveBundledAsset('fluent.cat.flat')?.url).toBe('/assets/open/fluent/cat.svg');
+    expect(resolveAssetRefForVisualRef('entity.body.heart')).toBe('fluent.anatomical-heart.flat');
+    expect(resolveAssetRefForVisualRef('entity.habitat.ocean')).toBe('fluent.water-wave.flat');
+
     const cat = resolveVisualDefinition('entity.animal.cat');
-    expect(cat?.assetRef).toBeUndefined();
+    expect(cat?.assetRef).toBe('fluent.cat.flat');
     expect(cat?.renderer).toBe('entity-icon');
     expect(cat?.glyph).toBe('cat');
+
+    const flower = resolveVisualDefinition('entity.plant.flower');
+    expect(flower?.assetRef).toBeUndefined();
+    expect(flower?.renderer).toBe('entity-icon');
+    expect(flower?.glyph).toBe('flower');
   });
 
   it('renders bundled artwork first and falls back to the existing SVG renderer after an image failure', async () => {
@@ -88,14 +105,14 @@ describe('OSS semantic asset integration', () => {
   });
 
   it('renders the existing SVG path directly when no assetRef exists', () => {
-    const { container } = render(VisualEntity, { visualRef: 'entity.animal.cat' });
+    const { container } = render(VisualEntity, { visualRef: 'entity.plant.flower' });
 
     expect(container.querySelector('img.visual-entity__asset')).toBeNull();
-    expect(container.querySelector('[data-visual-ref="entity.animal.cat"]')).not.toBeNull();
+    expect(container.querySelector('[data-visual-ref="entity.plant.flower"]')).not.toBeNull();
     expect(container.querySelector('svg')).not.toBeNull();
   });
 
-  it('keeps proof assets pinned to exact approved source revisions', () => {
+  it('keeps every bundled semantic asset pinned to the exact approved source revision', () => {
     const fluentSource = registry.sources.find((source) => source.id === 'microsoft-fluent-emoji');
     expect(fluentSource?.status).toBe('approved');
     expect(fluentSource?.revision).toBe('1ffb34c752ecf5d402f04cfb4b392c77f57c54bc');
