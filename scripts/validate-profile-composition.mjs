@@ -1,51 +1,39 @@
-import { readdirSync, readFileSync } from 'node:fs';
-import { membershipMap, resolveMembership } from './profileMemberships.mjs';
+import { readFileSync } from 'node:fs';
+import { allowedInheritanceScopes, createMembershipResolver, readMembershipCollections } from './profileMemberships.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const memberships = readdirSync(new URL('content/profile-memberships/', root))
-  .filter((name) => name.endsWith('.json'))
-  .sort()
-  .map((name) => readJson(`content/profile-memberships/${name}`));
 const taxonomy = readJson('content/taxonomies/learning.json');
 const allowedFits = new Set(taxonomy.placementFits ?? []);
-const byRef = membershipMap(memberships);
+const collections = readMembershipCollections(root);
+const resolver = createMembershipResolver(collections, allowedFits);
 const errors = [];
 
-for (const membership of memberships) {
-  const profileRef = membership.profileRef ?? '<unknown-profile>';
-  const includes = membership.includeProfiles ?? [];
-  if (!Array.isArray(includes)) {
-    errors.push(`${profileRef}: includeProfiles must be an array`);
+for (const { name, value: membership } of collections) {
+  const profileRef = membership.profileRef ?? name;
+  if (membership.inherits !== undefined && !Array.isArray(membership.inherits)) {
+    errors.push(`${profileRef}: inherits must be an array when provided`);
     continue;
   }
-  const seen = new Set();
-  for (const include of includes) {
-    if (!include || typeof include !== 'object') {
-      errors.push(`${profileRef}: includeProfiles entries must be objects`);
-      continue;
-    }
-    if (typeof include.profileRef !== 'string' || !include.profileRef.trim()) {
-      errors.push(`${profileRef}: included profileRef is required`);
-      continue;
-    }
-    if (include.profileRef === profileRef) errors.push(`${profileRef}: profile cannot include itself`);
-    if (seen.has(include.profileRef)) errors.push(`${profileRef}: duplicate included profile ${include.profileRef}`);
-    seen.add(include.profileRef);
-    if (!byRef.has(include.profileRef)) errors.push(`${profileRef}: unknown included profile ${include.profileRef}`);
-    if (include.mode !== undefined && include.mode !== 'direct') {
-      errors.push(`${profileRef}/${include.profileRef}: only mode=direct is supported`);
-    }
-    if (include.fit !== undefined && !allowedFits.has(include.fit)) {
-      errors.push(`${profileRef}/${include.profileRef}: unsupported fit override ${include.fit}`);
-    }
-    if (typeof include.reason !== 'string' || !include.reason.trim()) {
-      errors.push(`${profileRef}/${include.profileRef}: inclusion reason is required`);
-    }
+
+  const seenParents = new Set();
+  for (const inheritance of membership.inherits ?? []) {
+    const parent = inheritance?.profileRef;
+    if (!String(parent ?? '').trim()) errors.push(`${profileRef}: inheritance requires profileRef`);
+    if (parent === profileRef) errors.push(`${profileRef}: cannot inherit itself`);
+    if (seenParents.has(parent)) errors.push(`${profileRef}: duplicate inherited profile ${parent}`);
+    seenParents.add(parent);
+    if (!resolver.byProfile.has(parent)) errors.push(`${profileRef}: unknown inherited profile ${parent}`);
+    const scope = inheritance?.memberScope ?? 'direct';
+    if (!allowedInheritanceScopes.has(scope)) errors.push(`${profileRef}: unsupported inheritance memberScope ${scope}`);
+    if (!allowedFits.has(inheritance?.fit)) errors.push(`${profileRef}: unsupported inheritance fit ${inheritance?.fit}`);
+    if (!String(inheritance?.basis ?? '').trim()) errors.push(`${profileRef}: inheritance from ${parent} requires a non-empty basis`);
   }
 
   try {
-    resolveMembership(byRef, profileRef);
+    const resolved = resolver.resolve(profileRef);
+    const rowIds = resolved.members.map((member) => member.rowId);
+    if (new Set(rowIds).size !== rowIds.length) errors.push(`${profileRef}: resolved composition contains duplicate rows`);
   } catch (error) {
     errors.push(error instanceof Error ? error.message : String(error));
   }
@@ -56,6 +44,7 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  const composed = memberships.filter((membership) => (membership.includeProfiles?.length ?? 0) > 0);
-  console.log(`Profile composition OK: ${memberships.length} membership collection(s), ${composed.length} composed profile(s), direct-only inheritance with cycle guards.`);
+  const composed = collections.filter(({ value }) => (value.inherits?.length ?? 0) > 0);
+  const links = composed.reduce((sum, { value }) => sum + value.inherits.length, 0);
+  console.log(`Profile composition OK: ${collections.length} membership collection(s), ${composed.length} composed profile(s), ${links} direct inheritance link(s), canonical rows deduplicated.`);
 }
