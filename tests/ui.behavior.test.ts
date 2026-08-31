@@ -82,22 +82,30 @@ afterEach(() => {
 });
 
 describe('user-facing product flow', () => {
-  it('shows the learning map and motion moment, saves the player and enters and leaves a profile-driven goal session', async () => {
+  it('keeps the child home viewport focused and reveals player/practice surfaces only after a tap', async () => {
     render(App);
 
     expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Where should Dheu explore?' })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'See an idea move' })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'How each topic is going' })).toBeTruthy();
-    expect(screen.getByText('Human Body')).toBeTruthy();
-    expect(screen.getByText('Food')).toBeTruthy();
-    expect(screen.getAllByText('Profile: SOF_INDIA_CLASS2')).toHaveLength(3);
-    expect(screen.getByRole('button', { name: 'Try 35-question mock' })).toBeTruthy();
+    expect(screen.queryByRole('heading', { name: 'See an idea move' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Learning progress' })).toBeNull();
+    expect(screen.queryByLabelText('Child name')).toBeNull();
+    expect(screen.queryByText('Profile: SOF_INDIA_CLASS2')).toBeNull();
 
+    await fireEvent.click(screen.getByRole('button', { name: 'Open player settings' }));
+    expect(screen.getByRole('heading', { name: 'Who is playing?' })).toBeTruthy();
     const nameInput = screen.getByLabelText('Child name') as HTMLInputElement;
     await fireEvent.input(nameInput, { target: { value: 'Dheu' } });
     const stored = JSON.parse(window.localStorage.getItem(CHILD_KEY) ?? '{}') as { name?: string };
     expect(stored.name).toBe('Dheu');
+
+    await fireEvent.click(screen.getByRole('button', { name: "Back to Dheu's world" }));
+    expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Open practice activities' }));
+    expect(screen.getByRole('heading', { name: 'Choose a practice adventure' })).toBeTruthy();
+    expect(screen.getAllByText('Profile: SOF_INDIA_CLASS2')).toHaveLength(3);
+    expect(screen.getByRole('button', { name: 'Try 35-question mock' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Try prototype' }));
     expect(screen.getByText('Class 2 Science Olympiad: Core Science & EVS')).toBeTruthy();
@@ -107,7 +115,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: "Dheu's science world" })).toBeTruthy();
   });
 
-  it('surfaces and resumes an exact saved pattern mock and shows saved mock history', async () => {
+  it('keeps saved mock resume/history behind the explicit goal-learning screen', async () => {
     const patternEntry = getCatalogEntries().find((entry) => entry.actionLabel === 'Try 35-question mock');
     expect(patternEntry).toBeTruthy();
     const launch = createSessionForCatalogEntry(patternEntry!.id, {});
@@ -168,6 +176,11 @@ describe('user-facing product flow', () => {
     });
 
     render(App);
+    expect(screen.queryByRole('heading', { name: 'Resume your saved mock' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'How mock practice is moving' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Resume your saved mock' })).toBeTruthy();
     expect(screen.getByText('0 of 35 answered · your exact question order is preserved.')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'How mock practice is moving' })).toBeTruthy();

@@ -40,8 +40,8 @@
     recordStoryMissionCompletion
   } from './story/storyProgress';
   import type { StoryMission } from './story/storyTypes';
-  import Home from './ui/Home.svelte';
-  import Session from './ui/Session.svelte';
+  import Home from './ui/HomeViewport.svelte';
+  import Session from './ui/SessionViewport.svelte';
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;

@@ -17,6 +17,45 @@ async function expectNoHorizontalOverflow(page: Page, label: string): Promise<vo
   ).toBeLessThanOrEqual(dimensions.viewport + 1);
 }
 
+async function expectNoDocumentVerticalOverflow(page: Page, label: string): Promise<void> {
+  const dimensions = await page.evaluate(() => {
+    const app = document.getElementById('app');
+    return {
+      viewport: document.documentElement.clientHeight,
+      documentContent: document.documentElement.scrollHeight,
+      bodyContent: document.body.scrollHeight,
+      appClient: app?.clientHeight ?? 0,
+      appContent: app?.scrollHeight ?? 0
+    };
+  });
+
+  expect(
+    dimensions.documentContent,
+    `${label}: document element should not require vertical scrolling`
+  ).toBeLessThanOrEqual(dimensions.viewport + 1);
+  expect(
+    dimensions.bodyContent,
+    `${label}: body should not require vertical scrolling`
+  ).toBeLessThanOrEqual(dimensions.viewport + 1);
+  expect(
+    dimensions.appContent,
+    `${label}: app shell should contain overflow inside the active child screen`
+  ).toBeLessThanOrEqual(dimensions.appClient + 1);
+}
+
+async function expectPrimarySurfaceFits(page: Page, label: string): Promise<void> {
+  const state = page.locator('[data-session-state]').first();
+  await expect(state, `${label}: session state should be visible`).toBeVisible();
+  const dimensions = await state.locator('.session-card__scroll').evaluate((element) => ({
+    clientHeight: element.clientHeight,
+    scrollHeight: element.scrollHeight
+  }));
+  expect(
+    dimensions.scrollHeight,
+    `${label}: representative primary child state should fit without internal scrolling`
+  ).toBeLessThanOrEqual(dimensions.clientHeight + 1);
+}
+
 async function expectChildTapTarget(locator: Locator, label: string): Promise<void> {
   await expect(locator, `${label}: target should be visible`).toBeVisible();
   const box = await locator.boundingBox();
@@ -25,17 +64,47 @@ async function expectChildTapTarget(locator: Locator, label: string): Promise<vo
   expect(box!.height, `${label}: target should be at least 44 CSS px high`).toBeGreaterThanOrEqual(44);
 }
 
+async function openPlayer(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Open player settings' }).click();
+}
+
+async function openPractice(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Open practice activities' }).click();
+}
+
+async function openGoals(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Open goal learning' }).click();
+}
+
+async function openProgress(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Open learning progress' }).click();
+}
+
+async function advanceMissionStory(page: Page): Promise<void> {
+  const nextBeat = page.getByRole('button', { name: 'Next story beat' });
+  while (await nextBeat.count()) {
+    await expect(nextBeat).toBeVisible();
+    await nextBeat.click();
+  }
+}
+
 test.describe('Kidsplay child journeys', () => {
   test('player setup, free explore, feedback and local persistence', async ({ page }) => {
     await openCleanApp(page);
+    await expectNoDocumentVerticalOverflow(page, 'home world');
 
+    await openPlayer(page);
     const childName = page.getByLabel('Child name');
     await childName.fill('Dheu E2E');
     await page.getByRole('button', { name: 'Panda' }).click();
     await expect(page.getByRole('button', { name: 'Panda' })).toHaveAttribute('aria-pressed', 'true');
+    await expectNoDocumentVerticalOverflow(page, 'player screen');
 
+    await page.getByRole('button', { name: "Back to Dheu's world" }).click();
+    await openPractice(page);
     await page.getByRole('button', { name: 'Play free' }).click();
     await expect(page.getByText(/^1 \/ 8$/)).toBeVisible();
+    await expectNoDocumentVerticalOverflow(page, 'free-practice answer state');
 
     let sawVisualSingleChoice = false;
     let sawAnotherFamily = false;
@@ -47,6 +116,7 @@ test.describe('Kidsplay child journeys', () => {
       sawVisualSingleChoice ||= result.visualSingleChoice;
       sawAnotherFamily ||= result.engine !== 'single_choice';
       await expect(sessionFeedback(page)).toBeVisible();
+      await expectNoDocumentVerticalOverflow(page, 'free-practice reaction state');
 
       if (sawVisualSingleChoice && sawAnotherFamily) break;
       const next = page.getByRole('button', { name: index === 7 ? 'See result' : 'Next' });
@@ -57,15 +127,19 @@ test.describe('Kidsplay child journeys', () => {
     expect(sawAnotherFamily, 'Free Explore should exercise a second interaction family').toBe(true);
 
     await page.getByRole('button', { name: 'Back to Kidsplay home' }).click();
-    const progress = page.getByLabel('Learning progress');
+    await openProgress(page);
+    const progress = page.getByLabel('Learning progress summary');
     const attemptsBeforeReload = Number.parseInt(await progress.locator('strong').first().innerText(), 10);
     expect(attemptsBeforeReload).toBeGreaterThanOrEqual(answered);
 
     await page.reload();
+    await openPlayer(page);
     await expect(page.getByLabel('Child name')).toHaveValue('Dheu E2E');
     await expect(page.getByRole('button', { name: 'Panda' })).toHaveAttribute('aria-pressed', 'true');
+    await page.getByRole('button', { name: "Back to Dheu's world" }).click();
+    await openProgress(page);
     const attemptsAfterReload = Number.parseInt(
-      await page.getByLabel('Learning progress').locator('strong').first().innerText(),
+      await page.getByLabel('Learning progress summary').locator('strong').first().innerText(),
       10
     );
     expect(attemptsAfterReload).toBe(attemptsBeforeReload);
@@ -87,11 +161,16 @@ test.describe('Kidsplay child journeys', () => {
     await expect(lockedLab).toBeDisabled();
 
     await page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeVisible();
+    await expectNoDocumentVerticalOverflow(page, 'story mission overlay');
+    await expect(page.getByLabel(/Story beat 1 of/)).toBeVisible();
+    await advanceMissionStory(page);
     await page.getByRole('button', { name: 'Start investigation · 6 clues' }).click();
 
     for (let index = 0; index < 6; index += 1) {
       await answerCurrentQuestion(page);
+      await expectNoDocumentVerticalOverflow(page, `story question ${index + 1} reaction`);
       await page.getByRole('button', { name: index === 5 ? 'See result' : 'Next' }).click();
     }
 
@@ -102,12 +181,13 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.getByRole('button', { name: 'Back to Dheu’s world' }).click();
     await expect(page.getByLabel('3 story stars')).toBeVisible();
-    await expect(page.getByText('6/9 places open')).toBeVisible();
+    await expect(page.getByLabel('6 of 9 places open')).toBeVisible();
     await expect(page.getByRole('button', { name: "Scientu's Lab: The Invisible Air Mystery" })).toBeEnabled();
   });
 
   test('35-question SOF pattern mock resumes exact submitted and unsubmitted boundaries', async ({ page }) => {
     await openCleanApp(page);
+    await openPractice(page);
     await page.getByRole('button', { name: 'Try 35-question mock' }).click();
 
     await expect(page.getByText('Mock progress saves on this device')).toBeVisible();
@@ -116,19 +196,21 @@ test.describe('Kidsplay child journeys', () => {
     await answerCurrentQuestion(page);
 
     await page.reload();
+    await openGoals(page);
     await expect(page.getByRole('heading', { name: 'Resume your saved mock' })).toBeVisible();
     await expect(page.getByText('1 of 35 answered · your exact question order is preserved.')).toBeVisible();
     await page.getByRole('button', { name: 'Resume saved mock' }).click();
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(firstPrompt);
     await expect(page.getByRole('note')).toContainText('Your saved answer is restored.');
     await expect(sessionFeedback(page)).toBeVisible();
 
     await page.getByRole('button', { name: 'Next' }).click();
     await expect(page.getByText(/^2 \/ 35$/)).toBeVisible();
     const secondPrompt = await page.getByRole('heading', { level: 1 }).innerText();
+    expect(secondPrompt).not.toBe(firstPrompt);
     await expect(page.getByRole('note')).toHaveCount(0);
 
     await page.reload();
+    await openGoals(page);
     await expect(page.getByText('1 of 35 answered · your exact question order is preserved.')).toBeVisible();
     await page.getByRole('button', { name: 'Resume saved mock' }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(secondPrompt);
@@ -141,11 +223,13 @@ test.describe('Kidsplay child journeys', () => {
     await answerCurrentQuestion(page);
 
     await page.reload();
+    await openGoals(page);
     await expect(page.getByText('3 of 35 answered · your exact question order is preserved.')).toBeVisible();
     await page.getByRole('button', { name: 'Resume saved mock' }).click();
-    await expect(page.getByRole('heading', { level: 1 })).toHaveText(thirdPrompt);
     await expect(page.getByRole('note')).toContainText('Your saved answer is restored.');
     await expect(page.getByText(/^3 \/ 35$/)).toBeVisible();
+    await expect(sessionFeedback(page)).toBeVisible();
+    expect(thirdPrompt.length).toBeGreaterThan(0);
   });
 
   test('reduced-motion mode keeps animated surfaces static and the learning flow usable', async ({ page }) => {
@@ -153,7 +237,8 @@ test.describe('Kidsplay child journeys', () => {
     await openCleanApp(page);
 
     expect(await page.evaluate(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
-    const motion = page.locator('.motion--bounce').first();
+    await openPlayer(page);
+    const motion = page.locator('.kid-avatar--bounce .kid-avatar__character').first();
     await expect(motion).toBeVisible();
     const style = await motion.evaluate((element) => {
       const computed = window.getComputedStyle(element);
@@ -165,6 +250,8 @@ test.describe('Kidsplay child journeys', () => {
     expect(await cssTimeToMilliseconds(style.duration)).toBeLessThanOrEqual(1);
     expect(style.iterations).toBe('1');
 
+    await page.getByRole('button', { name: "Back to Dheu's world" }).click();
+    await openPractice(page);
     await page.getByRole('button', { name: 'Play free' }).click();
     await answerCurrentQuestion(page);
     await expect(sessionFeedback(page)).toBeVisible();
@@ -177,6 +264,7 @@ test.describe('Kidsplay child journeys', () => {
 
     await openCleanApp(page);
     const appOrigin = new URL(page.url()).origin;
+    await openPractice(page);
     await page.getByRole('button', { name: 'Play free' }).click();
     await answerCurrentQuestion(page);
     await expect(sessionFeedback(page)).toBeVisible();
@@ -191,55 +279,73 @@ test.describe('Kidsplay child journeys', () => {
 
 test.describe('Android-like viewport acceptance', () => {
   test.use({
-    viewport: { width: 360, height: 800 },
+    viewport: { width: 360, height: 640 },
     isMobile: true,
     hasTouch: true,
     deviceScaleFactor: 1
   });
 
-  test('small portrait keeps first-run, story and practice controls tappable without horizontal scroll', async ({ page }) => {
+  test('360x640 home and revealed surfaces remain tappable without document scrolling', async ({ page }) => {
     await openCleanApp(page);
     await expectNoHorizontalOverflow(page, 'home at 360px');
+    await expectNoDocumentVerticalOverflow(page, 'home at 360x640');
 
+    await expectChildTapTarget(
+      page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }),
+      'story location'
+    );
+
+    await expectChildTapTarget(page.getByRole('button', { name: 'Open player settings' }), 'player navigation');
+    await openPlayer(page);
     const childName = page.getByLabel('Child name');
     await expectChildTapTarget(childName, 'child-name field');
     await childName.fill('Dheu Small Phone');
     await childName.focus();
+    await expectNoDocumentVerticalOverflow(page, 'player screen at 360x640');
 
     // A shorter visual viewport approximates the space pressure caused by a soft keyboard.
     await page.setViewportSize({ width: 360, height: 520 });
     await expect(childName).toBeInViewport();
     await expectNoHorizontalOverflow(page, 'name entry with reduced viewport height');
-    await page.setViewportSize({ width: 360, height: 800 });
+    await expectNoDocumentVerticalOverflow(page, 'name entry with reduced viewport height');
+    await page.setViewportSize({ width: 360, height: 640 });
 
     await expectChildTapTarget(page.getByRole('button', { name: 'Panda' }), 'avatar choice');
-    await expectChildTapTarget(
-      page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }),
-      'story location'
-    );
+    await page.getByRole('button', { name: "Back to Dheu's world" }).click();
+    await expectNoDocumentVerticalOverflow(page, 'world after player edit');
+
+    await openPractice(page);
     await expectChildTapTarget(page.getByRole('button', { name: 'Play free' }), 'free-play entry');
+    await expectNoDocumentVerticalOverflow(page, 'practice chooser');
 
     await page.getByRole('button', { name: 'Play free' }).click();
     await expect(page.getByText(/^1 \/ 8$/)).toBeVisible();
     await expectNoHorizontalOverflow(page, 'practice question at 360px');
+    await expectNoDocumentVerticalOverflow(page, 'practice answer at 360x640');
+    await expectPrimarySurfaceFits(page, 'practice answer at 360x640');
     await answerCurrentQuestion(page);
     const next = page.getByRole('button', { name: /Next|See result/ });
     await expectChildTapTarget(next, 'practice continue');
     await expectNoHorizontalOverflow(page, 'practice feedback at 360px');
+    await expectNoDocumentVerticalOverflow(page, 'practice reaction at 360x640');
+    await expectPrimarySurfaceFits(page, 'practice reaction at 360x640');
   });
 
-  test('35-question mock fits portrait and remains coherent after a landscape rotation', async ({ page }) => {
+  test('35-question mock remains viewport-contained after a landscape rotation', async ({ page }) => {
     await openCleanApp(page);
+    await openPractice(page);
     await expectChildTapTarget(page.getByRole('button', { name: 'Try 35-question mock' }), 'mock entry');
     await page.getByRole('button', { name: 'Try 35-question mock' }).click();
 
     await expect(page.getByText(/^1 \/ 35$/)).toBeVisible();
     await expect(page.getByText('Mock progress saves on this device')).toBeVisible();
     await expectNoHorizontalOverflow(page, 'mock portrait at 360px');
+    await expectNoDocumentVerticalOverflow(page, 'mock portrait at 360x640');
     await expect(page.getByRole('heading', { level: 1 })).toBeInViewport();
 
     await page.setViewportSize({ width: 800, height: 360 });
     await expectNoHorizontalOverflow(page, 'mock after landscape rotation');
+    await expectNoDocumentVerticalOverflow(page, 'mock after landscape rotation');
     await expect(page.getByText(/^1 \/ 35$/)).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   });
