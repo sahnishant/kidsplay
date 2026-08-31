@@ -5,10 +5,13 @@ import { describe, expect, it } from 'vitest';
 
 const readText = (path: string) => readFileSync(resolve(process.cwd(), path), 'utf8');
 const readJson = (path: string) => JSON.parse(readText(path));
-const gitBlobSha = (text: string) => createHash('sha1')
-  .update(`blob ${Buffer.byteLength(text)}\0`)
-  .update(text)
-  .digest('hex');
+const gitBlobSha = (text: string) => {
+  const canonical = text.replace(/\r\n/g, '\n');
+  return createHash('sha1')
+    .update(`blob ${Buffer.byteLength(canonical)}\0`)
+    .update(canonical)
+    .digest('hex');
+};
 
 describe('SOF Class 2 terminal provenance review', () => {
   it('keeps exact evidence separate from terminal no-exact dispositions', () => {
