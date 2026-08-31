@@ -2,12 +2,12 @@
   "id": "free.sof-class3-science-foundation.1",
   "kind": "learning_pack",
   "title": "Science Explorer: Class 3 Science",
-  "description": "Short free Class 3 science and logical-reasoning sessions that reuse the previous-class free foundation where the current Level-I scope includes previous-class syllabus.",
+  "description": "Short free Class 3 science and logical-reasoning sessions that reuse the canonical Class 3 foundation and previous-class free foundation instead of duplicating either bank.",
   "profileRef": "SOF_INDIA_CLASS3",
   "access": { "type": "free" },
   "status": "prototype",
   "actionLabel": "Explore Class 3",
-  "includePackRefs": ["free.animals-foundation.1"],
+  "includePackRefs": ["free.animals-foundation.1", "free-class3-foundation"],
   "questionRefs": [
     "sof3.life-community.memory.generated.001",
     "sof3.life-community.match.generated.001",
@@ -45,17 +45,12 @@
 
     "sof3.plants-animals-breadth.memory.generated.001",
     "sof3.plants-animals-breadth.match.generated.001",
-    "sof3.plants-animals-breadth.mcq-bank.generated.001.leaves-food-sunlight",
     "sof3.plants-animals-breadth.mcq-bank.generated.001.seed-germination",
-    "sof3.plants-animals-breadth.mcq-bank.generated.001.herbivores",
-    "sof3.plants-animals-breadth.mcq-bank.generated.001.carnivores",
-    "sof3.plants-animals-breadth.mcq-bank.generated.001.omnivores",
     "sof3.plants-animals-breadth.mcq-bank.generated.001.animal-features-habitat",
 
     "sof3.human-body-breadth.memory.generated.001",
     "sof3.human-body-breadth.match.generated.001",
     "sof3.human-body-breadth.mcq-bank.generated.001.muscles-movement",
-    "sof3.human-body-breadth.mcq-bank.generated.001.lungs-gas-exchange",
     "sof3.human-body-breadth.mcq-bank.generated.001.digestion",
     "sof3.human-body-breadth.mcq-bank.generated.001.exercise-body",
 
