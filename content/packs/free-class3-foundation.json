@@ -2,6 +2,7 @@
   "id": "free-class3-foundation",
   "kind": "learning_pack",
   "title": "Class 3 Science Foundation",
+  "catalogVisible": false,
   "access": { "type": "free" },
   "profileRef": "SOF_INDIA_CLASS3",
   "questionRefs": [
