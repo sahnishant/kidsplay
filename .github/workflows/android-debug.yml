@@ -117,20 +117,58 @@ jobs:
           done
           test "$booted" = "1"
 
+          adb shell settings put global window_animation_scale 0 || true
+          adb shell settings put global transition_animation_scale 0 || true
+          adb shell settings put global animator_duration_scale 0 || true
           adb install -r android/app/build/outputs/apk/debug/app-debug.apk
           adb shell svc wifi disable || true
           adb shell svc data disable || true
+
+          wait_for_app_pid() {
+            local label="$1"
+            local pid=""
+            for _ in $(seq 1 15); do
+              pid="$(adb shell pidof com.kidsplay.app 2>/dev/null | tr -d '\r')"
+              if [ -n "$pid" ]; then
+                printf '%s\n' "$pid" | tee "android-smoke/${label}-pid.txt"
+                return 0
+              fi
+              sleep 1
+            done
+            return 1
+          }
+
+          capture_rendered_screen() {
+            local label="$1"
+            local path="android-smoke/${label}.png"
+            local bytes="0"
+            for _ in $(seq 1 15); do
+              adb exec-out screencap -p > "$path"
+              bytes="$(wc -c < "$path" | tr -d ' ')"
+              if [ "$bytes" -ge 45000 ]; then
+                return 0
+              fi
+              sleep 2
+            done
+            echo "Rendered screen remained visually sparse (${bytes} bytes): $label" >&2
+            return 1
+          }
+
+          dump_portrait_webview() {
+            local label="$1"
+            adb shell uiautomator dump /sdcard/window.xml >/dev/null
+            adb pull /sdcard/window.xml "android-smoke/${label}-ui.xml" >/dev/null
+            grep -q 'package="com.kidsplay.app"' "android-smoke/${label}-ui.xml"
+            grep -q 'resource-id="com.kidsplay.app:id/webview"' "android-smoke/${label}-ui.xml"
+          }
 
           launch_and_assert() {
             local label="$1"
             adb shell am force-stop com.kidsplay.app
             adb shell monkey -p com.kidsplay.app -c android.intent.category.LAUNCHER 1 >/dev/null
-            sleep 4
-            adb shell pidof com.kidsplay.app | tee "android-smoke/${label}-pid.txt"
-            adb shell uiautomator dump /sdcard/window.xml >/dev/null
-            adb pull /sdcard/window.xml "android-smoke/${label}-ui.xml" >/dev/null
-            grep -qi "Kidsplay" "android-smoke/${label}-ui.xml"
-            adb exec-out screencap -p > "android-smoke/${label}.png"
+            wait_for_app_pid "$label"
+            capture_rendered_screen "$label"
+            dump_portrait_webview "$label"
           }
 
           launch_and_assert portrait-offline-first-launch
@@ -138,14 +176,23 @@ jobs:
 
           adb shell settings put system accelerometer_rotation 0
           adb shell settings put system user_rotation 1
-          sleep 3
-          adb shell uiautomator dump /sdcard/window-landscape.xml >/dev/null
-          adb pull /sdcard/window-landscape.xml android-smoke/landscape-ui.xml >/dev/null
-          grep -qi "Kidsplay" android-smoke/landscape-ui.xml
-          adb exec-out screencap -p > android-smoke/landscape.png
 
+          landscape_ready=""
+          for _ in $(seq 1 15); do
+            adb exec-out screencap -p > android-smoke/landscape.png
+            bytes="$(wc -c < android-smoke/landscape.png | tr -d ' ')"
+            read -r width height <<< "$(python3 -c 'import struct,sys; d=open(sys.argv[1],"rb").read(24); print(*struct.unpack(">II", d[16:24]))' android-smoke/landscape.png)"
+            if [ "$width" -gt "$height" ] && [ "$bytes" -ge 45000 ]; then
+              landscape_ready="1"
+              break
+            fi
+            sleep 2
+          done
+          test "$landscape_ready" = "1"
+          adb shell pidof com.kidsplay.app | tee android-smoke/landscape-pid.txt
           adb shell dumpsys package com.kidsplay.app > android-smoke/package.txt
           adb shell dumpsys activity activities > android-smoke/activities.txt
+          grep -q 'com.kidsplay.app' android-smoke/activities.txt
 
       - name: Upload Android smoke diagnostics
         if: always()
