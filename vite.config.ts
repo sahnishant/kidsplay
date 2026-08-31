@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { basename, dirname, relative, resolve, sep } from 'node:path';
+import { basename, dirname, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { svelteTesting } from '@testing-library/svelte/vite';
@@ -7,12 +7,17 @@ import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
-const questionRoot = `${resolve(projectRoot, 'content/questions')}${sep}`;
-const membershipRoot = `${resolve(projectRoot, 'content/profile-memberships')}${sep}`;
-const resolvedMembershipPath = resolve(projectRoot, 'content/index/__generated-profile-memberships.json');
+const normalizePath = (value: string): string => value.replaceAll('\\', '/');
+const questionRoot = `${normalizePath(resolve(projectRoot, 'content/questions'))}/`;
+const membershipRoot = `${normalizePath(resolve(projectRoot, 'content/profile-memberships'))}/`;
+const resolvedMembershipPath = normalizePath(resolve(projectRoot, 'content/index/__generated-profile-memberships.json'));
+
+function cleanModuleId(id: string): string {
+  return normalizePath(id.split('?')[0]);
+}
 
 function isRuntimeContentJson(id: string): boolean {
-  const cleanId = id.split('?')[0];
+  const cleanId = cleanModuleId(id);
   return cleanId.startsWith(questionRoot)
     || cleanId.startsWith(membershipRoot)
     || cleanId === resolvedMembershipPath;
@@ -24,11 +29,11 @@ function runtimeJsonAssetPlugin(): Plugin {
     apply: 'build',
     enforce: 'pre',
     async load(id: string): Promise<string | null> {
-      const cleanId = id.split('?')[0];
+      const cleanId = cleanModuleId(id);
       if (!isRuntimeContentJson(cleanId)) return null;
 
       const source = await readFile(cleanId, 'utf8');
-      const sourceLabel = relative(projectRoot, cleanId).split(sep).join('/');
+      const sourceLabel = normalizePath(relative(projectRoot, cleanId));
       const referenceId: string = this.emitFile({
         type: 'asset',
         name: `runtime-${basename(cleanId)}`,
