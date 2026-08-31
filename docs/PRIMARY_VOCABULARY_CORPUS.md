@@ -60,3 +60,17 @@ The full 11k+ pool is not the runtime pack. Curators should select a manageable 
 - learner mastery history
 
 Selected words then go through OEWN sense review and child-definition review before meaning-based activities. Spelling-only activities may use a lighter review path, but still require profile placement before shipping.
+
+## Profile-slice bridge
+
+Pass 5 deliberately uses a **review bridge**, not an importer. `scripts/lexicon/build-primary-vocabulary-profile-slice.mjs` takes a grade selection and a target Kidsplay profile, then matches candidates only against `authoring.status: reviewed` Kidsplay knowledge rows whose relation is `means`.
+
+Example:
+
+```bash
+npm run lexicon:profile-slice:primary -- --profile CBSE_INDIA_CLASS2 --grade 2 --limit 100
+```
+
+By default this writes `content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json`. The artifact is explicitly `curation_review_only` and contains candidate/source identifiers, source grade signals, matching reviewed Kidsplay row IDs, and any existing profile membership fit. It does **not** include dictionary glosses, child-definition text, examples or source prose.
+
+Candidates without an already-reviewed Kidsplay meaning row are emitted under `pendingEditorialReview`. Matching a word does not add it to the profile: `mutatesKnowledge` and `mutatesProfileMembership` are both false, and `boardAlignmentClaimed` is false. A curator still has to approve the Kidsplay child definition and profile placement through the normal content/profile files.

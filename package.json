@@ -13,6 +13,7 @@
     "lexicon:sync:primary": "node scripts/lexicon/sync-primary-grade-corpus.mjs",
     "lexicon:select:primary": "node scripts/lexicon/select-grade-vocabulary.mjs",
     "lexicon:resolve:primary": "node scripts/lexicon/build-grade-sense-review.mjs",
+    "lexicon:profile-slice:primary": "node scripts/lexicon/build-primary-vocabulary-profile-slice.mjs",
     "report:lexicon-corpus": "node scripts/lexicon/report-primary-grade-corpus.mjs",
     "report:coverage": "node scripts/report-learning-coverage.mjs",
     "report:profile-maturity": "npm run compile:content && node scripts/report-profile-maturity.mjs --profiles=SOF_INDIA_CLASS2,SOF_INDIA_CLASS3",
