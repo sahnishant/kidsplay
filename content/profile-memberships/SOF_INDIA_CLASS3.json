@@ -81,6 +81,7 @@
     { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "review" },
     { "rowId": "kr.reasoning.alphabet.arrange.mango-first", "fit": "review" },
     { "rowId": "kr.reasoning.figure-matrix.alternating.symbols", "fit": "review" },
+    { "rowId": "kr.reasoning.grouping.figures.straight-sides", "fit": "review" },
     { "rowId": "kr.reasoning.mirror.word-nearest.right", "fit": "review" },
     { "rowId": "kr.reasoning.combinations.outfits.two-by-two", "fit": "review" },
     { "rowId": "kr.reasoning.clock.elapsed.school-four-hours", "fit": "review" },
