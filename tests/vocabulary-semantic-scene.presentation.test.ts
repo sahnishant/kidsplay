@@ -47,6 +47,25 @@ describe('semantic vocabulary scene runtime', () => {
     expect(childPlans.every((plan) => plan.knowledgeRef?.startsWith('kr.'))).toBe(true);
   });
 
+  it('promotes maturity only where runtime evidence exists', () => {
+    const plans = getVocabularyVisualRuntimePlans();
+    const childPlans = plans.filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement');
+    const proofs = new Map(
+      plans
+        .filter((plan) => plan.runtimeUsage === 'template_proof')
+        .map((plan) => [plan.senseKey, plan.maturity])
+    );
+
+    expect(childPlans.every((plan) => plan.maturity === 'V5')).toBe(true);
+    expect(proofs).toEqual(new Map([
+      ['village#settlement', 'V3'],
+      ['under#below-reference', 'V3'],
+      ['pull#move-toward-by-force', 'V4'],
+      ['open#change-from-closed', 'V4'],
+      ['same#matching-in-target-dimension', 'V3']
+    ]));
+  });
+
   it('renders settlement, spatial, cause/effect, transition and comparison grammars from sense plans', () => {
     const cases = [
       ['village#settlement', 'place'],
