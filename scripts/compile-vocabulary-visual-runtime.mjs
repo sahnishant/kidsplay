@@ -36,6 +36,36 @@ for (const name of batchNames) {
   }
 }
 
+const registry = readJson('content/vocabulary-visuals/registry.json');
+const maturityRanks = new Map((registry.maturityLevels ?? []).map((entry) => [entry.id, entry.rank]));
+const maturityProofs = readJson('content/vocabulary-visuals/runtime-maturity-proofs.json');
+if (maturityProofs?.schemaVersion !== 1 || maturityProofs?.issueRef !== 80) {
+  throw new Error('Vocabulary visual runtime maturity proofs must use schemaVersion 1 and issue #80');
+}
+if (!Number.isInteger(maturityProofs?.evidence?.workflowRunId) || !String(maturityProofs?.evidence?.headSha ?? '').match(/^[0-9a-f]{40}$/)) {
+  throw new Error('Vocabulary visual runtime maturity proofs require an exact workflow run and 40-character head SHA');
+}
+if (maturityProofs?.policy?.strategyAuditRemainsIndependent !== true || maturityProofs?.policy?.maturityMayOnlyIncreaseFromRuntimeProof !== true) {
+  throw new Error('Vocabulary visual runtime maturity proof policy must preserve independent audit data and proof-only promotion');
+}
+
+const maturityBySenseKey = new Map();
+for (const promotion of maturityProofs.promotions ?? []) {
+  const senseKey = String(promotion?.senseKey ?? '').trim();
+  const maturity = String(promotion?.maturity ?? '').trim();
+  const basis = String(promotion?.basis ?? '').trim();
+  if (!senseKey || maturityBySenseKey.has(senseKey)) throw new Error(`Duplicate/missing runtime maturity proof for ${senseKey || '<empty>'}`);
+  const item = strategyBySenseKey.get(senseKey);
+  if (!item) throw new Error(`${senseKey}: runtime maturity proof points to unknown visual strategy`);
+  const sourceRank = maturityRanks.get(item.maturity);
+  const proofRank = maturityRanks.get(maturity);
+  if (!Number.isInteger(sourceRank) || !Number.isInteger(proofRank)) throw new Error(`${senseKey}: unknown source/proof maturity`);
+  if (proofRank < sourceRank) throw new Error(`${senseKey}: runtime maturity proof cannot lower maturity from ${item.maturity} to ${maturity}`);
+  if (proofRank < 3) throw new Error(`${senseKey}: runtime maturity proof must establish at least V3`);
+  if (!basis) throw new Error(`${senseKey}: runtime maturity proof requires basis`);
+  maturityBySenseKey.set(senseKey, { maturity, basis });
+}
+
 const projectPlan = (item, runtimeUsage, knowledgeRef = null) => ({
   knowledgeRef,
   runtimeUsage,
@@ -43,7 +73,7 @@ const projectPlan = (item, runtimeUsage, knowledgeRef = null) => ({
   lemma: item.lemma,
   strategy: item.strategy,
   sceneTemplate: item.sceneTemplate ?? null,
-  maturity: item.maturity,
+  maturity: maturityBySenseKey.get(item.senseKey)?.maturity ?? item.maturity,
   motionPolicy: item.motionPolicy,
   answerSafety: item.answerSafety,
   visualRef: item.visualRef ?? null,
@@ -99,10 +129,38 @@ const proofPlans = (templateProofs.senseKeys ?? []).map((rawSenseKey) => {
   return projectPlan(item, 'template_proof');
 });
 
+for (const [senseKey, proof] of maturityBySenseKey) {
+  const item = strategyBySenseKey.get(senseKey);
+  if (proof.basis === 'child_facing_post_answer_reinforcement') {
+    if (!reinforcementSenseKeys.has(senseKey)) throw new Error(`${senseKey}: V5 child-facing proof has no admitted reinforcement mapping`);
+    if (proof.maturity !== 'V5') throw new Error(`${senseKey}: child-facing proof must claim V5`);
+  } else if (proof.basis === 'renderer_template_proof') {
+    if (!seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: renderer proof has no admitted template proof plan`);
+    if (proof.maturity !== 'V3') throw new Error(`${senseKey}: renderer-only proof must claim V3`);
+  } else if (proof.basis === 'renderer_template_plus_meaningful_motion_proof') {
+    if (!seenProofSenseKeys.has(senseKey)) throw new Error(`${senseKey}: motion proof has no admitted template proof plan`);
+    if (proof.maturity !== 'V4') throw new Error(`${senseKey}: renderer+motion proof must claim V4`);
+    if (item.motionPolicy === 'none') throw new Error(`${senseKey}: V4 motion proof requires a meaningful motion policy`);
+  } else {
+    throw new Error(`${senseKey}: unsupported runtime maturity proof basis ${proof.basis}`);
+  }
+}
+
+const admittedSenseKeys = new Set([...reinforcementSenseKeys, ...seenProofSenseKeys]);
+for (const senseKey of maturityBySenseKey.keys()) {
+  if (!admittedSenseKeys.has(senseKey)) throw new Error(`${senseKey}: maturity promotion is not present in the admitted runtime projection`);
+}
+
 const plans = [...reinforcementPlans, ...proofPlans];
-writeFileSync(outputUrl, `${JSON.stringify({ schemaVersion: 1, issueRef: 80, plans }, null, 2)}\n`, 'utf8');
+writeFileSync(outputUrl, `${JSON.stringify({
+  schemaVersion: 1,
+  issueRef: 80,
+  maturityEvidence: maturityProofs.evidence,
+  plans
+}, null, 2)}\n`, 'utf8');
 console.log(
   `Compiled ${reinforcementPlans.length} child-facing vocabulary reinforcement plan(s) across ` +
-  `${reinforcementSenseKeys.size} semantic sense(s) + ${proofPlans.length} renderer template proof plan(s) from ` +
-  `${strategyBySenseKey.size} audited sense strategy item(s); ${canonicalRowIds.size} canonical knowledge row(s) checked.`
+  `${reinforcementSenseKeys.size} semantic sense(s) + ${proofPlans.length} renderer template proof plan(s); ` +
+  `${maturityBySenseKey.size} proof-backed maturity promotion(s); ${strategyBySenseKey.size} audited sense strategy item(s); ` +
+  `${canonicalRowIds.size} canonical knowledge row(s) checked.`
 );
