@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { normalizeData } from '../normalizers/registry.mjs';
 import { formatAssociationSet, associationSetSupportedEngines } from './associationSet.mjs';
 import { formatChoiceItem, choiceItemSupportedEngines } from './choiceItem.mjs';
+import { assertRecipeUnitMode } from './recipeUnitMode.mjs';
 
 const dataTypeRegistry = JSON.parse(readFileSync(new URL('../../content/data-types/registry.json', import.meta.url), 'utf8'));
 
@@ -91,7 +92,17 @@ export function formatDataForEngine(data, engine, recipe = {}) {
   if (!implementation) throw new Error(`No formatter implementation registered for ${sourceKey}`);
   if (!(definition.compatibleEngines ?? []).includes(engine)) throw new Error(`${normalized.sourceRef}: datatype ${sourceKey} is not compatible with ${engine}`);
   if (!implementation.supportedEngines.includes(engine)) throw new Error(`${normalized.sourceRef}: formatter ${sourceKey} does not implement ${engine}`);
-  if (!meetsRequirements(normalized, definition.engineRequirements?.[engine])) throw new Error(`${normalized.sourceRef}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
+  const requirements = definition.engineRequirements?.[engine];
+  if (!meetsRequirements(normalized, requirements)) throw new Error(`${normalized.sourceRef}: record does not meet ${engine} requirements for datatype ${sourceKey}`);
+  const selectedUnits = selectedUnitsForRecipe(normalized, recipe);
+  assertRecipeUnitMode({
+    sourceRef: normalized.sourceRef,
+    recipeId: recipe.id,
+    engine,
+    mode: requirements?.recipeUnitMode,
+    selectedCount: selectedUnits.length,
+    totalCount: normalized.units.length
+  });
   const result = implementation.format(normalized, { ...recipe, engine });
-  return attachKnowledgeRefs(result, knowledgeRefsForRecipe(normalized, recipe));
+  return attachKnowledgeRefs(result, [...new Set(selectedUnits.map((unit) => unit.rowId))]);
 }
