@@ -1,12 +1,13 @@
 import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { buildPrimaryVocabularyProfileSlice } from '../scripts/lexicon/build-primary-vocabulary-profile-slice.mjs';
 import { selectGradeReviewWordlist } from '../scripts/lexicon/select-grade-vocabulary.mjs';
 
-const corpus = JSON.parse(readFileSync(new URL('../content/lexicon/open/primary-grade-corpus.json', import.meta.url), 'utf8'));
-const sources = JSON.parse(readFileSync(new URL('../content/lexicon/sources.json', import.meta.url), 'utf8'));
-const vocabularyKnowledge = JSON.parse(readFileSync(new URL('../content/knowledge/english-vocabulary-foundation.json', import.meta.url), 'utf8'));
-const cbseClass2Membership = JSON.parse(readFileSync(new URL('../content/profile-memberships/CBSE_INDIA_CLASS2.json', import.meta.url), 'utf8'));
+const corpus = JSON.parse(readFileSync(resolve('content/lexicon/open/primary-grade-corpus.json'), 'utf8'));
+const sources = JSON.parse(readFileSync(resolve('content/lexicon/sources.json'), 'utf8'));
+const vocabularyKnowledge = JSON.parse(readFileSync(resolve('content/knowledge/english-vocabulary-foundation.json'), 'utf8'));
+const cbseClass2Membership = JSON.parse(readFileSync(resolve('content/profile-memberships/CBSE_INDIA_CLASS2.json'), 'utf8'));
 
 describe('grade-aware primary vocabulary corpus', () => {
   it('keeps a large six-grade candidate pool with no imported dictionary prose', () => {
