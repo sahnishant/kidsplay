@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-1-batch-001-ai-draft-001",
+  "batchId": "grade-1-batch-001",
+  "grade": 1,
+  "generatedAt": "2026-08-31",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "old",
+      "proposedCandidateId": "old#a#2",
+      "proposedChildDefinition": "Having been alive for many years.",
+      "proposedChildExample": "Our old dog likes quiet walks.",
+      "rationale": "Common age sense for early-primary use."
+    },
+    {
+      "lemma": "full",
+      "proposedCandidateId": "full#a#1",
+      "proposedChildDefinition": "Holding as much as it can.",
+      "proposedChildExample": "The bottle is full of water.",
+      "rationale": "Concrete container sense is easy to demonstrate visually."
+    },
+    {
+      "lemma": "fast",
+      "proposedCandidateId": "fast#a#1",
+      "proposedChildDefinition": "Moving or happening very quickly.",
+      "proposedChildExample": "The fast rabbit reached the tree first.",
+      "rationale": "Physical-speed sense supports simple action examples."
+    },
+    {
+      "lemma": "go",
+      "proposedCandidateId": "go#v#1",
+      "proposedChildDefinition": "To move from one place toward another place.",
+      "proposedChildExample": "We go to school in the morning.",
+      "rationale": "Basic movement sense is appropriate for early-primary instructions and stories."
+    },
+    {
+      "lemma": "come",
+      "proposedCandidateId": "come#v#1",
+      "proposedChildDefinition": "To move toward the person or place being spoken about.",
+      "proposedChildExample": "Please come to the table for lunch.",
+      "rationale": "Concrete approach/movement sense contrasts naturally with go."
+    },
+    {
+      "lemma": "find",
+      "proposedCandidateId": "find#v#3",
+      "proposedChildDefinition": "To discover where something is after looking for it.",
+      "proposedChildExample": "I found my pencil under the chair.",
+      "rationale": "Search-and-locate sense maps to familiar child activities."
+    },
+    {
+      "lemma": "put",
+      "proposedCandidateId": "put#v#1",
+      "proposedChildDefinition": "To place something in a particular spot.",
+      "proposedChildExample": "Put the book on the shelf.",
+      "rationale": "Concrete placement sense is useful for classroom directions."
+    },
+    {
+      "lemma": "ask",
+      "proposedCandidateId": "ask#v#2",
+      "proposedChildDefinition": "To say a question because you want an answer.",
+      "proposedChildExample": "I will ask the teacher how plants grow.",
+      "rationale": "Question-seeking sense is more useful for early learning than request/demand senses."
+    }
+  ]
+}

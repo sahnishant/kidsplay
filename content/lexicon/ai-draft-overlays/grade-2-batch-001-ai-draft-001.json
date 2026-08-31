@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-2-batch-001-ai-draft-001",
+  "batchId": "grade-2-batch-001",
+  "grade": 2,
+  "generatedAt": "2026-08-31",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "notice",
+      "proposedCandidateId": "notice#n#1",
+      "proposedChildDefinition": "A message that gives people information about something.",
+      "proposedChildExample": "The school put up a notice about Sports Day.",
+      "rationale": "Announcement sense is concrete and common in school contexts."
+    },
+    {
+      "lemma": "library",
+      "proposedCandidateId": "library#n#3",
+      "proposedChildDefinition": "A place where books and other reading materials are kept for people to use.",
+      "proposedChildExample": "We borrowed a storybook from the library.",
+      "rationale": "Physical-place sense matches common primary-school experience."
+    },
+    {
+      "lemma": "guide",
+      "proposedCandidateId": "guide#n#2",
+      "proposedChildDefinition": "A person who shows others where to go or what to do.",
+      "proposedChildExample": "Our guide showed us the path through the museum.",
+      "rationale": "Person-leading sense supports familiar trip and museum examples."
+    },
+    {
+      "lemma": "environment",
+      "proposedCandidateId": "environment#n#2",
+      "proposedChildDefinition": "The place and surroundings where a person, animal, or plant lives.",
+      "proposedChildExample": "A pond is an environment for frogs and fish.",
+      "rationale": "Living-place sense connects naturally to primary science."
+    },
+    {
+      "lemma": "pull",
+      "proposedCandidateId": "pull#v#1",
+      "proposedChildDefinition": "To move something by drawing it toward you or in a direction.",
+      "proposedChildExample": "Pull the wagon slowly across the yard.",
+      "rationale": "Physical-action sense is easy to demonstrate and contrast with push."
+    },
+    {
+      "lemma": "minute",
+      "proposedCandidateId": "minute#n#1",
+      "proposedChildDefinition": "A measure of time that lasts 60 seconds.",
+      "proposedChildExample": "We waited one minute for the timer to ring.",
+      "rationale": "Exact time-unit sense supports classroom measurement."
+    },
+    {
+      "lemma": "regular",
+      "proposedCandidateId": "regular#a#1",
+      "proposedChildDefinition": "Happening in a usual or repeated way according to a pattern.",
+      "proposedChildExample": "We eat our meals at regular times.",
+      "rationale": "Repeated-routine sense is concrete for Grade 2."
+    },
+    {
+      "lemma": "floor",
+      "proposedCandidateId": "floor#n#1",
+      "proposedChildDefinition": "The flat surface at the bottom of a room that you walk on.",
+      "proposedChildExample": "My toy rolled across the floor.",
+      "rationale": "Concrete room-surface sense is child-familiar and visually clear."
+    }
+  ]
+}
