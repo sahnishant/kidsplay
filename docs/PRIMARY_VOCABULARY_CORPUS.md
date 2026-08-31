@@ -65,6 +65,14 @@ Current review-state split after filtering and rebanding:
 
 `spelling_only` rows may be used for spelling/recognition review but are excluded from semantic meaning queues.
 
+## Repository artifact policy
+
+The pinned 10,000-row corpus and generated review artifacts are committed deliberately so corpus selection, OEWN resolution and curator queues remain reproducible and reviewable without depending on a mutable live service during ordinary development.
+
+These files are **repository/curation artifacts, not app runtime assets**. They live only under `content/lexicon/open/`; the runtime/compiler does not publish that directory as child-facing knowledge. Only explicitly accepted editorial decisions may produce normal Kidsplay knowledge rows through `lexicon:import:reviews`.
+
+Generated artifacts are refreshed only by the dedicated branch workflows after validation. The full source corpus is never loaded into the shipped Vocabulary Playground by default.
+
 ## Semantic filtering and ranking
 
 The deterministic rebander:
@@ -143,7 +151,7 @@ An accepted decision must include:
 - an independently authored `childDefinition`;
 - reviewer identity and review date.
 
-Then run:
+The directory contains a README with the exact editorial handoff format. Then run:
 
 ```bash
 npm run lexicon:import:reviews
@@ -224,4 +232,4 @@ npm run test:vocabulary-corpus
 npm run check
 ```
 
-The merge gate requires both the focused corpus tests and the repository-wide build/typecheck/test suite to pass.
+The merge gate requires both the focused corpus tests and the repository-wide build/typecheck/test suite to pass on the current `kidsplay` ancestry before merge.
