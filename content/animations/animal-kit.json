@@ -1,0 +1,92 @@
+[
+  {
+    "id": "animation.dog.excited-ball",
+    "semanticRef": "dog",
+    "theme": "grass",
+    "ariaLabel": "An excited dog beside a play ball on the grass.",
+    "subject": {
+      "variantRef": "animation.variant.dog-excited-state",
+      "orientation": "side",
+      "pose": "play",
+      "expression": "excited",
+      "x": 31,
+      "y": 55,
+      "scale": 1
+    },
+    "parts": [
+      { "id": "ball", "role": "prop", "visualRef": "entity.object.ball", "slot": "front", "x": 72, "y": 66, "scale": 0.55 }
+    ]
+  },
+  {
+    "id": "animation.dog.resting-mat",
+    "semanticRef": "dog",
+    "theme": "paper",
+    "ariaLabel": "A calm dog resting on a mat and breathing gently.",
+    "subject": {
+      "variantRef": "animation.variant.dog-resting-state",
+      "orientation": "side",
+      "pose": "rest",
+      "expression": "neutral",
+      "x": 50,
+      "y": 51,
+      "scale": 0.96
+    },
+    "parts": [
+      { "id": "mat", "role": "context", "visualRef": "entity.object.mat", "slot": "ground", "x": 50, "y": 78, "scale": 1.08 }
+    ]
+  },
+  {
+    "id": "animation.whale.ocean-swim",
+    "semanticRef": "whale",
+    "theme": "ocean",
+    "ariaLabel": "A whale swimming through the ocean.",
+    "subject": {
+      "variantRef": "animation.variant.whale-swim-state",
+      "orientation": "side",
+      "pose": "swim",
+      "expression": "neutral",
+      "x": 46,
+      "y": 49,
+      "scale": 1.08
+    },
+    "parts": [
+      { "id": "ocean", "role": "context", "visualRef": "entity.habitat.ocean", "slot": "ground", "x": 67, "y": 77, "scale": 0.8 }
+    ]
+  },
+  {
+    "id": "animation.bird.branch-flap",
+    "semanticRef": "bird",
+    "theme": "grass",
+    "ariaLabel": "A bird flapping gently above a tree branch.",
+    "subject": {
+      "variantRef": "animation.variant.bird-branch-state",
+      "orientation": "side",
+      "pose": "rest",
+      "expression": "neutral",
+      "x": 42,
+      "y": 43,
+      "scale": 0.9
+    },
+    "parts": [
+      { "id": "branch", "role": "context", "visualRef": "entity.nature.branch", "slot": "ground", "x": 59, "y": 74, "scale": 1.08 }
+    ]
+  },
+  {
+    "id": "animation.cow.grass-chew",
+    "semanticRef": "cow",
+    "theme": "grass",
+    "ariaLabel": "A cow beside fresh grass, chewing calmly.",
+    "subject": {
+      "variantRef": "animation.variant.cow-grazing-state",
+      "orientation": "side",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 41,
+      "y": 54,
+      "scale": 0.98
+    },
+    "parts": [
+      { "id": "grass", "role": "prop", "visualRef": "entity.plant.grass", "slot": "front", "x": 75, "y": 76, "scale": 0.72 }
+    ]
+  }
+]
