@@ -5,7 +5,7 @@
     "theme": "grass",
     "ariaLabel": "A happy dog beside a bone with a heart showing that the dog likes the bone.",
     "subject": {
-      "variantRef": "animation.variant.dog.happy",
+      "variantRef": "animation.variant.dog-happy-state",
       "orientation": "side",
       "pose": "stand",
       "expression": "happy",
@@ -24,7 +24,7 @@
     "theme": "ocean",
     "ariaLabel": "A worried dog beside water with a question cue, showing that water is not the dog's normal habitat.",
     "subject": {
-      "variantRef": "animation.variant.dog.worried",
+      "variantRef": "animation.variant.dog-worried-state",
       "orientation": "side",
       "pose": "stand",
       "expression": "worried",
@@ -43,7 +43,7 @@
     "theme": "paper",
     "ariaLabel": "A curious dog looking toward a bone while a question cue invites the child to think.",
     "subject": {
-      "variantRef": "animation.variant.dog.curious",
+      "variantRef": "animation.variant.dog-curious-state",
       "orientation": "side",
       "pose": "sit",
       "expression": "curious",
