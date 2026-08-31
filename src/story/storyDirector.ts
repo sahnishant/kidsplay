@@ -1,7 +1,7 @@
 import charactersJson from '../../content/story/characters.json';
 import locationsJson from '../../content/story/locations.json';
 import missionsJson from '../../content/story/missions.json';
-import { getFreeAnimalsQuestions, type SessionLaunch } from '../content';
+import { getFreeAnimalsQuestions, getFreePackQuestions, type SessionLaunch } from '../content';
 import type { Question } from '../contracts/question';
 import type { MasteryCounter } from '../runtime/localProgress';
 import type {
@@ -56,12 +56,18 @@ function missionQuestionMasteryScore(
   return Math.min(...refs.map((rowId) => rowMasteryScore(rowId, mastery)));
 }
 
+function missionQuestionPool(mission: StoryMission): Question[] {
+  return mission.questionPackRef
+    ? getFreePackQuestions(mission.questionPackRef)
+    : getFreeAnimalsQuestions();
+}
+
 function chooseMissionQuestions(
   mission: StoryMission,
   mastery: Record<string, MasteryCounter> = {}
 ): Question[] {
   const desired = new Set(mission.knowledgeRefs);
-  const candidates = getFreeAnimalsQuestions()
+  const candidates = missionQuestionPool(mission)
     .filter((question) => desiredRefsCovered(question, desired).length > 0);
 
   const selected: Question[] = [];
@@ -106,7 +112,7 @@ function chooseMissionQuestions(
   const missingRefs = mission.knowledgeRefs.filter((rowId) => !covered.has(rowId));
   if (selected.length !== mission.questionCount || missingRefs.length > 0) {
     throw new Error(
-      `Story mission ${mission.id} cannot be built from the current free question bank: `
+      `Story mission ${mission.id} cannot be built from ${mission.questionPackRef ?? 'the legacy Class 2 free question bank'}: `
       + `selected=${selected.length}/${mission.questionCount}, missing=${missingRefs.join(',') || 'none'}`
     );
   }

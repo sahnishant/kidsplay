@@ -40,15 +40,15 @@ describe('Class 3 pattern assessment', () => {
     expect(science.filter((question) => questionCurriculumOrigin(question, byRow) === 'mixed')).toHaveLength(0);
   });
 
-  it('uses five current-class HOTS questions for the achievers section', () => {
+  it('uses five canonical current-class HOTS questions for the achievers section', () => {
     const { blueprint, membership, candidates } = fixture();
     const result = buildProfilePatternAssessment(candidates, blueprint, membership.members);
     const byRow = new Map(membership.members.map((member) => [member.rowId, member]));
     const achievers = result.questions.slice(30);
 
     expect(achievers).toHaveLength(5);
-    expect(achievers.every((question) => question.id.startsWith('sof3.hots.'))).toBe(true);
     expect(achievers.every((question) => question.authoring.source === 'kidsplay-editorial-hots')).toBe(true);
+    expect(achievers.every((question) => (question.knowledgeRefs ?? []).every((rowId) => rowId.startsWith('kr.sof3.')))).toBe(true);
     expect(achievers.every((question) => questionCurriculumOrigin(question, byRow) === 'current')).toBe(true);
   });
 

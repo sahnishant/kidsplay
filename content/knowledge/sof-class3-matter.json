@@ -1,0 +1,52 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.sof.class3.matter.001",
+  "kind": "association_set",
+  "version": 1,
+  "language": "en",
+  "subject": "Science",
+  "topic": "Class 3 - Matter and Materials",
+  "entries": [
+    {
+      "id": "matter-space",
+      "rowId": "kr.sof3.matter.occupies-space",
+      "subject": { "id": "matter-space", "label": "Matter" },
+      "relation": "has_property",
+      "object": { "id": "matter-space-object", "label": "occupies space" },
+      "conceptIds": ["sof3.matter.occupies-space"],
+      "meta": { "knowledgeLevel": "foundation", "skills": ["vocabulary", "recall"] }
+    },
+    {
+      "id": "solid-shape",
+      "rowId": "kr.sof3.matter.solid.shape.fixed",
+      "subject": { "id": "solid-shape", "label": "A solid" },
+      "relation": "has_property",
+      "object": { "id": "solid-shape-object", "label": "has its own shape under ordinary conditions" },
+      "conceptIds": ["sof3.matter.solid-shape"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] }
+    },
+    {
+      "id": "liquid-shape",
+      "rowId": "kr.sof3.matter.liquid.shape.container",
+      "subject": { "id": "liquid-shape", "label": "A liquid" },
+      "relation": "has_property",
+      "object": { "id": "liquid-shape-object", "label": "takes the shape of the part of its container that it fills" },
+      "conceptIds": ["sof3.matter.liquid-shape"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] }
+    },
+    {
+      "id": "gas-spreads",
+      "rowId": "kr.sof3.matter.gas.spreads.available-space",
+      "subject": { "id": "gas-spreads", "label": "A gas" },
+      "relation": "has_property",
+      "object": { "id": "gas-spreads-object", "label": "spreads through the available space in a container" },
+      "conceptIds": ["sof3.matter.gas-spread"],
+      "meta": { "knowledgeLevel": "basic", "skills": ["recall", "classification"] }
+    }
+  ],
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-open-scope",
+    "scopeNote": "Editorial current-Class-3 breadth inside the reviewed SOF Matter and Materials topic family; exact official SOF row placement is not claimed."
+  }
+}

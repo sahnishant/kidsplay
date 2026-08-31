@@ -1,0 +1,149 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.alphabet-arrange.001",
+    "rowId": "kr.reasoning.alphabet.arrange.mango-first",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Alphabet Test",
+    "prompt": "If the letters in MANGO are arranged in alphabetical order, which letter comes first?",
+    "choices": [
+      { "id": "a", "label": "A" },
+      { "id": "g", "label": "G" },
+      { "id": "m", "label": "M" },
+      { "id": "o", "label": "O" }
+    ],
+    "correctChoiceId": "a",
+    "conceptIds": ["reasoning.alphabet.order"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.figure-matrix-symbols.001",
+    "rowId": "kr.reasoning.figure-matrix.alternating.symbols",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Grouping of Figures and Figure Matrix",
+    "prompt": "Complete the 3 × 3 symbol matrix: ○ △ ○ / △ ○ △ / ○ △ ?",
+    "choices": [
+      { "id": "circle", "label": "○" },
+      { "id": "triangle", "label": "△" },
+      { "id": "square", "label": "□" },
+      { "id": "star", "label": "☆" }
+    ],
+    "correctChoiceId": "circle",
+    "conceptIds": ["reasoning.figure-matrix.alternating"],
+    "meta": { "knowledgeLevel": "intermediate", "skills": ["reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.grouping-straight-sides.001",
+    "rowId": "kr.reasoning.grouping.figures.straight-sides",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Grouping of Figures and Figure Matrix",
+    "prompt": "Which group contains only shapes made entirely of straight sides?",
+    "choices": [
+      { "id": "straight", "label": "triangle, square, rectangle" },
+      { "id": "circle-mix", "label": "circle, triangle, square" },
+      { "id": "oval-mix", "label": "oval, circle, rectangle" },
+      { "id": "curved", "label": "circle, oval, semicircle" }
+    ],
+    "correctChoiceId": "straight",
+    "conceptIds": ["reasoning.grouping.shared-property"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["reasoning", "classification"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.mirror-nearest-letter.001",
+    "rowId": "kr.reasoning.mirror.word-nearest.right",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Mirror Images",
+    "prompt": "A mirror is placed immediately to the right of the word CAT. Which letter of CAT is nearest the mirror?",
+    "choices": [
+      { "id": "t", "label": "T" },
+      { "id": "a", "label": "A" },
+      { "id": "c", "label": "C" },
+      { "id": "all", "label": "All are equally near" }
+    ],
+    "correctChoiceId": "t",
+    "conceptIds": ["reasoning.mirror.position"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.combinations-outfits.001",
+    "rowId": "kr.reasoning.combinations.outfits.two-by-two",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Possible Combinations",
+    "prompt": "Riya has 2 shirts and 2 pairs of trousers. If any shirt can be worn with any pair of trousers, how many different outfits can she make?",
+    "choices": [
+      { "id": "four", "label": "4" },
+      { "id": "two", "label": "2" },
+      { "id": "three", "label": "3" },
+      { "id": "six", "label": "6" }
+    ],
+    "correctChoiceId": "four",
+    "conceptIds": ["reasoning.combinations.product-count"],
+    "meta": { "knowledgeLevel": "intermediate", "skills": ["reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.clock-elapsed-school.001",
+    "rowId": "kr.reasoning.clock.elapsed.school-four-hours",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Clock and Calendar",
+    "prompt": "A school activity starts at 8:00 a.m. and lasts 4 hours. At what time does it end?",
+    "choices": [
+      { "id": "twelve", "label": "12:00 noon" },
+      { "id": "ten", "label": "10:00 a.m." },
+      { "id": "eleven", "label": "11:00 a.m." },
+      { "id": "one", "label": "1:00 p.m." }
+    ],
+    "correctChoiceId": "twelve",
+    "conceptIds": ["reasoning.clock.elapsed-time"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  },
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.reasoning.calendar-days-after.001",
+    "rowId": "kr.reasoning.calendar.days-after.monday",
+    "kind": "choice_item",
+    "version": 1,
+    "language": "en",
+    "subject": "Logical Reasoning",
+    "topic": "Clock and Calendar",
+    "prompt": "Today is Monday. What day will it be three days after today?",
+    "choices": [
+      { "id": "thursday", "label": "Thursday" },
+      { "id": "wednesday", "label": "Wednesday" },
+      { "id": "friday", "label": "Friday" },
+      { "id": "sunday", "label": "Sunday" }
+    ],
+    "correctChoiceId": "thursday",
+    "conceptIds": ["reasoning.calendar.day-offset"],
+    "meta": { "knowledgeLevel": "basic", "skills": ["reasoning"] },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-logical-reasoning" }
+  }
+]

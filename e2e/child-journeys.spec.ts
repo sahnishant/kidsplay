@@ -75,7 +75,7 @@ test.describe('Kidsplay child journeys', () => {
     test.setTimeout(120_000);
     await openCleanApp(page);
 
-    await expect(page.getByRole('button', { name: 'Home & Garden: explore' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'Home & Garden: The Garden Food Clue Mix-Up' })).toBeEnabled();
     await expect(page.getByRole('button', { name: 'Farm: explore' })).toBeEnabled();
     await expect(page.getByRole('button', { name: 'Forest: explore' })).toBeEnabled();
     await expect(page.getByRole('button', { name: 'Road & School: explore' })).toBeEnabled();
