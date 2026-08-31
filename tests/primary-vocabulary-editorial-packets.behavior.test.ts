@@ -85,6 +85,7 @@ describe('primary vocabulary editorial production packets', () => {
       importedGlossRuntimeAllowed: false,
       aiDraftAllowed: true,
       aiDraftMayCountAsReviewed: false,
+      requiredReviewAuthority: 'human_editor',
       explicitReviewerRequiredForAcceptance: true,
       profilePlacementRequiresExplicitApproval: true,
       corpusGradeMayImplyBoardAlignment: false
@@ -99,17 +100,22 @@ describe('primary vocabulary editorial production packets', () => {
       decision: null,
       selectedCandidateId: null,
       draftChildDefinition: null,
+      draftOrigin: null,
+      reviewAuthority: null,
       reviewer: null,
       reviewedAt: null
     });
     expect(packet.items[0].profilePlacement).toEqual({
       status: 'unreviewed',
       approvedProfileRefs: [],
-      notes: null
+      notes: null,
+      reviewAuthority: null,
+      reviewer: null,
+      reviewedAt: null
     });
   });
 
-  it('finalizes only explicitly reviewed decisions and keeps profile placement as a separate review record', () => {
+  it('finalizes only explicitly human-reviewed decisions and keeps profile placement separate', () => {
     const packet = buildEditorialPacket(curatorSlice, {
       batchId: 'grade-1-batch-001',
       profileReviewTargets: ['CBSE_INDIA_CLASS1']
@@ -120,7 +126,9 @@ describe('primary vocabulary editorial production packets', () => {
       selectedCandidateId: 'old#a#2',
       draftChildDefinition: 'Someone or something that has been around for a long time.',
       draftChildExample: 'My grandmother has an old photo album.',
+      draftOrigin: 'ai_draft_human_rewritten',
       notes: 'Age/duration sense selected for primary use.',
+      reviewAuthority: 'human_editor',
       reviewer: 'editor-a',
       reviewedAt: '2026-08-31'
     };
@@ -128,6 +136,7 @@ describe('primary vocabulary editorial production packets', () => {
       status: 'reviewed',
       approvedProfileRefs: ['CBSE_INDIA_CLASS1'],
       notes: 'Explicitly approved for Class 1 review placement.',
+      reviewAuthority: 'human_editor',
       reviewer: 'editor-a',
       reviewedAt: '2026-08-31'
     };
@@ -146,6 +155,7 @@ describe('primary vocabulary editorial production packets', () => {
         candidateId: 'old#a#2',
         status: 'reviewed',
         decision: 'accept',
+        reviewAuthority: 'human_editor',
         childDefinition: 'Someone or something that has been around for a long time.',
         reviewer: 'editor-a',
         reviewedAt: '2026-08-31'
@@ -155,13 +165,14 @@ describe('primary vocabulary editorial production packets', () => {
       expect.objectContaining({
         lemma: 'old',
         approvedProfileRefs: ['CBSE_INDIA_CLASS1'],
+        reviewAuthority: 'human_editor',
         reviewer: 'editor-a'
       })
     ]);
     expect(handoff.decisions.some((decision) => decision.lemma === 'full')).toBe(false);
   });
 
-  it('rejects copied OEWN glosses, unknown candidates and missing reviewer metadata', () => {
+  it('rejects copied glosses, unknown candidates, missing reviewers and non-human review authority', () => {
     const copied = buildEditorialPacket(curatorSlice);
     copied.items[0].editorial = {
       status: 'reviewed',
@@ -169,7 +180,9 @@ describe('primary vocabulary editorial production packets', () => {
       selectedCandidateId: 'old#a#2',
       draftChildDefinition: 'having lived for a relatively long time or attained a specific age',
       draftChildExample: null,
+      draftOrigin: 'human',
       notes: null,
+      reviewAuthority: 'human_editor',
       reviewer: 'editor-a',
       reviewedAt: '2026-08-31'
     };
@@ -182,23 +195,42 @@ describe('primary vocabulary editorial production packets', () => {
       selectedCandidateId: 'old#a#999',
       draftChildDefinition: 'A child-safe original definition.',
       draftChildExample: null,
+      draftOrigin: 'human',
       notes: null,
+      reviewAuthority: 'human_editor',
       reviewer: 'editor-a',
       reviewedAt: '2026-08-31'
     };
     expect(() => finalizeEditorialPacket(unknown)).toThrow(/selected candidateId from the packet/);
 
-    const unreviewed = buildEditorialPacket(curatorSlice);
-    unreviewed.items[0].editorial = {
+    const missingReviewer = buildEditorialPacket(curatorSlice);
+    missingReviewer.items[0].editorial = {
       status: 'reviewed',
       decision: 'reject',
       selectedCandidateId: 'old#a#2',
       draftChildDefinition: null,
       draftChildExample: null,
+      draftOrigin: 'human',
       notes: null,
+      reviewAuthority: 'human_editor',
       reviewer: null,
       reviewedAt: null
     };
-    expect(() => finalizeEditorialPacket(unreviewed)).toThrow(/requires reviewer and ISO reviewedAt/);
+    expect(() => finalizeEditorialPacket(missingReviewer)).toThrow(/requires reviewer and ISO reviewedAt/);
+
+    const aiOnly = buildEditorialPacket(curatorSlice);
+    aiOnly.items[0].editorial = {
+      status: 'reviewed',
+      decision: 'accept',
+      selectedCandidateId: 'old#a#2',
+      draftChildDefinition: 'A child-safe original definition.',
+      draftChildExample: null,
+      draftOrigin: 'ai',
+      notes: null,
+      reviewAuthority: 'ai',
+      reviewer: 'automation',
+      reviewedAt: '2026-08-31'
+    };
+    expect(() => finalizeEditorialPacket(aiOnly)).toThrow(/requires human_editor reviewAuthority/);
   });
 });
