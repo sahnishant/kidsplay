@@ -13,6 +13,12 @@ function emptyStoryProgress(): StoryProgressSnapshot {
   };
 }
 
+async function advanceMissionStory(): Promise<void> {
+  while (screen.queryByRole('button', { name: 'Next story beat' })) {
+    await fireEvent.click(screen.getByRole('button', { name: 'Next story beat' }));
+  }
+}
+
 const plantsRecommendation: TopicProgressSummary = {
   id: 'plants',
   label: 'Plants',
@@ -37,7 +43,7 @@ afterEach(() => {
 });
 
 describe('Dheu viewport story-world presentation', () => {
-  it('personalizes Dheu, opens the pond story as a dialog state and launches the mission by id', async () => {
+  it('personalizes Dheu, reveals mission story one click at a time and launches the mission by id', async () => {
     const onStartMission = vi.fn();
     render(StoryWorld, {
       props: {
@@ -64,8 +70,12 @@ describe('Dheu viewport story-world presentation', () => {
     expect(screen.getByRole('dialog')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeTruthy();
     expect(screen.getByText(/STORY MISSION · Warm-up tease/)).toBeTruthy();
+    expect(screen.getByLabelText(/Story beat 1 of/)).toBeTruthy();
     expect(screen.getByText(/Mira, can you investigate where different animals belong/)).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Start investigation · 6 clues' })).toBeNull();
 
+    await advanceMissionStory();
+    expect(screen.getByRole('button', { name: 'Start investigation · 6 clues' })).toBeTruthy();
     await fireEvent.click(screen.getByRole('button', { name: 'Start investigation · 6 clues' }));
     expect(onStartMission).toHaveBeenCalledOnce();
     expect(onStartMission).toHaveBeenCalledWith('mission.puppy-by-pond');
@@ -142,6 +152,6 @@ describe('Dheu viewport story-world presentation', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
     expect(screen.getByText(/STORY MISSION · Clever trap/)).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Start investigation · 6 clues' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Next story beat' })).toBeTruthy();
   });
 });
