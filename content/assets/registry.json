@@ -2,7 +2,9 @@
   "schemaVersion": 1,
   "policy": {
     "defaultStatus": "blocked_until_reviewed",
-    "allowedSourceStatuses": ["approved"],
+    "allowedSourceStatuses": [
+      "approved"
+    ],
     "bundledPathPrefix": "public/assets/open/",
     "requiredForBundledAsset": [
       "id",
@@ -25,7 +27,7 @@
       "license": "MIT",
       "licenseUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/LICENSE",
       "status": "approved",
-      "intendedUse": "Static semantic animal, nature and everyday-object SVG artwork",
+      "intendedUse": "Static semantic animals, plants, food, body, nature and everyday-object SVG artwork",
       "attributionRequired": false,
       "redistributionNoticeRequired": true,
       "licenseFile": "public/assets/open/fluent/LICENSE-MIT.txt",
@@ -92,7 +94,9 @@
   "assets": [
     {
       "id": "fluent.dog.flat",
-      "visualRefs": ["entity.animal.dog"],
+      "visualRefs": [
+        "entity.animal.dog"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Dog/Flat/dog_flat.svg",
@@ -106,7 +110,9 @@
     },
     {
       "id": "fluent.whale.flat",
-      "visualRefs": ["entity.animal.whale"],
+      "visualRefs": [
+        "entity.animal.whale"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Whale/Flat/whale_flat.svg",
@@ -120,7 +126,9 @@
     },
     {
       "id": "fluent.cow.flat",
-      "visualRefs": ["entity.animal.cow"],
+      "visualRefs": [
+        "entity.animal.cow"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Cow/Flat/cow_flat.svg",
@@ -134,7 +142,9 @@
     },
     {
       "id": "fluent.camel.flat",
-      "visualRefs": ["entity.animal.camel"],
+      "visualRefs": [
+        "entity.animal.camel"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Camel/Flat/camel_flat.svg",
@@ -148,7 +158,9 @@
     },
     {
       "id": "fluent.rabbit.flat",
-      "visualRefs": ["entity.animal.rabbit"],
+      "visualRefs": [
+        "entity.animal.rabbit"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Rabbit/Flat/rabbit_flat.svg",
@@ -162,7 +174,9 @@
     },
     {
       "id": "fluent.bird.flat",
-      "visualRefs": ["entity.animal.bird"],
+      "visualRefs": [
+        "entity.animal.bird"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Bird/Flat/bird_flat.svg",
@@ -176,7 +190,9 @@
     },
     {
       "id": "fluent.fish.flat",
-      "visualRefs": ["entity.animal.fish"],
+      "visualRefs": [
+        "entity.animal.fish"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Fish/Flat/fish_flat.svg",
@@ -190,7 +206,9 @@
     },
     {
       "id": "fluent.tree.deciduous-flat",
-      "visualRefs": ["entity.plant.tree"],
+      "visualRefs": [
+        "entity.plant.tree"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Deciduous tree/Flat/deciduous_tree_flat.svg",
@@ -204,7 +222,9 @@
     },
     {
       "id": "fluent.sun.flat",
-      "visualRefs": ["entity.nature.sun"],
+      "visualRefs": [
+        "entity.nature.sun"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Sun/Flat/sun_flat.svg",
@@ -218,13 +238,400 @@
     },
     {
       "id": "fluent.bone.flat",
-      "visualRefs": ["entity.object.bone"],
+      "visualRefs": [
+        "entity.object.bone"
+      ],
       "sourceId": "microsoft-fluent-emoji",
       "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
       "sourcePathOrName": "assets/Bone/Flat/bone_flat.svg",
       "sourceBlobSha": "f60c995f2084cbe7ad015d478d9fec08c357aef3",
       "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Bone/Flat/bone_flat.svg",
       "localPath": "public/assets/open/fluent/bone.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.cat.flat",
+      "visualRefs": [
+        "entity.animal.cat"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Cat/Flat/cat_flat.svg",
+      "sourceBlobSha": "45336596470049a784ea75c1ac2d750c5a4158af",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Cat/Flat/cat_flat.svg",
+      "localPath": "public/assets/open/fluent/cat.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.frog.flat",
+      "visualRefs": [
+        "entity.animal.frog"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Frog/Flat/frog_flat.svg",
+      "sourceBlobSha": "2970d891d50db0d2fbc5c5df6a524ac4732cd68f",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Frog/Flat/frog_flat.svg",
+      "localPath": "public/assets/open/fluent/frog.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.duck.flat",
+      "visualRefs": [
+        "entity.animal.duck"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Duck/Flat/duck_flat.svg",
+      "sourceBlobSha": "0f1e34d350a6beb3d7daebbb55ff9ad13b4f6d01",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Duck/Flat/duck_flat.svg",
+      "localPath": "public/assets/open/fluent/duck.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.tiger-face.flat",
+      "visualRefs": [
+        "entity.animal.tiger"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Tiger face/Flat/tiger_face_flat.svg",
+      "sourceBlobSha": "34c9697cb5c5f0e3ad2357d61cddd0dcfd8ab93c",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Tiger%20face/Flat/tiger_face_flat.svg",
+      "localPath": "public/assets/open/fluent/tiger.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.butterfly.flat",
+      "visualRefs": [
+        "entity.animal.butterfly"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Butterfly/Flat/butterfly_flat.svg",
+      "sourceBlobSha": "5316f01d300c5cfa1ddc65c4f38870f9ed0a5a41",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Butterfly/Flat/butterfly_flat.svg",
+      "localPath": "public/assets/open/fluent/butterfly.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.honeybee.flat",
+      "visualRefs": [
+        "entity.animal.bee"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Honeybee/Flat/honeybee_flat.svg",
+      "sourceBlobSha": "f156ca9b5b4f5b1908302256eb12bcfd8ea10899",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Honeybee/Flat/honeybee_flat.svg",
+      "localPath": "public/assets/open/fluent/honeybee.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.milk.flat",
+      "visualRefs": [
+        "entity.food.milk"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Glass of milk/Flat/glass_of_milk_flat.svg",
+      "sourceBlobSha": "2d759b1a91798e5cf70d1d4a6eb5c8c1ba3f6573",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Glass%20of%20milk/Flat/glass_of_milk_flat.svg",
+      "localPath": "public/assets/open/fluent/milk.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.honey-pot.flat",
+      "visualRefs": [
+        "entity.food.honey"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Honey pot/Flat/honey_pot_flat.svg",
+      "sourceBlobSha": "3bfb47f9a0c3bbe96cf077a96edd80ec69f04719",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Honey%20pot/Flat/honey_pot_flat.svg",
+      "localPath": "public/assets/open/fluent/honey.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.butter.flat",
+      "visualRefs": [
+        "entity.food.butter"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Butter/Flat/butter_flat.svg",
+      "sourceBlobSha": "582104ae04123ffb553a029e6e188ce1f1473c6f",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Butter/Flat/butter_flat.svg",
+      "localPath": "public/assets/open/fluent/butter.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.cooked-rice.flat",
+      "visualRefs": [
+        "entity.food.rice"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Cooked rice/Flat/cooked_rice_flat.svg",
+      "sourceBlobSha": "7935f239b710ad31f498775212e9368111a76873",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Cooked%20rice/Flat/cooked_rice_flat.svg",
+      "localPath": "public/assets/open/fluent/rice.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.eyes.flat",
+      "visualRefs": [
+        "entity.body.eyes"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Eyes/Flat/eyes_flat.svg",
+      "sourceBlobSha": "f55dedf483b5de3cdd1b644517989b5737bc8a72",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Eyes/Flat/eyes_flat.svg",
+      "localPath": "public/assets/open/fluent/eyes.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.ear-default.flat",
+      "visualRefs": [
+        "entity.body.ears"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Ear/Default/Flat/ear_flat_default.svg",
+      "sourceBlobSha": "f2e8fdb7c8d54e5cb25d41ff5df220f86130ac3d",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Ear/Default/Flat/ear_flat_default.svg",
+      "localPath": "public/assets/open/fluent/ear.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.nose-default.flat",
+      "visualRefs": [
+        "entity.body.nose"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Nose/Default/Flat/nose_flat_default.svg",
+      "sourceBlobSha": "e3b6d421ad9f4e91145ba8eda6481acffd4953d7",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Nose/Default/Flat/nose_flat_default.svg",
+      "localPath": "public/assets/open/fluent/nose.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.tongue.flat",
+      "visualRefs": [
+        "entity.body.tongue"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Tongue/Flat/tongue_flat.svg",
+      "sourceBlobSha": "8a9816c163bc9f4e6c40a6bd9ecb35d8cc3a1f37",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Tongue/Flat/tongue_flat.svg",
+      "localPath": "public/assets/open/fluent/tongue.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.tooth.flat",
+      "visualRefs": [
+        "entity.body.teeth"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Tooth/Flat/tooth_flat.svg",
+      "sourceBlobSha": "eef676de461e5a2191157df445e8380ee3377484",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Tooth/Flat/tooth_flat.svg",
+      "localPath": "public/assets/open/fluent/tooth.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.lungs.flat",
+      "visualRefs": [
+        "entity.body.lungs"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Lungs/Flat/lungs_flat.svg",
+      "sourceBlobSha": "f8890b28a1c7c16ba776e9bc96d122b0f88fc15b",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lungs/Flat/lungs_flat.svg",
+      "localPath": "public/assets/open/fluent/lungs.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.anatomical-heart.flat",
+      "visualRefs": [
+        "entity.body.heart"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Anatomical heart/Flat/anatomical_heart_flat.svg",
+      "sourceBlobSha": "551b1147ad50a4c2ef0700b049f527e1c66fe86f",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Anatomical%20heart/Flat/anatomical_heart_flat.svg",
+      "localPath": "public/assets/open/fluent/heart.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.lotus.flat",
+      "visualRefs": [
+        "entity.plant.lotus"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Lotus/Flat/lotus_flat.svg",
+      "sourceBlobSha": "f4131056da49e6f87c1a2f3197fefd3adeb09873",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Lotus/Flat/lotus_flat.svg",
+      "localPath": "public/assets/open/fluent/lotus.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.water-wave.flat",
+      "visualRefs": [
+        "entity.habitat.water",
+        "entity.habitat.ocean"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Water wave/Flat/water_wave_flat.svg",
+      "sourceBlobSha": "3cd5cadbb9f130d54df7a6020f25237ab2d161f8",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Water%20wave/Flat/water_wave_flat.svg",
+      "localPath": "public/assets/open/fluent/water-wave.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.cloud.flat",
+      "visualRefs": [
+        "entity.nature.cloud"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Cloud/Flat/cloud_flat.svg",
+      "sourceBlobSha": "4fd8b931dd5808e66f75a594ac9b71f361306c87",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Cloud/Flat/cloud_flat.svg",
+      "localPath": "public/assets/open/fluent/cloud.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.balloon.flat",
+      "visualRefs": [
+        "entity.object.balloon"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Balloon/Flat/balloon_flat.svg",
+      "sourceBlobSha": "8b4f5da770d5cbc349d5b0a96eb571231bdcb2a1",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Balloon/Flat/balloon_flat.svg",
+      "localPath": "public/assets/open/fluent/balloon.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.candle.flat",
+      "visualRefs": [
+        "entity.object.candle"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Candle/Flat/candle_flat.svg",
+      "sourceBlobSha": "f62a93d399c41bdd0b20485b2844d0eb3f6b5efd",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Candle/Flat/candle_flat.svg",
+      "localPath": "public/assets/open/fluent/candle.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.kite.flat",
+      "visualRefs": [
+        "entity.object.kite"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Kite/Flat/kite_flat.svg",
+      "sourceBlobSha": "66b5ff363872ee2b83140a843dd40b9136efd6ca",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Kite/Flat/kite_flat.svg",
+      "localPath": "public/assets/open/fluent/kite.svg",
+      "license": "MIT",
+      "attributionRequired": false,
+      "modificationStatus": "unmodified",
+      "licenseNotice": "MIT license retained in public/assets/open/fluent/LICENSE-MIT.txt"
+    },
+    {
+      "id": "fluent.sailboat.flat",
+      "visualRefs": [
+        "entity.object.sailboat"
+      ],
+      "sourceId": "microsoft-fluent-emoji",
+      "sourceRevision": "1ffb34c752ecf5d402f04cfb4b392c77f57c54bc",
+      "sourcePathOrName": "assets/Sailboat/Flat/sailboat_flat.svg",
+      "sourceBlobSha": "280e0534325004a55f76e2f6a2b177df26550e4a",
+      "sourceUrl": "https://github.com/microsoft/fluentui-emoji/blob/1ffb34c752ecf5d402f04cfb4b392c77f57c54bc/assets/Sailboat/Flat/sailboat_flat.svg",
+      "localPath": "public/assets/open/fluent/sailboat.svg",
       "license": "MIT",
       "attributionRequired": false,
       "modificationStatus": "unmodified",

@@ -21,7 +21,7 @@ The runtime path is:
 
 | Source | License signal | Status | Useful for / use in this branch |
 | --- | --- | --- | --- |
-| `microsoft/fluentui-emoji` | MIT; exact license retained with bundled files | Approved | 10 small static SVG proof assets pinned to commit `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`, each with exact upstream path and Git-blob SHA provenance |
+| `microsoft/fluentui-emoji` | MIT; exact license retained with bundled files | Approved | 34 small static SVG semantic assets pinned to commit `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`, each with exact upstream path and Git-blob SHA provenance |
 | Kenney assets | Official support policy states asset-page game assets are CC0 and attribution is not required | Approved source policy | Optional game/object artwork; no Kenney file is bundled by this branch and any future item still needs exact pack/item provenance |
 | `tabler/tabler-icons` | MIT; repository explicitly describes SVG icons as MIT-licensed | Approved | UI controls, arrows, generic objects and interaction symbols; no new Tabler file is bundled by this branch |
 | `jdecked/twemoji` | Graphics have a separate `LICENSE-GRAPHICS` under CC-BY-4.0 | Candidate | Consistent animal/object SVGs; attribution required |
@@ -29,9 +29,9 @@ The runtime path is:
 | `game-icons/icons` | Repository metadata reports `NOASSERTION`; licensing is not safe to assume globally | Reference only | Shape/symbol inspiration; exact asset review required |
 | Platform Unicode emoji | No artwork file bundled by Kidsplay | Prototype fallback | Zero-production-cost placeholders, but inconsistent across devices |
 
-## Bundled proof set
+## Bundled semantic set
 
-This branch bundles only Fluent static SVGs for dog, whale, cow, camel, rabbit, bird, fish, tree, sun, and bone. They live under `public/assets/open/fluent/`; the source revision/path/blob SHA for every file is recorded in `content/assets/registry.json`. No giant upstream pack is copied into Kidsplay.
+The initial 10-file Fluent proof set covered dog, whale, cow, camel, rabbit, bird, fish, tree, sun, and bone. Issue #62 adds 24 exact, byte-identical Fluent SVGs for cat, frog, duck, tiger, butterfly, honeybee, milk, honey, butter, cooked rice, eyes, ear, nose, tongue, tooth, lungs, anatomical heart, lotus, water wave, cloud, balloon, candle, kite, and sailboat. The water-wave file intentionally owns both `entity.habitat.water` and `entity.habitat.ocean`; one upstream file is reused rather than duplicated. All files live under `public/assets/open/fluent/`, and the source revision/path/blob SHA for every file is recorded in `content/assets/registry.json`. No upstream pack is copied wholesale.
 
 The current validator permits only byte-identical, `unmodified` third-party proof assets. Modified upstream artwork is deliberately blocked until a separate reviewed content-hash policy is introduced.
 
@@ -65,3 +65,18 @@ A dog-playing scene should therefore be assembled from reusable dog + happy pose
 - Find a genuinely permissive **modular character/animal source** where poses or body parts can be adapted without share-alike complications.
 - If no good source exists, create a very small original Kidsplay SVG kit using consistent geometric primitives and use external permissive icon/emoji sources only for props/background objects.
 - Keep generated third-party notices and exact provenance validation mandatory before adding any attribution-requiring artwork.
+
+## Breadth pass 2 selection evidence
+
+Issue #62 starts from the current outputs of `node scripts/report-visual-opportunities.mjs` and `node scripts/report-visual-coverage.mjs`, then intersects those gaps with stable semantic refs already present in the Class 2/Class 3 visual registries. The admitted priority order is: repeated animal concepts; foundational food/body/sense concepts; then reusable scene primitives (water, cloud, balloon, candle, kite, sailboat) and lotus. This keeps the pass source-agnostic and independent of question wording or IDs.
+
+| Candidate | Decision | Reason |
+| --- | --- | --- |
+| Fluent Red apple -> `entity.food.apple` | Deferred | An exact upstream asset and canonical visual ref both exist, but the current report-driven pass ranked other repeated gaps higher. Keep the existing local fallback and defer this extra byte rather than widening the 24-file admission batch without a stronger coverage need. |
+| Fluent Banana, Carrot, Tomato | Deferred | Exact upstream art exists, but no matching canonical visual ref was confirmed in the current visual registry during this pass. Do not create asset-only orphan semantics. |
+| Fluent Sheaf of rice -> `entity.food.wheat` | Rejected | Semantic mismatch: rice grain is not wheat. |
+| Fluent Tangerine -> `entity.food.orange` | Rejected | Near-match rather than exact source semantics; retain the current local fallback. |
+| Fluent Leaf fluttering in wind -> `entity.plant.leaves` | Rejected | Singular moving leaf is not a stable representation of the plural leaves concept. |
+| Twemoji / Noto candidates | Deferred | Their source records remain `candidate`; this pass uses only the already-approved Fluent source. |
+
+The authoring sync fetches only explicitly registered files at the immutable Fluent revision. Normal builds and tests stay offline.
