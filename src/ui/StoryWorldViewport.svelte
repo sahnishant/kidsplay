@@ -102,9 +102,12 @@
     </div>
     <div class="story-world-viewport__guides" aria-label="Story guides">
       <span class="guide-face" aria-hidden="true">
-        <StoryCharacter character="scientu" mood="thinking" motion="float" />
+        <StoryCharacter character="dheu" heroAvatar={childAvatar} mood="happy" motion="idle" />
       </span>
       <span class="guide-face" aria-hidden="true">
+        <StoryCharacter character="scientu" mood="thinking" motion="float" />
+      </span>
+      <span class="guide-face guide-face--shaitanu" aria-hidden="true">
         <StoryCharacter character="shaitanu" mood="mischievous" motion="wiggle" />
       </span>
       <span class="story-stars" aria-label={`${stars} story stars`}>⭐ <strong>{stars}</strong></span>
@@ -151,7 +154,7 @@
     </div>
 
     {#if selectedMission}
-      <section class="mission-overlay" role="dialog" aria-modal="true" aria-labelledby="mission-overlay-heading">
+      <div class="mission-overlay" role="dialog" aria-modal="true" aria-labelledby="mission-overlay-heading">
         <header class="mission-overlay__header">
           <button type="button" class="mission-close" onclick={closeMission} aria-label="Close mission">←</button>
           <div>
@@ -191,7 +194,7 @@
           </button>
           <button class="mission-later" type="button" onclick={closeMission}>Not now</button>
         </footer>
-      </section>
+      </div>
     {/if}
   </div>
 </section>
@@ -431,6 +434,10 @@
     .world-place small { font-size: .48rem; }
     .mission-overlay { padding: 8px; }
     .mission-scene :global(.scene) { height: 105px; }
+  }
+
+  @media (max-width: 360px) {
+    .guide-face--shaitanu { display: none; }
   }
 
   @media (max-height: 700px) {
