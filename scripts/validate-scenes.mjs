@@ -27,9 +27,20 @@ const allowedIcons = new Set([
 
 const hasText = (value) => typeof value === 'string' && value.trim().length > 0;
 const inPercentRange = (value) => Number.isFinite(value) && value >= 0 && value <= 100;
+
+const animationIds = new Set();
+for (const fileName of readdirSync(new URL('content/animations/', root)).filter((name) => name.endsWith('.json')).sort()) {
+  const compositions = JSON.parse(readFileSync(new URL(`content/animations/${fileName}`, root), 'utf8'));
+  if (!Array.isArray(compositions)) continue;
+  for (const composition of compositions) {
+    if (hasText(composition?.id)) animationIds.add(composition.id);
+  }
+}
+
 const files = readdirSync(new URL('content/scenes/', root)).filter((name) => name.endsWith('.json')).sort();
 const sceneIds = new Set();
 let entityCount = 0;
+let composedSceneCount = 0;
 
 for (const fileName of files) {
   const scenes = JSON.parse(readFileSync(new URL(`content/scenes/${fileName}`, root), 'utf8'));
@@ -46,8 +57,17 @@ for (const fileName of files) {
 
     if (!allowedThemes.has(scene?.theme)) errors.push(`${prefix}: unsupported theme ${scene?.theme}`);
     if (!hasText(scene?.ariaLabel)) errors.push(`${prefix}: ariaLabel is required`);
-    if (!Array.isArray(scene?.entities) || scene.entities.length === 0) {
-      errors.push(`${prefix}: entities must be a non-empty array`);
+
+    const hasAnimation = hasText(scene?.animationRef);
+    const hasEntities = Array.isArray(scene?.entities) && scene.entities.length > 0;
+    if (hasAnimation === hasEntities) {
+      errors.push(`${prefix}: provide exactly one of animationRef or a non-empty entities array`);
+      continue;
+    }
+
+    if (hasAnimation) {
+      composedSceneCount += 1;
+      if (!animationIds.has(scene.animationRef)) errors.push(`${prefix}: unknown animationRef ${scene.animationRef}`);
       continue;
     }
 
@@ -79,5 +99,5 @@ if (errors.length) {
   for (const error of errors) console.error(`- ${error}`);
   process.exitCode = 1;
 } else {
-  console.log(`Scenes OK: ${sceneIds.size} scene(s), ${entityCount} entity primitive(s), validated motion/icon contracts.`);
+  console.log(`Scenes OK: ${sceneIds.size} scene(s), ${composedSceneCount} semantic composition scene(s), ${entityCount} legacy entity primitive(s).`);
 }
