@@ -1,0 +1,3613 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_curator_sense_slice",
+  "language": "en",
+  "grade": 2,
+  "purpose": "Human sense selection and child-definition authoring. Candidate glosses are reference-only CC-BY material and are never copied automatically into runtime knowledge.",
+  "generatedFrom": {
+    "wordlistId": "vocabulary.primary.grade2.introduced.meaning.review",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "policy": {
+    "importedGlossRuntimeAllowed": false,
+    "explicitHumanDecisionRequired": true,
+    "kidsplayChildDefinitionRequiredForAccept": true
+  },
+  "summary": {
+    "words": 40,
+    "candidateSenses": 104
+  },
+  "items": [
+    {
+      "lemma": "notice",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.9
+      },
+      "priorityScore": 42.8,
+      "candidateSenses": [
+        {
+          "candidateId": "notice#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "notice%1:10:01::",
+            "synsetId": "06760383-n",
+            "definition": "an announcement containing information about an event",
+            "examples": [
+              "you didn't give me enough notice",
+              "an obituary notice",
+              "a notice of sale"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "notice%1:10:01::",
+              "06760383-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "notice#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "notice%1:09:00::",
+            "synsetId": "05711376-n",
+            "definition": "the act of noticing or paying attention",
+            "examples": [
+              "he escaped the notice of the police"
+            ],
+            "synonyms": [
+              "observation",
+              "observance"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "notice%1:09:00::",
+              "05711376-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "notice#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "notice%1:10:02::",
+            "synsetId": "07200328-n",
+            "definition": "a request for payment",
+            "examples": [
+              "the notification stated the grace period and the penalties for defaulting"
+            ],
+            "synonyms": [
+              "notification"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "notice%1:10:02::",
+              "07200328-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "library",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.86
+      },
+      "priorityScore": 42.72,
+      "candidateSenses": [
+        {
+          "candidateId": "library#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "library%1:06:01::",
+            "synsetId": "03666235-n",
+            "definition": "a room where books are kept",
+            "examples": [
+              "they had brandy in the library"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "library%1:06:01::",
+              "03666235-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "library#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "library%1:14:00::",
+            "synsetId": "07994293-n",
+            "definition": "a collection of literary documents or records kept for reference or borrowing",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "library%1:14:00::",
+              "07994293-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "library#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "library%1:06:00::",
+            "synsetId": "03665990-n",
+            "definition": "a depository built to contain books and other materials for reading and study",
+            "examples": [],
+            "synonyms": [
+              "depository library"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "library%1:06:00::",
+              "03665990-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "guide",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.75
+      },
+      "priorityScore": 42.5,
+      "candidateSenses": [
+        {
+          "candidateId": "guide#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "guide%1:18:00::",
+            "synsetId": "10761478-n",
+            "definition": "someone employed to conduct others",
+            "examples": [],
+            "synonyms": [
+              "usher"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "guide%1:18:00::",
+              "10761478-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "guide#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "guide%1:18:02::",
+            "synsetId": "10171090-n",
+            "definition": "someone who shows the way by leading or advising",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "guide%1:18:02::",
+              "10171090-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "guide#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "guide%1:10:00::",
+            "synsetId": "06434383-n",
+            "definition": "something that offers basic information or instruction",
+            "examples": [],
+            "synonyms": [
+              "guidebook"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "guide%1:10:00::",
+              "06434383-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "environment",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.87
+      },
+      "priorityScore": 41.74,
+      "candidateSenses": [
+        {
+          "candidateId": "environment#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "environment%1:26:00::",
+            "synsetId": "13957629-n",
+            "definition": "the totality of surrounding conditions",
+            "examples": [
+              "he longed for the comfortable environment of his living room"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "environment%1:26:00::",
+              "13957629-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "environment#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "environment%1:15:00::",
+            "synsetId": "08584764-n",
+            "definition": "the area in which something exists or lives",
+            "examples": [
+              "the country — the flat agricultural surround"
+            ],
+            "synonyms": [
+              "environs",
+              "surroundings",
+              "surround"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "environment%1:15:00::",
+              "08584764-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "pull",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.82
+      },
+      "priorityScore": 40.64,
+      "candidateSenses": [
+        {
+          "candidateId": "pull#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pull%2:35:00::",
+            "synsetId": "01450719-v",
+            "definition": "cause to move by pulling",
+            "examples": [
+              "draw a wagon",
+              "pull a sled"
+            ],
+            "synonyms": [
+              "draw"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pull%2:35:00::",
+              "01450719-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "pull#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pull%2:35:02::",
+            "synsetId": "01507886-v",
+            "definition": "direct toward itself or oneself by means of some psychological power or physical attributes",
+            "examples": [
+              "Her good looks attract the stares of many men",
+              "The ad pulled in many potential customers",
+              "This pianist pulls huge crowds",
+              "The store owner was happy that the ad drew in many new customers"
+            ],
+            "synonyms": [
+              "attract",
+              "pull in",
+              "draw",
+              "draw in"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pull%2:35:02::",
+              "01507886-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "pull#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "pull%2:38:01::",
+            "synsetId": "02061423-v",
+            "definition": "move into a certain direction",
+            "examples": [
+              "the car pulls to the right"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "pull%2:38:01::",
+              "02061423-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "minute",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.98
+      },
+      "priorityScore": 39.96,
+      "candidateSenses": [
+        {
+          "candidateId": "minute#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "minute%1:28:00::",
+            "synsetId": "15259561-n",
+            "definition": "a unit of time equal to 60 seconds or 1/60th of an hour",
+            "examples": [
+              "he ran a 4 minute mile"
+            ],
+            "synonyms": [
+              "min"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "minute%1:28:00::",
+              "15259561-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "minute#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "minute%1:28:01::",
+            "synsetId": "15271664-n",
+            "definition": "an indefinitely short time",
+            "examples": [
+              "wait just a moment",
+              "in a mo",
+              "it only takes a minute",
+              "in just a bit"
+            ],
+            "synonyms": [
+              "moment",
+              "mo",
+              "second",
+              "bit"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "minute%1:28:01::",
+              "15271664-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "minute#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "minute%1:28:02::",
+            "synsetId": "15269461-n",
+            "definition": "a particular point in time",
+            "examples": [
+              "the moment he arrived the party began"
+            ],
+            "synonyms": [
+              "moment",
+              "second",
+              "instant"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "minute%1:28:02::",
+              "15269461-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "regular",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.95
+      },
+      "priorityScore": 39.9,
+      "candidateSenses": [
+        {
+          "candidateId": "regular#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "regular%3:00:00::",
+            "synsetId": "01966104-a",
+            "definition": "in accordance with fixed order or procedure or principle",
+            "examples": [
+              "his regular calls on his customers",
+              "regular meals",
+              "regular duties"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "regular%3:00:00::",
+              "01966104-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "regular#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "regular%5:00:00:typical:00",
+            "synsetId": "02478817-s",
+            "definition": "often used as intensifiers",
+            "examples": [
+              "a regular morass of details",
+              "a regular nincompoop",
+              "he's a veritable swine"
+            ],
+            "synonyms": [
+              "veritable"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "regular%5:00:00:typical:00",
+              "02478817-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "regular#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "regular%5:00:00:standard:02",
+            "synsetId": "02304307-s",
+            "definition": "conforming to a standard or pattern",
+            "examples": [
+              "following the regular procedure of the legislature",
+              "a regular electrical outlet"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "regular%5:00:00:standard:02",
+              "02304307-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "floor",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.94
+      },
+      "priorityScore": 39.88,
+      "candidateSenses": [
+        {
+          "candidateId": "floor#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "floor%1:06:00::",
+            "synsetId": "03370438-n",
+            "definition": "the inside lower horizontal surface (as of a room, hallway, tent, or other structure)",
+            "examples": [
+              "they needed rugs to cover the bare floors",
+              "we spread our sleeping bags on the dry floor of the tent"
+            ],
+            "synonyms": [
+              "flooring"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "floor%1:06:00::",
+              "03370438-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "floor#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "floor%1:06:01::",
+            "synsetId": "03370837-n",
+            "definition": "a structure consisting of a room or set of rooms at a single position along a vertical scale",
+            "examples": [
+              "what level is the office on?"
+            ],
+            "synonyms": [
+              "level",
+              "storey",
+              "story"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "floor%1:06:01::",
+              "03370837-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "floor#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "floor%1:10:00::",
+            "synsetId": "06670863-n",
+            "definition": "a lower limit",
+            "examples": [
+              "the government established a wage floor"
+            ],
+            "synonyms": [
+              "base"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "floor%1:10:00::",
+              "06670863-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "plant",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.89
+      },
+      "priorityScore": 39.78,
+      "candidateSenses": [
+        {
+          "candidateId": "plant#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "plant%1:06:01::",
+            "synsetId": "03963198-n",
+            "definition": "buildings for carrying on industrial labor",
+            "examples": [
+              "they built a large plant to manufacture automobiles"
+            ],
+            "synonyms": [
+              "works",
+              "industrial plant"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "plant%1:06:01::",
+              "03963198-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "plant#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "plant%1:03:00::",
+            "synsetId": "00017402-n",
+            "definition": "(botany) a living organism lacking the power of locomotion",
+            "examples": [],
+            "synonyms": [
+              "flora",
+              "plant life"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "plant%1:03:00::",
+              "00017402-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "plant#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "plant%1:18:00::",
+            "synsetId": "10458237-n",
+            "definition": "an actor situated in the audience whose acting is rehearsed but seems spontaneous to the audience",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "plant%1:18:00::",
+              "10458237-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "famous",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.84
+      },
+      "priorityScore": 39.68,
+      "candidateSenses": [
+        {
+          "candidateId": "famous#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "famous%5:00:00:known:00",
+            "synsetId": "01378757-s",
+            "definition": "widely known and esteemed",
+            "examples": [
+              "a famous actor",
+              "a celebrated musician",
+              "a famed scientist",
+              "an illustrious judge",
+              "a notable historian",
+              "a renowned painter"
+            ],
+            "synonyms": [
+              "celebrated",
+              "famed",
+              "far-famed",
+              "illustrious",
+              "notable",
+              "noted",
+              "renowned"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "famous%5:00:00:known:00",
+              "01378757-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "busy",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.75
+      },
+      "priorityScore": 39.5,
+      "candidateSenses": [
+        {
+          "candidateId": "busy#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "busy%3:00:00::",
+            "synsetId": "00293803-a",
+            "definition": "actively or fully engaged or occupied",
+            "examples": [
+              "busy with her work",
+              "a busy man",
+              "too busy to eat lunch"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "busy%3:00:00::",
+              "00293803-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "busy#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "busy%5:00:00:fancy:00",
+            "synsetId": "01799712-s",
+            "definition": "overcrowded or cluttered with detail",
+            "examples": [
+              "a busy painting",
+              "a fussy design"
+            ],
+            "synonyms": [
+              "fussy"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "busy%5:00:00:fancy:00",
+              "01799712-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "busy#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "busy%5:00:00:intrusive:01",
+            "synsetId": "01355409-s",
+            "definition": "intrusive in a meddling or offensive manner",
+            "examples": [
+              "an interfering old woman",
+              "bustling about self-importantly making an officious nuisance of himself",
+              "busy about other people's business"
+            ],
+            "synonyms": [
+              "interfering",
+              "meddlesome",
+              "meddling",
+              "officious",
+              "busybodied"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "busy%5:00:00:intrusive:01",
+              "01355409-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "excellent",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.73
+      },
+      "priorityScore": 39.46,
+      "candidateSenses": [
+        {
+          "candidateId": "excellent#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "excellent%5:00:00:superior:02",
+            "synsetId": "02351216-s",
+            "definition": "very good; of the highest quality",
+            "examples": [
+              "made an excellent speech",
+              "he was a splendid teacher",
+              "a first-class mind",
+              "famous for a mean backhand"
+            ],
+            "synonyms": [
+              "first-class",
+              "fantabulous",
+              "splendid",
+              "ripping",
+              "mean"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "excellent%5:00:00:superior:02",
+              "02351216-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "guard",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.73
+      },
+      "priorityScore": 39.46,
+      "candidateSenses": [
+        {
+          "candidateId": "guard#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "guard%1:18:03::",
+            "synsetId": "10169591-n",
+            "definition": "a person who keeps watch over something or someone",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "guard%1:18:03::",
+              "10169591-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "guard#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "guard%1:18:01::",
+            "synsetId": "10169240-n",
+            "definition": "the person who lines up between the center and the tackles on the offensive line of a football team on the line of scrimmage",
+            "examples": [
+              "the left guard was injured on the play"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "guard%1:18:01::",
+              "10169240-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "guard#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "guard%1:06:00::",
+            "synsetId": "03469399-n",
+            "definition": "a device designed to prevent injury or accidents",
+            "examples": [],
+            "synonyms": [
+              "safety",
+              "safety device"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "guard%1:06:00::",
+              "03469399-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "clothes",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.72
+      },
+      "priorityScore": 39.44,
+      "candidateSenses": [
+        {
+          "candidateId": "clothes#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "clothes%1:06:00::",
+            "synsetId": "02731365-n",
+            "definition": "clothing in general",
+            "examples": [
+              "she was refined in her choice of apparel",
+              "he always bought his clothes at the same store",
+              "fastidious about his dress"
+            ],
+            "synonyms": [
+              "apparel",
+              "wearing apparel",
+              "dress"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "clothes%1:06:00::",
+              "02731365-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "accident",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.71
+      },
+      "priorityScore": 39.42,
+      "candidateSenses": [
+        {
+          "candidateId": "accident#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "accident%1:11:01::",
+            "synsetId": "07315954-n",
+            "definition": "an unfortunate mishap; especially one causing damage or injury",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "accident%1:11:01::",
+              "07315954-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "accident#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "accident%1:11:00::",
+            "synsetId": "07315578-n",
+            "definition": "anything that happens suddenly or by chance without an apparent cause",
+            "examples": [
+              "winning the lottery was a happy accident",
+              "the pregnancy was a stroke of bad luck",
+              "it was due to an accident or fortuity"
+            ],
+            "synonyms": [
+              "stroke",
+              "fortuity",
+              "chance event"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "accident%1:11:00::",
+              "07315578-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "path",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.71
+      },
+      "priorityScore": 39.42,
+      "candidateSenses": [
+        {
+          "candidateId": "path#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "path%1:04:00::",
+            "synsetId": "00416689-n",
+            "definition": "a course of conduct",
+            "examples": [
+              "the path of virtue",
+              "we went our separate ways",
+              "our paths in life led us apart",
+              "genius usually follows a revolutionary path"
+            ],
+            "synonyms": [
+              "way",
+              "way of life"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "path%1:04:00::",
+              "00416689-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "path#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "path%1:06:00::",
+            "synsetId": "03905025-n",
+            "definition": "a way especially designed for a particular use",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "path%1:06:00::",
+              "03905025-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "path#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "path%1:15:00::",
+            "synsetId": "08633886-n",
+            "definition": "an established line of travel or access",
+            "examples": [],
+            "synonyms": [
+              "route",
+              "itinerary"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "path%1:15:00::",
+              "08633886-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "ancient",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.68
+      },
+      "priorityScore": 39.36,
+      "candidateSenses": [
+        {
+          "candidateId": "ancient#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "ancient%5:00:00:past:00",
+            "synsetId": "01732846-s",
+            "definition": "belonging to times long past especially of the historical period before the fall of the Western Roman Empire",
+            "examples": [
+              "ancient history",
+              "ancient civilizations such as those of the Etruscans and Sumerians",
+              "ancient Greece"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ancient%5:00:00:past:00",
+              "01732846-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "ancient#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "ancient%5:00:00:old:02",
+            "synsetId": "01649289-s",
+            "definition": "very old",
+            "examples": [
+              "an ancient mariner"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ancient%5:00:00:old:02",
+              "01649289-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "exercise",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.68
+      },
+      "priorityScore": 39.36,
+      "candidateSenses": [
+        {
+          "candidateId": "exercise#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "exercise%1:04:00::",
+            "synsetId": "00625978-n",
+            "definition": "the activity of exerting your muscles in various ways to keep fit",
+            "examples": [
+              "the doctor recommended regular exercise",
+              "he did some exercising",
+              "the physical exertion required by his work kept him fit"
+            ],
+            "synonyms": [
+              "exercising",
+              "physical exercise",
+              "physical exertion",
+              "workout"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "exercise%1:04:00::",
+              "00625978-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "exercise#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "exercise%1:04:03::",
+            "synsetId": "00948944-n",
+            "definition": "the act of using",
+            "examples": [
+              "he warned against the use of narcotic drugs",
+              "skilled in the utilization of computers"
+            ],
+            "synonyms": [
+              "use",
+              "usage",
+              "utilization",
+              "utilisation",
+              "employment"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "exercise%1:04:03::",
+              "00948944-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "exercise#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "exercise%1:04:02::",
+            "synsetId": "00896250-n",
+            "definition": "systematic training by multiple repetitions",
+            "examples": [
+              "practice makes perfect"
+            ],
+            "synonyms": [
+              "practice",
+              "drill",
+              "practice session",
+              "recitation"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "exercise%1:04:02::",
+              "00896250-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sugar",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.68
+      },
+      "priorityScore": 39.36,
+      "candidateSenses": [
+        {
+          "candidateId": "sugar#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sugar%1:13:00::",
+            "synsetId": "07875260-n",
+            "definition": "a white crystalline carbohydrate used as a sweetener and preservative",
+            "examples": [],
+            "synonyms": [
+              "refined sugar"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sugar%1:13:00::",
+              "07875260-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sugar#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sugar%1:27:00::",
+            "synsetId": "14816873-n",
+            "definition": "an essential structural component of living cells and source of energy for animals; includes simple sugars with small molecules as well as macromolecular substances; are classified according to the number of monosaccharide groups they contain",
+            "examples": [],
+            "synonyms": [
+              "carbohydrate",
+              "saccharide"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sugar%1:27:00::",
+              "14816873-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sugar#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sugar%1:21:00::",
+            "synsetId": "13406389-n",
+            "definition": "informal terms for money",
+            "examples": [],
+            "synonyms": [
+              "boodle",
+              "bread",
+              "cabbage",
+              "clams",
+              "dinero",
+              "dough",
+              "gelt",
+              "kale",
+              "lettuce",
+              "lolly",
+              "lucre",
+              "loot",
+              "moolah",
+              "pelf",
+              "scratch",
+              "shekels",
+              "simoleons",
+              "wampum"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sugar%1:21:00::",
+              "13406389-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "strange",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.64
+      },
+      "priorityScore": 39.28,
+      "candidateSenses": [
+        {
+          "candidateId": "strange#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "strange%3:00:00::",
+            "synsetId": "00970318-a",
+            "definition": "being definitely out of the ordinary and unexpected; slightly odd or even a bit weird",
+            "examples": [
+              "a strange exaltation that was indefinable",
+              "a strange fantastical mind",
+              "what a strange sense of humor she has"
+            ],
+            "synonyms": [
+              "unusual"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "strange%3:00:00::",
+              "00970318-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "strange#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "strange%5:00:01:unfamiliar:00",
+            "synsetId": "00969942-s",
+            "definition": "not known before",
+            "examples": [
+              "used many strange words",
+              "saw many strange faces in the crowd",
+              "don't let anyone unknown into the house"
+            ],
+            "synonyms": [
+              "unknown"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "strange%5:00:01:unfamiliar:00",
+              "00969942-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "strange#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "strange%3:00:01::",
+            "synsetId": "01038139-a",
+            "definition": "relating to or originating in or characteristic of another place or part of the world",
+            "examples": [
+              "foreign nations",
+              "a foreign accent",
+              "on business in a foreign city"
+            ],
+            "synonyms": [
+              "foreign"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "strange%3:00:01::",
+              "01038139-a"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "opposite",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.62
+      },
+      "priorityScore": 39.24,
+      "candidateSenses": [
+        {
+          "candidateId": "opposite#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "opposite%5:00:01:other:00",
+            "synsetId": "02078291-s",
+            "definition": "being directly across from each other; facing",
+            "examples": [
+              "And I on the opposite shore will be, ready to ride and spread the alarm",
+              "we lived on opposite sides of the street",
+              "at opposite poles"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "opposite%5:00:01:other:00",
+              "02078291-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "opposite#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "opposite%3:00:00::",
+            "synsetId": "01667666-a",
+            "definition": "of leaves etc.; growing in pairs on either side of a stem",
+            "examples": [
+              "opposite leaves"
+            ],
+            "synonyms": [
+              "paired"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "opposite%3:00:00::",
+              "01667666-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "opposite#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "opposite%5:00:02:other:00",
+            "synsetId": "02078543-s",
+            "definition": "moving or facing away from each other",
+            "examples": [
+              "looking in opposite directions",
+              "they went in opposite directions"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "opposite%5:00:02:other:00",
+              "02078543-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "familiar",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.61
+      },
+      "priorityScore": 39.22,
+      "candidateSenses": [
+        {
+          "candidateId": "familiar#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "familiar%3:00:00::",
+            "synsetId": "00968795-a",
+            "definition": "well known or easily recognized",
+            "examples": [
+              "a familiar figure",
+              "familiar songs",
+              "familiar guests"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "familiar%3:00:00::",
+              "00968795-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "familiar#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "familiar%3:00:02::",
+            "synsetId": "00973438-a",
+            "definition": "within normal everyday experience; common and ordinary; not strange",
+            "examples": [
+              "familiar ordinary objects found in every home",
+              "a familiar everyday scene",
+              "a familiar excuse",
+              "a day like any other filled with familiar duties and experiences"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "familiar%3:00:02::",
+              "00973438-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "familiar#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "familiar%5:00:00:informed:00",
+            "synsetId": "01310022-s",
+            "definition": "(usually followed by ‘with’) well informed about or knowing thoroughly",
+            "examples": [
+              "conversant with business trends",
+              "familiar with the complex machinery",
+              "he was familiar with those roads"
+            ],
+            "synonyms": [
+              "conversant"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "familiar%5:00:00:informed:00",
+              "01310022-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "extreme",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.6
+      },
+      "priorityScore": 39.2,
+      "candidateSenses": [
+        {
+          "candidateId": "extreme#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "extreme%5:00:00:intense:00",
+            "synsetId": "01515272-s",
+            "definition": "of the greatest possible degree or extent or intensity",
+            "examples": [
+              "extreme cold",
+              "extreme caution",
+              "extreme pleasure",
+              "utmost contempt",
+              "to the utmost degree",
+              "in the uttermost distress"
+            ],
+            "synonyms": [
+              "utmost",
+              "uttermost"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "extreme%5:00:00:intense:00",
+              "01515272-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "extreme#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "extreme%5:00:00:immoderate:00",
+            "synsetId": "01538953-s",
+            "definition": "far beyond a norm in quantity or amount or degree; to an utmost degree",
+            "examples": [
+              "an extreme example",
+              "extreme temperatures",
+              "extreme danger"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "extreme%5:00:00:immoderate:00",
+              "01538953-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "extreme#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "extreme%5:00:01:immoderate:00",
+            "synsetId": "01539177-s",
+            "definition": "beyond a norm in views or actions",
+            "examples": [
+              "an extreme conservative",
+              "an extreme liberal",
+              "extreme views on integration",
+              "extreme opinions"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "extreme%5:00:01:immoderate:00",
+              "01539177-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sentence",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.58
+      },
+      "priorityScore": 39.16,
+      "candidateSenses": [
+        {
+          "candidateId": "sentence#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sentence%1:10:00::",
+            "synsetId": "06295743-n",
+            "definition": "a string of words satisfying the grammatical rules of a language",
+            "examples": [
+              "he always spoke in grammatical sentences"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sentence%1:10:00::",
+              "06295743-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sentence#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sentence%1:04:00::",
+            "synsetId": "01191772-n",
+            "definition": "(criminal law) a final judgment of guilty in a criminal case and the punishment that is imposed",
+            "examples": [
+              "the conviction came as no surprise"
+            ],
+            "synonyms": [
+              "conviction",
+              "judgment of conviction",
+              "condemnation"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sentence%1:04:00::",
+              "01191772-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sentence#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sentence%1:28:00::",
+            "synsetId": "15249488-n",
+            "definition": "the period of time a prisoner is imprisoned",
+            "examples": [
+              "he served a prison term of 15 months",
+              "his sentence was 5 to 10 years",
+              "he is doing time in the county jail"
+            ],
+            "synonyms": [
+              "prison term",
+              "time"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sentence%1:28:00::",
+              "15249488-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "fruit",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.57
+      },
+      "priorityScore": 39.14,
+      "candidateSenses": [
+        {
+          "candidateId": "fruit#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fruit%1:20:00::",
+            "synsetId": "13155706-n",
+            "definition": "the ripened reproductive body of a seed plant",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fruit%1:20:00::",
+              "13155706-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fruit#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fruit%1:06:00::",
+            "synsetId": "04620079-n",
+            "definition": "an amount of a product",
+            "examples": [],
+            "synonyms": [
+              "yield"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fruit%1:06:00::",
+              "04620079-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fruit#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fruit%1:11:00::",
+            "synsetId": "07309308-n",
+            "definition": "the consequence of some effort or action",
+            "examples": [
+              "he lived long enough to see the fruit of his policies"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fruit%1:11:00::",
+              "07309308-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "height",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.53
+      },
+      "priorityScore": 39.06,
+      "candidateSenses": [
+        {
+          "candidateId": "height#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "height%1:07:00::",
+            "synsetId": "05144430-n",
+            "definition": "the vertical dimension of extension; distance from the base of something to the top",
+            "examples": [],
+            "synonyms": [
+              "tallness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "height%1:07:00::",
+              "05144430-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "height#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "height%1:26:00::",
+            "synsetId": "13963489-n",
+            "definition": "the highest level or degree attainable; the highest stage of development",
+            "examples": [
+              "his landscapes were deemed the acme of beauty",
+              "the artist's gifts are at their acme",
+              "at the height of her career",
+              "the peak of perfection",
+              "summer was at its peak",
+              "… catapulted Einstein to the pinnacle of fame",
+              "the summit of his ambition",
+              "so many highest superlatives achieved by man",
+              "at the top of his profession"
+            ],
+            "synonyms": [
+              "acme",
+              "elevation",
+              "peak",
+              "pinnacle",
+              "summit",
+              "superlative",
+              "meridian",
+              "tiptop",
+              "top"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "height%1:26:00::",
+              "13963489-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "height#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "height%1:07:01::",
+            "synsetId": "05009517-n",
+            "definition": "(of a standing person) the distance from head to foot",
+            "examples": [],
+            "synonyms": [
+              "stature"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "height%1:07:01::",
+              "05009517-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "breath",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.52
+      },
+      "priorityScore": 39.04,
+      "candidateSenses": [
+        {
+          "candidateId": "breath#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "breath%1:04:00::",
+            "synsetId": "00836693-n",
+            "definition": "the process of taking in and expelling air during breathing",
+            "examples": [
+              "he took a deep breath and dived into the pool",
+              "he was fighting to his last breath"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "breath%1:04:00::",
+              "00836693-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "breath#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "breath%1:27:00::",
+            "synsetId": "14865940-n",
+            "definition": "the air that is inhaled and exhaled in respiration",
+            "examples": [
+              "his sour breath offended her"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "breath%1:27:00::",
+              "14865940-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "breath#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "breath%1:28:00::",
+            "synsetId": "15299681-n",
+            "definition": "a short respite",
+            "examples": [],
+            "synonyms": [
+              "breather",
+              "breathing place",
+              "breathing space",
+              "breathing spell",
+              "breathing time"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "breath%1:28:00::",
+              "15299681-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "opportunity",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.95
+      },
+      "priorityScore": 38.9,
+      "candidateSenses": [
+        {
+          "candidateId": "opportunity#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "opportunity%1:26:00::",
+            "synsetId": "14507501-n",
+            "definition": "a possibility due to a favorable combination of circumstances",
+            "examples": [
+              "the holiday gave us the opportunity to visit Washington",
+              "now is your chance"
+            ],
+            "synonyms": [
+              "chance"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "opportunity%1:26:00::",
+              "14507501-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "competition",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.91
+      },
+      "priorityScore": 38.82,
+      "candidateSenses": [
+        {
+          "candidateId": "competition#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "competition%1:24:01::",
+            "synsetId": "13859208-n",
+            "definition": "a business relation in which two parties compete to gain customers",
+            "examples": [
+              "business competition can be fiendish at times"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "competition%1:24:01::",
+              "13859208-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "competition#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "competition%1:11:00::",
+            "synsetId": "07470961-n",
+            "definition": "an occasion on which a winner is selected from among two or more contestants",
+            "examples": [],
+            "synonyms": [
+              "contest"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "competition%1:11:00::",
+              "07470961-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "competition#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "competition%1:04:00::",
+            "synsetId": "01171059-n",
+            "definition": "the act of competing as for profit or a prize",
+            "examples": [
+              "the teams were in fierce contention for first place"
+            ],
+            "synonyms": [
+              "contention",
+              "rivalry"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "competition%1:04:00::",
+              "01171059-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "imagine",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.92
+      },
+      "priorityScore": 37.84,
+      "candidateSenses": [
+        {
+          "candidateId": "imagine#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "imagine%2:36:00::",
+            "synsetId": "01639939-v",
+            "definition": "form a mental image of something that is not present or that is not the case",
+            "examples": [
+              "Can you conceive of him as the president?"
+            ],
+            "synonyms": [
+              "conceive of",
+              "ideate",
+              "envisage"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "imagine%2:36:00::",
+              "01639939-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "imagine#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "imagine%2:31:01::",
+            "synsetId": "00633399-v",
+            "definition": "expect, believe, or suppose",
+            "examples": [
+              "I imagine she earned a lot of money with her new novel",
+              "I thought to find her in a bad state",
+              "he didn't think to find her in the kitchen",
+              "I guess she is angry at me for standing her up"
+            ],
+            "synonyms": [
+              "think",
+              "opine",
+              "suppose",
+              "reckon",
+              "guess"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "imagine%2:31:01::",
+              "00633399-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "appear",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.85
+      },
+      "priorityScore": 37.7,
+      "candidateSenses": [
+        {
+          "candidateId": "appear#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "appear%2:39:00::",
+            "synsetId": "02137900-v",
+            "definition": "give a certain impression of being something or having a certain aspect",
+            "examples": [
+              "She seems to be sleeping",
+              "This appears to be a very difficult problem",
+              "This project looks fishy",
+              "They appeared like people who had not eaten or slept for a long time"
+            ],
+            "synonyms": [
+              "look",
+              "seem"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "appear%2:39:00::",
+              "02137900-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "appear#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "appear%2:30:00::",
+            "synsetId": "00423043-v",
+            "definition": "come into sight or view",
+            "examples": [
+              "He suddenly appeared at the wedding",
+              "A new star appeared on the horizon"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "appear%2:30:00::",
+              "00423043-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "appear#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "appear%2:30:01::",
+            "synsetId": "00426920-v",
+            "definition": "be issued or published",
+            "examples": [
+              "Did your latest book appear yet?",
+              "The new Woody Allen film hasn't come out yet"
+            ],
+            "synonyms": [
+              "come out"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "appear%2:30:01::",
+              "00426920-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "push",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.82
+      },
+      "priorityScore": 37.64,
+      "candidateSenses": [
+        {
+          "candidateId": "push#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "push%2:38:00::",
+            "synsetId": "01875972-v",
+            "definition": "move with force",
+            "examples": [
+              "He pushed the table into a corner"
+            ],
+            "synonyms": [
+              "force"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "push%2:38:00::",
+              "01875972-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "push#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "push%2:32:01::",
+            "synsetId": "00768022-v",
+            "definition": "press, drive, or impel (someone) to action or completion of an action",
+            "examples": [
+              "He pushed her to finish her doctorate"
+            ],
+            "synonyms": [
+              "bear on"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "push%2:32:01::",
+              "00768022-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "push#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "push%2:32:00::",
+            "synsetId": "00978685-v",
+            "definition": "make publicity for; try to sell (a product)",
+            "examples": [
+              "The salesman is aggressively pushing the new computer model",
+              "The company is heavily advertizing their new laptops"
+            ],
+            "synonyms": [
+              "advertise",
+              "advertize",
+              "promote"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "push%2:32:00::",
+              "00978685-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "decide",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.78
+      },
+      "priorityScore": 37.56,
+      "candidateSenses": [
+        {
+          "candidateId": "decide#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "decide%2:31:00::",
+            "synsetId": "00699355-v",
+            "definition": "reach, make, or come to a decision about something",
+            "examples": [
+              "We finally decided after lengthy deliberations"
+            ],
+            "synonyms": [
+              "make up one's mind",
+              "determine"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "decide%2:31:00::",
+              "00699355-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "decide#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "decide%2:31:01::",
+            "synsetId": "00700621-v",
+            "definition": "bring to an end; settle conclusively",
+            "examples": [
+              "The case was decided",
+              "The judge decided the case in favor of the plaintiff",
+              "The father adjudicated when the sons were quarreling over their inheritance"
+            ],
+            "synonyms": [
+              "settle",
+              "resolve",
+              "adjudicate"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "decide%2:31:01::",
+              "00700621-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "decide#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "decide%2:31:02::",
+            "synsetId": "00701251-v",
+            "definition": "cause to decide",
+            "examples": [
+              "This new development finally decided me!"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "decide%2:31:02::",
+              "00701251-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "suggest",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.75
+      },
+      "priorityScore": 37.5,
+      "candidateSenses": [
+        {
+          "candidateId": "suggest#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "suggest%2:32:00::",
+            "synsetId": "00876925-v",
+            "definition": "make a proposal, declare a plan for something",
+            "examples": [
+              "the senator proposed to abolish the sales tax"
+            ],
+            "synonyms": [
+              "propose",
+              "advise"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "suggest%2:32:00::",
+              "00876925-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "suggest#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "suggest%2:32:04::",
+            "synsetId": "00929401-v",
+            "definition": "drop a hint; intimate by a hint",
+            "examples": [],
+            "synonyms": [
+              "hint"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "suggest%2:32:04::",
+              "00929401-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "suggest#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "suggest%2:32:02::",
+            "synsetId": "00932768-v",
+            "definition": "imply as a possibility",
+            "examples": [
+              "The evidence suggests a need for more clarification"
+            ],
+            "synonyms": [
+              "intimate"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "suggest%2:32:02::",
+              "00932768-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "describe",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.56
+      },
+      "priorityScore": 37.12,
+      "candidateSenses": [
+        {
+          "candidateId": "describe#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "describe%2:32:00::",
+            "synsetId": "00989103-v",
+            "definition": "give a description of",
+            "examples": [
+              "He drew an elaborate plan of attack"
+            ],
+            "synonyms": [
+              "depict",
+              "draw"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "describe%2:32:00::",
+              "00989103-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "describe#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "describe%2:32:01::",
+            "synsetId": "00967067-v",
+            "definition": "to give an account or representation of in words",
+            "examples": [
+              "Discreet Italian police described it in a manner typically continental"
+            ],
+            "synonyms": [
+              "report",
+              "account"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "describe%2:32:01::",
+              "00967067-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "describe#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "describe%2:35:00::",
+            "synsetId": "01585566-v",
+            "definition": "make a mark or lines on a surface",
+            "examples": [
+              "draw a line",
+              "trace the outline of a figure in the sand"
+            ],
+            "synonyms": [
+              "trace",
+              "draw",
+              "line",
+              "delineate"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "describe%2:35:00::",
+              "01585566-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "yellow",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.69
+      },
+      "priorityScore": 36.38,
+      "candidateSenses": [
+        {
+          "candidateId": "yellow#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "yellow%1:07:00::",
+            "synsetId": "04972838-n",
+            "definition": "yellow color or pigment; the chromatic color resembling the hue of sunflowers or ripe lemons",
+            "examples": [],
+            "synonyms": [
+              "yellowness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "yellow%1:07:00::",
+              "04972838-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "immediately",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adverb",
+      "frequency": {
+        "zipf": 4.98
+      },
+      "priorityScore": 34.96,
+      "candidateSenses": [
+        {
+          "candidateId": "immediately#r#1",
+          "partOfSpeech": "r",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "immediately%4:02:00::",
+            "synsetId": "00049277-r",
+            "definition": "without delay or hesitation; with no time intervening",
+            "examples": [
+              "he answered immediately",
+              "found an answer straightaway",
+              "an official accused of dishonesty should be suspended forthwith",
+              "Come here now!"
+            ],
+            "synonyms": [
+              "instantly",
+              "straightaway",
+              "straight off",
+              "directly",
+              "now",
+              "right away",
+              "at once",
+              "forthwith",
+              "like a shot"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "immediately%4:02:00::",
+              "00049277-r"
+            ]
+          }
+        },
+        {
+          "candidateId": "immediately#r#2",
+          "partOfSpeech": "r",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "immediately%4:02:03::",
+            "synsetId": "00506499-r",
+            "definition": "near or close by",
+            "examples": [
+              "he passed immediately behind her"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "immediately%4:02:03::",
+              "00506499-r"
+            ]
+          }
+        },
+        {
+          "candidateId": "immediately#r#3",
+          "partOfSpeech": "r",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "immediately%4:02:05::",
+            "synsetId": "00506609-r",
+            "definition": "bearing an immediate relation",
+            "examples": [
+              "this immediately concerns your future"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "immediately%4:02:05::",
+              "00506609-r"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "brown",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.01
+      },
+      "priorityScore": 34.02,
+      "candidateSenses": [
+        {
+          "candidateId": "brown#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "brown%1:07:00::",
+            "synsetId": "04979195-n",
+            "definition": "an orange of low brightness and saturation",
+            "examples": [],
+            "synonyms": [
+              "brownness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "brown%1:07:00::",
+              "04979195-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "radio",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.01
+      },
+      "priorityScore": 34.02,
+      "candidateSenses": [
+        {
+          "candidateId": "radio#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "radio%1:10:00::",
+            "synsetId": "06287788-n",
+            "definition": "medium for communication",
+            "examples": [],
+            "synonyms": [
+              "radiocommunication",
+              "wireless"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "radio%1:10:00::",
+              "06287788-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "radio#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "radio%1:06:01::",
+            "synsetId": "04050813-n",
+            "definition": "an electronic receiver that detects and demodulates and amplifies transmitted signals",
+            "examples": [],
+            "synonyms": [
+              "radio receiver",
+              "receiving set",
+              "radio set",
+              "tuner",
+              "wireless"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "radio%1:06:01::",
+              "04050813-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "radio#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "radio%1:06:00::",
+            "synsetId": "04048624-n",
+            "definition": "a communication system based on broadcasting electromagnetic waves",
+            "examples": [],
+            "synonyms": [
+              "wireless"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "radio%1:06:00::",
+              "04048624-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "treatment",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.01
+      },
+      "priorityScore": 34.02,
+      "candidateSenses": [
+        {
+          "candidateId": "treatment#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "treatment%1:04:00::",
+            "synsetId": "00659325-n",
+            "definition": "care provided to improve a situation (especially medical procedures or applications that are intended to relieve illness or injury)",
+            "examples": [],
+            "synonyms": [
+              "intervention"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "treatment%1:04:00::",
+              "00659325-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "treatment#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "treatment%1:04:01::",
+            "synsetId": "01137182-n",
+            "definition": "the management of someone or something",
+            "examples": [
+              "the handling of prisoners",
+              "the treatment of water sewage",
+              "the right to equal treatment in the criminal justice system"
+            ],
+            "synonyms": [
+              "handling"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "treatment%1:04:01::",
+              "01137182-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "treatment#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "treatment%1:07:00::",
+            "synsetId": "04937153-n",
+            "definition": "a manner of dealing with something artistically",
+            "examples": [
+              "his treatment of space borrows from Italian architecture"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "treatment%1:07:00::",
+              "04937153-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+name: Curate Primary Vocabulary Corpus
+
+on:
+  push:
+    branches:
+      - content/primary-vocabulary-corpus
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: primary-vocabulary-curate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  curate-and-check:
+    name: Rank corpus, rebuild spelling queues and run gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Restore Linux native bindings omitted by cross-platform lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          TARBALL="$(npm pack --silent --pack-destination /tmp "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/@rolldown/binding-linux-x64-gnu
+          tar -xzf "/tmp/${TARBALL}" -C node_modules/@rolldown/binding-linux-x64-gnu --strip-components=1
+          LIGHTNING_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          LIGHTNING_TARBALL="$(npm pack --silent --pack-destination /tmp "lightningcss-linux-x64-gnu@${LIGHTNING_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/lightningcss-linux-x64-gnu
+          tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
+          node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
+
+      - name: Refresh pinned source corpus on manual sync
+        if: github.event_name == 'workflow_dispatch'
+        run: npm run lexicon:sync:primary
+
+      - name: Apply deterministic primary grade bands
+        run: npm run lexicon:reband:primary
+
+      - name: Validate ranked corpus and provenance
+        run: npm run validate:lexicon-corpus
+
+      - name: Rebuild spelling and recognition review queues
+        shell: bash
+        run: |
+          mkdir -p content/lexicon/open/review-wordlists
+          find content/lexicon/open/review-wordlists -maxdepth 1 -type f -name 'grade-*-introduced-spelling.json' -delete
+          npm run lexicon:select:primary -- --per-grade 400 --mode introduced --purpose spelling
+
+      - name: Report corpus distribution
+        run: npm run report:lexicon-corpus
+
+      - name: Run vocabulary acceptance tests
+        run: npm run test:vocabulary-corpus
+
+      - name: Run repository-wide merge gate
+        run: npm run check
+
+      - name: Commit lane-validated corpus and spelling queues if changed
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add content/lexicon/open/primary-grade-corpus.json
+          git add content/lexicon/open/review-wordlists/grade-*-introduced-spelling.json
+          if git diff --cached --quiet; then
+            echo "Primary corpus and spelling queues already current."
+            exit 0
+          fi
+          git fetch origin "${GITHUB_REF_NAME}"
+          if [ "$(git rev-parse HEAD)" != "$(git rev-parse FETCH_HEAD)" ]; then
+            echo "A newer branch head exists; skip persistence because the newer push will rerun this deterministic lane."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "data: rank primary vocabulary corpus and refresh spelling queues"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

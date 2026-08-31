@@ -1,0 +1,2922 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_curator_sense_slice",
+  "language": "en",
+  "grade": 5,
+  "purpose": "Human sense selection and child-definition authoring. Candidate glosses are reference-only CC-BY material and are never copied automatically into runtime knowledge.",
+  "generatedFrom": {
+    "wordlistId": "vocabulary.primary.grade5.introduced.meaning.review",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "policy": {
+    "importedGlossRuntimeAllowed": false,
+    "explicitHumanDecisionRequired": true,
+    "kidsplayChildDefinitionRequiredForAccept": true
+  },
+  "summary": {
+    "words": 40,
+    "candidateSenses": 82
+  },
+  "items": [
+    {
+      "lemma": "humour",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.83
+      },
+      "priorityScore": 28.66,
+      "candidateSenses": [
+        {
+          "candidateId": "humour#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "humour%1:12:00::",
+            "synsetId": "07566518-n",
+            "definition": "a characteristic (habitual or relatively temporary) state of feeling",
+            "examples": [
+              "whether he praised or cursed me depended on his temper at the time",
+              "he was in a bad humor"
+            ],
+            "synonyms": [
+              "temper",
+              "mood",
+              "humor"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "humour%1:12:00::",
+              "07566518-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "humour#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "humour%1:10:00::",
+            "synsetId": "06788939-n",
+            "definition": "a message whose ingenuity or verbal skill or incongruity has the power to evoke laughter",
+            "examples": [],
+            "synonyms": [
+              "wit",
+              "humor",
+              "witticism",
+              "wittiness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "humour%1:10:00::",
+              "06788939-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "humour#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "humour%1:08:01::",
+            "synsetId": "05612290-n",
+            "definition": "(Middle Ages) one of the four fluids in the body whose balance was believed to determine your emotional and physical state",
+            "examples": [
+              "the humors are blood and phlegm and yellow and black bile"
+            ],
+            "synonyms": [
+              "humor"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "humour%1:08:01::",
+              "05612290-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sunrise",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.82
+      },
+      "priorityScore": 28.64,
+      "candidateSenses": [
+        {
+          "candidateId": "sunrise#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sunrise%1:28:00::",
+            "synsetId": "15193837-n",
+            "definition": "the first light of day",
+            "examples": [
+              "we got up before dawn",
+              "they talked until morning"
+            ],
+            "synonyms": [
+              "dawn",
+              "dawning",
+              "morning",
+              "aurora",
+              "first light",
+              "daybreak",
+              "break of day",
+              "break of the day",
+              "dayspring",
+              "sunup",
+              "cockcrow"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sunrise%1:28:00::",
+              "15193837-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sunrise#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sunrise%1:19:00::",
+            "synsetId": "11538089-n",
+            "definition": "atmospheric phenomena accompanying the daily appearance of the sun",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sunrise%1:19:00::",
+              "11538089-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sunrise#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sunrise%1:11:00::",
+            "synsetId": "07358510-n",
+            "definition": "the daily event of the sun rising above the horizon",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sunrise%1:11:00::",
+              "07358510-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "picnic",
+      "grade": 5,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.8
+      },
+      "priorityScore": 28.6,
+      "candidateSenses": [
+        {
+          "candidateId": "picnic#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "picnic%1:28:00::",
+            "synsetId": "15163651-n",
+            "definition": "a day devoted to an outdoor social gathering",
+            "examples": [],
+            "synonyms": [
+              "field day",
+              "outing"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "picnic%1:28:00::",
+              "15163651-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "picnic#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "picnic%1:04:00::",
+            "synsetId": "00576402-n",
+            "definition": "any undertaking that is easy to do",
+            "examples": [
+              "marketing this product will be no picnic"
+            ],
+            "synonyms": [
+              "cinch",
+              "breeze",
+              "snap",
+              "duck soup",
+              "child's play",
+              "pushover",
+              "walkover",
+              "piece of cake"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "picnic%1:04:00::",
+              "00576402-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "picnic#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "picnic%1:13:00::",
+            "synsetId": "07592003-n",
+            "definition": "any informal meal eaten outside or on an excursion",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "picnic%1:13:00::",
+              "07592003-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "playground",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.79
+      },
+      "priorityScore": 28.58,
+      "candidateSenses": [
+        {
+          "candidateId": "playground#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "playground%1:15:00::",
+            "synsetId": "08658314-n",
+            "definition": "an area where many people go for recreation, holidays or other purposes",
+            "examples": [],
+            "synonyms": [
+              "resort area",
+              "vacation spot"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "playground%1:15:00::",
+              "08658314-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "playground#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "playground%1:06:00::",
+            "synsetId": "03969939-n",
+            "definition": "yard consisting of an outdoor area for children's play",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "playground%1:06:00::",
+              "03969939-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "balcony",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.78
+      },
+      "priorityScore": 28.56,
+      "candidateSenses": [
+        {
+          "candidateId": "balcony#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "balcony%1:06:02::",
+            "synsetId": "02780932-n",
+            "definition": "an upper floor projecting from the rear over the main floor in an auditorium",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "balcony%1:06:02::",
+              "02780932-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "balcony#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "balcony%1:06:01::",
+            "synsetId": "02780739-n",
+            "definition": "a platform projecting from the wall of a building and surrounded by a balustrade or railing or parapet",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "balcony%1:06:01::",
+              "02780739-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "insect",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.76
+      },
+      "priorityScore": 28.52,
+      "candidateSenses": [
+        {
+          "candidateId": "insect#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "insect%1:05:00::",
+            "synsetId": "02162607-n",
+            "definition": "small air-breathing arthropod",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "insect%1:05:00::",
+              "02162607-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "insect#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "insect%1:18:00::",
+            "synsetId": "10811668-n",
+            "definition": "a person who has a nasty or unethical character undeserving of respect",
+            "examples": [],
+            "synonyms": [
+              "worm",
+              "louse",
+              "dirt ball"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "insect%1:18:00::",
+              "10811668-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "volcano",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.76
+      },
+      "priorityScore": 28.52,
+      "candidateSenses": [
+        {
+          "candidateId": "volcano#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "volcano%1:17:01::",
+            "synsetId": "09493680-n",
+            "definition": "a fissure in the earth's crust (or in the surface of some other planet) through which molten lava and gases erupt",
+            "examples": [],
+            "synonyms": [
+              "vent"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "volcano%1:17:01::",
+              "09493680-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "volcano#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "volcano%1:17:00::",
+            "synsetId": "09495727-n",
+            "definition": "a mountain formed by volcanic material",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "volcano%1:17:00::",
+              "09495727-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "hedge",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.74
+      },
+      "priorityScore": 28.48,
+      "candidateSenses": [
+        {
+          "candidateId": "hedge#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hedge%1:06:00::",
+            "synsetId": "03516319-n",
+            "definition": "a fence formed by a row of closely planted shrubs or bushes",
+            "examples": [],
+            "synonyms": [
+              "hedgerow"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hedge%1:06:00::",
+              "03516319-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "hedge#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hedge%1:21:00::",
+            "synsetId": "13365477-n",
+            "definition": "any technique designed to reduce or eliminate financial risk; for example, taking two positions that will offset each other if prices change",
+            "examples": [],
+            "synonyms": [
+              "hedging"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hedge%1:21:00::",
+              "13365477-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "hedge#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "hedge%1:10:00::",
+            "synsetId": "06774314-n",
+            "definition": "an intentionally noncommittal or ambiguous statement",
+            "examples": [
+              "when you say ‘maybe’ you are just hedging"
+            ],
+            "synonyms": [
+              "hedging"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hedge%1:10:00::",
+              "06774314-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "scenery",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.68
+      },
+      "priorityScore": 28.36,
+      "candidateSenses": [
+        {
+          "candidateId": "scenery#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "scenery%1:06:00::",
+            "synsetId": "04152121-n",
+            "definition": "the painted structures of a stage set that are intended to suggest a particular locale",
+            "examples": [
+              "they worked all night painting the scenery"
+            ],
+            "synonyms": [
+              "scene"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "scenery%1:06:00::",
+              "04152121-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "scenery#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "scenery%1:15:00::",
+            "synsetId": "08664362-n",
+            "definition": "the appearance of a place",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "scenery%1:15:00::",
+              "08664362-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "dolphin",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.67
+      },
+      "priorityScore": 28.34,
+      "candidateSenses": [
+        {
+          "candidateId": "dolphin#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "dolphin%1:05:01::",
+            "synsetId": "02584588-n",
+            "definition": "large slender food and game fish widely distributed in warm seas (especially around Hawaii)",
+            "examples": [],
+            "synonyms": [
+              "dolphinfish",
+              "mahimahi"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "dolphin%1:05:01::",
+              "02584588-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "dolphin#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "dolphin%1:05:00::",
+            "synsetId": "02071627-n",
+            "definition": "any of various small toothed whales with a beaklike snout; larger than porpoises",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "dolphin%1:05:00::",
+              "02071627-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "noisy",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.67
+      },
+      "priorityScore": 28.34,
+      "candidateSenses": [
+        {
+          "candidateId": "noisy#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "noisy%3:00:00::",
+            "synsetId": "01926330-a",
+            "definition": "full of or characterized by loud and nonmusical sounds",
+            "examples": [
+              "a noisy cafeteria",
+              "a small noisy dog"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "noisy%3:00:00::",
+              "01926330-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "noisy#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "noisy%5:00:00:colorful:03",
+            "synsetId": "00408843-s",
+            "definition": "attracting attention by showiness or bright colors",
+            "examples": [
+              "a noisy sweater"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "noisy%5:00:00:colorful:03",
+              "00408843-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "barbecue",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.62
+      },
+      "priorityScore": 28.24,
+      "candidateSenses": [
+        {
+          "candidateId": "barbecue#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "barbecue%1:13:02::",
+            "synsetId": "07669757-n",
+            "definition": "meat that has been barbecued or grilled in a highly seasoned sauce",
+            "examples": [],
+            "synonyms": [
+              "barbeque"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "barbecue%1:13:02::",
+              "07669757-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "barbecue#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "barbecue%1:13:00::",
+            "synsetId": "07592346-n",
+            "definition": "a cookout in which food is cooked over an open fire; especially a whole animal carcass roasted on a spit",
+            "examples": [],
+            "synonyms": [
+              "barbeque"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "barbecue%1:13:00::",
+              "07592346-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "barbecue#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "barbecue%1:06:00::",
+            "synsetId": "02793692-n",
+            "definition": "a rack to hold meat for cooking over hot charcoal usually out of doors",
+            "examples": [],
+            "synonyms": [
+              "barbeque"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "barbecue%1:06:00::",
+              "02793692-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sock",
+      "grade": 5,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.61
+      },
+      "priorityScore": 28.22,
+      "candidateSenses": [
+        {
+          "candidateId": "sock#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sock%1:06:00::",
+            "synsetId": "04261887-n",
+            "definition": "hosiery consisting of a cloth covering for the foot; worn inside the shoe; reaches to between the ankle and the knee",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sock%1:06:00::",
+              "04261887-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sock#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sock%1:10:01::",
+            "synsetId": "07272250-n",
+            "definition": "a truncated cloth cone mounted on a mast; used (e.g., at airports) to show the direction of the wind",
+            "examples": [],
+            "synonyms": [
+              "windsock",
+              "wind sock",
+              "air sock",
+              "air-sleeve",
+              "wind sleeve",
+              "wind cone",
+              "drogue"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sock%1:10:01::",
+              "07272250-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "astronaut",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.6
+      },
+      "priorityScore": 28.2,
+      "candidateSenses": [
+        {
+          "candidateId": "astronaut#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "astronaut%1:18:00::",
+            "synsetId": "09837427-n",
+            "definition": "a person trained to travel in a spacecraft",
+            "examples": [
+              "the Russians called their astronauts cosmonauts"
+            ],
+            "synonyms": [
+              "cosmonaut"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "astronaut%1:18:00::",
+              "09837427-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "chimney",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.55
+      },
+      "priorityScore": 28.1,
+      "candidateSenses": [
+        {
+          "candidateId": "chimney#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "chimney%1:06:00::",
+            "synsetId": "03021082-n",
+            "definition": "a vertical flue that provides a path through which smoke from a fire is carried away through the wall or roof of a building",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "chimney%1:06:00::",
+              "03021082-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "chimney#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "chimney%1:06:01::",
+            "synsetId": "03642182-n",
+            "definition": "a glass flue surrounding the wick of an oil lamp",
+            "examples": [],
+            "synonyms": [
+              "lamp chimney"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "chimney%1:06:01::",
+              "03642182-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "kite",
+      "grade": 5,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.55
+      },
+      "priorityScore": 28.1,
+      "candidateSenses": [
+        {
+          "candidateId": "kite#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "kite%1:21:01::",
+            "synsetId": "13403644-n",
+            "definition": "a bank check that has been fraudulently altered to increase its face value",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "kite%1:21:01::",
+              "13403644-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "kite#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "kite%1:21:00::",
+            "synsetId": "13403479-n",
+            "definition": "a bank check drawn on insufficient funds at another bank in order to take advantage of the float",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "kite%1:21:00::",
+              "13403479-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "kite#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "kite%1:06:00::",
+            "synsetId": "03626682-n",
+            "definition": "plaything consisting of a light frame covered with tissue paper; flown in wind at end of a string",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "kite%1:06:00::",
+              "03626682-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "supermarket",
+      "grade": 5,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.78
+      },
+      "priorityScore": 27.56,
+      "candidateSenses": [
+        {
+          "candidateId": "supermarket#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "supermarket%1:06:00::",
+            "synsetId": "04365794-n",
+            "definition": "a large self-service grocery store selling groceries and dairy products and household goods",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "supermarket%1:06:00::",
+              "04365794-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "bark",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 3.85
+      },
+      "priorityScore": 26.7,
+      "candidateSenses": [
+        {
+          "candidateId": "bark#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bark%2:32:01::",
+            "synsetId": "01049468-v",
+            "definition": "speak in an unfriendly tone",
+            "examples": [
+              "She barked into the dictaphone"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bark%2:32:01::",
+              "01049468-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "bark#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bark%2:35:01::",
+            "synsetId": "01266468-v",
+            "definition": "cover with bark",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bark%2:35:01::",
+              "01266468-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "bark#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "bark%2:35:00::",
+            "synsetId": "01266348-v",
+            "definition": "remove the bark of a tree",
+            "examples": [],
+            "synonyms": [
+              "skin"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "bark%2:35:00::",
+              "01266348-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "sincere",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.84
+      },
+      "priorityScore": 25.68,
+      "candidateSenses": [
+        {
+          "candidateId": "sincere#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sincere%3:00:00::",
+            "synsetId": "02186899-a",
+            "definition": "open and genuine; not deceitful",
+            "examples": [
+              "he was a good man, decent and sincere",
+              "felt sincere regret that they were leaving",
+              "sincere friendship"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sincere%3:00:00::",
+              "02186899-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "sincere#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "sincere%5:00:00:serious:00",
+            "synsetId": "02126120-s",
+            "definition": "characterized by a firm and humorless belief in the validity of your opinions",
+            "examples": [
+              "both sides were deeply in earnest, even passionate",
+              "an entirely sincere and cruel tyrant",
+              "a film with a solemn social message"
+            ],
+            "synonyms": [
+              "earnest",
+              "solemn"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sincere%5:00:00:serious:00",
+              "02126120-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "naughty",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.83
+      },
+      "priorityScore": 25.66,
+      "candidateSenses": [
+        {
+          "candidateId": "naughty#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "naughty%5:00:00:sexy:00",
+            "synsetId": "02139604-s",
+            "definition": "suggestive of sexual impropriety",
+            "examples": [
+              "a blue movie",
+              "blue jokes",
+              "he skips asterisks and gives you the gamy details",
+              "a juicy scandal",
+              "a naughty wink",
+              "naughty words",
+              "racy anecdotes",
+              "a risque story",
+              "spicy gossip"
+            ],
+            "synonyms": [
+              "blue",
+              "gamy",
+              "gamey",
+              "juicy",
+              "racy",
+              "risque",
+              "spicy"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "naughty%5:00:00:sexy:00",
+              "02139604-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "naughty#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "naughty%5:00:00:bad:00",
+            "synsetId": "01132237-s",
+            "definition": "badly behaved",
+            "examples": [
+              "a naughty boy"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "naughty%5:00:00:bad:00",
+              "01132237-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "yacht",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.82
+      },
+      "priorityScore": 25.64,
+      "candidateSenses": [
+        {
+          "candidateId": "yacht#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "yacht%1:06:00::",
+            "synsetId": "04617370-n",
+            "definition": "an expensive vessel propelled by sail or power and used for cruising or racing",
+            "examples": [],
+            "synonyms": [
+              "racing yacht"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "yacht%1:06:00::",
+              "04617370-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "prejudice",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.79
+      },
+      "priorityScore": 25.58,
+      "candidateSenses": [
+        {
+          "candidateId": "prejudice#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "prejudice%1:09:01::",
+            "synsetId": "06211643-n",
+            "definition": "a partiality that prevents objective consideration of an issue or situation",
+            "examples": [],
+            "synonyms": [
+              "bias",
+              "preconception"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "prejudice%1:09:01::",
+              "06211643-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "definite",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.78
+      },
+      "priorityScore": 25.56,
+      "candidateSenses": [
+        {
+          "candidateId": "definite#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "definite%3:00:00::",
+            "synsetId": "00703896-a",
+            "definition": "precise; explicit and clearly defined",
+            "examples": [
+              "I want a definite answer",
+              "a definite statement of the terms of the will",
+              "a definite amount",
+              "definite restrictions on the sale of alcohol",
+              "the wedding date is now definite",
+              "a definite drop in attendance"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "definite%3:00:00::",
+              "00703896-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "definite#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "definite%5:00:00:certain:01",
+            "synsetId": "00336666-s",
+            "definition": "known for certain",
+            "examples": [
+              "it is definite that they have won"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "definite%5:00:00:certain:01",
+              "00336666-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "queue",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.78
+      },
+      "priorityScore": 25.56,
+      "candidateSenses": [
+        {
+          "candidateId": "queue#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "queue%1:14:00::",
+            "synsetId": "08449355-n",
+            "definition": "a line of people or vehicles waiting for something",
+            "examples": [],
+            "synonyms": [
+              "waiting line"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "queue%1:14:00::",
+              "08449355-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "queue#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "queue%1:10:00::",
+            "synsetId": "06506807-n",
+            "definition": "(information processing) an ordered list of tasks to be performed or messages to be transmitted",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "queue%1:10:00::",
+              "06506807-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "queue#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "queue%1:08:00::",
+            "synsetId": "05267306-n",
+            "definition": "a braid of hair at the back of the head",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "queue%1:08:00::",
+              "05267306-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "neighbour",
+      "grade": 5,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.69
+      },
+      "priorityScore": 25.38,
+      "candidateSenses": [
+        {
+          "candidateId": "neighbour#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "neighbour%1:18:00::",
+            "synsetId": "10372030-n",
+            "definition": "a person who lives (or is located) near another",
+            "examples": [],
+            "synonyms": [
+              "neighbor"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "neighbour%1:18:00::",
+              "10372030-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "neighbour#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "neighbour%1:17:00::",
+            "synsetId": "09391121-n",
+            "definition": "a nearby object of the same kind",
+            "examples": [
+              "Fort Worth is a neighbor of Dallas",
+              "what is the closest neighbor to the Earth?"
+            ],
+            "synonyms": [
+              "neighbor"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "neighbour%1:17:00::",
+              "09391121-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "disastrous",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.68
+      },
+      "priorityScore": 25.36,
+      "candidateSenses": [
+        {
+          "candidateId": "disastrous#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "disastrous%5:00:00:unfortunate:00",
+            "synsetId": "01053787-s",
+            "definition": "(of events) having extremely unfortunate or dire consequences; bringing ruin",
+            "examples": [
+              "the stock market crashed on Black Friday",
+              "a calamitous defeat",
+              "the battle was a disastrous end to a disastrous campaign",
+              "such doctrines, if true, would be absolutely fatal to my theory",
+              "it is fatal to enter any war without the will to win it",
+              "a fateful error"
+            ],
+            "synonyms": [
+              "black",
+              "calamitous",
+              "fatal",
+              "fateful"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "disastrous%5:00:00:unfortunate:00",
+              "01053787-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "peculiar",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.67
+      },
+      "priorityScore": 25.34,
+      "candidateSenses": [
+        {
+          "candidateId": "peculiar#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "peculiar%5:00:00:strange:00",
+            "synsetId": "00971199-s",
+            "definition": "beyond or deviating from the usual or expected",
+            "examples": [
+              "a curious hybrid accent",
+              "her speech has a funny twang",
+              "they have some funny ideas about war",
+              "had an odd name",
+              "the peculiar aromatic odor of cloves",
+              "something definitely queer about this town",
+              "what a rum fellow",
+              "singular behavior"
+            ],
+            "synonyms": [
+              "curious",
+              "funny",
+              "odd",
+              "queer",
+              "rum",
+              "rummy",
+              "singular"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "peculiar%5:00:00:strange:00",
+              "00971199-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "peculiar#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "peculiar%5:00:00:specific:00",
+            "synsetId": "01107719-s",
+            "definition": "unique or specific to a person or thing or category",
+            "examples": [
+              "the particular demands of the job",
+              "has a particular preference for Chinese art",
+              "a peculiar bond of sympathy between them",
+              "an expression peculiar to Canadians",
+              "rights peculiar to the rich",
+              "the special features of a computer",
+              "my own special chair"
+            ],
+            "synonyms": [
+              "particular",
+              "special"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "peculiar%5:00:00:specific:00",
+              "01107719-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "peculiar#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "peculiar%5:00:00:unusual:00",
+            "synsetId": "00493135-s",
+            "definition": "markedly different from the usual; special",
+            "examples": [
+              "a peculiar hobby of stuffing and mounting bats",
+              "a man … feels it a peculiar insult to be taunted with cowardice by a woman"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "peculiar%5:00:00:unusual:00",
+              "00493135-s"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "homemade",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.81
+      },
+      "priorityScore": 24.62,
+      "candidateSenses": [
+        {
+          "candidateId": "homemade#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "homemade%3:00:00::",
+            "synsetId": "00677538-a",
+            "definition": "made or produced in the home or by yourself",
+            "examples": [
+              "homemade bread"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "homemade%3:00:00::",
+              "00677538-a"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "persuade",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 3.82
+      },
+      "priorityScore": 23.64,
+      "candidateSenses": [
+        {
+          "candidateId": "persuade#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "persuade%2:41:00::",
+            "synsetId": "02592213-v",
+            "definition": "win approval or support for",
+            "examples": [
+              "Carry all before one",
+              "His speech did not sway the voters"
+            ],
+            "synonyms": [
+              "carry",
+              "sway"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "persuade%2:41:00::",
+              "02592213-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "persuade#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "persuade%2:32:00::",
+            "synsetId": "00768463-v",
+            "definition": "cause somebody to adopt a certain position, belief, or course of action; twist somebody's arm",
+            "examples": [
+              "You can't persuade me to buy this ugly vase!"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "persuade%2:32:00::",
+              "00768463-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "accompany",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 3.81
+      },
+      "priorityScore": 23.62,
+      "candidateSenses": [
+        {
+          "candidateId": "accompany#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "accompany%2:42:00::",
+            "synsetId": "02722040-v",
+            "definition": "be present or associated with an event or entity",
+            "examples": [
+              "French fries come with the hamburger",
+              "heart attacks are accompanied by destruction of heart tissue",
+              "fish usually goes with white wine",
+              "this kind of vein accompanies certain arteries"
+            ],
+            "synonyms": [
+              "attach to",
+              "come with",
+              "go with"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "accompany%2:42:00::",
+              "02722040-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "accompany#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "accompany%2:38:00::",
+            "synsetId": "02029396-v",
+            "definition": "go or travel along with",
+            "examples": [
+              "The nurse accompanied the old lady everywhere"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "accompany%2:38:00::",
+              "02029396-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "accompany#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "accompany%2:36:00::",
+            "synsetId": "01732234-v",
+            "definition": "perform an accompaniment to",
+            "examples": [
+              "The orchestra could barely follow the frequent pitch changes of the soprano"
+            ],
+            "synonyms": [
+              "play along",
+              "follow"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "accompany%2:36:00::",
+              "01732234-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "interrupt",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 3.61
+      },
+      "priorityScore": 23.22,
+      "candidateSenses": [
+        {
+          "candidateId": "interrupt#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "interrupt%2:32:00::",
+            "synsetId": "00780320-v",
+            "definition": "make a break in",
+            "examples": [
+              "We interrupt the program for the following messages"
+            ],
+            "synonyms": [
+              "disrupt",
+              "break up",
+              "cut off"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "interrupt%2:32:00::",
+              "00780320-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "interrupt#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "interrupt%2:30:03::",
+            "synsetId": "00521099-v",
+            "definition": "destroy the peace or tranquility of",
+            "examples": [
+              "Don't interrupt me when I'm reading"
+            ],
+            "synonyms": [
+              "disturb"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "interrupt%2:30:03::",
+              "00521099-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "interrupt#v#3",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "interrupt%2:30:04::",
+            "synsetId": "00521437-v",
+            "definition": "interfere in someone else's activity",
+            "examples": [
+              "Please don't interrupt me while I'm on the phone"
+            ],
+            "synonyms": [
+              "disrupt"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "interrupt%2:30:04::",
+              "00521437-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "fax",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.63
+      },
+      "priorityScore": 19.26,
+      "candidateSenses": [
+        {
+          "candidateId": "fax#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "fax%1:06:00::",
+            "synsetId": "03321050-n",
+            "definition": "duplicator that transmits the copy by wire or radio",
+            "examples": [],
+            "synonyms": [
+              "facsimile",
+              "facsimile machine"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fax%1:06:00::",
+              "03321050-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "advertise",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 3.66
+      },
+      "priorityScore": 17.32,
+      "candidateSenses": [
+        {
+          "candidateId": "advertise#v#1",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "advertise%2:32:01::",
+            "synsetId": "00977934-v",
+            "definition": "call attention to",
+            "examples": [
+              "Please don't advertise the fact that he has AIDS"
+            ],
+            "synonyms": [
+              "publicize",
+              "advertize",
+              "publicise"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "advertise%2:32:01::",
+              "00977934-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "advertise#v#2",
+          "partOfSpeech": "v",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "advertise%2:32:00::",
+            "synsetId": "00978685-v",
+            "definition": "make publicity for; try to sell (a product)",
+            "examples": [
+              "The salesman is aggressively pushing the new computer model",
+              "The company is heavily advertizing their new laptops"
+            ],
+            "synonyms": [
+              "advertize",
+              "promote",
+              "push"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "advertise%2:32:00::",
+              "00978685-v"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "affection",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "affection#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "affection%1:12:00::",
+            "synsetId": "07560035-n",
+            "definition": "a positive feeling of liking",
+            "examples": [
+              "he had trouble expressing the affection he felt",
+              "the child won everyone's heart",
+              "the warmness of his welcome made us feel right at home"
+            ],
+            "synonyms": [
+              "affectionateness",
+              "fondness",
+              "tenderness",
+              "heart",
+              "warmness",
+              "warmheartedness",
+              "philia"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "affection%1:12:00::",
+              "07560035-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "airplane",
+      "grade": 5,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "airplane#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "airplane%1:06:00::",
+            "synsetId": "02694015-n",
+            "definition": "an aircraft that has a fixed wing and is powered by propellers or jets",
+            "examples": [
+              "the flight was delayed due to trouble with the airplane"
+            ],
+            "synonyms": [
+              "aeroplane",
+              "plane"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "airplane%1:06:00::",
+              "02694015-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "altitude",
+      "grade": 5,
+      "upstreamSourceGrade": 5,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "altitude#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "altitude%1:07:00::",
+            "synsetId": "05138912-n",
+            "definition": "elevation especially above sea level or above the earth's surface",
+            "examples": [
+              "the altitude gave her a headache"
+            ],
+            "synonyms": [
+              "height"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "altitude%1:07:00::",
+              "05138912-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "altitude#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "altitude%1:25:00::",
+            "synsetId": "13920350-n",
+            "definition": "the perpendicular distance from the base of a geometric figure to the opposite vertex (or side if parallel)",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "altitude%1:25:00::",
+              "13920350-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "altitude#n#3",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "altitude%1:24:00::",
+            "synsetId": "13858749-n",
+            "definition": "angular distance above the horizon (especially of a celestial object)",
+            "examples": [],
+            "synonyms": [
+              "elevation",
+              "EL",
+              "ALT"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "altitude%1:24:00::",
+              "13858749-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "competent",
+      "grade": 5,
+      "upstreamSourceGrade": 5,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "competent#a#1",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "competent%3:00:00::",
+            "synsetId": "00511975-a",
+            "definition": "properly or sufficiently qualified or capable or efficient",
+            "examples": [
+              "a competent typist"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "competent%3:00:00::",
+              "00511975-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "competent#a#2",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "competent%5:00:00:adequate:00",
+            "synsetId": "00051791-s",
+            "definition": "adequate, but not outstanding or exceptional",
+            "examples": [
+              "a competent performance"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "competent%5:00:00:adequate:00",
+              "00051791-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "competent#a#3",
+          "partOfSpeech": "a",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "competent%3:00:02::",
+            "synsetId": "00514055-a",
+            "definition": "legally qualified or sufficient",
+            "examples": [
+              "a competent court",
+              "competent testimony"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "competent%3:00:02::",
+              "00514055-a"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "debris",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "debris#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "debris%1:27:00::",
+            "synsetId": "14882048-n",
+            "definition": "the remains of something that has been destroyed or broken up",
+            "examples": [],
+            "synonyms": [
+              "dust",
+              "junk",
+              "rubble",
+              "detritus"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "debris%1:27:00::",
+              "14882048-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "garlic",
+      "grade": 5,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "garlic#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "garlic%1:20:00::",
+            "synsetId": "12455280-n",
+            "definition": "bulbous herb of southern Europe widely naturalized; bulb breaks up into separate strong-flavored cloves",
+            "examples": [],
+            "synonyms": [
+              "Allium sativum"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "garlic%1:20:00::",
+              "12455280-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "garlic#n#2",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "garlic%1:13:00::",
+            "synsetId": "07834253-n",
+            "definition": "aromatic bulb used as seasoning",
+            "examples": [],
+            "synonyms": [
+              "ail"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "garlic%1:13:00::",
+              "07834253-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    },
+    {
+      "lemma": "gratitude",
+      "grade": 5,
+      "upstreamSourceGrade": 4,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 3.92
+      },
+      "priorityScore": 16.84,
+      "candidateSenses": [
+        {
+          "candidateId": "gratitude#n#1",
+          "partOfSpeech": "n",
+          "sourceSense": {
+            "entryId": null,
+            "senseId": "gratitude%1:12:00::",
+            "synsetId": "07519582-n",
+            "definition": "a feeling of thankfulness and appreciation",
+            "examples": [
+              "he was overwhelmed with gratitude for their help"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "gratitude%1:12:00::",
+              "07519582-n"
+            ]
+          }
+        }
+      ],
+      "review": {
+        "status": "pending",
+        "decision": null,
+        "selectedCandidateId": null,
+        "childDefinition": null,
+        "childExample": null,
+        "notes": null
+      }
+    }
+  ]
+}
