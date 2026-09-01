@@ -52,8 +52,8 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Compile reviewed batches and Phase C terminal accounting
-        run: npm run compile:vocabulary-visual-batches && npm run compile:vocabulary-visual-corpus-terminal
+      - name: Compile complete semantic review control plane atomically
+        run: npm run compile:vocabulary-visual-batches
 
       - name: Prove generic batch factory, historical equivalence and determinism
         run: npm run test:vocabulary-batch-factory
@@ -88,11 +88,11 @@ jobs:
           path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-*.json
           if-no-files-found: error
 
-      - name: Upload generated reviewed-batch projections
+      - name: Upload generated reviewed semantic projections
         uses: actions/upload-artifact@v7
         with:
           name: priority-vocabulary-reviewed-batches
-          path: content/vocabulary-visuals/batches/__generated-priority-batch-*.json
+          path: content/vocabulary-visuals/batches/__generated-priority-*.json
           if-no-files-found: error
 
       - name: Upload Phase C corpus terminal dispositions
