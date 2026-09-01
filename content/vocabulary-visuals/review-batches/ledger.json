@@ -20,6 +20,12 @@
       "sequence": 4,
       "issueRef": 99,
       "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json"
+    },
+    {
+      "id": "priority-sense-resolution-002",
+      "sequence": 5,
+      "issueRef": 106,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-002.json"
     }
   ]
 }
