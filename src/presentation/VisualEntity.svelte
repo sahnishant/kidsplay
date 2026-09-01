@@ -8,6 +8,7 @@
   import MeasurementIcon from './MeasurementIcon.svelte';
   import MaterialPropertyIcon from './MaterialPropertyIcon.svelte';
   import EnvironmentalActionIcon from './EnvironmentalActionIcon.svelte';
+  import SoilTypeIcon from './SoilTypeIcon.svelte';
   import AnimalExpansionIcon from './AnimalExpansionIcon.svelte';
   import ConceptIcon from './ConceptIcon.svelte';
   import CurriculumIcon from './CurriculumIcon.svelte';
@@ -55,6 +56,8 @@
         <MaterialPropertyIcon icon={visual.glyph} />
       {:else if visual.renderer === 'environmental-action-icon'}
         <EnvironmentalActionIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'soil-type-icon'}
+        <SoilTypeIcon icon={visual.glyph} />
       {:else if visual.renderer === 'animal-expansion-icon'}
         <AnimalExpansionIcon icon={visual.glyph} />
       {:else if visual.renderer === 'concept-icon'}
