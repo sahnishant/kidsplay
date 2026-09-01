@@ -46,9 +46,7 @@ const baseQuestion = (source, recipe, units, defaultPrompt) => ({
   id: recipe.id,
   revision: recipe.revision ?? 1,
   schemaVersion: 1,
-  conceptIds: Array.isArray(recipe.conceptIds)
-    ? unique(recipe.conceptIds)
-    : unique(units.flatMap((unit) => unit.conceptIds ?? [])),
+  conceptIds: unique(units.flatMap((unit) => unit.conceptIds ?? [])),
   difficulty: recipe.difficulty ?? 2,
   language: source.language ?? 'en',
   prompt: { text: recipe.prompt ?? defaultPrompt },
