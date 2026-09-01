@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render, screen } from '@testing-library/svelte';
 import SemanticVisualPresenter from '../src/presentation/SemanticVisualPresenter.svelte';
@@ -70,5 +71,23 @@ describe('canonical semantic visual presenter', () => {
 
     expect(option.visualRefs).toEqual(['entity.universe.earth']);
     expect(option.context).toBe('option');
+  });
+
+  it('preserves engine-specific recipe surfaces through the unified presenter path', () => {
+    const resolverSource = readFileSync('src/presentation/semanticVisualPresentation.ts', 'utf8');
+    expect(resolverSource).toContain("context === 'word-bank'");
+    expect(resolverSource).toContain("context === 'drag-item'");
+    expect(resolverSource).toContain("context === 'drag-target'");
+
+    const wordBankSource = readFileSync('src/engines/WordBankFill.svelte', 'utf8');
+    const dragSource = readFileSync('src/engines/DragToTarget.svelte', 'utf8');
+    const memorySource = readFileSync('src/engines/MemoryPairs.svelte', 'utf8');
+    const sequenceSource = readFileSync('src/engines/SequenceOrder.svelte', 'utf8');
+
+    expect(wordBankSource).toContain("context: 'word-bank'");
+    expect(dragSource).toContain("context: 'drag-item'");
+    expect(dragSource).toContain("context: 'drag-target'");
+    expect(memorySource).toContain("recipeSurface: 'memory-card'");
+    expect(sequenceSource).toContain("recipeSurface: 'sequence-item'");
   });
 });
