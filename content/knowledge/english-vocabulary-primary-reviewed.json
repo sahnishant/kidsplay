@@ -1,0 +1,594 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.english.vocabulary.primary-reviewed.001",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - Reviewed Primary Meanings",
+    "entries": [
+      {
+        "id": "ask",
+        "rowId": "kr.vocab.primary.meaning.ask.ask-v-2",
+        "subject": {
+          "id": "ask",
+          "label": "ask"
+        },
+        "relation": "means",
+        "object": {
+          "id": "ask-object",
+          "label": "To say a question because you want an answer."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.ask"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "ask#v#2",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "ask%2:32:02::",
+            "sourceSynsetId": "00786389-v",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "come",
+        "rowId": "kr.vocab.primary.meaning.come.come-v-1",
+        "subject": {
+          "id": "come",
+          "label": "come"
+        },
+        "relation": "means",
+        "object": {
+          "id": "come-object",
+          "label": "To move toward the person or place being spoken about."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.come"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "come#v#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "come%2:38:00::",
+            "sourceSynsetId": "01853188-v",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "environment",
+        "rowId": "kr.vocab.primary.meaning.environment.environment-n-2",
+        "subject": {
+          "id": "environment",
+          "label": "environment"
+        },
+        "relation": "means",
+        "object": {
+          "id": "environment-object",
+          "label": "The place and surroundings where a person, animal, or plant lives."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.environment"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "environment#n#2",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "environment%1:15:00::",
+            "sourceSynsetId": "08584764-n",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "fast",
+        "rowId": "kr.vocab.primary.meaning.fast.fast-a-1",
+        "subject": {
+          "id": "fast",
+          "label": "fast"
+        },
+        "relation": "means",
+        "object": {
+          "id": "fast-object",
+          "label": "Moving or happening very quickly."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.fast"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "fast#a#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "fast%3:00:01::",
+            "sourceSynsetId": "00979699-a",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "find",
+        "rowId": "kr.vocab.primary.meaning.find.find-v-3",
+        "subject": {
+          "id": "find",
+          "label": "find"
+        },
+        "relation": "means",
+        "object": {
+          "id": "find-object",
+          "label": "To discover where something is after looking for it."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.find"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "find#v#3",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "find%2:40:00::",
+            "sourceSynsetId": "02290474-v",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "floor",
+        "rowId": "kr.vocab.primary.meaning.floor.floor-n-1",
+        "subject": {
+          "id": "floor",
+          "label": "floor"
+        },
+        "relation": "means",
+        "object": {
+          "id": "floor-object",
+          "label": "The flat surface at the bottom of a room that you walk on."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.floor"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "floor#n#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "floor%1:06:00::",
+            "sourceSynsetId": "03370438-n",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "full",
+        "rowId": "kr.vocab.primary.meaning.full.full-a-1",
+        "subject": {
+          "id": "full",
+          "label": "full"
+        },
+        "relation": "means",
+        "object": {
+          "id": "full-object",
+          "label": "Holding as much as it can."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.full"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "full#a#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "full%3:00:00::",
+            "sourceSynsetId": "01086845-a",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "go",
+        "rowId": "kr.vocab.primary.meaning.go.go-v-1",
+        "subject": {
+          "id": "go",
+          "label": "go"
+        },
+        "relation": "means",
+        "object": {
+          "id": "go-object",
+          "label": "To move from one place toward another place."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.go"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "go#v#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "go%2:38:00::",
+            "sourceSynsetId": "01839438-v",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "guide",
+        "rowId": "kr.vocab.primary.meaning.guide.guide-n-2",
+        "subject": {
+          "id": "guide",
+          "label": "guide"
+        },
+        "relation": "means",
+        "object": {
+          "id": "guide-object",
+          "label": "A person who shows others where to go or what to do."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.guide"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "guide#n#2",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "guide%1:18:02::",
+            "sourceSynsetId": "10171090-n",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "library",
+        "rowId": "kr.vocab.primary.meaning.library.library-n-3",
+        "subject": {
+          "id": "library",
+          "label": "library"
+        },
+        "relation": "means",
+        "object": {
+          "id": "library-object",
+          "label": "A place where books and other reading materials are kept for people to use."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.library"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "library#n#3",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "library%1:06:00::",
+            "sourceSynsetId": "03665990-n",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "minute",
+        "rowId": "kr.vocab.primary.meaning.minute.minute-n-1",
+        "subject": {
+          "id": "minute",
+          "label": "minute"
+        },
+        "relation": "means",
+        "object": {
+          "id": "minute-object",
+          "label": "A measure of time that lasts 60 seconds."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.minute"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "minute#n#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "minute%1:28:00::",
+            "sourceSynsetId": "15259561-n",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "notice",
+        "rowId": "kr.vocab.primary.meaning.notice.notice-n-1",
+        "subject": {
+          "id": "notice",
+          "label": "notice"
+        },
+        "relation": "means",
+        "object": {
+          "id": "notice-object",
+          "label": "A message that gives people information about something."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.notice"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "notice#n#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "notice%1:10:01::",
+            "sourceSynsetId": "06760383-n",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "old",
+        "rowId": "kr.vocab.primary.meaning.old.old-a-2",
+        "subject": {
+          "id": "old",
+          "label": "old"
+        },
+        "relation": "means",
+        "object": {
+          "id": "old-object",
+          "label": "Having been alive for many years."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.old"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "old#a#2",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "old%3:00:02::",
+            "sourceSynsetId": "01648062-a",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "pull",
+        "rowId": "kr.vocab.primary.meaning.pull.pull-v-1",
+        "subject": {
+          "id": "pull",
+          "label": "pull"
+        },
+        "relation": "means",
+        "object": {
+          "id": "pull-object",
+          "label": "To move something by drawing it toward you or in a direction."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.pull"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "pull#v#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "pull%2:35:00::",
+            "sourceSynsetId": "01450719-v",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "put",
+        "rowId": "kr.vocab.primary.meaning.put.put-v-1",
+        "subject": {
+          "id": "put",
+          "label": "put"
+        },
+        "relation": "means",
+        "object": {
+          "id": "put-object",
+          "label": "To place something in a particular spot."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.put"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 1,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "put#v#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "put%2:35:00::",
+            "sourceSynsetId": "01496967-v",
+            "sourceGlossCopied": false
+          }
+        }
+      },
+      {
+        "id": "regular",
+        "rowId": "kr.vocab.primary.meaning.regular.regular-a-1",
+        "subject": {
+          "id": "regular",
+          "label": "regular"
+        },
+        "relation": "means",
+        "object": {
+          "id": "regular-object",
+          "label": "Happening in a usual or repeated way according to a pattern."
+        },
+        "conceptIds": [
+          "vocabulary.meaning.regular"
+        ],
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ],
+          "primaryVocabularyGrade": 2,
+          "curation": {
+            "status": "reviewed",
+            "reviewer": "sahnishant",
+            "reviewedAt": "2026-08-31",
+            "candidateId": "regular#a#1",
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "sourceLicense": "CC-BY-4.0",
+            "sourceSenseId": "regular%3:00:00::",
+            "sourceSynsetId": "01966104-a",
+            "sourceGlossCopied": false
+          }
+        }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-oewn-sense-review",
+      "scopeNote": "Sense IDs come from the isolated OEWN review lane; child-facing definitions are independently authored by Kidsplay reviewers and source glosses are not copied."
+    }
+  }
+]
