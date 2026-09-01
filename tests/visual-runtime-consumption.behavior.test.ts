@@ -73,4 +73,13 @@ describe('consolidated visual runtime consumption', () => {
     expect(entity).toContain("import MaterialPropertyIcon from './MaterialPropertyIcon.svelte'");
     expect(entity).toContain("import EnvironmentalActionIcon from './EnvironmentalActionIcon.svelte'");
   });
+
+  it('keeps the previously unconsumed curious-dog composition on a real child question path', () => {
+    const scenes = readFileSync('content/scenes/animals.json', 'utf8');
+    const questions = readFileSync('content/questions/animals.json', 'utf8');
+    expect(scenes).toContain('"scene.dog.curious-bone"');
+    expect(scenes).toContain('"animation.dog.curious-bone"');
+    expect(questions).toContain('"stimulus": { "type": "scene", "sceneId": "scene.dog.curious-bone" }');
+    expect(questions).toContain('"stimulus": { "type": "scene", "sceneId": "scene.dog.happy-bone" }');
+  });
 });
