@@ -1,0 +1,21 @@
+[
+  {
+    "id": "recipe.process.gas-spreads",
+    "semanticRef": "gas-spreads",
+    "template": "process.sequence",
+    "ariaLabel": "Gas spreading from a small region to fill available space in a container",
+    "slots": [
+      { "role": "process-sample", "visualRef": "entity.process.gas-spread-sample", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "A gas spreads through the available space in its container.",
+    "costClass": "medium"
+  }
+]
