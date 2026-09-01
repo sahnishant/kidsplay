@@ -19,6 +19,10 @@ content/questions/__generated-*.json
 content/authoring/crosswords/__generated-*.json
 content/index/__generated-*.json
 content/output/__generated-*.html
+
+# Vocabulary review queues/projections are deterministic build artifacts. Reviewed
+# decisions live in content/vocabulary-visuals/review-batches/*.json; Phase C
+# blocker/review queues are regenerated from committed corpus + reviewed state.
 content/vocabulary-visuals/__generated-*.json
 content/vocabulary-visuals/batches/__generated-*.json
 

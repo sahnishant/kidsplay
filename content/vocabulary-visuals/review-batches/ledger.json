@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "parentIssueRef": 76,
+  "generatedFilePolicy": "rebuild_and_ignore",
+  "batches": [
+    {
+      "id": "priority-batch-002",
+      "sequence": 2,
+      "issueRef": 88,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-batch-002.json"
+    },
+    {
+      "id": "priority-batch-003",
+      "sequence": 3,
+      "issueRef": 93,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-batch-003.json"
+    },
+    {
+      "id": "priority-sense-resolution-001",
+      "sequence": 4,
+      "issueRef": 99,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json"
+    }
+  ]
+}

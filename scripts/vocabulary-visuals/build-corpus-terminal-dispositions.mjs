@@ -1,4 +1,4 @@
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
 const root = new URL('../../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -6,6 +6,8 @@ const batchOutputUrl = new URL('content/vocabulary-visuals/batches/__generated-c
 const priorityQueueOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json', root);
 const corpusQueueOutputUrl = new URL('content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json', root);
 const ownBatchName = '__generated-corpus-terminal-dispositions.json';
+const relevanceReviewPath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
+const reviewLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
 const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [entry.lemma, entry]));
@@ -35,22 +37,55 @@ for (const name of batchNames) {
   }
 }
 
-// A single returned candidate is not automatically the intended primary meaning.
-// These twelve source rows are obvious common-use/POS relevance traps and stay
-// in the human queue even though Phase B safely made them textual-only.
-const candidateRelevanceBlockers = new Set([
-  'add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'
-]);
+const reviewLedger = readJson(reviewLedgerPath);
+const exactReviewedLemmas = new Set();
+for (const entry of reviewLedger.batches ?? []) {
+  const manifest = readJson(entry.manifest);
+  if (manifest.source?.kind !== 'reviewed_items_file') continue;
+  const outputPath = String(manifest.output?.path ?? '').trim();
+  if (!outputPath || !existsSync(new URL(outputPath, root))) {
+    throw new Error(`${entry.id}: exact-review projection is missing; run compile:vocabulary-visual-batches before Phase C accounting`);
+  }
+  const projection = readJson(outputPath);
+  if (projection?.status !== manifest.status || !Array.isArray(projection?.items)) {
+    throw new Error(`${entry.id}: exact-review projection does not match its manifest authority/status`);
+  }
+  for (const item of projection.items) {
+    if (item?.strategy === 'sense_unresolved') throw new Error(`${entry.id}/${item?.lemma ?? '<unknown>'}: exact-review projection cannot remain sense_unresolved`);
+    if (item?.lemma) exactReviewedLemmas.add(String(item.lemma));
+  }
+}
+
+const relevanceReview = readJson(relevanceReviewPath);
+if (relevanceReview?.schemaVersion !== 1 || relevanceReview?.parentIssueRef !== 76 || relevanceReview?.authorityKind !== 'approved_terminal_policy') {
+  throw new Error('Phase C candidate-relevance review must use schemaVersion 1, parent #76 and approved_terminal_policy authority');
+}
+if (relevanceReview?.policy?.selectsSense !== false || relevanceReview?.policy?.claimsHumanExactSenseReview !== false || relevanceReview?.policy?.createsRuntimeAuthority !== false) {
+  throw new Error('Phase C candidate-relevance review must remain reference/blocker data only');
+}
+const relevanceByLemma = new Map();
+for (const entry of relevanceReview.entries ?? []) {
+  const lemma = String(entry?.lemma ?? '').trim();
+  const reason = String(entry?.reason ?? '').trim();
+  const reasonCode = String(entry?.reasonCode ?? '').trim();
+  if (!lemma || relevanceByLemma.has(lemma)) throw new Error(`Duplicate/missing candidate-relevance lemma ${lemma || '<empty>'}`);
+  if (entry?.status !== 'candidate_relevance_review_required' || !reason || !reasonCode) {
+    throw new Error(`${lemma}: candidate-relevance blocker requires status, reasonCode and reason`);
+  }
+  relevanceByLemma.set(lemma, entry);
+}
 
 const riskFor = (candidateCount) => candidateCount === 0 ? 'unresolved'
   : candidateCount === 1 ? 'candidate_relevance'
     : candidateCount === 2 ? 'medium' : 'high';
 const priorityResolutionItems = [];
 for (const lemma of meaningQueueLemmas) {
+  if (exactReviewedLemmas.has(lemma)) continue;
   const corpusEntry = corpusByLemma.get(lemma);
   const dispositions = itemsByLemma.get(lemma) ?? [];
   const unresolved = dispositions.find((item) => item.strategy === 'sense_unresolved');
-  const relevanceBlocked = candidateRelevanceBlockers.has(lemma);
+  const relevanceReviewEntry = relevanceByLemma.get(lemma);
+  const relevanceBlocked = Boolean(relevanceReviewEntry);
   if (!unresolved && !relevanceBlocked) continue;
 
   const disposition = unresolved ?? dispositions.find((item) => item.sourceTrace?.candidateSenseCount === 1);
@@ -67,7 +102,12 @@ for (const lemma of meaningQueueLemmas) {
       (disposition.sourceTrace?.polysemyRisk ?? riskFor(candidateIds.length)),
     terminalDispositionSenseKey: disposition.senseKey,
     terminalStrategy: disposition.strategy,
-    status: relevanceBlocked && !unresolved ? 'candidate_relevance_review_required' : 'human_sense_selection_required'
+    status: relevanceBlocked && !unresolved ? 'candidate_relevance_review_required' : 'human_sense_selection_required',
+    ...(relevanceBlocked ? {
+      candidateRelevanceReasonCode: relevanceReviewEntry.reasonCode,
+      candidateRelevanceReason: relevanceReviewEntry.reason,
+      candidateRelevanceReviewSource: relevanceReviewPath
+    } : {})
   });
 }
 priorityResolutionItems.sort((left, right) =>
@@ -126,12 +166,15 @@ writeFileSync(batchOutputUrl, `${JSON.stringify({
   status: 'sense_resolution_required',
   reviewBasis: {
     corpus: 'content/lexicon/open/primary-grade-corpus.json',
-    rule: 'Every corpus lemma not already covered by a reviewed strategy receives an explicit fail-closed disposition and remains in a ranked sense-resolution queue. This is terminal accounting, not visual resolution.'
+    candidateRelevanceReview: relevanceReviewPath,
+    exactReviewLedger: reviewLedgerPath,
+    rule: 'Every corpus lemma not already covered by a reviewed strategy receives an explicit fail-closed disposition. Later exact reviewed senses supersede active blocker status for the same lemma without deleting the historical unresolved record.'
   },
   policy: commonPolicy,
   summary: {
     corpusLemmas: corpus.entries.length,
     previouslyDispositionedLemmas,
+    exactReviewedSupersedingLemmas: exactReviewedLemmas.size,
     senseUnresolvedItems: items.length,
     finalTerminalDispositionLemmas: previouslyDispositionedLemmas + items.length
   },
@@ -147,6 +190,7 @@ writeFileSync(priorityQueueOutputUrl, `${JSON.stringify({
   schemaVersion: 1,
   issueRef: 76,
   status: 'human_sense_selection_queue',
+  reviewBasis: { candidateRelevanceReview: relevanceReviewPath, exactReviewLedger: reviewLedgerPath },
   policy: {
     candidateIdsAreReferenceOnly: true,
     selectsSense: false,
@@ -156,6 +200,7 @@ writeFileSync(priorityQueueOutputUrl, `${JSON.stringify({
   },
   summary: {
     items: priorityResolutionItems.length,
+    exactReviewedSupersededBlockers: exactReviewedLemmas.size,
     byRisk: countBy(priorityResolutionItems, 'polysemyRisk'),
     byStatus: countBy(priorityResolutionItems, 'status')
   },
@@ -179,5 +224,5 @@ writeFileSync(corpusQueueOutputUrl, `${JSON.stringify({
 
 console.log(
   `Built #76 Phase C terminal accounting: ${previouslyDispositionedLemmas} existing + ${items.length} blocker(s) = ` +
-  `${corpus.entries.length}/${corpus.entries.length}; priority resolution queue ${priorityResolutionItems.length}.`
+  `${corpus.entries.length}/${corpus.entries.length}; exact reviewed supersessions ${exactReviewedLemmas.size}; priority resolution queue ${priorityResolutionItems.length}.`
 );
