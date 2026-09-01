@@ -89,7 +89,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('button', { name: 'Open player settings' })).toBeTruthy();
     expect(screen.getByLabelText('Current adventure level 1')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
-    expect(screen.getByText('LEVEL 1')).toBeTruthy();
+    expect(screen.getAllByText('LEVEL 1').length).toBeGreaterThanOrEqual(2);
     expect(screen.queryByText('Kidsplay')).toBeNull();
     expect(screen.queryByRole('heading', { name: "Dheu's science world" })).toBeNull();
     expect(screen.getByRole('button', { name: 'Open story world' })).toBeTruthy();
