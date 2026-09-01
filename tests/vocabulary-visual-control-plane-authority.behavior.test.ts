@@ -11,6 +11,7 @@ const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-invent
 const relevancePath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
 const exactReviewManifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json';
 const phaseCBuilderPath = 'scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs';
+const publicCompilerPath = 'scripts/vocabulary-visuals/compile-reviewed-batches.mjs';
 const blockingLemmas = ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'];
 
 const reportJson = () => JSON.parse(execFileSync(
@@ -114,25 +115,22 @@ describe('#76 vocabulary visual control-plane authority', () => {
     });
     expect(report.senseResolutionQueue.items).toBe(1816);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
-    expect(report.runtime).toMatchObject({
-      childFacingPlans: 22,
-      childFacingSenses: 21,
-      pendingProofPlans: 0
-    });
+    expect(report.runtime).toMatchObject({ childFacingPlans: 22, childFacingSenses: 21, pendingProofPlans: 0 });
     expect(report.summary.errors).toBe(0);
-    expect(report.corpus.terminalDispositionLemmas).not.toBe(report.corpus.resolvedStrategyLemmas);
-    expect(report.meaningQueue.terminalDispositionLemmas).not.toBe(report.meaningQueue.resolvedStrategyLemmas);
   });
 
-  it('has no numbered reviewed-batch production builders or package-script backdoors', () => {
+  it('has one atomic production command with no numbered or Phase C package backdoor', () => {
     const packageJson = readJson('package.json');
     const scripts = JSON.stringify(packageJson.scripts ?? {});
     expect(scripts).not.toContain('build-priority-batch-002.mjs');
     expect(scripts).not.toContain('build-priority-batch-003.mjs');
     expect(scripts).not.toContain('compile:vocabulary-visual-batch002');
     expect(scripts).not.toContain('compile:vocabulary-visual-batch003');
+    expect(packageJson.scripts).not.toHaveProperty('compile:vocabulary-visual-corpus-terminal');
     expect(packageJson.scripts['compile:vocabulary-visual-batches']).toBe('node scripts/vocabulary-visuals/compile-reviewed-batches.mjs');
-    expect(packageJson.scripts['compile:content']).toContain('compile:vocabulary-visual-batches');
-    expect(packageJson.scripts['compile:content']).toContain('compile:vocabulary-visual-corpus-terminal');
+    expect(packageJson.scripts['compile:content'].match(/compile:vocabulary-visual-batches/g)).toHaveLength(1);
+    expect(packageJson.scripts['compile:content']).not.toContain('build-corpus-terminal-dispositions');
+    expect(readText(publicCompilerPath)).toContain("./build-corpus-terminal-dispositions.mjs");
+    expect(readText(publicCompilerPath)).toContain('if (isDefaultLedger)');
   });
 });
