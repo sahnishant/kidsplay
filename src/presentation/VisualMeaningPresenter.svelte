@@ -3,6 +3,7 @@
   import { resolveVisualMeaningPresentation } from './vocabularyPresentation';
 
   type VisualMeaningPresenterMode = 'glance' | 'learn' | 'explore';
+  type VisualMeaningPresenterPhase = 'explanation' | 'assessment_pre_answer';
 
   let {
     senseKey,
@@ -10,6 +11,7 @@
     meaning = null,
     example = null,
     mode = 'learn',
+    phase = 'explanation',
     onSpeak = null
   }: {
     senseKey: string;
@@ -17,10 +19,11 @@
     meaning?: string | null;
     example?: string | null;
     mode?: VisualMeaningPresenterMode;
+    phase?: VisualMeaningPresenterPhase;
     onSpeak?: (() => void) | null;
   } = $props();
 
-  let presentation = $derived(resolveVisualMeaningPresentation(senseKey));
+  let presentation = $derived(resolveVisualMeaningPresentation(senseKey, { phase }));
   let compactVisual = $derived(mode === 'glance');
 </script>
 
@@ -30,6 +33,7 @@
   class="visual-meaning-presenter"
   data-presentation-key={presentation.presentationKey}
   data-presentation-mode={presentation.deliveryMode}
+  data-presentation-phase={presentation.phase}
   data-derived-mode={presentation.derivedMode}
   data-visual-allowed={presentation.visualAllowed ? 'true' : 'false'}
   data-visual-fallback={presentation.fallbackReason ?? undefined}
