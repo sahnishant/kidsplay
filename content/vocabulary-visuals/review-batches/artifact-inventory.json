@@ -12,15 +12,22 @@
     {
       "id": "review-batch-production-compiler",
       "path": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs",
-      "role": "authority_inventory_gate_and_public_compiler",
+      "role": "transaction_lock_rollback_and_public_compiler",
       "publicProductionEntry": true
+    },
+    {
+      "id": "review-batch-production-implementation",
+      "path": "scripts/vocabulary-visuals/compile-reviewed-batches-impl.mjs",
+      "role": "internal_authority_inventory_and_source_kind_compiler",
+      "publicProductionEntry": false,
+      "mustBeCalledThrough": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs"
     },
     {
       "id": "review-batch-fingerprint-core",
       "path": "scripts/vocabulary-visuals/compile-reviewed-batches-core.mjs",
-      "role": "internal_fingerprint_locked_projection_core",
+      "role": "internal_fingerprint_locked_priority_gap_projection_core",
       "publicProductionEntry": false,
-      "mustBeCalledThrough": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs"
+      "mustBeCalledThrough": "scripts/vocabulary-visuals/compile-reviewed-batches-impl.mjs"
     },
     {
       "id": "priority-gap-builder",
@@ -157,12 +164,21 @@
     { "path": "content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
     { "path": "content/vocabulary-visuals/__generated-runtime-plans.json", "lifecycle": "committed_shipped_runtime_projection" }
   ],
+  "transactionPolicy": {
+    "lockLocation": "node_modules/.cache/kidsplay/vocabulary-review-batch.lock",
+    "concurrentDefaultCompiles": "serialized",
+    "customLedgerSideEffects": "snapshot_and_restore",
+    "failedDefaultCompileSideEffects": "snapshot_and_restore",
+    "successfulDefaultCompileSideEffects": "commit_generated_state"
+  },
   "invariants": {
     "directoryEnumerationDefinesSemanticOrder": false,
     "unclassifiedCommittedSemanticBatchAllowed": false,
     "runtimeProofMayActAsSemanticReviewAuthority": false,
     "generatedReviewProjectionIsSourceOfTruth": false,
     "historicalSourceMayDriftWithoutExplicitMigration": false,
-    "internalProjectionCoreMayBeUsedAsProductionEntrypoint": false
+    "internalProjectionCoreMayBeUsedAsProductionEntrypoint": false,
+    "customLedgerMayMutateCanonicalGeneratedState": false,
+    "concurrentCompilerMayObservePartialGeneratedJson": false
   }
 }
