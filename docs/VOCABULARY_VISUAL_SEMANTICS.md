@@ -8,41 +8,106 @@ Vocabulary visual data is presentation planning, not a dictionary and not curric
 
 ```text
 corpus lemma + explicit teaching sense
+        -> reviewed visual disposition
         -> visual strategy
         -> reusable semantic scene plan
         -> existing visual/animation renderer
 ```
 
-Do not put SVG filenames, upstream asset URLs, pixel motion, imported dictionary glosses, child definitions, or board/exam placement inside the strategy batches.
+Do not put SVG filenames, upstream asset URLs, pixel motion, imported dictionary glosses, child definitions, or board/exam placement inside the strategy review data.
 
-A bare lemma is never enough when a word is polysemous. Use explicit keys such as:
-
-- `light#not-heavy`
-- `full#container-at-capacity`
-- `library#place-with-books-for-reading`
-- `pull#move-toward-by-force`
-
-If the intended sense is not resolved, record a `sense_unresolved` item rather than guessing. The polysemy watchlist exists specifically to keep ambiguous words visible and fail closed.
+A bare lemma is never enough when a word is polysemous. Use explicit sense keys. If the intended sense is not resolved, record `sense_unresolved` rather than guessing. The polysemy watchlist and terminal review batches exist specifically to keep ambiguous words visible and fail closed.
 
 ## Files
 
 - `content/vocabulary-visuals/registry.json` — strategy, maturity, scene-template, motion and safety vocabulary.
-- `content/vocabulary-visuals/batches/*.json` — explicit sense-level visual teaching decisions.
+- `content/vocabulary-visuals/batches/*.json` — committed baseline strategy batches plus **generated** reviewed-batch projections.
+- `content/vocabulary-visuals/review-batches/ledger.json` — deterministic order for manifest-driven reviewed batches.
+- `content/vocabulary-visuals/review-batches/*.json` — durable reviewed decisions, source fingerprints and output fingerprints.
 - `scripts/vocabulary-visuals/strategy-contract.mjs` — pure validation and semantic scene planning contract.
+- `scripts/vocabulary-visuals/build-priority-gap-queue.mjs` — candidate-only priority queue builder; never grants V1.
+- `scripts/vocabulary-visuals/compile-reviewed-batches.mjs` — one generic manifest/ledger compiler for all numbered reviewed batches.
 - `scripts/report-vocabulary-visual-coverage.mjs` — full-corpus coverage/gap reporting.
+- `tests/vocabulary-visual-batch-factory.behavior.test.ts` — stale-source, duplicate-ledger, historical-equivalence and idempotence gates.
 - `tests/vocabulary-visual-strategy.behavior.test.ts` — sense safety, settlement grammar, reduced motion and answer-leak regression coverage.
+
+## Reviewed-batch architecture
+
+Reviewed batches are **data, not scripts**.
+
+The production path is:
+
+```text
+priority corpus + candidate sense lane
+        -> candidate-only queue
+        -> frozen semantic source fingerprint
+        -> reviewed batch manifest
+        -> ledger sequence
+        -> generic compiler
+        -> generated batch projection
+        -> final live gap + normal visual reports/runtime compiler
+```
+
+The ledger is the only ordering authority. Directory enumeration order is not semantic order.
+
+Each manifest records or derives:
+
+- stable batch id, sequence and issue reference;
+- exact source queue item count;
+- immutable semantic source fingerprint;
+- output item fingerprint;
+- explicit reviewed lemma groups/items or an explicit terminal disposition policy;
+- exact sense identifiers where a sense is selected;
+- strategy, maturity, motion and answer-safety policy;
+- provenance for human-reviewed #51 senses when used;
+- generated output and frozen-source paths.
+
+### Fail-closed rules
+
+The generic compiler must reject:
+
+- stale source fingerprints;
+- duplicate batch ids, sequence numbers, issue refs or output paths;
+- duplicate exact sense keys;
+- duplicate lemmas unless an additional exact `human_reviewed_primary_meaning` sense is being added;
+- bare-lemma or cross-lemma sense keys;
+- implicit single-candidate approval unless the frozen source has exactly one pinned low-risk candidate;
+- multi-candidate terminal rows that select a candidate instead of remaining `lemma#unresolved`;
+- manifest attempts to create V2+ maturity, V5/V6 runtime proof, definitions, source glosses/examples or profile/curriculum placement.
+
+Exact #51 human-reviewed additional senses may share a lemma with an older strategy item, but they still require a different exact sense key and matching reviewed curation evidence. This is multi-sense history, not silent supersession.
+
+### Generated-file lifecycle
+
+Reviewed manifests and the ledger are committed source of truth. These are build artifacts and are intentionally rebuilt/ignored:
+
+- `content/vocabulary-visuals/__generated-priority-gap*.json`
+- `content/vocabulary-visuals/batches/__generated-*.json`
+
+CI uploads the final live gap, all frozen reviewed-batch source queues and all generated reviewed-batch projections for auditability.
+
+### Historical migration proof
+
+The generic factory is required to reproduce the already-reviewed history exactly:
+
+- batch 002 source fingerprint `6eb2305fa9101b088c56f2125a5fce7049d8712b032c423c1673130ee930f6be`;
+- batch 002 reviewed-item fingerprint `4a7344b934d64f419dffadd4436b2d8d50a05967bdc6f6912a29b914d98e85ef`;
+- batch 003 source fingerprint `edb6d451af8d5709874a336005384773d0bc5826e7ce23691fb77a8a0f957b96`;
+- batch 003 reviewed-item fingerprint `e0881f110620cc141d5378e18ed2ae889cee053706523a7797a285548b6623f8`.
+
+A future batch 004+ should therefore require only a ledger entry plus review manifest/data. It must not add another `build-priority-batch-00N.mjs`, another package script, or another batch-specific CI step.
 
 ## Maturity
 
 - `V0` — unaudited.
-- `V1` — sense-safe strategy assigned.
+- `V1` — sense-safe strategy/disposition assigned.
 - `V2` — direct visual/diagram primitive available.
 - `V3` — valid reusable semantic scene plan can be composed.
 - `V4` — meaningful optional motion implemented.
 - `V5` — child-facing delivery consumes it.
 - `V6` — explanation/contrast/process/deeper-knowledge integration.
 
-Never advance maturity because an asset merely exists. Each level describes shipped capability for that sense.
+Never advance maturity because an asset merely exists. Each level describes shipped capability for that sense. A manifest compiler may establish V1 only; V5/V6 still require separate exact runtime proof.
 
 ## Reuse before new art
 
@@ -64,30 +129,18 @@ Explanatory strategies are suppressed during `assessment_pre_answer` unless expl
 
 Reusable templates currently include settlement/place, actor-action, attribute contrast, spatial relation, quantity comparison, sequence, state transition, cause/effect, comparison, expression, part focus and simple diagram contracts.
 
-## First control-plane batch
-
-Batch 001 intentionally spans multiple grammars instead of overfitting to nouns:
-
-- settlements/places;
-- locomotion and manipulation actions;
-- physical attributes and opposites;
-- spatial relations;
-- time/sequence;
-- quantity/comparison;
-- emotion/expression.
-
-The separate polysemy watchlist records ambiguous lemmas that must not be automatically illustrated.
-
 ## Commands
 
 ```bash
+npm run compile:vocabulary-visual-batches
 npm run report:vocabulary-visuals
 npm run validate:vocabulary-visuals
+npm run test:vocabulary-batch-factory
 npm run test:vocabulary-visuals
 npm run check
 ```
 
-The reporter reads the committed 10,000-row primary corpus and produces a ranked unaudited gap queue. Later #76 cycles should consume that queue rather than rely only on example words written in the issue.
+The reporter reads the committed 10,000-row primary corpus and reports the exact audited/dispositioned state. Candidate queues remain candidate-only; only reviewed manifests can move a row to V1.
 
 ## Expansion protocol
 
@@ -99,4 +152,4 @@ Every #76 cycle repeats five disciplines:
 4. knowledge/delivery integration;
 5. validation + honest coverage accounting.
 
-Record exact branch, PR, SHA, checks, coverage change and remaining cycle work on issue #76. Do not use chat memory as the programme tracker.
+For batch-driven review work, add review data to the manifest/ledger architecture rather than adding batch-specific compiler code. Record exact branch, PR, SHA, checks, coverage change and remaining cycle work on issue #76. Do not use chat memory as the programme tracker.
