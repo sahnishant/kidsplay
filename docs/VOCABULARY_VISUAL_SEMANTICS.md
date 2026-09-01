@@ -92,6 +92,14 @@ Phase B provides terminal dispositions for 2,400/2,400 priority meanings. Phase 
 
 The priority review queue also preserves twelve single-candidate relevance traps such as `add`, `pants`, `principal` and `so`. Their Phase B strategy stays safely textual-only, but the lone candidate is not treated as final intended-sense authority. Reports always show terminal, resolved, blocked and child-facing counts separately.
 
+## Human sense-resolution tranches
+
+Phase D begins consuming the priority blocker queue in bounded, reviewable batches. Batch 001 selects 30 exact two-candidate meanings whose primary literal grade meaning is clearly distinguishable from the alternate sense. Each row preserves the complete candidate-ID set and the selected candidate ID, but imports no gloss, example or child definition.
+
+Strategy review remains independent from sense selection. Exact registered entities are used for `apple`, `forest`, `mountain`, `ocean` and `tree`; generic `bear` and `boat` remain textual because the available polar-bear and sailboat visuals would be too narrow. The batch creates no V5/V6 or child-facing runtime authority.
+
+After this tranche, priority resolved strategies are 584/2,400 and explicit priority sense blockers are 1,816. Full-corpus resolved strategies are 617/10,000, with 9,383 sense blockers remaining.
+
 ## Commands
 
 ```bash
