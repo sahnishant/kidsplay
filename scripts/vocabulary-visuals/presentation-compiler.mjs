@@ -148,7 +148,33 @@ function validateRuntimeProjection(item, runtimePlan) {
   }
 }
 
-export function compilePresentationRecord(item, { contract, runtimePlan = null } = {}) {
+function runtimePresentationSignature(plan) {
+  return JSON.stringify({
+    senseKey: plan?.senseKey ?? null,
+    lemma: plan?.lemma ?? null,
+    strategy: plan?.strategy ?? null,
+    sceneTemplate: plan?.sceneTemplate ?? null,
+    maturity: plan?.maturity ?? null,
+    motionPolicy: plan?.motionPolicy ?? null,
+    answerSafety: plan?.answerSafety ?? null,
+    visualRef: plan?.visualRef ?? null,
+    runtimeUsage: plan?.runtimeUsage ?? null,
+    parameters: canonicalObject(plan?.parameters ?? {})
+  });
+}
+
+function preferredEquivalentRuntimePlan(left, right) {
+  const leftKey = `${left?.knowledgeRef ?? ''}\u0000${left?.senseKey ?? ''}`;
+  const rightKey = `${right?.knowledgeRef ?? ''}\u0000${right?.senseKey ?? ''}`;
+  return rightKey.localeCompare(leftKey) < 0 ? right : left;
+}
+
+export function compilePresentationRecord(item, {
+  contract,
+  runtimePlan = null,
+  runtimePlanCount = runtimePlan ? 1 : 0,
+  modeIndex = null
+} = {}) {
   if (!contract) throw new Error('Visual presentation compiler requires a presentation mode contract');
   const senseKey = required(item?.senseKey, 'senseKey');
   const lemma = required(item?.lemma, `${senseKey} lemma`);
@@ -156,7 +182,9 @@ export function compilePresentationRecord(item, { contract, runtimePlan = null }
   const sourceMaturity = required(item?.maturity, `${senseKey} maturity`);
   validateRuntimeProjection(item, runtimePlan);
 
-  const derivedMode = derivePresentationMode(strategy, contract);
+  const modes = modeIndex ?? createPresentationModeIndex(contract);
+  const derivedMode = modes.get(strategy);
+  if (!derivedMode) throw new Error(`${senseKey}: no visual presentation mode for strategy ${strategy}`);
   const runtimeUsage = runtimePlan?.runtimeUsage ?? 'none';
   const effectiveMaturity = runtimePlan?.maturity ?? sourceMaturity;
   const unresolved = strategy === 'sense_unresolved';
@@ -203,6 +231,7 @@ export function compilePresentationRecord(item, { contract, runtimePlan = null }
     sourceMaturity,
     effectiveMaturity,
     runtimeUsage,
+    runtimePlanCount,
     rendererReady,
     childFacing,
     sceneTemplate: item?.sceneTemplate ?? null,
@@ -227,6 +256,7 @@ function missingPresentationRecord(senseKey, contract) {
     sourceMaturity: null,
     effectiveMaturity: null,
     runtimeUsage: 'none',
+    runtimePlanCount: 0,
     rendererReady: false,
     childFacing: false,
     sceneTemplate: null,
@@ -254,6 +284,7 @@ export function compilePresentationSlice({
   if (!Array.isArray(runtimePlans)) throw new Error('Visual presentation slice requires runtimePlans[]');
   if (!contract) throw new Error('Visual presentation slice requires a presentation mode contract');
 
+  const modeIndex = createPresentationModeIndex(contract);
   const itemBySenseKey = new Map();
   for (const item of items) {
     const senseKey = required(item?.senseKey, 'source item senseKey');
@@ -264,8 +295,18 @@ export function compilePresentationSlice({
   const runtimeBySenseKey = new Map();
   for (const plan of runtimePlans) {
     const senseKey = required(plan?.senseKey, 'runtime plan senseKey');
-    if (runtimeBySenseKey.has(senseKey)) throw new Error(`${senseKey}: duplicate runtime presentation plan`);
-    runtimeBySenseKey.set(senseKey, plan);
+    const existing = runtimeBySenseKey.get(senseKey);
+    if (!existing) {
+      runtimeBySenseKey.set(senseKey, { plan, count: 1 });
+      continue;
+    }
+    if (runtimePresentationSignature(existing.plan) !== runtimePresentationSignature(plan)) {
+      throw new Error(`${senseKey}: conflicting runtime presentation plans for one semantic sense`);
+    }
+    runtimeBySenseKey.set(senseKey, {
+      plan: preferredEquivalentRuntimePlan(existing.plan, plan),
+      count: existing.count + 1
+    });
   }
 
   const requested = requestedSenseKeys.map((value) => required(value, 'requested senseKey'));
@@ -277,9 +318,12 @@ export function compilePresentationSlice({
   const plans = canonicalSenseKeys.map((senseKey) => {
     const item = itemBySenseKey.get(senseKey);
     if (!item) return missingPresentationRecord(senseKey, contract);
+    const runtime = runtimeBySenseKey.get(senseKey);
     return compilePresentationRecord(item, {
       contract,
-      runtimePlan: runtimeBySenseKey.get(senseKey) ?? null
+      runtimePlan: runtime?.plan ?? null,
+      runtimePlanCount: runtime?.count ?? 0,
+      modeIndex
     });
   });
 
@@ -290,6 +334,7 @@ export function compilePresentationSlice({
   };
   const summary = {
     requested: plans.length,
+    runtimeMappings: plans.reduce((total, plan) => total + plan.runtimePlanCount, 0),
     childFacing: plans.filter((plan) => plan.childFacing).length,
     rendererReady: plans.filter((plan) => plan.rendererReady).length,
     blocked: plans.filter((plan) => plan.status === 'blocked').length,
