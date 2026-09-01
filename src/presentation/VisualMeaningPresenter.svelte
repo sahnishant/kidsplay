@@ -25,6 +25,11 @@
 
   let presentation = $derived(resolveVisualMeaningPresentation(senseKey, { phase }));
   let compactVisual = $derived(mode === 'glance');
+  let accessibleLabel = $derived(
+    mode !== 'glance' && meaning
+      ? `Meaning of ${word}: ${meaning}`
+      : `Meaning of ${word}`
+  );
 </script>
 
 <article
@@ -38,10 +43,16 @@
   data-visual-allowed={presentation.visualAllowed ? 'true' : 'false'}
   data-visual-fallback={presentation.fallbackReason ?? undefined}
   data-vocabulary-sense={presentation.senseKey || senseKey}
-  aria-label={`Meaning of ${word}`}
+  data-copy-authority="caller"
+  aria-label={accessibleLabel}
 >
   {#if presentation.visualAllowed}
-    <div class="visual-meaning-presenter__visual" data-visual-meaning-scene>
+    <div
+      class="visual-meaning-presenter__visual"
+      data-visual-meaning-scene
+      role="group"
+      aria-label={`Visual explanation for ${word}`}
+    >
       <VocabularySemanticScene senseKey={presentation.senseKey} compact={compactVisual} />
     </div>
   {/if}
