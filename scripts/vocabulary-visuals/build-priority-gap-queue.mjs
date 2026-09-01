@@ -3,9 +3,42 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 const root = new URL('../../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
 const outputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap.json', root);
+const EXPECTED_GRADES = [1, 2, 3, 4, 5, 6];
+
+const cleanLemma = (value) => String(value ?? '').toLocaleLowerCase('en-US').trim();
+
+function discoverGradeFiles(directory, pattern, label) {
+  const discovered = readdirSync(new URL(directory, root))
+    .map((name) => {
+      const match = name.match(pattern);
+      return match ? { grade: Number(match[1]), name, path: `${directory}${name}` } : null;
+    })
+    .filter(Boolean)
+    .sort((left, right) => left.grade - right.grade || left.name.localeCompare(right.name));
+
+  const grades = discovered.map((item) => item.grade);
+  if (JSON.stringify(grades) !== JSON.stringify(EXPECTED_GRADES)) {
+    throw new Error(
+      `${label}: expected exactly canonical grades ${EXPECTED_GRADES.join(',')}; discovered ` +
+      `${grades.length ? grades.join(',') : 'none'}`
+    );
+  }
+  return discovered;
+}
+
+const wordlistFiles = discoverGradeFiles(
+  'content/lexicon/open/review-wordlists/',
+  /^grade-([1-6])-introduced-meaning\.json$/,
+  'Priority meaning wordlists'
+);
+const senseReviewFiles = discoverGradeFiles(
+  'content/lexicon/open/sense-review/',
+  /^grade-([1-6])-introduced-meaning-oewn\.json$/,
+  'OEWN sense-review files'
+);
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
-const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [String(entry.lemma), entry]));
+const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [cleanLemma(entry.lemma), entry]));
 
 const auditedLemmas = new Set();
 const auditedSenseKeys = new Set();
@@ -15,7 +48,7 @@ const batchNames = readdirSync(new URL('content/vocabulary-visuals/batches/', ro
 for (const name of batchNames) {
   const batch = readJson(`content/vocabulary-visuals/batches/${name}`);
   for (const item of batch.items ?? []) {
-    const lemma = String(item?.lemma ?? '').toLocaleLowerCase('en-US').trim();
+    const lemma = cleanLemma(item?.lemma);
     const senseKey = String(item?.senseKey ?? '').trim();
     if (lemma) auditedLemmas.add(lemma);
     if (senseKey) auditedSenseKeys.add(senseKey);
@@ -23,10 +56,10 @@ for (const name of batchNames) {
 }
 
 const senseCandidatesByLemma = new Map();
-for (let grade = 1; grade <= 6; grade += 1) {
-  const review = readJson(`content/lexicon/open/sense-review/grade-${grade}-introduced-meaning-oewn.json`);
+for (const source of senseReviewFiles) {
+  const review = readJson(source.path);
   for (const candidate of review.candidates ?? []) {
-    const lemma = String(candidate?.lemma ?? '').toLocaleLowerCase('en-US').trim();
+    const lemma = cleanLemma(candidate?.lemma);
     const candidateId = String(candidate?.candidateId ?? '').trim();
     if (!lemma || !candidateId) continue;
     const existing = senseCandidatesByLemma.get(lemma) ?? [];
@@ -91,20 +124,23 @@ const reviewScoreFor = (entry, candidateCount) => {
 };
 
 const priorityByLemma = new Map();
-for (let grade = 1; grade <= 6; grade += 1) {
-  const wordlist = readJson(`content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`);
+for (const source of wordlistFiles) {
+  const wordlist = readJson(source.path);
   for (const rawItem of wordlist.items ?? []) {
-    const lemma = String(rawItem?.lemma ?? '').toLocaleLowerCase('en-US').trim();
+    const lemma = cleanLemma(rawItem?.lemma);
     if (!lemma || auditedLemmas.has(lemma)) continue;
     const corpusEntry = corpusByLemma.get(lemma);
     if (!corpusEntry) throw new Error(`Priority visual gap candidate ${lemma} is missing from the 10,000-word corpus`);
     const candidateIds = senseCandidatesByLemma.get(lemma) ?? [];
+    const partOfSpeech = rawItem.partOfSpeech ?? corpusEntry.partOfSpeech;
     const item = {
       lemma,
-      partOfSpeech: rawItem.partOfSpeech ?? corpusEntry.partOfSpeech,
-      grade: rawItem.sourceGrade ?? corpusEntry.grade,
+      partOfSpeech,
+      grade: rawItem.sourceGrade ?? corpusEntry.grade ?? source.grade,
       upstreamSourceGrade: rawItem.upstreamSourceGrade ?? corpusEntry.sourceGrade ?? null,
       sourceCorpusId: rawItem.sourceCorpusId ?? corpusEntry.id,
+      sourcePriorityList: source.path,
+      sourceSenseReview: senseReviewFiles.find((item) => item.grade === source.grade)?.path ?? null,
       zipf: rawItem.sourceZipf ?? corpusEntry.frequency?.zipf ?? null,
       priorityRank: rawItem.priorityRank ?? corpusEntry.gradeBandEvidence?.rank ?? null,
       priorityScore: rawItem.priorityScore ?? null,
@@ -113,10 +149,10 @@ for (let grade = 1; grade <= 6; grade += 1) {
       candidateSenseCount: candidateIds.length,
       candidateIds,
       polysemyRisk: polysemyRiskFor(candidateIds.length),
-      likelyVisualFamily: familyForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
-      existingStrategyCandidates: templateCandidatesForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
-      motionPotential: motionPotentialForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
-      visualReviewScore: reviewScoreFor(rawItem, candidateIds.length),
+      likelyVisualFamily: familyForPos(partOfSpeech),
+      existingStrategyCandidates: templateCandidatesForPos(partOfSpeech),
+      motionPotential: motionPotentialForPos(partOfSpeech),
+      visualReviewScore: reviewScoreFor({ ...rawItem, partOfSpeech }, candidateIds.length),
       status: 'candidate_only_not_v1',
       policy: {
         senseApproved: false,
@@ -155,7 +191,8 @@ const output = {
   parentIssueRef: 76,
   status: 'generated_review_queue_only',
   generatedFrom: {
-    priorityMeaningLists: [1, 2, 3, 4, 5, 6].map((grade) => `content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`),
+    priorityMeaningLists: wordlistFiles.map((item) => item.path),
+    senseReviewFiles: senseReviewFiles.map((item) => item.path),
     senseReviewLane: 'Open English WordNet 2025 candidate identifiers only',
     corpus: 'content/lexicon/open/primary-grade-corpus.json',
     visualBatches: batchNames
