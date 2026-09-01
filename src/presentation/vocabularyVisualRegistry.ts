@@ -52,26 +52,14 @@ interface RawRuntimePlanFile {
 }
 
 const STRATEGIES = new Set<VocabularyVisualStrategy>([
-  'direct_entity',
-  'place_scene',
-  'person_role',
-  'action_scene',
-  'state_scene',
-  'expression_scene',
-  'attribute_contrast',
-  'spatial_relation',
-  'quantity_scene',
-  'sequence_scene',
-  'process_scene',
-  'part_whole',
-  'cause_effect',
-  'comparison_scene',
-  'diagrammatic',
-  'symbolic'
+  'direct_entity', 'place_scene', 'person_role', 'action_scene', 'state_scene', 'expression_scene',
+  'attribute_contrast', 'spatial_relation', 'quantity_scene', 'sequence_scene', 'process_scene',
+  'part_whole', 'cause_effect', 'comparison_scene', 'diagrammatic', 'symbolic'
 ]);
 const MOTION_POLICIES = new Set<VocabularyMotionPolicy>(['none', 'optional_meaningful', 'recommended_meaningful']);
 const ANSWER_SAFETY = new Set<VocabularyAnswerSafety>(['neutral_safe', 'post_answer_only', 'explanation_only']);
 const RUNTIME_USAGE = new Set<VocabularyRuntimeUsage>(['knowledge_reinforcement', 'template_proof']);
+const CHILD_FACING_MATURITIES = new Set(['V5', 'V6']);
 
 const asObject = (value: unknown): Record<string, unknown> =>
   value && typeof value === 'object' && !Array.isArray(value) ? value as Record<string, unknown> : {};
@@ -158,6 +146,10 @@ const byKnowledgeRef = new Map(
     .map((plan) => [plan.knowledgeRef, plan])
 );
 
+export function isVocabularyVisualPlanChildFacing(plan: VocabularyVisualRuntimePlan | null | undefined): boolean {
+  return Boolean(plan && plan.runtimeUsage === 'knowledge_reinforcement' && CHILD_FACING_MATURITIES.has(plan.maturity));
+}
+
 export function resolveVocabularyVisualPlan(senseKey: string): VocabularyVisualRuntimePlan | null {
   return bySenseKey.get(senseKey) ?? null;
 }
@@ -165,7 +157,7 @@ export function resolveVocabularyVisualPlan(senseKey: string): VocabularyVisualR
 export function resolveVocabularyVisualPlanForKnowledgeRefs(knowledgeRefs: string[] = []): VocabularyVisualRuntimePlan | null {
   for (const knowledgeRef of knowledgeRefs) {
     const plan = byKnowledgeRef.get(knowledgeRef);
-    if (plan?.runtimeUsage === 'knowledge_reinforcement') return plan;
+    if (isVocabularyVisualPlanChildFacing(plan)) return plan ?? null;
   }
   return null;
 }
