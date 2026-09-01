@@ -119,6 +119,17 @@ describe('vocabulary delivery', () => {
       }
     });
     expect(reviewedDeliveryMatrix.entryIds).toEqual(reviewedEntries.map((entry: any) => entry.id));
+    expect(reviewedDeliveryMatrix.inventory).toEqual(
+      reviewedEntries.map((entry: any) => ({
+        entryId: entry.id,
+        rowId: entry.rowId,
+        lemma: entry.subject.label,
+        selectedCandidateId: entry.meta.curation.candidateId,
+        primaryVocabularyGrade: entry.meta.primaryVocabularyGrade,
+        gradeReviewSource: `content/lexicon/reviews/grade-${entry.meta.primaryVocabularyGrade}-batch-001.json`,
+        placementAuthority: 'none'
+      }))
+    );
     expect(reviewedDeliveryMatrix.deliveryForms).toHaveLength(8);
     expect(reviewedDeliveryMatrix.deliveryForms.every((form) => form.status === 'semantically_applicable')).toBe(true);
     expect(reviewedDeliveryMatrix.excludedExistingFormatterSurfaces).toEqual([
@@ -143,6 +154,7 @@ describe('vocabulary delivery', () => {
       expect(meaningToWord.knowledgeRefs).toEqual([entry.rowId]);
       expect(unscramble.knowledgeRefs).toEqual([entry.rowId]);
       expect(fill.knowledgeRefs).toEqual([entry.rowId]);
+      expect(entry.meta.curation.sourceGlossCopied).toBe(false);
 
       expect(wordToMeaning.interaction.type).toBe('single_choice');
       expect(meaningToWord.interaction.type).toBe('single_choice');
@@ -190,9 +202,27 @@ describe('vocabulary delivery', () => {
       expect(new Set(wordSearch.knowledgeRefs)).toEqual(new Set(expectedRowIds));
 
       expect(match.interaction.type).toBe('drag_to_target');
-      if (match.interaction.type === 'drag_to_target') {
+      expect(match.solution.type).toBe('target_assignment');
+      if (match.interaction.type === 'drag_to_target' && match.solution.type === 'target_assignment') {
         expect(match.interaction.items.map((item) => item.label)).toEqual(expectedEntries.map((entry: any) => entry.subject.label));
         expect(match.interaction.targets.map((target) => target.label)).toEqual(expectedEntries.map((entry: any) => entry.object.label));
+
+        const correctAssignments = { ...match.solution.assignments };
+        expect(evaluate(match, { assignments: correctAssignments })).toMatchObject({ correct: true, score: 1 });
+
+        const reorderedView = {
+          ...match,
+          interaction: {
+            ...match.interaction,
+            items: [...match.interaction.items].reverse(),
+            targets: [...match.interaction.targets].reverse()
+          }
+        } as Question;
+        expect(evaluate(reorderedView, { assignments: correctAssignments })).toMatchObject({ correct: true, score: 1 });
+
+        const itemIds = Object.keys(correctAssignments);
+        const wrongAssignments = { ...correctAssignments, [itemIds[0]]: correctAssignments[itemIds[1]] };
+        expect(evaluate(reorderedView, { assignments: wrongAssignments }).correct).toBe(false);
       }
 
       expect(memory.interaction.type).toBe('memory_pairs');
