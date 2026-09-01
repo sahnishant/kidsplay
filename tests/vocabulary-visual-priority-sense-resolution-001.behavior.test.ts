@@ -1,113 +1,125 @@
-import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
-const batchPath = 'content/vocabulary-visuals/batches/priority-sense-resolution-batch-001.json';
 
-describe('#99 priority exact-sense resolution batch 001', () => {
-  it('records 30 exact human selections with complete candidate trace', () => {
-    const batch = readJson(batchPath);
-    expect(batch).toMatchObject({
+const sourcePath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.items.json';
+const manifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json';
+const projectedPath = 'content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-001.json';
+
+describe('#99 priority exact-sense resolution tranche', () => {
+  it('is ledger-driven and projects immutable source semantics with corrected Sol Max authority', () => {
+    const ledger = readJson('content/vocabulary-visuals/review-batches/ledger.json');
+    const manifest = readJson(manifestPath);
+    const source = readJson(sourcePath);
+    const projected = readJson(projectedPath);
+
+    expect(ledger.batches).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: 'priority-sense-resolution-001', sequence: 4, issueRef: 99, manifest: manifestPath })
+    ]));
+    expect(manifest).toMatchObject({
+      schemaVersion: 1,
       issueRef: 99,
       parentIssueRef: 76,
-      status: 'human_reviewed_exact_sense',
-      policy: {
-        bareLemmaMappingAllowed: false,
-        definitionsIncluded: false,
-        sourceGlossesIncluded: false,
-        sourceExamplesIncluded: false,
-        runtimeMappingCreated: false
-      }
+      status: 'sol_max_reviewed_exact_sense',
+      authority: {
+        defaultKind: 'sol_max_reviewed_exact_sense',
+        referenceState: 'sol_max_reviewed_exact_reference',
+        resolutionState: 'sol_max_resolved',
+        runtimeAuthority: 'none'
+      },
+      source: {
+        kind: 'reviewed_items_file',
+        reviewDataPath: sourcePath,
+        expectedItemCount: 30,
+        historicalStatus: 'human_reviewed_exact_sense'
+      },
+      reviewEvidence: {
+        kind: 'sol_max_row_level_acceptance',
+        pullRequest: 100,
+        reviewNodeId: 'PRR_kwDOUHzR8c8AAAABLmzeeQ',
+        acceptedRows: 30,
+        claimsHumanEditorialReview: false
+      },
+      output: { path: projectedPath, projectionMode: 'authority_corrected_review_projection' }
     });
-    expect(batch.items).toHaveLength(30);
-    expect(new Set(batch.items.map((item: { lemma: string }) => item.lemma)).size).toBe(30);
+    expect(source.items).toHaveLength(30);
+    expect(projected.items).toHaveLength(30);
+    expect(projected.status).toBe('sol_max_reviewed_exact_sense');
+    expect(projected.policy.claimsHumanEditorialReview).toBe(false);
 
-    const importedCandidates = new Set<string>();
+    for (let index = 0; index < source.items.length; index += 1) {
+      const before = source.items[index];
+      const after = projected.items[index];
+      for (const key of ['lemma', 'senseKey', 'partOfSpeech', 'strategy', 'sceneTemplate', 'maturity', 'motionPolicy', 'answerSafety', 'visualRef']) {
+        expect(after[key]).toEqual(before[key]);
+      }
+      expect(after.parameters).toEqual(before.parameters);
+      expect(after.sourceTrace.sourceCorpusId).toEqual(before.sourceTrace.sourceCorpusId);
+      expect(after.sourceTrace.candidateIds).toEqual(before.sourceTrace.candidateIds);
+      expect(after.sourceTrace.selectedCandidateId).toEqual(before.sourceTrace.selectedCandidateId);
+      expect(after.reviewSource).toBe('sol_max_reviewed_exact_sense');
+      expect(after.reviewDisposition).toBe('sol_max_selected_exact_candidate');
+      expect(after.sourceTrace.candidateReviewStatus).toBe('sol_max_accepted');
+    }
+  });
+
+  it('resolves every selected sense to the complete pinned candidate set and carries auditable source trace', () => {
+    const batch = readJson(projectedPath);
+    const pinnedCandidatesByLemma = new Map<string, string[]>();
     for (let grade = 1; grade <= 6; grade += 1) {
       const review = readJson(`content/lexicon/open/sense-review/grade-${grade}-introduced-meaning-oewn.json`);
-      for (const candidate of review.candidates ?? []) importedCandidates.add(candidate.candidateId);
-    }
-    for (const item of batch.items) {
-      expect(item.senseKey).toBe(item.sourceTrace.selectedCandidateId);
-      expect(item.sourceTrace.candidateSenseCount).toBe(2);
-      expect(item.sourceTrace.candidateIds).toHaveLength(2);
-      expect(item.sourceTrace.candidateIds).toContain(item.sourceTrace.selectedCandidateId);
-      expect(item.sourceTrace.candidateIds.every((id: string) => importedCandidates.has(id))).toBe(true);
-      expect(item.maturity === 'V1' || item.maturity === 'V2').toBe(true);
-    }
-  });
-
-  it('uses exact existing entities and rejects over-narrow generic pictures', () => {
-    const batch = readJson(batchPath);
-    const byLemma = new Map(batch.items.map((item: any) => [item.lemma, item]));
-    expect([...byLemma.entries()].filter(([, item]: any) => item.strategy === 'direct_entity').map(([lemma]) => lemma).sort())
-      .toEqual(['apple', 'forest', 'mountain', 'ocean', 'tree']);
-    expect([...byLemma.entries()].filter(([, item]: any) => item.strategy === 'textual_only').map(([lemma]) => lemma).sort())
-      .toEqual(['bear', 'boat', 'camera', 'computer', 'food', 'health']);
-    expect(byLemma.get('bear')).not.toHaveProperty('visualRef');
-    expect(byLemma.get('boat')).not.toHaveProperty('visualRef');
-
-    const visualRefs = new Set<string>();
-    for (const file of ['entities.json', 'everyday.json', 'nature-space.json']) {
-      for (const entity of readJson(`content/visuals/${file}`)) visualRefs.add(entity.id);
-    }
-    for (const item of byLemma.values()) {
-      if (item.strategy === 'direct_entity') expect(visualRefs.has(item.visualRef)).toBe(true);
-    }
-  });
-
-  it('removes the tranche from blockers while preserving terminal accounting', () => {
-    const batch = readJson(batchPath);
-    const queue = readJson('content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json');
-    const queued = new Set(queue.items.map((item: { lemma: string }) => item.lemma));
-    for (const item of batch.items) expect(queued.has(item.lemma)).toBe(false);
-    expect(queue.summary).toMatchObject({
-      items: 1816,
-      byRisk: { candidate_relevance: 13, high: 1304, medium: 499 },
-      byStatus: { candidate_relevance_review_required: 12, human_sense_selection_required: 1804 }
-    });
-
-    const report = JSON.parse(execFileSync(
-      process.execPath,
-      ['scripts/report-vocabulary-visual-coverage.mjs', '--json', '--limit=5'],
-      { cwd: process.cwd(), encoding: 'utf8' }
-    ));
-    expect(report.corpus).toMatchObject({
-      totalLemmas: 10000,
-      terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 617,
-      blockedSenseResolutionLemmas: 9383
-    });
-    expect(report.meaningQueue).toMatchObject({
-      totalPriorityLemmas: 2400,
-      terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 584,
-      blockedSenseResolutionLemmas: 1816
-    });
-    expect(report.runtime).toMatchObject({ totalPlans: 26, childFacingPlans: 22, pendingProofPlans: 0 });
-    expect(report.summary.errors).toBe(0);
-  });
-
-  it('creates no editorial prose, placement, or unproved runtime authority', () => {
-    const batch = readJson(batchPath);
-    const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
-    const selected = new Set(batch.items.map((item: { senseKey: string }) => item.senseKey));
-    expect((runtime.plans ?? []).every((plan: { senseKey: string }) => !selected.has(plan.senseKey))).toBe(true);
-
-    const keys = new Set<string>();
-    const visit = (value: unknown) => {
-      if (Array.isArray(value)) return value.forEach(visit);
-      if (!value || typeof value !== 'object') return;
-      for (const [key, nested] of Object.entries(value)) {
-        keys.add(key);
-        visit(nested);
+      for (const candidate of review.candidates ?? []) {
+        const values = pinnedCandidatesByLemma.get(candidate.lemma) ?? [];
+        values.push(candidate.candidateId);
+        pinnedCandidatesByLemma.set(candidate.lemma, values);
       }
-    };
-    visit(batch);
-    for (const forbidden of ['definition', 'definitions', 'gloss', 'sourceGloss', 'example', 'examples', 'childDefinition', 'childExample', 'profileRef', 'knowledgeRef']) {
-      expect(keys.has(forbidden)).toBe(false);
     }
+
+    for (const item of batch.items) {
+      const pinned = [...new Set(pinnedCandidatesByLemma.get(item.lemma) ?? [])].sort();
+      expect(item).toMatchObject({
+        maturity: expect.stringMatching(/^V[12]$/),
+        reviewSource: 'sol_max_reviewed_exact_sense',
+        reviewDisposition: 'sol_max_selected_exact_candidate'
+      });
+      expect(['neutral_safe', 'post_answer_only']).toContain(item.answerSafety);
+      expect(item.senseKey).not.toMatch(/#unresolved$/);
+      expect(item.sourceTrace).toMatchObject({
+        selectedCandidateId: item.senseKey,
+        candidateReviewStatus: 'sol_max_accepted'
+      });
+      expect([...item.sourceTrace.candidateIds].sort()).toEqual(pinned);
+      expect(item.sourceTrace.candidateSenseCount).toBe(pinned.length);
+      expect(pinned).toContain(item.senseKey);
+    }
+  });
+
+  it('contains no source glosses, examples, profile placement or unproved runtime authority', () => {
+    const batch = readJson(projectedPath);
+    expect(batch.policy).toMatchObject({
+      definitionsIncluded: false,
+      sourceGlossesIncluded: false,
+      sourceExamplesIncluded: false,
+      profilePlacementInferred: false,
+      runtimeMappingCreated: false,
+      childDefinitionApprovalInferred: false,
+      claimsHumanEditorialReview: false
+    });
+
+    const forbiddenKeys = new Set([
+      'definition', 'definitions', 'gloss', 'sourceGloss', 'example', 'examples',
+      'profileRef', 'profileRefs', 'runtimeUsage', 'runtimeAuthority', 'knowledgeRef'
+    ]);
+    const scan = (value: unknown): string[] => {
+      if (Array.isArray(value)) return value.flatMap(scan);
+      if (!value || typeof value !== 'object') return [];
+      return Object.entries(value as Record<string, unknown>).flatMap(([key, nested]) => [
+        ...(forbiddenKeys.has(key) ? [key] : []),
+        ...scan(nested)
+      ]);
+    };
+    expect(scan(batch.items)).toEqual([]);
   });
 });

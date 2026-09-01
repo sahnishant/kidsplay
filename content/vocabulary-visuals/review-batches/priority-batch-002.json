@@ -1,0 +1,141 @@
+{
+  "schemaVersion": 1,
+  "id": "priority-batch-002",
+  "sequence": 2,
+  "issueRef": 88,
+  "parentIssueRef": 76,
+  "status": "reviewed_visual_strategy",
+  "authority": {
+    "defaultKind": "historical_reviewed_strategy",
+    "referenceState": "historical_frozen_reference",
+    "resolutionState": "historical_resolved",
+    "dispositionState": "reviewed_strategy",
+    "runtimeAuthority": "none",
+    "historicalMigration": true,
+    "overrides": [
+      {
+        "kind": "human_reviewed_exact_sense",
+        "referenceState": "human_reviewed_exact_reference",
+        "resolutionState": "human_resolved",
+        "dispositionState": "reviewed_strategy",
+        "lemmas": ["ask", "find", "floor", "guide", "environment", "minute", "notice", "fast", "full", "library"]
+      }
+    ]
+  },
+  "source": {
+    "kind": "priority_gap",
+    "expectedItemCount": 2319,
+    "expectedSemanticFingerprint": "6eb2305fa9101b088c56f2125a5fce7049d8712b032c423c1673130ee930f6be",
+    "snapshotPath": "content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json",
+    "snapshotStatus": "generated_review_queue_pre_batch_002"
+  },
+  "output": {
+    "path": "content/vocabulary-visuals/batches/__generated-priority-batch-002.json",
+    "outputId": "vocabulary.visual-strategy.priority-batch-002",
+    "expectedItemFingerprint": "4a7344b934d64f419dffadd4436b2d8d50a05967bdc6f6912a29b914d98e85ef"
+  },
+  "reviewBasis": {
+    "priorityGapWorkflowRunId": 33460230062,
+    "priorityGapHeadSha": "5935ade40ff336b87fe918790ee49ee72b1bdb70",
+    "priorityGapArtifactSha256": "8394977189090d3dab939e76ed1e252d197352f70988ae4f226432a12e21b130",
+    "rule": "Single-candidate queue rows use their exact pinned candidate identifier. Ten otherwise-polysemous rows use exact #51 human-reviewed candidate ids. No source gloss is copied. Existing renderer meaning was reviewed conservatively; weak generic pictures are textual-only."
+  },
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "sourceGlossesIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false,
+    "humanEditorialDefinitionApprovalInferredFromVisualReview": false
+  },
+  "defaults": {
+    "maturity": "V1",
+    "motionPolicy": "none",
+    "answerSafety": "post_answer_only",
+    "reviewSource": "single_candidate_priority_gap"
+  },
+  "reviews": [
+    {
+      "type": "group",
+      "lemmas": ["hotel", "museum", "restaurant", "airport", "factory", "cafe", "nursery"],
+      "strategy": "place_scene",
+      "sceneTemplate": "place",
+      "parameters": { "placeKind": "$lemma" }
+    },
+    {
+      "type": "group",
+      "lemmas": ["artist", "mayor", "singer", "employee", "actress", "tourist", "creator", "poet", "scientist", "physician", "sheriff", "warrior", "farmer", "consultant", "surgeon", "athlete", "voter", "seller", "researcher", "historian", "landlord", "economist", "dentist", "blogger", "composer", "explorer", "supplier", "teammate", "barber", "competitor", "narrator", "roommate", "princess"],
+      "strategy": "person_role",
+      "sceneTemplate": "person-role",
+      "parameters": { "role": "$lemma" },
+      "motionPolicy": "optional_meaningful"
+    },
+    {
+      "type": "group",
+      "lemmas": ["june", "january", "december", "february"],
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "parameters": { "relation": "month-in-calendar", "position": "$lemma" }
+    },
+    { "type": "item", "lemma": "friday", "strategy": "sequence_scene", "sceneTemplate": "sequence", "parameters": { "relation": "day-of-week", "position": "friday" } },
+    { "type": "item", "lemma": "weekend", "strategy": "sequence_scene", "sceneTemplate": "sequence", "parameters": { "relation": "end-of-week" } },
+    { "type": "item", "lemma": "autumn", "strategy": "sequence_scene", "sceneTemplate": "sequence", "parameters": { "relation": "season-in-year", "position": "autumn" } },
+    { "type": "item", "lemma": "eighth", "strategy": "sequence_scene", "sceneTemplate": "sequence", "parameters": { "position": "eighth" } },
+    { "type": "item", "lemma": "overnight", "strategy": "sequence_scene", "sceneTemplate": "sequence", "parameters": { "timeRelation": "through-the-night" } },
+    { "type": "item", "lemma": "noon", "strategy": "sequence_scene", "sceneTemplate": "sequence", "parameters": { "dayPeriod": "noon" } },
+    {
+      "type": "group",
+      "lemmas": ["forty", "fifteen", "thirteen", "fourteen", "seventeen", "eighteen"],
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "parametersByLemma": {
+        "forty": { "quantity": 40 },
+        "fifteen": { "quantity": 15 },
+        "thirteen": { "quantity": 13 },
+        "fourteen": { "quantity": 14 },
+        "seventeen": { "quantity": 17 },
+        "eighteen": { "quantity": 18 }
+      }
+    },
+    {
+      "type": "group",
+      "lemmas": ["huge", "tiny", "vast"],
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "parameters": { "dimension": "size", "target": "$lemma" }
+    },
+    { "type": "item", "lemma": "nearby", "strategy": "spatial_relation", "sceneTemplate": "spatial-relation", "parameters": { "relation": "near" } },
+    { "type": "item", "lemma": "solar", "strategy": "diagrammatic", "sceneTemplate": "simple-diagram", "parameters": { "diagramKind": "sun-related" } },
+    {
+      "type": "group",
+      "lemmas": ["weekly", "monthly"],
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "parameters": { "relation": "$lemma" }
+    },
+    { "type": "item", "lemma": "swift", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "parameters": { "dimension": "speed", "target": "fast" }, "motionPolicy": "optional_meaningful" },
+    {
+      "type": "group",
+      "lemmas": ["yellow", "pink", "orange"],
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "parameters": { "dimension": "color", "target": "$lemma" }
+    },
+    {
+      "type": "group",
+      "lemmas": ["district", "beach", "valley", "kitchen", "campus", "highway", "bedroom", "cave", "classroom", "zoo", "pond", "hometown", "backyard", "corridor", "isle", "gateway", "porch", "cemetery", "employer", "urgent", "affordable", "wealthy", "balanced", "elderly", "teenage", "alike", "skilled", "cruel", "worrying", "respected", "selfish", "mighty", "passionate", "magnificent", "enjoyable", "optional", "awesome", "excellent", "expensive", "incredible"],
+      "strategy": "textual_only",
+      "answerSafety": "neutral_safe"
+    },
+    { "type": "item", "lemma": "ask", "senseKey": "ask#v#2", "partOfSpeech": "verb", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "find", "senseKey": "find#v#3", "partOfSpeech": "verb", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "floor", "senseKey": "floor#n#1", "partOfSpeech": "noun", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "guide", "senseKey": "guide#n#2", "partOfSpeech": "noun", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "environment", "senseKey": "environment#n#2", "partOfSpeech": "noun", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "minute", "senseKey": "minute#n#1", "partOfSpeech": "noun", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "notice", "senseKey": "notice#n#1", "partOfSpeech": "noun", "strategy": "textual_only", "answerSafety": "neutral_safe", "reviewSource": "human_reviewed_primary_meaning" },
+    { "type": "item", "lemma": "fast", "senseKey": "fast#a#1", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "parameters": { "dimension": "speed", "target": "fast", "contrast": "slow" }, "motionPolicy": "recommended_meaningful", "reviewSource": "human_reviewed_primary_meaning", "runtimeProofCandidate": true },
+    { "type": "item", "lemma": "full", "senseKey": "full#a#1", "partOfSpeech": "adjective", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "parameters": { "dimension": "fill-level", "target": "full", "contrast": "empty" }, "reviewSource": "human_reviewed_primary_meaning", "runtimeProofCandidate": true },
+    { "type": "item", "lemma": "library", "senseKey": "library#n#3", "partOfSpeech": "noun", "strategy": "place_scene", "sceneTemplate": "place", "parameters": { "placeKind": "library" }, "reviewSource": "human_reviewed_primary_meaning", "runtimeProofCandidate": true }
+  ]
+}

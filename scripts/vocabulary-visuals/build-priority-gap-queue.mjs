@@ -4,8 +4,13 @@ const root = new URL('../../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
 const currentOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap.json', root);
 const preBatchOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json', root);
-const excludeBatchArg = process.argv.find((arg) => arg.startsWith('--exclude-batch='));
-const excludedBatchName = excludeBatchArg?.slice('--exclude-batch='.length).trim() || null;
+const excludedBatchNames = new Set(
+  process.argv
+    .filter((arg) => arg.startsWith('--exclude-batch='))
+    .flatMap((arg) => arg.slice('--exclude-batch='.length).split(','))
+    .map((name) => name.trim())
+    .filter(Boolean)
+);
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
 const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [String(entry.lemma), entry]));
@@ -13,9 +18,7 @@ const allBatchNames = readdirSync(new URL('content/vocabulary-visuals/batches/',
   .filter((name) => name.endsWith('.json'))
   .sort();
 const preBatchNames = allBatchNames.filter((name) => !name.startsWith('__generated-'));
-const currentBatchNames = excludedBatchName
-  ? allBatchNames.filter((name) => name !== excludedBatchName)
-  : allBatchNames;
+const currentBatchNames = allBatchNames.filter((name) => !excludedBatchNames.has(name));
 
 const senseCandidatesByLemma = new Map();
 for (let grade = 1; grade <= 6; grade += 1) {
@@ -161,7 +164,8 @@ const buildQueue = (batchNames, status) => {
       senseReviewLane: 'Open English WordNet 2025 candidate identifiers only',
       corpus: 'content/lexicon/open/primary-grade-corpus.json',
       visualBatches: batchNames,
-      excludedGeneratedBatch: excludedBatchName
+      excludedGeneratedBatches: [...excludedBatchNames].sort(),
+      excludedGeneratedBatch: excludedBatchNames.size === 1 ? [...excludedBatchNames][0] : null
     },
     policy: {
       bareLemmaSenseApprovalAllowed: false,
@@ -189,5 +193,5 @@ writeFileSync(currentOutputUrl, `${JSON.stringify(current, null, 2)}\n`, 'utf8')
 console.log(
   `Built priority visual queues: pre-batch-002 ${preBatch.items.length} gap(s) / ${preBatch.summary.alreadyAuditedLemmasExcluded} audited; ` +
   `current ${current.items.length} gap(s) / ${current.summary.alreadyAuditedLemmasExcluded} priority terminal disposition(s)` +
-  `${excludedBatchName ? ` (excluding ${excludedBatchName})` : ''}.`
+  `${excludedBatchNames.size ? ` (excluding ${[...excludedBatchNames].sort().join(', ')})` : ''}.`
 );

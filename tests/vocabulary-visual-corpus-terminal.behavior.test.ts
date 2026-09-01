@@ -25,6 +25,7 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
       summary: {
         corpusLemmas: 10000,
         previouslyDispositionedLemmas: 2435,
+        exactReviewedSupersedingLemmas: 30,
         senseUnresolvedItems: 7565,
         finalTerminalDispositionLemmas: 10000
       }
@@ -37,7 +38,7 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     )).toBe(true);
   });
 
-  it('keeps all priority ambiguity and relevance blockers actionable', () => {
+  it('keeps the exact remaining priority ambiguity and relevance blockers actionable', () => {
     const queue = readJson('content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json');
     const relevance = queue.items.filter((item: { status: string }) => item.status === 'candidate_relevance_review_required');
     const unresolved = queue.items.filter((item: { status: string }) => item.status === 'human_sense_selection_required');
@@ -47,19 +48,19 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
       issueRef: 76,
       status: 'human_sense_selection_queue',
       summary: {
-        byRisk: { candidate_relevance: 13, high: 1304 },
-        byStatus: { candidate_relevance_review_required: 12 }
+        items: 1816,
+        exactReviewedSupersededBlockers: 30,
+        byRisk: { candidate_relevance: 13, medium: 499, high: 1304 },
+        byStatus: { candidate_relevance_review_required: 12, human_sense_selection_required: 1804 }
       }
     });
-    expect(queue.summary.items).toBeLessThanOrEqual(1846);
-    expect(queue.summary.byRisk.medium).toBeLessThanOrEqual(529);
     expect(relevance.map((item: { lemma: string }) => item.lemma).sort()).toEqual(
       ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'].sort()
     );
     expect(relevance.every((item: { candidateSenseCount: number; terminalStrategy: string }) =>
       item.candidateSenseCount === 1 && item.terminalStrategy === 'textual_only'
     )).toBe(true);
-    expect(unresolved).toHaveLength(queue.summary.items - 12);
+    expect(unresolved).toHaveLength(1804);
     expect(unresolved.every((item: { terminalStrategy: string; candidateIds: string[] }) =>
       item.terminalStrategy === 'sense_unresolved' && item.candidateIds.length >= 1
     )).toBe(true);
@@ -85,22 +86,30 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     }
   });
 
-  it('reports terminal accounting separately from resolved and child-facing maturity', () => {
+  it('reports exact terminal accounting separately from resolved and child-facing maturity', () => {
     const output = execFileSync(
       process.execPath,
       ['scripts/report-vocabulary-visual-coverage.mjs', '--json', '--limit=5'],
       { cwd: process.cwd(), encoding: 'utf8' }
     );
     const report = JSON.parse(output);
-    expect(report.corpus).toMatchObject({ totalLemmas: 10000, terminalDispositionLemmas: 10000, unauditedLemmas: 0 });
-    expect(report.corpus.resolvedStrategyLemmas).toBeGreaterThanOrEqual(587);
-    expect(report.corpus.blockedSenseResolutionLemmas).toBeLessThanOrEqual(9413);
-    expect(report.corpus.resolvedStrategyLemmas + report.corpus.blockedSenseResolutionLemmas).toBe(10000);
-    expect(report.meaningQueue).toMatchObject({ totalPriorityLemmas: 2400, terminalDispositionLemmas: 2400 });
-    expect(report.meaningQueue.resolvedStrategyLemmas).toBeGreaterThanOrEqual(554);
-    expect(report.meaningQueue.blockedSenseResolutionLemmas).toBeLessThanOrEqual(1846);
-    expect(report.meaningQueue.resolvedStrategyLemmas + report.meaningQueue.blockedSenseResolutionLemmas).toBe(2400);
-    expect(report.runtime).toMatchObject({ totalPlans: 26, childFacingPlans: 22, pendingProofPlans: 0 });
+    expect(report.corpus).toMatchObject({
+      totalLemmas: 10000,
+      terminalDispositionLemmas: 10000,
+      resolvedStrategyLemmas: 617,
+      blockedSenseResolutionLemmas: 9383,
+      exactReviewedSupersedingLemmas: 30,
+      unauditedLemmas: 0
+    });
+    expect(report.meaningQueue).toMatchObject({
+      totalPriorityLemmas: 2400,
+      terminalDispositionLemmas: 2400,
+      resolvedStrategyLemmas: 584,
+      blockedSenseResolutionLemmas: 1816
+    });
+    expect(report.senseResolutionQueue.items).toBe(1816);
+    expect(report.corpusSenseResolutionQueue.items).toBe(7565);
+    expect(report.runtime).toMatchObject({ totalPlans: 26, childFacingPlans: 22, childFacingSenses: 21, pendingProofPlans: 0 });
     expect(report.summary.errors).toBe(0);
   });
 
