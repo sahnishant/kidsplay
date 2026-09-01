@@ -13,9 +13,12 @@ export type VisualMeaningPresentationMode =
   | 'scene'
   | 'text';
 
+export type VisualMeaningPresentationPhase = 'explanation' | 'assessment_pre_answer';
+
 export type VisualMeaningFallbackReason =
   | 'runtime_plan_missing'
   | 'runtime_not_child_facing'
+  | 'answer_safety'
   | null;
 
 export interface VisualMeaningPresentation {
@@ -23,6 +26,7 @@ export interface VisualMeaningPresentation {
   compilerVersion: number;
   senseKey: string;
   lemma: string | null;
+  phase: VisualMeaningPresentationPhase;
   derivedMode: VisualMeaningPresentationMode;
   deliveryMode: VisualMeaningPresentationMode;
   visualAllowed: boolean;
@@ -82,7 +86,10 @@ function modeForPlan(plan: VocabularyVisualRuntimePlan): VisualMeaningPresentati
   return mode;
 }
 
-export function resolveVisualMeaningPresentation(senseKey: string): VisualMeaningPresentation {
+export function resolveVisualMeaningPresentation(
+  senseKey: string,
+  { phase = 'explanation' }: { phase?: VisualMeaningPresentationPhase } = {}
+): VisualMeaningPresentation {
   const normalizedSenseKey = String(senseKey ?? '').trim();
   const plan = normalizedSenseKey ? resolveVocabularyVisualPlan(normalizedSenseKey) : null;
   if (!plan) {
@@ -91,6 +98,7 @@ export function resolveVisualMeaningPresentation(senseKey: string): VisualMeanin
       compilerVersion: contract.compilerVersion,
       senseKey: normalizedSenseKey,
       lemma: null,
+      phase,
       derivedMode: 'text',
       deliveryMode: 'text',
       visualAllowed: false,
@@ -102,16 +110,24 @@ export function resolveVisualMeaningPresentation(senseKey: string): VisualMeanin
   }
 
   const derivedMode = modeForPlan(plan);
-  const visualAllowed = isVocabularyVisualPlanChildFacing(plan);
+  const proofAllowsVisual = isVocabularyVisualPlanChildFacing(plan);
+  const answerSafe = phase !== 'assessment_pre_answer' || plan.answerSafety === 'neutral_safe';
+  const visualAllowed = proofAllowsVisual && answerSafe;
+  const fallbackReason: VisualMeaningFallbackReason = !proofAllowsVisual
+    ? 'runtime_not_child_facing'
+    : !answerSafe
+      ? 'answer_safety'
+      : null;
   return {
     presentationKey: presentationKeyFor(plan.senseKey),
     compilerVersion: contract.compilerVersion,
     senseKey: plan.senseKey,
     lemma: plan.lemma,
+    phase,
     derivedMode,
     deliveryMode: visualAllowed ? derivedMode : 'text',
     visualAllowed,
-    fallbackReason: visualAllowed ? null : 'runtime_not_child_facing',
+    fallbackReason,
     maturity: plan.maturity,
     runtimeUsage: plan.runtimeUsage,
     plan
