@@ -80,7 +80,7 @@
     <p class="sequence-order__instructions">Put the cards in order. Tap two cards to swap them, or use the arrows.</p>
     <div class="sequence-order__list" role="list">
       {#each order as item, index (item.id)}
-        {@const visual = resolveItemVisualPresentation(item)}
+        {@const visual = resolveItemVisualPresentation(item, { recipeSurface: 'sequence-item' })}
         <div class="sequence-order__row" role="listitem">
           <span class="sequence-order__position" aria-hidden="true">{index + 1}</span>
           <button
