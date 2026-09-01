@@ -1,0 +1,40 @@
+[
+  {
+    "id": "recipe.process.condensation",
+    "semanticRef": "condensation",
+    "template": "process.transform",
+    "ariaLabel": "Condensation shown as water vapour forming tiny liquid-water droplets",
+    "slots": [
+      { "role": "process-sample", "visualRef": "entity.process.condensation-sample", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "Water vapour changes into tiny liquid-water droplets.",
+    "costClass": "medium"
+  },
+  {
+    "id": "recipe.process.water-cycle",
+    "semanticRef": "water-cycle",
+    "template": "process.transform",
+    "ariaLabel": "Water cycle shown as water repeatedly moving between Earth's surface and the atmosphere",
+    "slots": [
+      { "role": "cycle-sample", "visualRef": "entity.process.water-cycle-sample", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "Water repeatedly moves between Earth's surface and the atmosphere.",
+    "costClass": "medium"
+  }
+]
