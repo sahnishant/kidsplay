@@ -1,0 +1,29 @@
+[
+  {
+    "id": "animation.variant.earth-revolution-state",
+    "renderer": "scene-icon",
+    "glyph": "earth",
+    "label": "Earth revolution animation state",
+    "motion": "drift",
+    "aliases": ["earth revolution animation state"],
+    "animationIdentityRef": "earth-revolution"
+  },
+  {
+    "id": "animation.variant.planet-orbit-state",
+    "renderer": "nature-space-icon",
+    "glyph": "planet",
+    "label": "Planet orbit animation state",
+    "motion": "drift",
+    "aliases": ["planet orbit animation state"],
+    "animationIdentityRef": "planet-orbit"
+  },
+  {
+    "id": "animation.variant.liquid-shape-state",
+    "renderer": "process-icon",
+    "glyph": "liquid-water",
+    "label": "Liquid container-shape animation state",
+    "motion": "drift",
+    "aliases": ["liquid shape animation state"],
+    "animationIdentityRef": "liquid-shape"
+  }
+]
