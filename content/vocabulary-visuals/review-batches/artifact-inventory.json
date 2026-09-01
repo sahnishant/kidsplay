@@ -12,7 +12,7 @@
     {
       "id": "review-batch-production-compiler",
       "path": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs",
-      "role": "transaction_lock_rollback_and_public_compiler",
+      "role": "transaction_lock_rollback_phase_c_and_public_compiler",
       "publicProductionEntry": true
     },
     {
@@ -38,8 +38,9 @@
     {
       "id": "phase-c-terminal-accounting",
       "path": "scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs",
-      "role": "full_corpus_fail_closed_terminal_accounting",
-      "publicProductionEntry": true
+      "role": "internal_full_corpus_fail_closed_terminal_accounting",
+      "publicProductionEntry": false,
+      "mustBeCalledThrough": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs"
     }
   ],
   "semanticSources": [
@@ -115,7 +116,7 @@
       "path": "scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs",
       "artifactKind": "deterministic_terminal_policy_compiler",
       "authorityKind": "approved_terminal_policy",
-      "lifecycle": "committed_policy_compiler",
+      "lifecycle": "internal_policy_compiler",
       "order": 70,
       "generatedPath": "content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json",
       "humanReviewQueues": [
@@ -169,7 +170,7 @@
     "concurrentDefaultCompiles": "serialized",
     "customLedgerSideEffects": "snapshot_and_restore",
     "failedDefaultCompileSideEffects": "snapshot_and_restore",
-    "successfulDefaultCompileSideEffects": "commit_generated_state"
+    "successfulDefaultCompileSideEffects": "commit_batches_phase_c_and_queues_atomically"
   },
   "invariants": {
     "directoryEnumerationDefinesSemanticOrder": false,
@@ -179,6 +180,7 @@
     "historicalSourceMayDriftWithoutExplicitMigration": false,
     "internalProjectionCoreMayBeUsedAsProductionEntrypoint": false,
     "customLedgerMayMutateCanonicalGeneratedState": false,
-    "concurrentCompilerMayObservePartialGeneratedJson": false
+    "concurrentCompilerMayObservePartialGeneratedJson": false,
+    "phaseCMayRunAsSeparatePackageProductionStep": false
   }
 }
