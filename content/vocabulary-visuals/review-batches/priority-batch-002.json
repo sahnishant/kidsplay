@@ -5,6 +5,23 @@
   "issueRef": 88,
   "parentIssueRef": 76,
   "status": "reviewed_visual_strategy",
+  "authority": {
+    "defaultKind": "historical_reviewed_strategy",
+    "referenceState": "historical_frozen_reference",
+    "resolutionState": "historical_resolved",
+    "dispositionState": "reviewed_strategy",
+    "runtimeAuthority": "none",
+    "historicalMigration": true,
+    "overrides": [
+      {
+        "kind": "human_reviewed_exact_sense",
+        "referenceState": "human_reviewed_exact_reference",
+        "resolutionState": "human_resolved",
+        "dispositionState": "reviewed_strategy",
+        "lemmas": ["ask", "find", "floor", "guide", "environment", "minute", "notice", "fast", "full", "library"]
+      }
+    ]
+  },
   "source": {
     "kind": "priority_gap",
     "expectedItemCount": 2319,
