@@ -61,6 +61,9 @@ jobs:
       - name: Prove Phase C terminal accounting remains deterministic
         run: npx vitest run tests/vocabulary-visual-corpus-terminal.behavior.test.ts
 
+      - name: Prove review authority, inventory and exact Phase C/runtime boundaries
+        run: npx vitest run tests/vocabulary-visual-control-plane-authority.behavior.test.ts
+
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
 
