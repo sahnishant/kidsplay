@@ -29,7 +29,6 @@ describe('primary vocabulary human review batch 001', () => {
   const grade1Overlay = readJson('content/lexicon/ai-draft-overlays/grade-1-batch-001-ai-draft-001.json');
   const grade2Overlay = readJson('content/lexicon/ai-draft-overlays/grade-2-batch-001-ai-draft-001.json');
   const checkedInKnowledge = readJson('content/knowledge/english-vocabulary-primary-reviewed.json');
-  const placementHandoff = readJson('content/lexicon/reviews/reviewed-profile-placement-batch-001.json');
 
   it('records 16 explicit human accept decisions without profile-placement inference', () => {
     for (const review of [grade1Review, grade2Review]) {
@@ -99,64 +98,86 @@ describe('primary vocabulary human review batch 001', () => {
     }
   });
 
-  it('keeps all 16 candidate profile placements fail-closed pending explicit human editorial approval', () => {
+  it('keeps all 16 candidate profile placements fail-closed inside the canonical handoffs', () => {
     const reviewedEntries = checkedInKnowledge[0].entries;
     const reviewedByRowId = new Map(reviewedEntries.map((entry: any) => [entry.rowId, entry]));
+    const expectedProfilesByGrade: Record<number, string[]> = {
+      1: ['CBSE_INDIA_CLASS1', 'CISCE_INDIA_CLASS1'],
+      2: ['CBSE_INDIA_CLASS2', 'CISCE_INDIA_CLASS2', 'SOF_INDIA_CLASS2']
+    };
 
-    expect(placementHandoff).toMatchObject({
-      kind: 'primary_vocabulary_profile_placement_review_handoff',
-      batchId: 'reviewed-primary-meanings-001',
-      sourceKnowledgeRef: 'knowledge.english.vocabulary.primary-reviewed.001',
-      status: 'pending_human_editorial_approval',
-      policy: {
-        requiredApprovalAuthority: 'human_editor',
+    for (const review of [grade1Review, grade2Review]) {
+      const queue = review.profilePlacementReviewQueue;
+      expect(review.policy.pendingPlacementCandidatesAreNonAuthoritative).toBe(true);
+      expect(review.summary.reviewedProfilePlacements).toBe(0);
+      expect(review.profilePlacements).toEqual([]);
+      expect(queue).toMatchObject({
+        status: 'pending_human_editorial_review',
+        requiredReviewAuthority: 'human_editor',
         candidateOnly: true,
-        profileMembershipMutationAllowed: false,
-        boardAlignmentClaimed: false,
-        examAlignmentClaimed: false,
-        approvedPlacements: []
+        mayMutateProfileMembership: false,
+        mayInferFromGradeOrCorpus: false,
+        mayClaimBoardOrExamAlignment: false
+      });
+      expect(queue.items).toHaveLength(8);
+
+      const decisionByLemma = new Map(review.decisions.map((decision: any) => [decision.lemma, decision]));
+      for (const item of queue.items) {
+        const entry = reviewedByRowId.get(item.rowId);
+        const decision = decisionByLemma.get(item.lemma);
+        expect(entry).toBeTruthy();
+        expect(decision).toBeTruthy();
+        expect(item.lemma).toBe(entry.subject.label);
+        expect(item.selectedCandidateId).toBe(entry.meta.curation.candidateId);
+        expect(item.selectedCandidateId).toBe(decision.candidateId);
+        expect(item.status).toBe('pending_human_editorial_review');
+        expect(item).not.toHaveProperty('reviewAuthority');
+        expect(item).not.toHaveProperty('reviewer');
+        expect(item).not.toHaveProperty('reviewedAt');
+
+        expect(item.candidatePlacements.map((placement: any) => placement.profileRef)).toEqual(
+          expectedProfilesByGrade[review.grade]
+        );
+
+        for (const placement of item.candidatePlacements) {
+          expect(placement.rationale).toContain('explicit human placement approval is still required');
+          const evidenceSlice = readJson(placement.evidenceRef);
+          expect(evidenceSlice.profileRef).toBe(placement.profileRef);
+          expect(evidenceSlice.status).toBe('curation_review_only');
+          expect(evidenceSlice.policy).toMatchObject({
+            runtimeContent: false,
+            mutatesKnowledge: false,
+            mutatesProfileMembership: false,
+            boardAlignmentClaimed: false,
+            profilePlacementRequiresEditorialReview: true
+          });
+
+          const evidenceItems = [
+            ...(evidenceSlice.readyForProfileReview ?? []),
+            ...(evidenceSlice.pendingEditorialReview ?? [])
+          ];
+          expect(evidenceItems.some((candidate: any) => candidate.lemma === item.lemma)).toBe(true);
+
+          const membership = readJson(`content/profile-memberships/${placement.profileRef}.json`);
+          expect(membership.profileRef).toBe(placement.profileRef);
+          expect(membership.members.some((member: any) => member.rowId === item.rowId)).toBe(false);
+        }
       }
-    });
-    expect(placementHandoff.items).toHaveLength(16);
-    expect(new Set(placementHandoff.items.map((item: any) => item.rowId))).toEqual(
-      new Set(reviewedEntries.map((entry: any) => entry.rowId))
-    );
+    }
 
-    for (const item of placementHandoff.items) {
-      const entry = reviewedByRowId.get(item.rowId);
-      expect(entry).toBeTruthy();
-      expect(item.lemma).toBe(entry.subject.label);
-      expect(item.primaryVocabularyGrade).toBe(entry.meta.primaryVocabularyGrade);
-      expect(item.placementStatus).toBe('pending_human_editorial_approval');
+    expect(
+      [...grade1Review.profilePlacementReviewQueue.items, ...grade2Review.profilePlacementReviewQueue.items]
+        .map((item: any) => item.rowId)
+        .sort()
+    ).toEqual(reviewedEntries.map((entry: any) => entry.rowId).sort());
 
-      expect(item.candidateSetRef).toBe(`grade${item.primaryVocabularyGrade}`);
-      const expectedCandidates = placementHandoff.candidateSets[item.candidateSetRef];
-      expect(expectedCandidates.length).toBeGreaterThan(0);
-
-      for (const profileRef of expectedCandidates) {
-        const evidencePath = placementHandoff.profileEvidence[profileRef];
-        expect(typeof evidencePath).toBe('string');
-        const evidenceSlice = readJson(evidencePath);
-        expect(evidenceSlice.profileRef).toBe(profileRef);
-        expect(evidenceSlice.status).toBe('curation_review_only');
-        expect(evidenceSlice.policy).toMatchObject({
-          runtimeContent: false,
-          mutatesKnowledge: false,
-          mutatesProfileMembership: false,
-          boardAlignmentClaimed: false,
-          profilePlacementRequiresEditorialReview: true
-        });
-
-        const evidenceItems = [
-          ...(evidenceSlice.readyForProfileReview ?? []),
-          ...(evidenceSlice.pendingEditorialReview ?? [])
-        ];
-        expect(evidenceItems.some((candidate: any) => candidate.lemma === item.lemma)).toBe(true);
-
-        const membership = readJson(`content/profile-memberships/${profileRef}.json`);
-        expect(membership.profileRef).toBe(profileRef);
-        expect(membership.members.some((member: any) => member.rowId === item.rowId)).toBe(false);
-      }
+    for (const overlay of [grade1Overlay, grade2Overlay]) {
+      expect(overlay.policy).toMatchObject({
+        mayCountAsHumanReview: false,
+        maySetHumanReviewMetadata: false,
+        mayApproveProfilePlacement: false,
+        sourceGlossesReferenceOnly: true
+      });
     }
   });
 });
