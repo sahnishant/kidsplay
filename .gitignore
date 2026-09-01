@@ -20,9 +20,10 @@ content/authoring/crosswords/__generated-*.json
 content/index/__generated-*.json
 content/output/__generated-*.html
 
-# Build-time generated vocabulary review projections. Reviewed decisions live in
-# content/vocabulary-visuals/review-batches/*.json and are rebuilt deterministically.
-content/vocabulary-visuals/__generated-priority-gap*.json
+# Vocabulary review queues/projections are deterministic build artifacts. Reviewed
+# decisions live in content/vocabulary-visuals/review-batches/*.json; Phase C
+# blocker/review queues are regenerated from committed corpus + reviewed state.
+content/vocabulary-visuals/__generated-*.json
 content/vocabulary-visuals/batches/__generated-*.json
 
 # Build-time generated third-party asset notice bundled by Vite
