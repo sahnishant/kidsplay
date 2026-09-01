@@ -1,6 +1,7 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
+import { recommendVisualRecipeTemplate } from '../scripts/visual-opportunity-semantics.mjs';
 import {
   resolveItemVisualRefs,
   resolveLabelVisualRefs,
@@ -52,7 +53,7 @@ describe('measurement visual recipe family', () => {
     expect(source).not.toContain("semanticRef === 'length'");
   });
 
-  it('removes the covered measurement identities from the production ROI queue', () => {
+  it('removes covered measurements from production and keeps SI-unit identity fail-closed', () => {
     const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=50'], {
       cwd: process.cwd(),
       encoding: 'utf8'
@@ -62,6 +63,11 @@ describe('measurement visual recipe family', () => {
     };
     const refs = new Set(report.queue.map((entry) => entry.semanticRef));
     for (const [semanticRef] of measurements) expect(refs.has(semanticRef)).toBe(false);
-    expect(refs.has('si-length')).toBe(true);
+    expect(refs.has('si-length')).toBe(false);
+    expect(recommendVisualRecipeTemplate({ semanticRef: 'si-length', category: 'concrete_or_authored' })).toMatchObject({
+      automaticEligible: false,
+      familyKey: null,
+      template: 'review_required'
+    });
   });
 });
