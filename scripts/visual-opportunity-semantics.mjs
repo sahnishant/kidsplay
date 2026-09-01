@@ -76,7 +76,14 @@ export function recommendVisualRecipeTemplate(entry) {
   if (/\b(clay soil|sandy soil|loamy soil|humus)\b/.test(key)) return production('entity.single', 'medium', 'soil-family');
   if (/\b(part|root|stem|leaf|organ)\b/.test(key)) return production('relation.source-target', 'medium', 'part-whole');
   if (/\b(reduce|reuse|recycle)\b/.test(key)) return production('process.sequence', 'medium', 'environmental-actions');
-  if (/\b(shadow|reflect|absorb|flow|exercise)\b/.test(key)) return production('relation.source-target', 'medium', 'relation-actions');
+
+  // A shared recipe template is not enough to establish a reusable production
+  // family. Keep these relation families semantically narrow so aggregate ROI
+  // reflects actual reusable art/scene leverage rather than coincidental syntax.
+  if (/\bshadow\b/.test(key)) return production('relation.source-target', 'medium', 'shadow-formation');
+  if (/\b(reflect|absorb)\b/.test(key)) return production('relation.source-target', 'medium', 'light-behavior');
+  if (/\bflow\b/.test(key)) return production('relation.source-target', 'medium', 'flow-process');
+  if (/\bexercise\b/.test(key)) return production('relation.source-target', 'medium', 'body-exercise');
   if (/\b(gas spreads|gas spread)\b/.test(key)) return production('process.sequence', 'medium', 'gas-process');
 
   return review();
