@@ -66,6 +66,21 @@
       <path d="M38 50q22-8 44 0" fill="none" stroke="#287da5" stroke-width="2.4" stroke-linecap="round" />
       <circle cx="53" cy="65" r="3" fill="#dff7ff" stroke="#4d9fc0" stroke-width="1.4" /><circle cx="68" cy="73" r="2" fill="#dff7ff" stroke="#4d9fc0" stroke-width="1.4" />
     </g>
+  {:else if icon === 'condensation-sample'}
+    <g>
+      <path d="M24 75h72" fill="none" stroke="#6f929f" stroke-width="4" stroke-linecap="round" />
+      <path d="M31 23q-9 10 0 20m17-25q-9 10 0 20m18-19q-9 10 0 20m18-17q-9 10 0 20" fill="none" stroke="#9faeb5" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 4" />
+      <path d="M35 53c0-7 7-14 7-14s7 7 7 14a7 7 0 1 1-14 0Zm24 6c0-8 8-16 8-16s8 8 8 16a8 8 0 1 1-16 0Zm24-8c0-6 6-12 6-12s6 6 6 12a6 6 0 1 1-12 0Z" fill="#58b8dc" stroke="#287da5" stroke-width="2" />
+      <path d="M25 79q35 10 70 0" fill="none" stroke="#4e9fbd" stroke-width="3" stroke-linecap="round" />
+    </g>
+  {:else if icon === 'water-cycle-sample'}
+    <g>
+      <circle cx="24" cy="23" r="11" fill="#f3c957" stroke="#a77a27" stroke-width="2.5" />
+      <path d="M11 67q24-13 49 0 24 12 49-1v24H11Z" fill="#58b8dc" stroke="#287da5" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M68 28q8-13 20-4 12-4 18 7 10 1 10 10H62q0-10 6-13Z" fill="#e8f1f4" stroke="#77929e" stroke-width="2.5" stroke-linejoin="round" />
+      <path d="M39 61q-9-14 1-25M44 39l-5-4-5 5M88 47q5 13-4 23M80 66l4 5 5-4" fill="none" stroke="#4b8fa8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M74 45l-3 8m14-8-3 8m14-8-3 8" fill="none" stroke="#58a9cc" stroke-width="2.5" stroke-linecap="round" />
+    </g>
   {:else if icon === 'container-closed'}
     <g class="state-container state-container--closed">
       <path d="M29 35h62l-6 57H35Z" fill="#f0d79c" stroke="#8c6b35" stroke-width="3" stroke-linejoin="round" />
