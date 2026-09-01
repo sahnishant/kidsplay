@@ -85,7 +85,7 @@ describe('semantic visual recipe grammar', () => {
   });
 
   it('produces deterministic production and semantic-review ROI lanes', () => {
-    const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=20'], {
+    const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=30'], {
       cwd: process.cwd(),
       encoding: 'utf8'
     });
@@ -106,9 +106,14 @@ describe('semantic visual recipe grammar', () => {
     }
     expect(report.queue.every((entry) => entry.automaticEligible)).toBe(true);
     expect(report.reviewQueue.every((entry) => !entry.automaticEligible)).toBe(true);
-    expect(report.queue.map((entry) => entry.semanticRef)).not.toContain('living-things');
-    expect(report.queue.map((entry) => entry.semanticRef)).not.toContain('earth-revolution');
-    expect(report.queue.map((entry) => entry.semanticRef)).not.toContain('ancient-object');
+    const productionRefs = report.queue.map((entry) => entry.semanticRef);
+    expect(productionRefs).not.toContain('living-things');
+    expect(productionRefs).not.toContain('earth-revolution');
+    expect(productionRefs).not.toContain('ancient-object');
+    expect(productionRefs).not.toContain('ask');
+    expect(productionRefs).not.toContain('come');
+    expect(productionRefs).not.toContain('environment');
     expect(report.reviewQueue.some((entry) => entry.semanticRef === 'ancient-object' && entry.category === 'vocabulary_review')).toBe(true);
+    expect(report.reviewQueue.some((entry) => entry.semanticRef === 'ask')).toBe(true);
   });
 });
