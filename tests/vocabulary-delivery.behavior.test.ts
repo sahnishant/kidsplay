@@ -33,8 +33,7 @@ function expectedReviewedQuestionRefs() {
   const perEntryPrefixes = [
     'vocab.primary.reviewed.mcq.word-to-meaning.001',
     'vocab.primary.reviewed.mcq.meaning-to-word.001',
-    'vocab.primary.reviewed.unscramble.001',
-    'vocab.primary.reviewed.fill.meaning.001'
+    'vocab.primary.reviewed.unscramble.001'
   ];
   const refs = perEntryPrefixes.flatMap((prefix) =>
     reviewedDeliveryMatrix.entryIds.map((entryId) => `${prefix}.${entryId}`)
@@ -115,7 +114,8 @@ describe('vocabulary delivery', () => {
         sameSemanticRowsRequired: true,
         duplicateQuestionBankAllowed: false,
         newEngineRequired: false,
-        profilePlacementAuthority: 'none'
+        profilePlacementAuthority: 'none',
+        productionisedFormCount: 7
       }
     });
     expect(reviewedDeliveryMatrix.entryIds).toEqual(reviewedEntries.map((entry: any) => entry.id));
@@ -131,29 +131,35 @@ describe('vocabulary delivery', () => {
       }))
     );
     expect(reviewedDeliveryMatrix.deliveryForms).toHaveLength(8);
-    expect(reviewedDeliveryMatrix.deliveryForms.every((form) => form.status === 'semantically_applicable')).toBe(true);
+    expect(reviewedDeliveryMatrix.deliveryForms.filter((form) => form.status === 'semantically_applicable')).toHaveLength(7);
+    expect(reviewedDeliveryMatrix.deliveryForms.find((form) => form.id === 'meaning_fill')).toMatchObject({
+      engine: 'word_bank_fill@1',
+      status: 'semantically_applicable_deferred_visual_quality_gate',
+      coverage: 'not_productionised_in_batch',
+      recipeTemplateRefs: []
+    });
     expect(reviewedDeliveryMatrix.excludedExistingFormatterSurfaces).toEqual([
       expect.objectContaining({ engine: 'print_cards@1' })
     ]);
 
     expect(reviewedDeliveryRecipes.every((recipe) => recipe.sourceRef === reviewedDeliveryMatrix.sourceRef)).toBe(true);
+    expect(reviewedDeliveryRecipes.some((recipe) => recipe.engine === 'word_bank_fill@1')).toBe(false);
     const recipeText = JSON.stringify(reviewedDeliveryRecipes);
     for (const entry of reviewedEntries) {
       expect(recipeText).not.toContain(entry.object.label);
+      expect(byId.has(`vocab.primary.reviewed.fill.meaning.001.${entry.id}`)).toBe(false);
     }
   });
 
-  it('generates both MCQ directions, spelling and meaning-fill from every reviewed semantic row', () => {
+  it('generates both MCQ directions and spelling from every reviewed semantic row', () => {
     for (const entry of reviewedEntries) {
       const wordToMeaning = question(`vocab.primary.reviewed.mcq.word-to-meaning.001.${entry.id}`);
       const meaningToWord = question(`vocab.primary.reviewed.mcq.meaning-to-word.001.${entry.id}`);
       const unscramble = question(`vocab.primary.reviewed.unscramble.001.${entry.id}`);
-      const fill = question(`vocab.primary.reviewed.fill.meaning.001.${entry.id}`);
 
       expect(wordToMeaning.knowledgeRefs).toEqual([entry.rowId]);
       expect(meaningToWord.knowledgeRefs).toEqual([entry.rowId]);
       expect(unscramble.knowledgeRefs).toEqual([entry.rowId]);
-      expect(fill.knowledgeRefs).toEqual([entry.rowId]);
       expect(entry.meta.curation.sourceGlossCopied).toBe(false);
 
       expect(wordToMeaning.interaction.type).toBe('single_choice');
@@ -172,11 +178,6 @@ describe('vocabulary delivery', () => {
         expect(unscramble.interaction.items.map((item) => item.label).join('')).toBe(
           entry.subject.label.toUpperCase().replace(/[^A-Z0-9]/g, '')
         );
-      }
-
-      expect(fill.interaction.type).toBe('word_bank_fill');
-      if (fill.interaction.type === 'word_bank_fill') {
-        expect(fill.interaction.wordBank.map((item) => item.label)).toContain(entry.object.label);
       }
     }
   });
@@ -268,15 +269,18 @@ describe('vocabulary delivery', () => {
     expect([...crosswordSeen].sort()).toEqual([...reviewedDeliveryMatrix.entryIds].sort());
   });
 
-  it('keeps every reviewed delivery form launchable from the free Vocabulary Playground pack', () => {
+  it('keeps every productionised reviewed delivery form launchable from the free Vocabulary Playground pack', () => {
     const refs = new Set(freeVocabularyPack.questionRefs);
     const reviewedRefs = expectedReviewedQuestionRefs();
-    expect(reviewedRefs).toHaveLength(82);
-    expect(new Set(reviewedRefs).size).toBe(82);
+    expect(reviewedRefs).toHaveLength(66);
+    expect(new Set(reviewedRefs).size).toBe(66);
 
     for (const ref of reviewedRefs) {
       expect(refs.has(ref)).toBe(true);
       if (!ref.includes('.crossword.')) expect(byId.has(ref)).toBe(true);
+    }
+    for (const entryId of reviewedDeliveryMatrix.entryIds) {
+      expect(refs.has(`vocab.primary.reviewed.fill.meaning.001.${entryId}`)).toBe(false);
     }
   });
 
