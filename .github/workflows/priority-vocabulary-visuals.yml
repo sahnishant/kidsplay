@@ -52,11 +52,11 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Generate batch 002, Phase B terminal batch 003, and final live gap
-        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002 && npm run compile:vocabulary-visual-batch003
+      - name: Generate Phase B and Phase C terminal accounting
+        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002 && npm run compile:vocabulary-visual-batch003 && npm run compile:vocabulary-visual-corpus-terminal
 
       - name: Prove queues and terminal Phase B dispositions are deterministic
-        run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts tests/vocabulary-visual-priority-batch-003.behavior.test.ts
+        run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts tests/vocabulary-visual-priority-batch-003.behavior.test.ts tests/vocabulary-visual-corpus-terminal.behavior.test.ts
 
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
@@ -87,4 +87,18 @@ jobs:
         with:
           name: priority-vocabulary-visual-batch-003
           path: content/vocabulary-visuals/batches/__generated-priority-batch-003.json
+          if-no-files-found: error
+
+      - name: Upload priority human-review queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: priority-vocabulary-sense-resolution-queue
+          path: content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json
+          if-no-files-found: error
+
+      - name: Upload residual corpus human-review queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: primary-vocabulary-corpus-sense-resolution-queue
+          path: content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json
           if-no-files-found: error

@@ -28,6 +28,8 @@ If the intended sense is not resolved, record a `sense_unresolved` item rather t
 
 - `content/vocabulary-visuals/registry.json` — strategy, maturity, scene-template, motion and safety vocabulary.
 - `content/vocabulary-visuals/batches/*.json` — explicit sense-level visual teaching decisions.
+- `content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json` — priority ambiguity and candidate-relevance blockers requiring human review.
+- `content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json` — remaining non-priority corpus blockers requiring sense candidates/review.
 - `scripts/vocabulary-visuals/strategy-contract.mjs` — pure validation and semantic scene planning contract.
 - `scripts/report-vocabulary-visual-coverage.mjs` — full-corpus coverage/gap reporting.
 - `tests/vocabulary-visual-strategy.behavior.test.ts` — sense safety, settlement grammar, reduced motion and answer-leak regression coverage.
@@ -77,6 +79,18 @@ Batch 001 intentionally spans multiple grammars instead of overfitting to nouns:
 - emotion/expression.
 
 The separate polysemy watchlist records ambiguous lemmas that must not be automatically illustrated.
+
+## Terminal accounting is not visual coverage
+
+The #76 Phase B/Phase C factories distinguish facts that must never be collapsed into one “coverage” number:
+
+- **terminal disposition** — a lemma has a sense-specific strategy or an explicit fail-closed blocker;
+- **resolved strategy** — it is not waiting in a sense/relevance review queue;
+- **child-facing maturity** — separate runtime proof establishes V5/V6 delivery.
+
+Phase B provides terminal dispositions for 2,400/2,400 priority meanings. Phase C extends terminal accounting to 10,000/10,000 corpus lemmas by generating 7,565 explicit residual blockers. Neither operation claims that those blockers have visuals, definitions, profile placement or runtime delivery.
+
+The priority review queue also preserves twelve single-candidate relevance traps such as `add`, `pants`, `principal` and `so`. Their Phase B strategy stays safely textual-only, but the lone candidate is not treated as final intended-sense authority. Reports always show terminal, resolved, blocked and child-facing counts separately.
 
 ## Commands
 
