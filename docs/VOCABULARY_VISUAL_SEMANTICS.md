@@ -31,11 +31,11 @@ A bare lemma is never enough when a word is polysemous. Use explicit sense keys.
 - `content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json` — corrected Sol Max authority/evidence manifest for that source.
 - `content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json` — remaining priority sense/relevance blockers.
 - `content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json` — residual corpus blockers.
-- `scripts/vocabulary-visuals/compile-reviewed-batches.mjs` — **sole supported production entrypoint** for reviewed-batch compilation; serializes and transactionally protects generated state.
+- `scripts/vocabulary-visuals/compile-reviewed-batches.mjs` — **sole supported production entrypoint**; serializes reviewed-batch generation and Phase C terminal accounting as one transaction.
 - `scripts/vocabulary-visuals/compile-reviewed-batches-impl.mjs` — internal authority/inventory/source-kind implementation.
 - `scripts/vocabulary-visuals/compile-reviewed-batches-core.mjs` — internal fingerprint-locked historical priority-gap core.
 - `scripts/vocabulary-visuals/build-priority-gap-queue.mjs` — candidate-only priority queue reconstruction.
-- `scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs` — Phase C terminal accounting and active blocker queues.
+- `scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs` — internal Phase C terminal-accounting implementation; called only by the public transactional compiler in production.
 - `scripts/report-vocabulary-visual-coverage.mjs` — terminal/resolved/blocked/child-facing reporting with exact-review supersession.
 
 ## Review authority is not maturity
@@ -106,20 +106,28 @@ Future reviewed content must be registered as data/manifest entries. It must not
 
 ## Transactional compiler lifecycle
 
-`compile-reviewed-batches.mjs` is a small public transaction wrapper. It calls the internal implementation only while holding the compiler lock:
+`compile-reviewed-batches.mjs` is the single production transaction. While holding:
 
 `node_modules/.cache/kidsplay/vocabulary-review-batch.lock`
+
+it runs, in order:
+
+1. internal reviewed-manifest/authority compilation;
+2. exact-review projection;
+3. final priority-gap regeneration;
+4. internal Phase C terminal accounting and both human-resolution queues.
 
 Rules:
 
 - concurrent default compiles serialize rather than race;
 - a failed default compile restores the exact pre-run generated vocabulary JSON state;
 - every custom/adversarial ledger run restores the exact pre-run generated state whether it succeeds or fails;
-- only a successful default-ledger compile commits its generated output state;
-- custom-ledger tests therefore cannot delete or rewrite canonical batch/gap artifacts;
-- no compiler can observe another compiler's partially written generated JSON.
+- only a successful default-ledger compile commits reviewed projections **and** Phase C outputs;
+- custom-ledger tests cannot delete or rewrite canonical batch/gap artifacts;
+- no compiler can observe another compiler's partially written generated JSON;
+- `package.json` and CI invoke the public compiler once; Phase C has no separate production package command.
 
-The lock is local build state under ignored `node_modules`. The machine-readable transaction contract also lives in `artifact-inventory.json`.
+The lock is local build state under ignored `node_modules`. The machine-readable transaction contract lives in `artifact-inventory.json`.
 
 The tracked shipped runtime projection `content/vocabulary-visuals/__generated-runtime-plans.json` is separately inventoried and pinned to LF by `.gitattributes`, matching generator output on Windows and Unix.
 
@@ -189,7 +197,6 @@ Reusable templates include settlement/place, person role, actor action, attribut
 
 ```bash
 npm run compile:vocabulary-visual-batches
-npm run compile:vocabulary-visual-corpus-terminal
 npm run report:vocabulary-visuals
 npm run validate:vocabulary-visuals
 npm run test:vocabulary-batch-factory
