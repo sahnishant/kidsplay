@@ -29,6 +29,20 @@ describe('family-level visual ROI and environmental actions', () => {
     expect(recommendVisualRecipeTemplate({ semanticRef: 'ask', category: 'concrete_or_authored' }).familyKey).toBeNull();
   });
 
+  it('does not group unrelated relation semantics merely because they share a template', () => {
+    expect(recommendVisualRecipeTemplate({ semanticRef: 'shadow', category: 'concrete_or_authored' }).familyKey).toBe('shadow-formation');
+    expect(recommendVisualRecipeTemplate({ semanticRef: 'exercise-body', category: 'concrete_or_authored' }).familyKey).toBe('body-exercise');
+    expect(recommendVisualRecipeTemplate({ semanticRef: 'reflect', category: 'concrete_or_authored' }).familyKey).toBe('light-behavior');
+    expect(recommendVisualRecipeTemplate({ semanticRef: 'flow', category: 'concrete_or_authored' }).familyKey).toBe('flow-process');
+
+    const queue = buildProductionFamilyQueue([
+      { semanticRef: 'shadow', familyKey: 'shadow-formation', automaticEligible: true, occurrenceCount: 10, roiScore: 10, engines: ['memory_pairs', 'single_choice'], profiles: ['SOF_INDIA_CLASS3'], suggestedTemplate: 'relation.source-target', costClass: 'medium' },
+      { semanticRef: 'exercise-body', familyKey: 'body-exercise', automaticEligible: true, occurrenceCount: 4, roiScore: 4, engines: ['memory_pairs', 'single_choice'], profiles: ['SOF_INDIA_CLASS3'], suggestedTemplate: 'relation.source-target', costClass: 'medium' }
+    ]);
+    expect(queue.map((family) => family.familyKey).sort()).toEqual(['body-exercise', 'shadow-formation']);
+    expect(queue.some((family) => family.familyKey === 'relation-actions')).toBe(false);
+  });
+
   it('aggregates a family only from already-authorized production entries', () => {
     const familyQueue = buildProductionFamilyQueue([
       { semanticRef: 'reduce', familyKey: 'environmental-actions', automaticEligible: true, occurrenceCount: 10, roiScore: 10, engines: ['memory_pairs', 'single_choice'], profiles: ['SOF_INDIA_CLASS3'], suggestedTemplate: 'process.sequence', costClass: 'medium' },
