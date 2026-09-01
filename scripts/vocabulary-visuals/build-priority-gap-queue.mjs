@@ -2,26 +2,15 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
 const root = new URL('../../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const outputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap.json', root);
+const currentOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap.json', root);
+const preBatchOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json', root);
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
 const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [String(entry.lemma), entry]));
-
-const auditedLemmas = new Set();
-const auditedSenseKeys = new Set();
-const batchNames = readdirSync(new URL('content/vocabulary-visuals/batches/', root))
+const allBatchNames = readdirSync(new URL('content/vocabulary-visuals/batches/', root))
   .filter((name) => name.endsWith('.json'))
-  .filter((name) => !name.startsWith('__generated-'))
   .sort();
-for (const name of batchNames) {
-  const batch = readJson(`content/vocabulary-visuals/batches/${name}`);
-  for (const item of batch.items ?? []) {
-    const lemma = String(item?.lemma ?? '').toLocaleLowerCase('en-US').trim();
-    const senseKey = String(item?.senseKey ?? '').trim();
-    if (lemma) auditedLemmas.add(lemma);
-    if (senseKey) auditedSenseKeys.add(senseKey);
-  }
-}
+const preBatchNames = allBatchNames.filter((name) => !name.startsWith('__generated-'));
 
 const senseCandidatesByLemma = new Map();
 for (let grade = 1; grade <= 6; grade += 1) {
@@ -84,91 +73,110 @@ const reviewScoreFor = (entry, candidateCount) => {
   return Number((zipf * 10 + (7 - grade) * 3 + posBonus - Math.log10(Math.max(1, rank)) - sensePenalty).toFixed(3));
 };
 
-const priorityByLemma = new Map();
-for (let grade = 1; grade <= 6; grade += 1) {
-  const wordlist = readJson(`content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`);
-  for (const rawItem of wordlist.items ?? []) {
-    const lemma = String(rawItem?.lemma ?? '').toLocaleLowerCase('en-US').trim();
-    if (!lemma || auditedLemmas.has(lemma)) continue;
-    const corpusEntry = corpusByLemma.get(lemma);
-    if (!corpusEntry) throw new Error(`Priority visual gap candidate ${lemma} is missing from the 10,000-word corpus`);
-    const candidateIds = senseCandidatesByLemma.get(lemma) ?? [];
-    const item = {
-      lemma,
-      partOfSpeech: rawItem.partOfSpeech ?? corpusEntry.partOfSpeech,
-      grade: rawItem.sourceGrade ?? corpusEntry.grade,
-      upstreamSourceGrade: rawItem.upstreamSourceGrade ?? corpusEntry.sourceGrade ?? null,
-      sourceCorpusId: rawItem.sourceCorpusId ?? corpusEntry.id,
-      zipf: rawItem.sourceZipf ?? corpusEntry.frequency?.zipf ?? null,
-      priorityRank: rawItem.priorityRank ?? corpusEntry.gradeBandEvidence?.rank ?? null,
-      priorityScore: rawItem.priorityScore ?? null,
-      reviewStatus: rawItem.reviewStatus ?? corpusEntry.reviewStatus ?? null,
-      corpusProvenance: rawItem.provenance ?? corpusEntry.provenance ?? null,
-      candidateSenseCount: candidateIds.length,
-      candidateIds,
-      polysemyRisk: polysemyRiskFor(candidateIds.length),
-      likelyVisualFamily: familyForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
-      existingStrategyCandidates: templateCandidatesForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
-      motionPotential: motionPotentialForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
-      visualReviewScore: reviewScoreFor(rawItem, candidateIds.length),
-      status: 'candidate_only_not_v1',
-      policy: {
-        senseApproved: false,
-        visualStrategyApproved: false,
-        profilePlacementInferred: false,
-        childDefinitionImported: false
-      }
-    };
-
-    const existing = priorityByLemma.get(lemma);
-    if (!existing || item.visualReviewScore > existing.visualReviewScore ||
-      (item.visualReviewScore === existing.visualReviewScore && Number(item.grade) < Number(existing.grade))) {
-      priorityByLemma.set(lemma, item);
+const auditedSetsFor = (batchNames) => {
+  const lemmas = new Set();
+  const senseKeys = new Set();
+  for (const name of batchNames) {
+    const batch = readJson(`content/vocabulary-visuals/batches/${name}`);
+    for (const item of batch.items ?? []) {
+      const lemma = String(item?.lemma ?? '').toLocaleLowerCase('en-US').trim();
+      const senseKey = String(item?.senseKey ?? '').trim();
+      if (lemma) lemmas.add(lemma);
+      if (senseKey) senseKeys.add(senseKey);
     }
   }
-}
-
-const queue = [...priorityByLemma.values()].sort((left, right) =>
-  right.visualReviewScore - left.visualReviewScore || Number(left.grade) - Number(right.grade) || String(left.lemma).localeCompare(String(right.lemma))
-);
-
-const byPos = {};
-const byRisk = {};
-const byGrade = {};
-for (const item of queue) {
-  byPos[item.partOfSpeech] = (byPos[item.partOfSpeech] ?? 0) + 1;
-  byRisk[item.polysemyRisk] = (byRisk[item.polysemyRisk] ?? 0) + 1;
-  byGrade[String(item.grade)] = (byGrade[String(item.grade)] ?? 0) + 1;
-}
-
-const output = {
-  schemaVersion: 1,
-  issueRef: 88,
-  parentIssueRef: 76,
-  status: 'generated_review_queue_only',
-  generatedFrom: {
-    priorityMeaningLists: [1, 2, 3, 4, 5, 6].map((grade) => `content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`),
-    senseReviewLane: 'Open English WordNet 2025 candidate identifiers only',
-    corpus: 'content/lexicon/open/primary-grade-corpus.json',
-    visualBatches: batchNames
-  },
-  policy: {
-    bareLemmaSenseApprovalAllowed: false,
-    candidateQueueCreatesV1: false,
-    candidateQueueCreatesRuntimeMapping: false,
-    candidateQueueInfersProfilePlacement: false,
-    importedGlossOrExampleAllowed: false
-  },
-  summary: {
-    priorityCandidates: queue.length,
-    alreadyAuditedLemmasExcluded: auditedLemmas.size,
-    alreadyAuditedSenseKeysObserved: auditedSenseKeys.size,
-    byPartOfSpeech: byPos,
-    byPolysemyRisk: byRisk,
-    byGrade
-  },
-  items: queue
+  return { lemmas, senseKeys };
 };
 
-writeFileSync(outputUrl, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
-console.log(`Built #88 priority visual gap queue with ${queue.length} unaudited priority lemma(s); excluded ${auditedLemmas.size} already-audited lemma(s); risks=${JSON.stringify(byRisk)}.`);
+const buildQueue = (batchNames, status) => {
+  const { lemmas: auditedLemmas, senseKeys: auditedSenseKeys } = auditedSetsFor(batchNames);
+  const priorityByLemma = new Map();
+  for (let grade = 1; grade <= 6; grade += 1) {
+    const wordlist = readJson(`content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`);
+    for (const rawItem of wordlist.items ?? []) {
+      const lemma = String(rawItem?.lemma ?? '').toLocaleLowerCase('en-US').trim();
+      if (!lemma || auditedLemmas.has(lemma)) continue;
+      const corpusEntry = corpusByLemma.get(lemma);
+      if (!corpusEntry) throw new Error(`Priority visual gap candidate ${lemma} is missing from the 10,000-word corpus`);
+      const candidateIds = senseCandidatesByLemma.get(lemma) ?? [];
+      const item = {
+        lemma,
+        partOfSpeech: rawItem.partOfSpeech ?? corpusEntry.partOfSpeech,
+        grade: rawItem.sourceGrade ?? corpusEntry.grade,
+        upstreamSourceGrade: rawItem.upstreamSourceGrade ?? corpusEntry.sourceGrade ?? null,
+        sourceCorpusId: rawItem.sourceCorpusId ?? corpusEntry.id,
+        zipf: rawItem.sourceZipf ?? corpusEntry.frequency?.zipf ?? null,
+        priorityRank: rawItem.priorityRank ?? corpusEntry.gradeBandEvidence?.rank ?? null,
+        priorityScore: rawItem.priorityScore ?? null,
+        reviewStatus: rawItem.reviewStatus ?? corpusEntry.reviewStatus ?? null,
+        corpusProvenance: rawItem.provenance ?? corpusEntry.provenance ?? null,
+        candidateSenseCount: candidateIds.length,
+        candidateIds,
+        polysemyRisk: polysemyRiskFor(candidateIds.length),
+        likelyVisualFamily: familyForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
+        existingStrategyCandidates: templateCandidatesForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
+        motionPotential: motionPotentialForPos(rawItem.partOfSpeech ?? corpusEntry.partOfSpeech),
+        visualReviewScore: reviewScoreFor(rawItem, candidateIds.length),
+        status: 'candidate_only_not_v1',
+        policy: {
+          senseApproved: false,
+          visualStrategyApproved: false,
+          profilePlacementInferred: false,
+          childDefinitionImported: false
+        }
+      };
+      const existing = priorityByLemma.get(lemma);
+      if (!existing || item.visualReviewScore > existing.visualReviewScore ||
+        (item.visualReviewScore === existing.visualReviewScore && Number(item.grade) < Number(existing.grade))) {
+        priorityByLemma.set(lemma, item);
+      }
+    }
+  }
+
+  const queue = [...priorityByLemma.values()].sort((left, right) =>
+    right.visualReviewScore - left.visualReviewScore || Number(left.grade) - Number(right.grade) || String(left.lemma).localeCompare(String(right.lemma))
+  );
+  const byPos = {};
+  const byRisk = {};
+  const byGrade = {};
+  for (const item of queue) {
+    byPos[item.partOfSpeech] = (byPos[item.partOfSpeech] ?? 0) + 1;
+    byRisk[item.polysemyRisk] = (byRisk[item.polysemyRisk] ?? 0) + 1;
+    byGrade[String(item.grade)] = (byGrade[String(item.grade)] ?? 0) + 1;
+  }
+
+  return {
+    schemaVersion: 1,
+    issueRef: 88,
+    parentIssueRef: 76,
+    status,
+    generatedFrom: {
+      priorityMeaningLists: [1, 2, 3, 4, 5, 6].map((grade) => `content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`),
+      senseReviewLane: 'Open English WordNet 2025 candidate identifiers only',
+      corpus: 'content/lexicon/open/primary-grade-corpus.json',
+      visualBatches: batchNames
+    },
+    policy: {
+      bareLemmaSenseApprovalAllowed: false,
+      candidateQueueCreatesV1: false,
+      candidateQueueCreatesRuntimeMapping: false,
+      candidateQueueInfersProfilePlacement: false,
+      importedGlossOrExampleAllowed: false
+    },
+    summary: {
+      priorityCandidates: queue.length,
+      alreadyAuditedLemmasExcluded: auditedLemmas.size,
+      alreadyAuditedSenseKeysObserved: auditedSenseKeys.size,
+      byPartOfSpeech: byPos,
+      byPolysemyRisk: byRisk,
+      byGrade
+    },
+    items: queue
+  };
+};
+
+const preBatch = buildQueue(preBatchNames, 'generated_review_queue_pre_batch_002');
+const current = buildQueue(allBatchNames, 'generated_review_queue_only');
+writeFileSync(preBatchOutputUrl, `${JSON.stringify(preBatch, null, 2)}\n`, 'utf8');
+writeFileSync(currentOutputUrl, `${JSON.stringify(current, null, 2)}\n`, 'utf8');
+console.log(`Built #88 priority queues: pre-batch ${preBatch.items.length} gap(s) / ${preBatch.summary.alreadyAuditedLemmasExcluded} audited; current ${current.items.length} gap(s) / ${current.summary.alreadyAuditedLemmasExcluded} audited.`);
