@@ -46,9 +46,9 @@ export function recommendVisualRecipeTemplate(entry) {
   const key = normalizeVisualSemantic(entry.semanticRef || entry.label);
   const category = entry.category ?? 'label_only';
 
-  // Vocabulary meanings and object-side predicates need semantic review before
-  // a picture can become runtime authority. Frequency alone must never promote
-  // them into the automatic production lane.
+  // Frequency is prioritization evidence, never semantic authority. Vocabulary
+  // meanings, object-side predicates, label-only rows, and otherwise-unmatched
+  // subjects stay in review until an explicit visual family is defensible.
   if (category === 'vocabulary_review' || category === 'predicate_review' || category === 'label_only') {
     return { template: 'review_required', costClass: 'high', automaticEligible: false };
   }
@@ -68,14 +68,21 @@ export function recommendVisualRecipeTemplate(entry) {
   if (/\b(open|closed|full|empty|state)\b/.test(key)) {
     return { template: 'state.before-after', costClass: 'low', automaticEligible: true };
   }
-  if (/\b(grow|melt|freeze|fill|cycle|sequence|stage)\b/.test(key)) {
-    return { template: 'process.sequence', costClass: 'medium', automaticEligible: true };
+  if (/\b(condensation|evaporation|germination|grow|melt|freeze|fill|cycle|sequence|stage)\b/.test(key)) {
+    return { template: 'process.transform', costClass: 'medium', automaticEligible: true };
+  }
+  if (/\b(clay soil|sandy soil|loamy soil|humus)\b/.test(key)) {
+    return { template: 'entity.single', costClass: 'medium', automaticEligible: true };
   }
   if (/\b(part|root|stem|leaf|organ)\b/.test(key)) {
     return { template: 'relation.source-target', costClass: 'medium', automaticEligible: true };
   }
-  if (/\b(reduce|reuse|recycle|shadow|reflect|absorb|flow|move)\b/.test(key)) {
+  if (/\b(reduce|reuse|recycle|shadow|reflect|absorb|flow|exercise)\b/.test(key)) {
     return { template: 'relation.source-target', costClass: 'medium', automaticEligible: true };
   }
-  return { template: 'entity.single', costClass: 'medium', automaticEligible: true };
+  if (/\b(gas spreads|gas spread)\b/.test(key)) {
+    return { template: 'process.sequence', costClass: 'medium', automaticEligible: true };
+  }
+
+  return { template: 'review_required', costClass: 'high', automaticEligible: false };
 }
