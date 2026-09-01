@@ -24,9 +24,9 @@
   {#if resumableMock}
     <section class="challenge-hero challenge-hero--resume" aria-label="Saved Olympiad challenge">
       <div class="challenge-hero__trophy" aria-hidden="true">🏆</div>
-      <div class="challenge-hero__copy"><span>CONTINUE YOUR CHALLENGE</span><h2>Pick up where you left off</h2><p>{resumableMock.title}</p>
+      <div class="challenge-hero__copy"><span>CONTINUE YOUR CHALLENGE</span><h2 aria-label="Resume your saved mock">Pick up where you left off</h2><p>{resumableMock.title}</p>
         <div class="mock-progress" aria-label={`${answered} of ${mockTotal} questions answered`}><div><span style={`width:${mockPercent}%`}></span></div><strong>{answered} / {mockTotal}</strong></div>
-        <button type="button" onclick={onResumeMock}>▶ Continue</button>
+        <button type="button" aria-label="Resume saved mock" onclick={onResumeMock}>▶ Continue</button>
       </div>
     </section>
   {:else if goalReadiness}
