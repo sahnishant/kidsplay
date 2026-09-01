@@ -1,11 +1,10 @@
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
 import { spawnSync } from 'node:child_process';
 import { afterEach, describe, expect, it } from 'vitest';
 
-const script = fileURLToPath(new URL('../scripts/validate-android-beta-evidence.mjs', import.meta.url));
+const script = join(process.cwd(), 'scripts', 'validate-android-beta-evidence.mjs');
 const tempRoots: string[] = [];
 
 function makeTempDir() {
