@@ -4,6 +4,8 @@ const root = new URL('../../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
 const currentOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap.json', root);
 const preBatchOutputUrl = new URL('content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json', root);
+const excludeBatchArg = process.argv.find((arg) => arg.startsWith('--exclude-batch='));
+const excludedBatchName = excludeBatchArg?.slice('--exclude-batch='.length).trim() || null;
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
 const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [String(entry.lemma), entry]));
@@ -11,6 +13,9 @@ const allBatchNames = readdirSync(new URL('content/vocabulary-visuals/batches/',
   .filter((name) => name.endsWith('.json'))
   .sort();
 const preBatchNames = allBatchNames.filter((name) => !name.startsWith('__generated-'));
+const currentBatchNames = excludedBatchName
+  ? allBatchNames.filter((name) => name !== excludedBatchName)
+  : allBatchNames;
 
 const senseCandidatesByLemma = new Map();
 for (let grade = 1; grade <= 6; grade += 1) {
@@ -154,7 +159,8 @@ const buildQueue = (batchNames, status) => {
       priorityMeaningLists: [1, 2, 3, 4, 5, 6].map((grade) => `content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`),
       senseReviewLane: 'Open English WordNet 2025 candidate identifiers only',
       corpus: 'content/lexicon/open/primary-grade-corpus.json',
-      visualBatches: batchNames
+      visualBatches: batchNames,
+      excludedGeneratedBatch: excludedBatchName
     },
     policy: {
       bareLemmaSenseApprovalAllowed: false,
@@ -176,7 +182,11 @@ const buildQueue = (batchNames, status) => {
 };
 
 const preBatch = buildQueue(preBatchNames, 'generated_review_queue_pre_batch_002');
-const current = buildQueue(allBatchNames, 'generated_review_queue_only');
+const current = buildQueue(currentBatchNames, 'generated_review_queue_only');
 writeFileSync(preBatchOutputUrl, `${JSON.stringify(preBatch, null, 2)}\n`, 'utf8');
 writeFileSync(currentOutputUrl, `${JSON.stringify(current, null, 2)}\n`, 'utf8');
-console.log(`Built #88 priority queues: pre-batch ${preBatch.items.length} gap(s) / ${preBatch.summary.alreadyAuditedLemmasExcluded} audited; current ${current.items.length} gap(s) / ${current.summary.alreadyAuditedLemmasExcluded} audited.`);
+console.log(
+  `Built priority visual queues: pre-batch-002 ${preBatch.items.length} gap(s) / ${preBatch.summary.alreadyAuditedLemmasExcluded} audited; ` +
+  `current ${current.items.length} gap(s) / ${current.summary.alreadyAuditedLemmasExcluded} audited` +
+  `${excludedBatchName ? ` (excluding ${excludedBatchName})` : ''}.`
+);
