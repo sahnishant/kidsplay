@@ -42,6 +42,14 @@ export const semanticFingerprintForQueue = (queue) => sha256(stableJson((queue.i
 
 export const itemFingerprint = (items) => sha256(stableJson(items));
 
+export const assertSourceQueueMatchesManifest = (manifest, sourceQueue) => {
+  const fingerprint = semanticFingerprintForQueue(sourceQueue);
+  if (sourceQueue.items?.length !== manifest.source?.expectedItemCount || fingerprint !== manifest.source?.expectedSemanticFingerprint) {
+    throw new Error(`${manifest.id}: stale source queue; expected ${manifest.source?.expectedItemCount}/${manifest.source?.expectedSemanticFingerprint}, got ${sourceQueue.items?.length}/${fingerprint}`);
+  }
+  return fingerprint;
+};
+
 const assertNoEditorialPayload = (value, path = '<root>') => {
   if (Array.isArray(value)) {
     value.forEach((item, index) => assertNoEditorialPayload(item, `${path}[${index}]`));
@@ -183,7 +191,8 @@ const validateReviewedItems = (manifest, expanded, humanReviewedByLemma, seenLem
     const label = `${manifest.id}/${item.lemma}`;
     assertNoEditorialPayload(item, label);
     if (item.maturity !== 'V1') throw new Error(`${label}: reviewed manifest compilation may only establish V1`);
-    if (item.reviewSource === 'human_reviewed_primary_meaning') {
+    const isHumanReviewedSense = item.reviewSource === 'human_reviewed_primary_meaning';
+    if (isHumanReviewedSense) {
       const curation = humanReviewedByLemma.get(item.lemma)?.meta?.curation;
       if (curation?.status !== 'reviewed' || curation?.candidateId !== item.senseKey || curation?.sourceGlossCopied !== false) {
         throw new Error(`${label}: #51 reviewed sense evidence does not match ${item.senseKey}`);
@@ -196,7 +205,8 @@ const validateReviewedItems = (manifest, expanded, humanReviewedByLemma, seenLem
         throw new Error(`${label}: single-candidate reviewed strategy no longer matches its frozen source basis`);
       }
     }
-    if (localLemmas.has(item.lemma) || seenLemmas.has(item.lemma)) throw new Error(`${label}: duplicate reviewed lemma across batch history`);
+    if (localLemmas.has(item.lemma)) throw new Error(`${label}: duplicate lemma inside one reviewed batch`);
+    if (seenLemmas.has(item.lemma) && !isHumanReviewedSense) throw new Error(`${label}: duplicate reviewed lemma across batch history`);
     if (localSenseKeys.has(item.senseKey) || seenSenseKeys.has(item.senseKey)) throw new Error(`${label}: duplicate reviewed sense across batch history`);
     localLemmas.add(item.lemma);
     localSenseKeys.add(item.senseKey);
@@ -227,12 +237,13 @@ export const validateLedgerShape = (ledger, manifests) => {
   if (ledger?.schemaVersion !== 1 || ledger?.parentIssueRef !== 76 || ledger?.generatedFilePolicy !== 'rebuild_and_ignore') {
     throw new Error('Vocabulary review-batch ledger must use schemaVersion 1, parent #76 and rebuild_and_ignore generated policy');
   }
+  if (!Array.isArray(ledger.batches) || !ledger.batches.length) throw new Error('Vocabulary review-batch ledger must contain at least one batch');
   const ids = new Set();
   const sequences = new Set();
   const issues = new Set();
   const manifestPaths = new Set();
   const outputs = new Set();
-  for (const entry of ledger.batches ?? []) {
+  for (const entry of ledger.batches) {
     const manifest = manifests.get(entry.manifest);
     if (!manifest) throw new Error(`${entry.id}: ledger manifest ${entry.manifest} is missing`);
     if (entry.id !== manifest.id || entry.sequence !== manifest.sequence || entry.issueRef !== manifest.issueRef || manifest.parentIssueRef !== 76) {
@@ -243,7 +254,11 @@ export const validateLedgerShape = (ledger, manifests) => {
     if (issues.has(entry.issueRef)) throw new Error(`Duplicate review batch issueRef ${entry.issueRef}`);
     if (manifestPaths.has(entry.manifest)) throw new Error(`Duplicate review manifest path ${entry.manifest}`);
     if (outputs.has(manifest.output?.path)) throw new Error(`Duplicate review batch output ${manifest.output?.path}`);
-    ids.add(entry.id); sequences.add(entry.sequence); issues.add(entry.issueRef); manifestPaths.add(entry.manifest); outputs.add(manifest.output?.path);
+    ids.add(entry.id);
+    sequences.add(entry.sequence);
+    issues.add(entry.issueRef);
+    manifestPaths.add(entry.manifest);
+    outputs.add(manifest.output?.path);
   }
 };
 
@@ -267,7 +282,7 @@ export const compileReviewedBatches = ({ ledgerPath = defaultLedgerPath } = {}) 
   const ledger = readJson(ledgerPath);
   const manifests = new Map((ledger.batches ?? []).map((entry) => [entry.manifest, readJson(entry.manifest)]));
   validateLedgerShape(ledger, manifests);
-  const ordered = [...(ledger.batches ?? [])].sort((left, right) => left.sequence - right.sequence || left.id.localeCompare(right.id));
+  const ordered = [...ledger.batches].sort((left, right) => left.sequence - right.sequence || left.id.localeCompare(right.id));
   const generatedOutputNames = new Set(ordered.map((entry) => basename(manifests.get(entry.manifest).output.path)));
   const { lemmas: seenLemmas, senseKeys: seenSenseKeys } = baselineReviewedSets(generatedOutputNames);
   const humanReviewedByLemma = readHumanReviewedKnowledge();
@@ -279,10 +294,7 @@ export const compileReviewedBatches = ({ ledgerPath = defaultLedgerPath } = {}) 
     const laterOutputNames = ordered.slice(index).map((candidate) => basename(manifests.get(candidate.manifest).output.path));
     execFileSync(process.execPath, [gapBuilderPath, ...laterOutputNames.map((name) => `--exclude-batch=${name}`)], { stdio: 'inherit' });
     const sourceQueue = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
-    const sourceFingerprint = semanticFingerprintForQueue(sourceQueue);
-    if (sourceQueue.items?.length !== manifest.source?.expectedItemCount || sourceFingerprint !== manifest.source?.expectedSemanticFingerprint) {
-      throw new Error(`${manifest.id}: stale source queue; expected ${manifest.source?.expectedItemCount}/${manifest.source?.expectedSemanticFingerprint}, got ${sourceQueue.items?.length}/${sourceFingerprint}`);
-    }
+    const sourceFingerprint = assertSourceQueueMatchesManifest(manifest, sourceQueue);
 
     const snapshot = {
       ...sourceQueue,
