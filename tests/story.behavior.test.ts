@@ -19,11 +19,19 @@ function rowKnowledgeGroup(rowId: string): string {
 }
 
 describe('Dheu story-world director', () => {
-  it('keeps the durable cast and initial world data-driven', () => {
+  it('keeps the durable cast and explicit child progression data-driven', () => {
     expect(getStoryCharacters().map((character) => character.id)).toEqual(['dheu', 'scientu', 'shaitanu']);
-    expect(getStoryLocations()).toHaveLength(9);
-    expect(getStoryLocations().some((location) => location.id === 'river-pond')).toBe(true);
+    const locations = getStoryLocations();
+    expect(locations).toHaveLength(9);
+    expect(locations.some((location) => location.id === 'river-pond')).toBe(true);
     expect(getStoryMissions().map((mission) => mission.id)).toContain(MISSION_ID);
+
+    const levels = locations.map((location) => location.progression.level).sort((left, right) => left - right);
+    const orders = locations.map((location) => location.progression.order).sort((left, right) => left - right);
+    expect(levels).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(orders).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+    expect(locations.every((location) => location.expeditionTitle.trim().length > 0)).toBe(true);
+    expect(locations.find((location) => location.id === 'town-square')?.expeditionTitle).toBe('Town Square Expedition');
   });
 
   it('uses the saved child name for Dheu and fails back to Dheu', () => {
@@ -57,7 +65,7 @@ describe('Dheu story-world director', () => {
       const allowedTopics = new Set(location.topicGroups);
 
       expect(launch.session.mode).toBe('free_explore');
-      expect(launch.session.title).toBe(`${location.label} Expedition`);
+      expect(launch.session.title).toBe(location.expeditionTitle);
       expect(launch.session.questions).toHaveLength(6);
       expect(new Set(launch.session.questions.map((question) => question.id)).size).toBe(6);
       expect(launch.session.questions.every((question) => {
