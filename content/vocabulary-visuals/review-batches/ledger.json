@@ -14,6 +14,12 @@
       "sequence": 3,
       "issueRef": 93,
       "manifest": "content/vocabulary-visuals/review-batches/priority-batch-003.json"
+    },
+    {
+      "id": "priority-sense-resolution-001",
+      "sequence": 4,
+      "issueRef": 99,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json"
     }
   ]
 }
