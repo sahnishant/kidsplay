@@ -8,6 +8,7 @@ function emptyStoryProgress(): StoryProgressSnapshot {
   return {
     version: 1,
     completedMissions: {},
+    completedLocations: {},
     completedSessionIds: [],
     updatedAt: null
   };
@@ -36,6 +37,7 @@ const strongPondTopics: TopicProgressSummary[] = [
 
 beforeEach(() => {
   window.localStorage.clear();
+  window.history.replaceState({}, '', '/');
 });
 
 afterEach(() => {
@@ -43,7 +45,7 @@ afterEach(() => {
 });
 
 describe('Dheu viewport story-world presentation', () => {
-  it('personalizes Dheu, reveals mission story one click at a time and launches the mission by id', async () => {
+  it('shows explicit levels, personalizes story beats and launches a mission by id', async () => {
     const onStartMission = vi.fn();
     render(StoryWorld, {
       props: {
@@ -57,15 +59,15 @@ describe('Dheu viewport story-world presentation', () => {
       }
     });
 
-    expect(screen.getByRole('heading', { name: 'Where should Mira explore?' })).toBeTruthy();
-    expect(screen.getByLabelText('0 story stars')).toBeTruthy();
-    expect(screen.getByLabelText('5 of 9 places open')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy();
+    expect(screen.getByText('LEVEL 3')).toBeTruthy();
+    expect(screen.getByLabelText('5 of 9 places open; 0 complete')).toBeTruthy();
     expect(screen.queryByRole('dialog')).toBeNull();
 
-    const lab = screen.getByRole('button', { name: "Scientu's Lab: locked until The Puppy by the Pond" }) as HTMLButtonElement;
+    const lab = screen.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: locked until The Puppy by the Pond" }) as HTMLButtonElement;
     expect(lab.disabled).toBe(true);
 
-    await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }));
 
     const dialog = screen.getByRole('dialog');
     expect(dialog).toBeTruthy();
@@ -87,7 +89,7 @@ describe('Dheu viewport story-world presentation', () => {
     expect(onStartMission).toHaveBeenCalledWith('mission.puppy-by-pond');
   });
 
-  it('turns ordinary unlocked world locations into expeditions and surfaces recommendations compactly', async () => {
+  it('uses one recommended unlocked expedition as the visual current level', async () => {
     const onExploreLocation = vi.fn();
     render(StoryWorld, {
       props: {
@@ -101,15 +103,17 @@ describe('Dheu viewport story-world presentation', () => {
       }
     });
 
-    const farm = screen.getByRole('button', { name: 'Farm: explore' });
-    expect(farm.textContent).toContain('Try next');
+    expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
+    const forest = screen.getByRole('button', { name: 'Forest Explorer Trail, Level 1: play next' });
+    expect(forest.textContent).toContain('LEVEL 1');
+    expect(forest.textContent).toContain('Play next');
 
-    await fireEvent.click(farm);
+    await fireEvent.click(forest);
     expect(onExploreLocation).toHaveBeenCalledOnce();
-    expect(onExploreLocation).toHaveBeenCalledWith('farm');
+    expect(onExploreLocation).toHaveBeenCalledWith('forest');
   });
 
-  it('unlocks the next story location from story completion while keeping rewards separate', () => {
+  it('unlocks the next story location and renders completed/current/available/locked states separately', () => {
     const progress: StoryProgressSnapshot = {
       version: 1,
       completedMissions: {
@@ -121,6 +125,7 @@ describe('Dheu viewport story-world presentation', () => {
           starsAwarded: 3
         }
       },
+      completedLocations: {},
       completedSessionIds: ['story-1', 'story-2'],
       updatedAt: '2026-08-30T14:00:00.000Z'
     };
@@ -137,10 +142,9 @@ describe('Dheu viewport story-world presentation', () => {
       }
     });
 
-    expect(screen.getByLabelText('3 story stars')).toBeTruthy();
-    expect(screen.getByLabelText('6 of 9 places open')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }).textContent).toContain('Replay');
-    expect((screen.getByRole('button', { name: "Scientu's Lab: The Invisible Air Mystery" }) as HTMLButtonElement).disabled).toBe(false);
+    expect(screen.getByLabelText('6 of 9 places open; 1 complete')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'River & Pond Quest, Level 4: complete, replay' }).textContent).toContain('Replay');
+    expect((screen.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: The Invisible Air Mystery" }) as HTMLButtonElement).disabled).toBe(false);
   });
 
   it('raises Shaitanu framing for strong topic progress without changing the mission contract', async () => {
@@ -156,7 +160,7 @@ describe('Dheu viewport story-world presentation', () => {
       }
     });
 
-    await fireEvent.click(screen.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }));
     expect(screen.getByRole('dialog').textContent).toContain('Clever trap');
     expect(screen.getByRole('button', { name: 'Next story beat' })).toBeTruthy();
   });
