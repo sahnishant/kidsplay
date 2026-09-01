@@ -9,6 +9,7 @@ describe('VisualMeaningPresenter', () => {
   it('renders a proof-backed child-facing semantic visual from the existing renderer', () => {
     const resolved = resolveVisualMeaningPresentation('enormous#very-large-size');
     expect(resolved).toMatchObject({
+      phase: 'explanation',
       derivedMode: 'compare',
       deliveryMode: 'compare',
       visualAllowed: true,
@@ -26,6 +27,7 @@ describe('VisualMeaningPresenter', () => {
     const root = container.querySelector('[data-presentation-key="visual-meaning:v1:enormous#very-large-size"]');
     expect(root).toBeTruthy();
     expect(root?.getAttribute('data-presentation-mode')).toBe('compare');
+    expect(root?.getAttribute('data-presentation-phase')).toBe('explanation');
     expect(root?.getAttribute('data-derived-mode')).toBe('compare');
     expect(root?.getAttribute('data-visual-allowed')).toBe('true');
     expect(container.querySelector('[data-visual-meaning-scene]')).toBeTruthy();
@@ -57,6 +59,34 @@ describe('VisualMeaningPresenter', () => {
     expect(root?.getAttribute('data-visual-fallback')).toBe('runtime_not_child_facing');
     expect(container.querySelector('[data-visual-meaning-scene]')).toBeNull();
     expect(screen.getByText('A small settlement where people live.')).toBeTruthy();
+  });
+
+  it('suppresses non-neutral V5 visuals when reused before an assessment answer', () => {
+    const resolved = resolveVisualMeaningPresentation('enormous#very-large-size', {
+      phase: 'assessment_pre_answer'
+    });
+    expect(resolved).toMatchObject({
+      phase: 'assessment_pre_answer',
+      derivedMode: 'compare',
+      deliveryMode: 'text',
+      visualAllowed: false,
+      fallbackReason: 'answer_safety',
+      maturity: 'V5'
+    });
+
+    const { container } = render(VisualMeaningPresenter, {
+      props: {
+        senseKey: 'enormous#very-large-size',
+        word: 'Enormous',
+        meaning: 'Very large.',
+        phase: 'assessment_pre_answer'
+      }
+    });
+    const root = container.querySelector('[data-presentation-key="visual-meaning:v1:enormous#very-large-size"]');
+    expect(root?.getAttribute('data-presentation-phase')).toBe('assessment_pre_answer');
+    expect(root?.getAttribute('data-presentation-mode')).toBe('text');
+    expect(root?.getAttribute('data-visual-fallback')).toBe('answer_safety');
+    expect(container.querySelector('[data-visual-meaning-scene]')).toBeNull();
   });
 
   it('falls back to supplied child text when no runtime sense plan exists', () => {
