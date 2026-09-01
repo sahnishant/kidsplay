@@ -13,8 +13,11 @@ function canUseHistory(): boolean {
 }
 
 function removeLayer(id: string): void {
-  const index = layers.findLastIndex((layer) => layer.id === id);
-  if (index >= 0) layers.splice(index, 1);
+  for (let index = layers.length - 1; index >= 0; index -= 1) {
+    if (layers[index].id !== id) continue;
+    layers.splice(index, 1);
+    return;
+  }
 }
 
 function consumeTopLayer(): boolean {
