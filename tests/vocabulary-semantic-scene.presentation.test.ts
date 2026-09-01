@@ -5,7 +5,11 @@ import type { SingleChoiceQuestion } from '../src/contracts/question';
 import Scene from '../src/presentation/Scene.svelte';
 import VocabularySemanticScene from '../src/presentation/VocabularySemanticScene.svelte';
 import { resolveQuestionSceneId } from '../src/presentation/questionScene';
-import { getVocabularyVisualRuntimePlans } from '../src/presentation/vocabularyVisualRegistry';
+import {
+  getVocabularyVisualRuntimePlans,
+  isVocabularyVisualPlanChildFacing,
+  resolveVocabularyVisualPlanForKnowledgeRefs
+} from '../src/presentation/vocabularyVisualRegistry';
 import Session from '../src/ui/SessionViewport.svelte';
 
 afterEach(() => cleanup());
@@ -21,13 +25,8 @@ function vocabularyQuestion(knowledgeRef = 'kr.vocab.meaning.enormous.very-large
     language: 'en',
     prompt: { text: 'Which word means very large?' },
     interaction: {
-      type: 'single_choice',
-      version: 1,
-      shuffleOptions: false,
-      options: [
-        { id: 'enormous', label: 'Enormous' },
-        { id: 'tiny', label: 'Tiny' }
-      ]
+      type: 'single_choice', version: 1, shuffleOptions: false,
+      options: [{ id: 'enormous', label: 'Enormous' }, { id: 'tiny', label: 'Tiny' }]
     },
     solution: { type: 'exact_option', correctOptionIds: ['enormous'] },
     feedback: { correct: 'Correct.', incorrect: 'Try again.' },
@@ -35,20 +34,30 @@ function vocabularyQuestion(knowledgeRef = 'kr.vocab.meaning.enormous.very-large
   };
 }
 
+const breadthMappings = [
+  ['kr.vocab.primary.meaning.ask.ask-v-2', 'ask#v#2'],
+  ['kr.vocab.primary.meaning.find.find-v-3', 'find#v#3'],
+  ['kr.vocab.primary.meaning.floor.floor-n-1', 'floor#n#1'],
+  ['kr.vocab.primary.meaning.guide.guide-n-2', 'guide#n#2'],
+  ['kr.vocab.primary.meaning.environment.environment-n-2', 'environment#n#2'],
+  ['kr.vocab.primary.meaning.minute.minute-n-1', 'minute#n#1'],
+  ['kr.vocab.primary.meaning.notice.notice-n-1', 'notice#n#1']
+] as const;
+
 describe('semantic vocabulary scene runtime', () => {
-  it('ships a bounded admitted runtime projection instead of the full audit corpus', () => {
+  it('ships a bounded runtime projection instead of the full audit corpus', () => {
     const plans = getVocabularyVisualRuntimePlans();
-    const childPlans = plans.filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement');
+    const knowledgePlans = plans.filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement');
     const proofs = plans.filter((plan) => plan.runtimeUsage === 'template_proof');
 
-    expect(childPlans.length).toBeGreaterThanOrEqual(18);
+    expect(knowledgePlans.length).toBeGreaterThanOrEqual(18);
     expect(proofs.length).toBeGreaterThanOrEqual(3);
-    expect(plans.length).toBeLessThan(50);
+    expect(plans.length).toBeLessThan(60);
     expect(proofs.every((plan) => plan.knowledgeRef === null)).toBe(true);
-    expect(childPlans.every((plan) => plan.knowledgeRef?.startsWith('kr.'))).toBe(true);
-    expect(new Set(childPlans.map((plan) => plan.knowledgeRef)).size).toBe(childPlans.length);
+    expect(knowledgePlans.every((plan) => plan.knowledgeRef?.startsWith('kr.'))).toBe(true);
+    expect(new Set(knowledgePlans.map((plan) => plan.knowledgeRef)).size).toBe(knowledgePlans.length);
 
-    expect(childPlans).toEqual(expect.arrayContaining([
+    expect(knowledgePlans).toEqual(expect.arrayContaining([
       expect.objectContaining({
         knowledgeRef: 'kr.vocab.force.pull.can-move-object-toward',
         senseKey: 'pull#move-toward-by-force',
@@ -59,30 +68,57 @@ describe('semantic vocabulary scene runtime', () => {
     expect(proofs.some((plan) => plan.senseKey === 'pull#move-toward-by-force')).toBe(false);
   });
 
-  it('derives every runtime maturity from the recorded exact proof', () => {
+  it('requires proof-backed V5/V6 before a knowledge mapping becomes child-facing', () => {
     const plans = getVocabularyVisualRuntimePlans();
     const proofBySenseKey = new Map(
       maturityProofsJson.promotions.map((promotion) => [promotion.senseKey, promotion])
     );
 
-    expect(plans.every((plan) => proofBySenseKey.get(plan.senseKey)?.maturity === plan.maturity)).toBe(true);
+    for (const plan of plans) {
+      const proof = proofBySenseKey.get(plan.senseKey);
+      if (proof) {
+        expect(proof.maturity).toBe(plan.maturity);
+      } else if (plan.runtimeUsage === 'knowledge_reinforcement') {
+        expect(['V1', 'V2', 'V3', 'V4']).toContain(plan.maturity);
+        expect(isVocabularyVisualPlanChildFacing(plan)).toBe(false);
+        expect(resolveVocabularyVisualPlanForKnowledgeRefs([plan.knowledgeRef!])).toBeNull();
+      }
+    }
 
     const pullPlan = plans.find((plan) => plan.senseKey === 'pull#move-toward-by-force');
-    expect(pullPlan).toMatchObject({
-      runtimeUsage: 'knowledge_reinforcement',
-      maturity: 'V5'
-    });
+    expect(pullPlan).toMatchObject({ runtimeUsage: 'knowledge_reinforcement', maturity: 'V5' });
     expect(proofBySenseKey.get('pull#move-toward-by-force')).toMatchObject({
-      maturity: 'V5',
-      basis: 'child_facing_post_answer_reinforcement'
+      maturity: 'V5', basis: 'child_facing_post_answer_reinforcement'
     });
 
     const provenV5ChildPlans = plans.filter((plan) =>
-      plan.runtimeUsage === 'knowledge_reinforcement' &&
+      isVocabularyVisualPlanChildFacing(plan) &&
       proofBySenseKey.get(plan.senseKey)?.basis === 'child_facing_post_answer_reinforcement'
     );
     expect(provenV5ChildPlans.length).toBeGreaterThanOrEqual(18);
-    expect(provenV5ChildPlans.every((plan) => plan.maturity === 'V5')).toBe(true);
+  });
+
+  it('keeps the seven #88 reviewed mappings renderer-ready but fail-closed until proof promotion', () => {
+    const plans = getVocabularyVisualRuntimePlans();
+    const proofBySenseKey = new Map(maturityProofsJson.promotions.map((promotion) => [promotion.senseKey, promotion]));
+
+    for (const [knowledgeRef, senseKey] of breadthMappings) {
+      const plan = plans.find((candidate) => candidate.knowledgeRef === knowledgeRef);
+      expect(plan).toMatchObject({ knowledgeRef, senseKey, runtimeUsage: 'knowledge_reinforcement' });
+
+      const { container, unmount } = render(VocabularySemanticScene, { props: { senseKey } });
+      expect(container.querySelector(`[data-vocabulary-sense="${senseKey}"]`)).toBeTruthy();
+      unmount();
+
+      const proof = proofBySenseKey.get(senseKey);
+      const resolved = resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef]);
+      if (proof?.maturity === 'V5' || proof?.maturity === 'V6') {
+        expect(resolved).toMatchObject({ senseKey, maturity: proof.maturity });
+      } else {
+        expect(plan?.maturity).toBe('V1');
+        expect(resolved).toBeNull();
+      }
+    }
   });
 
   it('renders settlement, spatial, cause/effect, transition and comparison grammars from sense plans', () => {
@@ -124,12 +160,7 @@ describe('semantic vocabulary scene runtime', () => {
 
   it('shows vocabulary reinforcement only after submission in ordinary practice', async () => {
     const { container } = render(Session, {
-      props: {
-        title: 'Vocabulary Practice',
-        questions: [vocabularyQuestion()],
-        childName: 'Explorer',
-        childAvatar: 'fox'
-      }
+      props: { title: 'Vocabulary Practice', questions: [vocabularyQuestion()], childName: 'Explorer', childAvatar: 'fox' }
     });
 
     expect(container.querySelector('[data-session-state="answer"]')).toBeTruthy();
@@ -145,11 +176,9 @@ describe('semantic vocabulary scene runtime', () => {
   it('suppresses inferred vocabulary reinforcement inside structured assessment', async () => {
     const { container } = render(Session, {
       props: {
-        title: 'Vocabulary Mock',
-        questions: [vocabularyQuestion()],
+        title: 'Vocabulary Mock', questions: [vocabularyQuestion()],
         sections: [{ id: 'vocabulary', title: 'Vocabulary', startIndex: 0, count: 1, marksPerQuestion: 1 }],
-        childName: 'Explorer',
-        childAvatar: 'fox'
+        childName: 'Explorer', childAvatar: 'fox'
       }
     });
 
