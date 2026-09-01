@@ -1,0 +1,76 @@
+name: Priority Vocabulary Visual Breadth
+
+on:
+  pull_request:
+    branches: [main, kidsplay]
+    paths:
+      - '.github/workflows/priority-vocabulary-visuals.yml'
+      - 'content/vocabulary-visuals/**'
+      - 'content/lexicon/open/review-wordlists/**'
+      - 'content/lexicon/open/sense-review/**'
+      - 'scripts/vocabulary-visuals/**'
+      - 'scripts/report-vocabulary-visual-coverage.mjs'
+      - 'scripts/compile-vocabulary-visual-runtime.mjs'
+      - 'tests/vocabulary-visual-*.test.ts'
+      - 'tests/vocabulary-semantic-scene.presentation.test.ts'
+      - 'package.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  breadth:
+    name: Generate priority gap and validate semantic visual breadth
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Restore Linux native bindings omitted by cross-platform lockfile
+        shell: bash
+        run: |
+          set -euo pipefail
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          TARBALL="$(npm pack --silent --pack-destination /tmp "@rolldown/binding-linux-x64-gnu@${ROLLDOWN_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/@rolldown/binding-linux-x64-gnu
+          tar -xzf "/tmp/${TARBALL}" -C node_modules/@rolldown/binding-linux-x64-gnu --strip-components=1
+          LIGHTNING_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          LIGHTNING_TARBALL="$(npm pack --silent --pack-destination /tmp "lightningcss-linux-x64-gnu@${LIGHTNING_VERSION}" | tail -n 1)"
+          mkdir -p node_modules/lightningcss-linux-x64-gnu
+          tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
+          node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
+
+      - name: Generate frozen review source, batch 002, and live remaining gap
+        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002
+
+      - name: Prove queues are candidate-only, deterministic and advanced past batch 002
+        run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts
+
+      - name: Run semantic visual breadth acceptance suite
+        run: npm run test:vocabulary-visuals
+
+      - name: Upload live ranked review queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: priority-vocabulary-visual-gap
+          path: content/vocabulary-visuals/__generated-priority-gap.json
+          if-no-files-found: error
+
+      - name: Upload frozen batch-002 source queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: priority-vocabulary-visual-gap-pre-batch-002
+          path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json
+          if-no-files-found: error

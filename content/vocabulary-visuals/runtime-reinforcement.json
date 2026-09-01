@@ -26,6 +26,10 @@
     { "knowledgeRef": "kr.vocab.antonym.narrow.wide", "senseKey": "narrow#small-width" },
     { "knowledgeRef": "kr.vocab.antonym.smooth.rough", "senseKey": "smooth#even-surface" },
     { "knowledgeRef": "kr.vocab.antonym.ancient.modern", "senseKey": "ancient#very-old-from-long-ago" },
-    { "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward", "senseKey": "pull#move-toward-by-force" }
+    { "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward", "senseKey": "pull#move-toward-by-force" },
+
+    { "knowledgeRef": "kr.vocab.primary.meaning.fast.fast-a-1", "senseKey": "fast#a#1" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.full.full-a-1", "senseKey": "full#a#1" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.library.library-n-3", "senseKey": "library#n#3" }
   ]
 }
