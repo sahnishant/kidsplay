@@ -116,6 +116,21 @@ const readHumanReviewedKnowledge = () => {
   return new Map(entries.map((entry) => [normalizeLemma(entry.id), entry]));
 };
 
+const readPinnedCandidatesByLemma = () => {
+  const result = new Map();
+  for (let grade = 1; grade <= 6; grade += 1) {
+    const review = readJson(`content/lexicon/open/sense-review/grade-${grade}-introduced-meaning-oewn.json`);
+    for (const candidate of review.candidates ?? []) {
+      const lemma = normalizeLemma(candidate.lemma);
+      const values = result.get(lemma) ?? [];
+      values.push(candidate.candidateId);
+      result.set(lemma, values);
+    }
+  }
+  for (const [lemma, values] of result) result.set(lemma, [...new Set(values)].sort());
+  return result;
+};
+
 const resolveOverride = (manifest, lemma) => {
   const matches = (manifest.authority?.overrides ?? []).filter((override) => (override.lemmas ?? []).map(normalizeLemma).includes(lemma));
   if (matches.length > 1) throw new Error(`${manifest.id}/${lemma}: multiple authority overrides match`);
@@ -141,6 +156,19 @@ const validateManifestAuthority = (manifest, humanReviewedByLemma) => {
   }
   if (defaultKind.allowedManifestStatuses) assertAllowed(defaultKind.allowedManifestStatuses, manifest.status, `${manifest.id} manifest status`);
   if (manifest.authority?.referenceState) validateAuthorityState(defaultKind, manifest.authority, `${manifest.id} default authority`);
+  const defaultMaturity = manifest.defaults?.maturity;
+  if (defaultMaturity && (!maturityRanks.has(defaultMaturity) || maturityRanks.get(defaultMaturity) > maturityRanks.get(defaultKind.maxSemanticMaturity))) {
+    throw new Error(`${manifest.id}: ${defaultKind.id} cannot establish default maturity ${defaultMaturity}`);
+  }
+  if (defaultKind.requiresExternalReviewEvidence) {
+    const evidence = manifest.reviewEvidence;
+    if (evidence?.kind !== 'sol_max_row_level_acceptance' || !String(evidence?.reviewNodeId ?? '').startsWith('PRR_') ||
+      !/^[0-9a-f]{40}$/.test(String(evidence?.reviewedSemanticHeadSha ?? '')) ||
+      !/^[0-9a-f]{40}$/.test(String(evidence?.mergedMainSha ?? '')) ||
+      evidence?.claimsHumanEditorialReview !== false || evidence?.acceptedRows !== manifest.source?.expectedItemCount) {
+      throw new Error(`${manifest.id}: Sol Max exact-sense authority requires immutable external review evidence for every accepted row`);
+    }
+  }
 
   const overrideLemmas = new Set();
   for (const override of manifest.authority?.overrides ?? []) {
@@ -224,19 +252,25 @@ const validateReviewedItemsFile = (manifest) => {
     throw new Error(`${manifest.id}: reviewed source blob drift; expected ${manifest.source?.expectedGitBlobSha}, got ${actualBlobSha}`);
   }
   const source = JSON.parse(sourceText);
-  if (source?.schemaVersion !== 1 || source?.issueRef !== manifest.issueRef || source?.parentIssueRef !== 76 || source?.status !== manifest.status) {
-    throw new Error(`${manifest.id}: reviewed source metadata does not match its manifest`);
+  const expectedHistoricalStatus = manifest.source?.historicalStatus ?? manifest.status;
+  if (source?.schemaVersion !== 1 || source?.issueRef !== manifest.issueRef || source?.parentIssueRef !== 76 || source?.status !== expectedHistoricalStatus) {
+    throw new Error(`${manifest.id}: reviewed source metadata does not match its manifest/historical status`);
   }
   if (!Array.isArray(source.items) || source.items.length !== manifest.source?.expectedItemCount) {
     throw new Error(`${manifest.id}: reviewed source expected ${manifest.source?.expectedItemCount} items, got ${source.items?.length ?? 0}`);
   }
+  const pinnedCandidatesByLemma = readPinnedCandidatesByLemma();
   const seenSenseKeys = new Set();
   for (const item of source.items) {
     const lemma = normalizeLemma(item.lemma);
     const selected = String(item.sourceTrace?.selectedCandidateId ?? '').trim();
-    const candidates = item.sourceTrace?.candidateIds ?? [];
-    if (!lemma || item.senseKey !== selected || !Array.isArray(candidates) || !candidates.includes(selected) || item.sourceTrace?.candidateSenseCount !== candidates.length) {
+    const candidates = [...(item.sourceTrace?.candidateIds ?? [])].sort();
+    const pinned = pinnedCandidatesByLemma.get(lemma) ?? [];
+    if (!lemma || item.senseKey !== selected || !candidates.includes(selected) || item.sourceTrace?.candidateSenseCount !== candidates.length) {
       throw new Error(`${manifest.id}/${lemma || '<empty>'}: exact reviewed candidate trace is inconsistent`);
+    }
+    if (JSON.stringify(candidates) !== JSON.stringify(pinned)) {
+      throw new Error(`${manifest.id}/${lemma}: reviewed candidate trace no longer matches the pinned OEWN candidate set`);
     }
     if (seenSenseKeys.has(item.senseKey)) throw new Error(`${manifest.id}/${lemma}: duplicate exact reviewed sense ${item.senseKey}`);
     seenSenseKeys.add(item.senseKey);
@@ -244,7 +278,31 @@ const validateReviewedItemsFile = (manifest) => {
     if (!['V1', 'V2'].includes(maturity)) throw new Error(`${manifest.id}/${lemma}: reviewed-items projection may only preserve V1/V2; got ${maturity}`);
     if ('knowledgeRef' in item || 'runtimeUsage' in item) throw new Error(`${manifest.id}/${lemma}: reviewed-items source cannot create runtime or knowledge authority`);
   }
-  return normalizeRepositoryText(sourceText);
+
+  const projection = {
+    ...source,
+    status: manifest.status,
+    reviewBasis: {
+      ...(source.reviewBasis ?? {}),
+      authorityCorrection: 'Historical source mislabeled the tranche as human review; the generated projection uses the immutable Sol Max row-level acceptance evidence recorded in the manifest.'
+    },
+    reviewEvidence: manifest.reviewEvidence,
+    policy: {
+      ...(source.policy ?? {}),
+      claimsHumanEditorialReview: false,
+      runtimeMappingCreated: false
+    },
+    items: source.items.map((item) => ({
+      ...item,
+      reviewSource: 'sol_max_reviewed_exact_sense',
+      reviewDisposition: 'sol_max_selected_exact_candidate',
+      sourceTrace: {
+        ...item.sourceTrace,
+        candidateReviewStatus: 'sol_max_accepted'
+      }
+    }))
+  };
+  return `${JSON.stringify(projection, null, 2)}\n`;
 };
 
 const validatePostCompile = () => {
@@ -253,7 +311,7 @@ const validatePostCompile = () => {
   const relevance = readJson(relevanceReviewPath);
   for (const entry of relevance.entries ?? []) {
     const item = byLemma.get(normalizeLemma(entry.lemma));
-    if (!item || item.strategy !== 'textual_only' || item.sourceTrace?.candidateSenseCount !== 1 || item.sourceTrace?.candidateIds?.[0] !== item.senseKey) throw new Error(`${entry.lemma}: relevance blocker must remain a one-candidate textual terminal disposition until human review`);
+    if (!item || item.strategy !== 'textual_only' || item.sourceTrace?.candidateSenseCount !== 1 || item.sourceTrace?.candidateIds?.[0] !== item.senseKey) throw new Error(`${entry.lemma}: relevance blocker must remain a one-candidate textual terminal disposition until exact review supersedes it`);
   }
 };
 
@@ -265,6 +323,15 @@ const ledgerPath = ledgerArg?.slice('--ledger='.length) || defaultLedgerPath;
 validateLedgerAuthority(ledgerPath);
 
 const ledger = readJson(ledgerPath);
+const canonicalLedger = readJson(defaultLedgerPath);
+const activeSequences = (ledger.batches ?? []).map((entry) => Number(entry.sequence)).filter(Number.isFinite);
+const minActiveSequence = activeSequences.length ? Math.min(...activeSequences) : Number.POSITIVE_INFINITY;
+for (const canonicalEntry of canonicalLedger.batches ?? []) {
+  if (Number(canonicalEntry.sequence) < minActiveSequence) continue;
+  const canonicalManifest = readJson(canonicalEntry.manifest);
+  if (canonicalManifest.output?.path && fileExists(canonicalManifest.output.path)) unlinkSync(fileTarget(canonicalManifest.output.path));
+}
+
 const priorityGapEntries = [];
 const reviewedItemsEntries = [];
 for (const entry of ledger.batches ?? []) {
@@ -274,22 +341,20 @@ for (const entry of ledger.batches ?? []) {
   else throw new Error(`${entry.id}: unsupported reviewed-batch source kind ${String(manifest.source?.kind)}`);
 }
 
-for (const { manifest } of reviewedItemsEntries) {
-  if (fileExists(manifest.output.path)) unlinkSync(fileTarget(manifest.output.path));
-}
-
-const priorityLedgerPath = `content/vocabulary-visuals/__generated-priority-core-ledger-${process.pid}.json`;
-writeText(priorityLedgerPath, `${JSON.stringify({ ...ledger, batches: priorityGapEntries }, null, 2)}\n`);
-try {
-  execFileSync(process.execPath, [coreCompilerPath, `--ledger=${priorityLedgerPath}`], { stdio: 'inherit' });
-} finally {
-  if (fileExists(priorityLedgerPath)) unlinkSync(fileTarget(priorityLedgerPath));
+if (priorityGapEntries.length) {
+  const priorityLedgerPath = `content/vocabulary-visuals/__generated-priority-core-ledger-${process.pid}.json`;
+  writeText(priorityLedgerPath, `${JSON.stringify({ ...ledger, batches: priorityGapEntries }, null, 2)}\n`);
+  try {
+    execFileSync(process.execPath, [coreCompilerPath, `--ledger=${priorityLedgerPath}`], { stdio: 'inherit' });
+  } finally {
+    if (fileExists(priorityLedgerPath)) unlinkSync(fileTarget(priorityLedgerPath));
+  }
 }
 
 for (const { entry, manifest } of reviewedItemsEntries) {
-  const canonicalSource = validateReviewedItemsFile(manifest);
-  writeText(manifest.output.path, canonicalSource);
-  console.log(`Compiled ${entry.id}: ${manifest.source.expectedItemCount} exact reviewed item(s) from immutable review data.`);
+  const projectedSource = validateReviewedItemsFile(manifest);
+  writeText(manifest.output.path, projectedSource);
+  console.log(`Compiled ${entry.id}: ${manifest.source.expectedItemCount} exact reviewed item(s) from immutable external review evidence.`);
 }
 
 execFileSync(process.execPath, [gapBuilderPath], { stdio: 'inherit' });
