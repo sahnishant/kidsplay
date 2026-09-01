@@ -54,12 +54,16 @@ describe('visual presentation hard slice bounds', () => {
   });
 
   it('reports V1 source resolution separately from V3+ renderability and V5+ child proof', () => {
+    const unresolvedSource = sourceItems.find((item: any) => item.strategy === 'sense_unresolved');
+    expect(unresolvedSource).toBeTruthy();
+    expect(unresolvedSource.maturity).toBe('V1');
+
     const slice = compilePresentationSlice({
       items: sourceItems,
       requestedSenseKeys: [
         'village#settlement',
         'enormous#very-large-size',
-        'bank#unresolved'
+        unresolvedSource.senseKey
       ],
       contract,
       runtimePlans: runtime.plans
