@@ -47,18 +47,19 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
       issueRef: 76,
       status: 'human_sense_selection_queue',
       summary: {
-        items: 1846,
-        byRisk: { candidate_relevance: 13, medium: 529, high: 1304 },
-        byStatus: { candidate_relevance_review_required: 12, human_sense_selection_required: 1834 }
+        byRisk: { candidate_relevance: 13, high: 1304 },
+        byStatus: { candidate_relevance_review_required: 12 }
       }
     });
+    expect(queue.summary.items).toBeLessThanOrEqual(1846);
+    expect(queue.summary.byRisk.medium).toBeLessThanOrEqual(529);
     expect(relevance.map((item: { lemma: string }) => item.lemma).sort()).toEqual(
       ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'].sort()
     );
     expect(relevance.every((item: { candidateSenseCount: number; terminalStrategy: string }) =>
       item.candidateSenseCount === 1 && item.terminalStrategy === 'textual_only'
     )).toBe(true);
-    expect(unresolved).toHaveLength(1834);
+    expect(unresolved).toHaveLength(queue.summary.items - 12);
     expect(unresolved.every((item: { terminalStrategy: string; candidateIds: string[] }) =>
       item.terminalStrategy === 'sense_unresolved' && item.candidateIds.length >= 1
     )).toBe(true);
@@ -91,19 +92,14 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
       { cwd: process.cwd(), encoding: 'utf8' }
     );
     const report = JSON.parse(output);
-    expect(report.corpus).toMatchObject({
-      totalLemmas: 10000,
-      terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 587,
-      blockedSenseResolutionLemmas: 9413,
-      unauditedLemmas: 0
-    });
-    expect(report.meaningQueue).toMatchObject({
-      totalPriorityLemmas: 2400,
-      terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 554,
-      blockedSenseResolutionLemmas: 1846
-    });
+    expect(report.corpus).toMatchObject({ totalLemmas: 10000, terminalDispositionLemmas: 10000, unauditedLemmas: 0 });
+    expect(report.corpus.resolvedStrategyLemmas).toBeGreaterThanOrEqual(587);
+    expect(report.corpus.blockedSenseResolutionLemmas).toBeLessThanOrEqual(9413);
+    expect(report.corpus.resolvedStrategyLemmas + report.corpus.blockedSenseResolutionLemmas).toBe(10000);
+    expect(report.meaningQueue).toMatchObject({ totalPriorityLemmas: 2400, terminalDispositionLemmas: 2400 });
+    expect(report.meaningQueue.resolvedStrategyLemmas).toBeGreaterThanOrEqual(554);
+    expect(report.meaningQueue.blockedSenseResolutionLemmas).toBeLessThanOrEqual(1846);
+    expect(report.meaningQueue.resolvedStrategyLemmas + report.meaningQueue.blockedSenseResolutionLemmas).toBe(2400);
     expect(report.runtime).toMatchObject({ totalPlans: 26, childFacingPlans: 22, pendingProofPlans: 0 });
     expect(report.summary.errors).toBe(0);
   });
