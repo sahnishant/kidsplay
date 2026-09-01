@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "issue": 33,
+  "release": {
+    "commitSha": "0000000000000000000000000000000000000000",
+    "appPackage": "com.kidsplay.app",
+    "apk": {
+      "workflowRunId": 0,
+      "artifactId": 0,
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  },
+  "tester": {
+    "name": "REPLACE_ME",
+    "testedAt": "YYYY-MM-DD"
+  },
+  "device": {
+    "manufacturer": "REPLACE_ME",
+    "model": "REPLACE_ME",
+    "androidVersion": "REPLACE_ME",
+    "apiLevel": 0,
+    "physicalDevice": true,
+    "screenPx": {
+      "width": 0,
+      "height": 0
+    },
+    "effectivePortraitCssWidth": 0,
+    "coverageRoles": [
+      "small_phone"
+    ]
+  },
+  "environment": {
+    "networkDisabledBeforeLaunch": false,
+    "reducedMotionOrAnimationsReduced": false,
+    "reducedMotionSettingSupported": true,
+    "rotationExercised": false,
+    "portraitExercised": true
+  },
+  "journeys": [
+    {
+      "id": "A",
+      "status": "pass",
+      "observations": [
+        "REPLACE_ME"
+      ]
+    }
+  ],
+  "defects": [],
+  "attestation": {
+    "directPhysicalObservation": true,
+    "notes": "REPLACE_ME"
+  }
+}
