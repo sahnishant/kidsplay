@@ -57,7 +57,19 @@ for (const id of ['dheu', 'scientu', 'shaitanu']) {
   requireCondition(characterIds.has(id), `required character ${id} is missing`);
 }
 
+const progressionLevels = new Set();
+const progressionOrders = new Set();
 for (const location of locationsDoc.locations) {
+  requireCondition(typeof location.label === 'string' && location.label.trim().length > 0, `location ${location.id} needs a label`);
+  requireCondition(typeof location.expeditionTitle === 'string' && location.expeditionTitle.trim().length > 0, `location ${location.id} needs expeditionTitle`);
+  requireCondition(location.progression && typeof location.progression === 'object', `location ${location.id} needs progression metadata`);
+  requireCondition(Number.isInteger(location.progression?.level) && location.progression.level >= 1, `location ${location.id} progression.level must be a positive integer`);
+  requireCondition(Number.isInteger(location.progression?.order) && location.progression.order >= 1, `location ${location.id} progression.order must be a positive integer`);
+  requireCondition(!progressionLevels.has(location.progression.level), `locations contain duplicate progression level ${location.progression.level}`);
+  requireCondition(!progressionOrders.has(location.progression.order), `locations contain duplicate progression order ${location.progression.order}`);
+  progressionLevels.add(location.progression.level);
+  progressionOrders.add(location.progression.order);
+
   requireCondition(Array.isArray(location.topicGroups) && location.topicGroups.length > 0, `location ${location.id} needs topicGroups`);
   requireCondition(location.position && Number.isFinite(location.position.x) && Number.isFinite(location.position.y), `location ${location.id} needs numeric position`);
   requireCondition(location.position.x >= 0 && location.position.x <= 100, `location ${location.id} x must be 0..100`);
@@ -69,6 +81,13 @@ for (const location of locationsDoc.locations) {
     requireCondition(missionIds.has(location.unlock.missionRef), `location ${location.id} has unknown unlock mission ${location.unlock.missionRef}`);
     requireCondition(missionById.get(location.unlock.missionRef)?.access === 'free', `location ${location.id} cannot depend on a non-free mission`);
   }
+}
+
+const sortedLevels = [...progressionLevels].sort((left, right) => left - right);
+const sortedOrders = [...progressionOrders].sort((left, right) => left - right);
+for (let index = 0; index < locationsDoc.locations.length; index += 1) {
+  requireCondition(sortedLevels[index] === index + 1, `story progression levels must be contiguous 1..${locationsDoc.locations.length}`);
+  requireCondition(sortedOrders[index] === index + 1, `story progression order must be contiguous 1..${locationsDoc.locations.length}`);
 }
 
 const knowledgeRowIds = new Set();
@@ -165,4 +184,4 @@ for (const mission of missionsDoc.missions.filter((mission) => mission.access ==
   requireCondition(completableMissions.has(mission.id), `free mission ${mission.id} is unreachable in the story unlock graph`);
 }
 
-console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free map missions; story unlock graph reachable; mission pack refs validated)`);
+console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free map missions; explicit levels 1-${locationsDoc.locations.length}; story unlock graph reachable; mission pack refs validated)`);

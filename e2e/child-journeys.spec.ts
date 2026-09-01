@@ -11,10 +11,8 @@ async function expectNoHorizontalOverflow(page: Page, label: string): Promise<vo
     viewport: document.documentElement.clientWidth,
     content: document.documentElement.scrollWidth
   }));
-  expect(
-    dimensions.content,
-    `${label}: page content should fit the viewport without horizontal scrolling`
-  ).toBeLessThanOrEqual(dimensions.viewport + 1);
+  expect(dimensions.content, `${label}: page content should fit the viewport without horizontal scrolling`)
+    .toBeLessThanOrEqual(dimensions.viewport + 1);
 }
 
 async function expectNoDocumentVerticalOverflow(page: Page, label: string): Promise<void> {
@@ -29,18 +27,12 @@ async function expectNoDocumentVerticalOverflow(page: Page, label: string): Prom
     };
   });
 
-  expect(
-    dimensions.documentContent,
-    `${label}: document element should not require vertical scrolling`
-  ).toBeLessThanOrEqual(dimensions.viewport + 1);
-  expect(
-    dimensions.bodyContent,
-    `${label}: body should not require vertical scrolling`
-  ).toBeLessThanOrEqual(dimensions.viewport + 1);
-  expect(
-    dimensions.appContent,
-    `${label}: app shell should contain overflow inside the active child screen`
-  ).toBeLessThanOrEqual(dimensions.appClient + 1);
+  expect(dimensions.documentContent, `${label}: document element should not require vertical scrolling`)
+    .toBeLessThanOrEqual(dimensions.viewport + 1);
+  expect(dimensions.bodyContent, `${label}: body should not require vertical scrolling`)
+    .toBeLessThanOrEqual(dimensions.viewport + 1);
+  expect(dimensions.appContent, `${label}: app shell should contain overflow inside the active child screen`)
+    .toBeLessThanOrEqual(dimensions.appClient + 1);
 }
 
 async function expectPrimarySurfaceFits(page: Page, label: string): Promise<void> {
@@ -50,10 +42,8 @@ async function expectPrimarySurfaceFits(page: Page, label: string): Promise<void
     clientHeight: element.clientHeight,
     scrollHeight: element.scrollHeight
   }));
-  expect(
-    dimensions.scrollHeight,
-    `${label}: representative primary child state should fit without internal scrolling`
-  ).toBeLessThanOrEqual(dimensions.clientHeight + 1);
+  expect(dimensions.scrollHeight, `${label}: representative primary child state should fit without internal scrolling`)
+    .toBeLessThanOrEqual(dimensions.clientHeight + 1);
 }
 
 async function expectChildTapTarget(locator: Locator, label: string): Promise<void> {
@@ -80,6 +70,12 @@ async function openProgress(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Open learning progress' }).click();
 }
 
+async function progressAttempts(page: Page): Promise<number> {
+  const details = page.getByLabel('Learning progress numbers');
+  if ((await details.getAttribute('open')) === null) await details.locator('summary').click();
+  return Number.parseInt(await details.locator('strong').first().innerText(), 10);
+}
+
 async function advanceMissionStory(page: Page): Promise<void> {
   const nextBeat = page.getByRole('button', { name: 'Next story beat' });
   while (await nextBeat.count()) {
@@ -91,6 +87,8 @@ async function advanceMissionStory(page: Page): Promise<void> {
 test.describe('Kidsplay child journeys', () => {
   test('player setup, free explore, feedback and local persistence', async ({ page }) => {
     await openCleanApp(page);
+    await expect(page.getByLabel('Current adventure level 1')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
     await expectNoDocumentVerticalOverflow(page, 'home world');
 
     await openPlayer(page);
@@ -119,8 +117,7 @@ test.describe('Kidsplay child journeys', () => {
       await expectNoDocumentVerticalOverflow(page, 'free-practice reaction state');
 
       if (sawVisualSingleChoice && sawAnotherFamily) break;
-      const next = page.getByRole('button', { name: index === 7 ? 'See result' : 'Next' });
-      await next.click();
+      await page.getByRole('button', { name: index === 7 ? 'See result' : 'Next' }).click();
     }
 
     expect(sawVisualSingleChoice, 'Free Explore should exercise a visual single-choice question').toBe(true);
@@ -128,8 +125,8 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.getByRole('button', { name: 'Back to Kidsplay home' }).click();
     await openProgress(page);
-    const progress = page.getByLabel('Learning progress summary');
-    const attemptsBeforeReload = Number.parseInt(await progress.locator('strong').first().innerText(), 10);
+    await expect(page.getByRole('heading', { name: /strong facts!/ })).toBeVisible();
+    const attemptsBeforeReload = await progressAttempts(page);
     expect(attemptsBeforeReload).toBeGreaterThanOrEqual(answered);
 
     await page.reload();
@@ -138,29 +135,45 @@ test.describe('Kidsplay child journeys', () => {
     await expect(page.getByRole('button', { name: 'Panda' })).toHaveAttribute('aria-pressed', 'true');
     await page.getByRole('button', { name: "Back to Dheu's world" }).click();
     await openProgress(page);
-    const attemptsAfterReload = Number.parseInt(
-      await page.getByLabel('Learning progress summary').locator('strong').first().innerText(),
-      10
-    );
-    expect(attemptsAfterReload).toBe(attemptsBeforeReload);
+    expect(await progressAttempts(page)).toBe(attemptsBeforeReload);
+  });
+
+  test('Escape and browser Back share the overlay-first dashboard navigation contract', async ({ page }) => {
+    await openCleanApp(page);
+
+    await openProgress(page);
+    await expect(page.getByRole('heading', { name: 'Learning progress' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
+
+    await openGoals(page);
+    await expect(page.getByRole('heading', { name: 'Goal learning' })).toBeVisible();
+    await page.goBack();
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
+
+    await page.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('dialog')).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
   });
 
   test('story mission unlocks the next location after completion', async ({ page }) => {
     test.setTimeout(120_000);
     await openCleanApp(page);
 
-    await expect(page.getByRole('button', { name: 'Home & Garden: The Garden Food Clue Mix-Up' })).toBeEnabled();
-    await expect(page.getByRole('button', { name: 'Farm: explore' })).toBeEnabled();
-    await expect(page.getByRole('button', { name: 'Forest: explore' })).toBeEnabled();
-    await expect(page.getByRole('button', { name: 'Road & School: explore' })).toBeEnabled();
-    await expect(page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'Forest Explorer Trail, Level 1: play next' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'Farmyard Discovery, Level 2: explore' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'Home & Garden Helpers, Level 3: The Garden Food Clue Mix-Up' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' })).toBeEnabled();
+    await expect(page.getByRole('button', { name: 'School Road Adventure, Level 5: explore' })).toBeEnabled();
 
     const lockedLab = page.getByRole('button', {
-      name: "Scientu's Lab: locked until The Puppy by the Pond"
+      name: "Scientu's Lab Investigation, Level 6: locked until The Puppy by the Pond"
     });
     await expect(lockedLab).toBeDisabled();
 
-    await page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }).click();
+    await page.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }).click();
     await expect(page.getByRole('dialog')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Puppy by the Pond' })).toBeVisible();
     await expectNoDocumentVerticalOverflow(page, 'story mission overlay');
@@ -181,8 +194,8 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.getByRole('button', { name: 'Back to Dheu’s world' }).click();
     await expect(page.getByLabel('3 story stars')).toBeVisible();
-    await expect(page.getByLabel('6 of 9 places open')).toBeVisible();
-    await expect(page.getByRole('button', { name: "Scientu's Lab: The Invisible Air Mystery" })).toBeEnabled();
+    await expect(page.getByLabel('6 of 9 places open; 1 complete')).toBeVisible();
+    await expect(page.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: The Invisible Air Mystery" })).toBeEnabled();
   });
 
   test('35-question SOF pattern mock resumes exact submitted and unsubmitted boundaries', async ({ page }) => {
@@ -197,9 +210,9 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.reload();
     await openGoals(page);
-    await expect(page.getByRole('heading', { name: 'Resume your saved mock' })).toBeVisible();
-    await expect(page.getByText('1 of 35 answered · your exact question order is preserved.')).toBeVisible();
-    await page.getByRole('button', { name: 'Resume saved mock' }).click();
+    await expect(page.getByRole('heading', { name: 'Pick up where you left off' })).toBeVisible();
+    await expect(page.getByText('1 / 35')).toBeVisible();
+    await page.getByRole('button', { name: /Continue/ }).click();
     await expect(page.getByRole('note')).toContainText('Your saved answer is restored.');
     await expect(sessionFeedback(page)).toBeVisible();
 
@@ -211,8 +224,8 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.reload();
     await openGoals(page);
-    await expect(page.getByText('1 of 35 answered · your exact question order is preserved.')).toBeVisible();
-    await page.getByRole('button', { name: 'Resume saved mock' }).click();
+    await expect(page.getByText('1 / 35')).toBeVisible();
+    await page.getByRole('button', { name: /Continue/ }).click();
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(secondPrompt);
     await expect(page.getByRole('note')).toHaveCount(0);
 
@@ -224,8 +237,8 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.reload();
     await openGoals(page);
-    await expect(page.getByText('3 of 35 answered · your exact question order is preserved.')).toBeVisible();
-    await page.getByRole('button', { name: 'Resume saved mock' }).click();
+    await expect(page.getByText('3 / 35')).toBeVisible();
+    await page.getByRole('button', { name: /Continue/ }).click();
     await expect(page.getByRole('note')).toContainText('Your saved answer is restored.');
     await expect(page.getByText(/^3 \/ 35$/)).toBeVisible();
     await expect(sessionFeedback(page)).toBeVisible();
@@ -242,10 +255,7 @@ test.describe('Kidsplay child journeys', () => {
     await expect(motion).toBeVisible();
     const style = await motion.evaluate((element) => {
       const computed = window.getComputedStyle(element);
-      return {
-        duration: computed.animationDuration,
-        iterations: computed.animationIterationCount
-      };
+      return { duration: computed.animationDuration, iterations: computed.animationIterationCount };
     });
     expect(await cssTimeToMilliseconds(style.duration)).toBeLessThanOrEqual(1);
     expect(style.iterations).toBe('1');
@@ -278,12 +288,7 @@ test.describe('Kidsplay child journeys', () => {
 });
 
 test.describe('Android-like viewport acceptance', () => {
-  test.use({
-    viewport: { width: 360, height: 640 },
-    isMobile: true,
-    hasTouch: true,
-    deviceScaleFactor: 1
-  });
+  test.use({ viewport: { width: 360, height: 640 }, isMobile: true, hasTouch: true, deviceScaleFactor: 1 });
 
   test('360x640 home and revealed surfaces remain tappable without document scrolling', async ({ page }) => {
     await openCleanApp(page);
@@ -291,7 +296,7 @@ test.describe('Android-like viewport acceptance', () => {
     await expectNoDocumentVerticalOverflow(page, 'home at 360x640');
 
     await expectChildTapTarget(
-      page.getByRole('button', { name: 'River & Pond: The Puppy by the Pond' }),
+      page.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }),
       'story location'
     );
 
@@ -303,7 +308,6 @@ test.describe('Android-like viewport acceptance', () => {
     await childName.focus();
     await expectNoDocumentVerticalOverflow(page, 'player screen at 360x640');
 
-    // A shorter visual viewport approximates the space pressure caused by a soft keyboard.
     await page.setViewportSize({ width: 360, height: 520 });
     await expect(childName).toBeInViewport();
     await expectNoHorizontalOverflow(page, 'name entry with reduced viewport height');

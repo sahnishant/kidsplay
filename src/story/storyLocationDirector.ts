@@ -104,7 +104,7 @@ export function createStoryLocationLaunch(
     session: {
       id: `session.story-location.${location.id}`,
       mode: 'free_explore',
-      title: `${location.label} Expedition`,
+      title: location.expeditionTitle,
       questions
     }
   };

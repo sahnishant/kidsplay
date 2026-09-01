@@ -16,9 +16,20 @@ export type StoryLocationUnlock =
   | { type: 'start' }
   | { type: 'mission'; missionRef: string };
 
+export interface StoryLocationProgression {
+  /** Child-facing level number. Never derive this from question difficulty or unlock state. */
+  level: number;
+  /** Stable route order used to compare expeditions without relying on map coordinates. */
+  order: number;
+}
+
 export interface StoryLocation {
   id: string;
+  /** Compact map label. */
   label: string;
+  /** Child-facing adventure name used in progress and mission-control surfaces. */
+  expeditionTitle: string;
+  progression: StoryLocationProgression;
   topicGroups: string[];
   position: { x: number; y: number };
   unlock: StoryLocationUnlock;
