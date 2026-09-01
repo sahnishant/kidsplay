@@ -63,6 +63,11 @@ export function recommendVisualRecipeTemplate(entry) {
   // semantics never get a familyKey, so aggregation cannot promote them.
   if (category === 'vocabulary_review' || category === 'predicate_review' || category === 'label_only') return review();
 
+  // A unit identity is not the same semantic as the measured quantity. For
+  // example, "metre = SI base unit of length" must not inherit the generic
+  // ruler/length picture merely because the semantic key contains "length".
+  if (/\bsi\b/.test(key) && /\b(length|mass|capacity|temperature|volume|weight)\b/.test(key)) return review();
+
   if (/\b(length|mass|capacity|temperature|volume|weight)\b/.test(key)) return production('measurement', 'low', 'measurement');
   if (/\b(transparent|opaque)\b/.test(key)) return production('contrast.pair', 'low', 'material-contrast');
   if (/\b(hot|cold)\b/.test(key)) return production('contrast.pair', 'low', 'temperature-contrast');
@@ -70,7 +75,10 @@ export function recommendVisualRecipeTemplate(entry) {
   if (/\b(rough|smooth)\b/.test(key)) return production('contrast.pair', 'low', 'texture-contrast');
   if (/\b(hard|soft)\b/.test(key)) return production('contrast.pair', 'low', 'hardness-contrast');
   if (/\b(orbit|revolution|satellite)\b/.test(key)) return production('orbit', 'low', 'orbit');
-  if (/\b(living|nonliving|source|group|type|class)\b/.test(key)) return production('classification', 'low', 'classification');
+
+  // Generic "source" is not visual authority: a light source, pollution
+  // source, water source and information source need different visual grammar.
+  if (/\b(living|nonliving|group|type|class)\b/.test(key)) return production('classification', 'low', 'classification');
   if (/\b(open|closed|full|empty|state)\b/.test(key)) return production('state.before-after', 'low', 'state-change');
   if (/\b(condensation|evaporation|germination|grow|melt|freeze|fill|cycle|sequence|stage)\b/.test(key)) return production('process.transform', 'medium', 'process-change');
   if (/\b(clay soil|sandy soil|loamy soil|humus)\b/.test(key)) return production('entity.single', 'medium', 'soil-family');
@@ -83,8 +91,12 @@ export function recommendVisualRecipeTemplate(entry) {
   if (/\bshadow\b/.test(key)) return production('relation.source-target', 'medium', 'shadow-formation');
   if (/\b(reflect|absorb)\b/.test(key)) return production('relation.source-target', 'medium', 'light-behavior');
   if (/\bflow\b/.test(key)) return production('relation.source-target', 'medium', 'flow-process');
-  if (/\bexercise\b/.test(key)) return production('relation.source-target', 'medium', 'body-exercise');
   if (/\b(gas spreads|gas spread)\b/.test(key)) return production('process.sequence', 'medium', 'gas-process');
+
+  // "Regular exercise" is an action/behaviour identity. Heart and muscles are
+  // reviewed effects/context, not a safe answer-card identity for exercise.
+  // Keep it in semantic review until a reusable activity family exists.
+  if (/\bexercise\b/.test(key)) return review();
 
   return review();
 }
