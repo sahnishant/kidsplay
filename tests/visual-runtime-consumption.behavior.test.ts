@@ -38,7 +38,7 @@ describe('consolidated visual runtime consumption', () => {
       { id: 'other', label: 'Other' }
     ]);
 
-    expect(resolveQuestionFeedbackRecipeId(question)).toBe('recipe.soil.sandy');
+    expect(resolveQuestionFeedbackRecipeId(question)).toBe('recipe.soil.sandy-soil');
   });
 
   it('fails closed when a solution would imply more than one feedback recipe', () => {
