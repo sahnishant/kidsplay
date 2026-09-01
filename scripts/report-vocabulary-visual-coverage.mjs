@@ -30,6 +30,8 @@ const batchFiles = readdirSync(new URL('content/vocabulary-visuals/batches/', ro
 const batches = batchFiles.map((name) => ({ name, value: readJson(`content/vocabulary-visuals/batches/${name}`) }));
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
 const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [entry.lemma, entry]));
+const resolutionQueue = readJson('content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json');
+const corpusResolutionQueue = readJson('content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json');
 
 const senseCandidateById = new Map();
 const meaningQueueLemmas = new Set();
@@ -72,6 +74,64 @@ for (const { name, value } of batches) {
     items.push(enriched);
     itemBySenseKey.set(item.senseKey, enriched);
   }
+}
+
+if (resolutionQueue?.schemaVersion !== 1 || resolutionQueue?.issueRef !== 76 || resolutionQueue?.status !== 'human_sense_selection_queue') {
+  errors.push('Priority sense-resolution queue must be a #76 human_sense_selection_queue');
+}
+if (resolutionQueue?.policy?.candidateIdsAreReferenceOnly !== true || resolutionQueue?.policy?.selectsSense !== false ||
+  resolutionQueue?.policy?.createsVisualStrategy !== false || resolutionQueue?.policy?.importsGlossOrExample !== false ||
+  resolutionQueue?.policy?.unresolvedItemsRemainReportVisible !== true) {
+  errors.push('Priority sense-resolution queue must remain reference-only, non-selecting and report-visible');
+}
+const resolutionQueueLemmas = new Set();
+for (const row of resolutionQueue?.items ?? []) {
+  const lemma = String(row?.lemma ?? '').trim();
+  const senseKey = String(row?.terminalDispositionSenseKey ?? '').trim();
+  if (!lemma || resolutionQueueLemmas.has(lemma)) errors.push(`sense-resolution/${lemma || '<empty>'}: duplicate or missing lemma`);
+  resolutionQueueLemmas.add(lemma);
+  const disposition = itemBySenseKey.get(senseKey);
+  const isRelevanceReview = row?.status === 'candidate_relevance_review_required';
+  if (!disposition || disposition.lemma !== lemma ||
+    (isRelevanceReview ? disposition.strategy !== 'textual_only' : disposition.strategy !== 'sense_unresolved')) {
+    errors.push(`sense-resolution/${lemma}: missing matching terminal disposition ${senseKey}`);
+  }
+  if (!Array.isArray(row?.candidateIds) ||
+    (isRelevanceReview ? row.candidateIds.length !== 1 : row.candidateIds.length < 1)) {
+    errors.push(`sense-resolution/${lemma}: candidate review boundary is incomplete`);
+  }
+  for (const candidateId of row?.candidateIds ?? []) {
+    const candidate = senseCandidateById.get(candidateId);
+    if (!candidate || String(candidate.lemma ?? '').toLocaleLowerCase('en-US') !== lemma) {
+      errors.push(`sense-resolution/${lemma}: invalid candidate reference ${candidateId}`);
+    }
+  }
+}
+
+if (corpusResolutionQueue?.schemaVersion !== 1 || corpusResolutionQueue?.issueRef !== 76 ||
+  corpusResolutionQueue?.status !== 'corpus_sense_resolution_queue') {
+  errors.push('Corpus sense-resolution queue must be a #76 corpus_sense_resolution_queue');
+}
+if (corpusResolutionQueue?.policy?.createsSenseSelection !== false ||
+  corpusResolutionQueue?.policy?.createsVisualStrategy !== false ||
+  corpusResolutionQueue?.policy?.importsGlossOrExample !== false ||
+  corpusResolutionQueue?.policy?.unresolvedItemsRemainReportVisible !== true ||
+  corpusResolutionQueue?.policy?.priorityQueueRemainsSeparate !== true) {
+  errors.push('Corpus sense-resolution queue must remain non-selecting, separate and report-visible');
+}
+const corpusResolutionQueueLemmas = new Set();
+for (const row of corpusResolutionQueue?.items ?? []) {
+  const lemma = String(row?.lemma ?? '').trim();
+  const senseKey = String(row?.terminalDispositionSenseKey ?? '').trim();
+  if (!lemma || corpusResolutionQueueLemmas.has(lemma)) errors.push(`corpus-sense-resolution/${lemma || '<empty>'}: duplicate or missing lemma`);
+  corpusResolutionQueueLemmas.add(lemma);
+  const corpusEntry = corpusByLemma.get(lemma);
+  const disposition = itemBySenseKey.get(senseKey);
+  if (!corpusEntry || row?.sourceCorpusId !== corpusEntry.id) errors.push(`corpus-sense-resolution/${lemma}: missing or mismatched corpus row`);
+  if (!disposition || disposition.lemma !== lemma || disposition.strategy !== 'sense_unresolved') {
+    errors.push(`corpus-sense-resolution/${lemma}: missing matching sense_unresolved terminal disposition ${senseKey}`);
+  }
+  if (resolutionQueueLemmas.has(lemma)) errors.push(`corpus-sense-resolution/${lemma}: priority and residual queues must not overlap`);
 }
 
 const senseLinkFiles = readdirSync(new URL('content/vocabulary-visuals/sense-links/', root)).filter((name) => name.endsWith('.json')).sort();
@@ -154,6 +214,10 @@ const auditedCorpusItems = items.filter((item) => Boolean(item.corpus));
 const outsideCorpusItems = items.filter((item) => !item.corpus);
 const auditedLemmas = new Set(auditedCorpusItems.map((item) => item.lemma));
 const auditedMeaningQueueLemmas = new Set([...meaningQueueLemmas].filter((lemma) => auditedLemmas.has(lemma)));
+const unresolvedStrategyLemmas = items.filter((item) => item.strategy === 'sense_unresolved').map((item) => item.lemma);
+const blockedLemmas = new Set([...unresolvedStrategyLemmas, ...resolutionQueueLemmas, ...corpusResolutionQueueLemmas]);
+const resolvedStrategyLemmas = new Set([...auditedLemmas].filter((lemma) => !blockedLemmas.has(lemma)));
+const resolvedMeaningQueueLemmas = new Set([...auditedMeaningQueueLemmas].filter((lemma) => !resolutionQueueLemmas.has(lemma)));
 const byStrategy = {};
 const byMaturity = {};
 const byGrade = Object.fromEntries(['1', '2', '3', '4', '5', '6'].map((grade) => [grade, 0]));
@@ -230,6 +294,9 @@ const result = {
   corpus: {
     totalLemmas: corpus.entries?.length ?? 0,
     auditedLemmas: auditedLemmas.size,
+    terminalDispositionLemmas: auditedLemmas.size,
+    resolvedStrategyLemmas: resolvedStrategyLemmas.size,
+    blockedSenseResolutionLemmas: blockedLemmas.size,
     unauditedLemmas: unaudited.length,
     auditedPercent: corpus.entries?.length ? Number(((auditedLemmas.size / corpus.entries.length) * 100).toFixed(2)) : 0,
     outsideCorpusStrategyItems: outsideCorpusItems.length
@@ -239,8 +306,22 @@ const result = {
     totalPriorityLemmas: meaningQueueLemmas.size,
     totalCandidateSenses: senseCandidateById.size,
     auditedLemmas: auditedMeaningQueueLemmas.size,
+    terminalDispositionLemmas: auditedMeaningQueueLemmas.size,
+    resolvedStrategyLemmas: resolvedMeaningQueueLemmas.size,
+    blockedSenseResolutionLemmas: resolutionQueueLemmas.size,
     auditedLemmaPercent: meaningQueueLemmas.size ? Number(((auditedMeaningQueueLemmas.size / meaningQueueLemmas.size) * 100).toFixed(2)) : 0,
     explicitCandidateLinks: linkedCandidateIds.size
+  },
+  senseResolutionQueue: {
+    items: resolutionQueue?.items?.length ?? 0,
+    byRisk: resolutionQueue?.summary?.byRisk ?? {},
+    byStatus: resolutionQueue?.summary?.byStatus ?? {},
+    next: (resolutionQueue?.items ?? []).slice(0, limit)
+  },
+  corpusSenseResolutionQueue: {
+    items: corpusResolutionQueue?.items?.length ?? 0,
+    byReviewStatus: corpusResolutionQueue?.summary?.byReviewStatus ?? {},
+    next: (corpusResolutionQueue?.items ?? []).slice(0, limit)
   },
   runtime: {
     totalPlans: runtimePlans.length,
@@ -284,8 +365,10 @@ if (jsonMode) {
   console.log(JSON.stringify(result, null, 2));
 } else {
   console.log('# Vocabulary visual semantic coverage');
-  console.log(`Primary corpus: ${result.corpus.auditedLemmas}/${result.corpus.totalLemmas} lemma(s) audited (${result.corpus.auditedPercent}%); ${result.corpus.outsideCorpusStrategyItems} explicit existing-runtime-only strategy item(s).`);
-  console.log(`Priority meaning queue: ${result.meaningQueue.auditedLemmas}/${result.meaningQueue.totalPriorityLemmas} lemma(s) audited (${result.meaningQueue.auditedLemmaPercent}%); ${result.meaningQueue.explicitCandidateLinks} explicit OEWN candidate link(s).`);
+  console.log(`Primary corpus terminal dispositions: ${result.corpus.terminalDispositionLemmas}/${result.corpus.totalLemmas} lemma(s) (${result.corpus.auditedPercent}%); ${result.corpus.resolvedStrategyLemmas} resolved strategy lemma(s), ${result.corpus.blockedSenseResolutionLemmas} sense-resolution blocker(s), ${result.corpus.outsideCorpusStrategyItems} explicit existing-runtime-only strategy item(s).`);
+  console.log(`Priority meaning queue terminal dispositions: ${result.meaningQueue.terminalDispositionLemmas}/${result.meaningQueue.totalPriorityLemmas} lemma(s) (${result.meaningQueue.auditedLemmaPercent}%); ${result.meaningQueue.resolvedStrategyLemmas} resolved strategy lemma(s), ${result.meaningQueue.blockedSenseResolutionLemmas} sense-resolution blocker(s), ${result.meaningQueue.explicitCandidateLinks} explicit OEWN candidate link(s).`);
+  console.log(`Priority human-review queue: ${result.senseResolutionQueue.items} item(s); risk ${JSON.stringify(result.senseResolutionQueue.byRisk)}; status ${JSON.stringify(result.senseResolutionQueue.byStatus)}.`);
+  console.log(`Residual corpus sense-resolution queue: ${result.corpusSenseResolutionQueue.items} item(s); review status ${JSON.stringify(result.corpusSenseResolutionQueue.byReviewStatus)}.`);
   console.log(`Sense strategies: ${items.length}; direct visuals: ${directVisuals}; scene-template targets: ${sceneTemplateTargets}; declared V3+ scene-ready: ${sceneReadyV3}; valid semantic plans: ${validSemanticPlans}; meaningful-motion targets: ${meaningfulMotionTargets}.`);
   console.log(`Runtime: ${result.runtime.rendererAdmittedSenses} renderer-admitted sense(s) across ${result.runtime.totalPlans} plan(s); ${result.runtime.templateProofPlans} template proof(s); ${result.runtime.mappedKnowledgePlans} mapped knowledge plan(s); ${result.runtime.childFacingPlans} proof-admitted child-facing mapping(s) / ${result.runtime.childFacingSenses} semantic sense(s); ${result.runtime.pendingProofPlans} mapping(s) pending V5/V6 proof; ${result.runtime.meaningfulMotionSenses} runtime motion-capable sense(s).`);
   console.log(`Sense-unresolved: ${unresolvedSenses}; textual-only: ${textualOnlySenses}; validation errors: ${errors.length}.`);
@@ -296,6 +379,10 @@ if (jsonMode) {
   for (const gap of highPriorityGaps) console.log(`- #${gap.rank} ${gap.lemma} (grade ${gap.grade}, ${gap.partOfSpeech ?? 'unknown POS'}, ${gap.reviewStatus}, zipf=${gap.zipf ?? 'n/a'})`);
   console.log('\nHighest-priority unaudited meaning-queue lemmas:');
   for (const gap of meaningQueueGaps) console.log(`- #${gap.rank} ${gap.lemma} (grade ${gap.grade}, ${gap.partOfSpeech ?? 'unknown POS'}, ${gap.reviewStatus}, zipf=${gap.zipf ?? 'n/a'})`);
+  console.log('\nHighest-priority explicit sense-resolution blockers:');
+  for (const gap of result.senseResolutionQueue.next) console.log(`- ${gap.lemma} (grade ${gap.grade}, ${gap.polysemyRisk}, ${gap.candidateSenseCount} candidate senses)`);
+  console.log('\nHighest-priority residual corpus blockers:');
+  for (const gap of result.corpusSenseResolutionQueue.next) console.log(`- ${gap.lemma} (grade ${gap.grade}, ${gap.reviewStatus}, zipf=${gap.zipf ?? 'n/a'})`);
   if (errors.length) {
     console.log('\nValidation errors:');
     for (const error of errors.slice(0, 30)) console.log(`- ${error}`);

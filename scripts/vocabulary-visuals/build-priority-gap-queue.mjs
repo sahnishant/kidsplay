@@ -95,6 +95,7 @@ const auditedSetsFor = (batchNames) => {
 
 const buildQueue = (batchNames, status) => {
   const { lemmas: auditedLemmas, senseKeys: auditedSenseKeys } = auditedSetsFor(batchNames);
+  const auditedPriorityLemmas = new Set([...auditedLemmas].filter((lemma) => senseCandidatesByLemma.has(lemma)));
   const priorityByLemma = new Map();
   for (let grade = 1; grade <= 6; grade += 1) {
     const wordlist = readJson(`content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`);
@@ -171,7 +172,7 @@ const buildQueue = (batchNames, status) => {
     },
     summary: {
       priorityCandidates: queue.length,
-      alreadyAuditedLemmasExcluded: auditedLemmas.size,
+      alreadyAuditedLemmasExcluded: auditedPriorityLemmas.size,
       alreadyAuditedSenseKeysObserved: auditedSenseKeys.size,
       byPartOfSpeech: byPos,
       byPolysemyRisk: byRisk,
@@ -187,6 +188,6 @@ writeFileSync(preBatchOutputUrl, `${JSON.stringify(preBatch, null, 2)}\n`, 'utf8
 writeFileSync(currentOutputUrl, `${JSON.stringify(current, null, 2)}\n`, 'utf8');
 console.log(
   `Built priority visual queues: pre-batch-002 ${preBatch.items.length} gap(s) / ${preBatch.summary.alreadyAuditedLemmasExcluded} audited; ` +
-  `current ${current.items.length} gap(s) / ${current.summary.alreadyAuditedLemmasExcluded} audited` +
+  `current ${current.items.length} gap(s) / ${current.summary.alreadyAuditedLemmasExcluded} priority terminal disposition(s)` +
   `${excludedBatchName ? ` (excluding ${excludedBatchName})` : ''}.`
 );

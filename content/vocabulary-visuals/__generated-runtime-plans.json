@@ -1,41 +1,473 @@
 {
   "schemaVersion": 1,
   "issueRef": 80,
+  "semanticDepthIssueRefs": [
+    84
+  ],
   "maturityEvidence": {
-    "workflowRunId": 33407137452,
-    "headSha": "ee8f4b55c63f79e185687bdf4766e6bd9efe2b63",
+    "workflowRunId": 33462320942,
+    "headSha": "7e9b7a478ef9e79c559a79f232c80b3fdd8fee9a",
     "proof": [
       "full_check_green",
       "presentation_tests_green",
       "bundle_budget_green",
+      "browser_child_journeys_green",
       "android_apk_green",
       "offline_relaunch_rotation_green"
     ]
   },
   "plans": [
-    { "knowledgeRef": "kr.vocab.meaning.enormous.very-large", "runtimeUsage": "knowledge_reinforcement", "senseKey": "enormous#very-large-size", "lemma": "enormous", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "size", "target": "enormous", "contrast": "ordinary-size" } },
-    { "knowledgeRef": "kr.vocab.meaning.fragile.easily-broken", "runtimeUsage": "knowledge_reinforcement", "senseKey": "fragile#easily-broken", "lemma": "fragile", "strategy": "state_scene", "sceneTemplate": "entity-state", "maturity": "V5", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "state": "fragile", "exampleKind": "glass" } },
-    { "knowledgeRef": "kr.vocab.meaning.rapid.very-fast", "runtimeUsage": "knowledge_reinforcement", "senseKey": "rapid#very-fast", "lemma": "rapid", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "recommended_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "speed", "target": "rapid", "contrast": "slow" } },
-    { "knowledgeRef": "kr.vocab.meaning.ancient.very-old", "runtimeUsage": "knowledge_reinforcement", "senseKey": "ancient#very-old-from-long-ago", "lemma": "ancient", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "age-state", "target": "ancient", "contrast": "modern" } },
-    { "knowledgeRef": "kr.vocab.meaning.cheerful.happy-positive", "runtimeUsage": "knowledge_reinforcement", "senseKey": "cheerful#happy-positive", "lemma": "cheerful", "strategy": "expression_scene", "sceneTemplate": "expression", "maturity": "V5", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "expression": "happy" } },
-    { "knowledgeRef": "kr.vocab.meaning.scarce.hard-to-find", "runtimeUsage": "knowledge_reinforcement", "senseKey": "scarce#not-enough-hard-to-find", "lemma": "scarce", "strategy": "quantity_scene", "sceneTemplate": "quantity-comparison", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "quantity": "few", "comparison": "scarce" } },
-    { "knowledgeRef": "kr.vocab.meaning.silent.no-sound", "runtimeUsage": "knowledge_reinforcement", "senseKey": "silent#making-no-sound", "lemma": "silent", "strategy": "state_scene", "sceneTemplate": "entity-state", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "state": "silent", "exampleKind": "speaker" } },
-    { "knowledgeRef": "kr.vocab.meaning.observe.watch-carefully", "runtimeUsage": "knowledge_reinforcement", "senseKey": "observe#watch-carefully", "lemma": "observe", "strategy": "action_scene", "sceneTemplate": "actor-action", "maturity": "V5", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "action": "observe" } },
-    { "knowledgeRef": "kr.vocab.synonym.happy.glad", "runtimeUsage": "knowledge_reinforcement", "senseKey": "happy#positive-emotional-state", "lemma": "happy", "strategy": "expression_scene", "sceneTemplate": "expression", "maturity": "V5", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "expression": "happy" } },
-    { "knowledgeRef": "kr.vocab.synonym.quick.fast", "runtimeUsage": "knowledge_reinforcement", "senseKey": "quick#fast-speed", "lemma": "quick", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "recommended_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "speed", "target": "quick", "contrast": "slow" } },
-    { "knowledgeRef": "kr.vocab.synonym.small.tiny", "runtimeUsage": "knowledge_reinforcement", "senseKey": "small#small-size", "lemma": "small", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "size", "target": "small", "contrast": "big" } },
-    { "knowledgeRef": "kr.vocab.synonym.large.big", "runtimeUsage": "knowledge_reinforcement", "senseKey": "large#big-size", "lemma": "large", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "size", "target": "large", "contrast": "small" } },
-    { "knowledgeRef": "kr.vocab.synonym.quiet.silent", "runtimeUsage": "knowledge_reinforcement", "senseKey": "quiet#making-little-or-no-sound", "lemma": "quiet", "strategy": "state_scene", "sceneTemplate": "entity-state", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "state": "silent", "exampleKind": "speaker" } },
-    { "knowledgeRef": "kr.vocab.antonym.hot.cold", "runtimeUsage": "knowledge_reinforcement", "senseKey": "hot#high-temperature", "lemma": "hot", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "optional_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "temperature", "target": "hot", "contrast": "cold" } },
-    { "knowledgeRef": "kr.vocab.antonym.early.late", "runtimeUsage": "knowledge_reinforcement", "senseKey": "early#before-expected-time", "lemma": "early", "strategy": "sequence_scene", "sceneTemplate": "sequence", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "timeRelation": "before-expected" } },
-    { "knowledgeRef": "kr.vocab.antonym.narrow.wide", "runtimeUsage": "knowledge_reinforcement", "senseKey": "narrow#small-width", "lemma": "narrow", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "width", "target": "narrow", "contrast": "wide" } },
-    { "knowledgeRef": "kr.vocab.antonym.smooth.rough", "runtimeUsage": "knowledge_reinforcement", "senseKey": "smooth#even-surface", "lemma": "smooth", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "texture", "target": "smooth", "contrast": "rough" } },
-    { "knowledgeRef": "kr.vocab.antonym.ancient.modern", "runtimeUsage": "knowledge_reinforcement", "senseKey": "ancient#very-old-from-long-ago", "lemma": "ancient", "strategy": "attribute_contrast", "sceneTemplate": "attribute-contrast", "maturity": "V5", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "dimension": "age-state", "target": "ancient", "contrast": "modern" } },
-
-    { "knowledgeRef": null, "runtimeUsage": "template_proof", "senseKey": "village#settlement", "lemma": "village", "strategy": "place_scene", "sceneTemplate": "settlement", "maturity": "V3", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "density": "low", "buildingHeight": "low", "vegetation": "high", "farmland": "high", "traffic": "low" } },
-    { "knowledgeRef": null, "runtimeUsage": "template_proof", "senseKey": "under#below-reference", "lemma": "under", "strategy": "spatial_relation", "sceneTemplate": "spatial-relation", "maturity": "V3", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "relation": "below" } },
-    { "knowledgeRef": null, "runtimeUsage": "template_proof", "senseKey": "pull#move-toward-by-force", "lemma": "pull", "strategy": "cause_effect", "sceneTemplate": "cause-effect", "maturity": "V4", "motionPolicy": "recommended_meaningful", "answerSafety": "explanation_only", "visualRef": null, "parameters": { "action": "pull", "result": "object-moves-toward" } },
-    { "knowledgeRef": null, "runtimeUsage": "template_proof", "senseKey": "open#change-from-closed", "lemma": "open", "strategy": "process_scene", "sceneTemplate": "state-transition", "maturity": "V4", "motionPolicy": "recommended_meaningful", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "from": "closed", "to": "open" } },
-    { "knowledgeRef": null, "runtimeUsage": "template_proof", "senseKey": "same#matching-in-target-dimension", "lemma": "same", "strategy": "comparison_scene", "sceneTemplate": "comparison", "maturity": "V3", "motionPolicy": "none", "answerSafety": "post_answer_only", "visualRef": null, "parameters": { "comparison": "same" } }
+    {
+      "knowledgeRef": "kr.vocab.meaning.enormous.very-large",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "enormous#very-large-size",
+      "lemma": "enormous",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "optional_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "size",
+        "target": "enormous",
+        "contrast": "ordinary-size"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.fragile.easily-broken",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "fragile#easily-broken",
+      "lemma": "fragile",
+      "strategy": "state_scene",
+      "sceneTemplate": "entity-state",
+      "maturity": "V5",
+      "motionPolicy": "optional_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "state": "fragile",
+        "exampleKind": "glass"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.rapid.very-fast",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "rapid#very-fast",
+      "lemma": "rapid",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "recommended_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "speed",
+        "target": "rapid",
+        "contrast": "slow"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.ancient.very-old",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "ancient#very-old-from-long-ago",
+      "lemma": "ancient",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "age-state",
+        "target": "ancient",
+        "contrast": "modern"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.cheerful.happy-positive",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "cheerful#happy-positive",
+      "lemma": "cheerful",
+      "strategy": "expression_scene",
+      "sceneTemplate": "expression",
+      "maturity": "V5",
+      "motionPolicy": "optional_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "expression": "happy"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.scarce.hard-to-find",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "scarce#not-enough-hard-to-find",
+      "lemma": "scarce",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": "few",
+        "comparison": "scarce"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.silent.no-sound",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "silent#making-no-sound",
+      "lemma": "silent",
+      "strategy": "state_scene",
+      "sceneTemplate": "entity-state",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "state": "silent",
+        "exampleKind": "speaker"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.meaning.observe.watch-carefully",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "observe#watch-carefully",
+      "lemma": "observe",
+      "strategy": "action_scene",
+      "sceneTemplate": "actor-action",
+      "maturity": "V5",
+      "motionPolicy": "optional_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "action": "observe"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.synonym.happy.glad",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "happy#positive-emotional-state",
+      "lemma": "happy",
+      "strategy": "expression_scene",
+      "sceneTemplate": "expression",
+      "maturity": "V5",
+      "motionPolicy": "optional_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "expression": "happy"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.synonym.quick.fast",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "quick#fast-speed",
+      "lemma": "quick",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "recommended_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "speed",
+        "target": "quick",
+        "contrast": "slow"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.synonym.small.tiny",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "small#small-size",
+      "lemma": "small",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "size",
+        "target": "small",
+        "contrast": "big"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.synonym.large.big",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "large#big-size",
+      "lemma": "large",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "size",
+        "target": "large",
+        "contrast": "small"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.synonym.quiet.silent",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "quiet#making-little-or-no-sound",
+      "lemma": "quiet",
+      "strategy": "state_scene",
+      "sceneTemplate": "entity-state",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "state": "silent",
+        "exampleKind": "speaker"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.antonym.hot.cold",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "hot#high-temperature",
+      "lemma": "hot",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "optional_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "temperature",
+        "target": "hot",
+        "contrast": "cold"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.antonym.early.late",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "early#before-expected-time",
+      "lemma": "early",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "timeRelation": "before-expected"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.antonym.narrow.wide",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "narrow#small-width",
+      "lemma": "narrow",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "width",
+        "target": "narrow",
+        "contrast": "wide"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.antonym.smooth.rough",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "smooth#even-surface",
+      "lemma": "smooth",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "texture",
+        "target": "smooth",
+        "contrast": "rough"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.antonym.ancient.modern",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "ancient#very-old-from-long-ago",
+      "lemma": "ancient",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "age-state",
+        "target": "ancient",
+        "contrast": "modern"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "pull#move-toward-by-force",
+      "lemma": "pull",
+      "strategy": "cause_effect",
+      "sceneTemplate": "cause-effect",
+      "maturity": "V5",
+      "motionPolicy": "recommended_meaningful",
+      "answerSafety": "explanation_only",
+      "visualRef": null,
+      "parameters": {
+        "action": "pull",
+        "result": "object-moves-toward"
+      },
+      "semanticDepthPatternRefs": [
+        "pull-direction-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.primary.meaning.fast.fast-a-1",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "fast#a#1",
+      "lemma": "fast",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "recommended_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "speed",
+        "target": "fast",
+        "contrast": "slow"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.primary.meaning.full.full-a-1",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "full#a#1",
+      "lemma": "full",
+      "strategy": "attribute_contrast",
+      "sceneTemplate": "attribute-contrast",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dimension": "fill-level",
+        "target": "full",
+        "contrast": "empty"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": "kr.vocab.primary.meaning.library.library-n-3",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "library#n#3",
+      "lemma": "library",
+      "strategy": "place_scene",
+      "sceneTemplate": "place",
+      "maturity": "V5",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "placeKind": "library"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": null,
+      "runtimeUsage": "template_proof",
+      "senseKey": "village#settlement",
+      "lemma": "village",
+      "strategy": "place_scene",
+      "sceneTemplate": "settlement",
+      "maturity": "V3",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "density": "low",
+        "buildingHeight": "low",
+        "vegetation": "high",
+        "farmland": "high",
+        "traffic": "low"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": null,
+      "runtimeUsage": "template_proof",
+      "senseKey": "under#below-reference",
+      "lemma": "under",
+      "strategy": "spatial_relation",
+      "sceneTemplate": "spatial-relation",
+      "maturity": "V3",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "relation": "below"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": null,
+      "runtimeUsage": "template_proof",
+      "senseKey": "open#change-from-closed",
+      "lemma": "open",
+      "strategy": "process_scene",
+      "sceneTemplate": "state-transition",
+      "maturity": "V4",
+      "motionPolicy": "recommended_meaningful",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "from": "closed",
+        "to": "open"
+      },
+      "semanticDepthPatternRefs": []
+    },
+    {
+      "knowledgeRef": null,
+      "runtimeUsage": "template_proof",
+      "senseKey": "same#matching-in-target-dimension",
+      "lemma": "same",
+      "strategy": "comparison_scene",
+      "sceneTemplate": "comparison",
+      "maturity": "V3",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "comparison": "same"
+      },
+      "semanticDepthPatternRefs": []
+    }
   ]
 }
