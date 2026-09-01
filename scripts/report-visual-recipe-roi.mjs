@@ -1,14 +1,13 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import {
+  buildVisualSemanticRoleSets,
+  classifyVisualSemantic,
+  normalizeVisualSemantic as normalize,
+  recommendVisualRecipeTemplate
+} from './visual-opportunity-semantics.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const normalize = (value) => String(value ?? '')
-  .toLowerCase()
-  .replace(/[’']/g, '')
-  .replace(/[-_]+/g, ' ')
-  .replace(/[.,!?;:()]/g, ' ')
-  .replace(/\s+/g, ' ')
-  .trim();
 
 const args = process.argv.slice(2);
 const jsonMode = args.includes('--json');
@@ -31,7 +30,35 @@ for (const visual of visuals) {
 
 const recipeFiles = readdirSync(new URL('content/visual-recipes/', root)).filter((name) => name.endsWith('.json')).sort();
 const recipes = recipeFiles.flatMap((file) => readJson(`content/visual-recipes/${file}`));
-const recipeSemantics = new Set(recipes.map((recipe) => normalize(recipe.semanticRef)));
+const recipeBySemantic = new Map();
+for (const recipe of recipes) {
+  for (const key of [recipe.semanticRef, ...(recipe.aliases ?? [])].map(normalize).filter(Boolean)) {
+    if (!recipeBySemantic.has(key)) recipeBySemantic.set(key, recipe);
+  }
+}
+
+const recipeSurfaceForEngine = (engine) => {
+  switch (engine) {
+    case 'word_bank_fill': return 'word-bank';
+    case 'memory_pairs': return 'memory-card';
+    case 'sequence_order': return 'sequence-item';
+    default: return 'option';
+  }
+};
+
+const recipeResolves = (semanticRef, engine) => {
+  if (!semanticRef) return false;
+  const recipe = recipeBySemantic.get(normalize(semanticRef));
+  if (!recipe) return false;
+  const exposure = recipe.surfaces?.[recipeSurfaceForEngine(engine)] ?? 'hidden';
+  if (exposure === 'hidden') return false;
+  if (exposure === 'identity_only') return recipe.slots?.some((slot) => slot.exposure === 'identity');
+  return Array.isArray(recipe.slots) && recipe.slots.length > 0;
+};
+
+const knowledgeFiles = readdirSync(new URL('content/knowledge/', root)).filter((name) => name.endsWith('.json')).sort();
+const knowledgeDocuments = knowledgeFiles.map((file) => ({ file, value: readJson(`content/knowledge/${file}`) }));
+const semanticRoleSets = buildVisualSemanticRoleSets(knowledgeDocuments);
 
 const profileFiles = readdirSync(new URL('content/profile-memberships/', root)).filter((name) => name.endsWith('.json')).sort();
 const profileRows = new Map();
@@ -67,24 +94,12 @@ const skipReason = (item) => {
   return null;
 };
 
-const isResolved = (item) => {
+const isResolved = (item, engine) => {
   if (Array.isArray(item?.visualRefs) && item.visualRefs.some((ref) => visualIds.has(ref))) return true;
   const semantic = normalize(item?.semanticRef);
-  if (semantic && (semanticVisuals.has(semantic) || recipeSemantics.has(semantic))) return true;
+  if (semantic && semanticVisuals.has(semantic)) return true;
+  if (recipeResolves(item?.semanticRef, engine)) return true;
   return aliases.has(normalize(item?.label));
-};
-
-const recommend = (entry) => {
-  const key = normalize(entry.semanticRef || entry.label);
-  if (/\b(length|mass|capacity|temperature|volume|weight)\b/.test(key)) return { template: 'measurement', costClass: 'low' };
-  if (/\b(transparent|opaque|hot|cold|heavy|light|rough|smooth|hard|soft)\b/.test(key)) return { template: 'contrast.pair', costClass: 'low' };
-  if (/\b(orbit|revolution|satellite)\b/.test(key)) return { template: 'orbit', costClass: 'low' };
-  if (/\b(living|nonliving|source|group|type|class)\b/.test(key)) return { template: 'classification', costClass: 'low' };
-  if (/\b(open|closed|full|empty|state)\b/.test(key)) return { template: 'state.before-after', costClass: 'low' };
-  if (/\b(grow|melt|freeze|fill|cycle|sequence|stage)\b/.test(key)) return { template: 'process.sequence', costClass: 'medium' };
-  if (/\b(part|root|stem|leaf|organ)\b/.test(key)) return { template: 'relation.source-target', costClass: 'medium' };
-  if (/\b(reduce|reuse|recycle|shadow|reflect|absorb|flow|move)\b/.test(key)) return { template: 'relation.source-target', costClass: 'medium' };
-  return { template: 'entity.single', costClass: 'medium' };
 };
 
 const questionFiles = readdirSync(new URL('content/questions/', root)).filter((name) => name.endsWith('.json')).sort();
@@ -107,7 +122,7 @@ for (const question of questions) {
   }
 
   for (const item of visibleItems(question)) {
-    if (isResolved(item) || skipReason(item)) continue;
+    if (isResolved(item, engine) || skipReason(item)) continue;
     unresolvedInstances += 1;
     const label = String(item?.label ?? '').trim();
     const semanticRef = typeof item?.semanticRef === 'string' && item.semanticRef.trim() ? item.semanticRef.trim() : null;
@@ -116,6 +131,7 @@ for (const question of questions) {
       key,
       semanticRef,
       label,
+      category: classifyVisualSemantic(semanticRef, semanticRoleSets),
       count: 0,
       engines: new Set(),
       profiles: new Set(),
@@ -130,8 +146,8 @@ for (const question of questions) {
 }
 
 const costWeight = { low: 1, medium: 2, high: 4 };
-const ranked = [...opportunities.values()].map((entry) => {
-  const recommendation = recommend(entry);
+const scored = [...opportunities.values()].map((entry) => {
+  const recommendation = recommendVisualRecipeTemplate(entry);
   const engineBreadth = Math.max(1, entry.engines.size);
   const profileBreadth = Math.max(1, entry.profiles.size);
   const roiScore = Math.round((entry.count * engineBreadth * profileBreadth / costWeight[recommendation.costClass]) * 10) / 10;
@@ -139,6 +155,7 @@ const ranked = [...opportunities.values()].map((entry) => {
     key: entry.key,
     semanticRef: entry.semanticRef,
     label: entry.label,
+    category: entry.category,
     occurrenceCount: entry.count,
     engineBreadth,
     engines: [...entry.engines].sort(),
@@ -146,23 +163,35 @@ const ranked = [...opportunities.values()].map((entry) => {
     profiles: [...entry.profiles].sort(),
     suggestedTemplate: recommendation.template,
     costClass: recommendation.costClass,
+    automaticEligible: recommendation.automaticEligible,
     roiScore,
     exampleQuestionIds: [...entry.questionIds].slice(0, 5)
   };
 }).sort((left, right) => right.roiScore - left.roiScore || right.occurrenceCount - left.occurrenceCount || left.key.localeCompare(right.key));
 
+const productionQueue = scored.filter((entry) => entry.automaticEligible);
+const reviewQueue = scored.filter((entry) => !entry.automaticEligible);
 const result = {
   recipes: recipes.length,
   unresolvedInstances,
-  uniqueOpportunities: ranked.length,
-  queue: ranked.slice(0, limit)
+  uniqueOpportunities: scored.length,
+  productionCandidates: productionQueue.length,
+  reviewCandidates: reviewQueue.length,
+  queue: productionQueue.slice(0, limit),
+  reviewQueue: reviewQueue.slice(0, limit)
 };
 
 if (jsonMode) {
   console.log(JSON.stringify(result, null, 2));
 } else {
-  console.log(`Semantic visual recipe ROI queue: ${recipes.length} authored recipe(s); ${unresolvedInstances} unresolved visual-friendly instance(s) across ${ranked.length} unique opportunity key(s).`);
-  for (const entry of ranked.slice(0, limit)) {
-    console.log(`- ${entry.semanticRef ?? entry.label}: score=${entry.roiScore}; ×${entry.occurrenceCount}; engines=${entry.engineBreadth}; profiles=${entry.profileBreadth}; template=${entry.suggestedTemplate}; cost=${entry.costClass}`);
+  console.log(`Semantic visual recipe ROI queue: ${recipes.length} authored recipe(s); ${unresolvedInstances} unresolved visual-friendly instance(s) across ${scored.length} unique opportunity key(s).`);
+  console.log(`${productionQueue.length} production candidate(s); ${reviewQueue.length} semantic-review candidate(s) kept out of automatic production.`);
+  console.log('\nProduction queue:');
+  for (const entry of productionQueue.slice(0, limit)) {
+    console.log(`- ${entry.semanticRef ?? entry.label}: score=${entry.roiScore}; ×${entry.occurrenceCount}; engines=${entry.engineBreadth}; profiles=${entry.profileBreadth}; template=${entry.suggestedTemplate}; cost=${entry.costClass}; category=${entry.category}`);
+  }
+  console.log('\nHuman semantic-review queue:');
+  for (const entry of reviewQueue.slice(0, Math.min(limit, 10))) {
+    console.log(`- ${entry.semanticRef ?? entry.label}: score=${entry.roiScore}; ×${entry.occurrenceCount}; category=${entry.category}; automatic=no`);
   }
 }
