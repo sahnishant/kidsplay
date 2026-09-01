@@ -1,1 +1,202 @@
-[{"id":"vocab.primary.reviewed.mcq.word-to-meaning.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"single_choice@1","forEachEntry":true,"choiceDirection":"subject_to_object","distractorCount":3,"difficulty":1},{"id":"vocab.primary.reviewed.mcq.meaning-to-word.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"single_choice@1","forEachEntry":true,"choiceDirection":"object_to_subject","distractorCount":3,"difficulty":1},{"id":"vocab.primary.reviewed.unscramble.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"sequence_order@1","forEachEntry":true,"sequenceMode":"subject_letters","seed":2026090105,"difficulty":1},{"id":"vocab.primary.reviewed.match.grade1-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"drag_to_target@1","entryIds":["ask","come","fast","find"],"difficulty":1,"prompt":"Match each reviewed word to its meaning."},{"id":"vocab.primary.reviewed.match.grade1-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"drag_to_target@1","entryIds":["full","go","old","put"],"difficulty":1,"prompt":"Match each reviewed word to its meaning."},{"id":"vocab.primary.reviewed.match.grade2-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"drag_to_target@1","entryIds":["environment","floor","guide","library"],"difficulty":1,"prompt":"Match each reviewed word to its meaning."},{"id":"vocab.primary.reviewed.match.grade2-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"drag_to_target@1","entryIds":["minute","notice","pull","regular"],"difficulty":1,"prompt":"Match each reviewed word to its meaning."},{"id":"vocab.primary.reviewed.memory.grade1-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"memory_pairs@1","entryIds":["ask","come","fast","find"],"difficulty":1,"prompt":"Find each reviewed word and meaning pair.","seed":2026090110},{"id":"vocab.primary.reviewed.memory.grade1-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"memory_pairs@1","entryIds":["full","go","old","put"],"difficulty":1,"prompt":"Find each reviewed word and meaning pair.","seed":2026090111},{"id":"vocab.primary.reviewed.memory.grade2-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"memory_pairs@1","entryIds":["environment","floor","guide","library"],"difficulty":1,"prompt":"Find each reviewed word and meaning pair.","seed":2026090112},{"id":"vocab.primary.reviewed.memory.grade2-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"memory_pairs@1","entryIds":["minute","notice","pull","regular"],"difficulty":1,"prompt":"Find each reviewed word and meaning pair.","seed":2026090113},{"id":"vocab.primary.reviewed.word-search.grade1-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"word_search@1","entryIds":["ask","come","fast","find"],"difficulty":1,"prompt":"Find the reviewed words.","seed":2026090120},{"id":"vocab.primary.reviewed.word-search.grade1-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"word_search@1","entryIds":["full","go","old","put"],"difficulty":1,"prompt":"Find the reviewed words.","seed":2026090121},{"id":"vocab.primary.reviewed.word-search.grade2-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"word_search@1","entryIds":["environment","floor","guide","library"],"difficulty":1,"prompt":"Find the reviewed words.","seed":2026090122},{"id":"vocab.primary.reviewed.word-search.grade2-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"word_search@1","entryIds":["minute","notice","pull","regular"],"difficulty":1,"prompt":"Find the reviewed words.","seed":2026090123},{"id":"vocab.primary.reviewed.crossword.grade1-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"crossword@1","entryIds":["ask","fast"],"difficulty":2,"prompt":"Use the reviewed meanings to solve the crossword."},{"id":"vocab.primary.reviewed.crossword.grade1-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"crossword@1","entryIds":["come","go"],"difficulty":2,"prompt":"Use the reviewed meanings to solve the crossword."},{"id":"vocab.primary.reviewed.crossword.grade1-c.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"crossword@1","entryIds":["find","old"],"difficulty":2,"prompt":"Use the reviewed meanings to solve the crossword."},{"id":"vocab.primary.reviewed.crossword.grade1-d.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"crossword@1","entryIds":["full","put"],"difficulty":2,"prompt":"Use the reviewed meanings to solve the crossword."},{"id":"vocab.primary.reviewed.crossword.grade2-a.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"crossword@1","entryIds":["environment","floor","guide","library"],"difficulty":2,"prompt":"Use the reviewed meanings to solve the crossword."},{"id":"vocab.primary.reviewed.crossword.grade2-b.001","sourceRef":"knowledge.english.vocabulary.primary-reviewed.001","engine":"crossword@1","entryIds":["minute","notice","pull","regular"],"difficulty":2,"prompt":"Use the reviewed meanings to solve the crossword."}]
+[
+  {
+    "id": "vocab.primary.reviewed.mcq.word-to-meaning.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "single_choice@1",
+    "conceptIds": [],
+    "forEachEntry": true,
+    "choiceDirection": "subject_to_object",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.primary.reviewed.mcq.meaning-to-word.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "single_choice@1",
+    "conceptIds": [],
+    "forEachEntry": true,
+    "choiceDirection": "object_to_subject",
+    "distractorCount": 3,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.primary.reviewed.unscramble.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "sequence_order@1",
+    "conceptIds": [],
+    "forEachEntry": true,
+    "sequenceMode": "subject_letters",
+    "seed": 2026090105,
+    "difficulty": 1
+  },
+  {
+    "id": "vocab.primary.reviewed.match.grade1-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "drag_to_target@1",
+    "conceptIds": [],
+    "entryIds": ["ask", "come", "fast", "find"],
+    "difficulty": 1,
+    "prompt": "Match each reviewed word to its meaning."
+  },
+  {
+    "id": "vocab.primary.reviewed.match.grade1-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "drag_to_target@1",
+    "conceptIds": [],
+    "entryIds": ["full", "go", "old", "put"],
+    "difficulty": 1,
+    "prompt": "Match each reviewed word to its meaning."
+  },
+  {
+    "id": "vocab.primary.reviewed.match.grade2-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "drag_to_target@1",
+    "conceptIds": [],
+    "entryIds": ["environment", "floor", "guide", "library"],
+    "difficulty": 1,
+    "prompt": "Match each reviewed word to its meaning."
+  },
+  {
+    "id": "vocab.primary.reviewed.match.grade2-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "drag_to_target@1",
+    "conceptIds": [],
+    "entryIds": ["minute", "notice", "pull", "regular"],
+    "difficulty": 1,
+    "prompt": "Match each reviewed word to its meaning."
+  },
+  {
+    "id": "vocab.primary.reviewed.memory.grade1-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "memory_pairs@1",
+    "conceptIds": [],
+    "entryIds": ["ask", "come", "fast", "find"],
+    "difficulty": 1,
+    "prompt": "Find each reviewed word and meaning pair.",
+    "seed": 2026090110
+  },
+  {
+    "id": "vocab.primary.reviewed.memory.grade1-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "memory_pairs@1",
+    "conceptIds": [],
+    "entryIds": ["full", "go", "old", "put"],
+    "difficulty": 1,
+    "prompt": "Find each reviewed word and meaning pair.",
+    "seed": 2026090111
+  },
+  {
+    "id": "vocab.primary.reviewed.memory.grade2-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "memory_pairs@1",
+    "conceptIds": [],
+    "entryIds": ["environment", "floor", "guide", "library"],
+    "difficulty": 1,
+    "prompt": "Find each reviewed word and meaning pair.",
+    "seed": 2026090112
+  },
+  {
+    "id": "vocab.primary.reviewed.memory.grade2-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "memory_pairs@1",
+    "conceptIds": [],
+    "entryIds": ["minute", "notice", "pull", "regular"],
+    "difficulty": 1,
+    "prompt": "Find each reviewed word and meaning pair.",
+    "seed": 2026090113
+  },
+  {
+    "id": "vocab.primary.reviewed.word-search.grade1-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "word_search@1",
+    "conceptIds": [],
+    "entryIds": ["ask", "come", "fast", "find"],
+    "difficulty": 1,
+    "prompt": "Find the reviewed words.",
+    "seed": 2026090120
+  },
+  {
+    "id": "vocab.primary.reviewed.word-search.grade1-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "word_search@1",
+    "conceptIds": [],
+    "entryIds": ["full", "go", "old", "put"],
+    "difficulty": 1,
+    "prompt": "Find the reviewed words.",
+    "seed": 2026090121
+  },
+  {
+    "id": "vocab.primary.reviewed.word-search.grade2-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "word_search@1",
+    "conceptIds": [],
+    "entryIds": ["environment", "floor", "guide", "library"],
+    "difficulty": 1,
+    "prompt": "Find the reviewed words.",
+    "seed": 2026090122
+  },
+  {
+    "id": "vocab.primary.reviewed.word-search.grade2-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "word_search@1",
+    "conceptIds": [],
+    "entryIds": ["minute", "notice", "pull", "regular"],
+    "difficulty": 1,
+    "prompt": "Find the reviewed words.",
+    "seed": 2026090123
+  },
+  {
+    "id": "vocab.primary.reviewed.crossword.grade1-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "crossword@1",
+    "conceptIds": [],
+    "entryIds": ["ask", "fast"],
+    "difficulty": 2,
+    "prompt": "Use the reviewed meanings to solve the crossword."
+  },
+  {
+    "id": "vocab.primary.reviewed.crossword.grade1-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "crossword@1",
+    "conceptIds": [],
+    "entryIds": ["come", "go"],
+    "difficulty": 2,
+    "prompt": "Use the reviewed meanings to solve the crossword."
+  },
+  {
+    "id": "vocab.primary.reviewed.crossword.grade1-c.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "crossword@1",
+    "conceptIds": [],
+    "entryIds": ["find", "old"],
+    "difficulty": 2,
+    "prompt": "Use the reviewed meanings to solve the crossword."
+  },
+  {
+    "id": "vocab.primary.reviewed.crossword.grade1-d.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "crossword@1",
+    "conceptIds": [],
+    "entryIds": ["full", "put"],
+    "difficulty": 2,
+    "prompt": "Use the reviewed meanings to solve the crossword."
+  },
+  {
+    "id": "vocab.primary.reviewed.crossword.grade2-a.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "crossword@1",
+    "conceptIds": [],
+    "entryIds": ["environment", "floor", "guide", "library"],
+    "difficulty": 2,
+    "prompt": "Use the reviewed meanings to solve the crossword."
+  },
+  {
+    "id": "vocab.primary.reviewed.crossword.grade2-b.001",
+    "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+    "engine": "crossword@1",
+    "conceptIds": [],
+    "entryIds": ["minute", "notice", "pull", "regular"],
+    "difficulty": 2,
+    "prompt": "Use the reviewed meanings to solve the crossword."
+  }
+]
