@@ -14,5 +14,13 @@
     "label": "Light-blocking material sample",
     "motion": "pulse",
     "aliases": ["light-blocking material sample", "light-blocking sample"]
+  },
+  {
+    "id": "entity.light.cast-shadow-sample",
+    "renderer": "material-property-icon",
+    "glyph": "shadow-sample",
+    "label": "Cast shadow sample",
+    "motion": "idle",
+    "aliases": ["cast shadow sample", "object shadow sample"]
   }
 ]
