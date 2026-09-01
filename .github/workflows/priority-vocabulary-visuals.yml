@@ -52,16 +52,16 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Generate frozen review source, batch 002, and live remaining gap
-        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002
+      - name: Generate batch 002, Phase B terminal batch 003, and final live gap
+        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002 && npm run compile:vocabulary-visual-batch003
 
-      - name: Prove queues are candidate-only, deterministic and advanced past batch 002
-        run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts
+      - name: Prove queues and terminal Phase B dispositions are deterministic
+        run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts tests/vocabulary-visual-priority-batch-003.behavior.test.ts
 
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
 
-      - name: Upload live ranked review queue
+      - name: Upload final live ranked review queue
         uses: actions/upload-artifact@v7
         with:
           name: priority-vocabulary-visual-gap
@@ -73,4 +73,18 @@ jobs:
         with:
           name: priority-vocabulary-visual-gap-pre-batch-002
           path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json
+          if-no-files-found: error
+
+      - name: Upload frozen batch-003 terminal source queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: priority-vocabulary-visual-gap-pre-batch-003
+          path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-003.json
+          if-no-files-found: error
+
+      - name: Upload generated Phase B terminal batch
+        uses: actions/upload-artifact@v7
+        with:
+          name: priority-vocabulary-visual-batch-003
+          path: content/vocabulary-visuals/batches/__generated-priority-batch-003.json
           if-no-files-found: error
