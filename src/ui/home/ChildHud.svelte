@@ -29,7 +29,7 @@
     <span class="hud-pill" aria-label={`${stars} story stars`}>⭐ <strong>{stars}</strong></span>
     {#if currentLevel !== null}
       <span class="hud-pill hud-pill--level" aria-label={`Current adventure level ${currentLevel}`}>
-        LEVEL <strong>{currentLevel}</strong>
+        Level <strong>{currentLevel}</strong>
       </span>
     {/if}
   </div>
