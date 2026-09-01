@@ -102,6 +102,21 @@
       "runtimeAuthority": "none"
     },
     {
+      "id": "human_reviewed_candidate_selection",
+      "semanticReviewAuthority": true,
+      "historicalMigrationOnly": false,
+      "requiresPinnedCandidateTrace": true,
+      "canCreateDisposition": true,
+      "canResolveSense": true,
+      "canSelectMultiCandidate": true,
+      "canClaimHumanReview": true,
+      "allowedManifestStatuses": ["human_reviewed_exact_sense"],
+      "allowedDispositionStates": ["reviewed_strategy", "terminal_textual"],
+      "allowedResolutionStates": ["human_resolved"],
+      "maxSemanticMaturity": "V2",
+      "runtimeAuthority": "none"
+    },
+    {
       "id": "runtime_mapping_config",
       "semanticReviewAuthority": false,
       "canCreateDisposition": false,
