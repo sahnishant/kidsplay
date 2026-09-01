@@ -24,7 +24,8 @@ const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.water.sea.feature.salty', 'scene.water.sea-salty'],
   ['kr.rocks.pumice.feature.light', 'scene.rocks.pumice-water'],
   ['kr.plants.general.air.cool-fresh', 'scene.plants.air-fresh'],
-  ['kr.universe.earth.rotation.day-night', 'scene.universe.earth-rotation']
+  ['kr.universe.earth.rotation.day-night', 'scene.universe.earth-rotation'],
+  ['kr.science.process.germination.seed-to-young-plant', 'scene.plants.germination']
 ]);
 
 const sceneByConceptId = new Map<string, string>([
@@ -42,7 +43,8 @@ const sceneByConceptId = new Map<string, string>([
   ['water.sources.sea', 'scene.water.sea-salty'],
   ['rocks.types.pumice', 'scene.rocks.pumice-water'],
   ['plants.importance.air', 'scene.plants.air-fresh'],
-  ['universe.earth.rotation', 'scene.universe.earth-rotation']
+  ['universe.earth.rotation', 'scene.universe.earth-rotation'],
+  ['sof3.plants.germination', 'scene.plants.germination']
 ]);
 
 const dashboardSceneByTopic = new Map<string, string>([
