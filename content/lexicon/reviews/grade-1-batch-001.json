@@ -24,14 +24,94 @@
     "reviewedProfilePlacements": 0
   },
   "decisions": [
-    { "lemma": "ask", "candidateId": "ask#v#2", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "To say a question because you want an answer.", "childExample": "I will ask the teacher how plants grow." },
-    { "lemma": "come", "candidateId": "come#v#1", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "To move toward the person or place being spoken about.", "childExample": "Please come to the table for lunch." },
-    { "lemma": "fast", "candidateId": "fast#a#1", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "Moving or happening very quickly.", "childExample": "The fast rabbit reached the tree first." },
-    { "lemma": "find", "candidateId": "find#v#3", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "To discover where something is after looking for it.", "childExample": "I found my pencil under the chair." },
-    { "lemma": "full", "candidateId": "full#a#1", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "Holding as much as it can.", "childExample": "The bottle is full of water." },
-    { "lemma": "go", "candidateId": "go#v#1", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "To move from one place toward another place.", "childExample": "We go to school in the morning." },
-    { "lemma": "old", "candidateId": "old#a#2", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "Having been alive for many years.", "childExample": "Our old dog likes quiet walks." },
-    { "lemma": "put", "candidateId": "put#v#1", "status": "reviewed", "decision": "accept", "reviewAuthority": "human_editor", "reviewer": "sahnishant", "reviewedAt": "2026-08-31", "childDefinition": "To place something in a particular spot.", "childExample": "Put the book on the shelf." }
+    {
+      "lemma": "ask",
+      "candidateId": "ask#v#2",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To say a question because you want an answer.",
+      "childExample": "I will ask the teacher how plants grow."
+    },
+    {
+      "lemma": "come",
+      "candidateId": "come#v#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To move toward the person or place being spoken about.",
+      "childExample": "Please come to the table for lunch."
+    },
+    {
+      "lemma": "fast",
+      "candidateId": "fast#a#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "Moving or happening very quickly.",
+      "childExample": "The fast rabbit reached the tree first."
+    },
+    {
+      "lemma": "find",
+      "candidateId": "find#v#3",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To discover where something is after looking for it.",
+      "childExample": "I found my pencil under the chair."
+    },
+    {
+      "lemma": "full",
+      "candidateId": "full#a#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "Holding as much as it can.",
+      "childExample": "The bottle is full of water."
+    },
+    {
+      "lemma": "go",
+      "candidateId": "go#v#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To move from one place toward another place.",
+      "childExample": "We go to school in the morning."
+    },
+    {
+      "lemma": "old",
+      "candidateId": "old#a#2",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "Having been alive for many years.",
+      "childExample": "Our old dog likes quiet walks."
+    },
+    {
+      "lemma": "put",
+      "candidateId": "put#v#1",
+      "status": "reviewed",
+      "decision": "accept",
+      "reviewAuthority": "human_editor",
+      "reviewer": "sahnishant",
+      "reviewedAt": "2026-08-31",
+      "childDefinition": "To place something in a particular spot.",
+      "childExample": "Put the book on the shelf."
+    }
   ],
   "profilePlacementReviewQueue": {
     "status": "pending_human_editorial_review",
@@ -42,38 +122,150 @@
     "mayClaimBoardOrExamAlignment": false,
     "evidenceBoundary": "Candidate placements come only from review-only profile slices. Presence in a grade/corpus slice is a review signal and does not approve curriculum or exam membership.",
     "items": [
-      { "lemma": "ask", "rowId": "kr.vocab.primary.meaning.ask.ask-v-2", "selectedCandidateId": "ask#v#2", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "come", "rowId": "kr.vocab.primary.meaning.come.come-v-1", "selectedCandidateId": "come#v#1", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "fast", "rowId": "kr.vocab.primary.meaning.fast.fast-a-1", "selectedCandidateId": "fast#a#1", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "find", "rowId": "kr.vocab.primary.meaning.find.find-v-3", "selectedCandidateId": "find#v#3", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "full", "rowId": "kr.vocab.primary.meaning.full.full-a-1", "selectedCandidateId": "full#a#1", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "go", "rowId": "kr.vocab.primary.meaning.go.go-v-1", "selectedCandidateId": "go#v#1", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "old", "rowId": "kr.vocab.primary.meaning.old.old-a-2", "selectedCandidateId": "old#a#2", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]},
-      { "lemma": "put", "rowId": "kr.vocab.primary.meaning.put.put-v-1", "selectedCandidateId": "put#v#1", "status": "pending_human_editorial_review", "candidatePlacements": [
-        { "profileRef": "CBSE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." },
-        { "profileRef": "CISCE_INDIA_CLASS1", "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json", "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required." }
-      ]}
+      {
+        "lemma": "ask",
+        "rowId": "kr.vocab.primary.meaning.ask.ask-v-2",
+        "selectedCandidateId": "ask#v#2",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "come",
+        "rowId": "kr.vocab.primary.meaning.come.come-v-1",
+        "selectedCandidateId": "come#v#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "fast",
+        "rowId": "kr.vocab.primary.meaning.fast.fast-a-1",
+        "selectedCandidateId": "fast#a#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "find",
+        "rowId": "kr.vocab.primary.meaning.find.find-v-3",
+        "selectedCandidateId": "find#v#3",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "full",
+        "rowId": "kr.vocab.primary.meaning.full.full-a-1",
+        "selectedCandidateId": "full#a#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "go",
+        "rowId": "kr.vocab.primary.meaning.go.go-v-1",
+        "selectedCandidateId": "go#v#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "old",
+        "rowId": "kr.vocab.primary.meaning.old.old-a-2",
+        "selectedCandidateId": "old#a#2",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "put",
+        "rowId": "kr.vocab.primary.meaning.put.put-v-1",
+        "selectedCandidateId": "put#v#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS1",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS1-grade-1-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      }
     ]
   },
   "profilePlacements": []
