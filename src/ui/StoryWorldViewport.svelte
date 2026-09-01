@@ -139,7 +139,7 @@
       <span class="eyebrow">YOUR NEXT ADVENTURE</span>
       {#if currentPresentation}
         <h2 id="story-world-heading">{currentPresentation.location.expeditionTitle}</h2>
-        <p><strong>LEVEL {currentPresentation.location.progression.level}</strong> · Find the clues and make this world stronger.</p>
+        <p><strong>Level {currentPresentation.location.progression.level}</strong> · Find the clues and make this world stronger.</p>
       {:else}
         <h2 id="story-world-heading">Explore {heroName}'s science world</h2>
         <p>Choose any open expedition.</p>
