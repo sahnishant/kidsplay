@@ -60,7 +60,7 @@ describe('Dheu viewport story-world presentation', () => {
     });
 
     expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
-    expect(screen.getByText('LEVEL 1')).toBeTruthy();
+    expect(screen.getAllByText('LEVEL 1').length).toBeGreaterThanOrEqual(2);
     expect(screen.getByLabelText('5 of 9 places open; 0 complete')).toBeTruthy();
     expect(screen.queryByRole('dialog')).toBeNull();
 
