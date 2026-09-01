@@ -2,6 +2,7 @@ import presentationModesJson from '../../content/vocabulary-visuals/presentation
 import {
   isVocabularyVisualPlanChildFacing,
   resolveVocabularyVisualPlan,
+  resolveVocabularyVisualPlanForKnowledgeRefs,
   type VocabularyVisualRuntimePlan
 } from './vocabularyVisualRegistry';
 
@@ -36,6 +37,23 @@ export interface VisualMeaningPresentation {
   plan: VocabularyVisualRuntimePlan | null;
 }
 
+export interface VisualMeaningPresentationSlice {
+  schemaVersion: 1;
+  compilerVersion: number;
+  phase: VisualMeaningPresentationPhase;
+  plans: VisualMeaningPresentation[];
+  summary: {
+    requested: number;
+    visualAllowed: number;
+    textFallback: number;
+    derivedModes: Record<string, number>;
+    deliveryModes: Record<string, number>;
+    payloadBytes: number;
+    maxRequestedSenses: number;
+    maxPayloadBytes: number;
+  };
+}
+
 interface PresentationModeContract {
   schemaVersion: number;
   compilerVersion: number;
@@ -44,6 +62,11 @@ interface PresentationModeContract {
     semanticAuthorityFromPresentationMode: boolean;
     childFacingVisualRequiresRuntimeProof: boolean;
     fullCorpusBrowserImportAllowed: boolean;
+    boundedSliceRequired: boolean;
+  };
+  slicePolicy: {
+    maxRequestedSenses: number;
+    maxPayloadBytes: number;
   };
   modes: Array<{
     id: VisualMeaningPresentationMode;
@@ -59,7 +82,12 @@ if (
   contract.policy?.derivedOnly !== true ||
   contract.policy?.semanticAuthorityFromPresentationMode !== false ||
   contract.policy?.childFacingVisualRequiresRuntimeProof !== true ||
-  contract.policy?.fullCorpusBrowserImportAllowed !== false
+  contract.policy?.fullCorpusBrowserImportAllowed !== false ||
+  contract.policy?.boundedSliceRequired !== true ||
+  !Number.isInteger(contract.slicePolicy?.maxRequestedSenses) ||
+  contract.slicePolicy.maxRequestedSenses < 1 ||
+  !Number.isInteger(contract.slicePolicy?.maxPayloadBytes) ||
+  contract.slicePolicy.maxPayloadBytes < 1
 ) {
   throw new Error('Invalid vocabulary visual presentation mode contract');
 }
@@ -84,6 +112,16 @@ function modeForPlan(plan: VocabularyVisualRuntimePlan): VisualMeaningPresentati
     throw new Error(`${plan.senseKey}: runtime visual strategy ${plan.strategy} has no visual presentation mode`);
   }
   return mode;
+}
+
+function histogram(values: string[]): Record<string, number> {
+  const result: Record<string, number> = {};
+  for (const value of values) result[value] = (result[value] ?? 0) + 1;
+  return Object.fromEntries(Object.entries(result).sort(([left], [right]) => left.localeCompare(right)));
+}
+
+function payloadBytes(value: unknown): number {
+  return new TextEncoder().encode(JSON.stringify(value)).byteLength;
 }
 
 export function resolveVisualMeaningPresentation(
@@ -131,5 +169,62 @@ export function resolveVisualMeaningPresentation(
     maturity: plan.maturity,
     runtimeUsage: plan.runtimeUsage,
     plan
+  };
+}
+
+export function resolveVisualMeaningPresentationForKnowledgeRefs(
+  knowledgeRefs: string[] = [],
+  { phase = 'explanation' }: { phase?: VisualMeaningPresentationPhase } = {}
+): VisualMeaningPresentation {
+  const plan = resolveVocabularyVisualPlanForKnowledgeRefs(knowledgeRefs);
+  return resolveVisualMeaningPresentation(plan?.senseKey ?? '', { phase });
+}
+
+export function resolveVisualMeaningPresentationSlice(
+  senseKeys: string[],
+  { phase = 'explanation' }: { phase?: VisualMeaningPresentationPhase } = {}
+): VisualMeaningPresentationSlice {
+  if (!Array.isArray(senseKeys)) throw new Error('Visual meaning presentation slice requires senseKeys[]');
+  if (senseKeys.length > contract.slicePolicy.maxRequestedSenses) {
+    throw new Error(
+      `Visual meaning presentation slice requested ${senseKeys.length} sense(s); maximum is ${contract.slicePolicy.maxRequestedSenses}`
+    );
+  }
+
+  const normalized = senseKeys.map((value) => String(value ?? '').trim());
+  if (normalized.some((senseKey) => !senseKey)) {
+    throw new Error('Visual meaning presentation slice requires non-empty sense keys');
+  }
+  if (new Set(normalized).size !== normalized.length) {
+    throw new Error('Visual meaning presentation slice cannot contain duplicate sense keys');
+  }
+
+  const canonicalSenseKeys = [...normalized].sort((left, right) => left.localeCompare(right));
+  const plans = canonicalSenseKeys.map((senseKey) => resolveVisualMeaningPresentation(senseKey, { phase }));
+  const payload = {
+    schemaVersion: 1 as const,
+    compilerVersion: contract.compilerVersion,
+    phase,
+    plans
+  };
+  const bytes = payloadBytes(payload);
+  if (bytes > contract.slicePolicy.maxPayloadBytes) {
+    throw new Error(
+      `Visual meaning presentation slice payload is ${bytes} byte(s); maximum is ${contract.slicePolicy.maxPayloadBytes}`
+    );
+  }
+
+  return {
+    ...payload,
+    summary: {
+      requested: plans.length,
+      visualAllowed: plans.filter((plan) => plan.visualAllowed).length,
+      textFallback: plans.filter((plan) => plan.deliveryMode === 'text').length,
+      derivedModes: histogram(plans.map((plan) => plan.derivedMode)),
+      deliveryModes: histogram(plans.map((plan) => plan.deliveryMode)),
+      payloadBytes: bytes,
+      maxRequestedSenses: contract.slicePolicy.maxRequestedSenses,
+      maxPayloadBytes: contract.slicePolicy.maxPayloadBytes
+    }
   };
 }
