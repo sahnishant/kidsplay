@@ -36,8 +36,8 @@
 </header>
 
 <style>
-  .child-hud{min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px;border:1px solid #24303a14;border-radius:15px;background:#fffffff2}
-  .child-hud__player{min-width:0;min-height:40px;display:flex;align-items:center;gap:6px;padding:2px 6px 2px 2px;border:0;border-radius:12px;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
+  .child-hud{min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:2px 8px;border:1px solid #24303a14;border-radius:15px;background:#fffffff2}
+  .child-hud__player{min-width:0;min-height:44px;display:flex;align-items:center;gap:6px;padding:2px 6px 2px 2px;border:0;border-radius:12px;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
   .child-hud__player:hover,.child-hud__player:focus-visible{background:var(--accent-soft)}
   .child-hud__avatar{width:36px;height:36px;flex:none}
   .child-hud__player strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
