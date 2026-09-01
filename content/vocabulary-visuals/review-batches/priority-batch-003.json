@@ -5,6 +5,10 @@
   "issueRef": 93,
   "parentIssueRef": 76,
   "status": "reviewed_terminal_visual_disposition",
+  "authority": {
+    "defaultKind": "approved_terminal_policy",
+    "runtimeAuthority": "none"
+  },
   "source": {
     "kind": "priority_gap",
     "expectedItemCount": 2205,
@@ -40,6 +44,9 @@
     "rules": [
       {
         "when": { "candidateSenseCount": 1 },
+        "referenceState": "single_candidate_reference",
+        "resolutionState": "candidate_exact_terminal",
+        "dispositionState": "terminal_textual",
         "senseKey": "only_candidate",
         "strategy": "textual_only",
         "answerSafety": "neutral_safe",
@@ -47,6 +54,9 @@
       },
       {
         "when": { "candidateSenseCountMin": 2 },
+        "referenceState": "candidate_set_reference",
+        "resolutionState": "blocked_unresolved",
+        "dispositionState": "terminal_unresolved",
         "senseKey": "$lemma#unresolved",
         "strategy": "sense_unresolved",
         "answerSafety": "explanation_only",
