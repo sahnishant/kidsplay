@@ -31,7 +31,7 @@ describe('water process visual family', () => {
     const source = readFileSync('src/presentation/ProcessIcon.svelte', 'utf8');
     expect(source).toContain("icon === 'condensation-sample'");
     expect(source).toContain("icon === 'water-cycle-sample'");
-    expect(source).toContain('water vapour').toBeFalsy();
+    expect(source).not.toContain('water vapour');
     expect(source).toContain('stroke-dasharray="4 4"');
     expect(source).toContain('circle cx="24" cy="23"');
     expect(source.match(/<style>/g)?.length ?? 0).toBe(1);
