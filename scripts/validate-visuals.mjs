@@ -12,7 +12,7 @@ const visuals = visualFiles.flatMap((file) => {
 });
 const allowedRenderers = new Set([
   'scene-icon','entity-icon','utility-icon','nature-space-icon','everyday-icon','process-icon',
-  'measurement-icon','material-property-icon','environmental-action-icon','animal-expansion-icon',
+  'measurement-icon','material-property-icon','environmental-action-icon','soil-type-icon','animal-expansion-icon',
   'concept-icon','curriculum-icon','learning-icon','property-icon','class2-concept-icon','class2-final-icon'
 ]);
 const allowedMotions = new Set(['idle','wag','swim','flap','hop','float','sway','pulse','blink','chomp','breathe','flex','drift','spin','flicker','wiggle']);
