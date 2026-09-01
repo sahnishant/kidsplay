@@ -1,0 +1,99 @@
+[
+  {
+    "id": "recipe.classification.living-things",
+    "semanticRef": "living-things",
+    "template": "classification",
+    "ariaLabel": "Examples of living things: an animal and a plant",
+    "slots": [
+      { "role": "animal-example", "visualRef": "entity.animal.dog", "exposure": "identity" },
+      { "role": "plant-example", "visualRef": "entity.plant.generic", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "sequence-item": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "living things",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.orbit.earth-revolution",
+    "semanticRef": "earth-revolution",
+    "template": "orbit",
+    "ariaLabel": "Earth revolves around the Sun",
+    "slots": [
+      { "role": "center", "visualRef": "entity.nature.sun", "exposure": "context" },
+      { "role": "orbiter", "visualRef": "entity.universe.earth", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "revolves around the Sun",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.orbit.planet-around-sun",
+    "semanticRef": "planet-orbit",
+    "template": "orbit",
+    "ariaLabel": "A planet moves around the Sun",
+    "slots": [
+      { "role": "center", "visualRef": "entity.nature.sun", "exposure": "context" },
+      { "role": "orbiter", "visualRef": "entity.universe.planet", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "moves around the Sun",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.comparison.liquid-container-shape",
+    "semanticRef": "liquid-shape",
+    "template": "comparison",
+    "ariaLabel": "Liquid shown in containers of different shapes",
+    "slots": [
+      { "role": "liquid", "visualRef": "entity.matter.liquid-water", "exposure": "identity" },
+      { "role": "container-a", "visualRef": "entity.state.container-partly-full", "exposure": "relation" },
+      { "role": "container-b", "visualRef": "entity.water.bucket", "exposure": "relation" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "takes the shape of its container",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.classification.light-source",
+    "semanticRef": "light-source",
+    "template": "classification",
+    "ariaLabel": "Examples of light sources: the Sun and a burning candle",
+    "slots": [
+      { "role": "natural-source", "visualRef": "entity.nature.sun", "exposure": "identity" },
+      { "role": "made-source", "visualRef": "entity.object.candle", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "gives out light",
+    "costClass": "low"
+  }
+]

@@ -39,6 +39,33 @@ for (const visual of visuals) {
   if (key && !bySemantic.has(key)) bySemantic.set(key, visual.id);
 }
 
+const recipeFiles = readdirSync(new URL('content/visual-recipes/', root)).filter((name) => name.endsWith('.json')).sort();
+const recipes = recipeFiles.flatMap((file) => readJson(`content/visual-recipes/${file}`));
+const recipeBySemantic = new Map();
+for (const recipe of recipes) {
+  const keys = [recipe.semanticRef, ...(recipe.aliases ?? [])].map(normalize).filter(Boolean);
+  for (const key of keys) if (!recipeBySemantic.has(key)) recipeBySemantic.set(key, recipe);
+}
+
+const surfaceForEngine = (engine) => {
+  switch (engine) {
+    case 'word_bank_fill': return 'word-bank';
+    case 'memory_pairs': return 'memory-card';
+    case 'sequence_order': return 'sequence-item';
+    default: return 'option';
+  }
+};
+
+const recipeResolves = (semanticRef, engine) => {
+  if (!semanticRef) return false;
+  const recipe = recipeBySemantic.get(normalize(semanticRef));
+  if (!recipe) return false;
+  const exposure = recipe.surfaces?.[surfaceForEngine(engine)] ?? 'hidden';
+  if (exposure === 'hidden') return false;
+  if (exposure === 'identity_only') return recipe.slots?.some((slot) => slot.exposure === 'identity');
+  return Array.isArray(recipe.slots) && recipe.slots.length > 0;
+};
+
 const resolveLabel = (label) => {
   const direct = byAlias.get(normalize(label));
   if (direct) return [direct];
@@ -64,10 +91,11 @@ const skipReasonForVisualExpansion = (item) => {
   return null;
 };
 
-const resolveItem = (item, allowLabelInference) => {
+const resolveItem = (item, allowLabelInference, engine) => {
   if (Array.isArray(item.visualRefs) && item.visualRefs.some((ref) => visualIds.has(ref))) return 'authored';
   const semantic = item.semanticRef ? bySemantic.get(normalize(item.semanticRef)) : null;
   if (semantic) return 'semantic';
+  if (recipeResolves(item.semanticRef, engine)) return 'recipe';
   if (allowLabelInference && resolveLabel(item.label).length) return 'label';
   return 'text';
 };
@@ -95,7 +123,7 @@ const questions = questionFiles.flatMap((file) => {
   return Array.isArray(value) ? value : [];
 });
 
-const emptyTotals = () => ({ authored: 0, semantic: 0, label: 0, text: 0 });
+const emptyTotals = () => ({ authored: 0, semantic: 0, recipe: 0, label: 0, text: 0 });
 const totals = emptyTotals();
 const visualFriendlyTotals = emptyTotals();
 const byEngine = new Map();
@@ -109,7 +137,7 @@ for (const question of questions) {
   const engineTotals = byEngine.get(engine) ?? emptyTotals();
   const engineUnresolved = unresolvedByEngine.get(engine) ?? [];
   for (const { item, allowLabelInference } of entries) {
-    const resolution = resolveItem(item, allowLabelInference);
+    const resolution = resolveItem(item, allowLabelInference, engine);
     const skipReason = skipReasonForVisualExpansion(item);
     totals[resolution] += 1;
     engineTotals[resolution] += 1;
@@ -147,18 +175,18 @@ const unresolvedReport = Object.fromEntries(
 
 if (jsonMode) {
   console.log(JSON.stringify({
-    library: { entities: visuals.length, packs: visualFiles.length },
+    library: { entities: visuals.length, packs: visualFiles.length, recipes: recipes.length, recipePacks: recipeFiles.length },
     visualFriendly: { ...friendly, ...visualFriendlyTotals, excludedAsIneligible: visualIneligible },
     overall: { ...overall, ...totals },
     byEngine: engineReport,
     unresolved: unresolvedReport
   }, null, 2));
 } else {
-  console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s).`);
-  console.log(`Visual-friendly question items (excluding match/drag policy and clearly non-visual stimuli): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals.`);
+  console.log(`Semantic visual library: ${visuals.length} registered entities across ${visualFiles.length} pack(s); ${recipes.length} semantic recipe(s) across ${recipeFiles.length} recipe pack(s).`);
+  console.log(`Visual-friendly question items (excluding match/drag policy and clearly non-visual stimuli): ${friendly.visual}/${friendly.total} (${friendly.percent}%) resolve to SVG visuals or validated semantic recipes.`);
   console.log(`Excluded ${visualIneligible} clearly non-visual item instance(s) from the visual-friendly denominator.`);
   console.log(`All supported card/region items including matching: ${overall.visual}/${overall.total} (${overall.percent}%).`);
-  console.log(`Resolution on visual-friendly surfaces: authored ${visualFriendlyTotals.authored}, semantic ${visualFriendlyTotals.semantic}, exact-label ${visualFriendlyTotals.label}, text-only ${visualFriendlyTotals.text}.`);
+  console.log(`Resolution on visual-friendly surfaces: authored ${visualFriendlyTotals.authored}, semantic ${visualFriendlyTotals.semantic}, recipe ${visualFriendlyTotals.recipe}, exact-label ${visualFriendlyTotals.label}, text-only ${visualFriendlyTotals.text}.`);
 
   for (const [engine, values] of Object.entries(engineReport)) {
     const policy = engine === 'drag_to_target' ? ' (matching is explicit-visual only)' : '';

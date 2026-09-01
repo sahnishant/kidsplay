@@ -52,6 +52,49 @@
       <path class="leaf leaf-right" d="M62 65q22-18 37-5-10 19-37 12Z" />
       <circle class="flower" cx="60" cy="18" r="10" /><circle class="flower-center" cx="60" cy="18" r="4" />
     </g>
+  {:else if icon === 'ice-cube'}
+    <g class="ice-cube">
+      <path d="M23 37 55 18l42 13-3 45-35 17-37-17Z" fill="#c8effa" stroke="#4c91ac" stroke-width="2.8" stroke-linejoin="round" />
+      <path d="M55 18 60 57 94 76 97 31Z" fill="#8fd6ea" stroke="#4c91ac" stroke-width="2.4" stroke-linejoin="round" />
+      <path d="M23 37 60 57 97 31M60 57l-1 36" fill="none" stroke="#4c91ac" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="m34 37 20-11m-18 22 13-7" fill="none" stroke="white" stroke-opacity=".85" stroke-width="4" stroke-linecap="round" />
+    </g>
+  {:else if icon === 'liquid-water'}
+    <g class="liquid-water">
+      <path d="M31 12h58l-7 80H38Z" fill="#eff8fb" fill-opacity=".42" stroke="#6f929f" stroke-width="3" stroke-linejoin="round" />
+      <path d="M38 50q22-8 44 0l-4 36H42Z" fill="#56b9df" opacity=".86" />
+      <path d="M38 50q22-8 44 0" fill="none" stroke="#287da5" stroke-width="2.4" stroke-linecap="round" />
+      <circle cx="53" cy="65" r="3" fill="#dff7ff" stroke="#4d9fc0" stroke-width="1.4" /><circle cx="68" cy="73" r="2" fill="#dff7ff" stroke="#4d9fc0" stroke-width="1.4" />
+    </g>
+  {:else if icon === 'container-closed'}
+    <g class="state-container state-container--closed">
+      <path d="M29 35h62l-6 57H35Z" fill="#f0d79c" stroke="#8c6b35" stroke-width="3" stroke-linejoin="round" />
+      <rect x="23" y="24" width="74" height="15" rx="5" fill="#f4c969" stroke="#8c6b35" stroke-width="3" />
+      <path d="M47 24v-8h26v8" fill="none" stroke="#8c6b35" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  {:else if icon === 'container-open'}
+    <g class="state-container state-container--open">
+      <path d="M29 35h62l-6 57H35Z" fill="#f0d79c" stroke="#8c6b35" stroke-width="3" stroke-linejoin="round" />
+      <path d="m24 30 66-19 5 14-66 19Z" fill="#f4c969" stroke="#8c6b35" stroke-width="3" stroke-linejoin="round" />
+      <path d="m48 23-2-7 25-7 2 7" fill="none" stroke="#8c6b35" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  {:else if icon === 'container-empty'}
+    <g class="fill-container fill-container--empty">
+      <path d="M31 13h58l-7 79H38Z" fill="#eff8fb" fill-opacity=".42" stroke="#6f929f" stroke-width="3" stroke-linejoin="round" />
+      <path d="M40 82h40" fill="none" stroke="#9bb1ba" stroke-width="2" stroke-linecap="round" />
+    </g>
+  {:else if icon === 'container-partly-full'}
+    <g class="fill-container fill-container--partly-full">
+      <path d="M31 13h58l-7 79H38Z" fill="#eff8fb" fill-opacity=".42" stroke="#6f929f" stroke-width="3" stroke-linejoin="round" />
+      <path d="M38 59q22-8 44 0l-3 28H41Z" fill="#56b9df" opacity=".86" />
+      <path d="M38 59q22-8 44 0" fill="none" stroke="#287da5" stroke-width="2.4" stroke-linecap="round" />
+    </g>
+  {:else if icon === 'container-full'}
+    <g class="fill-container fill-container--full">
+      <path d="M31 13h58l-7 79H38Z" fill="#eff8fb" fill-opacity=".42" stroke="#6f929f" stroke-width="3" stroke-linejoin="round" />
+      <path d="M35 31q25-8 50 0l-5 56H40Z" fill="#56b9df" opacity=".86" />
+      <path d="M35 31q25-8 50 0" fill="none" stroke="#287da5" stroke-width="2.4" stroke-linecap="round" />
+    </g>
   {/if}
 </svg>
 

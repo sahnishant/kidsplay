@@ -1,11 +1,21 @@
 import { describe, expect, it } from 'vitest';
-import sceneJson from '../content/scenes/animals.json';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import {
   getReferencedPresentationSceneIds,
   resolveDashboardSceneId,
   resolveQuestionSceneId
 } from '../src/presentation/questionScene';
+
+const sceneModules = import.meta.glob('../content/scenes/*.json', {
+  eager: true,
+  import: 'default'
+}) as Record<string, unknown>;
+const registeredSceneIds = new Set(
+  Object.values(sceneModules)
+    .flatMap((value) => (Array.isArray(value) ? value : []))
+    .map((scene) => (scene as { id?: string }).id)
+    .filter((id): id is string => typeof id === 'string')
+);
 
 function question(overrides: Partial<SingleChoiceQuestion> = {}): SingleChoiceQuestion {
   return {
@@ -113,8 +123,8 @@ describe('lightweight question presentation', () => {
     expect(resolveDashboardSceneId('food')).toBeNull();
   });
 
-  it('keeps every inferred/dashboard mapping attached to a registered scene definition', () => {
-    const registeredSceneIds = new Set(sceneJson.map((scene) => scene.id));
+  it('keeps every inferred/dashboard mapping attached to a registered scene definition across all scene packs', () => {
+    expect(registeredSceneIds.size).toBeGreaterThan(0);
     expect(getReferencedPresentationSceneIds().length).toBeGreaterThan(0);
     for (const sceneId of getReferencedPresentationSceneIds()) {
       expect(registeredSceneIds.has(sceneId), `missing scene definition for ${sceneId}`).toBe(true);

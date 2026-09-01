@@ -24,7 +24,15 @@ const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.water.sea.feature.salty', 'scene.water.sea-salty'],
   ['kr.rocks.pumice.feature.light', 'scene.rocks.pumice-water'],
   ['kr.plants.general.air.cool-fresh', 'scene.plants.air-fresh'],
-  ['kr.universe.earth.rotation.day-night', 'scene.universe.earth-rotation']
+  ['kr.universe.earth.rotation.day-night', 'scene.universe.earth-rotation'],
+  ['kr.science.process.germination.seed-to-young-plant', 'scene.plants.germination'],
+  ['kr.science.process.melt.ice-to-liquid-water', 'scene.process.melt-ice'],
+  ['kr.science.process.freeze.water-to-ice', 'scene.process.freeze-water'],
+  ['kr.vocab.process.open.closed-to-open', 'scene.vocabulary.opening'],
+  ['kr.vocab.process.fill.empty-to-full', 'scene.vocabulary.filling'],
+  ['kr.sof3.earth.revolution.sun.year', 'scene.universe.earth-revolution'],
+  ['kr.sof3.planets.orbit.sun', 'scene.universe.planet-orbit'],
+  ['kr.sof3.matter.liquid.shape.container', 'scene.matter.liquid-container-shape']
 ]);
 
 const sceneByConceptId = new Map<string, string>([
@@ -42,7 +50,15 @@ const sceneByConceptId = new Map<string, string>([
   ['water.sources.sea', 'scene.water.sea-salty'],
   ['rocks.types.pumice', 'scene.rocks.pumice-water'],
   ['plants.importance.air', 'scene.plants.air-fresh'],
-  ['universe.earth.rotation', 'scene.universe.earth-rotation']
+  ['universe.earth.rotation', 'scene.universe.earth-rotation'],
+  ['sof3.plants.germination', 'scene.plants.germination'],
+  ['sof5.matter.melting', 'scene.process.melt-ice'],
+  ['science.matter.freezing', 'scene.process.freeze-water'],
+  ['vocabulary.action.open', 'scene.vocabulary.opening'],
+  ['vocabulary.action.fill', 'scene.vocabulary.filling'],
+  ['sof3.earth.revolution', 'scene.universe.earth-revolution'],
+  ['sof3.planets.orbit', 'scene.universe.planet-orbit'],
+  ['sof3.matter.liquid-shape', 'scene.matter.liquid-container-shape']
 ]);
 
 const dashboardSceneByTopic = new Map<string, string>([

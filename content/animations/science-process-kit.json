@@ -1,0 +1,276 @@
+[
+  {
+    "id": "animation.air.balloon-candle",
+    "semanticRef": "air",
+    "theme": "grass",
+    "ariaLabel": "An inflated balloon beside a burning candle, two observations that teach us about air.",
+    "subject": {
+      "variantRef": "animation.variant.air-balloon-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 34,
+      "y": 47,
+      "scale": 0.92
+    },
+    "parts": [
+      { "id": "candle", "role": "prop", "visualRef": "entity.object.candle", "slot": "front", "x": 69, "y": 57, "scale": 0.72 },
+      { "id": "air-label", "role": "relation", "text": "AIR", "slot": "above", "x": 51, "y": 20, "scale": 0.52, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.wind.windmill",
+    "semanticRef": "wind",
+    "theme": "grass",
+    "ariaLabel": "Moving air blows toward a windmill whose blades are turning.",
+    "subject": {
+      "variantRef": "animation.variant.wind-state",
+      "orientation": "side",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 25,
+      "y": 37,
+      "scale": 0.82
+    },
+    "parts": [
+      { "id": "windmill", "role": "prop", "visualRef": "entity.object.windmill", "slot": "front", "x": 67, "y": 54, "scale": 1.02 },
+      { "id": "wind-label", "role": "relation", "text": "WIND", "slot": "ground", "x": 39, "y": 78, "scale": 0.48, "motion": "pulse" }
+    ]
+  },
+  {
+    "id": "animation.wind.kite",
+    "semanticRef": "wind",
+    "theme": "grass",
+    "ariaLabel": "A kite moving in the air while wind blows across the sky.",
+    "subject": {
+      "variantRef": "animation.variant.wind-state",
+      "orientation": "side",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 24,
+      "y": 34,
+      "scale": 0.8
+    },
+    "parts": [
+      { "id": "kite", "role": "prop", "visualRef": "entity.object.kite", "slot": "front", "x": 68, "y": 40, "scale": 0.82, "motion": "wiggle" },
+      { "id": "moving-air", "role": "relation", "text": "moving air", "slot": "ground", "x": 45, "y": 78, "scale": 0.44, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.wind.sailboat",
+    "semanticRef": "wind",
+    "theme": "ocean",
+    "ariaLabel": "Wind pushes a sailboat across water.",
+    "subject": {
+      "variantRef": "animation.variant.wind-state",
+      "orientation": "side",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 24,
+      "y": 29,
+      "scale": 0.8
+    },
+    "parts": [
+      { "id": "sailboat", "role": "prop", "visualRef": "entity.object.sailboat", "slot": "front", "x": 63, "y": 49, "scale": 0.95, "motion": "drift" },
+      { "id": "water", "role": "context", "visualRef": "entity.habitat.water", "slot": "ground", "x": 58, "y": 76, "scale": 1.08, "motion": "float" }
+    ]
+  },
+  {
+    "id": "animation.plant.fresh-air",
+    "semanticRef": "plant",
+    "theme": "grass",
+    "ariaLabel": "A green plant in sunlight with gentle air moving past its leaves.",
+    "subject": {
+      "variantRef": "animation.variant.plant-air-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 48,
+      "y": 58,
+      "scale": 0.96
+    },
+    "parts": [
+      { "id": "sun", "role": "context", "visualRef": "entity.nature.sun", "slot": "above", "x": 78, "y": 24, "scale": 0.62, "motion": "pulse" },
+      { "id": "wind", "role": "context", "visualRef": "entity.nature.wind", "slot": "behind", "x": 20, "y": 35, "scale": 0.74, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.lungs.breathing",
+    "semanticRef": "lungs",
+    "theme": "paper",
+    "ariaLabel": "A pair of lungs with air moving in and out to reinforce that lungs help us breathe.",
+    "subject": {
+      "variantRef": "animation.variant.lungs-breathing-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 50,
+      "y": 52,
+      "scale": 1.04
+    },
+    "parts": [
+      { "id": "air", "role": "relation", "text": "AIR", "slot": "above", "x": 21, "y": 28, "scale": 0.48, "motion": "drift" },
+      { "id": "in-out", "role": "relation", "text": "in ↔ out", "slot": "ground", "x": 75, "y": 76, "scale": 0.46, "motion": "pulse" }
+    ]
+  },
+  {
+    "id": "animation.earth.rotation",
+    "semanticRef": "earth",
+    "theme": "paper",
+    "ariaLabel": "Earth rotating beside the Sun to reinforce that Earth's rotation causes day and night.",
+    "subject": {
+      "variantRef": "animation.variant.earth-rotation-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 42,
+      "y": 52,
+      "scale": 1.04
+    },
+    "parts": [
+      { "id": "sun", "role": "context", "visualRef": "entity.nature.sun", "slot": "above", "x": 78, "y": 27, "scale": 0.64, "motion": "pulse" },
+      { "id": "rotation-label", "role": "relation", "text": "rotate", "slot": "ground", "x": 71, "y": 76, "scale": 0.46, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.sea.salty-water",
+    "semanticRef": "sea",
+    "theme": "ocean",
+    "ariaLabel": "Ocean waves with a salt label, showing that sea water is salty.",
+    "subject": {
+      "variantRef": "animation.variant.sea-water-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 45,
+      "y": 64,
+      "scale": 1.04
+    },
+    "parts": [
+      { "id": "salt", "role": "relation", "text": "SALT", "slot": "above", "x": 69, "y": 29, "scale": 0.54, "motion": "pulse" },
+      { "id": "sea-label", "role": "relation", "text": "SEA", "slot": "above", "x": 25, "y": 27, "scale": 0.52, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.pumice.floating-water",
+    "semanticRef": "pumice",
+    "theme": "ocean",
+    "ariaLabel": "A hole-filled piece of pumice shown at the surface of water.",
+    "subject": {
+      "variantRef": "animation.variant.pumice-floating-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 45,
+      "y": 44,
+      "scale": 0.82
+    },
+    "parts": [
+      { "id": "water", "role": "context", "visualRef": "entity.habitat.water", "slot": "ground", "x": 53, "y": 74, "scale": 1.08, "motion": "float" },
+      { "id": "holes", "role": "relation", "text": "holes", "slot": "above", "x": 74, "y": 28, "scale": 0.48, "motion": "pulse" }
+    ]
+  },
+  {
+    "id": "animation.germination.seed-to-young-plant",
+    "semanticRef": "germination",
+    "theme": "grass",
+    "ariaLabel": "Germination in order: a seed begins to grow into a sprout and then a young plant.",
+    "subject": {
+      "variantRef": "animation.variant.germination-seed-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 16,
+      "y": 62,
+      "scale": 0.52
+    },
+    "parts": [
+      { "id": "arrow-seed-sprout", "role": "relation", "text": "→", "slot": "front", "x": 33, "y": 58, "scale": 0.34, "motion": "pulse" },
+      { "id": "sprout", "role": "prop", "visualRef": "entity.plant.sprout", "slot": "front", "x": 50, "y": 58, "scale": 0.62, "motion": "wiggle" },
+      { "id": "arrow-sprout-young", "role": "relation", "text": "→", "slot": "front", "x": 67, "y": 54, "scale": 0.34, "motion": "pulse" },
+      { "id": "young-plant", "role": "prop", "visualRef": "entity.plant.sapling", "slot": "front", "x": 84, "y": 52, "scale": 0.72, "motion": "wiggle" }
+    ]
+  },
+  {
+    "id": "animation.water-state.melt",
+    "semanticRef": "water-state-change",
+    "theme": "paper",
+    "ariaLabel": "Melting in order: solid ice changes into liquid water.",
+    "subject": {
+      "variantRef": "animation.variant.water-state-ice",
+      "orientation": "front",
+      "pose": "rest",
+      "expression": "neutral",
+      "x": 23,
+      "y": 56,
+      "scale": 0.68
+    },
+    "parts": [
+      { "id": "melt-label", "role": "relation", "text": "MELT", "slot": "above", "x": 50, "y": 24, "scale": 0.44, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 55, "scale": 0.34, "motion": "pulse" },
+      { "id": "liquid-water", "role": "prop", "visualRef": "entity.matter.liquid-water", "slot": "front", "x": 78, "y": 56, "scale": 0.72, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.water-state.freeze",
+    "semanticRef": "water-state-change",
+    "theme": "paper",
+    "ariaLabel": "Freezing in order: liquid water changes into solid ice.",
+    "subject": {
+      "variantRef": "animation.variant.water-state-liquid",
+      "orientation": "front",
+      "pose": "rest",
+      "expression": "neutral",
+      "x": 23,
+      "y": 56,
+      "scale": 0.72
+    },
+    "parts": [
+      { "id": "freeze-label", "role": "relation", "text": "FREEZE", "slot": "above", "x": 50, "y": 24, "scale": 0.42, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 55, "scale": 0.34, "motion": "pulse" },
+      { "id": "ice", "role": "prop", "visualRef": "entity.matter.ice", "slot": "front", "x": 78, "y": 56, "scale": 0.68, "motion": "float" }
+    ]
+  },
+  {
+    "id": "animation.opening.closed-to-open",
+    "semanticRef": "opening",
+    "theme": "paper",
+    "ariaLabel": "Opening in order: a closed container changes to an open container.",
+    "subject": {
+      "variantRef": "animation.variant.opening-closed-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 23,
+      "y": 58,
+      "scale": 0.72
+    },
+    "parts": [
+      { "id": "open-label", "role": "relation", "text": "OPEN", "slot": "above", "x": 50, "y": 24, "scale": 0.44, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 56, "scale": 0.34, "motion": "pulse" },
+      { "id": "open-container", "role": "prop", "visualRef": "entity.state.container-open", "slot": "front", "x": 78, "y": 58, "scale": 0.72, "motion": "wiggle" }
+    ]
+  },
+  {
+    "id": "animation.filling.empty-to-full",
+    "semanticRef": "filling",
+    "theme": "paper",
+    "ariaLabel": "Filling in order: an empty container becomes partly full and then full.",
+    "subject": {
+      "variantRef": "animation.variant.filling-empty-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 13,
+      "y": 60,
+      "scale": 0.5
+    },
+    "parts": [
+      { "id": "fill-label", "role": "relation", "text": "FILL", "slot": "above", "x": 50, "y": 23, "scale": 0.42, "motion": "pulse" },
+      { "id": "arrow-empty-partly", "role": "relation", "text": "→", "slot": "front", "x": 30, "y": 58, "scale": 0.28, "motion": "pulse" },
+      { "id": "partly-full", "role": "prop", "visualRef": "entity.state.container-partly-full", "slot": "front", "x": 47, "y": 58, "scale": 0.54, "motion": "drift" },
+      { "id": "arrow-partly-full", "role": "relation", "text": "→", "slot": "front", "x": 65, "y": 56, "scale": 0.28, "motion": "pulse" },
+      { "id": "full", "role": "prop", "visualRef": "entity.state.container-full", "slot": "front", "x": 84, "y": 56, "scale": 0.58, "motion": "drift" }
+    ]
+  }
+]
