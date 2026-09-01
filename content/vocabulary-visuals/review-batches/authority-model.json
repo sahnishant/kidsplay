@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "parentIssueRef": 76,
+  "dimensions": {
+    "referenceStates": [
+      "candidate_only",
+      "single_candidate_reference",
+      "candidate_set_reference",
+      "historical_frozen_reference",
+      "human_reviewed_exact_reference"
+    ],
+    "resolutionStates": [
+      "not_resolved",
+      "blocked_unresolved",
+      "candidate_exact_terminal",
+      "historical_resolved",
+      "human_resolved"
+    ],
+    "dispositionStates": [
+      "candidate_only",
+      "terminal_textual",
+      "terminal_unresolved",
+      "reviewed_strategy"
+    ],
+    "runtimeAuthorityStates": [
+      "none",
+      "mapping_config_only",
+      "external_proof_only"
+    ],
+    "maturityLevels": ["V0", "V1", "V2", "V3", "V4", "V5", "V6"]
+  },
+  "authorityKinds": [
+    {
+      "id": "candidate_reference",
+      "semanticReviewAuthority": false,
+      "canCreateDisposition": false,
+      "canResolveSense": false,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "maxSemanticMaturity": "V0",
+      "runtimeAuthority": "none"
+    },
+    {
+      "id": "historical_reviewed_strategy",
+      "semanticReviewAuthority": true,
+      "historicalMigrationOnly": true,
+      "requiresFrozenSourceFingerprint": true,
+      "requiresFrozenOutputFingerprint": true,
+      "canCreateDisposition": true,
+      "canResolveSense": true,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "allowedDispositionStates": ["reviewed_strategy"],
+      "allowedResolutionStates": ["historical_resolved"],
+      "maxSemanticMaturity": "V2",
+      "runtimeAuthority": "none"
+    },
+    {
+      "id": "historical_unresolved_watchlist",
+      "semanticReviewAuthority": true,
+      "historicalMigrationOnly": true,
+      "canCreateDisposition": true,
+      "canResolveSense": false,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "allowedDispositionStates": ["terminal_unresolved"],
+      "allowedResolutionStates": ["blocked_unresolved"],
+      "maxSemanticMaturity": "V1",
+      "runtimeAuthority": "none"
+    },
+    {
+      "id": "approved_terminal_policy",
+      "semanticReviewAuthority": true,
+      "historicalMigrationOnly": false,
+      "canCreateDisposition": true,
+      "canResolveSense": true,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "allowedStrategies": ["textual_only", "sense_unresolved"],
+      "allowedDispositionStates": ["terminal_textual", "terminal_unresolved"],
+      "allowedResolutionStates": ["candidate_exact_terminal", "blocked_unresolved"],
+      "maxSemanticMaturity": "V1",
+      "runtimeAuthority": "none"
+    },
+    {
+      "id": "human_reviewed_exact_sense",
+      "semanticReviewAuthority": true,
+      "historicalMigrationOnly": false,
+      "requiresHumanCurationEvidence": true,
+      "canCreateDisposition": true,
+      "canResolveSense": true,
+      "canSelectMultiCandidate": true,
+      "canClaimHumanReview": true,
+      "allowedDispositionStates": ["reviewed_strategy", "terminal_textual"],
+      "allowedResolutionStates": ["human_resolved"],
+      "maxSemanticMaturity": "V1",
+      "runtimeAuthority": "none"
+    },
+    {
+      "id": "runtime_mapping_config",
+      "semanticReviewAuthority": false,
+      "canCreateDisposition": false,
+      "canResolveSense": false,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "maxSemanticMaturity": "V0",
+      "runtimeAuthority": "mapping_config_only"
+    },
+    {
+      "id": "external_runtime_proof",
+      "semanticReviewAuthority": false,
+      "canCreateDisposition": false,
+      "canResolveSense": false,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "maxSemanticMaturity": "V6",
+      "runtimeAuthority": "external_proof_only"
+    }
+  ],
+  "invariants": {
+    "v1AloneImpliesResolution": false,
+    "singleCandidateAloneImpliesHumanReview": false,
+    "senseUnresolvedCountsAsResolved": false,
+    "semanticManifestMayGrantRuntimeAuthority": false,
+    "terminalPolicyMayClaimHumanExactSenseReview": false,
+    "runtimeProofMayCreateSemanticDisposition": false
+  }
+}
