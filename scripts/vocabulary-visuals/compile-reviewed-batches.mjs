@@ -1,346 +1,230 @@
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { basename } from 'node:path';
-import { pathToFileURL, fileURLToPath } from 'node:url';
-import { readFileSync, readdirSync, writeFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { isAbsolute } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const root = new URL('../../', import.meta.url);
-const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const writeJson = (path, value) => writeFileSync(new URL(path, root), `${JSON.stringify(value, null, 2)}\n`, 'utf8');
+const coreCompilerPath = fileURLToPath(new URL('./compile-reviewed-batches-core.mjs', import.meta.url));
 const defaultLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
-const gapBuilderPath = fileURLToPath(new URL('./build-priority-gap-queue.mjs', import.meta.url));
-const forbiddenEditorialKeys = new Set([
-  'definition', 'definitions', 'gloss', 'sourceGloss', 'example', 'examples', 'childDefinition', 'childExample',
-  'profileRef', 'profileRefs', 'curriculumRef', 'curriculumRefs'
-]);
+const authorityModelPath = 'content/vocabulary-visuals/review-batches/authority-model.json';
+const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-inventory.json';
+const relevanceReviewPath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
 
+const fileTarget = (path) => isAbsolute(path) ? path : new URL(path, root);
+const readText = (path) => readFileSync(fileTarget(path), 'utf8');
+const readJson = (path) => JSON.parse(readText(path));
+const fileExists = (path) => existsSync(fileTarget(path));
 const normalizeLemma = (value) => String(value ?? '').toLocaleLowerCase('en-US').trim();
 const requiredString = (value, label) => {
   const result = String(value ?? '').trim();
-  if (!result) throw new Error(`Review-batch factory requires ${label}`);
+  if (!result) throw new Error(`Review authority requires ${label}`);
   return result;
 };
+const gitBlobSha = (text) => createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0${text}`).digest('hex');
 
-const stableValue = (value) => {
-  if (Array.isArray(value)) return value.map(stableValue);
-  if (!value || typeof value !== 'object') return value;
-  return Object.fromEntries(Object.keys(value).sort().map((key) => [key, stableValue(value[key])]));
+const authorityModel = readJson(authorityModelPath);
+const inventory = readJson(inventoryPath);
+const authorityKinds = new Map((authorityModel.authorityKinds ?? []).map((entry) => [entry.id, entry]));
+const maturityRanks = new Map((authorityModel.dimensions?.maturityLevels ?? []).map((id, index) => [id, index]));
+const dimensionSets = Object.fromEntries(Object.entries(authorityModel.dimensions ?? {}).map(([key, values]) => [key, new Set(values)]));
+
+const authority = (id, context) => {
+  const result = authorityKinds.get(id);
+  if (!result) throw new Error(`${context}: unknown authority kind ${id}`);
+  return result;
+};
+const assertDimension = (dimension, value, context) => {
+  if (!dimensionSets[dimension]?.has(value)) throw new Error(`${context}: invalid ${dimension} value ${String(value)}`);
+};
+const assertAllowed = (allowed, value, context) => {
+  if (Array.isArray(allowed) && !allowed.includes(value)) throw new Error(`${context}: authority does not allow ${value}`);
 };
 
-export const stableJson = (value) => JSON.stringify(stableValue(value));
-export const sha256 = (value) => createHash('sha256').update(value).digest('hex');
-
-export const semanticFingerprintForQueue = (queue) => sha256(stableJson((queue.items ?? []).map((item) => ({
-  lemma: item.lemma,
-  partOfSpeech: item.partOfSpeech,
-  grade: item.grade,
-  sourceCorpusId: item.sourceCorpusId,
-  candidateSenseCount: item.candidateSenseCount,
-  candidateIds: item.candidateIds,
-  polysemyRisk: item.polysemyRisk
-}))));
-
-export const itemFingerprint = (items) => sha256(stableJson(items));
-
-export const assertSourceQueueMatchesManifest = (manifest, sourceQueue) => {
-  const fingerprint = semanticFingerprintForQueue(sourceQueue);
-  if (sourceQueue.items?.length !== manifest.source?.expectedItemCount || fingerprint !== manifest.source?.expectedSemanticFingerprint) {
-    throw new Error(`${manifest.id}: stale source queue; expected ${manifest.source?.expectedItemCount}/${manifest.source?.expectedSemanticFingerprint}, got ${sourceQueue.items?.length}/${fingerprint}`);
+const validateAuthorityModel = () => {
+  if (authorityModel?.schemaVersion !== 1 || authorityModel?.parentIssueRef !== 76) throw new Error('Vocabulary authority model must use schemaVersion 1 and parent #76');
+  if (authorityKinds.size !== (authorityModel.authorityKinds ?? []).length) throw new Error('Vocabulary authority model contains duplicate authority ids');
+  const invariants = authorityModel.invariants ?? {};
+  for (const key of ['v1AloneImpliesResolution', 'singleCandidateAloneImpliesHumanReview', 'senseUnresolvedCountsAsResolved', 'semanticManifestMayGrantRuntimeAuthority', 'terminalPolicyMayClaimHumanExactSenseReview', 'runtimeProofMayCreateSemanticDisposition']) {
+    if (invariants[key] !== false) throw new Error(`Vocabulary authority invariant ${key} must be false`);
   }
-  return fingerprint;
-};
-
-const assertNoEditorialPayload = (value, path = '<root>') => {
-  if (Array.isArray(value)) {
-    value.forEach((item, index) => assertNoEditorialPayload(item, `${path}[${index}]`));
-    return;
-  }
-  if (!value || typeof value !== 'object') return;
-  for (const [key, nested] of Object.entries(value)) {
-    if (forbiddenEditorialKeys.has(key)) throw new Error(`${path}: reviewed visual manifests may not contain ${key}`);
-    assertNoEditorialPayload(nested, `${path}.${key}`);
+  for (const entry of authorityKinds.values()) {
+    if (!maturityRanks.has(entry.maxSemanticMaturity)) throw new Error(`${entry.id}: unknown maxSemanticMaturity ${entry.maxSemanticMaturity}`);
+    assertDimension('runtimeAuthorityStates', entry.runtimeAuthority, `${entry.id} authority`);
   }
 };
 
-const substituteLemma = (value, lemma) => {
-  if (Array.isArray(value)) return value.map((item) => substituteLemma(item, lemma));
-  if (!value || typeof value !== 'object') return value === '$lemma' ? lemma : value;
-  return Object.fromEntries(Object.entries(value).map(([key, nested]) => [key, substituteLemma(nested, lemma)]));
-};
-
-const expandReviews = (manifest, sourceQueue) => {
-  const sourceByLemma = new Map((sourceQueue.items ?? []).map((item) => [normalizeLemma(item.lemma), item]));
-  const defaults = manifest.defaults ?? {};
-  const expanded = [];
-
-  const addReviewedItem = (record, blockLabel) => {
-    const lemma = normalizeLemma(record.lemma);
-    if (!lemma) throw new Error(`${manifest.id}/${blockLabel}: reviewed item requires lemma`);
-    const source = sourceByLemma.get(lemma);
-    const reviewSource = record.reviewSource ?? defaults.reviewSource ?? 'single_candidate_priority_gap';
-    let senseKey = String(record.senseKey ?? '').trim();
-    let partOfSpeech = String(record.partOfSpeech ?? '').trim();
-
-    if (reviewSource === 'human_reviewed_primary_meaning') {
-      if (!senseKey || !partOfSpeech) throw new Error(`${manifest.id}/${lemma}: human-reviewed item requires explicit senseKey and partOfSpeech`);
-    } else {
-      if (!source) throw new Error(`${manifest.id}/${lemma}: reviewed item is absent from its frozen source queue`);
-      if (!senseKey) {
-        if (source.candidateSenseCount !== 1 || source.candidateIds?.length !== 1 || source.polysemyRisk !== 'low') {
-          throw new Error(`${manifest.id}/${lemma}: implicit exact sense requires one pinned low-risk candidate`);
-        }
-        senseKey = String(source.candidateIds[0]);
-      }
-      if (!partOfSpeech) partOfSpeech = String(source.partOfSpeech ?? '').trim();
+const validateArtifactInventory = () => {
+  if (inventory?.schemaVersion !== 1 || inventory?.parentIssueRef !== 76 || inventory?.authorityModel !== authorityModelPath) {
+    throw new Error('Vocabulary artifact inventory must use schemaVersion 1, parent #76 and the canonical authority model');
+  }
+  const orders = new Set();
+  const ids = new Set();
+  const committedBatchInventory = new Map();
+  for (const entry of inventory.semanticSources ?? []) {
+    if (!entry?.id || ids.has(entry.id)) throw new Error(`Duplicate/missing semantic inventory id ${entry?.id ?? '<empty>'}`);
+    ids.add(entry.id);
+    if (entry.order !== undefined) {
+      if (!Number.isInteger(entry.order) || orders.has(entry.order)) throw new Error(`${entry.id}: duplicate/invalid semantic inventory order ${entry.order}`);
+      orders.add(entry.order);
     }
-
-    if (!senseKey.startsWith(`${lemma}#`)) throw new Error(`${manifest.id}/${lemma}: bare-lemma or cross-lemma sense mapping is forbidden (${senseKey})`);
-    const strategy = requiredString(record.strategy, `${manifest.id}/${lemma} strategy`);
-    const item = {
-      lemma,
-      senseKey,
-      partOfSpeech: requiredString(partOfSpeech, `${manifest.id}/${lemma} partOfSpeech`),
-      strategy,
-      maturity: record.maturity ?? defaults.maturity ?? 'V1',
-      motionPolicy: record.motionPolicy ?? defaults.motionPolicy ?? 'none',
-      answerSafety: record.answerSafety ?? defaults.answerSafety ?? 'post_answer_only',
-      reviewSource
-    };
-    if (record.sceneTemplate) item.sceneTemplate = record.sceneTemplate;
-    if (record.parameters) item.parameters = substituteLemma(record.parameters, lemma);
-    expanded.push({ item, source, runtimeProofCandidate: record.runtimeProofCandidate === true });
-  };
-
-  for (const [index, block] of (manifest.reviews ?? []).entries()) {
-    if (block?.type === 'group') {
-      const lemmas = block.lemmas ?? [];
-      if (!Array.isArray(lemmas) || !lemmas.length) throw new Error(`${manifest.id}/reviews[${index}]: group requires lemmas`);
-      for (const lemma of lemmas) {
-        const parameters = block.parametersByLemma?.[lemma] ?? block.parameters;
-        addReviewedItem({ ...block, lemma, parameters }, `reviews[${index}]`);
+    const kind = authority(entry.authorityKind, `${entry.id} inventory`);
+    if (kind.semanticReviewAuthority !== true) throw new Error(`${entry.id}: semantic source must use semantic-review authority`);
+    if (entry.path) {
+      if (!fileExists(entry.path)) throw new Error(`${entry.id}: inventoried source path is missing: ${entry.path}`);
+      if (entry.path.startsWith('content/vocabulary-visuals/batches/') && !entry.path.includes('__generated-')) committedBatchInventory.set(entry.path, entry);
+      if (entry.expectedGitBlobSha) {
+        const actual = gitBlobSha(readText(entry.path));
+        if (actual !== entry.expectedGitBlobSha) throw new Error(`${entry.id}: historical source blob drift; expected ${entry.expectedGitBlobSha}, got ${actual}`);
       }
-    } else if (block?.type === 'item') {
-      addReviewedItem(block, `reviews[${index}]`);
-    } else {
-      throw new Error(`${manifest.id}/reviews[${index}]: unsupported review block type ${String(block?.type)}`);
     }
+    if (entry.manifest && !fileExists(entry.manifest)) throw new Error(`${entry.id}: inventoried manifest is missing: ${entry.manifest}`);
   }
+  const committedBatchPaths = readdirSync(new URL('content/vocabulary-visuals/batches/', root))
+    .filter((name) => name.endsWith('.json') && !name.startsWith('__generated-'))
+    .sort()
+    .map((name) => `content/vocabulary-visuals/batches/${name}`);
+  for (const path of committedBatchPaths) if (!committedBatchInventory.has(path)) throw new Error(`Unclassified committed semantic batch ${path}`);
+  for (const path of committedBatchInventory.keys()) if (!committedBatchPaths.includes(path)) throw new Error(`Inventory claims absent committed semantic batch ${path}`);
 
-  if (manifest.terminalReview) {
-    if (!manifest.terminalReview.coverEntireSource) throw new Error(`${manifest.id}: terminalReview must explicitly cover the entire frozen source`);
-    for (const source of sourceQueue.items ?? []) {
-      const matches = (manifest.terminalReview.rules ?? []).filter((rule) => {
-        const when = rule.when ?? {};
-        if (when.candidateSenseCount !== undefined && source.candidateSenseCount !== when.candidateSenseCount) return false;
-        if (when.candidateSenseCountMin !== undefined && source.candidateSenseCount < when.candidateSenseCountMin) return false;
-        if (when.candidateSenseCountMax !== undefined && source.candidateSenseCount > when.candidateSenseCountMax) return false;
-        return true;
-      });
-      if (matches.length !== 1) throw new Error(`${manifest.id}/${source.lemma}: terminal review requires exactly one matching disposition rule; got ${matches.length}`);
-      const rule = matches[0];
-      const lemma = normalizeLemma(source.lemma);
-      const senseKey = rule.senseKey === 'only_candidate'
-        ? (source.candidateSenseCount === 1 && source.candidateIds?.length === 1 ? source.candidateIds[0] : '')
-        : String(rule.senseKey ?? '').replaceAll('$lemma', lemma);
-      const item = {
-        lemma,
-        senseKey,
-        partOfSpeech: source.partOfSpeech,
-        strategy: rule.strategy,
-        maturity: rule.maturity ?? manifest.defaults?.maturity ?? 'V1',
-        motionPolicy: rule.motionPolicy ?? manifest.defaults?.motionPolicy ?? 'none',
-        answerSafety: rule.answerSafety,
-        reviewSource: rule.reviewSource,
-        sourceTrace: {
-          sourceCorpusId: source.sourceCorpusId,
-          grade: source.grade,
-          candidateSenseCount: source.candidateSenseCount,
-          candidateIds: source.candidateIds,
-          polysemyRisk: source.polysemyRisk
-        }
-      };
-      if (!item.senseKey?.startsWith(`${lemma}#`)) throw new Error(`${manifest.id}/${lemma}: terminal disposition produced invalid sense ${item.senseKey}`);
-      if (item.strategy === 'textual_only') {
-        if (source.candidateSenseCount !== 1 || source.candidateIds?.[0] !== item.senseKey) {
-          throw new Error(`${manifest.id}/${lemma}: terminal textual_only requires its one exact pinned candidate`);
-        }
-      } else if (item.strategy === 'sense_unresolved') {
-        if (source.candidateSenseCount < 2 || item.senseKey !== `${lemma}#unresolved`) {
-          throw new Error(`${manifest.id}/${lemma}: polysemy must remain an unresolved lemma-scoped disposition`);
-        }
-      } else {
-        throw new Error(`${manifest.id}/${lemma}: terminal review may only produce textual_only or sense_unresolved`);
-      }
-      expanded.push({ item, source, runtimeProofCandidate: false });
-    }
+  for (const entry of inventory.runtimeBoundary ?? []) {
+    if (!fileExists(entry.path)) throw new Error(`${entry.id}: runtime boundary path is missing: ${entry.path}`);
+    const kind = authority(entry.authorityKind, `${entry.id} runtime boundary`);
+    if (entry.semanticReviewAuthority !== false || kind.semanticReviewAuthority !== false) throw new Error(`${entry.id}: runtime proof/mapping data must remain outside semantic-review authority`);
   }
-
-  return expanded;
+  const generated = JSON.stringify(inventory.generatedArtifacts ?? []);
+  for (const required of [
+    'content/vocabulary-visuals/__generated-priority-gap',
+    'content/vocabulary-visuals/batches/__generated-priority-batch-',
+    'content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json',
+    'content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json',
+    'content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json',
+    'content/vocabulary-visuals/__generated-runtime-plans.json'
+  ]) if (!generated.includes(required)) throw new Error(`Artifact inventory is missing generated lifecycle classification for ${required}`);
 };
 
 const readHumanReviewedKnowledge = () => {
-  const reviewedKnowledge = readJson('content/knowledge/english-vocabulary-primary-reviewed.json');
-  const entries = (Array.isArray(reviewedKnowledge) ? reviewedKnowledge : [reviewedKnowledge]).flatMap((source) => source.entries ?? []);
+  const value = readJson('content/knowledge/english-vocabulary-primary-reviewed.json');
+  const entries = (Array.isArray(value) ? value : [value]).flatMap((source) => source.entries ?? []);
   return new Map(entries.map((entry) => [normalizeLemma(entry.id), entry]));
 };
 
-const validateReviewedItems = (manifest, expanded, humanReviewedByLemma, seenLemmas, seenSenseKeys) => {
-  const localLemmas = new Set();
-  const localSenseKeys = new Set();
-  for (const { item, source } of expanded) {
-    const label = `${manifest.id}/${item.lemma}`;
-    assertNoEditorialPayload(item, label);
-    if (item.maturity !== 'V1') throw new Error(`${label}: reviewed manifest compilation may only establish V1`);
-    const isHumanReviewedSense = item.reviewSource === 'human_reviewed_primary_meaning';
-    if (isHumanReviewedSense) {
-      const curation = humanReviewedByLemma.get(item.lemma)?.meta?.curation;
-      if (curation?.status !== 'reviewed' || curation?.candidateId !== item.senseKey || curation?.sourceGlossCopied !== false) {
-        throw new Error(`${label}: #51 reviewed sense evidence does not match ${item.senseKey}`);
-      }
-      if (source?.candidateIds?.length && !source.candidateIds.includes(item.senseKey)) {
-        throw new Error(`${label}: #51 sense ${item.senseKey} is absent from the pinned source candidate set`);
-      }
-    } else if (item.reviewSource === 'single_candidate_priority_gap') {
-      if (!source || source.polysemyRisk !== 'low' || source.candidateSenseCount !== 1 || source.candidateIds?.[0] !== item.senseKey) {
-        throw new Error(`${label}: single-candidate reviewed strategy no longer matches its frozen source basis`);
-      }
-    }
-    if (localLemmas.has(item.lemma)) throw new Error(`${label}: duplicate lemma inside one reviewed batch`);
-    if (seenLemmas.has(item.lemma) && !isHumanReviewedSense) throw new Error(`${label}: duplicate reviewed lemma across batch history`);
-    if (localSenseKeys.has(item.senseKey) || seenSenseKeys.has(item.senseKey)) throw new Error(`${label}: duplicate reviewed sense across batch history`);
-    localLemmas.add(item.lemma);
-    localSenseKeys.add(item.senseKey);
-  }
-  for (const lemma of localLemmas) seenLemmas.add(lemma);
-  for (const senseKey of localSenseKeys) seenSenseKeys.add(senseKey);
+const resolveOverride = (manifest, lemma) => {
+  const matches = (manifest.authority?.overrides ?? []).filter((override) => (override.lemmas ?? []).map(normalizeLemma).includes(lemma));
+  if (matches.length > 1) throw new Error(`${manifest.id}/${lemma}: multiple authority overrides match`);
+  return matches[0] ?? null;
 };
 
-const deriveSummary = (expanded) => {
-  const items = expanded.map(({ item }) => item);
-  return {
-    items: items.length,
-    sceneGrammarItems: items.filter((item) => Boolean(item.sceneTemplate)).length,
-    textualOnlyItems: items.filter((item) => item.strategy === 'textual_only').length,
-    humanReviewedSenseItems: items.filter((item) => item.reviewSource === 'human_reviewed_primary_meaning').length,
-    runtimeProofCandidates: expanded.filter((entry) => entry.runtimeProofCandidate).length,
-    directVisualItems: items.filter((item) => item.strategy === 'direct_entity').length,
-    newAssetBlockers: 0,
-    exactSingleCandidateTextualOnly: items.filter((item) => item.reviewSource === 'single_candidate_terminal_text_only').length,
-    polysemyUnresolved: items.filter((item) => item.reviewSource === 'polysemy_terminal_unresolved').length,
-    missingCandidateUnresolved: items.filter((item) => item.reviewSource === 'missing_candidate_terminal_unresolved').length,
-    sceneStrategyItems: items.filter((item) => Boolean(item.sceneTemplate)).length,
-    runtimeMappings: 0
+const validateAuthorityState = (kind, state, context) => {
+  assertDimension('referenceStates', state.referenceState, context);
+  assertDimension('resolutionStates', state.resolutionState, context);
+  assertDimension('dispositionStates', state.dispositionState, context);
+  assertAllowed(kind.allowedResolutionStates, state.resolutionState, `${context} resolutionState`);
+  assertAllowed(kind.allowedDispositionStates, state.dispositionState, `${context} dispositionState`);
+};
+
+const validateManifestAuthority = (manifest, humanReviewedByLemma) => {
+  const defaultKind = authority(manifest.authority?.defaultKind, `${manifest.id} default`);
+  if (defaultKind.semanticReviewAuthority !== true || defaultKind.canCreateDisposition !== true) throw new Error(`${manifest.id}: default authority cannot create semantic dispositions`);
+  if (manifest.authority?.runtimeAuthority !== 'none' || defaultKind.runtimeAuthority !== 'none') throw new Error(`${manifest.id}: semantic manifest cannot grant runtime authority`);
+  if (defaultKind.historicalMigrationOnly) {
+    if (manifest.authority?.historicalMigration !== true || !manifest.source?.expectedSemanticFingerprint || !manifest.output?.expectedItemFingerprint) {
+      throw new Error(`${manifest.id}: historical authority requires explicit migration and frozen source/output fingerprints`);
+    }
+  }
+  if (defaultKind.allowedManifestStatuses) assertAllowed(defaultKind.allowedManifestStatuses, manifest.status, `${manifest.id} manifest status`);
+  if (manifest.authority?.referenceState) validateAuthorityState(defaultKind, manifest.authority, `${manifest.id} default authority`);
+
+  const overrideLemmas = new Set();
+  for (const override of manifest.authority?.overrides ?? []) {
+    const kind = authority(override.kind, `${manifest.id} authority override`);
+    if (kind.semanticReviewAuthority !== true || kind.canCreateDisposition !== true || kind.runtimeAuthority !== 'none') throw new Error(`${manifest.id}: override ${override.kind} is not semantic-only disposition authority`);
+    validateAuthorityState(kind, override, `${manifest.id}/${override.kind} override`);
+    for (const rawLemma of override.lemmas ?? []) {
+      const lemma = normalizeLemma(rawLemma);
+      if (!lemma || overrideLemmas.has(lemma)) throw new Error(`${manifest.id}: duplicate/missing authority override lemma ${lemma || '<empty>'}`);
+      overrideLemmas.add(lemma);
+    }
+  }
+
+  const validateReviewedRecord = (record, lemma) => {
+    const override = resolveOverride(manifest, lemma);
+    const kindId = override?.kind ?? manifest.authority.defaultKind;
+    const kind = authority(kindId, `${manifest.id}/${lemma}`);
+    const maturity = record.maturity ?? manifest.defaults?.maturity ?? 'V1';
+    if (!maturityRanks.has(maturity) || maturityRanks.get(maturity) > maturityRanks.get(kind.maxSemanticMaturity)) throw new Error(`${manifest.id}/${lemma}: ${kindId} cannot establish maturity ${maturity}`);
+    if (record.strategy && Array.isArray(kind.allowedStrategies) && !kind.allowedStrategies.includes(record.strategy)) throw new Error(`${manifest.id}/${lemma}: ${kindId} cannot create strategy ${record.strategy}`);
+    if (kindId === 'human_reviewed_exact_sense') {
+      if (record.reviewSource !== 'human_reviewed_primary_meaning') throw new Error(`${manifest.id}/${lemma}: human authority requires human_reviewed_primary_meaning source`);
+      const senseKey = requiredString(record.senseKey, `${manifest.id}/${lemma} exact human senseKey`);
+      const curation = humanReviewedByLemma.get(lemma)?.meta?.curation;
+      if (curation?.status !== 'reviewed' || curation?.candidateId !== senseKey || curation?.sourceGlossCopied !== false) throw new Error(`${manifest.id}/${lemma}: human authority does not match #51 curation evidence`);
+    } else if (record.reviewSource === 'human_reviewed_primary_meaning') {
+      throw new Error(`${manifest.id}/${lemma}: human review source requires human_reviewed_exact_sense authority`);
+    }
   };
-};
 
-export const validateLedgerShape = (ledger, manifests) => {
-  if (ledger?.schemaVersion !== 1 || ledger?.parentIssueRef !== 76 || ledger?.generatedFilePolicy !== 'rebuild_and_ignore') {
-    throw new Error('Vocabulary review-batch ledger must use schemaVersion 1, parent #76 and rebuild_and_ignore generated policy');
+  for (const block of manifest.reviews ?? []) {
+    if (block.type === 'group') for (const rawLemma of block.lemmas ?? []) validateReviewedRecord(block, normalizeLemma(rawLemma));
+    else if (block.type === 'item') validateReviewedRecord(block, normalizeLemma(block.lemma));
   }
-  if (!Array.isArray(ledger.batches) || !ledger.batches.length) throw new Error('Vocabulary review-batch ledger must contain at least one batch');
-  const ids = new Set();
-  const sequences = new Set();
-  const issues = new Set();
-  const manifestPaths = new Set();
-  const outputs = new Set();
-  for (const entry of ledger.batches) {
-    const manifest = manifests.get(entry.manifest);
-    if (!manifest) throw new Error(`${entry.id}: ledger manifest ${entry.manifest} is missing`);
-    if (entry.id !== manifest.id || entry.sequence !== manifest.sequence || entry.issueRef !== manifest.issueRef || manifest.parentIssueRef !== 76) {
-      throw new Error(`${entry.id}: ledger metadata does not match its manifest`);
-    }
-    if (ids.has(entry.id)) throw new Error(`Duplicate review batch id ${entry.id}`);
-    if (sequences.has(entry.sequence)) throw new Error(`Duplicate review batch sequence ${entry.sequence}`);
-    if (issues.has(entry.issueRef)) throw new Error(`Duplicate review batch issueRef ${entry.issueRef}`);
-    if (manifestPaths.has(entry.manifest)) throw new Error(`Duplicate review manifest path ${entry.manifest}`);
-    if (outputs.has(manifest.output?.path)) throw new Error(`Duplicate review batch output ${manifest.output?.path}`);
-    ids.add(entry.id);
-    sequences.add(entry.sequence);
-    issues.add(entry.issueRef);
-    manifestPaths.add(entry.manifest);
-    outputs.add(manifest.output?.path);
-  }
-};
 
-const baselineReviewedSets = (generatedOutputNames) => {
-  const lemmas = new Set();
-  const senseKeys = new Set();
-  for (const name of readdirSync(new URL('content/vocabulary-visuals/batches/', root)).filter((name) => name.endsWith('.json')).sort()) {
-    if (generatedOutputNames.has(name) || name.startsWith('__generated-')) continue;
-    const batch = readJson(`content/vocabulary-visuals/batches/${name}`);
-    for (const item of batch.items ?? []) {
-      const lemma = normalizeLemma(item.lemma);
-      const senseKey = String(item.senseKey ?? '').trim();
-      if (lemma) lemmas.add(lemma);
-      if (senseKey) senseKeys.add(senseKey);
+  if (manifest.terminalReview) {
+    if (manifest.authority.defaultKind !== 'approved_terminal_policy') throw new Error(`${manifest.id}: terminal review requires approved_terminal_policy authority`);
+    for (const rule of manifest.terminalReview.rules ?? []) {
+      validateAuthorityState(defaultKind, rule, `${manifest.id} terminal rule`);
+      if (!defaultKind.allowedStrategies?.includes(rule.strategy)) throw new Error(`${manifest.id}: terminal authority cannot create strategy ${rule.strategy}`);
+      if (rule.resolutionState === 'blocked_unresolved' && (rule.strategy !== 'sense_unresolved' || !String(rule.senseKey).includes('unresolved'))) throw new Error(`${manifest.id}: blocked terminal rule must remain sense_unresolved`);
+      if (rule.resolutionState === 'candidate_exact_terminal' && (rule.strategy !== 'textual_only' || rule.senseKey !== 'only_candidate')) throw new Error(`${manifest.id}: candidate-exact terminal policy may only create textual_only from the one candidate`);
+      if (rule.reviewSource === 'human_reviewed_primary_meaning') throw new Error(`${manifest.id}: terminal policy cannot claim human exact-sense review`);
     }
   }
-  return { lemmas, senseKeys };
 };
 
-export const compileReviewedBatches = ({ ledgerPath = defaultLedgerPath } = {}) => {
+const validateLedgerAuthority = (ledgerPath) => {
   const ledger = readJson(ledgerPath);
-  const manifests = new Map((ledger.batches ?? []).map((entry) => [entry.manifest, readJson(entry.manifest)]));
-  validateLedgerShape(ledger, manifests);
-  const ordered = [...ledger.batches].sort((left, right) => left.sequence - right.sequence || left.id.localeCompare(right.id));
-  const generatedOutputNames = new Set(ordered.map((entry) => basename(manifests.get(entry.manifest).output.path)));
-  const { lemmas: seenLemmas, senseKeys: seenSenseKeys } = baselineReviewedSets(generatedOutputNames);
   const humanReviewedByLemma = readHumanReviewedKnowledge();
-  const results = [];
-
-  for (const [index, entry] of ordered.entries()) {
-    const manifest = manifests.get(entry.manifest);
-    assertNoEditorialPayload(manifest, manifest.id);
-    const laterOutputNames = ordered.slice(index).map((candidate) => basename(manifests.get(candidate.manifest).output.path));
-    execFileSync(process.execPath, [gapBuilderPath, ...laterOutputNames.map((name) => `--exclude-batch=${name}`)], { stdio: 'inherit' });
-    const sourceQueue = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
-    const sourceFingerprint = assertSourceQueueMatchesManifest(manifest, sourceQueue);
-
-    const snapshot = {
-      ...sourceQueue,
-      issueRef: manifest.issueRef,
-      ...(manifest.source?.sourceQueueIssueRef ? { sourceQueueIssueRef: manifest.source.sourceQueueIssueRef } : {}),
-      parentIssueRef: 76,
-      status: manifest.source.snapshotStatus,
-      generatedFrom: {
-        ...sourceQueue.generatedFrom,
-        reviewBatchId: manifest.id,
-        sourceSemanticFingerprint: sourceFingerprint
-      }
-    };
-    writeJson(manifest.source.snapshotPath, snapshot);
-
-    const expanded = expandReviews(manifest, sourceQueue);
-    validateReviewedItems(manifest, expanded, humanReviewedByLemma, seenLemmas, seenSenseKeys);
-    const items = expanded.map(({ item }) => item);
-    const fingerprint = itemFingerprint(items);
-    if (fingerprint !== manifest.output?.expectedItemFingerprint) {
-      throw new Error(`${manifest.id}: historical reviewed-item fingerprint drift; expected ${manifest.output?.expectedItemFingerprint}, got ${fingerprint}`);
+  const inventoryManifestEntries = new Map((inventory.semanticSources ?? []).filter((entry) => entry.manifest).map((entry) => [entry.manifest, entry]));
+  for (const entry of ledger.batches ?? []) {
+    const manifest = readJson(entry.manifest);
+    validateManifestAuthority(manifest, humanReviewedByLemma);
+    if (ledgerPath === defaultLedgerPath) {
+      const inventoried = inventoryManifestEntries.get(entry.manifest);
+      if (!inventoried || inventoried.id !== entry.id || inventoried.generatedPath !== manifest.output?.path) throw new Error(`${entry.id}: default ledger manifest is not classified consistently in artifact inventory`);
     }
-    const summary = deriveSummary(expanded);
-    const output = {
-      schemaVersion: 1,
-      id: manifest.output.outputId,
-      issueRef: manifest.issueRef,
-      parentIssueRef: 76,
-      status: manifest.status,
-      ...(manifest.reviewBasis ? { reviewBasis: manifest.reviewBasis } : {}),
-      policy: manifest.policy,
-      summary,
-      items
-    };
-    writeJson(manifest.output.path, output);
-    results.push({ id: manifest.id, sourceItems: sourceQueue.items.length, sourceFingerprint, itemFingerprint: fingerprint, summary });
-    console.log(`Compiled ${manifest.id}: ${items.length} reviewed disposition(s); source fingerprint ${sourceFingerprint}; item fingerprint ${fingerprint}.`);
   }
-
-  execFileSync(process.execPath, [gapBuilderPath], { stdio: 'inherit' });
-  return results;
 };
 
+const validateCandidateRelevanceData = () => {
+  const review = readJson(relevanceReviewPath);
+  const kind = authority(review.authorityKind, 'candidate relevance review');
+  if (kind.id !== 'approved_terminal_policy' || kind.canClaimHumanReview !== false || kind.runtimeAuthority !== 'none') throw new Error('Candidate relevance blockers require non-human approved_terminal_policy authority');
+  const lemmas = new Set();
+  for (const entry of review.entries ?? []) {
+    const lemma = normalizeLemma(entry.lemma);
+    if (!lemma || lemmas.has(lemma)) throw new Error(`Duplicate/missing candidate relevance lemma ${lemma || '<empty>'}`);
+    if (entry.status !== 'candidate_relevance_review_required' || !String(entry.reasonCode ?? '').trim() || !String(entry.reason ?? '').trim()) throw new Error(`${lemma}: candidate relevance review requires explicit status, reasonCode and reason`);
+    lemmas.add(lemma);
+  }
+  if (lemmas.size !== 12) throw new Error(`Candidate relevance review must preserve the 12 Phase C reviewed blockers; got ${lemmas.size}`);
+};
+
+const validatePostCompile = () => {
+  const batch3 = readJson('content/vocabulary-visuals/batches/__generated-priority-batch-003.json');
+  const byLemma = new Map((batch3.items ?? []).map((item) => [normalizeLemma(item.lemma), item]));
+  const relevance = readJson(relevanceReviewPath);
+  for (const entry of relevance.entries ?? []) {
+    const item = byLemma.get(normalizeLemma(entry.lemma));
+    if (!item || item.strategy !== 'textual_only' || item.sourceTrace?.candidateSenseCount !== 1 || item.sourceTrace?.candidateIds?.[0] !== item.senseKey) throw new Error(`${entry.lemma}: relevance blocker must remain a one-candidate textual terminal disposition until human review`);
+  }
+};
+
+validateAuthorityModel();
+validateArtifactInventory();
+validateCandidateRelevanceData();
 const ledgerArg = process.argv.find((arg) => arg.startsWith('--ledger='));
-const isMain = process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
-if (isMain) {
-  const results = compileReviewedBatches({ ledgerPath: ledgerArg?.slice('--ledger='.length) || defaultLedgerPath });
-  console.log(`Generic vocabulary review-batch factory compiled ${results.length} batch(es) in ledger order.`);
-}
+const ledgerPath = ledgerArg?.slice('--ledger='.length) || defaultLedgerPath;
+validateLedgerAuthority(ledgerPath);
+execFileSync(process.execPath, [coreCompilerPath, ...process.argv.slice(2)], { stdio: 'inherit' });
+validatePostCompile();
+console.log('Vocabulary review authority/inventory gate passed; reviewed-batch core output remains fingerprint-locked.');
