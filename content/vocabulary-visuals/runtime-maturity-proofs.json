@@ -3,8 +3,8 @@
   "id": "vocabulary.visual-runtime-maturity.001",
   "issueRef": 80,
   "evidence": {
-    "workflowRunId": 33419049176,
-    "headSha": "6f6904e8da5293ed6b7ed7bd26e83f67f71f521c",
+    "workflowRunId": 33462320942,
+    "headSha": "7e9b7a478ef9e79c559a79f232c80b3fdd8fee9a",
     "proof": [
       "full_check_green",
       "presentation_tests_green",
@@ -39,6 +39,9 @@
     { "senseKey": "narrow#small-width", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
     { "senseKey": "smooth#even-surface", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
     { "senseKey": "pull#move-toward-by-force", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "fast#a#1", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "full#a#1", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
+    { "senseKey": "library#n#3", "maturity": "V5", "basis": "child_facing_post_answer_reinforcement" },
 
     { "senseKey": "village#settlement", "maturity": "V3", "basis": "renderer_template_proof" },
     { "senseKey": "under#below-reference", "maturity": "V3", "basis": "renderer_template_proof" },
