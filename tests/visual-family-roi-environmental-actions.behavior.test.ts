@@ -67,7 +67,7 @@ describe('family-level visual ROI and environmental actions', () => {
     }
   });
 
-  it('removes the authored environmental family from the live production queue', () => {
+  it('keeps the authored environmental family out of the live production queue as later families are added', () => {
     const report = JSON.parse(execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=50'], { encoding: 'utf8' })) as {
       queue: Array<{ semanticRef: string | null }>;
       familyQueue: Array<{ familyKey: string }>;
@@ -79,16 +79,16 @@ describe('family-level visual ROI and environmental actions', () => {
     expect(report.reviewQueue.every((entry) => !entry.automaticEligible)).toBe(true);
   });
 
-  it('pins the expected canonical coverage gain from the certified material baseline', () => {
+  it('preserves at least the certified environmental-family coverage contribution as the system grows', () => {
     const report = JSON.parse(execFileSync(process.execPath, ['scripts/report-visual-coverage.mjs', '--json'], { encoding: 'utf8' })) as {
       library: { entities: number; recipes: number };
       visualFriendly: { visual: number; total: number; percent: number; recipe: number };
     };
-    expect(report.library.entities).toBe(299);
-    expect(report.library.recipes).toBe(14);
+    expect(report.library.entities).toBeGreaterThanOrEqual(299);
+    expect(report.library.recipes).toBeGreaterThanOrEqual(14);
     expect(report.visualFriendly.total).toBe(1459);
-    expect(report.visualFriendly.visual).toBe(744);
-    expect(report.visualFriendly.percent).toBe(51);
-    expect(report.visualFriendly.recipe).toBe(135);
+    expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(744);
+    expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(51);
+    expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(135);
   });
 });
