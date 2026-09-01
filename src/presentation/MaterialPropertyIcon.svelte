@@ -23,5 +23,13 @@
       <circle cx="94" cy="50" r="11" fill="#78858a" fill-opacity=".25" stroke="#68767b" stroke-width="2.5" stroke-dasharray="4 4" />
       <path d="M87 43 101 57M101 43 87 57" fill="none" stroke="#68767b" stroke-width="2.5" stroke-linecap="round" />
     </g>
+  {:else if icon === 'shadow-sample'}
+    <g>
+      <path d="M8 82h104" fill="none" stroke="#8b8179" stroke-width="3" stroke-linecap="round" />
+      <ellipse cx="82" cy="76" rx="28" ry="9" fill="#485057" fill-opacity=".72" />
+      <rect x="37" y="36" width="24" height="39" rx="4" fill="#846e58" stroke="#554739" stroke-width="3" />
+      <path d="M61 75 102 80" fill="none" stroke="#485057" stroke-width="7" stroke-linecap="round" opacity=".3" />
+      <path d="M42 29h14" fill="none" stroke="#b8a28b" stroke-width="3" stroke-linecap="round" />
+    </g>
   {/if}
 </svg>
