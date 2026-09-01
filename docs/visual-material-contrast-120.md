@@ -47,15 +47,26 @@ On feedback/teaching surfaces the requested sample may be shown beside the oppos
 
 SVG paint/stroke values stay in markup. The component adds only the minimal width/height rule, preserving the existing 100 KiB CSS gate.
 
+## Coverage certification gate
+
+The focused material-family test now executes the canonical coverage reporter and requires this tranche to produce:
+
+- **296** registered visual primitives;
+- **11** semantic visual recipes;
+- **714/1459 (48.9%)** visual-friendly items;
+- **105** recipe-resolved item instances.
+
+This is a fail-closed assertion. If the actual canonical report differs, CI must reject the tranche rather than allowing a guessed coverage claim.
+
 ## Validation
 
 Final exact head must pass:
 
 - visual + visual-recipe validation;
-- focused material-contrast tests;
+- focused material-contrast tests including the pinned coverage delta;
 - canonical visual coverage and ROI reports;
 - Windows `npm run check`;
 - Browser/Playwright child journeys;
 - Android APK + packaged offline relaunch/rotation smoke.
 
-The canonical coverage report is authoritative for the final delta from 694/1459.
+The certified #118 baseline remains 694/1459; the pinned #120 target is 714/1459.
