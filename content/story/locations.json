@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "locations": [
-    { "id": "home-garden", "label": "Home & Garden", "topicGroups": ["animals", "plants", "family", "food", "habits"], "position": { "x": 45, "y": 68 }, "unlock": { "type": "start" } },
-    { "id": "farm", "label": "Farm", "topicGroups": ["animals", "plants", "food"], "position": { "x": 18, "y": 58 }, "unlock": { "type": "start" } },
-    { "id": "forest", "label": "Forest", "topicGroups": ["animals", "plants"], "position": { "x": 12, "y": 28 }, "unlock": { "type": "start" } },
-    { "id": "river-pond", "label": "River & Pond", "topicGroups": ["water", "animals", "safety"], "position": { "x": 75, "y": 58 }, "unlock": { "type": "start" } },
-    { "id": "road-school", "label": "Road & School", "topicGroups": ["transport", "communication", "safety", "reasoning"], "position": { "x": 67, "y": 82 }, "unlock": { "type": "start" } },
-    { "id": "scientu-lab", "label": "Scientu's Lab", "topicGroups": ["human", "air", "water", "rocks", "reasoning"], "position": { "x": 54, "y": 22 }, "unlock": { "type": "mission", "missionRef": "mission.puppy-by-pond" } },
-    { "id": "shaitanu-hideout", "label": "Shaitanu's Hideout", "topicGroups": ["reasoning", "rocks"], "position": { "x": 32, "y": 18 }, "unlock": { "type": "mission", "missionRef": "mission.invisible-air" } },
-    { "id": "observatory", "label": "Observatory", "topicGroups": ["universe", "air"], "position": { "x": 80, "y": 20 }, "unlock": { "type": "mission", "missionRef": "mission.rock-lookalikes" } },
-    { "id": "town-square", "label": "Town Square", "topicGroups": ["family", "festivals", "communication", "food"], "position": { "x": 44, "y": 88 }, "unlock": { "type": "mission", "missionRef": "mission.night-sky-mixup" } }
+    { "id": "home-garden", "label": "Home & Garden", "expeditionTitle": "Home & Garden Helpers", "progression": { "level": 3, "order": 3 }, "topicGroups": ["animals", "plants", "family", "food", "habits"], "position": { "x": 45, "y": 68 }, "unlock": { "type": "start" } },
+    { "id": "farm", "label": "Farm", "expeditionTitle": "Farmyard Discovery", "progression": { "level": 2, "order": 2 }, "topicGroups": ["animals", "plants", "food"], "position": { "x": 18, "y": 58 }, "unlock": { "type": "start" } },
+    { "id": "forest", "label": "Forest", "expeditionTitle": "Forest Explorer Trail", "progression": { "level": 1, "order": 1 }, "topicGroups": ["animals", "plants"], "position": { "x": 12, "y": 28 }, "unlock": { "type": "start" } },
+    { "id": "river-pond", "label": "River & Pond", "expeditionTitle": "River & Pond Quest", "progression": { "level": 4, "order": 4 }, "topicGroups": ["water", "animals", "safety"], "position": { "x": 75, "y": 58 }, "unlock": { "type": "start" } },
+    { "id": "road-school", "label": "Road & School", "expeditionTitle": "School Road Adventure", "progression": { "level": 5, "order": 5 }, "topicGroups": ["transport", "communication", "safety", "reasoning"], "position": { "x": 67, "y": 82 }, "unlock": { "type": "start" } },
+    { "id": "scientu-lab", "label": "Scientu's Lab", "expeditionTitle": "Scientu's Lab Investigation", "progression": { "level": 6, "order": 6 }, "topicGroups": ["human", "air", "water", "rocks", "reasoning"], "position": { "x": 54, "y": 22 }, "unlock": { "type": "mission", "missionRef": "mission.puppy-by-pond" } },
+    { "id": "shaitanu-hideout", "label": "Shaitanu's Hideout", "expeditionTitle": "Shaitanu's Puzzle Hideout", "progression": { "level": 7, "order": 7 }, "topicGroups": ["reasoning", "rocks"], "position": { "x": 32, "y": 18 }, "unlock": { "type": "mission", "missionRef": "mission.invisible-air" } },
+    { "id": "observatory", "label": "Observatory", "expeditionTitle": "Star Watch Expedition", "progression": { "level": 8, "order": 8 }, "topicGroups": ["universe", "air"], "position": { "x": 80, "y": 20 }, "unlock": { "type": "mission", "missionRef": "mission.rock-lookalikes" } },
+    { "id": "town-square", "label": "Town Square", "expeditionTitle": "Town Square Expedition", "progression": { "level": 9, "order": 9 }, "topicGroups": ["family", "festivals", "communication", "food"], "position": { "x": 44, "y": 88 }, "unlock": { "type": "mission", "missionRef": "mission.night-sky-mixup" } }
   ]
 }
