@@ -190,5 +190,87 @@
       { "id": "arrow-sprout-young", "role": "relation", "text": "→", "slot": "front", "x": 67, "y": 54, "scale": 0.34, "motion": "pulse" },
       { "id": "young-plant", "role": "prop", "visualRef": "entity.plant.sapling", "slot": "front", "x": 84, "y": 52, "scale": 0.72, "motion": "wiggle" }
     ]
+  },
+  {
+    "id": "animation.water-state.melt",
+    "semanticRef": "water-state-change",
+    "theme": "paper",
+    "ariaLabel": "Melting in order: solid ice changes into liquid water.",
+    "subject": {
+      "variantRef": "animation.variant.water-state-ice",
+      "orientation": "front",
+      "pose": "rest",
+      "expression": "neutral",
+      "x": 23,
+      "y": 56,
+      "scale": 0.68
+    },
+    "parts": [
+      { "id": "melt-label", "role": "relation", "text": "MELT", "slot": "above", "x": 50, "y": 24, "scale": 0.44, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 55, "scale": 0.34, "motion": "pulse" },
+      { "id": "liquid-water", "role": "prop", "visualRef": "entity.matter.liquid-water", "slot": "front", "x": 78, "y": 56, "scale": 0.72, "motion": "drift" }
+    ]
+  },
+  {
+    "id": "animation.water-state.freeze",
+    "semanticRef": "water-state-change",
+    "theme": "paper",
+    "ariaLabel": "Freezing in order: liquid water changes into solid ice.",
+    "subject": {
+      "variantRef": "animation.variant.water-state-liquid",
+      "orientation": "front",
+      "pose": "rest",
+      "expression": "neutral",
+      "x": 23,
+      "y": 56,
+      "scale": 0.72
+    },
+    "parts": [
+      { "id": "freeze-label", "role": "relation", "text": "FREEZE", "slot": "above", "x": 50, "y": 24, "scale": 0.42, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 55, "scale": 0.34, "motion": "pulse" },
+      { "id": "ice", "role": "prop", "visualRef": "entity.matter.ice", "slot": "front", "x": 78, "y": 56, "scale": 0.68, "motion": "float" }
+    ]
+  },
+  {
+    "id": "animation.opening.closed-to-open",
+    "semanticRef": "opening",
+    "theme": "paper",
+    "ariaLabel": "Opening in order: a closed container changes to an open container.",
+    "subject": {
+      "variantRef": "animation.variant.opening-closed-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 23,
+      "y": 58,
+      "scale": 0.72
+    },
+    "parts": [
+      { "id": "open-label", "role": "relation", "text": "OPEN", "slot": "above", "x": 50, "y": 24, "scale": 0.44, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 56, "scale": 0.34, "motion": "pulse" },
+      { "id": "open-container", "role": "prop", "visualRef": "entity.state.container-open", "slot": "front", "x": 78, "y": 58, "scale": 0.72, "motion": "wiggle" }
+    ]
+  },
+  {
+    "id": "animation.filling.empty-to-full",
+    "semanticRef": "filling",
+    "theme": "paper",
+    "ariaLabel": "Filling in order: an empty container becomes partly full and then full.",
+    "subject": {
+      "variantRef": "animation.variant.filling-empty-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 13,
+      "y": 60,
+      "scale": 0.5
+    },
+    "parts": [
+      { "id": "fill-label", "role": "relation", "text": "FILL", "slot": "above", "x": 50, "y": 23, "scale": 0.42, "motion": "pulse" },
+      { "id": "arrow-empty-partly", "role": "relation", "text": "→", "slot": "front", "x": 30, "y": 58, "scale": 0.28, "motion": "pulse" },
+      { "id": "partly-full", "role": "prop", "visualRef": "entity.state.container-partly-full", "slot": "front", "x": 47, "y": 58, "scale": 0.54, "motion": "drift" },
+      { "id": "arrow-partly-full", "role": "relation", "text": "→", "slot": "front", "x": 65, "y": 56, "scale": 0.28, "motion": "pulse" },
+      { "id": "full", "role": "prop", "visualRef": "entity.state.container-full", "slot": "front", "x": 84, "y": 56, "scale": 0.58, "motion": "drift" }
+    ]
   }
 ]

@@ -20,30 +20,41 @@ interface ProcessRow {
   stages: Array<{ id: string; label: string; semanticRef: string }>;
 }
 
+interface ProcessVisualRow {
+  id: string;
+  renderer: string;
+  glyph: string;
+  label: string;
+}
+
 function readJson<T>(path: string): T {
   return JSON.parse(readFileSync(path, 'utf8')) as T;
 }
 
-function germinationQuestion(overrides: Partial<SingleChoiceQuestion> = {}): SingleChoiceQuestion {
+function processQuestion(
+  knowledgeRef: string,
+  conceptId: string,
+  overrides: Partial<SingleChoiceQuestion> = {}
+): SingleChoiceQuestion {
   return {
-    id: 'test.animation.germination.001',
+    id: `test.animation.process.${conceptId}`,
     revision: 1,
     schemaVersion: 1,
-    conceptIds: ['sof3.plants.germination'],
-    knowledgeRefs: ['kr.science.process.germination.seed-to-young-plant'],
+    conceptIds: [conceptId],
+    knowledgeRefs: [knowledgeRef],
     difficulty: 2,
     language: 'en',
-    prompt: { text: 'Which order shows a seed beginning to grow?' },
+    prompt: { text: 'Which option shows the process in the correct order?' },
     interaction: {
       type: 'single_choice',
       version: 1,
       shuffleOptions: false,
       options: [
-        { id: 'grow', label: 'Seed, sprout, young plant' },
-        { id: 'reverse', label: 'Young plant, sprout, seed' }
+        { id: 'correct', label: 'Correct order' },
+        { id: 'reverse', label: 'Reverse order' }
       ]
     },
-    solution: { type: 'exact_option', correctOptionIds: ['grow'] },
+    solution: { type: 'exact_option', correctOptionIds: ['correct'] },
     feedback: { correct: 'Correct.', incorrect: 'Try again.' },
     authoring: { status: 'reviewed', source: 'behavior-test' },
     ...overrides
@@ -74,7 +85,7 @@ describe('semantic animation science and process expansion', () => {
     }
   });
 
-  it('selects wind teaching scenes by reusable semantic parts rather than question-specific ids', () => {
+  it('selects reusable teaching scenes by semantic parts rather than question-specific ids', () => {
     expect(resolveAnimationForState({
       semanticRef: 'wind',
       partVisualRefs: { prop: ['entity.object.windmill'] }
@@ -89,6 +100,16 @@ describe('semantic animation science and process expansion', () => {
       semanticRef: 'wind',
       partVisualRefs: { prop: ['entity.object.sailboat'] }
     })?.id).toBe('animation.wind.sailboat');
+
+    expect(resolveAnimationForState({
+      semanticRef: 'water-state-change',
+      partVisualRefs: { prop: ['entity.matter.liquid-water'] }
+    })?.id).toBe('animation.water-state.melt');
+
+    expect(resolveAnimationForState({
+      semanticRef: 'water-state-change',
+      partVisualRefs: { prop: ['entity.matter.ice'] }
+    })?.id).toBe('animation.water-state.freeze');
   });
 
   it('sizes semantic composition parts against the embedding surface when supported', () => {
@@ -98,30 +119,93 @@ describe('semantic animation science and process expansion', () => {
     expect(source).toContain('24cqw');
   });
 
-  it('keeps germination aligned to reviewed process order and understandable without motion', () => {
+  it('renders every new process state through the existing generic process-icon renderer', () => {
+    const visuals = readJson<ProcessVisualRow[]>('content/visuals/processes.json');
+    const rendererSource = readFileSync('src/presentation/ProcessIcon.svelte', 'utf8');
+    const expectedIds = [
+      'entity.matter.ice',
+      'entity.matter.liquid-water',
+      'entity.state.container-closed',
+      'entity.state.container-open',
+      'entity.state.container-empty',
+      'entity.state.container-partly-full',
+      'entity.state.container-full'
+    ];
+
+    for (const visualId of expectedIds) {
+      const visual = visuals.find((candidate) => candidate.id === visualId);
+      expect(visual?.renderer, `${visualId} should reuse process-icon`).toBe('process-icon');
+      expect(rendererSource, `${visualId} glyph should be implemented`).toContain(`icon === '${visual?.glyph}'`);
+    }
+  });
+
+  it('keeps all reviewed process rows aligned to canonical stage order and post-answer scenes', () => {
     const processes = readJson<ProcessRow[]>('content/knowledge/vocabulary-processes.json');
-    const process = processes.find((candidate) =>
-      candidate.rowId === 'kr.science.process.germination.seed-to-young-plant'
-    );
-    expect(process?.stages.map((stage) => stage.semanticRef)).toEqual([
-      'seed',
-      'sprout',
-      'young-plant'
-    ]);
+    const expectations = [
+      {
+        rowId: 'kr.science.process.germination.seed-to-young-plant',
+        conceptId: 'sof3.plants.germination',
+        stages: ['seed', 'sprout', 'young-plant'],
+        animationId: 'animation.germination.seed-to-young-plant',
+        sceneId: 'scene.plants.germination'
+      },
+      {
+        rowId: 'kr.science.process.melt.ice-to-liquid-water',
+        conceptId: 'sof5.matter.melting',
+        stages: ['ice', 'water'],
+        animationId: 'animation.water-state.melt',
+        sceneId: 'scene.process.melt-ice'
+      },
+      {
+        rowId: 'kr.science.process.freeze.water-to-ice',
+        conceptId: 'science.matter.freezing',
+        stages: ['water', 'ice'],
+        animationId: 'animation.water-state.freeze',
+        sceneId: 'scene.process.freeze-water'
+      },
+      {
+        rowId: 'kr.vocab.process.open.closed-to-open',
+        conceptId: 'vocabulary.action.open',
+        stages: ['closed', 'open'],
+        animationId: 'animation.opening.closed-to-open',
+        sceneId: 'scene.vocabulary.opening'
+      },
+      {
+        rowId: 'kr.vocab.process.fill.empty-to-full',
+        conceptId: 'vocabulary.action.fill',
+        stages: ['empty', 'partly-full', 'full'],
+        animationId: 'animation.filling.empty-to-full',
+        sceneId: 'scene.vocabulary.filling'
+      }
+    ];
 
-    const composition = resolveAnimationComposition('animation.germination.seed-to-young-plant');
-    expect(composition?.semanticRef).toBe('germination');
-    expect(composition?.ariaLabel).toContain('seed');
-    expect(composition?.ariaLabel).toContain('sprout');
-    expect(composition?.ariaLabel).toContain('young plant');
-    expect(composition?.parts.filter((part) => part.text === '→')).toHaveLength(2);
-    expect(composition?.parts.filter((part) => part.visualRef).map((part) => part.visualRef)).toEqual([
-      'entity.plant.sprout',
-      'entity.plant.sapling'
-    ]);
+    for (const expected of expectations) {
+      const process = processes.find((candidate) => candidate.rowId === expected.rowId);
+      expect(process?.stages.map((stage) => stage.semanticRef), expected.rowId).toEqual(expected.stages);
 
-    const question = germinationQuestion();
-    expect(resolveQuestionSceneId(question)).toBe('scene.plants.germination');
-    expect(resolveQuestionSceneId(question, false)).toBeNull();
+      const composition = resolveAnimationComposition(expected.animationId);
+      expect(composition, `${expected.animationId} should resolve`).toBeTruthy();
+      expect(composition?.ariaLabel.trim().length).toBeGreaterThan(0);
+
+      const question = processQuestion(expected.rowId, expected.conceptId);
+      expect(resolveQuestionSceneId(question)).toBe(expected.sceneId);
+      expect(resolveQuestionSceneId(question, false)).toBeNull();
+    }
+  });
+
+  it('keeps every new process understandable without motion by drawing the full endpoint sequence', () => {
+    const melt = resolveAnimationComposition('animation.water-state.melt');
+    const freeze = resolveAnimationComposition('animation.water-state.freeze');
+    const opening = resolveAnimationComposition('animation.opening.closed-to-open');
+    const filling = resolveAnimationComposition('animation.filling.empty-to-full');
+
+    expect(melt?.parts.some((part) => part.visualRef === 'entity.matter.liquid-water')).toBe(true);
+    expect(freeze?.parts.some((part) => part.visualRef === 'entity.matter.ice')).toBe(true);
+    expect(opening?.parts.some((part) => part.visualRef === 'entity.state.container-open')).toBe(true);
+    expect(filling?.parts.filter((part) => part.text === '→')).toHaveLength(2);
+    expect(filling?.parts.filter((part) => part.visualRef).map((part) => part.visualRef)).toEqual([
+      'entity.state.container-partly-full',
+      'entity.state.container-full'
+    ]);
   });
 });

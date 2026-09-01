@@ -142,5 +142,41 @@
     "motion": "pulse",
     "aliases": ["germination animation state seed"],
     "animationIdentityRef": "germination"
+  },
+  {
+    "id": "animation.variant.water-state-ice",
+    "renderer": "process-icon",
+    "glyph": "ice-cube",
+    "label": "Ice at the start of a water state-change animation",
+    "motion": "float",
+    "aliases": ["water state animation ice"],
+    "animationIdentityRef": "water-state-change"
+  },
+  {
+    "id": "animation.variant.water-state-liquid",
+    "renderer": "process-icon",
+    "glyph": "liquid-water",
+    "label": "Liquid water at the start of a water state-change animation",
+    "motion": "drift",
+    "aliases": ["water state animation liquid"],
+    "animationIdentityRef": "water-state-change"
+  },
+  {
+    "id": "animation.variant.opening-closed-state",
+    "renderer": "process-icon",
+    "glyph": "container-closed",
+    "label": "Closed container at the start of an opening animation",
+    "motion": "idle",
+    "aliases": ["opening animation closed state"],
+    "animationIdentityRef": "opening"
+  },
+  {
+    "id": "animation.variant.filling-empty-state",
+    "renderer": "process-icon",
+    "glyph": "container-empty",
+    "label": "Empty container at the start of a filling animation",
+    "motion": "idle",
+    "aliases": ["filling animation empty state"],
+    "animationIdentityRef": "filling"
   }
 ]

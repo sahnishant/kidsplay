@@ -100,5 +100,29 @@
     "theme": "ocean",
     "ariaLabel": "A hole-filled piece of pumice shown at the surface of water.",
     "animationRef": "animation.pumice.floating-water"
+  },
+  {
+    "id": "scene.process.melt-ice",
+    "theme": "paper",
+    "ariaLabel": "Melting in order: solid ice changes into liquid water.",
+    "animationRef": "animation.water-state.melt"
+  },
+  {
+    "id": "scene.process.freeze-water",
+    "theme": "paper",
+    "ariaLabel": "Freezing in order: liquid water changes into solid ice.",
+    "animationRef": "animation.water-state.freeze"
+  },
+  {
+    "id": "scene.vocabulary.opening",
+    "theme": "paper",
+    "ariaLabel": "Opening in order: a closed container changes to an open container.",
+    "animationRef": "animation.opening.closed-to-open"
+  },
+  {
+    "id": "scene.vocabulary.filling",
+    "theme": "paper",
+    "ariaLabel": "Filling in order: an empty container becomes partly full and then full.",
+    "animationRef": "animation.filling.empty-to-full"
   }
 ]
