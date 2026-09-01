@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { ChoiceOption, SingleChoiceQuestion } from '../contracts/question';
-  import VisualEntity from '../presentation/VisualEntity.svelte';
-  import { resolveItemVisualRefs } from '../presentation/visualRegistry';
+  import type { SingleChoiceQuestion } from '../contracts/question';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
+  import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<SingleChoiceQuestion> = $props();
@@ -22,10 +22,6 @@
   let selectedOptionId = $state<string | null>(null);
   let locked = $state(false);
 
-  function optionVisualRefs(option: ChoiceOption): string[] {
-    return resolveItemVisualRefs(option, true);
-  }
-
   function submit(): void {
     if (!selectedOptionId || locked) return;
     locked = true;
@@ -35,23 +31,19 @@
 
 <div class="choice-grid">
   {#each options as option (option.id)}
-    {@const visualRefs = optionVisualRefs(option)}
+    {@const visual = resolveItemVisualPresentation(option)}
     <button
       type="button"
-      class={`choice-button${visualRefs.length ? ' choice-button--visual' : ''}${selectedOptionId === option.id ? ' choice-button--selected' : ''}`}
+      class={`choice-button${visual.hasVisuals ? ' choice-button--visual' : ''}${selectedOptionId === option.id ? ' choice-button--selected' : ''}`}
       aria-pressed={selectedOptionId === option.id}
       disabled={locked}
       onclick={() => (selectedOptionId = option.id)}
     >
-      {#if visualRefs.length}
-        <span class="choice-button__visuals" aria-hidden="true">
-          {#each visualRefs as visualRef (visualRef)}
-            <span class="choice-button__visual">
-              <VisualEntity {visualRef} context="option" />
-            </span>
-          {/each}
-        </span>
-      {/if}
+      <SemanticVisualPresenter
+        presentation={visual}
+        class="choice-button__visuals"
+        itemClass="choice-button__visual"
+      />
       <span class="choice-button__label">{option.label}</span>
     </button>
   {/each}
@@ -70,7 +62,7 @@
     padding: 9px 10px 11px;
   }
 
-  .choice-button__visuals {
+  :global(.choice-button__visuals) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -79,7 +71,7 @@
     gap: 3px;
   }
 
-  .choice-button__visual {
+  :global(.choice-button__visual) {
     width: min(82px, 30%);
     height: 70px;
     flex: 0 1 82px;
@@ -96,11 +88,11 @@
       padding: 8px 7px 10px;
     }
 
-    .choice-button__visuals {
+    :global(.choice-button__visuals) {
       min-height: 62px;
     }
 
-    .choice-button__visual {
+    :global(.choice-button__visual) {
       height: 60px;
     }
   }

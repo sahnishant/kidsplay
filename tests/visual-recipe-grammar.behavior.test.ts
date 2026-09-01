@@ -84,7 +84,7 @@ describe('semantic visual recipe grammar', () => {
     expect(source).not.toContain('earth-revolution');
   });
 
-  it('produces deterministic production and semantic-review ROI lanes', () => {
+  it('produces a deterministic closed production lane and populated semantic-review lane', () => {
     const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=30'], {
       cwd: process.cwd(),
       encoding: 'utf8'
@@ -94,25 +94,17 @@ describe('semantic visual recipe grammar', () => {
       productionCandidates: number;
       reviewCandidates: number;
       queue: Array<{ semanticRef: string | null; roiScore: number; automaticEligible: boolean }>;
+      familyQueue: Array<{ familyKey: string }>;
       reviewQueue: Array<{ semanticRef: string | null; automaticEligible: boolean; category: string }>;
     };
 
     expect(report.recipes).toBeGreaterThanOrEqual(5);
-    expect(report.productionCandidates).toBeGreaterThan(0);
+    expect(report.productionCandidates).toBe(0);
+    expect(report.queue).toEqual([]);
+    expect(report.familyQueue).toEqual([]);
     expect(report.reviewCandidates).toBeGreaterThan(0);
-    expect(report.queue.length).toBeGreaterThan(0);
-    for (let index = 1; index < report.queue.length; index += 1) {
-      expect(report.queue[index - 1].roiScore).toBeGreaterThanOrEqual(report.queue[index].roiScore);
-    }
-    expect(report.queue.every((entry) => entry.automaticEligible)).toBe(true);
+    expect(report.reviewQueue.length).toBeGreaterThan(0);
     expect(report.reviewQueue.every((entry) => !entry.automaticEligible)).toBe(true);
-    const productionRefs = report.queue.map((entry) => entry.semanticRef);
-    expect(productionRefs).not.toContain('living-things');
-    expect(productionRefs).not.toContain('earth-revolution');
-    expect(productionRefs).not.toContain('ancient-object');
-    expect(productionRefs).not.toContain('ask');
-    expect(productionRefs).not.toContain('come');
-    expect(productionRefs).not.toContain('environment');
     expect(report.reviewQueue.some((entry) => entry.semanticRef === 'ancient-object' && entry.category === 'vocabulary_review')).toBe(true);
     expect(report.reviewQueue.some((entry) => entry.semanticRef === 'ask')).toBe(true);
   });

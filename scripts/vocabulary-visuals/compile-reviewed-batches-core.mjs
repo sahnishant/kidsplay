@@ -238,6 +238,16 @@ export const validateLedgerShape = (ledger, manifests) => {
     throw new Error('Vocabulary review-batch ledger must use schemaVersion 1, parent #76 and rebuild_and_ignore generated policy');
   }
   if (!Array.isArray(ledger.batches) || !ledger.batches.length) throw new Error('Vocabulary review-batch ledger must contain at least one batch');
+  if (ledger.sourceQueueExclusions !== undefined) {
+    if (!Array.isArray(ledger.sourceQueueExclusions) || ledger.sourceQueueExclusions.some((name) =>
+      typeof name !== 'string' || !name.endsWith('.json') || basename(name) !== name
+    )) {
+      throw new Error('Vocabulary review-batch sourceQueueExclusions must contain safe JSON basenames');
+    }
+    if (new Set(ledger.sourceQueueExclusions).size !== ledger.sourceQueueExclusions.length) {
+      throw new Error('Vocabulary review-batch sourceQueueExclusions must be unique');
+    }
+  }
   const ids = new Set();
   const sequences = new Set();
   const issues = new Set();
@@ -287,11 +297,16 @@ export const compileReviewedBatches = ({ ledgerPath = defaultLedgerPath } = {}) 
   const { lemmas: seenLemmas, senseKeys: seenSenseKeys } = baselineReviewedSets(generatedOutputNames);
   const humanReviewedByLemma = readHumanReviewedKnowledge();
   const results = [];
+  const sourceQueueExclusions = [...(ledger.sourceQueueExclusions ?? [])]
+    .sort((left, right) => left.localeCompare(right));
 
   for (const [index, entry] of ordered.entries()) {
     const manifest = manifests.get(entry.manifest);
     assertNoEditorialPayload(manifest, manifest.id);
-    const laterOutputNames = ordered.slice(index).map((candidate) => basename(manifests.get(candidate.manifest).output.path));
+    const laterOutputNames = [...new Set([
+      ...ordered.slice(index).map((candidate) => basename(manifests.get(candidate.manifest).output.path)),
+      ...sourceQueueExclusions
+    ])].sort((left, right) => left.localeCompare(right));
     execFileSync(process.execPath, [gapBuilderPath, ...laterOutputNames.map((name) => `--exclude-batch=${name}`)], { stdio: 'inherit' });
     const sourceQueue = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
     const sourceFingerprint = assertSourceQueueMatchesManifest(manifest, sourceQueue);

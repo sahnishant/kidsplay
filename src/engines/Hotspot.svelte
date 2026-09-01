@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { HotspotQuestion, HotspotRegion } from '../contracts/question';
+  import type { HotspotQuestion } from '../contracts/question';
   import { asPercent, regionBox } from '../mechanics/hitRegions';
-  import VisualEntity from '../presentation/VisualEntity.svelte';
-  import { resolveItemVisualRefs } from '../presentation/visualRegistry';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
+  import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<HotspotQuestion> = $props();
@@ -13,10 +13,6 @@
 
   function selected(regionId: string): boolean {
     return selectedRegionIds.includes(regionId);
-  }
-
-  function visualRefs(region: HotspotRegion): string[] {
-    return resolveItemVisualRefs(region);
   }
 
   function toggle(regionId: string): void {
@@ -49,7 +45,7 @@
   >
     {#each question.interaction.board.regions as region (region.id)}
       {@const box = regionBox(region.shape)}
-      {@const refs = visualRefs(region)}
+      {@const visual = resolveItemVisualPresentation(region)}
       <button
         type="button"
         class={`hotspot__region${box.circular ? ' hotspot__region--circle' : ''}${selected(region.id) ? ' hotspot__region--selected' : ''}`}
@@ -59,12 +55,13 @@
         disabled={locked}
         onclick={() => toggle(region.id)}
       >
-        {#if refs.length}
-          <span class={`hotspot__visuals${refs.length > 1 ? ' hotspot__visuals--compound' : ''}`} aria-hidden="true">
-            {#each refs as visualRef (visualRef)}
-              <span class="hotspot__visual"><VisualEntity {visualRef} context="option" /></span>
-            {/each}
-          </span>
+        {#if visual.hasVisuals}
+          <SemanticVisualPresenter
+            presentation={visual}
+            class="hotspot__visuals"
+            itemClass="hotspot__visual"
+            compoundClass="hotspot__visuals--compound"
+          />
         {:else if region.symbol}
           <span class="hotspot__symbol" aria-hidden="true">{region.symbol}</span>
         {/if}
@@ -79,7 +76,7 @@
 </div>
 
 <style>
-  .hotspot__visuals {
+  :global(.hotspot__visuals) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,13 +86,13 @@
     margin: 0 auto 2px;
   }
 
-  .hotspot__visual {
+  :global(.hotspot__visual) {
     width: 100%;
     height: 100%;
     min-width: 0;
   }
 
-  .hotspot__visuals--compound .hotspot__visual {
+  :global(.hotspot__visuals--compound .hotspot__visual) {
     width: 48%;
   }
 </style>

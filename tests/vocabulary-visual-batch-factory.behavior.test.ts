@@ -155,6 +155,13 @@ describe('#94 generic semantic-vocabulary review-batch factory', () => {
       ]
     }), 'utf8');
     expect(() => runCompiler(portableRelative(duplicateLedgerPath))).toThrow(/Duplicate review batch id|Duplicate review batch sequence|Duplicate review batch issueRef/);
+
+    const unsafeExclusionLedger = writeScenario(
+      'unsafe-source-exclusion',
+      baseManifest,
+      { sourceQueueExclusions: ['../outside-generated-state.json'] }
+    );
+    expect(() => runCompiler(unsafeExclusionLedger)).toThrow(/sourceQueueExclusions must contain safe JSON basenames/);
   });
 
   it('rejects capability escalation by candidate, terminal, human-review, status and runtime-authority masquerades', () => {

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import VocabularySemanticScene from './VocabularySemanticScene.svelte';
+  import SemanticVisualPresenter from './SemanticVisualPresenter.svelte';
+  import { vocabularyVisualPresentation } from './semanticVisualPresentation';
   import { resolveVisualMeaningPresentation } from './vocabularyPresentation';
 
   type VisualMeaningPresenterMode = 'glance' | 'learn' | 'explore';
@@ -25,6 +26,7 @@
 
   let presentation = $derived(resolveVisualMeaningPresentation(senseKey, { phase }));
   let compactVisual = $derived(mode === 'glance');
+  let semanticVisual = $derived(vocabularyVisualPresentation(presentation.senseKey, compactVisual));
   let accessibleLabel = $derived(
     mode !== 'glance' && meaning
       ? `Meaning of ${word}: ${meaning}`
@@ -60,7 +62,7 @@
       role="group"
       aria-label={`Visual explanation for ${word}`}
     >
-      <VocabularySemanticScene senseKey={presentation.senseKey} compact={compactVisual} />
+      <SemanticVisualPresenter presentation={semanticVisual} />
     </div>
   {/if}
 

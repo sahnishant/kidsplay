@@ -6,11 +6,12 @@
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import StoryCharacter from '../presentation/StoryCharacter.svelte';
   import VisualMeaningPresenter from '../presentation/VisualMeaningPresenter.svelte';
-  import VisualRecipe from '../presentation/VisualRecipe.svelte';
   import { resolveQuestionFeedbackRecipeId } from '../presentation/questionFeedbackVisual';
   import { resolveQuestionSceneId } from '../presentation/questionScene';
+  import { recipeVisualPresentation } from '../presentation/semanticVisualPresentation';
   import { resolveVisualMeaningPresentation } from '../presentation/vocabularyPresentation';
   import { resolveStoryReaction } from '../story/storyReaction';
   import {
@@ -227,7 +228,7 @@
             <div class="reinforcement-scene"><Scene sceneId={reinforcementSceneId} /></div>
           {:else if feedbackRecipeId && !storyReaction}
             <div class="reinforcement-recipe">
-              <VisualRecipe recipeId={feedbackRecipeId} surface="feedback" />
+              <SemanticVisualPresenter presentation={recipeVisualPresentation(feedbackRecipeId)} />
             </div>
           {/if}
 

@@ -1,8 +1,9 @@
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
-import { isAbsolute } from 'node:path';
+import { basename, isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { validateLedgerShape } from './compile-reviewed-batches-core.mjs';
 
 const root = new URL('../../', import.meta.url);
 const coreCompilerPath = fileURLToPath(new URL('./compile-reviewed-batches-core.mjs', import.meta.url));
@@ -218,10 +219,12 @@ const validateManifestAuthority = (manifest, humanReviewedByLemma) => {
 
 const validateLedgerAuthority = (ledgerPath) => {
   const ledger = readJson(ledgerPath);
+  const manifests = new Map((ledger.batches ?? []).map((entry) => [entry.manifest, readJson(entry.manifest)]));
+  validateLedgerShape(ledger, manifests);
   const humanReviewedByLemma = readHumanReviewedKnowledge();
   const inventoryManifestEntries = new Map((inventory.semanticSources ?? []).filter((entry) => entry.manifest).map((entry) => [entry.manifest, entry]));
   for (const entry of ledger.batches ?? []) {
-    const manifest = readJson(entry.manifest);
+    const manifest = manifests.get(entry.manifest);
     validateManifestAuthority(manifest, humanReviewedByLemma);
     if (ledgerPath === defaultLedgerPath) {
       const inventoried = inventoryManifestEntries.get(entry.manifest);
@@ -343,7 +346,14 @@ for (const entry of ledger.batches ?? []) {
 
 if (priorityGapEntries.length) {
   const priorityLedgerPath = `content/vocabulary-visuals/__generated-priority-core-ledger-${process.pid}.json`;
-  writeText(priorityLedgerPath, `${JSON.stringify({ ...ledger, batches: priorityGapEntries }, null, 2)}\n`);
+  const sourceQueueExclusions = reviewedItemsEntries
+    .map(({ manifest }) => basename(manifest.output.path))
+    .sort((left, right) => left.localeCompare(right));
+  writeText(priorityLedgerPath, `${JSON.stringify({
+    ...ledger,
+    batches: priorityGapEntries,
+    sourceQueueExclusions
+  }, null, 2)}\n`);
   try {
     execFileSync(process.execPath, [coreCompilerPath, `--ledger=${priorityLedgerPath}`], { stdio: 'inherit' });
   } finally {

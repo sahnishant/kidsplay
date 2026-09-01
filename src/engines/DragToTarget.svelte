@@ -1,8 +1,8 @@
 <script lang="ts">
-  import type { DragItem, DragTarget, DragToTargetQuestion } from '../contracts/question';
+  import type { DragToTargetQuestion } from '../contracts/question';
   import { createMatchingDisplayOrder } from '../mechanics/matchingPresentation';
-  import VisualEntity from '../presentation/VisualEntity.svelte';
-  import { resolveItemVisualRefs } from '../presentation/visualRegistry';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
+  import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<DragToTargetQuestion> = $props();
@@ -24,14 +24,6 @@
     question.interaction.targets,
     question.solution.assignments
   ));
-
-  function itemVisualRefs(item: DragItem): string[] {
-    return resolveItemVisualRefs(item, false);
-  }
-
-  function targetVisualRefs(target: DragTarget): string[] {
-    return resolveItemVisualRefs(target, false);
-  }
 
   function assignedLabel(targetId: string): string {
     const items = question.interaction.items.filter((item) => assignments[item.id] === targetId);
@@ -106,10 +98,10 @@
 <div class="drag-stage">
   <div class="drag-items" aria-label="Things to move">
     {#each displayOrder.items as item (item.id)}
-      {@const visualRefs = itemVisualRefs(item)}
+      {@const visual = resolveItemVisualPresentation(item, { allowLabelInference: false, context: 'drag-item' })}
       <button
         type="button"
-        class={`drag-item${visualRefs.length ? ' drag-item--visual' : ''}${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
+        class={`drag-item${visual.hasVisuals ? ' drag-item--visual' : ''}${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
         aria-pressed={selectedItemId === item.id}
         disabled={locked}
         onclick={() => clickItem(item.id)}
@@ -118,12 +110,8 @@
         onpointerup={(event) => pointerEnd(item.id, event)}
         onpointercancel={(event) => pointerEnd(item.id, event)}
       >
-        {#if visualRefs.length}
-          <span class="drag-visuals" aria-hidden="true">
-            {#each visualRefs as visualRef (visualRef)}
-              <span class="drag-visual"><VisualEntity {visualRef} context="drag-item" /></span>
-            {/each}
-          </span>
+        {#if visual.hasVisuals}
+          <SemanticVisualPresenter presentation={visual} class="drag-visuals" itemClass="drag-visual" />
         {:else if item.symbol}
           <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
         {/if}
@@ -134,21 +122,17 @@
 
   <div class="target-grid">
     {#each displayOrder.targets as target (target.id)}
-      {@const visualRefs = targetVisualRefs(target)}
+      {@const visual = resolveItemVisualPresentation(target, { allowLabelInference: false, context: 'drag-target' })}
       <button
         type="button"
-        class={`drop-target${visualRefs.length ? ' drop-target--visual' : ''}`}
+        class={`drop-target${visual.hasVisuals ? ' drop-target--visual' : ''}`}
         data-drop-target="true"
         data-target-id={target.id}
         disabled={locked}
         onclick={() => selectedItemId && assign(selectedItemId, target.id)}
       >
-        {#if visualRefs.length}
-          <span class="target-visuals" aria-hidden="true">
-            {#each visualRefs as visualRef (visualRef)}
-              <span class="target-visual"><VisualEntity {visualRef} context="drag-target" /></span>
-            {/each}
-          </span>
+        {#if visual.hasVisuals}
+          <SemanticVisualPresenter presentation={visual} class="target-visuals" itemClass="target-visual" />
         {:else if target.symbol}
           <span class="drag-symbol" aria-hidden="true">{target.symbol}</span>
         {/if}
@@ -172,20 +156,20 @@
     gap: 3px;
   }
 
-  .drag-visuals,
-  .target-visuals {
+  :global(.drag-visuals),
+  :global(.target-visuals) {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
   }
 
-  .drag-visual {
+  :global(.drag-visual) {
     width: 68px;
     height: 58px;
   }
 
-  .target-visual {
+  :global(.target-visual) {
     width: 76px;
     height: 62px;
   }
