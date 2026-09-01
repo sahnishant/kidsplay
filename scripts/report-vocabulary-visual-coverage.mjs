@@ -17,6 +17,7 @@ const registry = {
   motionPolicies: new Set(registryJson.motionPolicies ?? []),
   answerSafety: new Set(registryJson.answerSafety ?? [])
 };
+const CHILD_FACING_MATURITIES = new Set(['V5', 'V6']);
 
 const visualFiles = readdirSync(new URL('content/visuals/', root)).filter((name) => name.endsWith('.json')).sort();
 const visuals = visualFiles.flatMap((name) => {
@@ -109,22 +110,37 @@ const runtimeFile = readJson('content/vocabulary-visuals/__generated-runtime-pla
 if (runtimeFile?.schemaVersion !== 1) errors.push('Generated vocabulary visual runtime plans schemaVersion must be 1');
 if (runtimeFile?.issueRef !== 80) errors.push('Generated vocabulary visual runtime plans must belong to issue #80');
 const runtimePlans = Array.isArray(runtimeFile?.plans) ? runtimeFile.plans : [];
-const runtimeKnowledgeRefs = new Set();
+const mappedKnowledgeRefs = new Set();
+const childFacingKnowledgeRefs = new Set();
+const pendingProofKnowledgeRefs = new Set();
 const rendererAdmittedSenseKeys = new Set();
 const childFacingSenseKeys = new Set();
+const pendingProofSenseKeys = new Set();
 const motionRuntimeSenseKeys = new Set();
 let templateProofPlans = 0;
+let mappedKnowledgePlans = 0;
 let childFacingPlans = 0;
+let pendingProofPlans = 0;
 for (const plan of runtimePlans) {
   const item = itemBySenseKey.get(plan?.senseKey);
   if (!item) errors.push(`runtime/${plan?.senseKey}: generated runtime plan points to unknown strategy senseKey`);
   rendererAdmittedSenseKeys.add(plan?.senseKey);
   if (plan?.runtimeUsage === 'knowledge_reinforcement') {
-    childFacingPlans += 1;
-    childFacingSenseKeys.add(plan?.senseKey);
-    if (!String(plan?.knowledgeRef ?? '').startsWith('kr.')) errors.push(`runtime/${plan?.senseKey}: child-facing runtime plan requires canonical knowledgeRef`);
-    if (runtimeKnowledgeRefs.has(plan?.knowledgeRef)) errors.push(`runtime/${plan?.senseKey}: duplicate child-facing runtime knowledgeRef ${plan?.knowledgeRef}`);
-    runtimeKnowledgeRefs.add(plan?.knowledgeRef);
+    mappedKnowledgePlans += 1;
+    const knowledgeRef = String(plan?.knowledgeRef ?? '');
+    if (!knowledgeRef.startsWith('kr.')) errors.push(`runtime/${plan?.senseKey}: knowledge runtime plan requires canonical knowledgeRef`);
+    if (mappedKnowledgeRefs.has(knowledgeRef)) errors.push(`runtime/${plan?.senseKey}: duplicate knowledge runtime knowledgeRef ${knowledgeRef}`);
+    mappedKnowledgeRefs.add(knowledgeRef);
+
+    if (CHILD_FACING_MATURITIES.has(plan?.maturity)) {
+      childFacingPlans += 1;
+      childFacingSenseKeys.add(plan?.senseKey);
+      childFacingKnowledgeRefs.add(knowledgeRef);
+    } else {
+      pendingProofPlans += 1;
+      pendingProofSenseKeys.add(plan?.senseKey);
+      pendingProofKnowledgeRefs.add(knowledgeRef);
+    }
   } else if (plan?.runtimeUsage === 'template_proof') {
     templateProofPlans += 1;
     if (plan?.knowledgeRef !== null) errors.push(`runtime/${plan?.senseKey}: template proof must not claim a knowledgeRef`);
@@ -205,7 +221,8 @@ const maturityRows = items.map((item) => ({
   answerSafety: item.answerSafety,
   candidateLinked: linkedSenseKeys.has(item.senseKey),
   rendererAdmitted: rendererAdmittedSenseKeys.has(item.senseKey),
-  childFacing: childFacingSenseKeys.has(item.senseKey)
+  childFacing: childFacingSenseKeys.has(item.senseKey),
+  pendingProof: pendingProofSenseKeys.has(item.senseKey)
 }));
 
 const result = {
@@ -229,9 +246,14 @@ const result = {
     totalPlans: runtimePlans.length,
     rendererAdmittedSenses: rendererAdmittedSenseKeys.size,
     templateProofPlans,
+    mappedKnowledgePlans,
+    mappedKnowledgeRefs: mappedKnowledgeRefs.size,
     childFacingPlans,
     childFacingSenses: childFacingSenseKeys.size,
-    childFacingKnowledgeRefs: runtimeKnowledgeRefs.size,
+    childFacingKnowledgeRefs: childFacingKnowledgeRefs.size,
+    pendingProofPlans,
+    pendingProofSenses: pendingProofSenseKeys.size,
+    pendingProofKnowledgeRefs: pendingProofKnowledgeRefs.size,
     meaningfulMotionSenses: motionRuntimeSenseKeys.size
   },
   batches: batchFiles,
@@ -254,7 +276,7 @@ const result = {
   },
   highPriorityGaps,
   meaningQueueGaps,
-  maturityRows: maturityRows.slice(0, Math.max(limit, 140)),
+  maturityRows: maturityRows.slice(0, Math.max(limit, 260)),
   errors: errors.slice(0, 100)
 };
 
@@ -265,7 +287,7 @@ if (jsonMode) {
   console.log(`Primary corpus: ${result.corpus.auditedLemmas}/${result.corpus.totalLemmas} lemma(s) audited (${result.corpus.auditedPercent}%); ${result.corpus.outsideCorpusStrategyItems} explicit existing-runtime-only strategy item(s).`);
   console.log(`Priority meaning queue: ${result.meaningQueue.auditedLemmas}/${result.meaningQueue.totalPriorityLemmas} lemma(s) audited (${result.meaningQueue.auditedLemmaPercent}%); ${result.meaningQueue.explicitCandidateLinks} explicit OEWN candidate link(s).`);
   console.log(`Sense strategies: ${items.length}; direct visuals: ${directVisuals}; scene-template targets: ${sceneTemplateTargets}; declared V3+ scene-ready: ${sceneReadyV3}; valid semantic plans: ${validSemanticPlans}; meaningful-motion targets: ${meaningfulMotionTargets}.`);
-  console.log(`Runtime: ${result.runtime.rendererAdmittedSenses} renderer-admitted sense(s) across ${result.runtime.totalPlans} plan(s); ${result.runtime.templateProofPlans} template proof(s); ${result.runtime.childFacingPlans} child-facing knowledge mapping(s) / ${result.runtime.childFacingSenses} semantic sense(s); ${result.runtime.meaningfulMotionSenses} runtime motion-capable sense(s).`);
+  console.log(`Runtime: ${result.runtime.rendererAdmittedSenses} renderer-admitted sense(s) across ${result.runtime.totalPlans} plan(s); ${result.runtime.templateProofPlans} template proof(s); ${result.runtime.mappedKnowledgePlans} mapped knowledge plan(s); ${result.runtime.childFacingPlans} proof-admitted child-facing mapping(s) / ${result.runtime.childFacingSenses} semantic sense(s); ${result.runtime.pendingProofPlans} mapping(s) pending V5/V6 proof; ${result.runtime.meaningfulMotionSenses} runtime motion-capable sense(s).`);
   console.log(`Sense-unresolved: ${unresolvedSenses}; textual-only: ${textualOnlySenses}; validation errors: ${errors.length}.`);
   console.log(`Strategies: ${JSON.stringify(byStrategy)}`);
   console.log(`Maturity: ${JSON.stringify(byMaturity)}`);
