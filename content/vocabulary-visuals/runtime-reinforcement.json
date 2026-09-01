@@ -26,6 +26,14 @@
     { "knowledgeRef": "kr.vocab.antonym.narrow.wide", "senseKey": "narrow#small-width" },
     { "knowledgeRef": "kr.vocab.antonym.smooth.rough", "senseKey": "smooth#even-surface" },
     { "knowledgeRef": "kr.vocab.antonym.ancient.modern", "senseKey": "ancient#very-old-from-long-ago" },
-    { "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward", "senseKey": "pull#move-toward-by-force" }
+    { "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward", "senseKey": "pull#move-toward-by-force" },
+
+    { "knowledgeRef": "kr.vocab.primary.meaning.ask.ask-v-2", "senseKey": "ask#v#2" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.find.find-v-3", "senseKey": "find#v#3" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.floor.floor-n-1", "senseKey": "floor#n#1" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.guide.guide-n-2", "senseKey": "guide#n#2" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.environment.environment-n-2", "senseKey": "environment#n#2" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.minute.minute-n-1", "senseKey": "minute#n#1" },
+    { "knowledgeRef": "kr.vocab.primary.meaning.notice.notice-n-1", "senseKey": "notice#n#1" }
   ]
 }
