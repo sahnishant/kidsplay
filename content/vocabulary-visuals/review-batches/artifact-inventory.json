@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "parentIssueRef": 76,
+  "authorityModel": "content/vocabulary-visuals/review-batches/authority-model.json",
+  "semanticSources": [
+    {
+      "id": "priority-batch-001",
+      "path": "content/vocabulary-visuals/batches/priority-batch-001.json",
+      "artifactKind": "historical_reviewed_strategy",
+      "authorityKind": "historical_reviewed_strategy",
+      "lifecycle": "committed_historical_source",
+      "order": 10,
+      "expectedGitBlobSha": "04b1d03d0b245196b42648db6b1fdf4523c04afd",
+      "supersession": "append_only_exact_sense"
+    },
+    {
+      "id": "polysemy-watchlist-001",
+      "path": "content/vocabulary-visuals/batches/polysemy-watchlist-001.json",
+      "artifactKind": "historical_unresolved_watchlist",
+      "authorityKind": "historical_unresolved_watchlist",
+      "lifecycle": "committed_historical_source",
+      "order": 20,
+      "expectedGitBlobSha": "10594268eb2333ebd3d959c8a893975b6f57fdf9",
+      "supersession": "later_exact_review_may_add_distinct_sense"
+    },
+    {
+      "id": "runtime-vocabulary-batch-002",
+      "path": "content/vocabulary-visuals/batches/runtime-vocabulary-batch-002.json",
+      "artifactKind": "historical_reviewed_strategy",
+      "authorityKind": "historical_reviewed_strategy",
+      "lifecycle": "committed_historical_source",
+      "order": 30,
+      "expectedGitBlobSha": "223d25971475e517e063503beeb3bc2bfc77a511",
+      "supersession": "append_only_exact_sense"
+    },
+    {
+      "id": "priority-batch-002",
+      "artifactKind": "manifest_reviewed_projection",
+      "authorityKind": "historical_reviewed_strategy",
+      "lifecycle": "manifest_source_generated_projection",
+      "order": 40,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-batch-002.json",
+      "generatedPath": "content/vocabulary-visuals/batches/__generated-priority-batch-002.json"
+    },
+    {
+      "id": "priority-batch-003",
+      "artifactKind": "manifest_terminal_projection",
+      "authorityKind": "approved_terminal_policy",
+      "lifecycle": "manifest_source_generated_projection",
+      "order": 50,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-batch-003.json",
+      "generatedPath": "content/vocabulary-visuals/batches/__generated-priority-batch-003.json"
+    },
+    {
+      "id": "phase-c-candidate-relevance-review",
+      "path": "content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json",
+      "artifactKind": "reviewed_relevance_blockers",
+      "authorityKind": "approved_terminal_policy",
+      "lifecycle": "committed_review_policy_data",
+      "order": 60,
+      "supersession": "human_exact_review_required_to_remove_blocker"
+    },
+    {
+      "id": "phase-c-corpus-terminal-policy",
+      "path": "scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs",
+      "artifactKind": "deterministic_terminal_policy_compiler",
+      "authorityKind": "approved_terminal_policy",
+      "lifecycle": "committed_policy_compiler",
+      "order": 70,
+      "generatedPath": "content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json",
+      "humanReviewQueues": [
+        "content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json",
+        "content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json"
+      ]
+    }
+  ],
+  "runtimeBoundary": [
+    {
+      "id": "runtime-reinforcement-config",
+      "path": "content/vocabulary-visuals/runtime-reinforcement.json",
+      "artifactKind": "runtime_mapping_config",
+      "authorityKind": "runtime_mapping_config",
+      "semanticReviewAuthority": false
+    },
+    {
+      "id": "runtime-template-proof-config",
+      "path": "content/vocabulary-visuals/runtime-template-proofs.json",
+      "artifactKind": "runtime_mapping_config",
+      "authorityKind": "runtime_mapping_config",
+      "semanticReviewAuthority": false
+    },
+    {
+      "id": "runtime-maturity-proofs",
+      "path": "content/vocabulary-visuals/runtime-maturity-proofs.json",
+      "artifactKind": "external_runtime_proof",
+      "authorityKind": "external_runtime_proof",
+      "semanticReviewAuthority": false
+    },
+    {
+      "id": "runtime-generated-projection",
+      "path": "content/vocabulary-visuals/__generated-runtime-plans.json",
+      "artifactKind": "committed_shipped_runtime_projection",
+      "authorityKind": "external_runtime_proof",
+      "semanticReviewAuthority": false,
+      "lifecycle": "committed_generated_projection"
+    }
+  ],
+  "generatedArtifacts": [
+    { "pattern": "content/vocabulary-visuals/__generated-priority-gap*.json", "lifecycle": "ignored_deterministic_audit_artifact" },
+    { "pattern": "content/vocabulary-visuals/batches/__generated-priority-batch-*.json", "lifecycle": "ignored_deterministic_review_projection" },
+    { "path": "content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json", "lifecycle": "ignored_deterministic_terminal_projection" },
+    { "path": "content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
+    { "path": "content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
+    { "path": "content/vocabulary-visuals/__generated-runtime-plans.json", "lifecycle": "committed_shipped_runtime_projection" }
+  ],
+  "invariants": {
+    "directoryEnumerationDefinesSemanticOrder": false,
+    "unclassifiedCommittedSemanticBatchAllowed": false,
+    "runtimeProofMayActAsSemanticReviewAuthority": false,
+    "generatedReviewProjectionIsSourceOfTruth": false,
+    "historicalSourceMayDriftWithoutExplicitMigration": false
+  }
+}
