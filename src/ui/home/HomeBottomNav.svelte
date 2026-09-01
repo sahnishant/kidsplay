@@ -1,5 +1,5 @@
 <script lang="ts">
-  export type HomePrimaryView = 'world' | 'progress' | 'practice' | 'goals';
+  type HomePrimaryView = 'world' | 'progress' | 'practice' | 'goals';
 
   let {
     active = 'world',
