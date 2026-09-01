@@ -9,6 +9,7 @@ const readText = (path: string) => readFileSync(resolve(process.cwd(), path), 'u
 const authorityPath = 'content/vocabulary-visuals/review-batches/authority-model.json';
 const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-inventory.json';
 const relevancePath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
+const exactReviewManifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json';
 const phaseCBuilderPath = 'scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs';
 const blockingLemmas = ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'];
 
@@ -22,8 +23,8 @@ describe('#76 vocabulary visual control-plane authority', () => {
   it('keeps reference, resolution, disposition, maturity and runtime authority as independent dimensions', () => {
     const model = readJson(authorityPath);
     expect(model).toMatchObject({ schemaVersion: 1, parentIssueRef: 76 });
-    expect(model.dimensions.referenceStates).toContain('candidate_only');
-    expect(model.dimensions.resolutionStates).toEqual(expect.arrayContaining(['blocked_unresolved', 'human_resolved']));
+    expect(model.dimensions.referenceStates).toEqual(expect.arrayContaining(['candidate_only', 'human_reviewed_exact_reference', 'sol_max_reviewed_exact_reference']));
+    expect(model.dimensions.resolutionStates).toEqual(expect.arrayContaining(['blocked_unresolved', 'human_resolved', 'sol_max_resolved']));
     expect(model.dimensions.dispositionStates).toEqual(expect.arrayContaining(['terminal_textual', 'terminal_unresolved', 'reviewed_strategy']));
     expect(model.dimensions.maturityLevels).toEqual(['V0', 'V1', 'V2', 'V3', 'V4', 'V5', 'V6']);
     expect(model.dimensions.runtimeAuthorityStates).toEqual(['none', 'mapping_config_only', 'external_proof_only']);
@@ -40,6 +41,7 @@ describe('#76 vocabulary visual control-plane authority', () => {
     expect(byId.get('candidate_reference')).toMatchObject({ semanticReviewAuthority: false, canCreateDisposition: false, canResolveSense: false, maxSemanticMaturity: 'V0' });
     expect(byId.get('approved_terminal_policy')).toMatchObject({ semanticReviewAuthority: true, canClaimHumanReview: false, canSelectMultiCandidate: false, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
     expect(byId.get('human_reviewed_exact_sense')).toMatchObject({ requiresHumanCurationEvidence: true, canClaimHumanReview: true, canSelectMultiCandidate: true, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
+    expect(byId.get('sol_max_reviewed_exact_sense')).toMatchObject({ requiresExternalReviewEvidence: true, canClaimHumanReview: false, canSelectMultiCandidate: true, maxSemanticMaturity: 'V2', runtimeAuthority: 'none' });
     expect(byId.get('external_runtime_proof')).toMatchObject({ semanticReviewAuthority: false, runtimeAuthority: 'external_proof_only' });
   });
 
@@ -63,6 +65,7 @@ describe('#76 vocabulary visual control-plane authority', () => {
       expect.objectContaining({ id: 'runtime-vocabulary-batch-002', authorityKind: 'historical_reviewed_strategy' }),
       expect.objectContaining({ id: 'priority-batch-002', manifest: 'content/vocabulary-visuals/review-batches/priority-batch-002.json' }),
       expect.objectContaining({ id: 'priority-batch-003', manifest: 'content/vocabulary-visuals/review-batches/priority-batch-003.json' }),
+      expect.objectContaining({ id: 'priority-sense-resolution-001', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifestPath }),
       expect.objectContaining({ id: 'phase-c-candidate-relevance-review', path: relevancePath }),
       expect.objectContaining({ id: 'phase-c-corpus-terminal-policy', path: phaseCBuilderPath })
     ]));
@@ -92,23 +95,24 @@ describe('#76 vocabulary visual control-plane authority', () => {
     expect(productionSource).toContain('candidate-relevance-review-001.json');
   });
 
-  it('preserves exact Phase C terminal, resolved, blocked, queue and runtime boundaries', () => {
+  it('preserves exact post-#100 terminal, resolved, blocked, queue and runtime boundaries', () => {
     const report = reportJson();
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 587,
-      blockedSenseResolutionLemmas: 9413,
+      resolvedStrategyLemmas: 617,
+      blockedSenseResolutionLemmas: 9383,
+      exactReviewedSupersedingLemmas: 30,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 554,
-      blockedSenseResolutionLemmas: 1846,
+      resolvedStrategyLemmas: 584,
+      blockedSenseResolutionLemmas: 1816,
       auditedLemmaPercent: 100
     });
-    expect(report.senseResolutionQueue.items).toBe(1846);
+    expect(report.senseResolutionQueue.items).toBe(1816);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
     expect(report.runtime).toMatchObject({
       childFacingPlans: 22,
