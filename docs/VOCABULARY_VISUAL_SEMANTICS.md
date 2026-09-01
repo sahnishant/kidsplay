@@ -14,215 +14,176 @@ corpus lemma + explicit teaching sense
         -> existing visual/animation renderer
 ```
 
-Do not put SVG filenames, upstream asset URLs, pixel motion, imported dictionary glosses, child definitions, or board/exam placement inside the strategy review data.
+Do not put SVG filenames, upstream asset URLs, pixel motion, imported dictionary glosses, child definitions, or board/exam placement inside strategy review data.
 
-A bare lemma is never enough when a word is polysemous. Use explicit sense keys. If the intended sense is not resolved, record `sense_unresolved` rather than guessing. The polysemy watchlist and terminal review batches exist specifically to keep ambiguous words visible and fail closed.
+A bare lemma is never enough when a word is polysemous. Use explicit sense keys. If the intended sense is not resolved, record `sense_unresolved` rather than guessing.
 
 ## Files
 
 - `content/vocabulary-visuals/registry.json` — strategy, maturity, scene-template, motion and safety vocabulary.
-- `content/vocabulary-visuals/batches/*.json` — committed baseline strategy batches plus generated reviewed-batch/corpus-terminal projections.
+- `content/vocabulary-visuals/batches/*.json` — committed historical batches plus generated reviewed/terminal projections.
 - `content/vocabulary-visuals/review-batches/ledger.json` — deterministic order for manifest-driven reviewed batches.
 - `content/vocabulary-visuals/review-batches/authority-model.json` — capability model separating reference, resolution, disposition, maturity and runtime authority.
-- `content/vocabulary-visuals/review-batches/artifact-inventory.json` — complete semantic/control-plane/runtime artifact classification and historical immutability anchors.
-- `content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json` — versioned Phase C candidate-relevance blockers and per-row reasons.
-- `content/vocabulary-visuals/review-batches/priority-batch-*.json` — durable reviewed decisions, source fingerprints and output fingerprints.
-- `content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json` — priority ambiguity/candidate-relevance blockers requiring human review.
-- `content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json` — remaining non-priority corpus blockers requiring sense candidates/review.
-- `scripts/vocabulary-visuals/strategy-contract.mjs` — pure validation and semantic scene planning contract.
-- `scripts/vocabulary-visuals/build-priority-gap-queue.mjs` — candidate-only priority queue builder; never grants V1.
-- `scripts/vocabulary-visuals/compile-reviewed-batches.mjs` — **public production compiler**; validates authority/inventory before compilation.
-- `scripts/vocabulary-visuals/compile-reviewed-batches-core.mjs` — internal fingerprint-locked projection core; never a production entrypoint.
-- `scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs` — Phase C full-corpus blocker accounting and human-resolution queue builder.
-- `scripts/report-vocabulary-visual-coverage.mjs` — full-corpus terminal/resolved/child-facing coverage reporting.
-- `tests/vocabulary-visual-batch-factory.behavior.test.ts` — stale-source, capability-escalation, historical-equivalence, concurrency and idempotence gates.
-- `tests/vocabulary-visual-control-plane-authority.behavior.test.ts` — authority/inventory, Phase C exact-count and runtime-boundary gate.
-- `tests/vocabulary-visual-corpus-terminal.behavior.test.ts` — Phase C terminal-vs-resolved boundary gate.
-- `tests/vocabulary-visual-strategy.behavior.test.ts` — sense safety, settlement grammar, reduced motion and answer-leak regression coverage.
+- `content/vocabulary-visuals/review-batches/artifact-inventory.json` — semantic/control-plane/runtime artifact classification and transaction policy.
+- `content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json` — versioned Phase C relevance blockers and reasons.
+- `content/vocabulary-visuals/review-batches/priority-batch-002.json` / `priority-batch-003.json` — frozen historical reviewed/policy manifests.
+- `content/vocabulary-visuals/review-batches/priority-sense-resolution-001.items.json` — immutable historical 30-row #99/#100 review source.
+- `content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json` — corrected Sol Max authority/evidence manifest for that source.
+- `content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json` — remaining priority sense/relevance blockers.
+- `content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json` — residual corpus blockers.
+- `scripts/vocabulary-visuals/compile-reviewed-batches.mjs` — **sole supported production entrypoint** for reviewed-batch compilation; serializes and transactionally protects generated state.
+- `scripts/vocabulary-visuals/compile-reviewed-batches-impl.mjs` — internal authority/inventory/source-kind implementation.
+- `scripts/vocabulary-visuals/compile-reviewed-batches-core.mjs` — internal fingerprint-locked historical priority-gap core.
+- `scripts/vocabulary-visuals/build-priority-gap-queue.mjs` — candidate-only priority queue reconstruction.
+- `scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs` — Phase C terminal accounting and active blocker queues.
+- `scripts/report-vocabulary-visual-coverage.mjs` — terminal/resolved/blocked/child-facing reporting with exact-review supersession.
 
 ## Review authority is not maturity
 
-Five independent dimensions are deliberately kept separate:
+Five independent dimensions are deliberately separate:
 
-1. **reference state** — whether data is merely a candidate reference, a frozen historical reference, or an exact human-reviewed reference;
-2. **resolution state** — whether the intended sense remains blocked, is terminally exact only because there is one pinned candidate, is historically resolved, or is human-resolved;
+1. **reference state** — candidate, frozen historical, exact human-reviewed, or exact Sol-Max-reviewed reference;
+2. **resolution state** — unresolved/blocked, terminal exact-by-policy, historical resolved, human resolved, or Sol Max resolved;
 3. **disposition state** — candidate-only, terminal textual, terminal unresolved, or reviewed strategy;
 4. **teaching maturity** — V0 through V6 capability;
 5. **runtime authority** — none, mapping configuration, or external runtime proof.
 
-The canonical capability definitions live in `authority-model.json`.
-
 ### Hard authority invariants
 
-- V1 **alone does not mean resolved**.
-- One returned candidate **does not mean human intended-sense approval**.
-- `sense_unresolved` **never counts as resolved**.
-- A semantic manifest **cannot grant V5/V6 runtime authority**.
-- A terminal policy **cannot impersonate human exact-sense review**.
-- Runtime proof/configuration **cannot create semantic review authority**.
-- Exact #51 human-reviewed senses must match the reviewed curation candidate ID and retain `sourceGlossCopied:false`.
+- V1 alone does **not** mean resolved.
+- One lexical candidate does **not** mean intended-sense approval.
+- `sense_unresolved` never counts as actively resolved.
+- Semantic review cannot grant V5/V6 runtime authority.
+- Terminal policy cannot impersonate exact review.
+- Runtime proof cannot create semantic-review authority.
+- Exact #51 human-reviewed senses must match #51 curation evidence.
+- Sol High selection + Sol Max row-level acceptance is **not human editorial review** and must be recorded under a separate authority kind.
 
-Authority kinds are capability-based:
+Authority kinds include:
 
-- `candidate_reference` — reference only; cannot create dispositions or resolve a sense;
-- `historical_reviewed_strategy` — migration-only authority protected by immutable source/output fingerprints;
-- `historical_unresolved_watchlist` — historical fail-closed unresolved dispositions;
-- `approved_terminal_policy` — may create only conservative V1 `textual_only` / `sense_unresolved` terminal dispositions and cannot select among multiple candidates;
-- `human_reviewed_exact_sense` — requires matching #51 curation evidence and may select the exact reviewed sense;
-- `runtime_mapping_config` and `external_runtime_proof` — explicitly outside semantic-review authority.
+- `candidate_reference` — reference only;
+- `historical_reviewed_strategy` — migration-only, fingerprint protected;
+- `historical_unresolved_watchlist` — historical unresolved state;
+- `approved_terminal_policy` — conservative V1 `textual_only` / `sense_unresolved` policy only;
+- `human_reviewed_exact_sense` — exact #51 human curation authority;
+- `sol_max_reviewed_exact_sense` — pinned candidate trace + immutable Sol Max external review evidence; may preserve V1/V2 only and cannot claim human review;
+- `runtime_mapping_config` / `external_runtime_proof` — outside semantic-review authority.
 
-The production wrapper enforces these capabilities before the fingerprint-locked core can run. `package.json` and CI point only to the wrapper. The core is inventoried as internal and is not an alternate production path.
+## #99/#100 exact-review tranche
 
-## Complete artifact inventory
+PR #100 accepted 30 exact candidate selections after row-level Sol Max review. The historical source file used the label `human_reviewed_exact_sense`; #94 preserves those source bytes for auditability but corrects the generated authority projection.
 
-`artifact-inventory.json` classifies the whole semantic/control-plane history instead of allowing directory enumeration to imply authority.
+The manifest records:
 
-Frozen committed semantic sources include:
+- reviewed semantic head `8f80e81a60aaf1a7574b327a0e953c2f0472e816`;
+- merged main checkpoint `5040cdceb61fc83cf7161a5a97300e8a4c8fd7f4`;
+- Sol Max review node `PRR_kwDOUHzR8c8AAAABLmzeeQ`;
+- 30 accepted rows;
+- `claimsHumanEditorialReview:false`.
+
+The generated projection therefore uses `sol_max_reviewed_exact_sense` / `sol_max_selected_exact_candidate` while preserving each row's selected sense, candidate set, visual strategy, maturity and answer-safety decision.
+
+A later exact review **supersedes the active blocker state for that lemma without deleting historical unresolved records**. This distinction is central to honest terminal accounting.
+
+## Artifact inventory and deterministic order
+
+`artifact-inventory.json` classifies all semantic/control-plane/runtime authority rather than relying on directory enumeration.
+
+Frozen historical semantic sources include:
 
 - `priority-batch-001.json` — blob `04b1d03d0b245196b42648db6b1fdf4523c04afd`;
 - `polysemy-watchlist-001.json` — blob `10594268eb2333ebd3d959c8a893975b6f57fdf9`;
 - `runtime-vocabulary-batch-002.json` — blob `223d25971475e517e063503beeb3bc2bfc77a511`.
 
-The inventory also classifies manifest-driven batches 002/003, the Phase C relevance-review data, the Phase C terminal-accounting policy, the production wrapper/internal core, and the runtime reinforcement/template/maturity-proof boundary. Every committed non-generated semantic batch must be inventoried; unknown batches fail the production compiler.
+Historical reviewed-batch equivalence remains frozen:
 
-## Reviewed-batch architecture
+- batch 002 source fingerprint `6eb2305fa9101b088c56f2125a5fce7049d8712b032c423c1673130ee930f6be`;
+- batch 002 item fingerprint `4a7344b934d64f419dffadd4436b2d8d50a05967bdc6f6912a29b914d98e85ef`;
+- batch 003 source fingerprint `edb6d451af8d5709874a336005384773d0bc5826e7ce23691fb77a8a0f957b96`;
+- batch 003 item fingerprint `e0881f110620cc141d5378e18ed2ae889cee053706523a7797a285548b6623f8`.
 
-Reviewed batches are **data, not scripts**.
+Future reviewed content must be registered as data/manifest entries. It must not add numbered production builders or package/workflow branches.
 
-The production path is:
+## Transactional compiler lifecycle
 
-```text
-priority corpus + candidate sense lane
-        -> candidate-only queue
-        -> frozen semantic source fingerprint
-        -> reviewed batch manifest + authority declaration
-        -> ledger sequence
-        -> authority/inventory production gate
-        -> fingerprint-locked generic compiler core
-        -> generated batch projection
-        -> final live priority gap
-        -> Phase C residual corpus terminal accounting
-        -> normal visual reports/runtime compiler
-```
+`compile-reviewed-batches.mjs` is a small public transaction wrapper. It calls the internal implementation only while holding the compiler lock:
 
-The ledger is the only ordering authority. Directory enumeration order is not semantic order.
+`node_modules/.cache/kidsplay/vocabulary-review-batch.lock`
 
-Each manifest records or derives:
+Rules:
 
-- stable batch id, sequence and issue reference;
-- explicit authority kind/state;
-- exact source queue item count;
-- immutable semantic source fingerprint;
-- output item fingerprint;
-- explicit reviewed lemma groups/items or an explicit terminal disposition policy;
-- exact sense identifiers where a sense is selected;
-- strategy, maturity, motion and answer-safety policy;
-- provenance for human-reviewed #51 senses when used;
-- generated output and frozen-source paths.
+- concurrent default compiles serialize rather than race;
+- a failed default compile restores the exact pre-run generated vocabulary JSON state;
+- every custom/adversarial ledger run restores the exact pre-run generated state whether it succeeds or fails;
+- only a successful default-ledger compile commits its generated output state;
+- custom-ledger tests therefore cannot delete or rewrite canonical batch/gap artifacts;
+- no compiler can observe another compiler's partially written generated JSON.
 
-### Fail-closed rules
+The lock is local build state under ignored `node_modules`. The machine-readable transaction contract also lives in `artifact-inventory.json`.
 
-The production compiler must reject:
+The tracked shipped runtime projection `content/vocabulary-visuals/__generated-runtime-plans.json` is separately inventoried and pinned to LF by `.gitattributes`, matching generator output on Windows and Unix.
 
-- stale source fingerprints;
-- duplicate batch ids, sequence numbers, issue refs or output paths;
-- duplicate exact sense keys;
-- duplicate lemmas unless an additional exact `human_reviewed_primary_meaning` sense is being added;
-- bare-lemma or cross-lemma sense keys;
-- candidate/reference authority attempting to create a disposition;
-- terminal-policy attempts to create scenes, V2+, runtime authority, human-review claims or arbitrary manifest status;
-- missing/invalid reference, resolution or disposition states;
-- implicit single-candidate approval unless the frozen source has exactly one pinned low-risk candidate;
-- multi-candidate terminal rows that select a candidate instead of remaining `lemma#unresolved`;
-- false human-review claims that do not match #51 curation;
-- definitions, source glosses/examples or profile/curriculum placement in review manifests;
-- unclassified historical semantic batch files or drifted frozen historical blobs.
+## Candidate-relevance data
 
-Exact #51 human-reviewed additional senses may share a lemma with an older strategy item, but they still require a different exact sense key and matching reviewed curation evidence. This is multi-sense history, not silent supersession.
-
-### Candidate-relevance decisions are reviewed data
-
-The twelve Phase C single-candidate relevance traps are stored in `candidate-relevance-review-001.json`, not in production JavaScript:
+The twelve Phase C single-candidate relevance traps are explicit reviewed data, not a production JavaScript lemma list:
 
 `add`, `converse`, `customs`, `gay`, `guts`, `least`, `ness`, `pants`, `principal`, `rolling`, `slight`, `so`.
 
-Each row includes a reason code and review reason. The Phase C builder consumes that data and is forbidden from selecting a sense or claiming human exact-sense review. These terms remain human-review blockers until a later exact review supersedes the blocker.
+Each row has a reason code and reason. These remain active blockers until exact review supersedes them.
 
-### Generated-file lifecycle
+## Current exact accounting
 
-Reviewed manifests/authority/inventory data are committed source of truth. Phase C corpus/candidate state is derived from committed corpus + reviewed state. Generated queues/projections are intentionally rebuilt/ignored:
+The post-#100 / #94 no-drift baseline is:
 
-- `content/vocabulary-visuals/__generated-*.json`
-- `content/vocabulary-visuals/batches/__generated-*.json`
-
-`content/vocabulary-visuals/__generated-runtime-plans.json` is the one separately inventoried committed shipped runtime projection.
-
-CI proves review generation leaves tracked source clean and uploads the final priority gap, frozen reviewed-batch sources, reviewed-batch projections, Phase C terminal projection, and both human-resolution queues for auditability.
-
-### Historical migration proof
-
-The generic factory is required to reproduce the already-reviewed history exactly:
-
-- batch 002 source fingerprint `6eb2305fa9101b088c56f2125a5fce7049d8712b032c423c1673130ee930f6be`;
-- batch 002 reviewed-item fingerprint `4a7344b934d64f419dffadd4436b2d8d50a05967bdc6f6912a29b914d98e85ef`;
-- batch 003 source fingerprint `edb6d451af8d5709874a336005384773d0bc5826e7ce23691fb77a8a0f957b96`;
-- batch 003 reviewed-item fingerprint `e0881f110620cc141d5378e18ed2ae889cee053706523a7797a285548b6623f8`.
-
-A future batch 004+ should therefore require only a ledger entry plus review manifest/data. It must not add another `build-priority-batch-00N.mjs`, another package script, or another batch-specific CI step.
-
-## Terminal accounting is not visual coverage
-
-The #76 Phase B/Phase C factories keep terminal, resolved, blocked and child-facing facts separate.
-
-Current Phase C no-drift baseline:
-
-| Surface | Terminal | Resolved | Blocked |
+| Surface | Terminal | Resolved | Active blockers |
 | --- | ---: | ---: | ---: |
-| Full 10,000-word corpus | **10,000** | **587** | **9,413** |
-| Priority meaning set | **2,400** | **554** | **1,846** |
+| Full 10,000-word corpus | **10,000** | **617** | **9,383** |
+| Priority meaning set | **2,400** | **584** | **1,816** |
 
-Human-resolution queues:
-- priority blockers: **1,846**;
-- residual corpus blockers: **7,565**.
+Additional facts:
 
-Runtime remains independently proof-bound:
-- **22** proof-admitted child-facing mappings;
-- **21** semantic senses;
-- **0** mappings pending V5/V6 proof.
+- exact-review supersessions: **30**;
+- priority active blocker queue: **1,816**;
+- residual corpus queue: **7,565**;
+- proof-admitted child-facing mappings: **22**;
+- child-facing semantic senses: **21**;
+- pending V5/V6 proof: **0**.
 
-Phase B therefore gives terminal dispositions for 2,400/2,400 priority meanings; Phase C gives terminal dispositions for 10,000/10,000 corpus lemmas. Neither figure means all those words are visually solved. The control-plane test fails if these quantities collapse into one another or drift during #94.
+Historical unresolved records may remain in the record-level strategy corpus. They are not counted as active blockers once a later exact reviewed sense supersedes them.
+
+Terminal accounting is not visual completion. `10,000/10,000 terminal` means every corpus lemma has either a reviewed strategy or an explicit fail-closed disposition; it does not mean 10,000 resolved meanings, images, animations, definitions or child-facing lessons.
 
 ## Maturity
 
-- `V0` — unaudited/candidate-only.
-- `V1` — a semantic disposition exists; resolution may still be blocked.
-- `V2` — direct visual/diagram primitive available.
-- `V3` — valid reusable semantic scene plan can be composed.
+- `V0` — candidate/unaudited.
+- `V1` — semantic disposition exists; resolution may still be blocked.
+- `V2` — exact direct visual/diagram primitive available.
+- `V3` — reusable semantic scene plan is composition-ready.
 - `V4` — meaningful optional motion implemented.
 - `V5` — child-facing delivery consumes it with exact runtime proof.
-- `V6` — explanation/contrast/process/deeper-knowledge integration.
+- `V6` — deeper explanation/contrast/process/knowledge integration.
 
-Never advance maturity because an asset merely exists. Each level describes shipped capability for that sense. A manifest compiler may establish at most its authority-bound maturity; V5/V6 still require separate exact runtime proof.
+Never advance maturity merely because an asset exists.
 
 ## Reuse before new art
 
-For each new sense:
+For each resolved sense:
 
 1. reuse an existing registered Kidsplay semantic visual;
-2. reuse an already-admitted OSS asset;
+2. reuse an admitted OSS asset;
 3. compose a scene from existing primitives/templates;
-4. admit a new commercially compatible OSS asset with exact immutable provenance when needed;
-5. create a simple original Kidsplay SVG when composition is cheaper or pedagogically clearer.
+4. admit a commercially compatible OSS asset with immutable provenance when needed;
+5. create a simple original Kidsplay SVG when composition is clearer or cheaper.
 
-Do not import non-commercial or unclear-license art into the product.
+Do not import non-commercial or unclear-license art.
 
-## Scene planning
+## Scene planning and safety
 
-`planVocabularyScene()` returns presentation-neutral semantic plans. It does not choose asset-source URLs or create question-specific animation code.
+`planVocabularyScene()` returns presentation-neutral semantic plans. It does not choose source URLs or create question-specific animation code.
 
-Explanatory strategies are suppressed during `assessment_pre_answer` unless explicitly marked `neutral_safe`. Every ready plan carries a static equivalent so reduced-motion mode preserves meaning.
+Explanatory strategies are suppressed during `assessment_pre_answer` unless explicitly `neutral_safe`. Every ready plan must retain static meaning under reduced motion.
 
-Reusable templates currently include settlement/place, actor-action, attribute contrast, spatial relation, quantity comparison, sequence, state transition, cause/effect, comparison, expression, part focus and simple diagram contracts.
+Reusable templates include settlement/place, person role, actor action, attribute contrast, spatial relation, quantity comparison, sequence, state transition, cause/effect, comparison, expression, part focus and simple diagrams.
 
 ## Commands
 
@@ -236,26 +197,14 @@ npm run test:vocabulary-visuals
 npm run check
 ```
 
-The reporter reads the committed 10,000-row primary corpus and reports terminal, resolved, blocked and child-facing states separately. Candidate queues remain candidate/reference data; only capability-authorized review paths can create semantic dispositions, while Phase C blocker dispositions remain explicit unresolved accounting.
-
 ## Required review passes
 
-Before a reviewed-batch architecture change merges, perform and record at least these five reviews:
+Before #94 can merge, record at least five independent reviews:
 
-1. **historical fidelity** — source/item fingerprints and frozen historical blobs do not drift;
-2. **authority boundary** — candidate, terminal, human, maturity and runtime capabilities cannot masquerade as each other;
-3. **determinism/concurrency + artifact lifecycle** — repeated/concurrent compiles converge and generation leaves tracked source clean;
-4. **architecture** — no semantic lemma catalogs or numbered batch builders return to production code; all semantic sources/control-plane/runtime artifacts are inventoried;
-5. **full product regression** — exact Phase C counts, runtime counts, full tests, bundle budgets, browser journeys and packaged Android offline relaunch/rotation stay green.
+1. **historical fidelity** — immutable blobs and batch 002/003 source/item fingerprints reproduce;
+2. **authority boundary** — candidate, terminal, human, Sol Max, maturity and runtime authorities cannot masquerade as one another;
+3. **determinism/concurrency** — repeated/concurrent compiles converge; custom/failed runs roll back; generated state stays clean;
+4. **generic architecture** — no semantic lemma catalogs or numbered builders return; future exact-review tranches are data/manifest-only;
+5. **full regression** — exact 617/9,383 and 584/1,816 counts, runtime 22/21/0, bundle budgets, Browser journeys and packaged Android offline relaunch/rotation are all green on one unchanged final SHA.
 
-## Expansion protocol
-
-Every #76 cycle repeats five disciplines:
-
-1. corpus audit + sense classification;
-2. visual primitive/asset review;
-3. scene grammar + meaningful animation;
-4. knowledge/delivery integration;
-5. validation + honest coverage accounting.
-
-For batch-driven review work, add review data to the manifest/ledger architecture rather than adding batch-specific compiler code. Record exact branch, PR, SHA, checks, coverage change and remaining cycle work on issue #76. Do not use chat memory as the programme tracker.
+Issue #76 and PR #98 are the durable orchestration/evidence surface. Chat memory is not the programme tracker.
