@@ -1,0 +1,32 @@
+[
+  {
+    "id": "recipe.environment.reduce",
+    "semanticRef": "reduce",
+    "template": "process.sequence",
+    "ariaLabel": "Reduce means use fewer items and create less waste",
+    "slots": [{ "role": "action", "visualRef": "entity.environment.reduce-sample", "exposure": "identity" }],
+    "surfaces": { "option": "identity_only", "word-bank": "identity_only", "memory-card": "identity_only", "feedback": "full_relation", "scene": "full_relation" },
+    "annotation": "use less and create less waste",
+    "costClass": "medium"
+  },
+  {
+    "id": "recipe.environment.reuse",
+    "semanticRef": "reuse",
+    "template": "process.sequence",
+    "ariaLabel": "Reuse means use the same useful item again",
+    "slots": [{ "role": "action", "visualRef": "entity.environment.reuse-sample", "exposure": "identity" }],
+    "surfaces": { "option": "identity_only", "word-bank": "identity_only", "memory-card": "identity_only", "feedback": "full_relation", "scene": "full_relation" },
+    "annotation": "use the same useful item again",
+    "costClass": "medium"
+  },
+  {
+    "id": "recipe.environment.recycle",
+    "semanticRef": "recycle",
+    "template": "process.sequence",
+    "ariaLabel": "Recycle means send suitable material through a recycling loop",
+    "slots": [{ "role": "action", "visualRef": "entity.environment.recycle-sample", "exposure": "identity" }],
+    "surfaces": { "option": "identity_only", "word-bank": "identity_only", "memory-card": "identity_only", "feedback": "full_relation", "scene": "full_relation" },
+    "annotation": "process suitable material so it can be used again",
+    "costClass": "medium"
+  }
+]

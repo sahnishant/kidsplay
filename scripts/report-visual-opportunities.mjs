@@ -1,14 +1,12 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import {
+  buildVisualSemanticRoleSets,
+  classifyVisualSemantic,
+  normalizeVisualSemantic as normalize
+} from './visual-opportunity-semantics.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
-const normalize = (value) => String(value ?? '')
-  .toLowerCase()
-  .replace(/[’']/g, '')
-  .replace(/[-_]+/g, ' ')
-  .replace(/[.,!?;:()]/g, ' ')
-  .replace(/\s+/g, ' ')
-  .trim();
 
 const args = process.argv.slice(2);
 const jsonMode = args.includes('--json');
@@ -37,33 +35,43 @@ for (const visual of visuals) {
   if (key && !bySemantic.has(key)) bySemantic.set(key, visual.id);
 }
 
+const recipeFiles = readdirSync(new URL('content/visual-recipes/', root))
+  .filter((name) => name.endsWith('.json'))
+  .sort();
+const recipes = recipeFiles.flatMap((file) => readJson(`content/visual-recipes/${file}`));
+const recipeBySemantic = new Map();
+for (const recipe of recipes) {
+  for (const key of [recipe.semanticRef, ...(recipe.aliases ?? [])].map(normalize).filter(Boolean)) {
+    if (!recipeBySemantic.has(key)) recipeBySemantic.set(key, recipe);
+  }
+}
+
+const recipeSurfaceForEngine = (engine) => {
+  switch (engine) {
+    case 'word_bank_fill': return 'word-bank';
+    case 'memory_pairs': return 'memory-card';
+    case 'sequence_order': return 'sequence-item';
+    default: return 'option';
+  }
+};
+
+const recipeResolves = (semanticRef, engine) => {
+  if (!semanticRef) return false;
+  const recipe = recipeBySemantic.get(normalize(semanticRef));
+  if (!recipe) return false;
+  const exposure = recipe.surfaces?.[recipeSurfaceForEngine(engine)] ?? 'hidden';
+  if (exposure === 'hidden') return false;
+  if (exposure === 'identity_only') return recipe.slots?.some((slot) => slot.exposure === 'identity');
+  return Array.isArray(recipe.slots) && recipe.slots.length > 0;
+};
+
 // Learn which semantic ids are concrete/subject-side versus relationship/object-side
 // from the canonical association data instead of guessing from English wording.
 const knowledgeFiles = readdirSync(new URL('content/knowledge/', root))
   .filter((name) => name.endsWith('.json'))
   .sort();
-const subjectSemanticRefs = new Set();
-const objectSemanticRefs = new Set();
-const vocabularySemanticRefs = new Set();
-
-for (const file of knowledgeFiles) {
-  const value = readJson(`content/knowledge/${file}`);
-  const sources = Array.isArray(value) ? value : [value];
-  for (const source of sources) {
-    if (source?.kind !== 'association_set' || !Array.isArray(source.entries)) continue;
-    const vocabularySource = file === 'english-vocabulary-foundation.json';
-    for (const entry of source.entries) {
-      const subjectId = typeof entry?.subject?.id === 'string' ? normalize(entry.subject.id) : '';
-      const objectId = typeof entry?.object?.id === 'string' ? normalize(entry.object.id) : '';
-      if (subjectId) subjectSemanticRefs.add(subjectId);
-      if (objectId) objectSemanticRefs.add(objectId);
-      if (vocabularySource) {
-        if (subjectId) vocabularySemanticRefs.add(subjectId);
-        if (objectId) vocabularySemanticRefs.add(objectId);
-      }
-    }
-  }
-}
+const knowledgeDocuments = knowledgeFiles.map((file) => ({ file, value: readJson(`content/knowledge/${file}`) }));
+const semanticRoleSets = buildVisualSemanticRoleSets(knowledgeDocuments);
 
 const resolveLabel = (label) => {
   const direct = byAlias.get(normalize(label));
@@ -79,9 +87,10 @@ const resolveLabel = (label) => {
   return refs.some((ref) => !ref) ? [] : [...new Set(refs)];
 };
 
-const isResolved = (item, allowLabelInference) => {
+const isResolved = (item, allowLabelInference, engine) => {
   if (Array.isArray(item.visualRefs) && item.visualRefs.some((ref) => visualIds.has(ref))) return true;
   if (item.semanticRef && bySemantic.has(normalize(item.semanticRef))) return true;
+  if (recipeResolves(item.semanticRef, engine)) return true;
   return allowLabelInference && resolveLabel(item.label).length > 0;
 };
 
@@ -112,10 +121,10 @@ const skipReason = (label, semanticRef) => {
 };
 
 const semanticCategory = (semanticRef) => {
-  if (!semanticRef) return 'label';
-  const key = normalize(semanticRef);
-  if (vocabularySemanticRefs.has(key)) return 'vocabulary';
-  if (objectSemanticRefs.has(key) && !subjectSemanticRefs.has(key)) return 'relationship_or_predicate';
+  const category = classifyVisualSemantic(semanticRef, semanticRoleSets);
+  if (category === 'label_only') return 'label';
+  if (category === 'vocabulary_review') return 'vocabulary';
+  if (category === 'predicate_review') return 'relationship_or_predicate';
   return 'concrete_or_authored';
 };
 
@@ -172,7 +181,7 @@ let unresolvedInstances = 0;
 for (const question of questions) {
   const engine = question?.interaction?.type;
   for (const { item, allowLabelInference } of visibleItems(question)) {
-    if (isResolved(item, allowLabelInference)) continue;
+    if (isResolved(item, allowLabelInference, engine)) continue;
     unresolvedInstances += 1;
 
     const label = String(item?.label ?? '').trim();
@@ -234,6 +243,7 @@ const labelCandidates = ranked.filter((entry) => entry.category === 'label');
 
 const result = {
   scope: profileRef ? { type: 'profile', profileRef, questions: questions.length } : { type: 'all_questions', questions: questions.length },
+  recipes: { count: recipes.length, packs: recipeFiles.length },
   summary: {
     unresolvedInstances,
     concreteCandidates: concreteCandidates.length,
@@ -261,6 +271,7 @@ if (jsonMode) {
 console.log(profileRef
   ? `Visual opportunity queue for ${profileRef}: ${questions.length} runnable profile-safe question(s).`
   : `Visual opportunity queue across all ${questions.length} question(s).`);
+console.log(`${recipes.length} semantic recipe(s) are removed from this queue when their surface policy resolves the item.`);
 console.log(`${unresolvedInstances} unresolved visual-friendly item instance(s).`);
 console.log(`${concreteCandidates.length} unreviewed concrete/authored semantic candidate(s); ${reviewedDeferredConcrete.length} reviewed text-only concrete concept(s); ${vocabularyReview.length} vocabulary concept(s); ${predicateReview.length} relation/predicate concept(s); ${labelCandidates.length} label-only candidate(s); ${notRecommended.length} deliberately skipped.`);
 

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "scene.universe.earth-revolution",
+    "theme": "paper",
+    "ariaLabel": "Earth's revolution: Earth travels around the Sun and one revolution takes about one year.",
+    "animationRef": "animation.earth.revolution-sun"
+  },
+  {
+    "id": "scene.universe.planet-orbit",
+    "theme": "paper",
+    "ariaLabel": "A planet in our solar system moves around the Sun along an orbit.",
+    "animationRef": "animation.planet.orbit-sun"
+  },
+  {
+    "id": "scene.matter.liquid-container-shape",
+    "theme": "paper",
+    "ariaLabel": "The same liquid in differently shaped containers shows that a liquid takes the shape of the part of its container that it fills.",
+    "animationRef": "animation.liquid.takes-container-shape"
+  }
+]

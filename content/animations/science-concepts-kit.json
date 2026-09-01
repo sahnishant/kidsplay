@@ -1,0 +1,63 @@
+[
+  {
+    "id": "animation.earth.revolution-sun",
+    "semanticRef": "earth-revolution",
+    "theme": "paper",
+    "ariaLabel": "Earth's revolution: Earth travels around the Sun and one revolution takes about one year.",
+    "subject": {
+      "variantRef": "animation.variant.earth-revolution-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 28,
+      "y": 57,
+      "scale": 0.66
+    },
+    "parts": [
+      { "id": "sun", "role": "context", "visualRef": "entity.nature.sun", "slot": "front", "x": 75, "y": 48, "scale": 0.58, "motion": "pulse" },
+      { "id": "orbit", "role": "relation", "text": "↻", "slot": "front", "x": 52, "y": 48, "scale": 0.34, "motion": "spin" },
+      { "id": "year", "role": "relation", "text": "~1 year", "slot": "ground", "x": 52, "y": 79, "scale": 0.34, "motion": "pulse" }
+    ]
+  },
+  {
+    "id": "animation.planet.orbit-sun",
+    "semanticRef": "planet-orbit",
+    "theme": "paper",
+    "ariaLabel": "A planet in our solar system moves around the Sun along an orbit.",
+    "subject": {
+      "variantRef": "animation.variant.planet-orbit-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "neutral",
+      "x": 29,
+      "y": 57,
+      "scale": 0.62
+    },
+    "parts": [
+      { "id": "sun", "role": "context", "visualRef": "entity.nature.sun", "slot": "front", "x": 75, "y": 48, "scale": 0.58, "motion": "pulse" },
+      { "id": "orbit", "role": "relation", "text": "↻", "slot": "front", "x": 52, "y": 48, "scale": 0.34, "motion": "spin" },
+      { "id": "around-sun", "role": "relation", "text": "around Sun", "slot": "ground", "x": 52, "y": 79, "scale": 0.32, "motion": "pulse" }
+    ]
+  },
+  {
+    "id": "animation.liquid.takes-container-shape",
+    "semanticRef": "liquid-shape",
+    "theme": "paper",
+    "ariaLabel": "The same liquid is shown in two differently shaped containers, reinforcing that a liquid takes the shape of the part of its container that it fills.",
+    "subject": {
+      "variantRef": "animation.variant.liquid-shape-state",
+      "orientation": "front",
+      "pose": "stand",
+      "expression": "curious",
+      "x": 26,
+      "y": 57,
+      "scale": 0.7
+    },
+    "parts": [
+      { "id": "same-liquid", "role": "relation", "text": "same liquid", "slot": "above", "x": 50, "y": 22, "scale": 0.32, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 50, "y": 56, "scale": 0.3, "motion": "pulse" },
+      { "id": "bucket", "role": "prop", "visualRef": "entity.water.bucket", "slot": "front", "x": 76, "y": 57, "scale": 0.75 },
+      { "id": "container-shape", "role": "relation", "text": "container shape", "slot": "ground", "x": 75, "y": 82, "scale": 0.3, "motion": "pulse" }
+    ]
+  }
+]

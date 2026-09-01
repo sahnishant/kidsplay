@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-presentation-modes.001",
+  "issueRef": 114,
+  "compilerVersion": 1,
+  "policy": {
+    "derivedOnly": true,
+    "semanticAuthorityFromPresentationMode": false,
+    "childFacingVisualRequiresRuntimeProof": true,
+    "unresolvedSenseVisualAllowed": false,
+    "textualOnlyVisualAllowed": false,
+    "runtimeSelectionDeterministic": true,
+    "fullCorpusBrowserImportAllowed": false,
+    "boundedSliceRequired": true
+  },
+  "slicePolicy": {
+    "maxRequestedSenses": 512,
+    "maxPayloadBytes": 524288,
+    "rationale": "A surface/session slice may cover a full 400-meaning priority grade plus headroom, but must never become the 10,000-row editorial corpus."
+  },
+  "modes": [
+    {
+      "id": "asset",
+      "description": "Exact admitted entity asset; no new semantic decision.",
+      "strategies": ["direct_entity"]
+    },
+    {
+      "id": "compose",
+      "description": "Reusable spatial, place, part or diagram composition.",
+      "strategies": ["place_scene", "spatial_relation", "part_whole", "diagrammatic", "symbolic"]
+    },
+    {
+      "id": "compare",
+      "description": "Controlled comparison over an attribute, quantity or semantic dimension.",
+      "strategies": ["attribute_contrast", "quantity_scene", "comparison_scene"]
+    },
+    {
+      "id": "transition",
+      "description": "Action, sequence, process or cause/effect represented through ordered semantic states.",
+      "strategies": ["action_scene", "sequence_scene", "process_scene", "cause_effect"]
+    },
+    {
+      "id": "scene",
+      "description": "Reusable person, state or expression context scene.",
+      "strategies": ["person_role", "state_scene", "expression_scene"]
+    },
+    {
+      "id": "text",
+      "description": "Safe non-visual fallback; never invent an approximate visual.",
+      "strategies": ["textual_only", "sense_unresolved"]
+    }
+  ]
+}

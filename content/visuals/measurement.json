@@ -1,0 +1,34 @@
+[
+  {
+    "id": "entity.measurement.thermometer",
+    "renderer": "measurement-icon",
+    "glyph": "thermometer",
+    "label": "Thermometer",
+    "motion": "pulse",
+    "aliases": ["thermometer", "temperature instrument"]
+  },
+  {
+    "id": "entity.measurement.ruler",
+    "renderer": "measurement-icon",
+    "glyph": "ruler",
+    "label": "Ruler",
+    "motion": "idle",
+    "aliases": ["ruler", "measuring ruler", "length scale"]
+  },
+  {
+    "id": "entity.measurement.balance-scale",
+    "renderer": "measurement-icon",
+    "glyph": "balance-scale",
+    "label": "Balance scale",
+    "motion": "sway",
+    "aliases": ["balance scale", "weighing balance"]
+  },
+  {
+    "id": "entity.measurement.measuring-vessel",
+    "renderer": "measurement-icon",
+    "glyph": "measuring-vessel",
+    "label": "Graduated measuring vessel",
+    "motion": "idle",
+    "aliases": ["measuring vessel", "graduated measuring vessel", "measuring cup"]
+  }
+]

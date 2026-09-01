@@ -1,0 +1,22 @@
+[
+  {
+    "id": "recipe.light.shadow-formation",
+    "semanticRef": "shadow",
+    "template": "relation.source-target",
+    "ariaLabel": "A shadow, with the light-blocking cause shown only on teaching surfaces",
+    "slots": [
+      { "role": "shadow", "visualRef": "entity.light.cast-shadow-sample", "exposure": "identity" },
+      { "role": "light-blocking-example", "visualRef": "entity.material.opaque-sample", "exposure": "context" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "A shadow forms when an opaque object blocks light.",
+    "costClass": "medium"
+  }
+]

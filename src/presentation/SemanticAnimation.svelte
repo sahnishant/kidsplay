@@ -78,6 +78,7 @@
     min-height: 0;
     overflow: hidden;
     border-radius: inherit;
+    container-type: inline-size;
   }
 
   .semantic-animation:not(.semantic-animation--embedded).semantic-animation--grass {
@@ -97,8 +98,8 @@
   .semantic-animation__subject,
   .semantic-animation__part {
     position: absolute;
-    width: clamp(72px, 22vw, 132px);
-    height: clamp(62px, 19vw, 112px);
+    width: clamp(52px, 22vw, 132px);
+    height: clamp(46px, 19vw, 112px);
     transform: translate(-50%, -50%) scale(var(--animation-scale, 1));
     transform-origin: 50% 60%;
   }
@@ -125,9 +126,23 @@
     display: grid;
     place-items: center;
     color: #fff;
-    font-size: clamp(2.4rem, 10vw, 4.4rem);
+    font-size: clamp(1.6rem, 10vw, 4.4rem);
     font-weight: 950;
+    text-align: center;
+    line-height: 1;
     text-shadow: 0 3px 0 rgba(36, 48, 58, .15);
+  }
+
+  @supports (width: 1cqw) {
+    .semantic-animation__subject,
+    .semantic-animation__part {
+      width: clamp(48px, 24cqw, 132px);
+      height: clamp(42px, 21cqw, 112px);
+    }
+
+    .semantic-animation__text {
+      font-size: clamp(1.35rem, 10cqw, 4.4rem);
+    }
   }
 
   .composition-motion--pulse {

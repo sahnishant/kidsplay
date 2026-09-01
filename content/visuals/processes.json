@@ -4,5 +4,15 @@
   { "id": "entity.lifecycle.chrysalis", "renderer": "process-icon", "glyph": "chrysalis", "label": "Chrysalis", "motion": "sway", "aliases": ["chrysalis", "pupa"] },
   { "id": "entity.plant.sprout", "renderer": "process-icon", "glyph": "sprout", "label": "Sprout", "motion": "sway", "aliases": ["sprout", "germinating seed", "a germinating seed", "seed-germination"] },
   { "id": "entity.plant.sapling", "renderer": "process-icon", "glyph": "sapling", "label": "Sapling", "motion": "sway", "aliases": ["sapling", "young plant"] },
-  { "id": "entity.plant.adult", "renderer": "process-icon", "glyph": "adult-plant", "label": "Grown plant", "motion": "sway", "aliases": ["grown plant", "adult plant"] }
+  { "id": "entity.plant.adult", "renderer": "process-icon", "glyph": "adult-plant", "label": "Grown plant", "motion": "sway", "aliases": ["grown plant", "adult plant"] },
+  { "id": "entity.matter.ice", "renderer": "process-icon", "glyph": "ice-cube", "label": "Ice", "motion": "float", "aliases": ["ice", "ice cube", "solid ice"] },
+  { "id": "entity.matter.liquid-water", "renderer": "process-icon", "glyph": "liquid-water", "label": "Liquid water", "motion": "drift", "aliases": ["liquid water"] },
+  { "id": "entity.process.condensation-sample", "renderer": "process-icon", "glyph": "condensation-sample", "label": "Vapour forming water droplets sample", "motion": "drift", "aliases": ["vapour forming droplets sample", "water droplets forming sample"] },
+  { "id": "entity.process.water-cycle-sample", "renderer": "process-icon", "glyph": "water-cycle-sample", "label": "Circulating water sample", "motion": "pulse", "aliases": ["circulating water sample", "surface atmosphere water loop sample"] },
+  { "id": "entity.process.gas-spread-sample", "renderer": "process-icon", "glyph": "gas-spread-sample", "label": "Gas spreading through container sample", "motion": "drift", "aliases": ["gas particles spreading sample", "particles spreading through container sample"] },
+  { "id": "entity.state.container-closed", "renderer": "process-icon", "glyph": "container-closed", "label": "Closed", "motion": "idle", "aliases": ["closed", "closed container"] },
+  { "id": "entity.state.container-open", "renderer": "process-icon", "glyph": "container-open", "label": "Open", "motion": "sway", "aliases": ["open", "open container"] },
+  { "id": "entity.state.container-empty", "renderer": "process-icon", "glyph": "container-empty", "label": "Empty", "motion": "idle", "aliases": ["empty", "empty container"] },
+  { "id": "entity.state.container-partly-full", "renderer": "process-icon", "glyph": "container-partly-full", "label": "Partly full", "motion": "drift", "aliases": ["partly full", "partly full container"] },
+  { "id": "entity.state.container-full", "renderer": "process-icon", "glyph": "container-full", "label": "Full", "motion": "drift", "aliases": ["full", "full container"] }
 ]

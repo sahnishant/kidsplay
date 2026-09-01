@@ -70,5 +70,113 @@
     "motion": "chomp",
     "aliases": ["cow animation state grazing"],
     "animationIdentityRef": "cow"
+  },
+  {
+    "id": "animation.variant.air-balloon-state",
+    "renderer": "scene-icon",
+    "glyph": "balloon",
+    "label": "Air observation balloon animation state",
+    "motion": "float",
+    "aliases": ["air animation state balloon observation"],
+    "animationIdentityRef": "air"
+  },
+  {
+    "id": "animation.variant.wind-state",
+    "renderer": "scene-icon",
+    "glyph": "wind",
+    "label": "Moving wind animation state",
+    "motion": "drift",
+    "aliases": ["wind animation state moving air"],
+    "animationIdentityRef": "wind"
+  },
+  {
+    "id": "animation.variant.plant-air-state",
+    "renderer": "scene-icon",
+    "glyph": "plant",
+    "label": "Plant in fresh air animation state",
+    "motion": "sway",
+    "aliases": ["plant animation state fresh air"],
+    "animationIdentityRef": "plant"
+  },
+  {
+    "id": "animation.variant.lungs-breathing-state",
+    "renderer": "scene-icon",
+    "glyph": "lungs",
+    "label": "Breathing lungs animation state",
+    "motion": "breathe",
+    "aliases": ["lungs animation state breathing"],
+    "animationIdentityRef": "lungs"
+  },
+  {
+    "id": "animation.variant.earth-rotation-state",
+    "renderer": "scene-icon",
+    "glyph": "earth",
+    "label": "Rotating Earth animation state",
+    "motion": "spin",
+    "aliases": ["earth animation state rotation"],
+    "animationIdentityRef": "earth"
+  },
+  {
+    "id": "animation.variant.sea-water-state",
+    "renderer": "scene-icon",
+    "glyph": "wave",
+    "label": "Sea water animation state",
+    "motion": "float",
+    "aliases": ["sea animation state salty water"],
+    "animationIdentityRef": "sea"
+  },
+  {
+    "id": "animation.variant.pumice-floating-state",
+    "renderer": "scene-icon",
+    "glyph": "pumice",
+    "label": "Floating pumice animation state",
+    "motion": "float",
+    "aliases": ["pumice animation state floating"],
+    "animationIdentityRef": "pumice"
+  },
+  {
+    "id": "animation.variant.germination-seed-state",
+    "renderer": "nature-space-icon",
+    "glyph": "seed",
+    "label": "Germination seed animation state",
+    "motion": "pulse",
+    "aliases": ["germination animation state seed"],
+    "animationIdentityRef": "germination"
+  },
+  {
+    "id": "animation.variant.water-state-ice",
+    "renderer": "process-icon",
+    "glyph": "ice-cube",
+    "label": "Ice at the start of a water state-change animation",
+    "motion": "float",
+    "aliases": ["water state animation ice"],
+    "animationIdentityRef": "water-state-change"
+  },
+  {
+    "id": "animation.variant.water-state-liquid",
+    "renderer": "process-icon",
+    "glyph": "liquid-water",
+    "label": "Liquid water at the start of a water state-change animation",
+    "motion": "drift",
+    "aliases": ["water state animation liquid"],
+    "animationIdentityRef": "water-state-change"
+  },
+  {
+    "id": "animation.variant.opening-closed-state",
+    "renderer": "process-icon",
+    "glyph": "container-closed",
+    "label": "Closed container at the start of an opening animation",
+    "motion": "idle",
+    "aliases": ["opening animation closed state"],
+    "animationIdentityRef": "opening"
+  },
+  {
+    "id": "animation.variant.filling-empty-state",
+    "renderer": "process-icon",
+    "glyph": "container-empty",
+    "label": "Empty container at the start of a filling animation",
+    "motion": "idle",
+    "aliases": ["filling animation empty state"],
+    "animationIdentityRef": "filling"
   }
 ]

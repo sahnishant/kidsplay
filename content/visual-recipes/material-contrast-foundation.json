@@ -1,0 +1,40 @@
+[
+  {
+    "id": "recipe.material.transparent",
+    "semanticRef": "transparent",
+    "template": "contrast.pair",
+    "ariaLabel": "Transparent material lets light pass through",
+    "slots": [
+      { "role": "transparent-sample", "visualRef": "entity.material.transparent-sample", "exposure": "identity" },
+      { "role": "opaque-contrast", "visualRef": "entity.material.opaque-sample", "exposure": "context" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "light passes through; objects can be seen through it",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.material.opaque",
+    "semanticRef": "opaque",
+    "template": "contrast.pair",
+    "ariaLabel": "Opaque material blocks light",
+    "slots": [
+      { "role": "opaque-sample", "visualRef": "entity.material.opaque-sample", "exposure": "identity" },
+      { "role": "transparent-contrast", "visualRef": "entity.material.transparent-sample", "exposure": "context" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "light is blocked; objects cannot be seen through it",
+    "costClass": "low"
+  }
+]

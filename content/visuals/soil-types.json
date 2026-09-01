@@ -1,0 +1,34 @@
+[
+  {
+    "id": "entity.soil.sandy-sample",
+    "renderer": "soil-type-icon",
+    "glyph": "sandy-soil-sample",
+    "label": "Coarse loose soil texture sample",
+    "motion": "idle",
+    "aliases": ["coarse loose soil sample", "grainy soil texture sample"]
+  },
+  {
+    "id": "entity.soil.clay-sample",
+    "renderer": "soil-type-icon",
+    "glyph": "clay-soil-sample",
+    "label": "Fine compact soil texture sample",
+    "motion": "idle",
+    "aliases": ["fine compact soil sample", "dense soil texture sample"]
+  },
+  {
+    "id": "entity.soil.loamy-sample",
+    "renderer": "soil-type-icon",
+    "glyph": "loamy-soil-sample",
+    "label": "Mixed crumbly fertile soil sample",
+    "motion": "idle",
+    "aliases": ["mixed crumbly soil sample", "fertile soil texture sample"]
+  },
+  {
+    "id": "entity.soil.humus-sample",
+    "renderer": "soil-type-icon",
+    "glyph": "humus-sample",
+    "label": "Dark organic matter sample",
+    "motion": "idle",
+    "aliases": ["dark organic matter sample", "leaf rich organic soil sample"]
+  }
+]

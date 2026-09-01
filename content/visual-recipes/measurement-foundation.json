@@ -1,0 +1,74 @@
+[
+  {
+    "id": "recipe.measurement.temperature",
+    "semanticRef": "temperature",
+    "template": "measurement",
+    "ariaLabel": "Temperature is measured with a thermometer",
+    "slots": [
+      { "role": "instrument", "visualRef": "entity.measurement.thermometer", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "measures how hot or cold something is",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.measurement.length",
+    "semanticRef": "length",
+    "template": "measurement",
+    "ariaLabel": "Length is measured with a ruler",
+    "slots": [
+      { "role": "instrument", "visualRef": "entity.measurement.ruler", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "measures how long something is",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.measurement.mass",
+    "semanticRef": "mass",
+    "template": "measurement",
+    "ariaLabel": "Mass is measured with a balance scale",
+    "slots": [
+      { "role": "instrument", "visualRef": "entity.measurement.balance-scale", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "measures mass",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.measurement.capacity",
+    "semanticRef": "capacity",
+    "template": "measurement",
+    "ariaLabel": "Capacity can be measured with a graduated measuring vessel",
+    "slots": [
+      { "role": "instrument", "visualRef": "entity.measurement.measuring-vessel", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "measures how much a container can hold",
+    "costClass": "low"
+  }
+]
