@@ -20,9 +20,9 @@ function isRecommended(location: StoryLocation, recommendedTopics: TopicProgress
 }
 
 /**
- * Presentation-only route resolver. Curriculum mastery never unlocks story content;
- * recommendations only choose which already-unlocked expedition receives the single
- * current/next visual emphasis.
+ * Presentation-only route resolver. Child-facing Level N is a stable authored route:
+ * curriculum recommendations may decorate an already-unlocked expedition, but they
+ * never skip the first incomplete level or alter story unlock semantics.
  */
 export function buildStoryLocationPresentation(
   locations: StoryLocation[],
@@ -33,14 +33,7 @@ export function buildStoryLocationPresentation(
   const ordered = [...locations].sort((left, right) => left.progression.order - right.progression.order);
   const current = ordered.find((location) => {
     const mission = missionForLocation(missions, location.id);
-    return isStoryLocationUnlocked(snapshot, location)
-      && !isStoryLocationComplete(snapshot, location, mission)
-      && isRecommended(location, recommendedTopics);
-  }) ?? ordered.find((location) => {
-    const mission = missionForLocation(missions, location.id);
-    return isStoryLocationUnlocked(snapshot, location)
-      && !isStoryLocationComplete(snapshot, location, mission)
-      && Boolean(mission);
+    return isStoryLocationUnlocked(snapshot, location) && !isStoryLocationComplete(snapshot, location, mission);
   }) ?? ordered.find((location) => isStoryLocationUnlocked(snapshot, location));
 
   return locations.map((location) => {
@@ -55,7 +48,6 @@ export function buildStoryLocationPresentation(
         : current?.id === location.id
           ? 'current'
           : 'available';
-
     return { location, mission, state, recommended };
   });
 }
