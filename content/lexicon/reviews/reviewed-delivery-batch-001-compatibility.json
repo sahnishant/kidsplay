@@ -44,17 +44,18 @@
     "sameSemanticRowsRequired": true,
     "duplicateQuestionBankAllowed": false,
     "newEngineRequired": false,
-    "profilePlacementAuthority": "none"
+    "profilePlacementAuthority": "none",
+    "productionisedFormCount": 7
   },
   "deliveryForms": [
     { "id": "word_to_meaning_mcq", "engine": "single_choice@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.mcq.word-to-meaning.001"], "productionShape": "one_generated_question_per_semantic_row" },
     { "id": "meaning_to_word_mcq", "engine": "single_choice@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.mcq.meaning-to-word.001"], "productionShape": "one_generated_question_per_semantic_row" },
     { "id": "word_meaning_matching", "engine": "drag_to_target@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.match.grade1-a.001", "vocab.primary.reviewed.match.grade1-b.001", "vocab.primary.reviewed.match.grade2-a.001", "vocab.primary.reviewed.match.grade2-b.001"], "productionShape": "four_deterministic_four_row_groups" },
     { "id": "spelling_unscramble", "engine": "sequence_order@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.unscramble.001"], "productionShape": "one_generated_question_per_semantic_row" },
-    { "id": "meaning_fill", "engine": "word_bank_fill@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.fill.meaning.001"], "productionShape": "one_generated_question_per_semantic_row" },
     { "id": "word_recognition", "engine": "word_search@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.word-search.grade1-a.001", "vocab.primary.reviewed.word-search.grade1-b.001", "vocab.primary.reviewed.word-search.grade2-a.001", "vocab.primary.reviewed.word-search.grade2-b.001"], "productionShape": "four_deterministic_four_row_groups" },
     { "id": "word_meaning_memory", "engine": "memory_pairs@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.memory.grade1-a.001", "vocab.primary.reviewed.memory.grade1-b.001", "vocab.primary.reviewed.memory.grade2-a.001", "vocab.primary.reviewed.memory.grade2-b.001"], "productionShape": "four_deterministic_four_row_groups" },
-    { "id": "meaning_crossword", "engine": "crossword@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.crossword.grade1-a.001", "vocab.primary.reviewed.crossword.grade1-b.001", "vocab.primary.reviewed.crossword.grade1-c.001", "vocab.primary.reviewed.crossword.grade1-d.001", "vocab.primary.reviewed.crossword.grade2-a.001", "vocab.primary.reviewed.crossword.grade2-b.001"], "productionShape": "six_deterministic_connected_groups" }
+    { "id": "meaning_crossword", "engine": "crossword@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.crossword.grade1-a.001", "vocab.primary.reviewed.crossword.grade1-b.001", "vocab.primary.reviewed.crossword.grade1-c.001", "vocab.primary.reviewed.crossword.grade1-d.001", "vocab.primary.reviewed.crossword.grade2-a.001", "vocab.primary.reviewed.crossword.grade2-b.001"], "productionShape": "six_deterministic_connected_groups" },
+    { "id": "meaning_fill", "engine": "word_bank_fill@1", "status": "semantically_applicable_deferred_visual_quality_gate", "coverage": "not_productionised_in_batch", "recipeTemplateRefs": [], "productionShape": "not_compiled_in_batch", "rationale": "The existing generic word-bank formatter exposes short reviewed definitions as visual-friendly bank items. Producing all 16 lowers the repository-wide visual-friendly coverage gate below 40%, so this optional form remains deferred rather than weakening the gate or adding special-case visuals/runtime." }
   ],
   "deterministicGroups": [
     { "id": "grade1-a", "entryIds": ["ask", "come", "fast", "find"] },
