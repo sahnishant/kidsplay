@@ -1,7 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import reviewedDeliveryMatrix from '../content/lexicon/reviews/reviewed-delivery-batch-001-compatibility.json';
+import reviewedKnowledgeJson from '../content/knowledge/english-vocabulary-primary-reviewed.json';
 import lexiconSources from '../content/lexicon/sources.json';
+import generatedCrosswordAuthoringJson from '../content/authoring/crosswords/__generated-from-knowledge.json';
 import generatedQuestionsJson from '../content/questions/__generated-from-knowledge.json';
 import freeVocabularyPack from '../content/packs/free-vocabulary.json';
+import reviewedDeliveryRecipes from '../content/recipes/primary-vocabulary-reviewed-delivery-batch-001.json';
 import {
   createSessionForCatalogEntry,
   getCatalogEntries,
@@ -14,11 +18,36 @@ import { createShuffledOrder } from '../src/mechanics/reorder';
 
 const generatedQuestions = generatedQuestionsJson as unknown as Question[];
 const byId = new Map(generatedQuestions.map((question) => [question.id, question]));
+const reviewedKnowledge = reviewedKnowledgeJson as any[];
+const reviewedEntries = reviewedKnowledge[0]?.entries ?? [];
+const reviewedEntryById = new Map(reviewedEntries.map((entry: any) => [entry.id, entry]));
+const crosswordAuthoring = generatedCrosswordAuthoringJson as any[];
 
 function question(id: string): Question {
   const value = byId.get(id);
   if (!value) throw new Error(`Missing generated vocabulary question ${id}`);
   return value;
+}
+
+function expectedReviewedQuestionRefs() {
+  const perEntryPrefixes = [
+    'vocab.primary.reviewed.mcq.word-to-meaning.001',
+    'vocab.primary.reviewed.mcq.meaning-to-word.001',
+    'vocab.primary.reviewed.unscramble.001',
+    'vocab.primary.reviewed.fill.meaning.001'
+  ];
+  const refs = perEntryPrefixes.flatMap((prefix) =>
+    reviewedDeliveryMatrix.entryIds.map((entryId) => `${prefix}.${entryId}`)
+  );
+  for (const slug of ['match', 'memory', 'word-search']) {
+    for (const group of reviewedDeliveryMatrix.deterministicGroups) {
+      refs.push(`vocab.primary.reviewed.${slug}.${group.id}.001`);
+    }
+  }
+  for (const group of reviewedDeliveryMatrix.crosswordGroups) {
+    refs.push(`vocab.primary.reviewed.crossword.${group.id}.001`);
+  }
+  return refs;
 }
 
 describe('vocabulary delivery', () => {
@@ -73,6 +102,152 @@ describe('vocabulary delivery', () => {
     const invalidDuplicateOrder = [...value.solution.orderedItemIds];
     invalidDuplicateOrder[secondO] = repeatedOIds[0];
     expect(evaluate(value, { orderedItemIds: invalidDuplicateOrder }).correct).toBe(false);
+  });
+
+  it('uses the 16 human-reviewed meaning rows as the single source for the compatibility matrix', () => {
+    expect(reviewedKnowledge).toHaveLength(1);
+    expect(reviewedEntries).toHaveLength(16);
+    expect(reviewedDeliveryMatrix).toMatchObject({
+      kind: 'primary_vocabulary_delivery_compatibility_matrix',
+      sourceRef: 'knowledge.english.vocabulary.primary-reviewed.001',
+      sourceEntryCount: 16,
+      policy: {
+        sameSemanticRowsRequired: true,
+        duplicateQuestionBankAllowed: false,
+        newEngineRequired: false,
+        profilePlacementAuthority: 'none'
+      }
+    });
+    expect(reviewedDeliveryMatrix.entryIds).toEqual(reviewedEntries.map((entry: any) => entry.id));
+    expect(reviewedDeliveryMatrix.deliveryForms).toHaveLength(8);
+    expect(reviewedDeliveryMatrix.deliveryForms.every((form) => form.status === 'semantically_applicable')).toBe(true);
+    expect(reviewedDeliveryMatrix.excludedExistingFormatterSurfaces).toEqual([
+      expect.objectContaining({ engine: 'print_cards@1' })
+    ]);
+
+    expect(reviewedDeliveryRecipes.every((recipe) => recipe.sourceRef === reviewedDeliveryMatrix.sourceRef)).toBe(true);
+    const recipeText = JSON.stringify(reviewedDeliveryRecipes);
+    for (const entry of reviewedEntries) {
+      expect(recipeText).not.toContain(entry.object.label);
+    }
+  });
+
+  it('generates both MCQ directions, spelling and meaning-fill from every reviewed semantic row', () => {
+    for (const entry of reviewedEntries) {
+      const wordToMeaning = question(`vocab.primary.reviewed.mcq.word-to-meaning.001.${entry.id}`);
+      const meaningToWord = question(`vocab.primary.reviewed.mcq.meaning-to-word.001.${entry.id}`);
+      const unscramble = question(`vocab.primary.reviewed.unscramble.001.${entry.id}`);
+      const fill = question(`vocab.primary.reviewed.fill.meaning.001.${entry.id}`);
+
+      expect(wordToMeaning.knowledgeRefs).toEqual([entry.rowId]);
+      expect(meaningToWord.knowledgeRefs).toEqual([entry.rowId]);
+      expect(unscramble.knowledgeRefs).toEqual([entry.rowId]);
+      expect(fill.knowledgeRefs).toEqual([entry.rowId]);
+
+      expect(wordToMeaning.interaction.type).toBe('single_choice');
+      expect(meaningToWord.interaction.type).toBe('single_choice');
+      if (wordToMeaning.interaction.type === 'single_choice') {
+        expect(wordToMeaning.prompt.text).toContain(entry.subject.label);
+        expect(wordToMeaning.interaction.options.map((option) => option.label)).toContain(entry.object.label);
+      }
+      if (meaningToWord.interaction.type === 'single_choice') {
+        expect(meaningToWord.prompt.text).toContain(entry.object.label);
+        expect(meaningToWord.interaction.options.map((option) => option.label)).toContain(entry.subject.label);
+      }
+
+      expect(unscramble.interaction.type).toBe('sequence_order');
+      if (unscramble.interaction.type === 'sequence_order') {
+        expect(unscramble.interaction.items.map((item) => item.label).join('')).toBe(
+          entry.subject.label.toUpperCase().replace(/[^A-Z0-9]/g, '')
+        );
+      }
+
+      expect(fill.interaction.type).toBe('word_bank_fill');
+      if (fill.interaction.type === 'word_bank_fill') {
+        expect(fill.interaction.wordBank.map((item) => item.label)).toContain(entry.object.label);
+      }
+    }
+  });
+
+  it('reuses deterministic row groups for matching, memory and recognition, with grade-bounded crosswords', () => {
+    const seenByForm = {
+      match: new Set<string>(),
+      memory: new Set<string>(),
+      wordSearch: new Set<string>()
+    };
+
+    for (const group of reviewedDeliveryMatrix.deterministicGroups) {
+      const expectedEntries = group.entryIds.map((entryId) => reviewedEntryById.get(entryId));
+      expect(expectedEntries.every(Boolean)).toBe(true);
+      const expectedRowIds = expectedEntries.map((entry: any) => entry.rowId);
+
+      const match = question(`vocab.primary.reviewed.match.${group.id}.001`);
+      const memory = question(`vocab.primary.reviewed.memory.${group.id}.001`);
+      const wordSearch = question(`vocab.primary.reviewed.word-search.${group.id}.001`);
+
+      expect(new Set(match.knowledgeRefs)).toEqual(new Set(expectedRowIds));
+      expect(new Set(memory.knowledgeRefs)).toEqual(new Set(expectedRowIds));
+      expect(new Set(wordSearch.knowledgeRefs)).toEqual(new Set(expectedRowIds));
+
+      expect(match.interaction.type).toBe('drag_to_target');
+      if (match.interaction.type === 'drag_to_target') {
+        expect(match.interaction.items.map((item) => item.label)).toEqual(expectedEntries.map((entry: any) => entry.subject.label));
+        expect(match.interaction.targets.map((target) => target.label)).toEqual(expectedEntries.map((entry: any) => entry.object.label));
+      }
+
+      expect(memory.interaction.type).toBe('memory_pairs');
+      if (memory.interaction.type === 'memory_pairs') {
+        const labels = memory.interaction.cards.map((card) => card.label);
+        for (const entry of expectedEntries) {
+          expect(labels).toContain(entry.subject.label);
+          expect(labels).toContain(entry.object.label);
+        }
+      }
+
+      expect(wordSearch.interaction.type).toBe('word_search');
+      if (wordSearch.interaction.type === 'word_search') {
+        expect(wordSearch.interaction.terms.map((term) => term.word)).toEqual(
+          expectedEntries.map((entry: any) => entry.subject.label)
+        );
+      }
+
+      for (const entryId of group.entryIds) {
+        seenByForm.match.add(entryId);
+        seenByForm.memory.add(entryId);
+        seenByForm.wordSearch.add(entryId);
+      }
+    }
+
+    for (const seen of Object.values(seenByForm)) {
+      expect([...seen].sort()).toEqual([...reviewedDeliveryMatrix.entryIds].sort());
+    }
+
+    const crosswordSeen = new Set<string>();
+    for (const group of reviewedDeliveryMatrix.crosswordGroups) {
+      const authored = crosswordAuthoring.find(
+        (item) => item.id === `vocab.primary.reviewed.crossword.${group.id}.001`
+      );
+      expect(authored).toBeTruthy();
+      expect(authored.entries.map((entry: any) => entry.id)).toEqual(group.entryIds);
+      expect(authored.entries.map((entry: any) => entry.answer)).toEqual(group.entryIds);
+      for (const entry of authored.entries) {
+        expect(entry.clue.length).toBeGreaterThan(3);
+        crosswordSeen.add(entry.id);
+      }
+    }
+    expect([...crosswordSeen].sort()).toEqual([...reviewedDeliveryMatrix.entryIds].sort());
+  });
+
+  it('keeps every reviewed delivery form launchable from the free Vocabulary Playground pack', () => {
+    const refs = new Set(freeVocabularyPack.questionRefs);
+    const reviewedRefs = expectedReviewedQuestionRefs();
+    expect(reviewedRefs).toHaveLength(82);
+    expect(new Set(reviewedRefs).size).toBe(82);
+
+    for (const ref of reviewedRefs) {
+      expect(refs.has(ref)).toBe(true);
+      if (!ref.includes('.crossword.')) expect(byId.has(ref)).toBe(true);
+    }
   });
 
   it('keeps the expanded vocabulary activities in the free pack', () => {
