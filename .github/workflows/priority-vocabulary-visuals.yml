@@ -21,7 +21,7 @@ permissions:
 
 jobs:
   breadth:
-    name: Generate priority gap and validate semantic visual breadth
+    name: Compile reviewed batches and validate semantic visual breadth
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -52,11 +52,11 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Generate batch 002, Phase B terminal batch 003, and final live gap
-        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002 && npm run compile:vocabulary-visual-batch003
+      - name: Compile all reviewed vocabulary batches and final live gap
+        run: npm run compile:vocabulary-visual-batches
 
-      - name: Prove queues and terminal Phase B dispositions are deterministic
-        run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts tests/vocabulary-visual-priority-batch-003.behavior.test.ts
+      - name: Prove generic batch factory, historical equivalence and determinism
+        run: npm run test:vocabulary-batch-factory
 
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
@@ -68,23 +68,16 @@ jobs:
           path: content/vocabulary-visuals/__generated-priority-gap.json
           if-no-files-found: error
 
-      - name: Upload frozen batch-002 source queue
+      - name: Upload frozen reviewed-batch source queues
         uses: actions/upload-artifact@v7
         with:
-          name: priority-vocabulary-visual-gap-pre-batch-002
-          path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json
+          name: priority-vocabulary-review-sources
+          path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-*.json
           if-no-files-found: error
 
-      - name: Upload frozen batch-003 terminal source queue
+      - name: Upload generated reviewed-batch projections
         uses: actions/upload-artifact@v7
         with:
-          name: priority-vocabulary-visual-gap-pre-batch-003
-          path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-003.json
-          if-no-files-found: error
-
-      - name: Upload generated Phase B terminal batch
-        uses: actions/upload-artifact@v7
-        with:
-          name: priority-vocabulary-visual-batch-003
-          path: content/vocabulary-visuals/batches/__generated-priority-batch-003.json
+          name: priority-vocabulary-reviewed-batches
+          path: content/vocabulary-visuals/batches/__generated-priority-batch-*.json
           if-no-files-found: error
