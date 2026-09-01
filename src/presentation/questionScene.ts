@@ -29,7 +29,10 @@ const sceneByKnowledgeRef = new Map<string, string>([
   ['kr.science.process.melt.ice-to-liquid-water', 'scene.process.melt-ice'],
   ['kr.science.process.freeze.water-to-ice', 'scene.process.freeze-water'],
   ['kr.vocab.process.open.closed-to-open', 'scene.vocabulary.opening'],
-  ['kr.vocab.process.fill.empty-to-full', 'scene.vocabulary.filling']
+  ['kr.vocab.process.fill.empty-to-full', 'scene.vocabulary.filling'],
+  ['kr.sof3.earth.revolution.sun.year', 'scene.universe.earth-revolution'],
+  ['kr.sof3.planets.orbit.sun', 'scene.universe.planet-orbit'],
+  ['kr.sof3.matter.liquid.shape.container', 'scene.matter.liquid-container-shape']
 ]);
 
 const sceneByConceptId = new Map<string, string>([
@@ -52,7 +55,10 @@ const sceneByConceptId = new Map<string, string>([
   ['sof5.matter.melting', 'scene.process.melt-ice'],
   ['science.matter.freezing', 'scene.process.freeze-water'],
   ['vocabulary.action.open', 'scene.vocabulary.opening'],
-  ['vocabulary.action.fill', 'scene.vocabulary.filling']
+  ['vocabulary.action.fill', 'scene.vocabulary.filling'],
+  ['sof3.earth.revolution', 'scene.universe.earth-revolution'],
+  ['sof3.planets.orbit', 'scene.universe.planet-orbit'],
+  ['sof3.matter.liquid-shape', 'scene.matter.liquid-container-shape']
 ]);
 
 const dashboardSceneByTopic = new Map<string, string>([
