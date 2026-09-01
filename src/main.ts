@@ -1,6 +1,6 @@
 import { mount } from 'svelte';
 import './styles.css';
-import './home.css';
+import './appShell.css';
 import './word-search.css';
 import './interactionStyles.css';
 import './crossword.css';

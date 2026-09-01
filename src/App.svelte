@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import {
     createSessionForCatalogEntry,
     getCatalogEntries,
@@ -6,6 +7,11 @@
     type SessionLaunch
   } from './content';
   import type { SessionAttempt } from './contracts/runtime';
+  import {
+    enterAppSessionLayer,
+    installAppBackNavigation,
+    requestAppBack
+  } from './runtime/appNavigation';
   import {
     loadChildSettings,
     loadProgress,
@@ -37,9 +43,10 @@
   import { createStoryLocationLaunch } from './story/storyLocationDirector';
   import {
     loadStoryProgress,
+    recordStoryLocationCompletion,
     recordStoryMissionCompletion
   } from './story/storyProgress';
-  import type { StoryMission } from './story/storyTypes';
+  import type { StoryLocation, StoryMission } from './story/storyTypes';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
 
@@ -51,25 +58,47 @@
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
+  let activeStoryLocation = $state<StoryLocation | null>(null);
   let initialSessionState = $state<SessionState | undefined>(undefined);
   let resumableMock = $state(loadMockCheckpoint());
   let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
+  let releaseSessionBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
   let goalReadiness = $derived(
     goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
   );
 
+  onMount(() => installAppBackNavigation());
+
   function handleChildChange(settings: ChildSettings): void {
     child = saveChildSettings(settings);
   }
 
+  function clearActiveSession(): void {
+    activeSession = null;
+    activeEntryId = null;
+    activeStoryMission = null;
+    activeStoryLocation = null;
+    initialSessionState = undefined;
+    startError = null;
+    releaseSessionBack = null;
+  }
+
+  function enterSessionBackBoundary(): void {
+    releaseSessionBack?.();
+    releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+  }
+
   function startSession(entryId: string): void {
     try {
-      activeSession = createSessionForCatalogEntry(entryId, progress.knowledge);
+      const launch = createSessionForCatalogEntry(entryId, progress.knowledge);
+      enterSessionBackBoundary();
+      activeSession = launch;
       activeEntryId = entryId;
       activeStoryMission = null;
+      activeStoryLocation = null;
       initialSessionState = undefined;
       startError = null;
     } catch (error) {
@@ -80,8 +109,10 @@
   function startStoryMission(missionId: string): void {
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
+      enterSessionBackBoundary();
       activeSession = launch.session;
       activeStoryMission = launch.mission;
+      activeStoryLocation = null;
       activeEntryId = null;
       initialSessionState = undefined;
       startError = null;
@@ -93,8 +124,10 @@
   function startStoryLocation(locationId: string): void {
     try {
       const launch = createStoryLocationLaunch(locationId, progress.knowledge);
+      enterSessionBackBoundary();
       activeSession = launch.session;
       activeStoryMission = null;
+      activeStoryLocation = launch.location;
       activeEntryId = null;
       initialSessionState = undefined;
       startError = null;
@@ -121,9 +154,11 @@
         throw new Error('One or more saved questions changed since this mock was saved');
       }
 
+      enterSessionBackBoundary();
       activeSession = { ...launch, questions };
       activeEntryId = resumableMock.entryId;
       activeStoryMission = null;
+      activeStoryLocation = null;
       initialSessionState = restoreSessionState(questions, resumableMock.state);
       startError = null;
     } catch (error) {
@@ -159,6 +194,11 @@
       return;
     }
 
+    if (activeStoryLocation) {
+      storyProgress = recordStoryLocationCompletion(activeStoryLocation, state.sessionId);
+      return;
+    }
+
     if (!activeEntryId) return;
     if (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock') return;
 
@@ -188,12 +228,8 @@
     }
   }
 
-  function returnHome(): void {
-    activeSession = null;
-    activeEntryId = null;
-    activeStoryMission = null;
-    initialSessionState = undefined;
-    startError = null;
+  function requestSessionExit(): void {
+    requestAppBack(clearActiveSession);
   }
 </script>
 
@@ -216,7 +252,7 @@
     onAttempt={handleAttempt}
     onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
     onComplete={handleSessionComplete}
-    onExit={returnHome}
+    onExit={requestSessionExit}
   />
 {:else}
   <Home

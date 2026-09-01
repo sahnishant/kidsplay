@@ -21,7 +21,7 @@ export async function openCleanApp(page: Page): Promise<void> {
   await page.goto('/');
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
-  await expect(page.getByRole('heading', { name: /science world$/i })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
 }
 
 export function sessionFeedback(page: Page): Locator {

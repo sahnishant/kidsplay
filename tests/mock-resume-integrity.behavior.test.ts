@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/svelte';
 import App from '../src/App.svelte';
 import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content';
 import type { Question } from '../src/contracts/question';
@@ -12,6 +12,7 @@ import { loadMockCheckpoint, saveMockCheckpoint } from '../src/runtime/mockPersi
 describe('mock resume contract integrity', () => {
   beforeEach(() => {
     window.localStorage.clear();
+    window.history.replaceState({}, '', '/');
   });
 
   afterEach(() => {
@@ -63,15 +64,47 @@ describe('mock resume contract integrity', () => {
     });
 
     render(App);
-    expect(screen.queryByRole('heading', { name: 'Resume your saved mock' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
     await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
-    expect(screen.getByRole('heading', { name: 'Resume your saved mock' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Resume saved mock' }));
+    await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
 
     expect(screen.getByRole('alert').textContent).toMatch(/one or more saved questions changed/i);
-    expect(screen.queryByRole('heading', { name: 'Resume your saved mock' })).toBeNull();
+    expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
     expect(loadMockCheckpoint()).toBeNull();
     expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
+  });
+
+  it('preserves a valid saved mock when unified back exits the resumed session', async () => {
+    const patternEntry = getCatalogEntries().find((entry) => entry.actionLabel === 'Try 35-question mock');
+    expect(patternEntry).toBeTruthy();
+    const launch = createSessionForCatalogEntry(patternEntry!.id, {});
+
+    saveMockCheckpoint({
+      entryId: patternEntry!.id,
+      title: launch.title,
+      questionIds: launch.questions.map((question) => question.id),
+      sectionSignature: getPatternMockContractSignature(launch.profileRef),
+      questionSignature: getQuestionContractSignature(launch.questions),
+      state: {
+        sessionId: 'session.back-preserved',
+        index: 0,
+        responses: [],
+        submitted: false
+      }
+    });
+
+    render(App);
+    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
+
+    await fireEvent.keyDown(window, { key: 'Escape' });
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
+
+    expect(loadMockCheckpoint()?.state.sessionId).toBe('session.back-preserved');
+    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
   });
 });
