@@ -118,7 +118,7 @@
     "difficulty": 1,
     "language": "en",
     "prompt": { "text": "Complete the sentence." },
-    "stimulus": { "type": "scene", "sceneId": "scene.dog.happy-bone" },
+    "stimulus": { "type": "scene", "sceneId": "scene.dog.curious-bone" },
     "interaction": {
       "type": "word_bank_fill",
       "version": 1,
