@@ -81,6 +81,14 @@
       <path d="M39 61q-9-14 1-25M44 39l-5-4-5 5M88 47q5 13-4 23M80 66l4 5 5-4" fill="none" stroke="#4b8fa8" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
       <path d="M74 45l-3 8m14-8-3 8m14-8-3 8" fill="none" stroke="#58a9cc" stroke-width="2.5" stroke-linecap="round" />
     </g>
+  {:else if icon === 'gas-spread-sample'}
+    <g>
+      <rect x="9" y="24" width="38" height="55" rx="5" fill="#f5f8fa" fill-opacity=".45" stroke="#708a95" stroke-width="2.5" />
+      <circle cx="19" cy="37" r="3" fill="#7ba6ba"/><circle cx="28" cy="45" r="3" fill="#7ba6ba"/><circle cx="19" cy="56" r="3" fill="#7ba6ba"/><circle cx="31" cy="64" r="3" fill="#7ba6ba"/>
+      <path d="M50 51h17m-6-6 6 6-6 6" fill="none" stroke="#587c8c" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+      <rect x="72" y="15" width="39" height="70" rx="5" fill="#f5f8fa" fill-opacity=".45" stroke="#708a95" stroke-width="2.5" />
+      <g fill="#7ba6ba"><circle cx="81" cy="27" r="3"/><circle cx="97" cy="24" r="3"/><circle cx="105" cy="39" r="3"/><circle cx="84" cy="45" r="3"/><circle cx="96" cy="55" r="3"/><circle cx="107" cy="68" r="3"/><circle cx="80" cy="73" r="3"/><circle cx="94" cy="78" r="3"/></g>
+    </g>
   {:else if icon === 'container-closed'}
     <g class="state-container state-container--closed">
       <path d="M29 35h62l-6 57H35Z" fill="#f0d79c" stroke="#8c6b35" stroke-width="3" stroke-linejoin="round" />
