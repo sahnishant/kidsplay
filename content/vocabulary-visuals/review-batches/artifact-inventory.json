@@ -86,13 +86,13 @@
     },
     {
       "id": "priority-sense-resolution-001",
-      "artifactKind": "manifest_human_reviewed_projection",
-      "authorityKind": "human_reviewed_candidate_selection",
+      "artifactKind": "manifest_sol_max_reviewed_projection",
+      "authorityKind": "sol_max_reviewed_exact_sense",
       "lifecycle": "manifest_source_generated_projection",
       "order": 55,
       "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json",
       "generatedPath": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-001.json",
-      "supersession": "append_only_exact_sense"
+      "supersession": "resolves_prior_unresolved_for_same_lemma_without_deleting_history"
     },
     {
       "id": "phase-c-candidate-relevance-review",
@@ -101,7 +101,7 @@
       "authorityKind": "approved_terminal_policy",
       "lifecycle": "committed_review_policy_data",
       "order": 60,
-      "supersession": "human_exact_review_required_to_remove_blocker"
+      "supersession": "exact_review_required_to_remove_blocker"
     },
     {
       "id": "phase-c-corpus-terminal-policy",
@@ -151,7 +151,7 @@
   "generatedArtifacts": [
     { "pattern": "content/vocabulary-visuals/__generated-priority-gap*.json", "lifecycle": "ignored_deterministic_audit_artifact" },
     { "pattern": "content/vocabulary-visuals/batches/__generated-priority-batch-*.json", "lifecycle": "ignored_deterministic_review_projection" },
-    { "pattern": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-*.json", "lifecycle": "ignored_deterministic_human_review_projection" },
+    { "pattern": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-*.json", "lifecycle": "ignored_deterministic_exact_review_projection" },
     { "path": "content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json", "lifecycle": "ignored_deterministic_terminal_projection" },
     { "path": "content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
     { "path": "content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
