@@ -37,6 +37,7 @@
       "canResolveSense": false,
       "canSelectMultiCandidate": false,
       "canClaimHumanReview": false,
+      "allowedManifestStatuses": [],
       "maxSemanticMaturity": "V0",
       "runtimeAuthority": "none"
     },
@@ -50,6 +51,7 @@
       "canResolveSense": true,
       "canSelectMultiCandidate": false,
       "canClaimHumanReview": false,
+      "allowedManifestStatuses": ["reviewed_visual_strategy"],
       "allowedDispositionStates": ["reviewed_strategy"],
       "allowedResolutionStates": ["historical_resolved"],
       "maxSemanticMaturity": "V2",
@@ -63,6 +65,7 @@
       "canResolveSense": false,
       "canSelectMultiCandidate": false,
       "canClaimHumanReview": false,
+      "allowedManifestStatuses": [],
       "allowedDispositionStates": ["terminal_unresolved"],
       "allowedResolutionStates": ["blocked_unresolved"],
       "maxSemanticMaturity": "V1",
@@ -76,6 +79,7 @@
       "canResolveSense": true,
       "canSelectMultiCandidate": false,
       "canClaimHumanReview": false,
+      "allowedManifestStatuses": ["reviewed_terminal_visual_disposition"],
       "allowedStrategies": ["textual_only", "sense_unresolved"],
       "allowedDispositionStates": ["terminal_textual", "terminal_unresolved"],
       "allowedResolutionStates": ["candidate_exact_terminal", "blocked_unresolved"],
@@ -91,6 +95,7 @@
       "canResolveSense": true,
       "canSelectMultiCandidate": true,
       "canClaimHumanReview": true,
+      "allowedManifestStatuses": [],
       "allowedDispositionStates": ["reviewed_strategy", "terminal_textual"],
       "allowedResolutionStates": ["human_resolved"],
       "maxSemanticMaturity": "V1",
@@ -103,6 +108,7 @@
       "canResolveSense": false,
       "canSelectMultiCandidate": false,
       "canClaimHumanReview": false,
+      "allowedManifestStatuses": [],
       "maxSemanticMaturity": "V0",
       "runtimeAuthority": "mapping_config_only"
     },
@@ -113,6 +119,7 @@
       "canResolveSense": false,
       "canSelectMultiCandidate": false,
       "canClaimHumanReview": false,
+      "allowedManifestStatuses": [],
       "maxSemanticMaturity": "V6",
       "runtimeAuthority": "external_proof_only"
     }
