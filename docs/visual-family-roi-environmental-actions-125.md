@@ -45,3 +45,7 @@ If the canonical report differs, CI must fail rather than accepting a guessed cl
 - no new evaluator/interaction runtime;
 - reduced-motion remains meaningful because all action semantics are statically visible;
 - SVG paint/strokes stay in markup and the 100 KiB CSS gate is unchanged.
+
+## Exact-head gate
+
+The final candidate is certified only after the pinned coverage assertion, Windows full check, Browser/Playwright, Android packaged offline/rotation smoke, and priority visual breadth all pass on the same SHA.
