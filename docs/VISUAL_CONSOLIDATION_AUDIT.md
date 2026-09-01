@@ -37,32 +37,33 @@ These invariants are guarded by `tests/visual-runtime-consumption.behavior.test.
 
 ## Same-branch production passes after consolidation
 
-The consolidation review fixed three systemic issues before adding more breadth:
+The consolidation review fixed systemic issues before adding more breadth:
 
 - stale stacked-tranche tests were converted to composable invariants;
 - duplicate presenter styling was removed rather than raising the 100 KiB CSS budget;
-- the family ROI scheduler was narrowed so unrelated relations such as shadow and exercise cannot be grouped merely because they use the same template.
+- the family ROI scheduler was narrowed so unrelated relations cannot be grouped merely because they use the same template;
+- unit identities, generic `source` semantics, and action/effect semantics now fail closed unless an exact reusable visual family is justified.
 
 Then the live ROI queue was consumed in descending defensible leverage on this same branch:
 
-- soil family — sandy soil, clay soil, loamy soil, humus: four reusable texture primitives / four recipes, expected +32 visual-friendly instances;
-- shadow formation: one new state in the existing material renderer / one surface-safe recipe, expected +10;
-- water process family — condensation + water cycle: two states in the existing process renderer / two recipes, expected +5;
-- gas spreading: one state in the existing process renderer / one recipe, expected +5.
+- soil family — sandy soil, clay soil, loamy soil, humus: four reusable texture primitives / four recipes, +32 visual-friendly instances;
+- shadow formation: one new state in the existing material renderer / one surface-safe recipe, +10;
+- water process family — condensation + water cycle: two states in the existing process renderer / two recipes, +5;
+- gas spreading: one state in the existing process renderer / one recipe, +5.
 
-The last fully certified checkpoint before the water/gas passes was **786/1459 = 53.9%** visual-friendly coverage with **304 primitives / 19 recipes / 177 recipe-resolved instances**. The current post-water/gas target is **796/1459 ≈ 54.6%**, **307 primitives**, **22 recipes**, and **187 recipe-resolved instances**. The canonical CI reporter is authoritative; family tests fail closed if these floors are not met.
+The resulting canonical target is **796/1459 ≈ 54.6%** visual-friendly coverage, **307 primitives**, **22 recipes**, and **187 recipe-resolved instances**. The canonical CI reporter is authoritative; family tests fail closed if these floors are not met.
 
-All new soil/shadow/process SVG states use existing renderer infrastructure and add no new CSS rules. The hard CSS budget remains unchanged.
+All new soil/shadow/process SVG states use existing renderer infrastructure and add no new CSS rules. The hard CSS budget remains unchanged at 100 KiB.
 
-## Remaining automatic-production queue
+## Automatic-production queue closure
 
-After the current soil/shadow/water/gas passes, the automatic ROI queue is expected to be small. Remaining candidates should not be force-visualized merely to inflate coverage. In particular:
+After the high-confidence families above land, the production scheduler must report **zero automatic candidates**. The final seven previously automatic instances are deliberately moved to semantic review/deferred status:
 
-- `exercise-body` requires a defensible exercise identity rather than a generic body icon;
-- `si-length` must not be aliased to the generic length recipe without exact semantic evidence;
-- `pollution-source` is low leverage and should stay behind stronger semantic proof or a reusable pollution family.
+- `exercise-body` ×4 — the reviewed row says regular exercise helps keep muscles and heart working well. Heart and muscles are effects/context, not the answer-card identity “regular exercise”; no reusable activity family currently exists.
+- `si-length` ×2 — the reviewed Class 6 fact is specifically `Metre` = the SI base unit of length. A generic ruler/length visual would conflate a unit identity with the measured quantity.
+- `pollution-source` ×1 — generic `source` is not a safe visual family because light sources, pollution sources, water sources and information sources require different semantics.
 
-If the canonical ROI report shows materially different candidates, follow the report rather than this prose snapshot.
+`tests/visual-production-queue-closure.behavior.test.ts` requires `productionCandidates === 0`, an empty semantic production queue, and an empty family production queue while retaining the human semantic-review queue. This is a stronger completion condition than drawing weak pictures simply to increase the percentage.
 
 ## Merge boundary
 
