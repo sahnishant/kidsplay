@@ -1,4 +1,4 @@
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -268,7 +268,9 @@ const result = { generatedAt: new Date().toISOString(), profiles: reports };
 const shouldFail = failOnUncovered && reports.some((report) => report.runnable.uncoveredRows > 0);
 
 if (jsonMode) {
-  console.log(JSON.stringify(result, null, 2));
+  // stdout is a pipe when this report is consumed by validators. A synchronous
+  // write prevents `process.exit()` from truncating large multi-profile JSON.
+  writeFileSync(1, `${JSON.stringify(result, null, 2)}\n`);
   process.exit(shouldFail ? 1 : 0);
 }
 
