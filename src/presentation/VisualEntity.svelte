@@ -6,6 +6,7 @@
   import EverydayIcon from './EverydayIcon.svelte';
   import ProcessIcon from './ProcessIcon.svelte';
   import MeasurementIcon from './MeasurementIcon.svelte';
+  import MaterialPropertyIcon from './MaterialPropertyIcon.svelte';
   import AnimalExpansionIcon from './AnimalExpansionIcon.svelte';
   import ConceptIcon from './ConceptIcon.svelte';
   import CurriculumIcon from './CurriculumIcon.svelte';
@@ -79,6 +80,8 @@
         <ProcessIcon icon={visual.glyph} />
       {:else if visual.renderer === 'measurement-icon'}
         <MeasurementIcon icon={visual.glyph} />
+      {:else if visual.renderer === 'material-property-icon'}
+        <MaterialPropertyIcon icon={visual.glyph} />
       {:else if visual.renderer === 'animal-expansion-icon'}
         <AnimalExpansionIcon icon={visual.glyph} />
       {:else if visual.renderer === 'concept-icon'}
