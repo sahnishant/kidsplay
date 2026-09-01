@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 
 describe('#88 reviewed priority visual strategy batch 002', () => {
-  it('adds at least 100 exact sense strategies with majority reuse of existing scene grammar', () => {
+  it('adds at least 100 exact sense dispositions with a clear majority reusing existing scene grammar', () => {
     const batch = readJson('content/vocabulary-visuals/batches/__generated-priority-batch-002.json');
     const senseKeys = batch.items.map((item: { senseKey: string }) => item.senseKey);
     const sceneItems = batch.items.filter((item: { sceneTemplate?: string }) => Boolean(item.sceneTemplate));
@@ -22,6 +22,11 @@ describe('#88 reviewed priority visual strategy batch 002', () => {
         profilePlacementInferred: false,
         assessmentAnswerRevealAllowed: false,
         humanEditorialDefinitionApprovalInferredFromVisualReview: false
+      },
+      summary: {
+        runtimeProofCandidates: 3,
+        directVisualItems: 0,
+        newAssetBlockers: 0
       }
     });
     expect(batch.items.length).toBeGreaterThanOrEqual(100);
@@ -29,13 +34,13 @@ describe('#88 reviewed priority visual strategy batch 002', () => {
     expect(batch.items.every((item: { lemma: string; senseKey: string; maturity: string }) =>
       item.senseKey.startsWith(`${item.lemma}#`) && item.maturity === 'V1'
     )).toBe(true);
-    expect(sceneItems.length / batch.items.length).toBeGreaterThanOrEqual(0.75);
+    expect(sceneItems.length / batch.items.length).toBeGreaterThanOrEqual(0.55);
     expect(batch.summary.sceneGrammarItems).toBe(sceneItems.length);
-    expect(batch.summary.newAssetBlockers).toBe(0);
+    expect(batch.summary.textualOnlyItems).toBe(batch.items.filter((item: { strategy: string }) => item.strategy === 'textual_only').length);
   });
 
   it('admits generated queue rows only when the pinned OEWN candidate is unique and exact', () => {
-    const queue = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
+    const queue = readJson('content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json');
     const batch = readJson('content/vocabulary-visuals/batches/__generated-priority-batch-002.json');
     const queueByLemma = new Map(queue.items.map((item: { lemma: string }) => [item.lemma, item]));
 
@@ -52,7 +57,7 @@ describe('#88 reviewed priority visual strategy batch 002', () => {
     }
   });
 
-  it('uses exact #51 human-reviewed senses for the bounded polysemy exceptions', () => {
+  it('uses exact #51 human-reviewed senses without pretending weak visual mappings are ready', () => {
     const batch = readJson('content/vocabulary-visuals/batches/__generated-priority-batch-002.json');
     const reviewedKnowledge = readJson('content/knowledge/english-vocabulary-primary-reviewed.json');
     const knowledgeEntries = reviewedKnowledge.flatMap((source: { entries?: unknown[] }) => source.entries ?? []) as Array<{
@@ -62,12 +67,28 @@ describe('#88 reviewed priority visual strategy batch 002', () => {
     const humanItems = batch.items.filter((item: { reviewSource: string }) => item.reviewSource === 'human_reviewed_primary_meaning');
 
     expect(humanItems.map((item: { lemma: string }) => item.lemma).sort()).toEqual(
-      ['ask', 'environment', 'find', 'floor', 'guide', 'minute', 'notice'].sort()
+      ['ask', 'environment', 'fast', 'find', 'floor', 'full', 'guide', 'library', 'minute', 'notice'].sort()
     );
     for (const item of humanItems) {
       const curation = knowledgeByLemma.get(item.lemma)?.meta?.curation;
       expect(curation).toMatchObject({ status: 'reviewed', candidateId: item.senseKey, sourceGlossCopied: false });
     }
+
+    const byLemma = new Map(batch.items.map((item: { lemma: string }) => [item.lemma, item]));
+    for (const lemma of ['ask', 'environment', 'find', 'floor', 'guide', 'minute', 'notice']) {
+      expect(byLemma.get(lemma)).toMatchObject({ strategy: 'textual_only', maturity: 'V1' });
+    }
+    expect(byLemma.get('fast')).toMatchObject({
+      senseKey: 'fast#a#1', strategy: 'attribute_contrast', sceneTemplate: 'attribute-contrast',
+      parameters: { dimension: 'speed', target: 'fast', contrast: 'slow' }
+    });
+    expect(byLemma.get('full')).toMatchObject({
+      senseKey: 'full#a#1', strategy: 'attribute_contrast', sceneTemplate: 'attribute-contrast',
+      parameters: { dimension: 'fill-level', target: 'full', contrast: 'empty' }
+    });
+    expect(byLemma.get('library')).toMatchObject({
+      senseKey: 'library#n#3', strategy: 'place_scene', sceneTemplate: 'place', parameters: { placeKind: 'library' }
+    });
   });
 
   it('contains no editorial prose or curriculum/profile placement payloads', () => {
