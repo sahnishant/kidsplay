@@ -87,9 +87,9 @@ describe('user-facing product flow', () => {
     render(App);
 
     expect(screen.getByRole('button', { name: 'Open player settings' })).toBeTruthy();
-    expect(screen.getByLabelText('Current adventure level 3')).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy();
-    expect(screen.getByText('LEVEL 3')).toBeTruthy();
+    expect(screen.getByLabelText('Current adventure level 1')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
+    expect(screen.getByText('LEVEL 1')).toBeTruthy();
     expect(screen.queryByText('Kidsplay')).toBeNull();
     expect(screen.queryByRole('heading', { name: "Dheu's science world" })).toBeNull();
     expect(screen.getByRole('button', { name: 'Open story world' })).toBeTruthy();
@@ -106,7 +106,7 @@ describe('user-facing product flow', () => {
     expect(stored.name).toBe('Dheu');
 
     await fireEvent.click(screen.getByRole('button', { name: "Back to Dheu's world" }));
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     await fireEvent.click(screen.getByRole('button', { name: 'Open learning progress' }));
     expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
@@ -115,7 +115,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByText('Numbers for grown-ups')).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: "Back to Dheu's world" }));
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     await fireEvent.click(screen.getByRole('button', { name: 'Open practice activities' }));
     expect(screen.getByRole('heading', { name: 'Choose a practice adventure' })).toBeTruthy();
@@ -127,7 +127,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
   });
 
   it('uses Escape and browser Back through one overlay-first home navigation contract', async () => {
@@ -136,18 +136,18 @@ describe('user-facing product flow', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Open learning progress' }));
     expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
     await fireEvent.keyDown(window, { key: 'Escape' });
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
     expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
     window.history.back();
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }));
     expect(screen.getByRole('dialog')).toBeTruthy();
     await fireEvent.keyDown(window, { key: 'Escape' });
     await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
-    expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
   });
 
   it('keeps saved mock resume/history behind a saved-challenge-first goal screen', async () => {
