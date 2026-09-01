@@ -44,7 +44,6 @@ const addHumanReviewed = (lemma, expectedSenseKey, strategy, sceneTemplate = nul
   addItem(lemma, partOfSpeech, expectedSenseKey, strategy, sceneTemplate, parameters, motionPolicy, answerSafety, 'human_reviewed_primary_meaning');
 };
 
-// Only use the existing generic building place template where a building/facility is a faithful static cue.
 const SAFE_BUILDING_PLACE_LEMMAS = ['hotel', 'museum', 'restaurant', 'airport', 'factory', 'cafe', 'nursery'];
 for (const lemma of SAFE_BUILDING_PLACE_LEMMAS) addGap(lemma, 'place_scene', 'place', { placeKind: lemma });
 
@@ -76,8 +75,6 @@ for (const lemma of ['weekly', 'monthly']) addGap(lemma, 'sequence_scene', 'sequ
 addGap('swift', 'attribute_contrast', 'attribute-contrast', { dimension: 'speed', target: 'fast' }, 'optional_meaningful');
 for (const lemma of ['yellow', 'pink', 'orange']) addGap(lemma, 'attribute_contrast', 'attribute-contrast', { dimension: 'color', target: lemma });
 
-// These exact senses are audited, but the current generic visual grammar would be weak or misleading.
-// Record them as textual-only rather than inflating visual breadth.
 const TEXTUAL_ONLY = [
   'district', 'beach', 'valley', 'kitchen', 'campus', 'highway', 'bedroom', 'cave', 'classroom', 'zoo', 'pond',
   'hometown', 'backyard', 'corridor', 'isle', 'gateway', 'porch', 'cemetery', 'employer',
@@ -87,8 +84,6 @@ const TEXTUAL_ONLY = [
 ];
 for (const lemma of TEXTUAL_ONLY) addGap(lemma, 'textual_only', null, null, 'none', 'neutral_safe');
 
-// #51 supplies exact human-reviewed senses for these otherwise-polysemous priority lemmas.
-// Weak visual mappings stay V1/textual or renderer-only; only the semantically faithful subset is staged for runtime proof.
 addHumanReviewed('ask', 'ask#v#2', 'textual_only', null, null, 'none', 'neutral_safe');
 addHumanReviewed('find', 'find#v#3', 'textual_only', null, null, 'none', 'neutral_safe');
 addHumanReviewed('floor', 'floor#n#1', 'textual_only', null, null, 'none', 'neutral_safe');
@@ -143,3 +138,6 @@ const output = {
 
 writeFileSync(outputUrl, `${JSON.stringify(output, null, 2)}\n`, 'utf8');
 console.log(`Built #88 reviewed batch 002: ${items.length} exact sense strategy item(s); faithful scene-grammar reuse ${sceneGrammarItems}/${items.length}; textual-only ${textualOnlyItems}; human-reviewed exact senses ${humanReviewedItems}; runtime proof candidates 3.`);
+
+// Recompute the live remaining-gap queue now that the generated reviewed batch exists.
+await import('./build-priority-gap-queue.mjs');
