@@ -10,10 +10,11 @@
   import { storyStarTotal, type StoryProgressSnapshot } from '../story/storyProgress';
   import ChildHud from './home/ChildHud.svelte';
   import GoalsViewport from './home/GoalsViewport.svelte';
-  import HomeBottomNav, { type HomePrimaryView } from './home/HomeBottomNav.svelte';
+  import HomeBottomNav from './home/HomeBottomNav.svelte';
   import ProgressViewport from './home/ProgressViewport.svelte';
   import StoryWorldViewport from './StoryWorldViewport.svelte';
 
+  type HomePrimaryView = 'world' | 'progress' | 'practice' | 'goals';
   type HomeView = HomePrimaryView | 'player';
 
   let {
@@ -111,7 +112,7 @@
       />
     </div>
 
-    <HomeBottomNav active="world" onOpen={(next) => openView(next)} />
+    <HomeBottomNav active="world" onOpen={(next: HomePrimaryView) => openView(next)} />
   {:else}
     <section class="home-panel-screen" aria-label={`${view} screen`}>
       <header class="panel-topbar">
