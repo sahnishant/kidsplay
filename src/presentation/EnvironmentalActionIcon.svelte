@@ -2,7 +2,7 @@
   let { icon }: { icon: string } = $props();
 </script>
 
-<svg class="environmental-action-icon" viewBox="0 0 120 100" aria-hidden="true">
+<svg viewBox="0 0 120 100" width="100%" height="100%" style="overflow:visible" aria-hidden="true">
   {#if icon === 'reduce-sample'}
     <g>
       <rect x="10" y="27" width="17" height="32" rx="4" fill="#79b4d1" stroke="#47758a" stroke-width="2.5" />
@@ -32,7 +32,3 @@
     </g>
   {/if}
 </svg>
-
-<style>
-  .environmental-action-icon { width: 100%; height: 100%; overflow: visible; }
-</style>
