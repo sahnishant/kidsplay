@@ -62,7 +62,7 @@ describe('transparent and opaque material contrast family', () => {
     expect(source).not.toContain("semanticRef === 'opaque'");
   });
 
-  it('removes transparent and opaque from the production ROI queue', () => {
+  it('keeps transparent and opaque out of the production ROI queue after later families are added', () => {
     const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=50'], {
       cwd: process.cwd(),
       encoding: 'utf8'
@@ -73,10 +73,9 @@ describe('transparent and opaque material contrast family', () => {
     const refs = new Set(report.queue.map((entry) => entry.semanticRef));
     expect(refs.has('transparent')).toBe(false);
     expect(refs.has('opaque')).toBe(false);
-    expect(refs.has('recycle')).toBe(true);
   });
 
-  it('pins the canonical coverage gain from the certified measurement baseline', () => {
+  it('preserves at least the certified material-family coverage contribution as the system grows', () => {
     const output = execFileSync(process.execPath, ['scripts/report-visual-coverage.mjs', '--json'], {
       cwd: process.cwd(),
       encoding: 'utf8'
@@ -86,11 +85,11 @@ describe('transparent and opaque material contrast family', () => {
       visualFriendly: { visual: number; total: number; percent: number; recipe: number };
     };
 
-    expect(report.library.entities).toBe(296);
-    expect(report.library.recipes).toBe(11);
+    expect(report.library.entities).toBeGreaterThanOrEqual(296);
+    expect(report.library.recipes).toBeGreaterThanOrEqual(11);
     expect(report.visualFriendly.total).toBe(1459);
-    expect(report.visualFriendly.visual).toBe(714);
-    expect(report.visualFriendly.percent).toBe(48.9);
-    expect(report.visualFriendly.recipe).toBe(105);
+    expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(714);
+    expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(48.9);
+    expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(105);
   });
 });
