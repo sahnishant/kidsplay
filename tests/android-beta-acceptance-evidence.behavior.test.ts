@@ -53,7 +53,7 @@ function baseRecord() {
       status: 'pass',
       observations: [`Observed journey ${id} directly on physical hardware.`]
     })),
-    defects: [],
+    defects: [] as Array<Record<string, unknown>>,
     attestation: {
       directPhysicalObservation: true,
       notes: 'Direct physical-device observation; no child personal data stored.'
