@@ -28,7 +28,7 @@ describe('browser visual meaning slice projection', () => {
     expect(forward.summary.maxRequestedSenses).toBe(contract.slicePolicy.maxRequestedSenses);
   });
 
-  it('resolves a semantic presentation from canonical knowledge refs without a lemma shortcut', () => {
+  it('resolves canonical knowledge refs without a lemma shortcut or input-order visual choice', () => {
     const resolved = resolveVisualMeaningPresentationForKnowledgeRefs([
       'kr.vocab.meaning.enormous.very-large'
     ]);
@@ -38,6 +38,29 @@ describe('browser visual meaning slice projection', () => {
       deliveryMode: 'compare',
       visualAllowed: true,
       maturity: 'V5'
+    });
+
+    const sameSenseRefs = [
+      'kr.vocab.meaning.ancient.very-old',
+      'kr.vocab.antonym.ancient.modern'
+    ];
+    const ancientForward = resolveVisualMeaningPresentationForKnowledgeRefs(sameSenseRefs);
+    const ancientReverse = resolveVisualMeaningPresentationForKnowledgeRefs([...sameSenseRefs].reverse());
+    expect(ancientForward).toEqual(ancientReverse);
+    expect(ancientForward).toMatchObject({
+      senseKey: 'ancient#very-old-from-long-ago',
+      visualAllowed: true
+    });
+
+    const conflict = resolveVisualMeaningPresentationForKnowledgeRefs([
+      'kr.vocab.meaning.enormous.very-large',
+      'kr.vocab.meaning.cheerful.happy-positive'
+    ]);
+    expect(conflict).toMatchObject({
+      senseKey: '',
+      deliveryMode: 'text',
+      visualAllowed: false,
+      fallbackReason: 'knowledge_refs_conflict'
     });
 
     const missing = resolveVisualMeaningPresentationForKnowledgeRefs(['kr.not-real']);
