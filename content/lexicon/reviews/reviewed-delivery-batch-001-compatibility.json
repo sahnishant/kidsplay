@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_delivery_compatibility_matrix",
+  "batchId": "reviewed-primary-meanings-001",
+  "sourceRef": "knowledge.english.vocabulary.primary-reviewed.001",
+  "sourceEntryCount": 16,
+  "entryIds": [
+    "ask",
+    "come",
+    "environment",
+    "fast",
+    "find",
+    "floor",
+    "full",
+    "go",
+    "guide",
+    "library",
+    "minute",
+    "notice",
+    "old",
+    "pull",
+    "put",
+    "regular"
+  ],
+  "inventory": [
+    { "entryId": "ask", "rowId": "kr.vocab.primary.meaning.ask.ask-v-2", "lemma": "ask", "selectedCandidateId": "ask#v#2", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "come", "rowId": "kr.vocab.primary.meaning.come.come-v-1", "lemma": "come", "selectedCandidateId": "come#v#1", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "environment", "rowId": "kr.vocab.primary.meaning.environment.environment-n-2", "lemma": "environment", "selectedCandidateId": "environment#n#2", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "fast", "rowId": "kr.vocab.primary.meaning.fast.fast-a-1", "lemma": "fast", "selectedCandidateId": "fast#a#1", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "find", "rowId": "kr.vocab.primary.meaning.find.find-v-3", "lemma": "find", "selectedCandidateId": "find#v#3", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "floor", "rowId": "kr.vocab.primary.meaning.floor.floor-n-1", "lemma": "floor", "selectedCandidateId": "floor#n#1", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "full", "rowId": "kr.vocab.primary.meaning.full.full-a-1", "lemma": "full", "selectedCandidateId": "full#a#1", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "go", "rowId": "kr.vocab.primary.meaning.go.go-v-1", "lemma": "go", "selectedCandidateId": "go#v#1", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "guide", "rowId": "kr.vocab.primary.meaning.guide.guide-n-2", "lemma": "guide", "selectedCandidateId": "guide#n#2", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "library", "rowId": "kr.vocab.primary.meaning.library.library-n-3", "lemma": "library", "selectedCandidateId": "library#n#3", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "minute", "rowId": "kr.vocab.primary.meaning.minute.minute-n-1", "lemma": "minute", "selectedCandidateId": "minute#n#1", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "notice", "rowId": "kr.vocab.primary.meaning.notice.notice-n-1", "lemma": "notice", "selectedCandidateId": "notice#n#1", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "old", "rowId": "kr.vocab.primary.meaning.old.old-a-2", "lemma": "old", "selectedCandidateId": "old#a#2", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "pull", "rowId": "kr.vocab.primary.meaning.pull.pull-v-1", "lemma": "pull", "selectedCandidateId": "pull#v#1", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "put", "rowId": "kr.vocab.primary.meaning.put.put-v-1", "lemma": "put", "selectedCandidateId": "put#v#1", "primaryVocabularyGrade": 1, "gradeReviewSource": "content/lexicon/reviews/grade-1-batch-001.json", "placementAuthority": "none" },
+    { "entryId": "regular", "rowId": "kr.vocab.primary.meaning.regular.regular-a-1", "lemma": "regular", "selectedCandidateId": "regular#a#1", "primaryVocabularyGrade": 2, "gradeReviewSource": "content/lexicon/reviews/grade-2-batch-001.json", "placementAuthority": "none" }
+  ],
+  "policy": {
+    "sameSemanticRowsRequired": true,
+    "duplicateQuestionBankAllowed": false,
+    "newEngineRequired": false,
+    "profilePlacementAuthority": "none",
+    "productionisedFormCount": 6
+  },
+  "deliveryForms": [
+    { "id": "word_to_meaning_mcq", "engine": "single_choice@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.mcq.word-to-meaning.001"], "productionShape": "one_generated_question_per_semantic_row" },
+    { "id": "meaning_to_word_mcq", "engine": "single_choice@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.mcq.meaning-to-word.001"], "productionShape": "one_generated_question_per_semantic_row" },
+    { "id": "word_meaning_matching", "engine": "drag_to_target@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.match.grade1-a.001", "vocab.primary.reviewed.match.grade1-b.001", "vocab.primary.reviewed.match.grade2-a.001", "vocab.primary.reviewed.match.grade2-b.001"], "productionShape": "four_deterministic_four_row_groups" },
+    { "id": "spelling_unscramble", "engine": "sequence_order@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.unscramble.001"], "productionShape": "one_generated_question_per_semantic_row" },
+    { "id": "word_recognition", "engine": "word_search@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.word-search.grade1-a.001", "vocab.primary.reviewed.word-search.grade1-b.001", "vocab.primary.reviewed.word-search.grade2-a.001", "vocab.primary.reviewed.word-search.grade2-b.001"], "productionShape": "four_deterministic_four_row_groups" },
+    { "id": "meaning_crossword", "engine": "crossword@1", "status": "semantically_applicable", "coverage": "all_16", "recipeTemplateRefs": ["vocab.primary.reviewed.crossword.grade1-a.001", "vocab.primary.reviewed.crossword.grade1-b.001", "vocab.primary.reviewed.crossword.grade1-c.001", "vocab.primary.reviewed.crossword.grade1-d.001", "vocab.primary.reviewed.crossword.grade2-a.001", "vocab.primary.reviewed.crossword.grade2-b.001"], "productionShape": "six_deterministic_connected_groups" },
+    { "id": "word_meaning_memory", "engine": "memory_pairs@1", "status": "semantically_applicable_deferred_visual_quality_gate", "coverage": "not_productionised_in_batch", "recipeTemplateRefs": [], "productionShape": "not_compiled_in_batch", "rationale": "Word-to-definition memory cards add many short text-only card faces to the repository-wide visual-friendly denominator. This optional form is deferred until exact visual support can be added without weakening the 40% quality gate or inventing special-case visuals." },
+    { "id": "meaning_fill", "engine": "word_bank_fill@1", "status": "semantically_applicable_deferred_visual_quality_gate", "coverage": "not_productionised_in_batch", "recipeTemplateRefs": [], "productionShape": "not_compiled_in_batch", "rationale": "The existing generic word-bank formatter exposes short reviewed definitions as visual-friendly bank items. Producing all 16 lowers the repository-wide visual-friendly coverage gate below 40%, so this optional form remains deferred rather than weakening the gate or adding special-case visuals/runtime." }
+  ],
+  "deterministicGroups": [
+    { "id": "grade1-a", "entryIds": ["ask", "come", "fast", "find"] },
+    { "id": "grade1-b", "entryIds": ["full", "go", "old", "put"] },
+    { "id": "grade2-a", "entryIds": ["environment", "floor", "guide", "library"] },
+    { "id": "grade2-b", "entryIds": ["minute", "notice", "pull", "regular"] }
+  ],
+  "excludedExistingFormatterSurfaces": [
+    { "engine": "print_cards@1", "reason": "Existing output-contract formatter is not a Vocabulary Playground question surface, so it is outside issue #105 delivery proof." }
+  ],
+  "crosswordGroups": [
+    { "id": "grade1-a", "entryIds": ["ask", "fast"] },
+    { "id": "grade1-b", "entryIds": ["come", "go"] },
+    { "id": "grade1-c", "entryIds": ["find", "old"] },
+    { "id": "grade1-d", "entryIds": ["full", "put"] },
+    { "id": "grade2-a", "entryIds": ["environment", "floor", "guide", "library"] },
+    { "id": "grade2-b", "entryIds": ["minute", "notice", "pull", "regular"] }
+  ]
+}

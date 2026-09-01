@@ -13,7 +13,8 @@
     "importedGlossRuntimeAllowed": false,
     "explicitEditorialReviewRequired": true,
     "requiredReviewAuthority": "human_editor",
-    "profilePlacementsAreReviewRecordsOnly": true
+    "profilePlacementsAreReviewRecordsOnly": true,
+    "pendingPlacementCandidatesAreNonAuthoritative": true
   },
   "summary": {
     "packetWords": 40,
@@ -112,5 +113,200 @@
       "childExample": "We eat our meals at regular times."
     }
   ],
+  "profilePlacementReviewQueue": {
+    "status": "pending_human_editorial_review",
+    "requiredReviewAuthority": "human_editor",
+    "candidateOnly": true,
+    "mayMutateProfileMembership": false,
+    "mayInferFromGradeOrCorpus": false,
+    "mayClaimBoardOrExamAlignment": false,
+    "evidenceBoundary": "Candidate placements come only from review-only profile slices. Presence in a grade/corpus slice is a review signal and does not approve curriculum or exam membership.",
+    "items": [
+      {
+        "lemma": "environment",
+        "rowId": "kr.vocab.primary.meaning.environment.environment-n-2",
+        "selectedCandidateId": "environment#n#2",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "floor",
+        "rowId": "kr.vocab.primary.meaning.floor.floor-n-1",
+        "selectedCandidateId": "floor#n#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "guide",
+        "rowId": "kr.vocab.primary.meaning.guide.guide-n-2",
+        "selectedCandidateId": "guide#n#2",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "library",
+        "rowId": "kr.vocab.primary.meaning.library.library-n-3",
+        "selectedCandidateId": "library#n#3",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "minute",
+        "rowId": "kr.vocab.primary.meaning.minute.minute-n-1",
+        "selectedCandidateId": "minute#n#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "notice",
+        "rowId": "kr.vocab.primary.meaning.notice.notice-n-1",
+        "selectedCandidateId": "notice#n#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "pull",
+        "rowId": "kr.vocab.primary.meaning.pull.pull-v-1",
+        "selectedCandidateId": "pull#v#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      },
+      {
+        "lemma": "regular",
+        "rowId": "kr.vocab.primary.meaning.regular.regular-a-1",
+        "selectedCandidateId": "regular#a#1",
+        "status": "pending_human_editorial_review",
+        "candidatePlacements": [
+          {
+            "profileRef": "CBSE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CBSE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "CISCE_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/CISCE_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          },
+          {
+            "profileRef": "SOF_INDIA_CLASS2",
+            "evidenceRef": "content/lexicon/open/profile-slices/SOF_INDIA_CLASS2-grade-2-introduced-meaning.json",
+            "rationale": "Lemma appears in this profile's review-only grade slice; explicit human placement approval is still required."
+          }
+        ]
+      }
+    ]
+  },
   "profilePlacements": []
 }
