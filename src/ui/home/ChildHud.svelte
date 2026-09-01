@@ -36,59 +36,12 @@
 </header>
 
 <style>
-  .child-hud {
-    min-width: 0;
-    min-height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 5px 9px;
-    border: 1px solid rgba(36, 48, 58, .08);
-    border-radius: 16px;
-    background: rgba(255,255,255,.92);
-  }
-
-  .child-hud__player {
-    min-width: 0;
-    min-height: 42px;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 2px 7px 2px 2px;
-    border: 0;
-    border-radius: 13px;
-    background: transparent;
-    color: var(--ink);
-    font: inherit;
-    cursor: pointer;
-  }
-
-  .child-hud__player:focus-visible,
-  .child-hud__player:hover { background: var(--accent-soft); }
-
-  .child-hud__avatar { width: 38px; height: 38px; flex: 0 0 auto; }
-  .child-hud__player strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: .94rem; }
-
-  .child-hud__progress { display: flex; align-items: center; gap: 6px; flex: 0 0 auto; }
-  .hud-pill {
-    min-height: 34px;
-    display: inline-flex;
-    align-items: center;
-    gap: 3px;
-    padding: 5px 9px;
-    border-radius: 999px;
-    background: #fff7d7;
-    font-size: .72rem;
-    font-weight: 850;
-  }
-  .hud-pill--level { background: var(--accent-soft); color: var(--accent); letter-spacing: .035em; }
-  .hud-pill strong { font-size: .88rem; }
-
-  @media (max-width: 430px) {
-    .child-hud { min-height: 44px; padding: 3px 6px; }
-    .child-hud__player { min-height: 38px; }
-    .child-hud__avatar { width: 34px; height: 34px; }
-    .hud-pill { min-height: 30px; padding: 4px 7px; font-size: .64rem; }
-  }
+  .child-hud{min-height:46px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 8px;border:1px solid #24303a14;border-radius:15px;background:#fffffff2}
+  .child-hud__player{min-width:0;min-height:40px;display:flex;align-items:center;gap:6px;padding:2px 6px 2px 2px;border:0;border-radius:12px;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
+  .child-hud__player:hover,.child-hud__player:focus-visible{background:var(--accent-soft)}
+  .child-hud__avatar{width:36px;height:36px;flex:none}
+  .child-hud__player strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .child-hud__progress{display:flex;gap:5px;flex:none}
+  .hud-pill{min-height:32px;display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border-radius:999px;background:#fff7d7;font-size:.68rem;font-weight:850}
+  .hud-pill--level{background:var(--accent-soft);color:var(--accent)}
 </style>
