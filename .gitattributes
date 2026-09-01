@@ -1,0 +1,2 @@
+# Deterministic tracked generated projection: compiler writes LF on every platform.
+content/vocabulary-visuals/__generated-runtime-plans.json text eol=lf
