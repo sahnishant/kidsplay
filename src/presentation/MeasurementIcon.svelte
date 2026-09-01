@@ -2,7 +2,7 @@
   let { icon }: { icon: string } = $props();
 </script>
 
-<svg class="measurement-icon" viewBox="0 0 120 100" aria-hidden="true">
+<svg viewBox="0 0 120 100" width="100%" height="100%" style="overflow:visible" aria-hidden="true">
   {#if icon === 'thermometer'}
     <g>
       <rect x="49" y="10" width="22" height="58" rx="11" fill="#edf6f8" stroke="#526c76" stroke-width="3" />
@@ -35,7 +35,3 @@
     </g>
   {/if}
 </svg>
-
-<style>
-  .measurement-icon { width: 100%; height: 100%; overflow: visible; }
-</style>
