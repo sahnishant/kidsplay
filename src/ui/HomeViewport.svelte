@@ -41,13 +41,13 @@
   ];
   const storyLocations = getStoryLocations();
   const storyMissions = getStoryMissions();
-  const patternMockEntryId = catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null;
 
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
   let storyStars = $derived(storyStarTotal(storyProgress));
   let currentLevel = $derived(currentStoryLocation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)?.progression.level ?? null);
+  let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
 
   function updateName(event: Event): void {
     onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value });
