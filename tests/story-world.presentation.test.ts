@@ -20,9 +20,9 @@ async function advanceMissionStory(): Promise<void> {
   }
 }
 
-const plantsRecommendation: TopicProgressSummary = {
-  id: 'plants',
-  label: 'Plants',
+const safetyRecommendation: TopicProgressSummary = {
+  id: 'safety',
+  label: 'Safety',
   practicedKnowledge: 0,
   strongKnowledge: 0,
   accuracy: null,
@@ -59,8 +59,8 @@ describe('Dheu viewport story-world presentation', () => {
       }
     });
 
-    expect(screen.getByRole('heading', { name: 'Home & Garden Helpers' })).toBeTruthy();
-    expect(screen.getByText('LEVEL 3')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
+    expect(screen.getByText('LEVEL 1')).toBeTruthy();
     expect(screen.getByLabelText('5 of 9 places open; 0 complete')).toBeTruthy();
     expect(screen.queryByRole('dialog')).toBeNull();
 
@@ -89,15 +89,15 @@ describe('Dheu viewport story-world presentation', () => {
     expect(onStartMission).toHaveBeenCalledWith('mission.puppy-by-pond');
   });
 
-  it('uses one recommended unlocked expedition as the visual current level', async () => {
+  it('keeps the first incomplete explicit level current even when adaptive focus recommends a later topic', async () => {
     const onExploreLocation = vi.fn();
     render(StoryWorld, {
       props: {
         childName: 'Mira',
         childAvatar: 'fox',
         storyProgress: emptyStoryProgress(),
-        recommendedTopics: [plantsRecommendation],
-        topicProgress: [plantsRecommendation],
+        recommendedTopics: [safetyRecommendation],
+        topicProgress: [safetyRecommendation],
         onStartMission: vi.fn(),
         onExploreLocation
       }
