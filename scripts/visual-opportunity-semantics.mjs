@@ -42,47 +42,42 @@ export function classifyVisualSemantic(semanticRef, roleSets) {
   return 'concrete_or_authored';
 }
 
+const production = (template, costClass, familyKey) => ({
+  template,
+  costClass,
+  familyKey,
+  automaticEligible: true
+});
+const review = () => ({
+  template: 'review_required',
+  costClass: 'high',
+  familyKey: null,
+  automaticEligible: false
+});
+
 export function recommendVisualRecipeTemplate(entry) {
   const key = normalizeVisualSemantic(entry.semanticRef || entry.label);
   const category = entry.category ?? 'label_only';
 
-  // Frequency is prioritization evidence, never semantic authority. Vocabulary
-  // meanings, object-side predicates, label-only rows, and otherwise-unmatched
-  // subjects stay in review until an explicit visual family is defensible.
-  if (category === 'vocabulary_review' || category === 'predicate_review' || category === 'label_only') {
-    return { template: 'review_required', costClass: 'high', automaticEligible: false };
-  }
+  // Frequency is prioritization evidence, never semantic authority. Review-only
+  // semantics never get a familyKey, so aggregation cannot promote them.
+  if (category === 'vocabulary_review' || category === 'predicate_review' || category === 'label_only') return review();
 
-  if (/\b(length|mass|capacity|temperature|volume|weight)\b/.test(key)) {
-    return { template: 'measurement', costClass: 'low', automaticEligible: true };
-  }
-  if (/\b(transparent|opaque|hot|cold|heavy|light|rough|smooth|hard|soft)\b/.test(key)) {
-    return { template: 'contrast.pair', costClass: 'low', automaticEligible: true };
-  }
-  if (/\b(orbit|revolution|satellite)\b/.test(key)) {
-    return { template: 'orbit', costClass: 'low', automaticEligible: true };
-  }
-  if (/\b(living|nonliving|source|group|type|class)\b/.test(key)) {
-    return { template: 'classification', costClass: 'low', automaticEligible: true };
-  }
-  if (/\b(open|closed|full|empty|state)\b/.test(key)) {
-    return { template: 'state.before-after', costClass: 'low', automaticEligible: true };
-  }
-  if (/\b(condensation|evaporation|germination|grow|melt|freeze|fill|cycle|sequence|stage)\b/.test(key)) {
-    return { template: 'process.transform', costClass: 'medium', automaticEligible: true };
-  }
-  if (/\b(clay soil|sandy soil|loamy soil|humus)\b/.test(key)) {
-    return { template: 'entity.single', costClass: 'medium', automaticEligible: true };
-  }
-  if (/\b(part|root|stem|leaf|organ)\b/.test(key)) {
-    return { template: 'relation.source-target', costClass: 'medium', automaticEligible: true };
-  }
-  if (/\b(reduce|reuse|recycle|shadow|reflect|absorb|flow|exercise)\b/.test(key)) {
-    return { template: 'relation.source-target', costClass: 'medium', automaticEligible: true };
-  }
-  if (/\b(gas spreads|gas spread)\b/.test(key)) {
-    return { template: 'process.sequence', costClass: 'medium', automaticEligible: true };
-  }
+  if (/\b(length|mass|capacity|temperature|volume|weight)\b/.test(key)) return production('measurement', 'low', 'measurement');
+  if (/\b(transparent|opaque)\b/.test(key)) return production('contrast.pair', 'low', 'material-contrast');
+  if (/\b(hot|cold)\b/.test(key)) return production('contrast.pair', 'low', 'temperature-contrast');
+  if (/\b(heavy|light)\b/.test(key)) return production('contrast.pair', 'low', 'mass-contrast');
+  if (/\b(rough|smooth)\b/.test(key)) return production('contrast.pair', 'low', 'texture-contrast');
+  if (/\b(hard|soft)\b/.test(key)) return production('contrast.pair', 'low', 'hardness-contrast');
+  if (/\b(orbit|revolution|satellite)\b/.test(key)) return production('orbit', 'low', 'orbit');
+  if (/\b(living|nonliving|source|group|type|class)\b/.test(key)) return production('classification', 'low', 'classification');
+  if (/\b(open|closed|full|empty|state)\b/.test(key)) return production('state.before-after', 'low', 'state-change');
+  if (/\b(condensation|evaporation|germination|grow|melt|freeze|fill|cycle|sequence|stage)\b/.test(key)) return production('process.transform', 'medium', 'process-change');
+  if (/\b(clay soil|sandy soil|loamy soil|humus)\b/.test(key)) return production('entity.single', 'medium', 'soil-family');
+  if (/\b(part|root|stem|leaf|organ)\b/.test(key)) return production('relation.source-target', 'medium', 'part-whole');
+  if (/\b(reduce|reuse|recycle)\b/.test(key)) return production('process.sequence', 'medium', 'environmental-actions');
+  if (/\b(shadow|reflect|absorb|flow|exercise)\b/.test(key)) return production('relation.source-target', 'medium', 'relation-actions');
+  if (/\b(gas spreads|gas spread)\b/.test(key)) return production('process.sequence', 'medium', 'gas-process');
 
-  return { template: 'review_required', costClass: 'high', automaticEligible: false };
+  return review();
 }

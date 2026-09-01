@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import { buildProductionFamilyQueue } from './visual-family-roi-core.mjs';
 import {
   buildVisualSemanticRoleSets,
   classifyVisualSemantic,
@@ -163,6 +164,7 @@ const scored = [...opportunities.values()].map((entry) => {
     profiles: [...entry.profiles].sort(),
     suggestedTemplate: recommendation.template,
     costClass: recommendation.costClass,
+    familyKey: recommendation.familyKey,
     automaticEligible: recommendation.automaticEligible,
     roiScore,
     exampleQuestionIds: [...entry.questionIds].slice(0, 5)
@@ -171,12 +173,15 @@ const scored = [...opportunities.values()].map((entry) => {
 
 const productionQueue = scored.filter((entry) => entry.automaticEligible);
 const reviewQueue = scored.filter((entry) => !entry.automaticEligible);
+const familyQueue = buildProductionFamilyQueue(productionQueue);
 const result = {
   recipes: recipes.length,
   unresolvedInstances,
   uniqueOpportunities: scored.length,
   productionCandidates: productionQueue.length,
   reviewCandidates: reviewQueue.length,
+  productionFamilies: familyQueue.length,
+  familyQueue: familyQueue.slice(0, limit),
   queue: productionQueue.slice(0, limit),
   reviewQueue: reviewQueue.slice(0, limit)
 };
@@ -185,10 +190,14 @@ if (jsonMode) {
   console.log(JSON.stringify(result, null, 2));
 } else {
   console.log(`Semantic visual recipe ROI queue: ${recipes.length} authored recipe(s); ${unresolvedInstances} unresolved visual-friendly instance(s) across ${scored.length} unique opportunity key(s).`);
-  console.log(`${productionQueue.length} production candidate(s); ${reviewQueue.length} semantic-review candidate(s) kept out of automatic production.`);
-  console.log('\nProduction queue:');
+  console.log(`${productionQueue.length} production candidate(s) across ${familyQueue.length} reusable family/families; ${reviewQueue.length} semantic-review candidate(s) kept out of automatic production.`);
+  console.log('\nProduction family queue:');
+  for (const family of familyQueue.slice(0, limit)) {
+    console.log(`- ${family.familyKey}: score=${family.roiScore}; ×${family.occurrenceCount}; semantics=${family.semanticRefs.join(', ')}; engines=${family.engineBreadth}; profiles=${family.profileBreadth}`);
+  }
+  console.log('\nProduction semantic queue:');
   for (const entry of productionQueue.slice(0, limit)) {
-    console.log(`- ${entry.semanticRef ?? entry.label}: score=${entry.roiScore}; ×${entry.occurrenceCount}; engines=${entry.engineBreadth}; profiles=${entry.profileBreadth}; template=${entry.suggestedTemplate}; cost=${entry.costClass}; category=${entry.category}`);
+    console.log(`- ${entry.semanticRef ?? entry.label}: score=${entry.roiScore}; family=${entry.familyKey}; ×${entry.occurrenceCount}; engines=${entry.engineBreadth}; profiles=${entry.profileBreadth}; template=${entry.suggestedTemplate}; cost=${entry.costClass}; category=${entry.category}`);
   }
   console.log('\nHuman semantic-review queue:');
   for (const entry of reviewQueue.slice(0, Math.min(limit, 10))) {

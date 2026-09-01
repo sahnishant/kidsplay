@@ -1,0 +1,26 @@
+[
+  {
+    "id": "entity.environment.reduce-sample",
+    "renderer": "environmental-action-icon",
+    "glyph": "reduce-sample",
+    "label": "Use fewer items sample",
+    "motion": "pulse",
+    "aliases": ["fewer items sample", "use fewer items sample"]
+  },
+  {
+    "id": "entity.environment.reuse-sample",
+    "renderer": "environmental-action-icon",
+    "glyph": "reuse-sample",
+    "label": "Use the same item again sample",
+    "motion": "spin",
+    "aliases": ["same item again sample", "use again sample"]
+  },
+  {
+    "id": "entity.environment.recycle-sample",
+    "renderer": "environmental-action-icon",
+    "glyph": "recycle-sample",
+    "label": "Recycling loop sample",
+    "motion": "pulse",
+    "aliases": ["recycling loop sample", "material recycling sample"]
+  }
+]
