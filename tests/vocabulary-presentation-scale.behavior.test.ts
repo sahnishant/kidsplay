@@ -183,6 +183,45 @@ describe('scalable visual dictionary presentation compiler', () => {
     })).toThrow(/duplicate requested sense keys/i);
   });
 
+  it('collapses equivalent many-to-one knowledge mappings to one semantic presentation and rejects conflicts', () => {
+    const runtimeGroups = new Map<string, any[]>();
+    for (const plan of runtime.plans) {
+      const values = runtimeGroups.get(plan.senseKey) ?? [];
+      values.push(plan);
+      runtimeGroups.set(plan.senseKey, values);
+    }
+    const duplicate = [...runtimeGroups.entries()].find(([, plans]) => plans.length > 1);
+    expect(duplicate).toBeTruthy();
+    const [senseKey, equivalentPlans] = duplicate!;
+
+    const slice = compilePresentationSlice({
+      items: sourceItems,
+      requestedSenseKeys: [senseKey],
+      contract,
+      runtimePlans: equivalentPlans
+    });
+    expect(slice.plans).toHaveLength(1);
+    expect(slice.plans[0]).toMatchObject({
+      senseKey,
+      runtimePlanCount: equivalentPlans.length
+    });
+    expect(slice.summary).toMatchObject({
+      requested: 1,
+      runtimeMappings: equivalentPlans.length
+    });
+
+    const conflict = {
+      ...equivalentPlans[1],
+      parameters: { ...equivalentPlans[1].parameters, __conflictProbe: true }
+    };
+    expect(() => compilePresentationSlice({
+      items: sourceItems,
+      requestedSenseKeys: [senseKey],
+      contract,
+      runtimePlans: [equivalentPlans[0], conflict]
+    })).toThrow(/conflicting runtime presentation plans/i);
+  });
+
   it('detects runtime projection drift instead of letting presentation data mutate meaning', () => {
     const item = source('enormous#very-large-size');
     const plan = runtimePlan('enormous#very-large-size');
