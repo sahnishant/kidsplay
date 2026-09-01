@@ -44,22 +44,30 @@ export interface ItemVisualPresentationOptions {
   decorative?: boolean;
 }
 
+function recipeSurfaceForContext(context: VisualContext): VisualRecipeSurface {
+  if (context === 'word-bank' || context === 'drag-item' || context === 'drag-target') return context;
+  if (context === 'feedback' || context === 'dashboard') return context;
+  return 'option';
+}
+
 /**
  * Canonical item-to-presentation resolver for every interactive engine.
  * Semantic/recipe authority stays in the existing registries; this normalizes
  * the result into the same typed presenter contract used by the other visual
- * capabilities.
+ * capabilities. Engine-specific recipe surfaces are preserved: a word-bank,
+ * drag item or drag target must never silently inherit option-surface policy.
  */
 export function resolveItemVisualPresentation(
   item: PresentableVisualItem,
   {
     allowLabelInference = true,
-    recipeSurface = 'option',
+    recipeSurface,
     context = 'option',
     decorative = true
   }: ItemVisualPresentationOptions = {}
 ): EntityVisualPresentation {
-  const visualRefs = resolveItemVisualRefs(item, allowLabelInference, recipeSurface);
+  const effectiveRecipeSurface = recipeSurface ?? recipeSurfaceForContext(context);
+  const visualRefs = resolveItemVisualRefs(item, allowLabelInference, effectiveRecipeSurface);
   return {
     kind: 'entities',
     visualRefs,
