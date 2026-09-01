@@ -91,6 +91,13 @@ describe('semantic animation science and process expansion', () => {
     })?.id).toBe('animation.wind.sailboat');
   });
 
+  it('sizes semantic composition parts against the embedding surface when supported', () => {
+    const source = readFileSync('src/presentation/SemanticAnimation.svelte', 'utf8');
+    expect(source).toContain('container-type: inline-size');
+    expect(source).toContain('@supports (width: 1cqw)');
+    expect(source).toContain('24cqw');
+  });
+
   it('keeps germination aligned to reviewed process order and understandable without motion', () => {
     const processes = readJson<ProcessRow[]>('content/knowledge/vocabulary-processes.json');
     const process = processes.find((candidate) =>
