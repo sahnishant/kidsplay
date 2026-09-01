@@ -7,14 +7,16 @@
       "single_candidate_reference",
       "candidate_set_reference",
       "historical_frozen_reference",
-      "human_reviewed_exact_reference"
+      "human_reviewed_exact_reference",
+      "sol_max_reviewed_exact_reference"
     ],
     "resolutionStates": [
       "not_resolved",
       "blocked_unresolved",
       "candidate_exact_terminal",
       "historical_resolved",
-      "human_resolved"
+      "human_resolved",
+      "sol_max_resolved"
     ],
     "dispositionStates": [
       "candidate_only",
@@ -102,17 +104,18 @@
       "runtimeAuthority": "none"
     },
     {
-      "id": "human_reviewed_candidate_selection",
+      "id": "sol_max_reviewed_exact_sense",
       "semanticReviewAuthority": true,
       "historicalMigrationOnly": false,
       "requiresPinnedCandidateTrace": true,
+      "requiresExternalReviewEvidence": true,
       "canCreateDisposition": true,
       "canResolveSense": true,
       "canSelectMultiCandidate": true,
-      "canClaimHumanReview": true,
-      "allowedManifestStatuses": ["human_reviewed_exact_sense"],
+      "canClaimHumanReview": false,
+      "allowedManifestStatuses": ["sol_max_reviewed_exact_sense"],
       "allowedDispositionStates": ["reviewed_strategy", "terminal_textual"],
-      "allowedResolutionStates": ["human_resolved"],
+      "allowedResolutionStates": ["sol_max_resolved"],
       "maxSemanticMaturity": "V2",
       "runtimeAuthority": "none"
     },
