@@ -21,7 +21,11 @@ const requiredString = (value, label) => {
   if (!result) throw new Error(`Review authority requires ${label}`);
   return result;
 };
-const gitBlobSha = (text) => createHash('sha1').update(`blob ${Buffer.byteLength(text)}\0${text}`).digest('hex');
+const normalizeRepositoryText = (text) => String(text).replace(/\r\n?/g, '\n');
+const gitBlobSha = (text) => {
+  const canonical = normalizeRepositoryText(text);
+  return createHash('sha1').update(`blob ${Buffer.byteLength(canonical)}\0${canonical}`).digest('hex');
+};
 
 const authorityModel = readJson(authorityModelPath);
 const inventory = readJson(inventoryPath);
