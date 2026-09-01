@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "priority-batch-003",
+  "sequence": 3,
+  "issueRef": 93,
+  "parentIssueRef": 76,
+  "status": "reviewed_terminal_visual_disposition",
+  "source": {
+    "kind": "priority_gap",
+    "expectedItemCount": 2205,
+    "expectedSemanticFingerprint": "edb6d451af8d5709874a336005384773d0bc5826e7ce23691fb77a8a0f957b96",
+    "snapshotPath": "content/vocabulary-visuals/__generated-priority-gap-pre-batch-003.json",
+    "snapshotStatus": "generated_review_queue_pre_batch_003",
+    "sourceQueueIssueRef": 88
+  },
+  "output": {
+    "path": "content/vocabulary-visuals/batches/__generated-priority-batch-003.json",
+    "outputId": "vocabulary.visual-strategy.priority-batch-003-terminal",
+    "expectedItemFingerprint": "e0881f110620cc141d5378e18ed2ae889cee053706523a7797a285548b6623f8"
+  },
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "sourceGlossesIncluded": false,
+    "sourceExamplesIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false,
+    "runtimeMappingCreated": false,
+    "childDefinitionApprovalInferred": false,
+    "v2OrHigherMaturityCreated": false,
+    "exactSingleCandidateMayDefaultToTextualOnly": true,
+    "multiCandidateSenseSelectionAllowed": false
+  },
+  "defaults": {
+    "maturity": "V1",
+    "motionPolicy": "none"
+  },
+  "terminalReview": {
+    "coverEntireSource": true,
+    "rules": [
+      {
+        "when": { "candidateSenseCount": 1 },
+        "senseKey": "only_candidate",
+        "strategy": "textual_only",
+        "answerSafety": "neutral_safe",
+        "reviewSource": "single_candidate_terminal_text_only"
+      },
+      {
+        "when": { "candidateSenseCountMin": 2 },
+        "senseKey": "$lemma#unresolved",
+        "strategy": "sense_unresolved",
+        "answerSafety": "explanation_only",
+        "reviewSource": "polysemy_terminal_unresolved"
+      }
+    ]
+  }
+}
