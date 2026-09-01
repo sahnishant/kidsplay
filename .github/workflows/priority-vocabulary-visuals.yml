@@ -61,6 +61,13 @@ jobs:
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
 
+      - name: Prove generated artifacts do not dirty tracked source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code
+          test -z "$(git status --short --untracked-files=all)"
+
       - name: Upload final live ranked review queue
         uses: actions/upload-artifact@v7
         with:
