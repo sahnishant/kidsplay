@@ -80,26 +80,35 @@ describe('semantic visual recipe grammar', () => {
     const source = readFileSync('src/presentation/VisualRecipe.svelte', 'utf8');
     expect(source).toContain('data-recipe-template');
     expect(source).toContain('recipe.slots');
-    expect(source).not.toContain("living-things");
-    expect(source).not.toContain("earth-revolution");
+    expect(source).not.toContain('living-things');
+    expect(source).not.toContain('earth-revolution');
   });
 
-  it('produces a deterministic high-ROI queue after authored recipes are removed from the gap set', () => {
-    const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=12'], {
+  it('produces deterministic production and semantic-review ROI lanes', () => {
+    const output = execFileSync(process.execPath, ['scripts/report-visual-recipe-roi.mjs', '--json', '--limit=20'], {
       cwd: process.cwd(),
       encoding: 'utf8'
     });
     const report = JSON.parse(output) as {
       recipes: number;
-      queue: Array<{ semanticRef: string | null; roiScore: number }>;
+      productionCandidates: number;
+      reviewCandidates: number;
+      queue: Array<{ semanticRef: string | null; roiScore: number; automaticEligible: boolean }>;
+      reviewQueue: Array<{ semanticRef: string | null; automaticEligible: boolean; category: string }>;
     };
 
     expect(report.recipes).toBeGreaterThanOrEqual(5);
+    expect(report.productionCandidates).toBeGreaterThan(0);
+    expect(report.reviewCandidates).toBeGreaterThan(0);
     expect(report.queue.length).toBeGreaterThan(0);
     for (let index = 1; index < report.queue.length; index += 1) {
       expect(report.queue[index - 1].roiScore).toBeGreaterThanOrEqual(report.queue[index].roiScore);
     }
+    expect(report.queue.every((entry) => entry.automaticEligible)).toBe(true);
+    expect(report.reviewQueue.every((entry) => !entry.automaticEligible)).toBe(true);
     expect(report.queue.map((entry) => entry.semanticRef)).not.toContain('living-things');
     expect(report.queue.map((entry) => entry.semanticRef)).not.toContain('earth-revolution');
+    expect(report.queue.map((entry) => entry.semanticRef)).not.toContain('ancient-object');
+    expect(report.reviewQueue.some((entry) => entry.semanticRef === 'ancient-object' && entry.category === 'vocabulary_review')).toBe(true);
   });
 });
