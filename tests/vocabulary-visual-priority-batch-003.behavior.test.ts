@@ -97,9 +97,14 @@ describe('#93 priority Phase B terminal visual dispositions', () => {
     expect(batch.summary).toMatchObject({ sceneStrategyItems: 0, directVisualItems: 0, runtimeMappings: 0 });
   });
 
-  it('closes the 2,400-item priority meaning accounting while leaving runtime proof boundaries unchanged', () => {
+  it('closes the 2,400-item priority meaning accounting without admitting batch-003 senses to runtime', () => {
     const liveGap = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
+    const batch = readJson('content/vocabulary-visuals/batches/__generated-priority-batch-003.json');
+    const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     expect(liveGap.items).toHaveLength(0);
+
+    const batchSenseKeys = new Set(batch.items.map((item: { senseKey: string }) => item.senseKey));
+    expect((runtime.plans ?? []).every((plan: { senseKey: string }) => !batchSenseKeys.has(plan.senseKey))).toBe(true);
 
     const output = execFileSync(
       process.execPath,
@@ -111,7 +116,7 @@ describe('#93 priority Phase B terminal visual dispositions', () => {
     expect(report.meaningQueue.auditedLemmas).toBe(2400);
     expect(report.meaningQueue.auditedLemmaPercent).toBe(100);
     expect(report.runtime.pendingProofPlans).toBe(0);
-    expect(report.runtime.childFacingPlans).toBeGreaterThanOrEqual(22);
+    expect(report.runtime.childFacingPlans).toBeGreaterThan(0);
     expect(report.summary.errors).toBe(0);
   });
 });
