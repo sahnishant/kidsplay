@@ -52,18 +52,25 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Generate deterministic priority gap queue
-        run: npm run compile:vocabulary-visual-gap
+      - name: Generate frozen review source, batch 002, and live remaining gap
+        run: npm run compile:vocabulary-visual-gap && npm run compile:vocabulary-visual-batch002
 
-      - name: Prove queue is candidate-only and deterministic
+      - name: Prove queues are candidate-only, deterministic and advanced past batch 002
         run: npx vitest run tests/vocabulary-visual-gap-queue.behavior.test.ts
 
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
 
-      - name: Upload ranked review queue
+      - name: Upload live ranked review queue
         uses: actions/upload-artifact@v7
         with:
           name: priority-vocabulary-visual-gap
           path: content/vocabulary-visuals/__generated-priority-gap.json
+          if-no-files-found: error
+
+      - name: Upload frozen batch-002 source queue
+        uses: actions/upload-artifact@v7
+        with:
+          name: priority-vocabulary-visual-gap-pre-batch-002
+          path: content/vocabulary-visuals/__generated-priority-gap-pre-batch-002.json
           if-no-files-found: error
