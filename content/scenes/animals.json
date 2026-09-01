@@ -6,6 +6,12 @@
     "animationRef": "animation.dog.happy-bone"
   },
   {
+    "id": "scene.dog.curious-bone",
+    "theme": "paper",
+    "ariaLabel": "A curious dog looks toward a bone while a question cue invites the child to think.",
+    "animationRef": "animation.dog.curious-bone"
+  },
+  {
     "id": "scene.dog.wrong-water",
     "theme": "ocean",
     "ariaLabel": "A worried dog near water, showing that this is not its normal habitat.",
