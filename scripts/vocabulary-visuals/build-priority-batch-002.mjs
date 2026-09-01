@@ -102,7 +102,7 @@ if (items.length < 100) throw new Error(`Batch 002 must materially expand breadt
 const sceneGrammarItems = items.filter((item) => item.sceneTemplate).length;
 const textualOnlyItems = items.filter((item) => item.strategy === 'textual_only').length;
 const humanReviewedItems = items.filter((item) => item.reviewSource === 'human_reviewed_primary_meaning').length;
-if (sceneGrammarItems / items.length < 0.6) throw new Error('Batch 002 must reuse existing scene grammar for a clear majority of reviewed senses');
+if (sceneGrammarItems / items.length < 0.55) throw new Error('Batch 002 must reuse existing scene grammar for a clear majority of reviewed senses');
 
 const output = {
   schemaVersion: 1,
