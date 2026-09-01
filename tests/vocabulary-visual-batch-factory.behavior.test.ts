@@ -12,6 +12,7 @@ const ledgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 const manifest2Path = 'content/vocabulary-visuals/review-batches/priority-batch-002.json';
 const manifest3Path = 'content/vocabulary-visuals/review-batches/priority-batch-003.json';
 const manifest4Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json';
+const manifest5Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.json';
 const compilerPath = resolve(process.cwd(), 'scripts/vocabulary-visuals/compile-reviewed-batches.mjs');
 const forbiddenPayloadKeys = ['definition', 'definitions', 'gloss', 'sourceGloss', 'example', 'examples', 'childDefinition', 'profileRef'];
 
@@ -59,12 +60,14 @@ describe('#94 generic semantic-vocabulary review-batch factory', () => {
     const manifest2 = readJson(manifest2Path);
     const manifest3 = readJson(manifest3Path);
     const manifest4 = readJson(manifest4Path);
+    const manifest5 = readJson(manifest5Path);
 
     expect(ledger).toMatchObject({ schemaVersion: 1, parentIssueRef: 76, generatedFilePolicy: 'rebuild_and_ignore' });
     expect(ledger.batches.map((entry: { id: string }) => entry.id)).toEqual([
       'priority-batch-002',
       'priority-batch-003',
-      'priority-sense-resolution-001'
+      'priority-sense-resolution-001',
+      'priority-sense-resolution-002'
     ]);
     expect(new Set(ledger.batches.map((entry: { id: string }) => entry.id)).size).toBe(ledger.batches.length);
     expect(new Set(ledger.batches.map((entry: { sequence: number }) => entry.sequence)).size).toBe(ledger.batches.length);
@@ -84,8 +87,30 @@ describe('#94 generic semantic-vocabulary review-batch factory', () => {
         claimsHumanEditorialReview: false
       }
     });
+    expect(manifest5).toMatchObject({
+      sequence: 5,
+      issueRef: 106,
+      status: 'sol_max_reviewed_exact_sense',
+      source: {
+        kind: 'reviewed_items_file',
+        expectedItemCount: 18
+      },
+      authority: {
+        defaultKind: 'sol_max_reviewed_exact_sense',
+        resolutionState: 'sol_max_resolved',
+        runtimeAuthority: 'none'
+      },
+      reviewEvidence: {
+        kind: 'sol_max_row_level_acceptance',
+        pullRequest: 109,
+        reviewNodeId: 'PRR_kwDOUHzR8c8AAAABLo97tQ',
+        reviewedSemanticHeadSha: 'c37833a9fafd8c6fc71dcd25b858e5b11b9a46c9',
+        acceptedRows: 18,
+        claimsHumanEditorialReview: false
+      }
+    });
 
-    const serialized = JSON.stringify({ ledger, manifest2, manifest3, manifest4 });
+    const serialized = JSON.stringify({ ledger, manifest2, manifest3, manifest4, manifest5 });
     for (const key of forbiddenPayloadKeys) expect(serialized).not.toContain(`\"${key}\"`);
     expect(readText('.gitignore')).toContain('content/vocabulary-visuals/batches/__generated-*.json');
     expect(readText('.gitignore')).toContain('content/vocabulary-visuals/__generated-*.json');
@@ -189,12 +214,14 @@ describe('#94 generic semantic-vocabulary review-batch factory', () => {
     const manifest2 = readJson(manifest2Path);
     const manifest3 = readJson(manifest3Path);
     const manifest4 = readJson(manifest4Path);
+    const manifest5 = readJson(manifest5Path);
     const fingerprintState = () => ({
       source2: sourceFingerprint(readJson(manifest2.source.snapshotPath)),
       source3: sourceFingerprint(readJson(manifest3.source.snapshotPath)),
       batch2: itemsFingerprint(readJson(manifest2.output.path).items),
       batch3: itemsFingerprint(readJson(manifest3.output.path).items),
-      exactReview: itemsFingerprint(readJson(manifest4.output.path).items)
+      exactReview1: itemsFingerprint(readJson(manifest4.output.path).items),
+      exactReview2: itemsFingerprint(readJson(manifest5.output.path).items)
     });
     const first = fingerprintState();
     runCompiler();
