@@ -2,7 +2,7 @@
   let { icon }: { icon: string } = $props();
 </script>
 
-<svg class="material-property-icon" viewBox="0 0 120 100" aria-hidden="true">
+<svg viewBox="0 0 120 100" width="100%" height="100%" style="overflow:visible" aria-hidden="true">
   {#if icon === 'transparent-sample'}
     <g>
       <circle cx="14" cy="50" r="8" fill="#f3c957" stroke="#9b7628" stroke-width="2.5" />
@@ -25,7 +25,3 @@
     </g>
   {/if}
 </svg>
-
-<style>
-  .material-property-icon { width: 100%; height: 100%; overflow: visible; }
-</style>
