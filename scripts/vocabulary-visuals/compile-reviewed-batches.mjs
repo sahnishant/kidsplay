@@ -15,6 +15,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = new URL('../../', import.meta.url);
 const implementationPath = fileURLToPath(new URL('./compile-reviewed-batches-impl.mjs', import.meta.url));
+const phaseCPath = fileURLToPath(new URL('./build-corpus-terminal-dispositions.mjs', import.meta.url));
 const defaultLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 const lockDirectory = new URL('../../node_modules/.cache/kidsplay/', import.meta.url);
 const lockPath = new URL('vocabulary-review-batch.lock', lockDirectory);
@@ -69,7 +70,6 @@ const acquireCompilerLock = () => {
       };
     } catch (error) {
       if (error?.code !== 'EEXIST') throw error;
-
       try {
         if (Date.now() - statSync(lockPath).mtimeMs > STALE_LOCK_MS) {
           unlinkSync(lockPath);
@@ -79,13 +79,24 @@ const acquireCompilerLock = () => {
         if (inspectionError?.code === 'ENOENT') continue;
         throw inspectionError;
       }
-
       if (Date.now() >= deadline) {
         throw new Error(`Timed out waiting for vocabulary review-batch compiler lock after ${LOCK_TIMEOUT_MS}ms`);
       }
       sleepSync(50);
     }
   }
+};
+
+const runChild = (scriptPath, args, label) => {
+  const child = spawnSync(process.execPath, [scriptPath, ...args], {
+    cwd: process.cwd(),
+    encoding: 'utf8',
+    stdio: ['inherit', 'pipe', 'pipe']
+  });
+  if (child.stdout) process.stdout.write(child.stdout);
+  if (child.stderr) process.stderr.write(child.stderr);
+  if (child.error) throw child.error;
+  if (child.status !== 0) throw new Error(String(child.stderr || `${label} exited with status ${child.status}`));
 };
 
 const ledgerArg = process.argv.find((arg) => arg.startsWith('--ledger='));
@@ -96,16 +107,9 @@ const snapshot = snapshotGeneratedState();
 let succeeded = false;
 
 try {
-  const child = spawnSync(process.execPath, [implementationPath, ...process.argv.slice(2)], {
-    cwd: process.cwd(),
-    encoding: 'utf8',
-    stdio: ['inherit', 'pipe', 'pipe']
-  });
-  if (child.stdout) process.stdout.write(child.stdout);
-  if (child.stderr) process.stderr.write(child.stderr);
-  if (child.error) throw child.error;
-  if (child.status !== 0) {
-    throw new Error(String(child.stderr || `Vocabulary review-batch compiler exited with status ${child.status}`));
+  runChild(implementationPath, process.argv.slice(2), 'Vocabulary reviewed-batch implementation');
+  if (isDefaultLedger) {
+    runChild(phaseCPath, [], 'Vocabulary Phase C terminal accounting');
   }
   succeeded = true;
 } finally {
