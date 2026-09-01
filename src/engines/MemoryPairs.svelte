@@ -68,7 +68,7 @@
   <p class="memory-pairs__instructions">Turn over two cards. Find the cards that belong together.</p>
   <div class="memory-pairs__grid" role="group" aria-label="Memory cards">
     {#each deck as card, index (card.id)}
-      {@const visual = resolveItemVisualPresentation(card)}
+      {@const visual = resolveItemVisualPresentation(card, { recipeSurface: 'memory-card' })}
       <button
         type="button"
         class={`memory-card${isFaceUp(card.id) ? ' memory-card--face-up' : ''}${matchedCardIds.includes(card.id) ? ' memory-card--matched' : ''}`}
