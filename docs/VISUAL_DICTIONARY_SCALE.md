@@ -77,6 +77,22 @@ The same sense therefore has one stable presentation identity across dictionary,
 
 Changing a semantic strategy remains an editorial/control-plane event. Changing renderer implementation can happen behind the presentation contract without rewriting vocabulary knowledge.
 
+## Knowledge mappings are not sense identities
+
+A semantic sense may legitimately support more than one canonical knowledge row. For example, a single reviewed meaning can appear in a direct meaning relation and an antonym relation without becoming two different visual meanings.
+
+The presentation compiler therefore treats runtime mappings as many-to-one:
+
+```text
+knowledge row A ─┐
+                 ├── exact sense ── one presentation identity
+knowledge row B ─┘
+```
+
+Equivalent same-sense runtime mappings are collapsed deterministically for presentation and their mapping count is retained for accounting. If two runtime mappings for one exact sense disagree on strategy, maturity, answer safety, template, visual reference, or semantic parameters, compilation fails closed rather than choosing one.
+
+Metrics must consequently report **knowledge/runtime mappings** separately from **unique semantic senses**.
+
 ## Bounded slice compilation
 
 `scripts/vocabulary-visuals/presentation-compiler.mjs` accepts:
@@ -92,6 +108,7 @@ The compiler fails closed on:
 
 - duplicate source sense keys;
 - duplicate requested sense keys;
+- conflicting same-sense runtime mappings;
 - runtime projection drift from source strategy/template/parameters;
 - unresolved senses;
 - missing senses;
@@ -126,6 +143,8 @@ It has three presentation densities:
 
 The presenter never sources definitions/examples from OEWN. The caller owns child-authored text authority.
 
+The presenter also carries an explicit presentation phase. Dictionary/explanation use is the default. If a future caller invokes the component during `assessment_pre_answer`, any visual whose existing #76 `answerSafety` is not `neutral_safe` is suppressed to text even when the sense already has V5/V6 child-facing proof. This makes answer safety an API invariant rather than a convention left to every future caller.
+
 If no V5/V6 child-facing visual proof exists, the same component remains useful as a text meaning card and exposes the reason through presentation metadata for testing/debugging.
 
 ## Why this scales
@@ -156,11 +175,14 @@ The number of semantic records can grow by orders of magnitude while the present
 - every current #76 strategy maps exactly once to a derived presentation mode;
 - blocked strategies map only to `text`;
 - every runtime plan still has a source strategy item;
+- equivalent many-to-one runtime mappings remain representable while conflicts fail;
 - runtime projection cannot mutate semantic parameters;
 - V3/V4 renderer proof remains separate from V5/V6 child-facing proof;
 - request-order-independent deterministic slice output;
 - browser resolver does not import full-corpus/review artifacts;
-- bounded runtime slice count and serialized payload size are reported.
+- bounded runtime sense count, mapping count and serialized payload size are reported.
+
+Focused presentation tests additionally prove that pre-answer use suppresses non-neutral visuals.
 
 Existing bundle, offline, reduced-motion, answer-safety, provenance, Windows, Browser and Android gates remain authoritative.
 
