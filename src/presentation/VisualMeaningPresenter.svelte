@@ -2,7 +2,7 @@
   import VocabularySemanticScene from './VocabularySemanticScene.svelte';
   import { resolveVisualMeaningPresentation } from './vocabularyPresentation';
 
-  export type VisualMeaningPresenterMode = 'glance' | 'learn' | 'explore';
+  type VisualMeaningPresenterMode = 'glance' | 'learn' | 'explore';
 
   let {
     senseKey,
