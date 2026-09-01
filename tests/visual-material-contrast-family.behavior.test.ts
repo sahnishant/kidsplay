@@ -75,4 +75,22 @@ describe('transparent and opaque material contrast family', () => {
     expect(refs.has('opaque')).toBe(false);
     expect(refs.has('recycle')).toBe(true);
   });
+
+  it('pins the canonical coverage gain from the certified measurement baseline', () => {
+    const output = execFileSync(process.execPath, ['scripts/report-visual-coverage.mjs', '--json'], {
+      cwd: process.cwd(),
+      encoding: 'utf8'
+    });
+    const report = JSON.parse(output) as {
+      library: { entities: number; recipes: number };
+      visualFriendly: { visual: number; total: number; percent: number; recipe: number };
+    };
+
+    expect(report.library.entities).toBe(296);
+    expect(report.library.recipes).toBe(11);
+    expect(report.visualFriendly.total).toBe(1459);
+    expect(report.visualFriendly.visual).toBe(714);
+    expect(report.visualFriendly.percent).toBe(48.9);
+    expect(report.visualFriendly.recipe).toBe(105);
+  });
 });
