@@ -61,12 +61,22 @@ if (errors.length === 0) {
     errors.push('visual presentation slice is not deterministic across request ordering');
   }
 
-  const expectedChildFacing = runtimePlans.filter((plan) =>
+  const expectedChildFacingSenseKeys = new Set(
+    runtimePlans
+      .filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement' && ['V5', 'V6'].includes(plan.maturity))
+      .map((plan) => plan.senseKey)
+  );
+  const expectedChildFacingMappings = runtimePlans.filter((plan) =>
     plan.runtimeUsage === 'knowledge_reinforcement' && ['V5', 'V6'].includes(plan.maturity)
   ).length;
-  if (first.summary.childFacing !== expectedChildFacing) {
+  if (first.summary.childFacing !== expectedChildFacingSenseKeys.size) {
     errors.push(
-      `child-facing visual projection drift: expected ${expectedChildFacing}, compiled ${first.summary.childFacing}`
+      `child-facing semantic-sense projection drift: expected ${expectedChildFacingSenseKeys.size}, compiled ${first.summary.childFacing}`
+    );
+  }
+  if (first.summary.runtimeMappings !== runtimePlans.length) {
+    errors.push(
+      `runtime mapping accounting drift: expected ${runtimePlans.length}, compiled ${first.summary.runtimeMappings}`
     );
   }
   if (first.plans.some((plan) =>
@@ -85,8 +95,10 @@ if (errors.length === 0) {
   console.log('Vocabulary visual presentation scale report');
   console.log(`- semantic strategy source items: ${items.length}`);
   console.log(`- bounded runtime sense slice: ${first.summary.requested}`);
-  console.log(`- child-facing proven visuals: ${first.summary.childFacing}`);
-  console.log(`- renderer-ready plans: ${first.summary.rendererReady}`);
+  console.log(`- runtime knowledge/template mappings represented: ${first.summary.runtimeMappings}`);
+  console.log(`- child-facing proven semantic senses: ${first.summary.childFacing}`);
+  console.log(`- child-facing knowledge mappings: ${expectedChildFacingMappings}`);
+  console.log(`- renderer-ready semantic senses: ${first.summary.rendererReady}`);
   console.log(`- safe text fallbacks in runtime slice: ${first.summary.textFallback}`);
   console.log(`- derived modes: ${JSON.stringify(first.summary.derivedModes)}`);
   console.log(`- delivery modes: ${JSON.stringify(first.summary.deliveryModes)}`);
