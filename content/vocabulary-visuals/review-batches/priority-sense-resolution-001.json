@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "priority-sense-resolution-001",
+  "sequence": 4,
+  "issueRef": 99,
+  "parentIssueRef": 76,
+  "status": "human_reviewed_exact_sense",
+  "authority": {
+    "defaultKind": "human_reviewed_candidate_selection",
+    "runtimeAuthority": "none"
+  },
+  "source": {
+    "kind": "reviewed_items_file",
+    "reviewDataPath": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.items.json",
+    "expectedItemCount": 30,
+    "expectedGitBlobSha": "988af3f62ea0962be2006bd6c35a9ecb76ed545f"
+  },
+  "output": {
+    "path": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-001.json",
+    "projectionMode": "byte_identical_review_source"
+  },
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "sourceGlossesIncluded": false,
+    "sourceExamplesIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false,
+    "runtimeMappingCreated": false,
+    "childDefinitionApprovalInferred": false,
+    "selectedCandidateMustBePinned": true,
+    "selectedCandidateMustEqualSenseKey": true,
+    "maxMaturity": "V2"
+  }
+}
