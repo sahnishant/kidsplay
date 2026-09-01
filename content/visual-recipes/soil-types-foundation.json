@@ -1,0 +1,70 @@
+[
+  {
+    "id": "recipe.soil.sandy-soil",
+    "semanticRef": "sandy-soil",
+    "template": "entity.single",
+    "ariaLabel": "Sandy soil shown as coarse loose grains",
+    "slots": [{ "role": "soil-sample", "visualRef": "entity.soil.sandy-sample", "exposure": "identity" }],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "coarse, loose grains",
+    "costClass": "medium"
+  },
+  {
+    "id": "recipe.soil.clay-soil",
+    "semanticRef": "clay-soil",
+    "template": "entity.single",
+    "ariaLabel": "Clay soil shown as fine compact soil",
+    "slots": [{ "role": "soil-sample", "visualRef": "entity.soil.clay-sample", "exposure": "identity" }],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "fine particles packed closely",
+    "costClass": "medium"
+  },
+  {
+    "id": "recipe.soil.loamy-soil",
+    "semanticRef": "loamy-soil",
+    "template": "entity.single",
+    "ariaLabel": "Loamy soil shown as a mixed crumbly soil that supports plants",
+    "slots": [{ "role": "soil-sample", "visualRef": "entity.soil.loamy-sample", "exposure": "identity" }],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "crumbly mixture that supports plants",
+    "costClass": "medium"
+  },
+  {
+    "id": "recipe.soil.humus",
+    "semanticRef": "humus",
+    "template": "entity.single",
+    "ariaLabel": "Humus shown as dark organic matter with plant remains",
+    "slots": [{ "role": "organic-matter", "visualRef": "entity.soil.humus-sample", "exposure": "identity" }],
+    "surfaces": {
+      "option": "identity_only",
+      "word-bank": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "dark decayed organic matter",
+    "costClass": "medium"
+  }
+]
