@@ -1,4 +1,6 @@
 import { resolveAssetRefForVisualRef } from './assetRegistry';
+import { resolveVisualRecipeRefs } from './visualRecipeRegistry';
+import type { VisualRecipeSurface } from './visualRecipeTypes';
 
 export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon' | 'nature-space-icon' | 'everyday-icon' | 'process-icon' | 'animal-expansion-icon' | 'concept-icon' | 'curriculum-icon' | 'learning-icon' | 'property-icon' | 'class2-concept-icon' | 'class2-final-icon';
 export type VisualMotion =
@@ -119,14 +121,21 @@ export function resolveLabelVisualRefs(label: string): string[] {
   return [...new Set(refs as string[])];
 }
 
-/** Explicit authored refs win; semantic ids beat display-label inference. */
+/**
+ * Explicit authored refs win; direct semantic primitives beat semantic
+ * recipes; recipes beat exact display-label fallback. Recipe resolution is
+ * surface-aware so identity-only answer surfaces never inherit relation slots.
+ */
 export function resolveItemVisualRefs(
   item: PresentableVisualItem,
-  allowLabelInference = true
+  allowLabelInference = true,
+  recipeSurface: VisualRecipeSurface = 'option'
 ): string[] {
   if (item.visualRefs?.length) return [...item.visualRefs];
   const semanticRefs = resolveSemanticVisualRefs(item.semanticRef);
   if (semanticRefs.length) return semanticRefs;
+  const recipeRefs = resolveVisualRecipeRefs(item.semanticRef, recipeSurface);
+  if (recipeRefs.length) return recipeRefs;
   return allowLabelInference ? resolveLabelVisualRefs(item.label) : [];
 }
 
