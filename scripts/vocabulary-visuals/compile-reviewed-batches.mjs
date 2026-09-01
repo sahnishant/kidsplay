@@ -1,11 +1,12 @@
 import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, unlinkSync, writeFileSync } from 'node:fs';
 import { isAbsolute } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = new URL('../../', import.meta.url);
 const coreCompilerPath = fileURLToPath(new URL('./compile-reviewed-batches-core.mjs', import.meta.url));
+const gapBuilderPath = fileURLToPath(new URL('./build-priority-gap-queue.mjs', import.meta.url));
 const defaultLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 const authorityModelPath = 'content/vocabulary-visuals/review-batches/authority-model.json';
 const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-inventory.json';
@@ -14,6 +15,7 @@ const relevanceReviewPath = 'content/vocabulary-visuals/review-batches/candidate
 const fileTarget = (path) => isAbsolute(path) ? path : new URL(path, root);
 const readText = (path) => readFileSync(fileTarget(path), 'utf8');
 const readJson = (path) => JSON.parse(readText(path));
+const writeText = (path, value) => writeFileSync(fileTarget(path), value, 'utf8');
 const fileExists = (path) => existsSync(fileTarget(path));
 const normalizeLemma = (value) => String(value ?? '').toLocaleLowerCase('en-US').trim();
 const requiredString = (value, label) => {
@@ -100,6 +102,7 @@ const validateArtifactInventory = () => {
   for (const required of [
     'content/vocabulary-visuals/__generated-priority-gap',
     'content/vocabulary-visuals/batches/__generated-priority-batch-',
+    'content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-',
     'content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json',
     'content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json',
     'content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json',
@@ -213,6 +216,37 @@ const validateCandidateRelevanceData = () => {
   if (lemmas.size !== 12) throw new Error(`Candidate relevance review must preserve the 12 Phase C reviewed blockers; got ${lemmas.size}`);
 };
 
+const validateReviewedItemsFile = (manifest) => {
+  const sourcePath = requiredString(manifest.source?.reviewDataPath, `${manifest.id} reviewDataPath`);
+  const sourceText = readText(sourcePath);
+  const actualBlobSha = gitBlobSha(sourceText);
+  if (actualBlobSha !== manifest.source?.expectedGitBlobSha) {
+    throw new Error(`${manifest.id}: reviewed source blob drift; expected ${manifest.source?.expectedGitBlobSha}, got ${actualBlobSha}`);
+  }
+  const source = JSON.parse(sourceText);
+  if (source?.schemaVersion !== 1 || source?.issueRef !== manifest.issueRef || source?.parentIssueRef !== 76 || source?.status !== manifest.status) {
+    throw new Error(`${manifest.id}: reviewed source metadata does not match its manifest`);
+  }
+  if (!Array.isArray(source.items) || source.items.length !== manifest.source?.expectedItemCount) {
+    throw new Error(`${manifest.id}: reviewed source expected ${manifest.source?.expectedItemCount} items, got ${source.items?.length ?? 0}`);
+  }
+  const seenSenseKeys = new Set();
+  for (const item of source.items) {
+    const lemma = normalizeLemma(item.lemma);
+    const selected = String(item.sourceTrace?.selectedCandidateId ?? '').trim();
+    const candidates = item.sourceTrace?.candidateIds ?? [];
+    if (!lemma || item.senseKey !== selected || !Array.isArray(candidates) || !candidates.includes(selected) || item.sourceTrace?.candidateSenseCount !== candidates.length) {
+      throw new Error(`${manifest.id}/${lemma || '<empty>'}: exact reviewed candidate trace is inconsistent`);
+    }
+    if (seenSenseKeys.has(item.senseKey)) throw new Error(`${manifest.id}/${lemma}: duplicate exact reviewed sense ${item.senseKey}`);
+    seenSenseKeys.add(item.senseKey);
+    const maturity = String(item.maturity ?? '');
+    if (!['V1', 'V2'].includes(maturity)) throw new Error(`${manifest.id}/${lemma}: reviewed-items projection may only preserve V1/V2; got ${maturity}`);
+    if ('knowledgeRef' in item || 'runtimeUsage' in item) throw new Error(`${manifest.id}/${lemma}: reviewed-items source cannot create runtime or knowledge authority`);
+  }
+  return normalizeRepositoryText(sourceText);
+};
+
 const validatePostCompile = () => {
   const batch3 = readJson('content/vocabulary-visuals/batches/__generated-priority-batch-003.json');
   const byLemma = new Map((batch3.items ?? []).map((item) => [normalizeLemma(item.lemma), item]));
@@ -229,6 +263,35 @@ validateCandidateRelevanceData();
 const ledgerArg = process.argv.find((arg) => arg.startsWith('--ledger='));
 const ledgerPath = ledgerArg?.slice('--ledger='.length) || defaultLedgerPath;
 validateLedgerAuthority(ledgerPath);
-execFileSync(process.execPath, [coreCompilerPath, ...process.argv.slice(2)], { stdio: 'inherit' });
+
+const ledger = readJson(ledgerPath);
+const priorityGapEntries = [];
+const reviewedItemsEntries = [];
+for (const entry of ledger.batches ?? []) {
+  const manifest = readJson(entry.manifest);
+  if (manifest.source?.kind === 'priority_gap') priorityGapEntries.push(entry);
+  else if (manifest.source?.kind === 'reviewed_items_file') reviewedItemsEntries.push({ entry, manifest });
+  else throw new Error(`${entry.id}: unsupported reviewed-batch source kind ${String(manifest.source?.kind)}`);
+}
+
+for (const { manifest } of reviewedItemsEntries) {
+  if (fileExists(manifest.output.path)) unlinkSync(fileTarget(manifest.output.path));
+}
+
+const priorityLedgerPath = `content/vocabulary-visuals/__generated-priority-core-ledger-${process.pid}.json`;
+writeText(priorityLedgerPath, `${JSON.stringify({ ...ledger, batches: priorityGapEntries }, null, 2)}\n`);
+try {
+  execFileSync(process.execPath, [coreCompilerPath, `--ledger=${priorityLedgerPath}`], { stdio: 'inherit' });
+} finally {
+  if (fileExists(priorityLedgerPath)) unlinkSync(fileTarget(priorityLedgerPath));
+}
+
+for (const { entry, manifest } of reviewedItemsEntries) {
+  const canonicalSource = validateReviewedItemsFile(manifest);
+  writeText(manifest.output.path, canonicalSource);
+  console.log(`Compiled ${entry.id}: ${manifest.source.expectedItemCount} exact reviewed item(s) from immutable review data.`);
+}
+
+execFileSync(process.execPath, [gapBuilderPath], { stdio: 'inherit' });
 validatePostCompile();
-console.log('Vocabulary review authority/inventory gate passed; reviewed-batch core output remains fingerprint-locked.');
+console.log(`Vocabulary review authority/inventory gate passed; compiled ${priorityGapEntries.length + reviewedItemsEntries.length} ledger batch(es) with source-kind isolation.`);
