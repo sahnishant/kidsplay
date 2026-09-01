@@ -23,11 +23,11 @@ The direct `main...canonical` comparison must contain no deleted files from the 
 The product path must consume the consolidated layers rather than merely ship their source files:
 
 1. `App.svelte` mounts `SessionViewport.svelte` for live play.
-2. Existing answer engines resolve recipe-backed item visuals through `resolveItemVisualRefs` and `VisualEntity`.
-3. `VisualEntity` renders reusable measurement, material-property, environmental-action and soil primitive families plus existing process visuals.
-4. Post-answer vocabulary reinforcement is rendered through `VisualMeaningPresenter`.
-5. Post-answer exact authored semantic recipes may render through `VisualRecipe`; ambiguous/multiple recipe candidates fail closed.
-6. `Scene` consumes `SemanticAnimation` and `VocabularySemanticScene`.
+2. All six visual-capable answer engines normalize items through `resolveItemVisualPresentation` and render them through `SemanticVisualPresenter`; engines do not own independent registry-resolution or `VisualEntity` loops.
+3. `VisualMeaningPresenter`, `Scene` and post-answer recipe feedback also dispatch their exact-sense vocabulary, animation and recipe plans through `SemanticVisualPresenter`.
+4. `VisualEntity`, `VisualRecipe`, `SemanticAnimation` and `VocabularySemanticScene` remain small capability adapters below that shared presenter rather than competing semantic authorities.
+5. `VisualEntity` renders reusable measurement, material-property, environmental-action and soil primitive families plus existing process visuals.
+6. Ambiguous/multiple post-answer recipe candidates still fail closed before the shared presenter receives a plan.
 7. All authored semantic compositions must have a real child-facing scene use; the former `animation.dog.curious-bone` orphan is consumed by `scene.dog.curious-bone` on `animals.dog.habitat.fill.001` without displacing the existing happy-bone scene.
 8. New recipe families remain auto-discovered from `content/visual-recipes/*.json`; no central per-family switchboard is allowed.
 9. Review-only or unresolved semantics cannot acquire runtime authority through the ROI/recipe layer.

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import type { SequenceItem, SequenceOrderQuestion } from '../contracts/question';
+  import type { SequenceOrderQuestion } from '../contracts/question';
   import { createShuffledOrder, moveItem, swapItems } from '../mechanics/reorder';
-  import VisualEntity from '../presentation/VisualEntity.svelte';
-  import { resolveItemVisualRefs } from '../presentation/visualRegistry';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
+  import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<SequenceOrderQuestion> = $props();
@@ -20,10 +20,6 @@
     question.interaction.items.length >= 2 &&
     question.interaction.items.every((item) => Array.from(item.label).length === 1 && /^[A-Z0-9]$/i.test(item.label))
   );
-
-  function visualRefs(item: SequenceItem): string[] {
-    return resolveItemVisualRefs(item);
-  }
 
   function choose(itemId: string, index: number): void {
     if (locked) return;
@@ -84,7 +80,7 @@
     <p class="sequence-order__instructions">Put the cards in order. Tap two cards to swap them, or use the arrows.</p>
     <div class="sequence-order__list" role="list">
       {#each order as item, index (item.id)}
-        {@const refs = visualRefs(item)}
+        {@const visual = resolveItemVisualPresentation(item)}
         <div class="sequence-order__row" role="listitem">
           <span class="sequence-order__position" aria-hidden="true">{index + 1}</span>
           <button
@@ -94,14 +90,13 @@
             disabled={locked}
             onclick={() => choose(item.id, index)}
           >
-            {#if refs.length}
-              <span class={`sequence-order__visuals${refs.length > 1 ? ' sequence-order__visuals--compound' : ''}`} aria-hidden="true">
-                {#each refs as visualRef (visualRef)}
-                  <span class="sequence-order__visual">
-                    <VisualEntity {visualRef} context="option" />
-                  </span>
-                {/each}
-              </span>
+            {#if visual.hasVisuals}
+              <SemanticVisualPresenter
+                presentation={visual}
+                class="sequence-order__visuals"
+                itemClass="sequence-order__visual"
+                compoundClass="sequence-order__visuals--compound"
+              />
             {:else if item.symbol}
               <span class="sequence-order__symbol" aria-hidden="true">{item.symbol}</span>
             {/if}
@@ -173,7 +168,7 @@
     text-align: left;
   }
 
-  .sequence-order__visuals {
+  :global(.sequence-order__visuals) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -182,17 +177,17 @@
     height: 48px;
   }
 
-  .sequence-order__visuals--compound {
+  :global(.sequence-order__visuals--compound) {
     flex-basis: 86px;
     width: 86px;
   }
 
-  .sequence-order__visual {
+  :global(.sequence-order__visual) {
     width: 48px;
     height: 44px;
   }
 
-  .sequence-order__visuals--compound .sequence-order__visual {
+  :global(.sequence-order__visuals--compound .sequence-order__visual) {
     width: 39px;
     height: 39px;
   }

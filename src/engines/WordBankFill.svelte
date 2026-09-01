@@ -1,8 +1,8 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import type { WordBankFillQuestion, WordBankItem } from '../contracts/question';
-  import VisualEntity from '../presentation/VisualEntity.svelte';
-  import { resolveItemVisualRefs } from '../presentation/visualRegistry';
+  import type { WordBankFillQuestion } from '../contracts/question';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
+  import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<WordBankFillQuestion> = $props();
@@ -20,10 +20,6 @@
   function answerLabel(blankId: string): string {
     const wordId = answers[blankId];
     return question.interaction.wordBank.find((candidate) => candidate.id === wordId)?.label ?? '___';
-  }
-
-  function wordVisualRefs(word: WordBankItem): string[] {
-    return resolveItemVisualRefs(word, true);
   }
 
   function chooseWord(wordId: string): void {
@@ -57,20 +53,18 @@
 
 <div class="word-bank">
   {#each question.interaction.wordBank as word (word.id)}
-    {@const visualRefs = wordVisualRefs(word)}
+    {@const visual = resolveItemVisualPresentation(word, { context: 'word-bank' })}
     <button
-      class={`word-chip${visualRefs.length ? ' word-chip--visual' : ''}`}
+      class={`word-chip${visual.hasVisuals ? ' word-chip--visual' : ''}`}
       type="button"
       disabled={locked}
       onclick={() => chooseWord(word.id)}
     >
-      {#if visualRefs.length}
-        <span class="word-chip__visuals" aria-hidden="true">
-          {#each visualRefs as visualRef (visualRef)}
-            <span class="word-chip__visual"><VisualEntity {visualRef} context="word-bank" /></span>
-          {/each}
-        </span>
-      {/if}
+      <SemanticVisualPresenter
+        presentation={visual}
+        class="word-chip__visuals"
+        itemClass="word-chip__visual"
+      />
       <span>{word.label}</span>
     </button>
   {/each}
@@ -90,7 +84,7 @@
     padding: 7px 12px 10px;
   }
 
-  .word-chip__visuals {
+  :global(.word-chip__visuals) {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -98,7 +92,7 @@
     width: 100%;
   }
 
-  .word-chip__visual {
+  :global(.word-chip__visual) {
     width: 66px;
     height: 55px;
   }

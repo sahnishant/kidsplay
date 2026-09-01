@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { SceneIconId, SceneMotion } from './sceneTypes';
   import SceneIcon from './SceneIcon.svelte';
-  import SemanticAnimation from './SemanticAnimation.svelte';
-  import VocabularySemanticScene from './VocabularySemanticScene.svelte';
+  import SemanticVisualPresenter from './SemanticVisualPresenter.svelte';
+  import { animationVisualPresentation, vocabularyVisualPresentation } from './semanticVisualPresentation';
 
   interface SceneEntity {
     id: string;
@@ -40,11 +40,13 @@
 </script>
 
 {#if vocabularySenseKey}
-  <VocabularySemanticScene senseKey={vocabularySenseKey} />
+  <SemanticVisualPresenter presentation={vocabularyVisualPresentation(vocabularySenseKey)} />
 {:else if scene}
   <div class={`scene scene--${scene.theme}`} role="img" aria-label={scene.ariaLabel} data-animation-ref={scene.animationRef}>
     {#if scene.animationRef}
-      <SemanticAnimation animationId={scene.animationRef} embedded decorative />
+      <SemanticVisualPresenter
+        presentation={animationVisualPresentation(scene.animationRef, { embedded: true, decorative: true })}
+      />
     {:else}
       {#each scene.entities ?? [] as entity (entity.id)}
         <span

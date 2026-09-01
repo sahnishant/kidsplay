@@ -50,34 +50,49 @@ describe('consolidated visual runtime consumption', () => {
     expect(resolveQuestionFeedbackRecipeId(question)).toBeNull();
   });
 
-  it('keeps both high-level presenters on the live post-answer session path', () => {
+  it('keeps meaning and recipe plans on the shared live post-answer presenter path', () => {
     const session = readFileSync('src/ui/SessionViewport.svelte', 'utf8');
     expect(session).toContain("import VisualMeaningPresenter from '../presentation/VisualMeaningPresenter.svelte'");
-    expect(session).toContain("import VisualRecipe from '../presentation/VisualRecipe.svelte'");
+    expect(session).toContain("import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte'");
+    expect(session).toContain("import { recipeVisualPresentation } from '../presentation/semanticVisualPresentation'");
     expect(session).toContain('sessionState.submitted && !reinforcementSceneId');
     expect(session).toContain('<VisualMeaningPresenter');
-    expect(session).toContain('<VisualRecipe');
+    expect(session).toContain('<SemanticVisualPresenter');
+    expect(session).toContain('recipeVisualPresentation(feedbackRecipeId)');
     expect(session.indexOf('sessionState.submitted')).toBeGreaterThan(-1);
   });
 
-  it('keeps recipe resolution consumed by existing interactive engines', () => {
+  it('routes every visual-capable interactive engine through one resolver and presenter', () => {
     for (const path of [
       'src/engines/SingleChoice.svelte',
+      'src/engines/DragToTarget.svelte',
+      'src/engines/Hotspot.svelte',
       'src/engines/MemoryPairs.svelte',
+      'src/engines/SequenceOrder.svelte',
       'src/engines/WordBankFill.svelte'
     ]) {
       const source = readFileSync(path, 'utf8');
-      expect(source).toContain('resolveItemVisualRefs');
-      expect(source).toContain('VisualEntity');
+      expect(source).toContain('resolveItemVisualPresentation');
+      expect(source).toContain('SemanticVisualPresenter');
+      expect(source).not.toContain('resolveItemVisualRefs');
+      expect(source).not.toContain('VisualEntity');
     }
   });
 
   it('keeps semantic scenes and all new primitive families reachable from live renderers', () => {
     const scene = readFileSync('src/presentation/Scene.svelte', 'utf8');
+    const meaning = readFileSync('src/presentation/VisualMeaningPresenter.svelte', 'utf8');
+    const presenter = readFileSync('src/presentation/SemanticVisualPresenter.svelte', 'utf8');
     const entity = readFileSync('src/presentation/VisualEntity.svelte', 'utf8');
 
-    expect(scene).toContain("import SemanticAnimation from './SemanticAnimation.svelte'");
-    expect(scene).toContain("import VocabularySemanticScene from './VocabularySemanticScene.svelte'");
+    expect(scene).toContain("import SemanticVisualPresenter from './SemanticVisualPresenter.svelte'");
+    expect(meaning).toContain("import SemanticVisualPresenter from './SemanticVisualPresenter.svelte'");
+    expect(scene).not.toContain("import SemanticAnimation from './SemanticAnimation.svelte'");
+    expect(scene).not.toContain("import VocabularySemanticScene from './VocabularySemanticScene.svelte'");
+    expect(presenter).toContain("import SemanticAnimation from './SemanticAnimation.svelte'");
+    expect(presenter).toContain("import VisualRecipe from './VisualRecipe.svelte'");
+    expect(presenter).toContain("import VocabularySemanticScene from './VocabularySemanticScene.svelte'");
+    expect(presenter).toContain("import VisualEntity from './VisualEntity.svelte'");
     expect(entity).toContain("import MeasurementIcon from './MeasurementIcon.svelte'");
     expect(entity).toContain("import MaterialPropertyIcon from './MaterialPropertyIcon.svelte'");
     expect(entity).toContain("import EnvironmentalActionIcon from './EnvironmentalActionIcon.svelte'");
