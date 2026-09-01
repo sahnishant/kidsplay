@@ -20,6 +20,7 @@ export type VisualMeaningFallbackReason =
   | 'runtime_plan_missing'
   | 'runtime_not_child_facing'
   | 'answer_safety'
+  | 'knowledge_refs_conflict'
   | null;
 
 export interface VisualMeaningPresentation {
@@ -124,28 +125,34 @@ function payloadBytes(value: unknown): number {
   return new TextEncoder().encode(JSON.stringify(value)).byteLength;
 }
 
+function textFallbackPresentation(
+  senseKey: string,
+  phase: VisualMeaningPresentationPhase,
+  fallbackReason: Exclude<VisualMeaningFallbackReason, null>
+): VisualMeaningPresentation {
+  return {
+    presentationKey: presentationKeyFor(senseKey || '<missing>'),
+    compilerVersion: contract.compilerVersion,
+    senseKey,
+    lemma: null,
+    phase,
+    derivedMode: 'text',
+    deliveryMode: 'text',
+    visualAllowed: false,
+    fallbackReason,
+    maturity: null,
+    runtimeUsage: 'none',
+    plan: null
+  };
+}
+
 export function resolveVisualMeaningPresentation(
   senseKey: string,
   { phase = 'explanation' }: { phase?: VisualMeaningPresentationPhase } = {}
 ): VisualMeaningPresentation {
   const normalizedSenseKey = String(senseKey ?? '').trim();
   const plan = normalizedSenseKey ? resolveVocabularyVisualPlan(normalizedSenseKey) : null;
-  if (!plan) {
-    return {
-      presentationKey: presentationKeyFor(normalizedSenseKey || '<missing>'),
-      compilerVersion: contract.compilerVersion,
-      senseKey: normalizedSenseKey,
-      lemma: null,
-      phase,
-      derivedMode: 'text',
-      deliveryMode: 'text',
-      visualAllowed: false,
-      fallbackReason: 'runtime_plan_missing',
-      maturity: null,
-      runtimeUsage: 'none',
-      plan: null
-    };
-  }
+  if (!plan) return textFallbackPresentation(normalizedSenseKey, phase, 'runtime_plan_missing');
 
   const derivedMode = modeForPlan(plan);
   const proofAllowsVisual = isVocabularyVisualPlanChildFacing(plan);
@@ -176,8 +183,22 @@ export function resolveVisualMeaningPresentationForKnowledgeRefs(
   knowledgeRefs: string[] = [],
   { phase = 'explanation' }: { phase?: VisualMeaningPresentationPhase } = {}
 ): VisualMeaningPresentation {
-  const plan = resolveVocabularyVisualPlanForKnowledgeRefs(knowledgeRefs);
-  return resolveVisualMeaningPresentation(plan?.senseKey ?? '', { phase });
+  const canonicalRefs = [...new Set(
+    knowledgeRefs.map((value) => String(value ?? '').trim()).filter(Boolean)
+  )].sort((left, right) => left.localeCompare(right));
+  const resolvedSenseKeys = [...new Set(
+    canonicalRefs
+      .map((knowledgeRef) => resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef])?.senseKey ?? null)
+      .filter((senseKey): senseKey is string => Boolean(senseKey))
+  )].sort((left, right) => left.localeCompare(right));
+
+  if (resolvedSenseKeys.length === 0) {
+    return textFallbackPresentation('', phase, 'runtime_plan_missing');
+  }
+  if (resolvedSenseKeys.length > 1) {
+    return textFallbackPresentation('', phase, 'knowledge_refs_conflict');
+  }
+  return resolveVisualMeaningPresentation(resolvedSenseKeys[0], { phase });
 }
 
 export function resolveVisualMeaningPresentationSlice(
