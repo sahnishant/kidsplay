@@ -127,6 +127,7 @@ export function getStoryCharacters(): StoryCharacter[] {
 export function getStoryLocations(): StoryLocation[] {
   return locations.map((location) => ({
     ...location,
+    progression: { ...location.progression },
     topicGroups: [...location.topicGroups],
     position: { ...location.position },
     unlock: { ...location.unlock }
