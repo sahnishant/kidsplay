@@ -34,6 +34,15 @@ function presentationKeyFor(senseKey, compilerVersion) {
   return `visual-meaning:v${compilerVersion}:${senseKey}`;
 }
 
+function positiveInteger(value) {
+  return Number.isInteger(value) && value > 0;
+}
+
+function maturityRank(value) {
+  const match = /^V(\d+)$/.exec(String(value ?? ''));
+  return match ? Number(match[1]) : -1;
+}
+
 export function validatePresentationModeContract(contract, strategyIds = []) {
   const errors = [];
   if (contract?.schemaVersion !== VISUAL_PRESENTATION_SCHEMA_VERSION) {
@@ -60,6 +69,15 @@ export function validatePresentationModeContract(contract, strategyIds = []) {
   }
   if (contract?.policy?.fullCorpusBrowserImportAllowed !== false) {
     errors.push('the full vocabulary corpus must not be imported by browser presentation');
+  }
+  if (contract?.policy?.boundedSliceRequired !== true) {
+    errors.push('visual presentation must require bounded slices');
+  }
+  if (!positiveInteger(contract?.slicePolicy?.maxRequestedSenses)) {
+    errors.push('visual presentation slicePolicy.maxRequestedSenses must be a positive integer');
+  }
+  if (!positiveInteger(contract?.slicePolicy?.maxPayloadBytes)) {
+    errors.push('visual presentation slicePolicy.maxPayloadBytes must be a positive integer');
   }
 
   const seenModes = new Set();
@@ -285,6 +303,14 @@ export function compilePresentationSlice({
   if (!contract) throw new Error('Visual presentation slice requires a presentation mode contract');
 
   const modeIndex = createPresentationModeIndex(contract);
+  const maxRequestedSenses = contract.slicePolicy.maxRequestedSenses;
+  const maxPayloadBytes = contract.slicePolicy.maxPayloadBytes;
+  if (requestedSenseKeys.length > maxRequestedSenses) {
+    throw new Error(
+      `Visual presentation slice requested ${requestedSenseKeys.length} sense(s); maximum is ${maxRequestedSenses}`
+    );
+  }
+
   const itemBySenseKey = new Map();
   for (const item of items) {
     const senseKey = required(item?.senseKey, 'source item senseKey');
@@ -332,6 +358,13 @@ export function compilePresentationSlice({
     compilerVersion: contract.compilerVersion,
     plans
   };
+  const payloadBytes = Buffer.byteLength(JSON.stringify(payload), 'utf8');
+  if (payloadBytes > maxPayloadBytes) {
+    throw new Error(
+      `Visual presentation slice payload is ${payloadBytes} byte(s); maximum is ${maxPayloadBytes}`
+    );
+  }
+
   const summary = {
     requested: plans.length,
     runtimeMappings: plans.reduce((total, plan) => total + plan.runtimePlanCount, 0),
@@ -339,10 +372,19 @@ export function compilePresentationSlice({
     rendererReady: plans.filter((plan) => plan.rendererReady).length,
     blocked: plans.filter((plan) => plan.status === 'blocked').length,
     textFallback: plans.filter((plan) => plan.deliveryMode === 'text').length,
+    unresolved: plans.filter((plan) => plan.strategy === 'sense_unresolved').length,
+    textualOnly: plans.filter((plan) => plan.strategy === 'textual_only').length,
+    sourceV1Plus: plans.filter((plan) => maturityRank(plan.sourceMaturity) >= 1).length,
+    effectiveV3Plus: plans.filter((plan) => maturityRank(plan.effectiveMaturity) >= 3).length,
+    effectiveV5Plus: plans.filter((plan) => maturityRank(plan.effectiveMaturity) >= 5).length,
+    sourceMaturities: histogram(plans.map((plan) => plan.sourceMaturity ?? 'missing')),
+    effectiveMaturities: histogram(plans.map((plan) => plan.effectiveMaturity ?? 'missing')),
     derivedModes: histogram(plans.map((plan) => plan.derivedMode)),
     deliveryModes: histogram(plans.map((plan) => plan.deliveryMode)),
     statuses: histogram(plans.map((plan) => plan.status)),
-    payloadBytes: Buffer.byteLength(JSON.stringify(payload), 'utf8')
+    payloadBytes,
+    maxRequestedSenses,
+    maxPayloadBytes
   };
 
   return { ...payload, summary };
