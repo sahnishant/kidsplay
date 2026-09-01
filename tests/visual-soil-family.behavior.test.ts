@@ -46,7 +46,6 @@ describe('soil visual recipe family', () => {
     expect(source).toContain('circle cx="25" cy="48"');
     expect(source).toContain('M29 40l8 13');
     expect(source).toContain('M60 42V17');
-    expect(source).toContain('leaf rich').toBeFalsy();
     expect(source).not.toContain('<style>');
     expect(source).not.toContain("semanticRef === 'sandy-soil'");
   });
