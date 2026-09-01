@@ -42,6 +42,20 @@ describe('#88 priority vocabulary visual gap queue', () => {
     )).toBe(true);
   });
 
+  it('discovers exactly the six canonical priority and OEWN review files', () => {
+    const queue = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
+    expect(queue.generatedFrom.priorityMeaningLists).toEqual(
+      [1, 2, 3, 4, 5, 6].map((grade) => `content/lexicon/open/review-wordlists/grade-${grade}-introduced-meaning.json`)
+    );
+    expect(queue.generatedFrom.senseReviewFiles).toEqual(
+      [1, 2, 3, 4, 5, 6].map((grade) => `content/lexicon/open/sense-review/grade-${grade}-introduced-meaning-oewn.json`)
+    );
+    expect(queue.items.every((item: { grade: number; sourcePriorityList: string; sourceSenseReview: string }) =>
+      item.sourcePriorityList === `content/lexicon/open/review-wordlists/grade-${item.grade}-introduced-meaning.json` &&
+      item.sourceSenseReview === `content/lexicon/open/sense-review/grade-${item.grade}-introduced-meaning-oewn.json`
+    )).toBe(true);
+  });
+
   it('preserves review traceability, ambiguity and reusable-template hints without source prose', () => {
     const queue = readJson('content/vocabulary-visuals/__generated-priority-gap.json');
     const allowedRisks = new Set(['low', 'medium', 'high', 'unresolved']);
