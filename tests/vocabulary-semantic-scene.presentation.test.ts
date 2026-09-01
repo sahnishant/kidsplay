@@ -35,13 +35,9 @@ function vocabularyQuestion(knowledgeRef = 'kr.vocab.meaning.enormous.very-large
 }
 
 const breadthMappings = [
-  ['kr.vocab.primary.meaning.ask.ask-v-2', 'ask#v#2'],
-  ['kr.vocab.primary.meaning.find.find-v-3', 'find#v#3'],
-  ['kr.vocab.primary.meaning.floor.floor-n-1', 'floor#n#1'],
-  ['kr.vocab.primary.meaning.guide.guide-n-2', 'guide#n#2'],
-  ['kr.vocab.primary.meaning.environment.environment-n-2', 'environment#n#2'],
-  ['kr.vocab.primary.meaning.minute.minute-n-1', 'minute#n#1'],
-  ['kr.vocab.primary.meaning.notice.notice-n-1', 'notice#n#1']
+  ['kr.vocab.primary.meaning.fast.fast-a-1', 'fast#a#1'],
+  ['kr.vocab.primary.meaning.full.full-a-1', 'full#a#1'],
+  ['kr.vocab.primary.meaning.library.library-n-3', 'library#n#3']
 ] as const;
 
 describe('semantic vocabulary scene runtime', () => {
@@ -98,18 +94,13 @@ describe('semantic vocabulary scene runtime', () => {
     expect(provenV5ChildPlans.length).toBeGreaterThanOrEqual(18);
   });
 
-  it('keeps the seven #88 reviewed mappings renderer-ready but fail-closed until proof promotion', () => {
+  it('keeps the three meaning-faithful #88 mappings fail-closed until proof promotion', () => {
     const plans = getVocabularyVisualRuntimePlans();
     const proofBySenseKey = new Map(maturityProofsJson.promotions.map((promotion) => [promotion.senseKey, promotion]));
 
     for (const [knowledgeRef, senseKey] of breadthMappings) {
       const plan = plans.find((candidate) => candidate.knowledgeRef === knowledgeRef);
       expect(plan).toMatchObject({ knowledgeRef, senseKey, runtimeUsage: 'knowledge_reinforcement' });
-
-      const { container, unmount } = render(VocabularySemanticScene, { props: { senseKey } });
-      expect(container.querySelector(`[data-vocabulary-sense="${senseKey}"]`)).toBeTruthy();
-      unmount();
-
       const proof = proofBySenseKey.get(senseKey);
       const resolved = resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef]);
       if (proof?.maturity === 'V5' || proof?.maturity === 'V6') {
@@ -118,6 +109,25 @@ describe('semantic vocabulary scene runtime', () => {
         expect(plan?.maturity).toBe('V1');
         expect(resolved).toBeNull();
       }
+    }
+  });
+
+  it('renders the three #88 proof candidates with meaning-faithful static semantics', () => {
+    const cases = [
+      { senseKey: 'fast#a#1', kind: 'attribute-contrast', attribute: 'data-dimension', value: 'speed', text: ['Fast', 'Slow'] },
+      { senseKey: 'full#a#1', kind: 'attribute-contrast', attribute: 'data-dimension', value: 'fill-level', text: ['Full', 'Empty'] },
+      { senseKey: 'library#n#3', kind: 'place', attribute: 'data-place-kind', value: 'library', text: ['Library'] }
+    ] as const;
+
+    for (const candidate of cases) {
+      const { container, unmount } = render(VocabularySemanticScene, { props: { senseKey: candidate.senseKey } });
+      const root = container.querySelector(`[data-vocabulary-sense="${candidate.senseKey}"]`);
+      const scene = container.querySelector(`[data-scene-kind="${candidate.kind}"]`);
+      expect(root).toBeTruthy();
+      expect(scene).toBeTruthy();
+      expect(scene?.getAttribute(candidate.attribute)).toBe(candidate.value);
+      for (const expectedText of candidate.text) expect(root?.textContent).toContain(expectedText);
+      unmount();
     }
   });
 
