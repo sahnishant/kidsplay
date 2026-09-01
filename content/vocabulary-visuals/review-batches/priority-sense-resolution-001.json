@@ -4,20 +4,38 @@
   "sequence": 4,
   "issueRef": 99,
   "parentIssueRef": 76,
-  "status": "human_reviewed_exact_sense",
+  "status": "sol_max_reviewed_exact_sense",
   "authority": {
-    "defaultKind": "human_reviewed_candidate_selection",
+    "defaultKind": "sol_max_reviewed_exact_sense",
+    "referenceState": "sol_max_reviewed_exact_reference",
+    "resolutionState": "sol_max_resolved",
+    "dispositionState": "reviewed_strategy",
     "runtimeAuthority": "none"
   },
   "source": {
     "kind": "reviewed_items_file",
     "reviewDataPath": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.items.json",
     "expectedItemCount": 30,
-    "expectedGitBlobSha": "988af3f62ea0962be2006bd6c35a9ecb76ed545f"
+    "expectedGitBlobSha": "988af3f62ea0962be2006bd6c35a9ecb76ed545f",
+    "historicalStatus": "human_reviewed_exact_sense"
+  },
+  "reviewEvidence": {
+    "kind": "sol_max_row_level_acceptance",
+    "pullRequest": 100,
+    "reviewNodeId": "PRR_kwDOUHzR8c8AAAABLmzeeQ",
+    "reviewedSemanticHeadSha": "8f80e81a60aaf1a7574b327a0e953c2f0472e816",
+    "mergedMainSha": "5040cdceb61fc83cf7161a5a97300e8a4c8fd7f4",
+    "submittedAt": "2026-09-01T03:51:22Z",
+    "acceptedRows": 30,
+    "claimsHumanEditorialReview": false
   },
   "output": {
     "path": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-001.json",
-    "projectionMode": "byte_identical_review_source"
+    "projectionMode": "authority_corrected_review_projection"
+  },
+  "supersession": {
+    "resolvesPriorUnresolvedForSameLemma": true,
+    "doesNotDeleteHistoricalDisposition": true
   },
   "policy": {
     "bareLemmaMappingAllowed": false,
@@ -30,6 +48,8 @@
     "childDefinitionApprovalInferred": false,
     "selectedCandidateMustBePinned": true,
     "selectedCandidateMustEqualSenseKey": true,
+    "claimsHumanEditorialReview": false,
+    "requiresExternalReviewEvidence": true,
     "maxMaturity": "V2"
   }
 }
