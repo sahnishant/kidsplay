@@ -21,14 +21,18 @@ A bare lemma is never enough when a word is polysemous. Use explicit sense keys.
 ## Files
 
 - `content/vocabulary-visuals/registry.json` — strategy, maturity, scene-template, motion and safety vocabulary.
-- `content/vocabulary-visuals/batches/*.json` — committed baseline strategy batches plus **generated** reviewed-batch projections.
+- `content/vocabulary-visuals/batches/*.json` — committed baseline strategy batches plus generated reviewed-batch/corpus-terminal projections.
 - `content/vocabulary-visuals/review-batches/ledger.json` — deterministic order for manifest-driven reviewed batches.
 - `content/vocabulary-visuals/review-batches/*.json` — durable reviewed decisions, source fingerprints and output fingerprints.
+- `content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json` — priority ambiguity/candidate-relevance blockers requiring human review.
+- `content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json` — remaining non-priority corpus blockers requiring sense candidates/review.
 - `scripts/vocabulary-visuals/strategy-contract.mjs` — pure validation and semantic scene planning contract.
 - `scripts/vocabulary-visuals/build-priority-gap-queue.mjs` — candidate-only priority queue builder; never grants V1.
 - `scripts/vocabulary-visuals/compile-reviewed-batches.mjs` — one generic manifest/ledger compiler for all numbered reviewed batches.
-- `scripts/report-vocabulary-visual-coverage.mjs` — full-corpus coverage/gap reporting.
+- `scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs` — Phase C full-corpus blocker accounting and human-resolution queue builder.
+- `scripts/report-vocabulary-visual-coverage.mjs` — full-corpus terminal/resolved/child-facing coverage reporting.
 - `tests/vocabulary-visual-batch-factory.behavior.test.ts` — stale-source, duplicate-ledger, historical-equivalence and idempotence gates.
+- `tests/vocabulary-visual-corpus-terminal.behavior.test.ts` — Phase C terminal-vs-resolved boundary gate.
 - `tests/vocabulary-visual-strategy.behavior.test.ts` — sense safety, settlement grammar, reduced motion and answer-leak regression coverage.
 
 ## Reviewed-batch architecture
@@ -45,7 +49,9 @@ priority corpus + candidate sense lane
         -> ledger sequence
         -> generic compiler
         -> generated batch projection
-        -> final live gap + normal visual reports/runtime compiler
+        -> final live priority gap
+        -> Phase C residual corpus terminal accounting
+        -> normal visual reports/runtime compiler
 ```
 
 The ledger is the only ordering authority. Directory enumeration order is not semantic order.
@@ -79,12 +85,12 @@ Exact #51 human-reviewed additional senses may share a lemma with an older strat
 
 ### Generated-file lifecycle
 
-Reviewed manifests and the ledger are committed source of truth. These are build artifacts and are intentionally rebuilt/ignored:
+Reviewed manifests and the ledger are committed source of truth. Phase C corpus/candidate state is derived from committed corpus + reviewed state. Generated queues/projections are intentionally rebuilt/ignored:
 
-- `content/vocabulary-visuals/__generated-priority-gap*.json`
+- `content/vocabulary-visuals/__generated-*.json`
 - `content/vocabulary-visuals/batches/__generated-*.json`
 
-CI uploads the final live gap, all frozen reviewed-batch source queues and all generated reviewed-batch projections for auditability.
+CI proves generation leaves tracked source clean and uploads the final priority gap, frozen reviewed-batch sources, reviewed-batch projections, Phase C terminal projection, and both human-resolution queues for auditability.
 
 ### Historical migration proof
 
@@ -96,6 +102,18 @@ The generic factory is required to reproduce the already-reviewed history exactl
 - batch 003 reviewed-item fingerprint `e0881f110620cc141d5378e18ed2ae889cee053706523a7797a285548b6623f8`.
 
 A future batch 004+ should therefore require only a ledger entry plus review manifest/data. It must not add another `build-priority-batch-00N.mjs`, another package script, or another batch-specific CI step.
+
+## Terminal accounting is not visual coverage
+
+The #76 Phase B/Phase C factories keep three different facts separate:
+
+- **terminal disposition** — a lemma has a sense-specific strategy or an explicit fail-closed blocker;
+- **resolved strategy** — it is not waiting in a sense/relevance review queue;
+- **child-facing maturity** — separate runtime proof establishes V5/V6 delivery.
+
+Phase B provides terminal dispositions for 2,400/2,400 priority meanings. Phase C extends terminal accounting to 10,000/10,000 corpus lemmas by generating 7,565 explicit residual blockers. Neither operation claims that those blockers have visuals, definitions, profile placement or runtime delivery.
+
+The priority human-resolution queue also preserves twelve single-candidate relevance traps such as `add`, `pants`, `principal` and `so`. Their Phase B strategy stays safely textual-only, but the lone candidate is not treated as final intended-sense authority. Reports must keep terminal, resolved, blocked and child-facing counts separate.
 
 ## Maturity
 
@@ -133,6 +151,7 @@ Reusable templates currently include settlement/place, actor-action, attribute c
 
 ```bash
 npm run compile:vocabulary-visual-batches
+npm run compile:vocabulary-visual-corpus-terminal
 npm run report:vocabulary-visuals
 npm run validate:vocabulary-visuals
 npm run test:vocabulary-batch-factory
@@ -140,7 +159,7 @@ npm run test:vocabulary-visuals
 npm run check
 ```
 
-The reporter reads the committed 10,000-row primary corpus and reports the exact audited/dispositioned state. Candidate queues remain candidate-only; only reviewed manifests can move a row to V1.
+The reporter reads the committed 10,000-row primary corpus and reports terminal, resolved, blocked and child-facing states separately. Candidate queues remain candidate-only; only reviewed manifests can establish reviewed V1 strategy decisions, while Phase C blocker dispositions remain explicit unresolved accounting.
 
 ## Expansion protocol
 
