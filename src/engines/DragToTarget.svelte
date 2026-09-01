@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { DragItem, DragTarget, DragToTargetQuestion } from '../contracts/question';
+  import { createMatchingDisplayOrder } from '../mechanics/matchingPresentation';
   import VisualEntity from '../presentation/VisualEntity.svelte';
   import { resolveItemVisualRefs } from '../presentation/visualRegistry';
   import type { EngineProps } from './types';
@@ -18,10 +19,11 @@
     moved: boolean;
   } | null = null;
   let complete = $derived(question.interaction.items.every((item) => Boolean(assignments[item.id])));
-
-  function targetLabel(targetId: string): string {
-    return question.interaction.targets.find((target) => target.id === targetId)?.label ?? targetId;
-  }
+  let displayOrder = $derived.by(() => createMatchingDisplayOrder(
+    question.interaction.items,
+    question.interaction.targets,
+    question.solution.assignments
+  ));
 
   function itemVisualRefs(item: DragItem): string[] {
     return resolveItemVisualRefs(item, false);
@@ -103,7 +105,7 @@
 
 <div class="drag-stage">
   <div class="drag-items" aria-label="Things to move">
-    {#each question.interaction.items as item (item.id)}
+    {#each displayOrder.items as item (item.id)}
       {@const visualRefs = itemVisualRefs(item)}
       <button
         type="button"
@@ -125,13 +127,13 @@
         {:else if item.symbol}
           <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
         {/if}
-        <span>{item.label}{assignments[item.id] ? ` → ${targetLabel(assignments[item.id])}` : ''}</span>
+        <span>{item.label}</span>
       </button>
     {/each}
   </div>
 
   <div class="target-grid">
-    {#each question.interaction.targets as target (target.id)}
+    {#each displayOrder.targets as target (target.id)}
       {@const visualRefs = targetVisualRefs(target)}
       <button
         type="button"
