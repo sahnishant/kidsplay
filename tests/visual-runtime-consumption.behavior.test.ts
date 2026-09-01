@@ -32,6 +32,15 @@ describe('consolidated visual runtime consumption', () => {
     expect(resolveQuestionFeedbackRecipeId(question)).toBe('recipe.measurement.temperature');
   });
 
+  it('resolves the concurrent soil family through the same live post-answer path', () => {
+    const question = choiceQuestion(['sandy-soil'], [
+      { id: 'sandy-soil', label: 'Sandy soil', semanticRef: 'sandy-soil' },
+      { id: 'other', label: 'Other' }
+    ]);
+
+    expect(resolveQuestionFeedbackRecipeId(question)).toBe('recipe.soil.sandy');
+  });
+
   it('fails closed when a solution would imply more than one feedback recipe', () => {
     const question = choiceQuestion(['transparent', 'opaque'], [
       { id: 'transparent', label: 'Transparent', semanticRef: 'transparent' },
@@ -72,6 +81,7 @@ describe('consolidated visual runtime consumption', () => {
     expect(entity).toContain("import MeasurementIcon from './MeasurementIcon.svelte'");
     expect(entity).toContain("import MaterialPropertyIcon from './MaterialPropertyIcon.svelte'");
     expect(entity).toContain("import EnvironmentalActionIcon from './EnvironmentalActionIcon.svelte'");
+    expect(entity).toContain("import SoilTypeIcon from './SoilTypeIcon.svelte'");
   });
 
   it('keeps the previously unconsumed curious-dog composition on a real child question path', () => {
