@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "candidate-relevance-review-001",
+  "issueRef": 96,
+  "parentIssueRef": 76,
+  "authorityKind": "approved_terminal_policy",
+  "policy": {
+    "selectsSense": false,
+    "claimsHumanExactSenseReview": false,
+    "createsRuntimeAuthority": false,
+    "createsProfilePlacement": false,
+    "copiesSourceGloss": false
+  },
+  "entries": [
+    { "lemma": "add", "status": "candidate_relevance_review_required", "reasonCode": "single_candidate_common_use_relevance", "reason": "A single returned candidate is not enough to establish the intended primary teaching sense for this common multi-use verb." },
+    { "lemma": "converse", "status": "candidate_relevance_review_required", "reasonCode": "part_of_speech_and_sense_relevance", "reason": "The lemma has materially different ordinary uses across part-of-speech/sense contexts; the lone candidate needs human relevance confirmation." },
+    { "lemma": "customs", "status": "candidate_relevance_review_required", "reasonCode": "plural_lexical_sense_relevance", "reason": "The plural form has distinct ordinary lexical uses; one candidate must not be assumed to be the intended child-facing meaning." },
+    { "lemma": "gay", "status": "candidate_relevance_review_required", "reasonCode": "context_sensitive_sense_relevance", "reason": "The lemma is context-sensitive and historically polysemous; a single candidate requires explicit human intended-sense review." },
+    { "lemma": "guts", "status": "candidate_relevance_review_required", "reasonCode": "literal_figurative_relevance", "reason": "The lemma has common literal and figurative uses; one candidate is insufficient to establish the intended primary meaning." },
+    { "lemma": "least", "status": "candidate_relevance_review_required", "reasonCode": "grammatical_role_relevance", "reason": "The lemma participates in multiple grammatical roles and comparison uses; the single candidate needs human relevance review." },
+    { "lemma": "ness", "status": "candidate_relevance_review_required", "reasonCode": "morphological_relevance", "reason": "The corpus form can function as a morphological element rather than a standalone child-facing lexical sense; candidate relevance requires review." },
+    { "lemma": "pants", "status": "candidate_relevance_review_required", "reasonCode": "form_and_part_of_speech_relevance", "reason": "The surface form can represent different lexical/grammatical uses; the lone candidate must be checked against the intended corpus meaning." },
+    { "lemma": "principal", "status": "candidate_relevance_review_required", "reasonCode": "noun_adjective_relevance", "reason": "The lemma has common noun and adjective senses; a single returned candidate must not silently choose the teaching sense." },
+    { "lemma": "rolling", "status": "candidate_relevance_review_required", "reasonCode": "process_state_relevance", "reason": "The form can express an action/process or an adjectival/state use; the candidate requires intended-sense confirmation." },
+    { "lemma": "slight", "status": "candidate_relevance_review_required", "reasonCode": "part_of_speech_and_sense_relevance", "reason": "The lemma has multiple ordinary part-of-speech and sense uses; a single candidate is insufficient authority for teaching placement." },
+    { "lemma": "so", "status": "candidate_relevance_review_required", "reasonCode": "high_function_word_polyfunctionality", "reason": "This high-frequency function word has several grammatical/semantic uses; one candidate must remain a reference rather than intended-sense approval." }
+  ]
+}
