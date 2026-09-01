@@ -60,6 +60,23 @@ function baseRecord() {
   };
 }
 
+function largeDeviceRecord() {
+  const record = baseRecord();
+  record.device.model = 'Large Physical Tablet';
+  record.device.screenPx = { width: 1600, height: 2560 };
+  record.device.effectivePortraitCssWidth = 600;
+  record.device.coverageRoles = ['large_phone_or_tablet'];
+  record.environment.networkDisabledBeforeLaunch = false;
+  record.environment.reducedMotionOrAnimationsReduced = false;
+  record.environment.rotationExercised = true;
+  record.journeys = [{
+    id: 'G',
+    status: 'pass',
+    observations: ['Observed portrait, physical rotation and layout stress directly on the large device.']
+  }];
+  return record;
+}
+
 function run(args: string[]) {
   return spawnSync(process.execPath, [script, ...args], { encoding: 'utf8' });
 }
@@ -77,27 +94,32 @@ afterEach(() => {
 describe('Android real-device beta acceptance evidence', () => {
   it('accepts a complete physical-device suite covering all roles and journeys', () => {
     const directory = makeTempDir();
-    const small = baseRecord();
-    const large = baseRecord();
-    large.device.model = 'Large Physical Tablet';
-    large.device.screenPx = { width: 1600, height: 2560 };
-    large.device.effectivePortraitCssWidth = 600;
-    large.device.coverageRoles = ['large_phone_or_tablet'];
-    large.environment.networkDisabledBeforeLaunch = false;
-    large.environment.reducedMotionOrAnimationsReduced = false;
-    large.environment.rotationExercised = true;
-    large.journeys = [{
-      id: 'G',
-      status: 'pass',
-      observations: ['Observed portrait, physical rotation and layout stress directly on the large device.']
-    }];
-
-    writeRecord(directory, 'small-phone.json', small);
-    writeRecord(directory, 'large-device.json', large);
+    writeRecord(directory, 'small-phone.json', baseRecord());
+    writeRecord(directory, 'large-device.json', largeDeviceRecord());
 
     const result = run(['--dir', directory, '--require-complete-suite']);
     expect(result.status).toBe(0);
     expect(result.stdout).toContain('Android beta acceptance suite OK');
+  });
+
+  it('rejects an empty final evidence directory', () => {
+    const directory = makeTempDir();
+
+    const result = run(['--dir', directory, '--require-complete-suite']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('no physical-device evidence records found');
+  });
+
+  it('rejects final records that mix APK or release identities', () => {
+    const directory = makeTempDir();
+    const large = largeDeviceRecord();
+    large.release.apk.sha256 = '3'.repeat(64);
+    writeRecord(directory, 'small-phone.json', baseRecord());
+    writeRecord(directory, 'large-device.json', large);
+
+    const result = run(['--dir', directory, '--require-complete-suite']);
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('all final device records must refer to the same exact APK/release identity');
   });
 
   it('rejects emulator evidence even when the rest of the record looks complete', () => {
