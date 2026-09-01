@@ -2,6 +2,39 @@
   "schemaVersion": 1,
   "parentIssueRef": 76,
   "authorityModel": "content/vocabulary-visuals/review-batches/authority-model.json",
+  "controlPlane": [
+    {
+      "id": "review-batch-ledger",
+      "path": "content/vocabulary-visuals/review-batches/ledger.json",
+      "role": "semantic_order_authority",
+      "publicProductionEntry": false
+    },
+    {
+      "id": "review-batch-production-compiler",
+      "path": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs",
+      "role": "authority_inventory_gate_and_public_compiler",
+      "publicProductionEntry": true
+    },
+    {
+      "id": "review-batch-fingerprint-core",
+      "path": "scripts/vocabulary-visuals/compile-reviewed-batches-core.mjs",
+      "role": "internal_fingerprint_locked_projection_core",
+      "publicProductionEntry": false,
+      "mustBeCalledThrough": "scripts/vocabulary-visuals/compile-reviewed-batches.mjs"
+    },
+    {
+      "id": "priority-gap-builder",
+      "path": "scripts/vocabulary-visuals/build-priority-gap-queue.mjs",
+      "role": "candidate_only_source_reconstruction",
+      "publicProductionEntry": false
+    },
+    {
+      "id": "phase-c-terminal-accounting",
+      "path": "scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs",
+      "role": "full_corpus_fail_closed_terminal_accounting",
+      "publicProductionEntry": true
+    }
+  ],
   "semanticSources": [
     {
       "id": "priority-batch-001",
@@ -118,6 +151,7 @@
     "unclassifiedCommittedSemanticBatchAllowed": false,
     "runtimeProofMayActAsSemanticReviewAuthority": false,
     "generatedReviewProjectionIsSourceOfTruth": false,
-    "historicalSourceMayDriftWithoutExplicitMigration": false
+    "historicalSourceMayDriftWithoutExplicitMigration": false,
+    "internalProjectionCoreMayBeUsedAsProductionEntrypoint": false
   }
 }
