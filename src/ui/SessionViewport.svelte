@@ -7,7 +7,11 @@
   import Avatar from '../presentation/Avatar.svelte';
   import Scene from '../presentation/Scene.svelte';
   import StoryCharacter from '../presentation/StoryCharacter.svelte';
+  import VisualMeaningPresenter from '../presentation/VisualMeaningPresenter.svelte';
+  import VisualRecipe from '../presentation/VisualRecipe.svelte';
+  import { resolveQuestionFeedbackRecipeId } from '../presentation/questionFeedbackVisual';
   import { resolveQuestionSceneId } from '../presentation/questionScene';
+  import { resolveVisualMeaningPresentation } from '../presentation/vocabularyPresentation';
   import { resolveStoryReaction } from '../story/storyReaction';
   import {
     advanceSession,
@@ -57,6 +61,7 @@
   }
 
   const seededState = seedSessionState();
+  const vocabularyScenePrefix = 'vocabulary:';
   let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
   let question = $derived(questions[sessionState.index]);
@@ -66,6 +71,19 @@
   let reinforcementSceneId = $derived(
     question && !authoredSceneId && sections.length === 0 && sessionState.submitted
       ? resolveQuestionSceneId(question)
+      : null
+  );
+  let vocabularySenseKey = $derived(
+    reinforcementSceneId?.startsWith(vocabularyScenePrefix)
+      ? reinforcementSceneId.slice(vocabularyScenePrefix.length)
+      : null
+  );
+  let vocabularyPresentation = $derived(
+    vocabularySenseKey ? resolveVisualMeaningPresentation(vocabularySenseKey) : null
+  );
+  let feedbackRecipeId = $derived(
+    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && !reinforcementSceneId
+      ? resolveQuestionFeedbackRecipeId(question)
       : null
   );
   let correctCount = $derived(sessionState.results.filter((result) => result.correct).length);
@@ -196,11 +214,24 @@
             </div>
           {/if}
 
-          {#if reinforcementSceneId}
+          {#if vocabularySenseKey && vocabularyPresentation?.lemma}
+            <div class="reinforcement-meaning">
+              <VisualMeaningPresenter
+                senseKey={vocabularySenseKey}
+                word={vocabularyPresentation.lemma}
+                mode="glance"
+                phase="explanation"
+              />
+            </div>
+          {:else if reinforcementSceneId}
             <div class="reinforcement-scene"><Scene sceneId={reinforcementSceneId} /></div>
+          {:else if feedbackRecipeId && !storyReaction}
+            <div class="reinforcement-recipe">
+              <VisualRecipe recipeId={feedbackRecipeId} surface="feedback" />
+            </div>
           {/if}
 
-          {#if !reinforcementSceneId && !storyReaction}
+          {#if !reinforcementSceneId && !feedbackRecipeId && !storyReaction}
             <div class="reaction-avatar" aria-hidden="true">
               <Avatar
                 avatar={childAvatar}
@@ -341,6 +372,10 @@
   .story-reaction__copy > span { font-weight: 650; line-height: 1.35; }
 
   .reinforcement-scene :global(.scene) { height: clamp(160px, 34vh, 235px); }
+  .reinforcement-meaning,
+  .reinforcement-recipe { width: min(100%, 30rem); min-height: 0; margin: 0 auto; }
+  .reinforcement-meaning :global(.visual-meaning-presenter) { width: 100%; }
+  .reinforcement-recipe :global(.visual-recipe) { width: 100%; }
   .reaction-avatar { width: min(180px, 45vw); height: min(180px, 45vw); margin: 0 auto; }
 
   .next-button,
