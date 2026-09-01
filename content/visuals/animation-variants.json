@@ -70,5 +70,77 @@
     "motion": "chomp",
     "aliases": ["cow animation state grazing"],
     "animationIdentityRef": "cow"
+  },
+  {
+    "id": "animation.variant.air-balloon-state",
+    "renderer": "scene-icon",
+    "glyph": "balloon",
+    "label": "Air observation balloon animation state",
+    "motion": "float",
+    "aliases": ["air animation state balloon observation"],
+    "animationIdentityRef": "air"
+  },
+  {
+    "id": "animation.variant.wind-state",
+    "renderer": "scene-icon",
+    "glyph": "wind",
+    "label": "Moving wind animation state",
+    "motion": "drift",
+    "aliases": ["wind animation state moving air"],
+    "animationIdentityRef": "wind"
+  },
+  {
+    "id": "animation.variant.plant-air-state",
+    "renderer": "scene-icon",
+    "glyph": "plant",
+    "label": "Plant in fresh air animation state",
+    "motion": "sway",
+    "aliases": ["plant animation state fresh air"],
+    "animationIdentityRef": "plant"
+  },
+  {
+    "id": "animation.variant.lungs-breathing-state",
+    "renderer": "scene-icon",
+    "glyph": "lungs",
+    "label": "Breathing lungs animation state",
+    "motion": "breathe",
+    "aliases": ["lungs animation state breathing"],
+    "animationIdentityRef": "lungs"
+  },
+  {
+    "id": "animation.variant.earth-rotation-state",
+    "renderer": "scene-icon",
+    "glyph": "earth",
+    "label": "Rotating Earth animation state",
+    "motion": "spin",
+    "aliases": ["earth animation state rotation"],
+    "animationIdentityRef": "earth"
+  },
+  {
+    "id": "animation.variant.sea-water-state",
+    "renderer": "scene-icon",
+    "glyph": "wave",
+    "label": "Sea water animation state",
+    "motion": "float",
+    "aliases": ["sea animation state salty water"],
+    "animationIdentityRef": "sea"
+  },
+  {
+    "id": "animation.variant.pumice-floating-state",
+    "renderer": "scene-icon",
+    "glyph": "pumice",
+    "label": "Floating pumice animation state",
+    "motion": "float",
+    "aliases": ["pumice animation state floating"],
+    "animationIdentityRef": "pumice"
+  },
+  {
+    "id": "animation.variant.germination-seed-state",
+    "renderer": "nature-space-icon",
+    "glyph": "seed",
+    "label": "Germination seed animation state",
+    "motion": "pulse",
+    "aliases": ["germination animation state seed"],
+    "animationIdentityRef": "germination"
   }
 ]
