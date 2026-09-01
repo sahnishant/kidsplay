@@ -85,6 +85,16 @@
       "generatedPath": "content/vocabulary-visuals/batches/__generated-priority-batch-003.json"
     },
     {
+      "id": "priority-sense-resolution-001",
+      "artifactKind": "manifest_human_reviewed_projection",
+      "authorityKind": "human_reviewed_candidate_selection",
+      "lifecycle": "manifest_source_generated_projection",
+      "order": 55,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json",
+      "generatedPath": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-001.json",
+      "supersession": "append_only_exact_sense"
+    },
+    {
       "id": "phase-c-candidate-relevance-review",
       "path": "content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json",
       "artifactKind": "reviewed_relevance_blockers",
@@ -141,6 +151,7 @@
   "generatedArtifacts": [
     { "pattern": "content/vocabulary-visuals/__generated-priority-gap*.json", "lifecycle": "ignored_deterministic_audit_artifact" },
     { "pattern": "content/vocabulary-visuals/batches/__generated-priority-batch-*.json", "lifecycle": "ignored_deterministic_review_projection" },
+    { "pattern": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-*.json", "lifecycle": "ignored_deterministic_human_review_projection" },
     { "path": "content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json", "lifecycle": "ignored_deterministic_terminal_projection" },
     { "path": "content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
     { "path": "content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json", "lifecycle": "ignored_deterministic_human_review_queue" },
