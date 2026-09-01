@@ -2,7 +2,7 @@ import { resolveAssetRefForVisualRef } from './assetRegistry';
 import { resolveVisualRecipeRefs } from './visualRecipeRegistry';
 import type { VisualRecipeSurface } from './visualRecipeTypes';
 
-export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon' | 'nature-space-icon' | 'everyday-icon' | 'process-icon' | 'animal-expansion-icon' | 'concept-icon' | 'curriculum-icon' | 'learning-icon' | 'property-icon' | 'class2-concept-icon' | 'class2-final-icon';
+export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon' | 'nature-space-icon' | 'everyday-icon' | 'process-icon' | 'measurement-icon' | 'material-property-icon' | 'animal-expansion-icon' | 'concept-icon' | 'curriculum-icon' | 'learning-icon' | 'property-icon' | 'class2-concept-icon' | 'class2-final-icon';
 export type VisualMotion =
   | 'idle'
   | 'wag'

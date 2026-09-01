@@ -1,0 +1,18 @@
+[
+  {
+    "id": "entity.material.transparent-sample",
+    "renderer": "material-property-icon",
+    "glyph": "transparent-sample",
+    "label": "Light-passing material sample",
+    "motion": "pulse",
+    "aliases": ["light-passing material sample", "see-through material sample"]
+  },
+  {
+    "id": "entity.material.opaque-sample",
+    "renderer": "material-property-icon",
+    "glyph": "opaque-sample",
+    "label": "Light-blocking material sample",
+    "motion": "pulse",
+    "aliases": ["light-blocking material sample", "light-blocking sample"]
+  }
+]

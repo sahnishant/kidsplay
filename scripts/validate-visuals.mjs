@@ -17,9 +17,9 @@ const visuals = visualFiles.flatMap((file) => {
 
 const allowedRenderers = new Set([
   'scene-icon', 'entity-icon', 'utility-icon', 'nature-space-icon',
-  'everyday-icon', 'process-icon', 'animal-expansion-icon', 'concept-icon',
-  'curriculum-icon', 'learning-icon', 'property-icon', 'class2-concept-icon',
-  'class2-final-icon'
+  'everyday-icon', 'process-icon', 'measurement-icon', 'material-property-icon',
+  'animal-expansion-icon', 'concept-icon', 'curriculum-icon', 'learning-icon',
+  'property-icon', 'class2-concept-icon', 'class2-final-icon'
 ]);
 const allowedMotions = new Set([
   'idle', 'wag', 'swim', 'flap', 'hop', 'float', 'sway', 'pulse',
