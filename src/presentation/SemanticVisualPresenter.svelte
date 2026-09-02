@@ -51,3 +51,24 @@
 {:else}
   <VocabularySemanticScene senseKey={presentation.senseKey} compact={presentation.compact} />
 {/if}
+
+<style>
+  /* V6 depth cues are explanatory UI, not part of the authored semantic artwork.
+     Keep them in flow so they can never cover meaning-bearing SVG content. */
+  :global(.vocabulary-semantic-scene[data-semantic-depth-mode] .semantic-depth-cue) {
+    position: static !important;
+    width: fit-content;
+    max-width: calc(100% - 12px);
+    margin: 4px 6px 0 auto;
+  }
+
+  /* Preserve the original scene footprint at narrow child viewports by giving
+     the cue space that previously belonged to the SVG instead of growing the card. */
+  :global(.vocabulary-semantic-scene[data-semantic-depth-mode] .semantic-svg) {
+    height: 156px;
+  }
+
+  :global(.vocabulary-semantic-scene.compact[data-semantic-depth-mode] .semantic-svg) {
+    height: 128px;
+  }
+</style>
