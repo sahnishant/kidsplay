@@ -5,7 +5,11 @@
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<HotspotQuestion> = $props();
+  let {
+    question,
+    onSubmit,
+    submissionMode = 'explicit'
+  }: EngineProps<HotspotQuestion> = $props();
 
   let selectedRegionIds = $state<string[]>([]);
   let locked = $state(false);
@@ -15,13 +19,18 @@
     return selectedRegionIds.includes(regionId);
   }
 
+  function commit(regionIds: string[]): void {
+    if (!regionIds.length || locked) return;
+    locked = true;
+    onSubmit({ selectedRegionIds: [...regionIds] });
+  }
+
   function toggle(regionId: string): void {
     if (locked) return;
     if (question.interaction.selectionMode === 'single') {
       selectedRegionIds = [regionId];
       status = '1 place selected.';
-      locked = true;
-      onSubmit({ selectedRegionIds: [regionId] });
+      if (submissionMode === 'auto_when_complete') commit([regionId]);
       return;
     }
 
@@ -31,12 +40,6 @@
       selectedRegionIds = [...selectedRegionIds, regionId];
     }
     status = `${selectedRegionIds.length} place${selectedRegionIds.length === 1 ? '' : 's'} selected.`;
-  }
-
-  function submit(): void {
-    if (!selectedRegionIds.length || locked) return;
-    locked = true;
-    onSubmit({ selectedRegionIds: [...selectedRegionIds] });
   }
 </script>
 
@@ -76,8 +79,8 @@
     {/each}
   </div>
   <div class="hotspot__status" role="status" aria-live="polite">{status}</div>
-  {#if question.interaction.selectionMode !== 'single'}
-    <button class="primary-button" type="button" disabled={locked || !selectedRegionIds.length} onclick={submit}>
+  {#if submissionMode === 'explicit' || question.interaction.selectionMode !== 'single'}
+    <button class="primary-button" type="button" disabled={locked || !selectedRegionIds.length} onclick={() => commit(selectedRegionIds)}>
       Check answer
     </button>
   {/if}
