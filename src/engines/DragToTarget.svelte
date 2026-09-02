@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { DragToTargetQuestion } from '../contracts/question';
-  import { createMatchingDisplayOrder } from '../mechanics/matchingPresentation';
+  import { createMatchingDisplayOrder, matchingClueLabel } from '../mechanics/matchingPresentation';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
@@ -24,6 +24,16 @@
     question.interaction.targets,
     question.solution.assignments
   ));
+
+  function pairedItemLabel(targetId: string): string | undefined {
+    return question.interaction.items.find(
+      (item) => question.solution.assignments[item.id] === targetId
+    )?.label;
+  }
+
+  function targetDisplayLabel(targetId: string, label: string): string {
+    return matchingClueLabel(label, pairedItemLabel(targetId));
+  }
 
   function assignedLabel(targetId: string): string {
     const items = question.interaction.items.filter((item) => assignments[item.id] === targetId);
@@ -136,7 +146,7 @@
         {:else if target.symbol}
           <span class="drag-symbol" aria-hidden="true">{target.symbol}</span>
         {/if}
-        <strong>{target.label}</strong>
+        <strong>{targetDisplayLabel(target.id, target.label)}</strong>
         <span class="drop-target__slot">{assignedLabel(target.id)}</span>
       </button>
     {/each}

@@ -1,0 +1,64 @@
+[
+  {
+    "id": "vocab.depth.size-speed.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "enormous-size",
+      "rapid-speed",
+      "quick-speed",
+      "small-size",
+      "large-size"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to the size or speed idea it describes."
+  },
+  {
+    "id": "vocab.depth.properties.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "ancient-age",
+      "hot-temperature",
+      "narrow-width",
+      "smooth-texture"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to the feature it describes."
+  },
+  {
+    "id": "vocab.depth.states-actions.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "fragile-state",
+      "scarce-availability",
+      "silent-sound",
+      "observe-action",
+      "quiet-sound"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to its connected state or action idea."
+  },
+  {
+    "id": "vocab.depth.time-place-emotion.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "early-time",
+      "cheerful-emotion",
+      "library-place"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to the idea it describes."
+  },
+  {
+    "id": "vocab.depth.happy.recognition.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "single_choice@1",
+    "entryIds": ["happy-emotion"],
+    "choiceDirection": "object_to_subject",
+    "distractorCount": 3,
+    "difficulty": 1
+  }
+]

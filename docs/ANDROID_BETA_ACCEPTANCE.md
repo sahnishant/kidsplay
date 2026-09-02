@@ -44,16 +44,18 @@ Use the issue text as the detailed manual checklist. The evidence record stores 
 
 ## Select one exact beta APK
 
-The Android workflow runs automatically for pushes to both `main` and `kidsplay`, for pull requests targeting `main`, and by manual dispatch. For a final #33 physical-device acceptance attempt, select a **successful current-`main` Android run** rather than mixing binaries from different commits.
+The Android workflow runs automatically for pushes to both `main` and `kidsplay`, for pull requests targeting `main`, and by manual dispatch. For a final #33 physical-device acceptance attempt, select a **successful current-`main` push Android run** rather than mixing binaries from different commits or using a PR/`kidsplay` candidate.
 
 Only after the packaged offline/relaunch/rotation smoke succeeds, that run uploads:
 
 - `kidsplay-debug-apk` — the exact APK that passed the automated Android gate;
-- `kidsplay-android-beta-release-identity` — `android-beta-release-identity.json` binding that APK to the exact `commitSha`, `workflowRunId`, APK `artifactId`, package id and APK SHA-256 digest.
+- `kidsplay-android-beta-release-identity` — `android-beta-release-identity.json` binding that APK to the exact `commitSha`, `workflowRunId`, APK `artifactId`, package id and APK SHA-256 digest, plus workflow source provenance (`repository`, event and ref).
 
-Copy the generated `release` object unchanged into every physical-device evidence record for that acceptance attempt. All final records must refer to the same release identity. A generated identity proves which binary was tested; it **does not** prove any physical-device observation and must never populate `qa/android-beta-acceptance/evidence/` automatically.
+Copy the generated `release` object unchanged into every physical-device evidence record for that acceptance attempt. All final records must refer to the same release identity. Keep the generated root-level `source` object unchanged in the downloaded identity artifact; the binding validator uses it to reject PR/`kidsplay` candidates. A generated identity proves which binary was selected; it **does not** prove any physical-device observation and must never populate `qa/android-beta-acceptance/evidence/` automatically.
 
-If `main` advances before physical testing starts, use the newer successful `main` Android run instead. Once physical testing has started for a candidate, keep that release identity fixed for the whole acceptance set; fixes require a new candidate and new immutable evidence records.
+If `main` advances before physical testing starts, use the newer successful `main` push Android run instead. Once physical testing has started for a candidate, keep that release identity fixed for the whole acceptance set; fixes require a new candidate and new immutable evidence records.
+
+Identity artifacts generated before source provenance was introduced cannot satisfy the final binding gate. Use a newly generated post-integration `main` push candidate rather than weakening the validator for legacy artifacts.
 
 ## Recording evidence
 
@@ -82,6 +84,22 @@ node scripts/validate-android-beta-evidence.mjs --dir qa/android-beta-acceptance
 
 The suite validator intentionally fails when evidence is incomplete. Do not weaken it to turn CI/emulator proof into physical acceptance.
 
+## Bind evidence to the workflow-generated APK identity
+
+A self-consistent evidence set can still be wrong if the same mistyped commit/run/artifact/hash was copied into every record, if the identity JSON and APK came from different downloads, or if a PR/`kidsplay` candidate was selected instead of `main`. Before any #33 closure claim, download both `android-beta-release-identity.json` and `app-debug.apk` from the **same successful current-`main` push Android run whose APK was selected for physical testing**, then run the release-binding validator:
+
+```bash
+node scripts/validate-android-beta-release-binding.mjs \
+  --release-identity <downloaded-path>/android-beta-release-identity.json \
+  --apk <downloaded-path>/app-debug.apk \
+  --dir qa/android-beta-acceptance/evidence \
+  --require-complete-suite
+```
+
+This command first applies the existing physical-evidence suite validation, requires the identity source to be exactly `sahnishant/kidsplay` + `push` + `refs/heads/main`, requires every evidence record's entire `release` object to exactly match the workflow-generated identity, and finally hashes the downloaded APK bytes and requires that SHA-256 to match `release.apk.sha256`. The identity file may sit inside the evidence directory; the validator excludes the exact `--release-identity` path from the device-record scan.
+
+This closes the machine-checkable record/identity/APK-byte and accidental non-main-candidate gaps. It still cannot determine that the selected `main` commit is *currently* HEAD after later repository advances, prove that the verified APK was actually installed on the named physical hardware, or prove that a human performed the observations. Those remain explicit tester/release-selection responsibilities.
+
 ## Closure rule
 
-Issue #33 may close only when the final evidence directory passes `--require-complete-suite` **and** all required observations were genuinely performed on physical devices. Repository validation proves that the record is internally complete; it does not prove that a human observation actually happened.
+Issue #33 may close only when the final evidence directory passes `--require-complete-suite`, the same records and downloaded APK pass `validate-android-beta-release-binding.mjs` against a source-provenanced selected current-`main` push identity, **and** all required observations were genuinely performed on physical devices. Repository validation proves that the records are internally complete and bound to the selected generated main-push identity/APK bytes; it does not prove that a human observation actually happened.
