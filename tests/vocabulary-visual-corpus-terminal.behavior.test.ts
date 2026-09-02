@@ -4,6 +4,10 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
+const reviewedUnresolvedLemmas = [
+  'public', 'research', 'project', 'times', 'possible', 'probably', 'final', 'self', 'especially', 'increase',
+  'recent', 'individual', 'imagine', 'judge', 'plus', 'pro', 'none', 'christmas', 'interview', 'therefore', 'worry', 'status'
+];
 
 describe('#76 Phase C full-corpus terminal visual accounting', () => {
   it('gives every 10k corpus lemma a terminal disposition without claiming visual resolution', () => {
@@ -38,20 +42,28 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     )).toBe(true);
   });
 
-  it('keeps the exact remaining priority ambiguity and relevance blockers actionable', () => {
+  it('keeps every remaining priority blocker visible while separating independently reviewed unresolved rows from first-pass work', () => {
     const queue = readJson('content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json');
     const relevance = queue.items.filter((item: { status: string }) => item.status === 'candidate_relevance_review_required');
+    const revisitOnly = queue.items.filter((item: { status: string }) => item.status === 'reviewed_unresolved_revisit_only');
     const unresolved = queue.items.filter((item: { status: string }) => item.status === 'human_sense_selection_required');
 
     expect(queue).toMatchObject({
       schemaVersion: 1,
       issueRef: 76,
       status: 'human_sense_selection_queue',
+      policy: { reviewedUnresolvedRequiresNewContextOrEvidence: true },
       summary: {
         items: 1798,
         exactReviewedSupersededBlockers: 48,
+        reviewedUnresolvedRevisitOnly: 22,
+        firstPassHumanSenseSelection: 1764,
         byRisk: { candidate_relevance: 13, medium: 481, high: 1304 },
-        byStatus: { candidate_relevance_review_required: 12, human_sense_selection_required: 1786 }
+        byStatus: {
+          candidate_relevance_review_required: 12,
+          reviewed_unresolved_revisit_only: 22,
+          human_sense_selection_required: 1764
+        }
       }
     });
     expect(relevance.map((item: { lemma: string }) => item.lemma).sort()).toEqual(
@@ -60,7 +72,19 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     expect(relevance.every((item: { candidateSenseCount: number; terminalStrategy: string }) =>
       item.candidateSenseCount === 1 && item.terminalStrategy === 'textual_only'
     )).toBe(true);
-    expect(unresolved).toHaveLength(1786);
+    expect(revisitOnly.map((item: { lemma: string }) => item.lemma).sort()).toEqual([...reviewedUnresolvedLemmas].sort());
+    expect(revisitOnly.every((item: {
+      candidateSenseCount: number;
+      terminalStrategy: string;
+      reviewedUnresolvedReviewNodeId: string;
+      reviewedUnresolvedReviewSource: string;
+    }) =>
+      item.candidateSenseCount === 2 &&
+      item.terminalStrategy === 'sense_unresolved' &&
+      item.reviewedUnresolvedReviewNodeId === 'PRR_kwDOUHzR8c8AAAABLo97tQ' &&
+      item.reviewedUnresolvedReviewSource === 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json'
+    )).toBe(true);
+    expect(unresolved).toHaveLength(1764);
     expect(unresolved.every((item: { terminalStrategy: string; candidateIds: string[] }) =>
       item.terminalStrategy === 'sense_unresolved' && item.candidateIds.length >= 1
     )).toBe(true);
