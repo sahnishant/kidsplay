@@ -44,6 +44,30 @@ jobs:
       - name: Register approved review evidence
         run: node scripts/tmp-register-approved-semantic-tranche-003.mjs
 
+      - name: Align permanent test expectations with approved registration
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+
+          const factoryPath = 'tests/vocabulary-visual-batch-factory.behavior.test.ts';
+          let factory = readFileSync(factoryPath, 'utf8');
+          const oldLedger = `      'priority-sense-resolution-001',\n      'priority-sense-resolution-002'\n    ]);`;
+          const newLedger = `      'priority-sense-resolution-001',\n      'priority-sense-resolution-002',\n      'priority-sense-resolution-003'\n    ]);`;
+          if (!factory.includes(oldLedger)) throw new Error('Batch-factory ledger expectation target missing');
+          factory = factory.replace(oldLedger, newLedger);
+          writeFileSync(factoryPath, factory, 'utf8');
+
+          const corpusPath = 'tests/vocabulary-visual-corpus-terminal.behavior.test.ts';
+          let corpus = readFileSync(corpusPath, 'utf8');
+          const oldReport = `      resolvedStrategyLemmas: 635,\n      blockedSenseResolutionLemmas: 9365,\n      exactReviewedSupersedingLemmas: 48,`;
+          const newReport = `      resolvedStrategyLemmas: 657,\n      blockedSenseResolutionLemmas: 9343,\n      exactReviewedSupersedingLemmas: 70,`;
+          if (!corpus.includes(oldReport)) throw new Error('Corpus report expectation target missing');
+          corpus = corpus.replace(oldReport, newReport);
+          corpus = corpus.replace(`      resolvedStrategyLemmas: 602,\n      blockedSenseResolutionLemmas: 1798`, `      resolvedStrategyLemmas: 624,\n      blockedSenseResolutionLemmas: 1776`);
+          corpus = corpus.replace('expect(report.senseResolutionQueue.items).toBe(1798);', 'expect(report.senseResolutionQueue.items).toBe(1776);');
+          writeFileSync(corpusPath, corpus, 'utf8');
+          NODE
+
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
