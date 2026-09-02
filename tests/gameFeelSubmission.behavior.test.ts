@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import type {
   DragToTargetQuestion,
@@ -96,11 +96,11 @@ function fillQuestion(): WordBankFillQuestion {
   };
 }
 
-function choiceQuestion(): SingleChoiceQuestion {
+function choiceQuestion(id = 'test.game-feel.choice', prompt = 'Choose one.'): SingleChoiceQuestion {
   return {
     ...common,
-    id: 'test.game-feel.choice',
-    prompt: { text: 'Choose one.' },
+    id,
+    prompt: { text: prompt },
     interaction: {
       type: 'single_choice',
       version: 1,
@@ -122,6 +122,7 @@ function targetButton(label: string): HTMLButtonElement {
 
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
   document.querySelector('[data-answer-feedback]')?.remove();
 });
 
@@ -230,6 +231,27 @@ describe('child game-feel submission policy', () => {
     expect(assessmentSubmissions).toHaveLength(0);
     await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
     expect(assessmentSubmissions).toHaveLength(1);
+  });
+
+  it('auto-continues normal play after the short reaction window', async () => {
+    vi.useFakeTimers();
+    render(Session, {
+      props: {
+        title: 'Play flow',
+        mode: 'free_explore',
+        questions: [
+          choiceQuestion('test.game-feel.choice-1', 'First choice.'),
+          choiceQuestion('test.game-feel.choice-2', 'Second choice.')
+        ]
+      }
+    });
+
+    expect(screen.getByRole('heading', { name: 'First choice.' })).toBeTruthy();
+    await fireEvent.click(screen.getByRole('button', { name: 'Yes' }));
+    expect(screen.getByRole('status').textContent).toContain('Correct.');
+
+    await vi.advanceTimersByTimeAsync(1600);
+    expect(screen.getByRole('heading', { name: 'Second choice.' })).toBeTruthy();
   });
 
   it('keeps celebratory splash feedback out of assessment mode', async () => {
