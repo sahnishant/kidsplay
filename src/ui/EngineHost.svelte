@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Question } from '../contracts/question';
   import type { EvaluationResult } from '../contracts/runtime';
+  import { playAnswerFeedback } from '../runtime/answerFeedbackAudio';
   import { getEngineComponent } from '../runtime/engineRegistry';
 
   let {
@@ -14,8 +15,14 @@
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
+
+  function handleSubmit(response: unknown): void {
+    const result = checkResponse(response);
+    playAnswerFeedback(result.correct);
+    onSubmit(response);
+  }
 </script>
 
 {#key question.id}
-  <Engine {question} {onSubmit} {checkResponse} />
+  <Engine {question} onSubmit={handleSubmit} {checkResponse} />
 {/key}
