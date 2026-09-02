@@ -19,7 +19,13 @@
     if (locked) return;
     if (question.interaction.selectionMode === 'single') {
       selectedRegionIds = [regionId];
-    } else if (selected(regionId)) {
+      status = '1 place selected.';
+      locked = true;
+      onSubmit({ selectedRegionIds: [regionId] });
+      return;
+    }
+
+    if (selected(regionId)) {
       selectedRegionIds = selectedRegionIds.filter((id) => id !== regionId);
     } else {
       selectedRegionIds = [...selectedRegionIds, regionId];
@@ -70,9 +76,11 @@
     {/each}
   </div>
   <div class="hotspot__status" role="status" aria-live="polite">{status}</div>
-  <button class="primary-button" type="button" disabled={locked || !selectedRegionIds.length} onclick={submit}>
-    Check answer
-  </button>
+  {#if question.interaction.selectionMode !== 'single'}
+    <button class="primary-button" type="button" disabled={locked || !selectedRegionIds.length} onclick={submit}>
+      Check answer
+    </button>
+  {/if}
 </div>
 
 <style>
