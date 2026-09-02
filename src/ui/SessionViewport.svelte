@@ -122,21 +122,20 @@
     autoAdvanceTimer = null;
   }
 
-  function autoAdvanceDelay(currentQuestion: Question, correct: boolean): number {
+  function autoAdvanceDelay(currentQuestion: Question): number {
     const richReinforcement = Boolean(storyCompletion)
       || Boolean(resolveQuestionSceneId(currentQuestion))
       || Boolean(resolveQuestionFeedbackRecipeId(currentQuestion));
-    if (richReinforcement) return correct ? 2600 : 3000;
-    return correct ? 1500 : 2000;
+    return richReinforcement ? 2600 : 1500;
   }
 
   function queueAutoAdvance(currentQuestion: Question, correct: boolean): void {
     clearAutoAdvance();
-    if (assessmentMode || restoredSubmitted) return;
+    if (assessmentMode || restoredSubmitted || !correct) return;
     autoAdvanceTimer = setTimeout(() => {
       autoAdvanceTimer = null;
       handleAdvance();
-    }, autoAdvanceDelay(currentQuestion, correct));
+    }, autoAdvanceDelay(currentQuestion));
   }
 
   function handleSubmit(response: unknown): void {
