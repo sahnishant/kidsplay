@@ -67,6 +67,13 @@ jobs:
       - name: Run semantic visual breadth acceptance suite
         run: npm run test:vocabulary-visuals
 
+      - name: Upload temporary Stage A runtime projection
+        uses: actions/upload-artifact@v7
+        with:
+          name: vocabulary-runtime-projection-stage-a
+          path: content/vocabulary-visuals/__generated-runtime-plans.json
+          if-no-files-found: error
+
       - name: Prove generated artifacts do not dirty tracked source
         shell: bash
         run: |
