@@ -53,7 +53,7 @@ describe('visual presentation hard slice bounds', () => {
     })).toThrow(/payload is .* maximum is 1/i);
   });
 
-  it('reports V1 source resolution separately from V3+ renderability and V5+ child proof', () => {
+  it('reports V1 source resolution separately from V3+ renderability and V5+/V6 child proof', () => {
     const unresolvedSource = sourceItems.find((item: any) => item.strategy === 'sense_unresolved');
     expect(unresolvedSource).toBeTruthy();
     expect(unresolvedSource.maturity).toBe('V1');
@@ -71,9 +71,9 @@ describe('visual presentation hard slice bounds', () => {
 
     expect(slice.summary.sourceV1Plus).toBe(3);
     expect(slice.summary.effectiveV3Plus).toBe(2);
-    expect(slice.summary.effectiveV5Plus).toBe(1);
-    expect(slice.summary.childFacing).toBe(1);
+    expect(slice.summary.effectiveV5Plus).toBe(2);
+    expect(slice.summary.childFacing).toBe(2);
     expect(slice.summary.unresolved).toBe(1);
-    expect(slice.summary.textFallback).toBe(2);
+    expect(slice.summary.textFallback).toBe(1);
   });
 });

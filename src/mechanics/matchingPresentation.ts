@@ -31,6 +31,27 @@ function positionalMatchCount<TItem extends MatchableItem, TTarget extends Match
   return matches;
 }
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+/**
+ * Definition targets already sit opposite their source word in matching games.
+ * Remove only that paired word's redundant dictionary scaffold for display,
+ * while leaving the approved stored definition and unrelated targets untouched.
+ */
+export function matchingClueLabel(label: string, itemLabel?: string): string {
+  const source = itemLabel?.trim();
+  if (!source) return label;
+
+  const pattern = new RegExp(
+    `^(?:(?:a|an|the)\\s+)?${escapeRegExp(source)}\\s+(?:means|is|are)\\s+`,
+    'i'
+  );
+  const clue = label.replace(pattern, '').trim();
+  return clue || label;
+}
+
 /**
  * Shuffle a presentation list while ensuring a multi-item list never falls back
  * to its authored order just because Fisher-Yates happened to produce identity.

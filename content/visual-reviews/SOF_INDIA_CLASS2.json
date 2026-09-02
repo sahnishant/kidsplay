@@ -113,6 +113,11 @@
       "semanticRef": "strange",
       "status": "keep_text",
       "reason": "The reviewed adjective means unusual or different from what is expected. Any single odd-looking object would encode one subjective example rather than the lexical meaning."
+    },
+    {
+      "semanticRef": "daily",
+      "status": "keep_text",
+      "reason": "This Class 2 hygiene use expresses every-day recurrence. A standalone object icon would not reliably encode recurrence and could misteach the habit, so the relation remains textual."
     }
   ]
 }

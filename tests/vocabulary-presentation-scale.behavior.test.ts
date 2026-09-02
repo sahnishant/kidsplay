@@ -74,19 +74,20 @@ describe('scalable visual dictionary presentation compiler', () => {
     expect(compilePresentationRecord(directItem, { contract }).derivedMode).toBe('asset');
   });
 
-  it('keeps renderer proof separate from child-facing dictionary authority', () => {
+  it('keeps semantic audit maturity separate from evidence-backed V6 child-facing authority', () => {
     const village = compilePresentationRecord(source('village#settlement'), {
       contract,
       runtimePlan: runtimePlan('village#settlement')
     });
     expect(village).toMatchObject({
-      status: 'renderer_proven',
+      status: 'child_facing',
       derivedMode: 'compose',
-      deliveryMode: 'text',
+      deliveryMode: 'compose',
       rendererReady: true,
-      childFacing: false,
-      effectiveMaturity: 'V3',
-      fallbackReason: 'not_child_facing'
+      childFacing: true,
+      effectiveMaturity: 'V6',
+      runtimeUsage: 'knowledge_reinforcement',
+      fallbackReason: null
     });
 
     const enormous = compilePresentationRecord(source('enormous#very-large-size'), {
@@ -99,7 +100,7 @@ describe('scalable visual dictionary presentation compiler', () => {
       deliveryMode: 'compare',
       rendererReady: true,
       childFacing: true,
-      effectiveMaturity: 'V5',
+      effectiveMaturity: 'V6',
       runtimeUsage: 'knowledge_reinforcement'
     });
   });

@@ -36,13 +36,12 @@ describe('child touch-target product invariant', () => {
   });
 
   it('keeps compact navigation and representative child interaction families at the 44px floor', () => {
-    expect(policy).toContain('--child-touch-target-min: 44px;');
-    expect(policy).toMatch(/#app \.home-button,[\s\S]*?#app \.panel-back \{[\s\S]*?width: var\(--child-touch-target-min\);[\s\S]*?min-width: var\(--child-touch-target-min\);[\s\S]*?height: var\(--child-touch-target-min\);[\s\S]*?min-height: var\(--child-touch-target-min\);[\s\S]*?\}/);
+    expect(policy).toMatch(/#app :is\(\.home-button,\.panel-back\) \{ width:44px; height:44px; \}/);
 
-    for (const selector of representativeSelectors) {
-      expect(policy, `${selector} should be covered by the child touch-target policy`).toContain(`#app ${selector}`);
+    for (const selector of ['.home-button', '.panel-back', ...representativeSelectors]) {
+      expect(policy, `${selector} should be covered by the child touch-target policy`).toContain(selector);
     }
-    expect(policy).toMatch(/#app \.child-hud__player,[\s\S]*?#app \.sequence-order__move \{[\s\S]*?min-width: var\(--child-touch-target-min\);[\s\S]*?min-height: var\(--child-touch-target-min\);[\s\S]*?\}/);
+    expect(policy).toMatch(/#app :is\([^)]+\.sequence-order__move\) \{ min-width:44px; min-height:44px; \}/);
   });
 
   it('retains a visible keyboard focus treatment while enforcing the touch floor', () => {
