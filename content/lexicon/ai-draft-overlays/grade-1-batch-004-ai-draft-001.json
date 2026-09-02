@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-1-batch-004-ai-draft-001",
+  "batchId": "grade-1-batch-004",
+  "grade": 1,
+  "generatedAt": "2026-09-03",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "answer",
+      "proposedCandidateId": "answer#n#1",
+      "proposedChildDefinition": "An answer is what you say or write when someone asks you a question.",
+      "proposedChildExample": "Riya raised her hand and gave the answer.",
+      "rationale": "The reply-to-a-question sense is the ordinary early-primary noun; solution/result and speech-act readings are more specialized."
+    },
+    {
+      "lemma": "door",
+      "proposedCandidateId": "door#n#1",
+      "proposedChildDefinition": "A door is a movable panel that opens and closes an entrance.",
+      "proposedChildExample": "Please close the door when you leave.",
+      "rationale": "The physical barrier is the concrete child-facing meaning; doorway-space and figurative access readings are secondary."
+    },
+    {
+      "lemma": "difficult",
+      "proposedCandidateId": "difficult#a#1",
+      "proposedChildDefinition": "Difficult means not easy and needing extra effort.",
+      "proposedChildExample": "The last puzzle was difficult, but Maya kept trying.",
+      "rationale": "The general not-easy sense is foundational; hard-to-control is a narrower second reading."
+    },
+    {
+      "lemma": "century",
+      "proposedCandidateId": "century#n#1",
+      "proposedChildDefinition": "A century is a period of one hundred years.",
+      "proposedChildExample": "One century is the same as 100 years.",
+      "rationale": "The time-period sense is the standard school meaning; the bare numerical-hundred sense is secondary."
+    },
+    {
+      "lemma": "eye",
+      "proposedCandidateId": "eye#n#1",
+      "proposedChildDefinition": "An eye is the body part that helps you see.",
+      "proposedChildExample": "She covered one eye during the vision test.",
+      "rationale": "The organ-of-sight sense is concrete and foundational; discernment and attention readings are figurative."
+    },
+    {
+      "lemma": "often",
+      "proposedCandidateId": "often#r#1",
+      "proposedChildDefinition": "Often means many times or frequently.",
+      "proposedChildExample": "We often read a story before bed.",
+      "rationale": "Frequent recurrence is the ordinary child-facing adverb reading."
+    },
+    {
+      "lemma": "new",
+      "proposedCandidateId": "new#a#3",
+      "proposedChildDefinition": "New means recently made, found, bought, or begun.",
+      "proposedChildExample": "Aarav brought a new notebook to school.",
+      "rationale": "Candidate 3 is the ordinary recently-created/acquired sense; candidates 1 and 2 are historical-language senses."
+    },
+    {
+      "lemma": "good",
+      "proposedCandidateId": "good#a#1",
+      "proposedChildDefinition": "Good means having qualities that are useful, pleasant, or right for what is needed.",
+      "proposedChildExample": "This is a good book for beginning readers.",
+      "rationale": "The broad positive-quality sense is the safest general classroom reading; full-measure and specifically moral readings are narrower."
+    },
+    {
+      "lemma": "first",
+      "proposedCandidateId": "first#a#1",
+      "proposedChildDefinition": "First means coming before all the others.",
+      "proposedChildExample": "Meera was first in line.",
+      "rationale": "Ordering in time or space is the foundational child meaning; musical-rank and opening-only readings are narrower."
+    },
+    {
+      "lemma": "believe",
+      "proposedCandidateId": "believe#v#1",
+      "proposedChildDefinition": "To believe something means to accept that it is true.",
+      "proposedChildExample": "I believe your story because you told me what happened.",
+      "rationale": "Accept-as-true is the ordinary base meaning; regard/judge and confidence readings are related but distinct."
+    },
+    {
+      "lemma": "work",
+      "proposedCandidateId": "work#n#1",
+      "proposedChildDefinition": "Work is effort or activity used to make or do something.",
+      "proposedChildExample": "Cleaning the garden took a lot of work.",
+      "rationale": "Activity or effort is the broad foundational noun; product and paid-employment senses are distinct."
+    },
+    {
+      "lemma": "best",
+      "proposedCandidateId": "best#a#1",
+      "proposedChildDefinition": "Best means having the most positive qualities among the choices.",
+      "proposedChildExample": "She chose the best picture for the poster.",
+      "rationale": "The superlative-of-good sense is the ordinary child-facing adjective; most-advisable is narrower."
+    }
+  ]
+}
