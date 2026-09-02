@@ -30,20 +30,32 @@ function candidateIndex(sliceDir) {
   return index;
 }
 
-function loadDecisions(reviewDir) {
-  const decisions = [];
-  for (const file of jsonFiles(reviewDir)) {
-    const document = JSON.parse(readFileSync(file, 'utf8'));
-    for (const decision of document.decisions ?? []) decisions.push({ ...decision, decisionFile: file });
-  }
-  return decisions;
+function reviewBatchKey(document, file) {
+  if (!(document.decisions ?? []).length) return null;
+  const match = /^grade-\d+-batch-(\d+)$/.exec(clean(document.batchId));
+  if (!match) throw new Error(`${file}: review handoff with decisions requires grade-N-batch-NNN batchId`);
+  return match[1].padStart(3, '0');
 }
 
-export function buildReviewedKnowledge(decisions, candidates) {
+function loadDecisionBatches(reviewDir) {
+  const batches = new Map();
+  for (const file of jsonFiles(reviewDir)) {
+    const document = JSON.parse(readFileSync(file, 'utf8'));
+    const batchKey = reviewBatchKey(document, file);
+    if (!batchKey) continue;
+    const bucket = batches.get(batchKey) ?? [];
+    for (const decision of document.decisions ?? []) bucket.push({ ...decision, decisionFile: file });
+    batches.set(batchKey, bucket);
+  }
+  return batches;
+}
+
+export function buildReviewedKnowledge(decisions, candidates, options = {}) {
   const accepted = [];
   const seenLemmas = new Set();
   for (const decision of decisions) {
     if (decision?.status !== 'reviewed' || decision?.decision !== 'accept') continue;
+    if (decision?.reviewAuthority !== 'human_editor') throw new Error(`${decision.decisionFile ?? 'review'}: accepted decision requires human_editor authority`);
     const candidateId = clean(decision.candidateId);
     const match = candidates.get(candidateId);
     if (!match) throw new Error(`${decision.decisionFile ?? 'review'}: unknown candidateId ${candidateId}`);
@@ -55,7 +67,7 @@ export function buildReviewedKnowledge(decisions, candidates) {
     const reviewer = clean(decision.reviewer);
     const reviewedAt = clean(decision.reviewedAt);
     if (!reviewer || !/^\d{4}-\d{2}-\d{2}/.test(reviewedAt)) throw new Error(`${candidateId}: reviewer and reviewedAt are required`);
-    if (seenLemmas.has(lemma)) throw new Error(`${lemma}: only one accepted sense per lemma may be imported in this seed lane`);
+    if (seenLemmas.has(lemma)) throw new Error(`${lemma}: only one accepted sense per lemma may be imported in one production batch`);
     seenLemmas.add(lemma);
 
     const senseId = clean(match.candidate?.sourceSense?.senseId);
@@ -86,14 +98,15 @@ export function buildReviewedKnowledge(decisions, candidates) {
 
   accepted.sort((left, right) => left.subject.label.localeCompare(right.subject.label, 'en'));
   if (!accepted.length) return [];
+  const batchKey = clean(options.batchKey || '001').padStart(3, '0');
   return [{
     schemaVersion: 1,
-    id: 'knowledge.english.vocabulary.primary-reviewed.001',
+    id: options.sourceId || `knowledge.english.vocabulary.primary-reviewed.${batchKey}`,
     kind: 'association_set',
     version: 1,
     language: 'en',
     subject: 'English',
-    topic: 'Vocabulary - Reviewed Primary Meanings',
+    topic: batchKey === '001' ? 'Vocabulary - Reviewed Primary Meanings' : `Vocabulary - Reviewed Primary Meanings Batch ${batchKey}`,
     entries: accepted,
     authoring: {
       status: 'reviewed',
@@ -116,17 +129,30 @@ function parseArgs(argv) {
   return args;
 }
 
+function outputForBatch(batchKey, explicitOutput) {
+  if (batchKey === '001') return resolve(String(explicitOutput || DEFAULT_OUTPUT));
+  return resolve(`content/knowledge/english-vocabulary-primary-reviewed-batch-${batchKey}.json`);
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const reviewDir = resolve(String(args['review-dir'] || DEFAULT_REVIEW_DIR));
   const sliceDir = resolve(String(args['slice-dir'] || DEFAULT_SLICE_DIR));
-  const output = resolve(String(args.output || DEFAULT_OUTPUT));
   const candidates = candidateIndex(sliceDir);
-  const decisions = loadDecisions(reviewDir);
-  const knowledge = buildReviewedKnowledge(decisions, candidates);
-  mkdirSync(dirname(output), { recursive: true });
-  writeFileSync(output, `${JSON.stringify(knowledge, null, 2)}\n`, 'utf8');
-  console.log(`Reviewed primary vocabulary imported: ${knowledge[0]?.entries?.length ?? 0} semantic rows -> ${output}`);
+  const batches = loadDecisionBatches(reviewDir);
+  if (!batches.size) throw new Error('No reviewed vocabulary decision batches found');
+
+  let total = 0;
+  for (const [batchKey, decisions] of [...batches.entries()].sort(([left], [right]) => left.localeCompare(right))) {
+    const output = outputForBatch(batchKey, args.output);
+    const knowledge = buildReviewedKnowledge(decisions, candidates, { batchKey });
+    mkdirSync(dirname(output), { recursive: true });
+    writeFileSync(output, `${JSON.stringify(knowledge, null, 2)}\n`, 'utf8');
+    const count = knowledge[0]?.entries?.length ?? 0;
+    total += count;
+    console.log(`Reviewed primary vocabulary batch ${batchKey}: ${count} semantic row(s) -> ${output}`);
+  }
+  console.log(`Reviewed primary vocabulary imported: ${total} semantic row(s) across ${batches.size} production batch(es)`);
 }
 
 if (import.meta.url === `file://${resolve(process.argv[1] ?? '')}`) main();
