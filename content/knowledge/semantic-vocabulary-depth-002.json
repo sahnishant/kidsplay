@@ -1,0 +1,180 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "kind": "association_set",
+    "version": 1,
+    "language": "en",
+    "subject": "English",
+    "topic": "Vocabulary - Connected Meaning Explanations",
+    "entries": [
+      {
+        "id": "enormous-size",
+        "rowId": "kr.vocab.depth.enormous.describes-very-large-size",
+        "subject": { "id": "enormous", "label": "enormous" },
+        "relation": "describes_dimension",
+        "object": { "id": "very-large-size", "label": "very large size" },
+        "conceptIds": ["vocabulary.meaning.enormous", "vocabulary.comparison.size"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "fragile-state",
+        "rowId": "kr.vocab.depth.fragile.describes-easily-broken-state",
+        "subject": { "id": "fragile", "label": "fragile" },
+        "relation": "describes_state",
+        "object": { "id": "easily-broken", "label": "easily broken or damaged" },
+        "conceptIds": ["vocabulary.meaning.fragile", "vocabulary.state.fragile"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "rapid-speed",
+        "rowId": "kr.vocab.depth.rapid.describes-very-fast-speed",
+        "subject": { "id": "rapid", "label": "rapid" },
+        "relation": "describes_dimension",
+        "object": { "id": "very-fast-speed", "label": "very fast speed" },
+        "conceptIds": ["vocabulary.meaning.rapid", "vocabulary.comparison.speed"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "ancient-age",
+        "rowId": "kr.vocab.depth.ancient.describes-very-old-age",
+        "subject": { "id": "ancient", "label": "ancient" },
+        "relation": "describes_dimension",
+        "object": { "id": "very-old-from-long-ago", "label": "very old from long ago" },
+        "conceptIds": ["vocabulary.meaning.ancient", "vocabulary.comparison.age"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "cheerful-emotion",
+        "rowId": "kr.vocab.depth.cheerful.describes-positive-emotion",
+        "subject": { "id": "cheerful", "label": "cheerful" },
+        "relation": "describes_state",
+        "object": { "id": "positive-happy-emotion", "label": "a positive, happy emotional state" },
+        "conceptIds": ["vocabulary.meaning.cheerful", "vocabulary.emotion.positive"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "scarce-availability",
+        "rowId": "kr.vocab.depth.scarce.describes-limited-availability",
+        "subject": { "id": "scarce", "label": "scarce" },
+        "relation": "describes_state",
+        "object": { "id": "limited-availability", "label": "available only in a small amount" },
+        "conceptIds": ["vocabulary.meaning.scarce", "vocabulary.quantity.availability"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "silent-sound",
+        "rowId": "kr.vocab.depth.silent.describes-no-sound",
+        "subject": { "id": "silent", "label": "silent" },
+        "relation": "describes_state",
+        "object": { "id": "no-sound", "label": "no sound being made" },
+        "conceptIds": ["vocabulary.meaning.silent", "vocabulary.sound.level"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "observe-action",
+        "rowId": "kr.vocab.depth.observe.is-attentive-looking-action",
+        "subject": { "id": "observe", "label": "observe" },
+        "relation": "is_a",
+        "object": { "id": "attentive-looking-action", "label": "careful looking or watching action" },
+        "conceptIds": ["vocabulary.meaning.observe", "vocabulary.action.observe"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "happy-emotion",
+        "rowId": "kr.vocab.depth.happy.describes-positive-emotion",
+        "subject": { "id": "happy", "label": "happy" },
+        "relation": "describes_state",
+        "object": { "id": "positive-emotion", "label": "a positive emotional state" },
+        "conceptIds": ["vocabulary.emotion.happy", "vocabulary.emotion.positive"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "quick-speed",
+        "rowId": "kr.vocab.depth.quick.describes-fast-speed",
+        "subject": { "id": "quick", "label": "quick" },
+        "relation": "describes_dimension",
+        "object": { "id": "fast-speed", "label": "fast speed" },
+        "conceptIds": ["vocabulary.meaning.quick", "vocabulary.comparison.speed"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "small-size",
+        "rowId": "kr.vocab.depth.small.describes-small-size",
+        "subject": { "id": "small", "label": "small" },
+        "relation": "describes_dimension",
+        "object": { "id": "small-size", "label": "small size" },
+        "conceptIds": ["vocabulary.meaning.small", "vocabulary.comparison.size"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "large-size",
+        "rowId": "kr.vocab.depth.large.describes-large-size",
+        "subject": { "id": "large", "label": "large" },
+        "relation": "describes_dimension",
+        "object": { "id": "large-size", "label": "large size" },
+        "conceptIds": ["vocabulary.meaning.large", "vocabulary.comparison.size"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "quiet-sound",
+        "rowId": "kr.vocab.depth.quiet.describes-low-sound",
+        "subject": { "id": "quiet", "label": "quiet" },
+        "relation": "describes_state",
+        "object": { "id": "low-or-no-sound", "label": "little or no sound" },
+        "conceptIds": ["vocabulary.meaning.quiet", "vocabulary.sound.level"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "hot-temperature",
+        "rowId": "kr.vocab.depth.hot.describes-high-temperature",
+        "subject": { "id": "hot", "label": "hot" },
+        "relation": "describes_dimension",
+        "object": { "id": "high-temperature", "label": "high temperature" },
+        "conceptIds": ["vocabulary.meaning.hot", "vocabulary.comparison.temperature"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "early-time",
+        "rowId": "kr.vocab.depth.early.describes-before-expected-time",
+        "subject": { "id": "early", "label": "early" },
+        "relation": "describes_order_position",
+        "object": { "id": "before-expected-time", "label": "before the expected or usual time" },
+        "conceptIds": ["vocabulary.meaning.early", "vocabulary.order.time"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "narrow-width",
+        "rowId": "kr.vocab.depth.narrow.describes-small-width",
+        "subject": { "id": "narrow", "label": "narrow" },
+        "relation": "describes_dimension",
+        "object": { "id": "small-width", "label": "small width from side to side" },
+        "conceptIds": ["vocabulary.meaning.narrow", "vocabulary.comparison.width"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "smooth-texture",
+        "rowId": "kr.vocab.depth.smooth.describes-even-texture",
+        "subject": { "id": "smooth", "label": "smooth" },
+        "relation": "describes_dimension",
+        "object": { "id": "even-texture", "label": "an even surface texture" },
+        "conceptIds": ["vocabulary.meaning.smooth", "vocabulary.comparison.texture"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "reasoning"] }
+      },
+      {
+        "id": "library-place",
+        "rowId": "kr.vocab.depth.library.is-reading-resource-place",
+        "subject": { "id": "library", "label": "library" },
+        "relation": "is_a",
+        "object": { "id": "reading-resource-place", "label": "place for books and reading resources" },
+        "conceptIds": ["vocabulary.meaning.library", "vocabulary.place.library", "vocabulary.learning.reading"],
+        "meta": { "knowledgeLevel": "basic", "skills": ["vocabulary", "classification"] }
+      }
+    ],
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-semantic-depth",
+      "scopeNote": "General English semantic relationships for already reviewed/proof-backed vocabulary senses. These rows add reusable classification, state and comparison structure without importing dictionary glosses, presentation implementation or curriculum/profile placement."
+    }
+  }
+]
