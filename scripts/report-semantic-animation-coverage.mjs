@@ -136,6 +136,7 @@ const safetyFailures = [
   ...sceneThemeMismatches,
   ...unresolvedQuestionVisualRefs,
   ...unknownExplicitScenes,
+  ...unusedCompositionIds.map((id) => `${id}: authored semantic composition has no child-facing scene owner`),
   ...staticFallbackFailures.map((id) => `${id}: missing static/reduced-motion meaning`),
   ...policyFailures
 ];
