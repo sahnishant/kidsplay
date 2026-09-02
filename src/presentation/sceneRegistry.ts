@@ -5,9 +5,12 @@ const sceneModules = import.meta.glob('../../content/scenes/*.json', {
   import: 'default'
 }) as Record<string, unknown>;
 
+// Keep registry order deterministic across bundlers while preserving authored
+// scene order inside each content file.
 const scenes = Object.freeze(
-  Object.values(sceneModules)
-    .flatMap((value) => (Array.isArray(value) ? (value as SceneDefinition[]) : []))
+  Object.entries(sceneModules)
+    .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
+    .flatMap(([, value]) => (Array.isArray(value) ? (value as SceneDefinition[]) : []))
 );
 const byId = new Map(scenes.map((scene) => [scene.id, scene]));
 
