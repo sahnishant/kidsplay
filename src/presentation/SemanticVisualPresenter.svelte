@@ -53,18 +53,18 @@
 {/if}
 
 <style>
-  /* Reserve cue space inside the existing semantic-card footprint. */
-  :global(.vocabulary-semantic-scene[data-semantic-depth-mode]) {
+  /* The depth attribute is on the scene section; the cue is a child div. */
+  :global(section[data-semantic-depth-mode]) {
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
     height: 176px;
   }
-  :global(.vocabulary-semantic-scene.compact[data-semantic-depth-mode]) { height: 138px; }
-  :global(.vocabulary-semantic-scene[data-semantic-depth-mode] :is(.semantic-svg,.direct-entity)) {
+  :global(section.compact[data-semantic-depth-mode]) { height: 138px; }
+  :global(section[data-semantic-depth-mode] :is(.semantic-svg,.direct-entity)) {
     max-height: 100%;
     margin: 0 auto;
   }
-  :global(.vocabulary-semantic-scene[data-semantic-depth-mode] .semantic-depth-cue) {
+  :global(section[data-semantic-depth-mode] .semantic-depth-cue) {
     position: static !important;
     margin: 0 6px 2px auto;
   }
