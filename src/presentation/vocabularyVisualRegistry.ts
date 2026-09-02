@@ -139,12 +139,19 @@ const runtimePlans: RuntimePlanFile = {
   plans: rawRuntimePlans.plans.map(normalizePlan)
 };
 
-const bySenseKey = new Map(runtimePlans.plans.map((plan) => [plan.senseKey, plan]));
-const byKnowledgeRef = new Map(
-  runtimePlans.plans
-    .filter((plan): plan is VocabularyVisualRuntimePlan & { knowledgeRef: string } => Boolean(plan.knowledgeRef))
-    .map((plan) => [plan.knowledgeRef, plan])
-);
+const bySenseKey = new Map<string, VocabularyVisualRuntimePlan>();
+const byKnowledgeRef = new Map<string, VocabularyVisualRuntimePlan>();
+for (const plan of runtimePlans.plans) {
+  if (bySenseKey.has(plan.senseKey)) throw new Error(`Duplicate vocabulary visual runtime senseKey ${plan.senseKey}`);
+  bySenseKey.set(plan.senseKey, plan);
+
+  if (plan.knowledgeRef) {
+    if (byKnowledgeRef.has(plan.knowledgeRef)) {
+      throw new Error(`Duplicate vocabulary visual runtime knowledgeRef ${plan.knowledgeRef}`);
+    }
+    byKnowledgeRef.set(plan.knowledgeRef, plan);
+  }
+}
 
 export function isVocabularyVisualPlanChildFacing(plan: VocabularyVisualRuntimePlan | null | undefined): boolean {
   return Boolean(plan && plan.runtimeUsage === 'knowledge_reinforcement' && CHILD_FACING_MATURITIES.has(plan.maturity));
