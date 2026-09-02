@@ -14,7 +14,17 @@ function jsonFiles(directory) {
   return readdirSync(directory).filter((name) => name.endsWith('.json')).sort().map((name) => resolve(directory, name));
 }
 
-function candidateIndex(sliceDir) {
+function candidateEvidenceSignature(item, candidate) {
+  return JSON.stringify({
+    lemma: clean(item?.lemma).toLowerCase(),
+    grade: Number(item?.grade),
+    upstreamSourceGrade: Number(item?.upstreamSourceGrade),
+    partOfSpeech: clean(item?.partOfSpeech),
+    candidate
+  });
+}
+
+export function candidateIndex(sliceDir) {
   const index = new Map();
   for (const file of jsonFiles(sliceDir)) {
     const slice = JSON.parse(readFileSync(file, 'utf8'));
@@ -23,7 +33,18 @@ function candidateIndex(sliceDir) {
     }
     for (const item of slice.items ?? []) {
       for (const candidate of item.candidateSenses ?? []) {
-        if (index.has(candidate.candidateId)) throw new Error(`Duplicate candidate id ${candidate.candidateId}`);
+        const existing = index.get(candidate.candidateId);
+        if (existing) {
+          const existingSignature = candidateEvidenceSignature(existing.item, existing.candidate);
+          const incomingSignature = candidateEvidenceSignature(item, candidate);
+          if (existingSignature !== incomingSignature) {
+            throw new Error(`Conflicting duplicate candidate id ${candidate.candidateId} across curator slices`);
+          }
+          // Larger deterministic curator windows intentionally contain the
+          // already-certified prefix. Identical OEWN candidate evidence is one
+          // authority record, not a conflict and not a second review source.
+          continue;
+        }
         index.set(candidate.candidateId, { item, candidate, slice, file });
       }
     }
