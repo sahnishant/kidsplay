@@ -18,10 +18,22 @@ describe('permanent semantic visual invariants', () => {
       const repeated = Array.from({ length: 25 }, () => resolveAnimationForState(query)?.id ?? null);
       expect(new Set(repeated)).toEqual(new Set([first]));
     }
+  });
 
-    const registrySource = readFileSync('src/presentation/animationRegistry.ts', 'utf8');
-    expect(registrySource).toContain('Object.entries(animationModules)');
-    expect(registrySource).toContain('leftPath.localeCompare(rightPath)');
+  it('makes cross-file registry precedence explicit instead of inheriting glob enumeration', () => {
+    for (const path of [
+      'src/presentation/animationRegistry.ts',
+      'src/presentation/sceneRegistry.ts',
+      'src/presentation/visualRegistry.ts',
+      'src/presentation/visualRecipeRegistry.ts'
+    ]) {
+      const source = readFileSync(path, 'utf8');
+      expect(source, `${path} should enumerate modules explicitly`).toContain('Object.entries(');
+      expect(source, `${path} should sort module paths`).toContain('localeCompare(');
+    }
+
+    const visualRegistry = readFileSync('src/presentation/visualRegistry.ts', 'utf8');
+    expect(visualRegistry).toContain('if (!visualRefByAlias.has(normalizedAlias))');
   });
 
   it('keeps every authored composition accessible and meaningful without motion', () => {
