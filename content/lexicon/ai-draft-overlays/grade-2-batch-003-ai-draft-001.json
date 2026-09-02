@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-2-batch-003-ai-draft-001",
+  "batchId": "grade-2-batch-003",
+  "grade": 2,
+  "generatedAt": "2026-09-02",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "fruit",
+      "proposedCandidateId": "fruit#n#1",
+      "proposedChildDefinition": "A fruit is the seed-bearing part of a plant that grows after a flower.",
+      "proposedChildExample": "The mango fruit grew on the tree after flowering.",
+      "rationale": "Concrete botanical sense is suitable for primary science and vocabulary contexts."
+    },
+    {
+      "lemma": "height",
+      "proposedCandidateId": "height#n#1",
+      "proposedChildDefinition": "Height is the distance from the bottom of something to its top.",
+      "proposedChildExample": "We measured the height of the table with a ruler.",
+      "rationale": "General vertical-measurement sense is foundational and distinct from peak or human-stature-only senses."
+    },
+    {
+      "lemma": "breath",
+      "proposedCandidateId": "breath#n#1",
+      "proposedChildDefinition": "A breath is one act of breathing air in and out.",
+      "proposedChildExample": "Take a slow breath before you begin.",
+      "rationale": "Breathing-process sense is the most direct ordinary use."
+    },
+    {
+      "lemma": "opportunity",
+      "proposedCandidateId": "opportunity#n#1",
+      "proposedChildDefinition": "An opportunity is a good chance to do something.",
+      "proposedChildExample": "The school trip gave us an opportunity to visit the museum.",
+      "rationale": "Only supplied candidate and readily explainable for Grade 2."
+    },
+    {
+      "lemma": "competition",
+      "proposedCandidateId": "competition#n#2",
+      "proposedChildDefinition": "A competition is an event where people or teams try to win.",
+      "proposedChildExample": "Our class held a drawing competition.",
+      "rationale": "Contest-event sense matches common child-facing use better than business rivalry or abstract competing."
+    },
+    {
+      "lemma": "imagine",
+      "proposedCandidateId": "imagine#v#1",
+      "proposedChildDefinition": "To imagine means to make a picture or idea in your mind of something that is not in front of you.",
+      "proposedChildExample": "Imagine a purple elephant wearing a hat.",
+      "rationale": "Mental-image sense is concrete for children and distinct from suppose/expect."
+    },
+    {
+      "lemma": "push",
+      "proposedCandidateId": "push#v#1",
+      "proposedChildDefinition": "To push means to move something by using force against it.",
+      "proposedChildExample": "Push the box gently across the floor.",
+      "rationale": "Physical-force sense is foundational and avoids persuasion or advertising meanings."
+    },
+    {
+      "lemma": "decide",
+      "proposedCandidateId": "decide#v#1",
+      "proposedChildDefinition": "To decide means to choose what you will do after thinking about it.",
+      "proposedChildExample": "We decided to read the animal story first.",
+      "rationale": "Personal decision-making sense is the ordinary primary-level meaning."
+    },
+    {
+      "lemma": "suggest",
+      "proposedCandidateId": "suggest#v#1",
+      "proposedChildDefinition": "To suggest means to offer an idea or plan for someone to consider.",
+      "proposedChildExample": "I suggest taking an umbrella because the sky is dark.",
+      "rationale": "Proposal sense is direct and distinct from hinting or evidential implication."
+    },
+    {
+      "lemma": "describe",
+      "proposedCandidateId": "describe#v#2",
+      "proposedChildDefinition": "To describe means to tell in words what someone or something is like.",
+      "proposedChildExample": "Describe the bird's colour and beak.",
+      "rationale": "Word-based account sense aligns with ordinary classroom instructions."
+    },
+    {
+      "lemma": "yellow",
+      "proposedCandidateId": "yellow#n#1",
+      "proposedChildDefinition": "Yellow is a bright colour seen in many bananas and school buses.",
+      "proposedChildExample": "She coloured the sun yellow.",
+      "rationale": "Only supplied colour sense."
+    },
+    {
+      "lemma": "immediately",
+      "proposedCandidateId": "immediately#r#1",
+      "proposedChildDefinition": "Immediately means right away, without waiting.",
+      "proposedChildExample": "Tell an adult immediately if you see smoke.",
+      "rationale": "No-delay temporal sense is the common child-facing use."
+    },
+    {
+      "lemma": "brown",
+      "proposedCandidateId": "brown#n#1",
+      "proposedChildDefinition": "Brown is a colour like soil or tree bark.",
+      "proposedChildExample": "The puppy has soft brown fur.",
+      "rationale": "Only supplied colour sense."
+    },
+    {
+      "lemma": "radio",
+      "proposedCandidateId": "radio#n#2",
+      "proposedChildDefinition": "A radio is a device that receives broadcasts so you can hear programmes or music.",
+      "proposedChildExample": "Grandpa listened to the news on the radio.",
+      "rationale": "Physical receiver sense best matches ordinary child-facing noun use."
+    },
+    {
+      "lemma": "treatment",
+      "proposedCandidateId": "treatment#n#1",
+      "proposedChildDefinition": "Treatment is care given to help someone get better from an illness or injury.",
+      "proposedChildExample": "The doctor explained the treatment for the injured arm.",
+      "rationale": "Medical-care sense is concrete and distinct from handling or artistic treatment."
+    }
+  ]
+}

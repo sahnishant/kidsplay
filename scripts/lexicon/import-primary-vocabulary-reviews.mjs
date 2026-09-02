@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const DEFAULT_REVIEW_DIR = 'content/lexicon/reviews';
 const DEFAULT_SLICE_DIR = 'content/lexicon/open/curator-slices';
@@ -164,4 +165,5 @@ function main() {
   console.log(`Reviewed primary vocabulary imported: ${total} semantic row(s) across ${batches.size} production batch(es)`);
 }
 
-if (import.meta.url === `file://${resolve(process.argv[1] ?? '')}`) main();
+const invokedPath = process.argv[1] ? resolve(process.argv[1]) : '';
+if (invokedPath && fileURLToPath(import.meta.url) === invokedPath) main();
