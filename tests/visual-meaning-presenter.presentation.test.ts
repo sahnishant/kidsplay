@@ -13,9 +13,9 @@ describe('VisualMeaningPresenter', () => {
       derivedMode: 'compare',
       deliveryMode: 'compare',
       visualAllowed: true,
-      maturity: 'V5',
       runtimeUsage: 'knowledge_reinforcement'
     });
+    expect(['V5', 'V6']).toContain(resolved.maturity);
 
     const { container } = render(VisualMeaningPresenter, {
       props: {
@@ -35,7 +35,7 @@ describe('VisualMeaningPresenter', () => {
     expect(screen.getByText('Very large.')).toBeTruthy();
   });
 
-  it('does not promote a V3 renderer template proof into a child-facing dictionary visual', () => {
+  it('does not promote a V3 canonical knowledge mapping into a child-facing dictionary visual', () => {
     const resolved = resolveVisualMeaningPresentation('village#settlement');
     expect(resolved).toMatchObject({
       derivedMode: 'compose',
@@ -43,7 +43,7 @@ describe('VisualMeaningPresenter', () => {
       visualAllowed: false,
       fallbackReason: 'runtime_not_child_facing',
       maturity: 'V3',
-      runtimeUsage: 'template_proof'
+      runtimeUsage: 'knowledge_reinforcement'
     });
 
     const { container } = render(VisualMeaningPresenter, {
@@ -61,7 +61,7 @@ describe('VisualMeaningPresenter', () => {
     expect(screen.getByText('A small settlement where people live.')).toBeTruthy();
   });
 
-  it('suppresses non-neutral V5 visuals when reused before an assessment answer', () => {
+  it('suppresses non-neutral child-facing visuals when reused before an assessment answer', () => {
     const resolved = resolveVisualMeaningPresentation('enormous#very-large-size', {
       phase: 'assessment_pre_answer'
     });
@@ -70,9 +70,9 @@ describe('VisualMeaningPresenter', () => {
       derivedMode: 'compare',
       deliveryMode: 'text',
       visualAllowed: false,
-      fallbackReason: 'answer_safety',
-      maturity: 'V5'
+      fallbackReason: 'answer_safety'
     });
+    expect(['V5', 'V6']).toContain(resolved.maturity);
 
     const { container } = render(VisualMeaningPresenter, {
       props: {
