@@ -42,6 +42,19 @@ The durable journey IDs match issue #33:
 
 Use the issue text as the detailed manual checklist. The evidence record stores the result, observations and defect links; it does not replace the human observation.
 
+## Select one exact beta APK
+
+The Android workflow runs automatically for pushes to both `main` and `kidsplay`, for pull requests targeting `main`, and by manual dispatch. For a final #33 physical-device acceptance attempt, select a **successful current-`main` Android run** rather than mixing binaries from different commits.
+
+Only after the packaged offline/relaunch/rotation smoke succeeds, that run uploads:
+
+- `kidsplay-debug-apk` — the exact APK that passed the automated Android gate;
+- `kidsplay-android-beta-release-identity` — `android-beta-release-identity.json` binding that APK to the exact `commitSha`, `workflowRunId`, APK `artifactId`, package id and APK SHA-256 digest.
+
+Copy the generated `release` object unchanged into every physical-device evidence record for that acceptance attempt. All final records must refer to the same release identity. A generated identity proves which binary was tested; it **does not** prove any physical-device observation and must never populate `qa/android-beta-acceptance/evidence/` automatically.
+
+If `main` advances before physical testing starts, use the newer successful `main` Android run instead. Once physical testing has started for a candidate, keep that release identity fixed for the whole acceptance set; fixes require a new candidate and new immutable evidence records.
+
 ## Recording evidence
 
 Copy `qa/android-beta-acceptance/template.json` to a new JSON file per physical device/session. Keep records immutable after they are used for a release claim; add a new record for a retest after fixing a defect.
