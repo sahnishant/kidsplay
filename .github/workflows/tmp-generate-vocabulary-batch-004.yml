@@ -1,0 +1,58 @@
+name: Temporary Generate Vocabulary Batch 004
+
+on:
+  push:
+    branches:
+      - content/vocabulary-editorial-batch-004-prep
+    paths:
+      - '.github/workflows/tmp-generate-vocabulary-batch-004.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout batch 004 branch
+        uses: actions/checkout@v4
+        with:
+          ref: content/vocabulary-editorial-batch-004-prep
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Generate Grade 1 and Grade 2 batch 004 packets
+        run: |
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review.json --output content/lexicon/editorial-packets/grade-1-batch-004.json --batch-id grade-1-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review.json --output content/lexicon/editorial-packets/grade-2-batch-004.json --batch-id grade-2-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          for (const grade of [1, 2]) {
+            const path = `content/lexicon/editorial-packets/grade-${grade}-batch-004.json`;
+            const packet = JSON.parse(readFileSync(path, 'utf8'));
+            if (packet.items?.length !== 16) throw new Error(`${path}: expected 16 rows`);
+            if (packet.policy?.publicationState !== 'blocked_pending_editorial_review') throw new Error(`${path}: must remain blocked`);
+            if (packet.items.some((item) => item.editorial?.status !== 'draft' || item.editorial?.reviewAuthority != null || item.editorial?.selectedCandidateId != null || item.profilePlacement?.approvedProfileRefs?.length)) throw new Error(`${path}: generated packet acquired authority`);
+          }
+          NODE
+
+      - name: Remove temporary workflow
+        run: rm .github/workflows/tmp-generate-vocabulary-batch-004.yml
+
+      - name: Commit deterministic review packets
+        shell: bash
+        run: |
+          git add -A
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'content(#163): prepare vocabulary editorial batch 004'
+          git push origin HEAD:content/vocabulary-editorial-batch-004-prep
