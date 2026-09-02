@@ -48,9 +48,13 @@ function loadRecords(options) {
   }
 
   const directory = resolve(options.dir);
+  const releaseIdentityPath = resolve(options.releaseIdentity);
   if (!statSync(directory).isDirectory()) throw new Error(`${directory} is not a directory`);
   return readdirSync(directory)
-    .filter((name) => name.endsWith('.json') && name !== 'template.json')
+    .filter((name) => {
+      const path = resolve(directory, name);
+      return name.endsWith('.json') && name !== 'template.json' && path !== releaseIdentityPath;
+    })
     .sort()
     .map((name) => {
       const path = resolve(directory, name);
