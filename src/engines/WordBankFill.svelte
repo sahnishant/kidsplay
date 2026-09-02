@@ -5,7 +5,11 @@
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<WordBankFillQuestion> = $props();
+  let {
+    question,
+    onSubmit,
+    submissionMode = 'explicit'
+  }: EngineProps<WordBankFillQuestion> = $props();
 
   const getBlankIds = (): string[] => question.interaction.segments
     .filter((segment): segment is { type: 'blank'; id: string } => segment.type === 'blank')
@@ -22,16 +26,25 @@
     return question.interaction.wordBank.find((candidate) => candidate.id === wordId)?.label ?? '___';
   }
 
-  function chooseWord(wordId: string): void {
-    if (!activeBlankId || locked) return;
-    answers[activeBlankId] = wordId;
-    activeBlankId = blankIds.find((blankId) => !answers[blankId]) ?? activeBlankId;
+  function commit(nextAnswers: Record<string, string>): void {
+    if (locked) return;
+    locked = true;
+    onSubmit({ blankAnswers: { ...nextAnswers } });
   }
 
-  function submit(): void {
-    if (!complete || locked) return;
-    locked = true;
-    onSubmit({ blankAnswers: { ...answers } });
+  function chooseWord(wordId: string): void {
+    if (!activeBlankId || locked) return;
+    const answeredBlankId = activeBlankId;
+    const nextAnswers = { ...answers, [answeredBlankId]: wordId };
+    answers = nextAnswers;
+    activeBlankId = blankIds.find((blankId) => !nextAnswers[blankId]) ?? answeredBlankId;
+
+    if (
+      submissionMode === 'auto_when_complete'
+      && blankIds.every((blankId) => Boolean(nextAnswers[blankId]))
+    ) {
+      commit(nextAnswers);
+    }
   }
 </script>
 
@@ -70,9 +83,11 @@
   {/each}
 </div>
 
-<button class="primary-button" type="button" disabled={locked || !complete} onclick={submit}>
-  Check answer
-</button>
+{#if submissionMode === 'explicit'}
+  <button class="primary-button" type="button" disabled={locked || !complete} onclick={() => commit(answers)}>
+    Check answer
+  </button>
+{/if}
 
 <style>
   .word-chip--visual {

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { SessionSection } from '../content';
+  import { onDestroy } from 'svelte';
+  import type { SessionLaunch, SessionSection } from '../content';
   import type { Question } from '../contracts/question';
   import type { SessionAttempt } from '../contracts/runtime';
   import type { AvatarId } from '../runtime/localProgress';
@@ -33,6 +34,7 @@
 
   let {
     title,
+    mode = 'free_explore',
     questions,
     sections = [],
     childName = '',
@@ -45,6 +47,7 @@
     onExit
   }: {
     title: string;
+    mode?: SessionLaunch['mode'];
     questions: Question[];
     sections?: SessionSection[];
     childName?: string;
@@ -65,7 +68,9 @@
   const vocabularyScenePrefix = 'vocabulary:';
   let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
+  let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
   let question = $derived(questions[sessionState.index]);
+  let assessmentMode = $derived(mode === 'goal_mock' || mode === 'goal_pattern_mock');
   let authoredSceneId = $derived(
     question?.stimulus?.type === 'scene' ? question.stimulus.sceneId : null
   );
@@ -111,17 +116,42 @@
       : null
   );
 
+  function clearAutoAdvance(): void {
+    if (!autoAdvanceTimer) return;
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = null;
+  }
+
+  function autoAdvanceDelay(currentQuestion: Question): number {
+    const richReinforcement = Boolean(storyCompletion)
+      || Boolean(resolveQuestionSceneId(currentQuestion))
+      || Boolean(resolveQuestionFeedbackRecipeId(currentQuestion));
+    return richReinforcement ? 2600 : 1500;
+  }
+
+  function queueAutoAdvance(currentQuestion: Question, correct: boolean): void {
+    clearAutoAdvance();
+    if (assessmentMode || restoredSubmitted || !correct) return;
+    autoAdvanceTimer = setTimeout(() => {
+      autoAdvanceTimer = null;
+      handleAdvance();
+    }, autoAdvanceDelay(currentQuestion));
+  }
+
   function handleSubmit(response: unknown): void {
     if (!question) return;
-    const result = submitResponse(sessionState, question, response);
+    const submittedQuestion = question;
+    const result = submitResponse(sessionState, submittedQuestion, response);
     const storedResponse = sessionState.responses[sessionState.responses.length - 1];
     if (result && storedResponse) {
-      onAttempt?.({ question, response: storedResponse, result });
+      onAttempt?.({ question: submittedQuestion, response: storedResponse, result });
       onCheckpoint?.(sessionState);
+      queueAutoAdvance(submittedQuestion, result.correct);
     }
   }
 
   function handleAdvance(): void {
+    clearAutoAdvance();
     advanceSession(sessionState);
     restoredSubmitted = false;
     if (sessionState.index >= questions.length) {
@@ -132,14 +162,17 @@
   }
 
   function handleReplay(): void {
+    clearAutoAdvance();
     replaySession(sessionState);
     restoredSubmitted = false;
     onCheckpoint?.(sessionState);
   }
+
+  onDestroy(clearAutoAdvance);
 </script>
 
 {#if question}
-  <section class="session-viewport" data-session-state={sessionState.submitted ? 'reaction' : 'answer'}>
+  <section class="session-viewport" data-session-state={sessionState.submitted ? 'reaction' : 'answer'} data-session-mode={mode}>
     <header class="session-topbar">
       <div class="session-topbar__identity">
         {#if onExit}
@@ -184,6 +217,7 @@
             <EngineHost
               {question}
               onSubmit={handleSubmit}
+              feedbackMode={assessmentMode ? 'assessment' : 'play'}
               checkResponse={(response) => evaluate(question, response)}
             />
           </div>

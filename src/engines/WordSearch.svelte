@@ -1,12 +1,16 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
+  import { onDestroy, untrack } from 'svelte';
   import type { WordSearchQuestion } from '../contracts/question';
   import type { GridPoint } from '../mechanics/grid';
   import { lineBetween, pointKey, samePoint } from '../mechanics/grid';
   import { generateWordSearch, normalizeSearchWord } from '../mechanics/wordSearch';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<WordSearchQuestion> = $props();
+  let {
+    question,
+    onSubmit,
+    submissionMode = 'explicit'
+  }: EngineProps<WordSearchQuestion> = $props();
 
   let generated = $derived.by(() => generateWordSearch({
     terms: question.interaction.terms,
@@ -27,6 +31,13 @@
   let locked = $state(false);
   let liveStatus = $state(untrack(() => `${question.interaction.terms.length} words to find.`));
   let gridElement: HTMLDivElement;
+  let completionTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function clearCompletionTimer(): void {
+    if (!completionTimer) return;
+    clearTimeout(completionTimer);
+    completionTimer = null;
+  }
 
   function showPreview(points: readonly GridPoint[]): void {
     previewCellKeys = points.map(pointKey);
@@ -42,6 +53,13 @@
 
   function selectedLetters(points: readonly GridPoint[]): string {
     return points.map((point) => generated.grid[point.row][point.col]).join('');
+  }
+
+  function commit(termIds = foundTermIds): void {
+    clearCompletionTimer();
+    if (locked) return;
+    locked = true;
+    onSubmit({ foundTermIds: [...termIds] });
   }
 
   function resolveSelection(start: GridPoint, end: GridPoint): void {
@@ -74,6 +92,15 @@
     liveStatus = remaining
       ? `${term.label} found. ${remaining} word${remaining === 1 ? '' : 's'} left.`
       : 'You found every word.';
+
+    if (!remaining && submissionMode === 'auto_when_complete') {
+      const completedTerms = [...foundTermIds];
+      clearCompletionTimer();
+      completionTimer = setTimeout(() => {
+        completionTimer = null;
+        commit(completedTerms);
+      }, 250);
+    }
   }
 
   function handleTap(point: GridPoint): void {
@@ -150,11 +177,7 @@
     return `word-search__cell${previewCellKeys.includes(key) ? ' word-search__cell--preview' : ''}${foundCellKeys.includes(key) ? ' word-search__cell--found' : ''}`;
   }
 
-  function submit(): void {
-    if (locked) return;
-    locked = true;
-    onSubmit({ foundTermIds: [...foundTermIds] });
-  }
+  onDestroy(clearCompletionTimer);
 </script>
 
 <div class="word-search">
@@ -195,7 +218,7 @@
   </div>
 
   <div class="word-search__status" role="status" aria-live="polite">{liveStatus}</div>
-  <button class="primary-button" type="button" disabled={locked} onclick={submit}>
+  <button class="primary-button" type="button" disabled={locked} onclick={() => commit()}>
     {foundTermIds.length === question.interaction.terms.length ? 'All found — continue' : 'Finish word search'}
   </button>
 </div>
