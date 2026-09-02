@@ -6,6 +6,11 @@
       "semanticRef": "different-festivals",
       "status": "keep_text",
       "reason": "The concept is diversity across festivals. A single generic celebration icon would erase the distinction and could misteach the row."
+    },
+    {
+      "semanticRef": "daily",
+      "status": "keep_text",
+      "reason": "This Class 2 hygiene use expresses every-day recurrence. A standalone object icon would not reliably encode recurrence and could misteach the habit, so the relation remains textual."
     }
   ]
 }
