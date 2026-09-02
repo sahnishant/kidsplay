@@ -3,7 +3,7 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 const workflowPath = resolve('.github/workflows/android-debug.yml');
-const workflow = readFileSync(workflowPath, 'utf8');
+const workflow = readFileSync(workflowPath, 'utf8').replace(/\r\n?/g, '\n');
 
 describe('Android #33 beta release candidate workflow', () => {
   it('builds Android automatically for pushes to current main as well as kidsplay', () => {
