@@ -10,13 +10,33 @@
   --child-touch-target-min: 44px;
 }
 
-#app .home-button {
+/* Compact square navigation controls are intentionally exact-size. */
+#app .home-button,
+#app .panel-back {
   width: var(--child-touch-target-min);
   min-width: var(--child-touch-target-min);
   height: var(--child-touch-target-min);
   min-height: var(--child-touch-target-min);
 }
 
+/*
+ * Representative child interaction families. Existing larger dimensions stay
+ * larger; these declarations only prevent a future compact/narrow rule from
+ * dropping a tappable control below the young-child floor.
+ */
+#app .child-hud__player,
+#app .home-nav__button,
+#app .avatar-button,
+#app .primary-action,
+#app .choice-button,
+#app .fill-blank,
+#app .word-chip,
+#app .drag-item,
+#app .drop-target,
+#app .primary-button,
+#app .next-button,
+#app .memory-card,
+#app .hotspot__region,
 #app .sequence-order__move {
   min-width: var(--child-touch-target-min);
   min-height: var(--child-touch-target-min);
