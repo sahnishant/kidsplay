@@ -192,6 +192,26 @@
     { "rowId": "kr.reasoning.measurement.pencil.centimetres", "fit": "core" },
     { "rowId": "kr.reasoning.measurement.room.metres", "fit": "core" },
     { "rowId": "kr.reasoning.shapes.triangle.three-sides", "fit": "review" },
-    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "stretch" }
+    { "rowId": "kr.reasoning.embedded-figures.symbol-pair", "fit": "stretch" },
+    { "rowId": "kr.vocab.primary.meaning.environment.environment-n-2", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.floor.floor-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.guide.guide-n-2", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.library.library-n-3", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.minute.minute-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.notice.notice-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.pull.pull-v-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.regular.regular-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.accident.accident-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.ancient.ancient-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.busy.busy-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.clothes.clothes-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.excellent.excellent-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.exercise.exercise-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.extreme.extreme-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.familiar.familiar-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.famous.famous-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.guard.guard-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.strange.strange-a-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.sugar.sugar-n-1", "fit": "core" }
   ]
 }
