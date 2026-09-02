@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { getAnimationCompositions, resolveAnimationForState } from '../src/presentation/animationRegistry';
 import { getSceneDefinitions } from '../src/presentation/sceneRegistry';
 import { resolveVisualDefinition } from '../src/presentation/visualRegistry';
+import { getVocabularyVisualRuntimePlans } from '../src/presentation/vocabularyVisualRegistry';
 
 describe('permanent semantic visual invariants', () => {
   it('keeps semantic state fallback deterministic across repeated resolution', () => {
@@ -58,6 +59,17 @@ describe('permanent semantic visual invariants', () => {
 
     const reporter = readFileSync('scripts/report-semantic-animation-coverage.mjs', 'utf8');
     expect(reporter).toContain('authored semantic composition has no child-facing scene owner');
+  });
+
+  it('keeps generated vocabulary runtime ownership one-to-one', () => {
+    const plans = getVocabularyVisualRuntimePlans();
+    expect(new Set(plans.map((plan) => plan.senseKey)).size).toBe(plans.length);
+    const knowledgeRefs = plans.flatMap((plan) => plan.knowledgeRef ? [plan.knowledgeRef] : []);
+    expect(new Set(knowledgeRefs).size).toBe(knowledgeRefs.length);
+
+    const registry = readFileSync('src/presentation/vocabularyVisualRegistry.ts', 'utf8');
+    expect(registry).toContain('Duplicate vocabulary visual runtime senseKey');
+    expect(registry).toContain('Duplicate vocabulary visual runtime knowledgeRef');
   });
 
   it('keeps semantic visual selection free of runtime randomness', () => {
