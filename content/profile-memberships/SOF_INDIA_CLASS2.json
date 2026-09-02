@@ -212,6 +212,9 @@
     { "rowId": "kr.vocab.primary.meaning.famous.famous-a-1", "fit": "core" },
     { "rowId": "kr.vocab.primary.meaning.guard.guard-n-1", "fit": "core" },
     { "rowId": "kr.vocab.primary.meaning.strange.strange-a-1", "fit": "core" },
-    { "rowId": "kr.vocab.primary.meaning.sugar.sugar-n-1", "fit": "core" }
+    { "rowId": "kr.vocab.primary.meaning.sugar.sugar-n-1", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.path.path-n-2", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.plant.plant-n-2", "fit": "core" },
+    { "rowId": "kr.vocab.primary.meaning.sentence.sentence-n-1", "fit": "core" }
   ]
 }
