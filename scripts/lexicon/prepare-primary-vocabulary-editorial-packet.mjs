@@ -220,4 +220,4 @@ function main() {
   console.log(`Primary vocabulary editorial packet prepared: grade=${packet.grade}, batch=${packet.batchId}, words=${packet.summary.words}, excluded=${packet.summary.excludedPriorReview} -> ${output}`);
 }
 
-if (import.meta.url === `file://${resolve(process.argv[1] ?? '')`) main();
+if (import.meta.url === `file://${resolve(process.argv[1] ?? '')}`) main();
