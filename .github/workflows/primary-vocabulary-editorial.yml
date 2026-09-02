@@ -2,7 +2,7 @@ name: Primary Vocabulary Editorial Packets
 
 on:
   pull_request:
-    branches: [kidsplay]
+    branches: [kidsplay, main]
     paths:
       - '.github/workflows/primary-vocabulary-editorial.yml'
       - 'content/lexicon/open/curator-slices/grade-1-meaning-review.json'
@@ -10,14 +10,21 @@ on:
       - 'content/lexicon/editorial-packets/**'
       - 'content/lexicon/ai-draft-overlays/**'
       - 'content/lexicon/reviews/**'
-      - 'content/knowledge/english-vocabulary-primary-reviewed.json'
+      - 'content/knowledge/english-vocabulary-primary-reviewed*.json'
+      - 'content/learnables/primary-vocabulary-reviewed*.json'
+      - 'content/recipes/primary-vocabulary-reviewed-delivery-*.json'
+      - 'content/packs/free-vocabulary.json'
+      - 'content/profile-memberships/CBSE_INDIA_CLASS1.json'
+      - 'content/profile-memberships/CISCE_INDIA_CLASS1.json'
+      - 'content/profile-memberships/CBSE_INDIA_CLASS2.json'
+      - 'content/profile-memberships/CISCE_INDIA_CLASS2.json'
+      - 'content/profile-memberships/SOF_INDIA_CLASS2.json'
       - 'scripts/lexicon/prepare-primary-vocabulary-editorial-packet.mjs'
       - 'scripts/lexicon/apply-primary-vocabulary-ai-draft-overlay.mjs'
       - 'scripts/lexicon/finalize-primary-vocabulary-editorial-packet.mjs'
       - 'scripts/lexicon/import-primary-vocabulary-reviews.mjs'
-      - 'tests/primary-vocabulary-editorial-packets.behavior.test.ts'
-      - 'tests/primary-vocabulary-ai-draft-overlays.behavior.test.ts'
-      - 'tests/primary-vocabulary-human-review.behavior.test.ts'
+      - 'tests/primary-vocabulary-*.behavior.test.ts'
+      - 'tests/vocabulary-reviewed-*.behavior.test.ts'
       - 'package.json'
   workflow_dispatch:
 
@@ -26,7 +33,7 @@ permissions:
 
 jobs:
   prepare-and-validate:
-    name: Generate Grade 1-2 editorial packets
+    name: Generate and certify reviewed vocabulary batches
     runs-on: ubuntu-latest
     timeout-minutes: 25
 
@@ -57,70 +64,93 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Generate prioritized Grade 1 and Grade 2 packets
+      - name: Regenerate blocked Grade 1 and Grade 2 editorial packets
         run: |
           npm run lexicon:prepare:editorial:grade1
           npm run lexicon:prepare:editorial:grade2
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review.json --output content/lexicon/editorial-packets/grade-1-batch-002.json --batch-id grade-1-batch-002 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review.json --output content/lexicon/editorial-packets/grade-2-batch-002.json --batch-id grade-2-batch-002 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
 
-      - name: Apply bounded AI draft overlays
+      - name: Keep AI drafts blocked from human authority
         run: |
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-1-batch-001.json --overlay content/lexicon/ai-draft-overlays/grade-1-batch-001-ai-draft-001.json --output content/lexicon/editorial-packets/grade-1-batch-001.ai-draft.json
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-001.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-001-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-001.ai-draft.json
-
-      - name: Assert packets and AI drafts remain blocked and unreviewed
-        run: |
           node --input-type=module <<'NODE'
           import { readFileSync } from 'node:fs';
           for (const grade of [1, 2]) {
-            const packet = JSON.parse(readFileSync(`content/lexicon/editorial-packets/grade-${grade}-batch-001.json`, 'utf8'));
             const drafted = JSON.parse(readFileSync(`content/lexicon/editorial-packets/grade-${grade}-batch-001.ai-draft.json`, 'utf8'));
-            if (packet.summary.words !== 40 || drafted.summary.words !== 40) throw new Error(`Grade ${grade}: expected 40 prioritized words`);
-            if (packet.policy.publicationState !== 'blocked_pending_editorial_review') throw new Error(`Grade ${grade}: packet must remain blocked`);
-            if (packet.policy.requiredReviewAuthority !== 'human_editor') throw new Error(`Grade ${grade}: human editorial authority must be required`);
-            if (drafted.summary.aiDraftSuggestions !== 8 || drafted.aiDraftOverlay.suggestionsApplied !== 8) throw new Error(`Grade ${grade}: expected 8 bounded AI draft suggestions`);
+            if (drafted.policy.publicationState !== 'blocked_pending_editorial_review') throw new Error(`Grade ${grade}: packet must remain blocked`);
             for (const item of drafted.items) {
-              if (item.editorial.status !== 'draft' || item.editorial.decision !== null || item.editorial.selectedCandidateId !== null || item.editorial.reviewAuthority !== null) throw new Error(`${item.lemma}: AI draft changed editorial review state`);
-              if (item.profilePlacement.status !== 'unreviewed' || item.profilePlacement.approvedProfileRefs.length !== 0) throw new Error(`${item.lemma}: profile placement was inferred`);
-              if (!item.candidateSenses.length || item.candidateSenses.some((candidate) => candidate.referenceOnly !== true)) throw new Error(`${item.lemma}: candidate reference boundary failed`);
-              if (item.aiDraft && (item.aiDraft.mayCountAsReviewed !== false || item.aiDraft.humanReviewRequired !== true || item.aiDraft.profilePlacementApproved !== false)) throw new Error(`${item.lemma}: AI draft crossed editorial boundary`);
+              if (item.editorial.status !== 'draft' || item.editorial.reviewAuthority !== null) throw new Error(`${item.lemma}: AI draft changed human review state`);
+              if (item.profilePlacement.approvedProfileRefs.length !== 0) throw new Error(`${item.lemma}: AI draft inferred profile placement`);
             }
           }
           NODE
 
-      - name: Import accepted human review decisions
+      - name: Reproduce all accepted human-review knowledge batches
         run: |
           npm run lexicon:import:reviews
           node --input-type=module <<'NODE'
-          import { readFileSync } from 'node:fs';
-          const knowledge = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed.json', 'utf8'));
-          const entries = knowledge[0]?.entries ?? [];
-          if (entries.length !== 16) throw new Error(`Expected exactly 16 reviewed vocabulary rows, got ${entries.length}`);
-          if (entries.filter((entry) => entry.meta?.primaryVocabularyGrade === 1).length !== 8) throw new Error('Expected 8 Grade 1 reviewed rows');
-          if (entries.filter((entry) => entry.meta?.primaryVocabularyGrade === 2).length !== 8) throw new Error('Expected 8 Grade 2 reviewed rows');
-          for (const entry of entries) {
-            if (entry.meta?.curation?.status !== 'reviewed') throw new Error(`${entry.id}: expected reviewed curation state`);
-            if (entry.meta?.curation?.reviewer !== 'sahnishant') throw new Error(`${entry.id}: expected sahnishant reviewer identity`);
-            if (entry.meta?.curation?.reviewedAt !== '2026-08-31') throw new Error(`${entry.id}: expected 2026-08-31 review date`);
-            if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss copy boundary failed`);
+          import { readdirSync, readFileSync } from 'node:fs';
+          import { join } from 'node:path';
+          const reviews = new Map();
+          for (const name of readdirSync('content/lexicon/reviews').filter((entry) => /^grade-\d+-batch-\d+\.json$/.test(entry)).sort()) {
+            const document = JSON.parse(readFileSync(join('content/lexicon/reviews', name), 'utf8'));
+            const batch = /^grade-\d+-batch-(\d+)$/.exec(document.batchId)?.[1]?.padStart(3, '0');
+            if (!batch) throw new Error(`${name}: invalid production batchId`);
+            const bucket = reviews.get(batch) ?? new Map();
+            for (const decision of document.decisions ?? []) {
+              if (decision.status !== 'reviewed' || decision.decision !== 'accept') continue;
+              if (decision.reviewAuthority !== 'human_editor') throw new Error(`${name}/${decision.lemma}: human_editor authority required`);
+              if (bucket.has(decision.lemma)) throw new Error(`${batch}/${decision.lemma}: duplicate accepted lemma`);
+              bucket.set(decision.lemma, decision);
+            }
+            reviews.set(batch, bucket);
           }
+          const globallySeen = new Set();
+          for (const [batch, expected] of [...reviews].sort()) {
+            const path = batch === '001'
+              ? 'content/knowledge/english-vocabulary-primary-reviewed.json'
+              : `content/knowledge/english-vocabulary-primary-reviewed-batch-${batch}.json`;
+            const knowledge = JSON.parse(readFileSync(path, 'utf8'));
+            const entries = knowledge[0]?.entries ?? [];
+            if (entries.length !== expected.size) throw new Error(`${batch}: expected ${expected.size} rows, got ${entries.length}`);
+            if (knowledge[0]?.id !== `knowledge.english.vocabulary.primary-reviewed.${batch}`) throw new Error(`${batch}: wrong source id`);
+            for (const entry of entries) {
+              const decision = expected.get(entry.id);
+              if (!decision) throw new Error(`${batch}/${entry.id}: runtime row lacks accepted review`);
+              if (globallySeen.has(entry.id)) throw new Error(`${entry.id}: accepted in more than one production batch`);
+              globallySeen.add(entry.id);
+              if (entry.meta?.curation?.candidateId !== decision.candidateId) throw new Error(`${entry.id}: candidate mismatch`);
+              if (entry.object?.label !== decision.childDefinition) throw new Error(`${entry.id}: child definition mismatch`);
+              if (entry.meta?.curation?.reviewer !== decision.reviewer || entry.meta?.curation?.reviewedAt !== decision.reviewedAt) throw new Error(`${entry.id}: reviewer metadata mismatch`);
+              if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss boundary failed`);
+            }
+          }
+          if (globallySeen.size !== 39) throw new Error(`Expected 39 reviewed runtime meanings across batches 001-002, got ${globallySeen.size}`);
           NODE
-          git diff --exit-code -- content/knowledge/english-vocabulary-primary-reviewed.json
+          git diff --exit-code -- content/knowledge/english-vocabulary-primary-reviewed.json content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
 
-      - name: Run focused vocabulary acceptance suite
+      - name: Compile and run vocabulary production acceptance suite
         run: |
           npm run test:vocabulary-corpus
-          npx vitest run tests/primary-vocabulary-human-review.behavior.test.ts
+          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
 
-      - name: Upload editorial packets and reviewed import proof
+      - name: Upload editorial and reviewed production proof
         uses: actions/upload-artifact@v7
         with:
           name: primary-vocabulary-editorial-grade1-2
           path: |
             content/lexicon/editorial-packets/grade-1-batch-001.json
             content/lexicon/editorial-packets/grade-2-batch-001.json
-            content/lexicon/editorial-packets/grade-1-batch-001.ai-draft.json
-            content/lexicon/editorial-packets/grade-2-batch-001.ai-draft.json
+            content/lexicon/editorial-packets/grade-1-batch-002.json
+            content/lexicon/editorial-packets/grade-2-batch-002.json
             content/lexicon/reviews/grade-1-batch-001.json
             content/lexicon/reviews/grade-2-batch-001.json
+            content/lexicon/reviews/grade-1-batch-001-profile-placements.json
+            content/lexicon/reviews/grade-2-batch-001-profile-placements.json
+            content/lexicon/reviews/grade-1-batch-002.json
+            content/lexicon/reviews/grade-2-batch-002.json
             content/knowledge/english-vocabulary-primary-reviewed.json
+            content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
           if-no-files-found: error

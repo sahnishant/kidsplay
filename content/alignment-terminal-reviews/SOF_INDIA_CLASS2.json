@@ -2,29 +2,53 @@
   "schemaVersion": 1,
   "profileRef": "SOF_INDIA_CLASS2",
   "status": "completed",
-  "reviewedAt": "2026-08-31",
+  "reviewedAt": "2026-09-02",
   "membershipSnapshot": {
-    "directRowCount": 182,
-    "membershipBlobSha": "6fe76aa5edfb97b6906bf254f9af06241966482d",
+    "directRowCount": 202,
+    "membershipBlobSha": "c56bfa845e9e805371defdc2bb58ef58a855d997",
     "exactReviewBlobSha": "ff784620598c051661f7df0e689191977191302c",
     "recoveryBlobSha": "e73ec9a417868316e084a4b304a3197125824ac3",
     "exactOfficialAnchorCount": 27,
-    "terminalRowCount": 182
+    "reviewedNoExactPublicAnchorCount": 155,
+    "humanEditorialPlacementCount": 20,
+    "terminalRowCount": 202
   },
   "resolutionPolicy": {
     "exactOfficialAnchor": {
       "when": "rowId has exact rowEvidence in content/alignment-reviews/SOF_INDIA_CLASS2.json",
       "disposition": "exact_official_anchor"
     },
+    "humanEditorialPlacement": {
+      "when": "rowId is explicitly approved for SOF_INDIA_CLASS2 by a human_editor handoff after the historical public-official source audit",
+      "disposition": "human_editorial_placement_no_official_anchor_claim",
+      "reviewRef": "sof-class2-human-editorial-placement-2026-09-02"
+    },
     "otherwise": {
       "disposition": "reviewed_no_exact_public_anchor",
       "auditRef": "sof-class2-public-official-audit-2026-08-31"
     }
   },
+  "editorialPlacementReview": {
+    "id": "sof-class2-human-editorial-placement-2026-09-02",
+    "status": "completed",
+    "reviewAuthority": "human_editor",
+    "reviewer": "sahnishant",
+    "reviewedAt": "2026-09-02",
+    "profileRef": "SOF_INDIA_CLASS2",
+    "reviewedDirectRows": 20,
+    "handoffRefs": [
+      "content/lexicon/reviews/grade-2-batch-001-profile-placements.json",
+      "content/lexicon/reviews/grade-2-batch-002.json"
+    ],
+    "disposition": "human_editorial_placement_no_official_anchor_claim",
+    "meaning": "This disposition records an explicit Kidsplay human-editorial profile placement. It does not claim that SOF officially lists the word, that an exact public official row anchor exists, or that the 2026-08-31 SOF source audit covered this later-added membership."
+  },
   "sourceAudit": {
     "id": "sof-class2-public-official-audit-2026-08-31",
     "scope": "accessible_public_official_corpus",
-    "scopeNote": "Terminal review of the accessible official SOF Class 2 public evidence corpus registered and recovered through 2026-08-31. This audit distinguishes current 2026-27 scope/sample material from historical samples and does not treat scope headings as exact row evidence.",
+    "scopeNote": "Terminal review of the accessible official SOF Class 2 public evidence corpus registered and recovered through 2026-08-31. This audit distinguishes current 2026-27 scope/sample material from historical samples and does not treat scope headings as exact row evidence. Its audited membership universe remains the 182-row snapshot that existed at that review date; later explicit editorial placements are terminalized separately and are not retroactively folded into this audit.",
+    "auditedDirectRowCount": 182,
+    "auditedMembershipBlobSha": "6fe76aa5edfb97b6906bf254f9af06241966482d",
     "currentScopeRefs": [
       "sof.iso.class2.syllabus.current",
       "sof.iso.class2.workbook.2026-27"
