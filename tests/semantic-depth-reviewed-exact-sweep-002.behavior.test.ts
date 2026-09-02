@@ -1,6 +1,8 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it } from 'vitest';
+import { cleanup, render } from '@testing-library/svelte';
+import VocabularySemanticScene from '../src/presentation/VocabularySemanticScene.svelte';
 import { resolveSemanticDepthMode } from '../src/presentation/semanticDepthRegistry';
 import { isVocabularyVisualPlanChildFacing } from '../src/presentation/vocabularyVisualRegistry';
 
@@ -24,7 +26,18 @@ const matchingQuestionIds = [
   'vocab.reviewed-exact.groups-creator.match.003'
 ] as const;
 
-describe('#134 reviewed-exact Phase D expansion Stage A', () => {
+const representativeStrategies = [
+  ['today#r#2', 'sequence_scene'],
+  ['one#n#1', 'quantity_scene'],
+  ['tree#n#1', 'direct_entity'],
+  ['map#n#1', 'diagrammatic'],
+  ['teacher#n#1', 'person_role'],
+  ['island#n#1', 'place_scene']
+] as const;
+
+afterEach(() => cleanup());
+
+describe('#134 reviewed-exact Phase D expansion', () => {
   it('uses only already exact-reviewed non-textual strategy rows', () => {
     const first = readJson('content/vocabulary-visuals/review-batches/priority-sense-resolution-001.items.json');
     const second = readJson('content/vocabulary-visuals/review-batches/priority-sense-resolution-002.items.json');
@@ -63,17 +76,33 @@ describe('#134 reviewed-exact Phase D expansion Stage A', () => {
     expect(scan(depth)).toEqual([]);
   });
 
-  it('maps every reviewed exact row into runtime but keeps the new tranche fail-closed before Stage-A proof', () => {
+  it('promotes the 33 exact-reviewed mappings to V5 only after immutable Stage-A proof', () => {
     const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     const newPlans = runtime.plans.filter((plan: { senseKey?: string }) => exactSenseKeys.includes(plan.senseKey as typeof exactSenseKeys[number]));
 
     expect(runtime.semanticDepthIssueRefs).toEqual(expect.arrayContaining([84, 132, 134]));
+    expect(runtime.maturityEvidence).toMatchObject({
+      headSha: '1f0d41bc495e2f862e195bb50540d8b2fa77a905',
+      workflowRunId: 33591030260
+    });
     expect(newPlans).toHaveLength(33);
     expect(new Set(newPlans.map((plan: { senseKey: string }) => plan.senseKey)).size).toBe(33);
-    expect(newPlans.every((plan: { maturity?: string }) => ['V1', 'V2'].includes(plan.maturity ?? ''))).toBe(true);
-    expect(newPlans.every((plan: any) => !isVocabularyVisualPlanChildFacing(plan))).toBe(true);
+    expect(newPlans.every((plan: { maturity?: string }) => plan.maturity === 'V5')).toBe(true);
+    expect(newPlans.every((plan: any) => isVocabularyVisualPlanChildFacing(plan))).toBe(true);
     expect(newPlans.every((plan: { semanticDepthPatternRefs?: string[] }) => (plan.semanticDepthPatternRefs?.length ?? 0) === 1)).toBe(true);
     expect(newPlans.every((plan: { semanticDepthPatternRefs?: string[] }) => Boolean(resolveSemanticDepthMode(plan.semanticDepthPatternRefs ?? [])))).toBe(true);
+  });
+
+  it('renders representative child-facing strategies across all six reviewed-exact presentation families', () => {
+    for (const [senseKey, strategy] of representativeStrategies) {
+      const { container, unmount } = render(VocabularySemanticScene, { props: { senseKey } });
+      const root = container.querySelector(`[data-vocabulary-sense="${senseKey}"]`);
+      expect(root, senseKey).toBeTruthy();
+      expect(root?.getAttribute('data-vocabulary-strategy')).toBe(strategy);
+      expect(root?.getAttribute('aria-label')).toContain('Visual explanation for');
+      expect(root?.getAttribute('aria-label')).not.toContain('Connected explanation:');
+      unmount();
+    }
   });
 
   it('generates eight bounded matching activities through the existing drag-to-target engine', () => {
