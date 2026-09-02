@@ -8,6 +8,9 @@ const selectionPath = 'content/vocabulary-visuals/review-batches/priority-sense-
 const reviewDraftPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.review-draft.json';
 const queuePath = 'content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json';
 const ledgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
+const manifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.json';
+const itemsPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.items.json';
+const unresolvedPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.unresolved.json';
 
 const expectedRuntimeProofAccounting = () => {
   const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
@@ -42,12 +45,11 @@ const selectionRow = (row: any) => ({
 });
 
 describe('#151 deterministic semantic review frontier', () => {
-  it('pins exactly the first 40 fresh medium-risk blockers after #149 review deferrals', () => {
+  it('preserves the immutable 40-row source selection after independent registration', () => {
     const selection = readJson(selectionPath);
+    const reviewDraft = readJson(reviewDraftPath);
     const queue = readJson(queuePath);
-    const freshMedium = queue.items.filter((row: any) =>
-      row.polysemyRisk === 'medium' && row.status === 'human_sense_selection_required'
-    );
+    const queueByLemma = new Map(queue.items.map((row: any) => [row.lemma, row]));
 
     expect(selection).toMatchObject({
       schemaVersion: 1,
@@ -61,27 +63,23 @@ describe('#151 deterministic semantic review frontier', () => {
         workflowRunId: 33627076615,
         artifactName: 'priority-vocabulary-sense-resolution-queue',
         artifactSha256: '84373bd320485a56aee54c5d3b6d7230b48204e04a24fe98fa7aff572239959b',
-        queueStatus: 'human_sense_selection_queue',
         freshMediumRiskBlockers: 459,
-        selectionFilter: { polysemyRisk: 'medium', status: 'human_sense_selection_required' },
         selectionWindow: { start: 1, end: 40 }
       }
     });
-    expect(freshMedium).toHaveLength(459);
     expect(selection.items).toHaveLength(40);
     expect(new Set(selection.items.map((row: any) => row.lemma)).size).toBe(40);
     expect(selection.items[0].lemma).toBe('prevent');
     expect(selection.items.at(-1).lemma).toBe('arrest');
-    expect(selection.items.map((row: any) => row.freshMediumQueueIndex)).toEqual(
-      Array.from({ length: 40 }, (_, index) => index + 1)
-    );
-    expect(selection.items.map(selectionRow)).toEqual(freshMedium.slice(0, 40).map(queueRow));
-    expect(selection.items.every((row: any, index: number) =>
-      row.globalQueueIndex === queue.items.indexOf(freshMedium[index]) + 1 &&
-      row.candidateSenseCount === 2 &&
-      row.candidateIds.length === 2 &&
-      row.reviewStatus === 'candidate_review_pending'
-    )).toBe(true);
+    expect(selection.items.every((row: any) => row.candidateSenseCount === 2 && row.candidateIds.length === 2)).toBe(true);
+
+    for (const row of reviewDraft.entries) {
+      if (row.proposalDisposition === 'exact_candidate_proposed') {
+        expect(queueByLemma.has(row.lemma)).toBe(false);
+      } else {
+        expect((queueByLemma.get(row.lemma) as any)?.status).toBe('reviewed_unresolved_revisit_only');
+      }
+    }
   });
 
   it('keeps tranche selection explicitly non-authoritative until row review and independent PR acceptance exist', () => {
@@ -201,8 +199,41 @@ describe('#151 deterministic semantic review frontier', () => {
       })
     ]);
 
-    expect(JSON.stringify(ledger)).not.toContain('priority-sense-resolution-003');
+    expect(JSON.stringify(ledger)).toContain('priority-sense-resolution-003');
     expect(JSON.stringify(ledger)).not.toContain(reviewDraftPath);
+  });
+
+  it('registers only the independently approved exact candidates and preserves every non-selected row as a blocker', () => {
+    const manifest = readJson(manifestPath);
+    const items = readJson(itemsPath);
+    const unresolved = readJson(unresolvedPath);
+    const ledger = readJson(ledgerPath);
+
+    expect(manifest).toMatchObject({
+      id: 'priority-sense-resolution-003',
+      sequence: 6,
+      status: 'sol_max_reviewed_exact_sense',
+      source: { kind: 'reviewed_items_file', expectedItemCount: 22 },
+      reviewEvidence: {
+        kind: 'sol_max_row_level_acceptance',
+        pullRequest: 152,
+        reviewNodeId: 'PRR_kwDOUHzR8c8AAAABL6e00g',
+        reviewedSemanticHeadSha: '21035772539059a62391741a4694bdb113891957',
+        acceptedRows: 22,
+        claimsHumanEditorialReview: false
+      }
+    });
+    expect(items.items).toHaveLength(22);
+    expect(items.items.every((row: any) => row.senseKey === row.sourceTrace.selectedCandidateId && row.strategy === 'textual_only' && row.maturity === 'V1')).toBe(true);
+    expect(unresolved).toMatchObject({
+      issueRef: 151,
+      authorityKind: 'sol_max_reviewed_unresolved_reference',
+      reviewEvidence: { reviewNodeId: 'PRR_kwDOUHzR8c8AAAABL6e00g', reviewedRows: 18, claimsHumanEditorialReview: false }
+    });
+    expect(unresolved.entries).toHaveLength(18);
+    expect(unresolved.entries.find((row: any) => row.lemma === 'hat')).toMatchObject({ reasonCode: 'pos_intent_mismatch', reviewDisposition: 'unresolved_confirmed' });
+    expect(unresolved.entries.every((row: any) => !('senseKey' in row) && !('strategy' in row) && !('maturity' in row))).toBe(true);
+    expect(ledger.batches).toEqual(expect.arrayContaining([expect.objectContaining({ id: 'priority-sense-resolution-003', sequence: 6, manifest: manifestPath })]));
   });
 
   it('does not change terminal, resolved, blocker or runtime accounting', () => {
@@ -214,18 +245,18 @@ describe('#151 deterministic semantic review frontier', () => {
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 635,
-      blockedSenseResolutionLemmas: 9365,
-      exactReviewedSupersedingLemmas: 48,
+      resolvedStrategyLemmas: 657,
+      blockedSenseResolutionLemmas: 9343,
+      exactReviewedSupersedingLemmas: 70,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 602,
-      blockedSenseResolutionLemmas: 1798
+      resolvedStrategyLemmas: 624,
+      blockedSenseResolutionLemmas: 1776
     });
-    expect(report.senseResolutionQueue.items).toBe(1798);
+    expect(report.senseResolutionQueue.items).toBe(1776);
     expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);
   });
