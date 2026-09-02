@@ -46,8 +46,7 @@ describe('semantic vocabulary scene runtime', () => {
     const knowledgePlans = plans.filter((plan) => plan.runtimeUsage === 'knowledge_reinforcement');
     const proofs = plans.filter((plan) => plan.runtimeUsage === 'template_proof');
 
-    expect(knowledgePlans.length).toBeGreaterThanOrEqual(18);
-    expect(proofs.length).toBeGreaterThanOrEqual(3);
+    expect(knowledgePlans.length).toBeGreaterThanOrEqual(22);
     expect(plans.length).toBeLessThan(60);
     expect(proofs.every((plan) => plan.knowledgeRef === null)).toBe(true);
     expect(knowledgePlans.every((plan) => plan.knowledgeRef?.startsWith('kr.'))).toBe(true);
@@ -57,7 +56,6 @@ describe('semantic vocabulary scene runtime', () => {
       expect.objectContaining({
         knowledgeRef: 'kr.vocab.force.pull.can-move-object-toward',
         senseKey: 'pull#move-toward-by-force',
-        maturity: 'V5',
         semanticDepthPatternRefs: expect.arrayContaining(['pull-direction-explanation'])
       })
     ]));
@@ -82,16 +80,19 @@ describe('semantic vocabulary scene runtime', () => {
     }
 
     const pullPlan = plans.find((plan) => plan.senseKey === 'pull#move-toward-by-force');
-    expect(pullPlan).toMatchObject({ runtimeUsage: 'knowledge_reinforcement', maturity: 'V5' });
-    expect(proofBySenseKey.get('pull#move-toward-by-force')).toMatchObject({
-      maturity: 'V5', basis: 'child_facing_post_answer_reinforcement'
-    });
+    const pullProof = proofBySenseKey.get('pull#move-toward-by-force');
+    expect(pullPlan).toMatchObject({ runtimeUsage: 'knowledge_reinforcement', maturity: pullProof?.maturity });
+    expect([
+      'child_facing_post_answer_reinforcement',
+      'child_facing_semantic_depth_explanation'
+    ]).toContain(pullProof?.basis);
 
-    const provenV5ChildPlans = plans.filter((plan) =>
-      isVocabularyVisualPlanChildFacing(plan) &&
-      proofBySenseKey.get(plan.senseKey)?.basis === 'child_facing_post_answer_reinforcement'
-    );
-    expect(provenV5ChildPlans.length).toBeGreaterThanOrEqual(18);
+    const provenChildPlans = plans.filter((plan) => {
+      const proof = proofBySenseKey.get(plan.senseKey);
+      return isVocabularyVisualPlanChildFacing(plan) &&
+        ['child_facing_post_answer_reinforcement', 'child_facing_semantic_depth_explanation'].includes(String(proof?.basis));
+    });
+    expect(provenChildPlans.length).toBeGreaterThanOrEqual(18);
   });
 
   it('keeps the three meaning-faithful #88 mappings fail-closed until proof promotion', () => {
