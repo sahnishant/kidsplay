@@ -3,7 +3,8 @@
   "issueRef": 80,
   "semanticDepthIssueRefs": [
     84,
-    132
+    132,
+    134
   ],
   "maturityEvidence": {
     "workflowRunId": 33583987996,
@@ -520,6 +521,601 @@
       },
       "semanticDepthPatternRefs": [
         "opening-state-transition"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.today.current-day",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "today#r#2",
+      "lemma": "today",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dayOffset": 0
+      },
+      "semanticDepthPatternRefs": [
+        "today-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.century.one-hundred-years",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "century#n#1",
+      "lemma": "century",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "timeRelation": "duration",
+        "durationYears": 100
+      },
+      "semanticDepthPatternRefs": [
+        "century-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.month.month-of-year",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "month#n#1",
+      "lemma": "month",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "timeRelation": "calendar-division",
+        "calendarDivision": "month",
+        "monthsPerYear": 12
+      },
+      "semanticDepthPatternRefs": [
+        "month-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.afternoon.afternoon-period",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "afternoon#n#1",
+      "lemma": "afternoon",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dayPeriod": "afternoon"
+      },
+      "semanticDepthPatternRefs": [
+        "afternoon-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.yesterday.previous-day",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "yesterday#r#1",
+      "lemma": "yesterday",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "dayOffset": -1
+      },
+      "semanticDepthPatternRefs": [
+        "yesterday-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.second.second-position",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "second#a#1",
+      "lemma": "second",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "orderRelation": "ordinal",
+        "position": 2
+      },
+      "semanticDepthPatternRefs": [
+        "second-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.later.subsequent-time",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "later#a#1",
+      "lemma": "later",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "timeRelation": "subsequent"
+      },
+      "semanticDepthPatternRefs": [
+        "later-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.daily.every-day",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "daily#a#1",
+      "lemma": "daily",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "timeRelation": "recurrence",
+        "cadence": "daily"
+      },
+      "semanticDepthPatternRefs": [
+        "daily-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.annual.every-year",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "annual#a#2",
+      "lemma": "annual",
+      "strategy": "sequence_scene",
+      "sceneTemplate": "sequence",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "timeRelation": "recurrence",
+        "cadence": "yearly"
+      },
+      "semanticDepthPatternRefs": [
+        "annual-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.one.quantity-one",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "one#n#1",
+      "lemma": "one",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 1
+      },
+      "semanticDepthPatternRefs": [
+        "one-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.two.quantity-two",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "two#n#1",
+      "lemma": "two",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 2
+      },
+      "semanticDepthPatternRefs": [
+        "two-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.three.quantity-three",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "three#n#1",
+      "lemma": "three",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 3
+      },
+      "semanticDepthPatternRefs": [
+        "three-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.four.quantity-four",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "four#n#1",
+      "lemma": "four",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 4
+      },
+      "semanticDepthPatternRefs": [
+        "four-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.six.quantity-six",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "six#n#1",
+      "lemma": "six",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 6
+      },
+      "semanticDepthPatternRefs": [
+        "six-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.seven.quantity-seven",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "seven#n#1",
+      "lemma": "seven",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 7
+      },
+      "semanticDepthPatternRefs": [
+        "seven-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.ten.quantity-ten",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "ten#n#1",
+      "lemma": "ten",
+      "strategy": "quantity_scene",
+      "sceneTemplate": "quantity-comparison",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "quantity": 10
+      },
+      "semanticDepthPatternRefs": [
+        "ten-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.million.quantity-million",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "million#n#1",
+      "lemma": "million",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "place-value",
+        "number": 1000000,
+        "representation": "place-value"
+      },
+      "semanticDepthPatternRefs": [
+        "million-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.island.land-surrounded-by-water",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "island#n#1",
+      "lemma": "island",
+      "strategy": "place_scene",
+      "sceneTemplate": "place",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "placeKind": "island",
+        "surroundedBy": "water"
+      },
+      "semanticDepthPatternRefs": [
+        "island-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.tree.woody-plant",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "tree#n#1",
+      "lemma": "tree",
+      "strategy": "direct_entity",
+      "sceneTemplate": null,
+      "maturity": "V2",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "visualRef": "entity.plant.tree",
+      "parameters": {},
+      "semanticDepthPatternRefs": [
+        "tree-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.apple.fruit",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "apple#n#1",
+      "lemma": "apple",
+      "strategy": "direct_entity",
+      "sceneTemplate": null,
+      "maturity": "V2",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "visualRef": "entity.food.apple",
+      "parameters": {},
+      "semanticDepthPatternRefs": [
+        "apple-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.mountain.high-natural-landform",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "mountain#n#1",
+      "lemma": "mountain",
+      "strategy": "direct_entity",
+      "sceneTemplate": null,
+      "maturity": "V2",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "visualRef": "entity.landform.mountain",
+      "parameters": {},
+      "semanticDepthPatternRefs": [
+        "mountain-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.forest.tree-covered-area",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "forest#n#1",
+      "lemma": "forest",
+      "strategy": "direct_entity",
+      "sceneTemplate": null,
+      "maturity": "V2",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "visualRef": "entity.habitat.forest",
+      "parameters": {},
+      "semanticDepthPatternRefs": [
+        "forest-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.ocean.large-salt-water-body",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "ocean#n#1",
+      "lemma": "ocean",
+      "strategy": "direct_entity",
+      "sceneTemplate": null,
+      "maturity": "V2",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "visualRef": "entity.habitat.ocean",
+      "parameters": {},
+      "semanticDepthPatternRefs": [
+        "ocean-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.map.location-diagram",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "map#n#1",
+      "lemma": "map",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "geographic-map"
+      },
+      "semanticDepthPatternRefs": [
+        "map-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.temperature.hotness-coldness-measure",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "temperature#n#1",
+      "lemma": "temperature",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "temperature-scale",
+        "dimension": "hotness-coldness"
+      },
+      "semanticDepthPatternRefs": [
+        "temperature-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.global.whole-world-scope",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "global#a#1",
+      "lemma": "global",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "worldwide-scope"
+      },
+      "semanticDepthPatternRefs": [
+        "global-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.list.item-sequence",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "list#n#1",
+      "lemma": "list",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "item-list"
+      },
+      "semanticDepthPatternRefs": [
+        "list-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.team.cooperative-group",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "team#n#1",
+      "lemma": "team",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "cooperative-group",
+        "groupKind": "cooperative-team"
+      },
+      "semanticDepthPatternRefs": [
+        "team-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.teacher.teaching-role",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "teacher#n#1",
+      "lemma": "teacher",
+      "strategy": "person_role",
+      "sceneTemplate": "person-role",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "role": "teacher"
+      },
+      "semanticDepthPatternRefs": [
+        "teacher-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.student.learning-role",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "student#n#1",
+      "lemma": "student",
+      "strategy": "person_role",
+      "sceneTemplate": "person-role",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "role": "student"
+      },
+      "semanticDepthPatternRefs": [
+        "student-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.committee.delegated-group",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "committee#n#1",
+      "lemma": "committee",
+      "strategy": "diagrammatic",
+      "sceneTemplate": "simple-diagram",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "diagramKind": "delegated-group"
+      },
+      "semanticDepthPatternRefs": [
+        "committee-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.manager.management-role",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "manager#n#1",
+      "lemma": "manager",
+      "strategy": "person_role",
+      "sceneTemplate": "person-role",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "role": "manager"
+      },
+      "semanticDepthPatternRefs": [
+        "manager-reviewed-exact-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.reviewed-exact.author.author-role",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "author#n#1",
+      "lemma": "author",
+      "strategy": "person_role",
+      "sceneTemplate": "person-role",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "role": "author"
+      },
+      "semanticDepthPatternRefs": [
+        "author-reviewed-exact-explanation"
       ]
     }
   ]
