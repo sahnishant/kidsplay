@@ -37,6 +37,16 @@ describe('Android #33 beta release candidate workflow', () => {
     expect(uploadIdentity).toBeGreaterThan(writeIdentity);
   });
 
+  it('records workflow source provenance so later physical acceptance can reject non-main candidates', () => {
+    expect(workflow).toContain("repository = process.env.GITHUB_REPOSITORY");
+    expect(workflow).toContain("event = process.env.GITHUB_EVENT_NAME");
+    expect(workflow).toContain("ref = process.env.GITHUB_REF");
+    expect(workflow).toContain('source: {');
+    expect(workflow).toContain('repository,');
+    expect(workflow).toContain('event,');
+    expect(workflow).toContain('ref');
+  });
+
   it('keeps release identity separate from human physical-device acceptance evidence', () => {
     expect(workflow).not.toContain('qa/android-beta-acceptance/evidence/');
     expect(workflow).not.toContain('directPhysicalObservation');
