@@ -53,15 +53,14 @@
 {/if}
 
 <style>
-  /* The depth attribute is on the scene section; the cue is a child div. */
   :global(section[data-semantic-depth-mode]) {
-    display: grid;
-    grid-template-rows: minmax(0, 1fr) auto;
+    display: flex;
+    flex-direction: column;
     height: 176px;
   }
   :global(section.compact[data-semantic-depth-mode]) { height: 138px; }
-  :global(section[data-semantic-depth-mode] :is(.semantic-svg,.direct-entity)) {
-    max-height: 100%;
+  :global(section[data-semantic-depth-mode] :is(svg,.direct-entity)) {
+    min-height: 0;
     margin: 0 auto;
   }
   :global(section[data-semantic-depth-mode] .semantic-depth-cue) {
