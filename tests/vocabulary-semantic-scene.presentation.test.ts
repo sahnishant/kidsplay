@@ -178,7 +178,6 @@ describe('semantic vocabulary scene runtime', () => {
     expect(container.querySelector('[data-vocabulary-sense]')).toBeNull();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Enormous' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
     expect(container.querySelector('[data-vocabulary-sense="enormous#very-large-size"]')).toBeTruthy();
@@ -194,7 +193,6 @@ describe('semantic vocabulary scene runtime', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'Enormous' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
     expect(container.querySelector('[data-vocabulary-sense]')).toBeNull();
