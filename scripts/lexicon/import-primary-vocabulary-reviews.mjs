@@ -134,6 +134,15 @@ function outputForBatch(batchKey, explicitOutput) {
   return resolve(`content/knowledge/english-vocabulary-primary-reviewed-batch-${batchKey}.json`);
 }
 
+function serializedKnowledge(knowledge, batchKey) {
+  // Batch 001 predates the scalable production lane and remains pretty-printed
+  // to avoid unrelated churn. Batch 002+ stay compact so thousands of reviewed
+  // rows do not turn the repository into formatting-heavy generated diffs.
+  return batchKey === '001'
+    ? `${JSON.stringify(knowledge, null, 2)}\n`
+    : `${JSON.stringify(knowledge)}\n`;
+}
+
 function main() {
   const args = parseArgs(process.argv.slice(2));
   const reviewDir = resolve(String(args['review-dir'] || DEFAULT_REVIEW_DIR));
@@ -147,7 +156,7 @@ function main() {
     const output = outputForBatch(batchKey, args.output);
     const knowledge = buildReviewedKnowledge(decisions, candidates, { batchKey });
     mkdirSync(dirname(output), { recursive: true });
-    writeFileSync(output, `${JSON.stringify(knowledge, null, 2)}\n`, 'utf8');
+    writeFileSync(output, serializedKnowledge(knowledge, batchKey), 'utf8');
     const count = knowledge[0]?.entries?.length ?? 0;
     total += count;
     console.log(`Reviewed primary vocabulary batch ${batchKey}: ${count} semantic row(s) -> ${output}`);
