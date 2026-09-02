@@ -188,6 +188,20 @@ describe('Android beta workflow release binding', () => {
     expect(result.stderr).toContain('source.ref must be refs/heads/main');
   });
 
+  it('rejects a kidsplay-branch push identity even when its release metadata and APK bytes are otherwise valid', () => {
+    const directory = makeTempDir();
+    const recordPath = writeJson(directory, 'phone.json', baseRecord());
+    const identity = releaseIdentity();
+    identity.source.ref = 'refs/heads/kidsplay';
+    const identityPath = writeJson(directory, 'release-identity.txt.json', identity);
+    const apkPath = writeApk(directory);
+
+    const result = run(['--file', recordPath, '--release-identity', identityPath, '--apk', apkPath]);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('source.ref must be refs/heads/main');
+  });
+
   it('rejects an identity artifact that is not explicitly for issue 33', () => {
     const directory = makeTempDir();
     const recordPath = writeJson(directory, 'phone.json', baseRecord());
