@@ -30,6 +30,11 @@
 
     { "knowledgeRef": "kr.vocab.primary.meaning.fast.fast-a-1", "senseKey": "fast#a#1" },
     { "knowledgeRef": "kr.vocab.primary.meaning.full.full-a-1", "senseKey": "full#a#1" },
-    { "knowledgeRef": "kr.vocab.primary.meaning.library.library-n-3", "senseKey": "library#n#3" }
+    { "knowledgeRef": "kr.vocab.primary.meaning.library.library-n-3", "senseKey": "library#n#3" },
+
+    { "knowledgeRef": "kr.vocab.place.village.is-settlement", "senseKey": "village#settlement" },
+    { "knowledgeRef": "kr.vocab.spatial.under.describes-relative-position", "senseKey": "under#below-reference" },
+    { "knowledgeRef": "kr.vocab.comparison.same.matches-target-dimension", "senseKey": "same#matching-in-target-dimension" },
+    { "knowledgeRef": "kr.vocab.process.open.closed-to-open", "senseKey": "open#change-from-closed" }
   ]
 }
