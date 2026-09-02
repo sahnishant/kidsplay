@@ -26,6 +26,21 @@ jobs:
           node-version: '22'
           cache: npm
 
+      - name: Escape nested generated-code interpolation in temporary helper
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+          const path = 'scripts/tmp-register-approved-semantic-tranche-003.mjs';
+          let source = readFileSync(path, 'utf8');
+          const start = source.indexOf('const unresolvedBlock = `');
+          const end = source.indexOf('`;\nphaseC = replaceBlock', start);
+          if (start < 0 || end < 0) throw new Error('Could not locate unresolvedBlock template');
+          const prefix = source.slice(0, start);
+          const block = source.slice(start, end).replaceAll('${', '\\${');
+          source = prefix + block + source.slice(end);
+          writeFileSync(path, source, 'utf8');
+          NODE
+
       - name: Register approved review evidence
         run: node scripts/tmp-register-approved-semantic-tranche-003.mjs
 
