@@ -4,6 +4,10 @@ import { resolve } from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
 import { validateRecord, validateSuite } from './validate-android-beta-evidence.mjs';
 
+const REQUIRED_REPOSITORY = 'sahnishant/kidsplay';
+const REQUIRED_EVENT = 'push';
+const REQUIRED_REF = 'refs/heads/main';
+
 function isObject(value) {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
 }
@@ -99,6 +103,24 @@ export function validateReleaseIdentityBinding(records, identity, identityLabel 
   return errors;
 }
 
+export function validateMainReleaseSource(identity, identityLabel = 'release identity') {
+  if (!isObject(identity?.source)) {
+    return [`${identityLabel}: source is required to prove the Android candidate came from main`];
+  }
+
+  const errors = [];
+  if (identity.source.repository !== REQUIRED_REPOSITORY) {
+    errors.push(`${identityLabel}: source.repository must be ${REQUIRED_REPOSITORY}`);
+  }
+  if (identity.source.event !== REQUIRED_EVENT) {
+    errors.push(`${identityLabel}: source.event must be ${REQUIRED_EVENT}`);
+  }
+  if (identity.source.ref !== REQUIRED_REF) {
+    errors.push(`${identityLabel}: source.ref must be ${REQUIRED_REF}`);
+  }
+  return errors;
+}
+
 export function validateApkBinding(identity, apkSha256, apkLabel = 'APK') {
   const expectedSha256 = identity?.release?.apk?.sha256;
   if (typeof expectedSha256 !== 'string') {
@@ -134,8 +156,9 @@ function main() {
     ? validateSuite(records)
     : records.flatMap(({ record, label }) => validateRecord(record, label));
   const bindingErrors = validateReleaseIdentityBinding(records, identity, identityPath);
+  const sourceErrors = validateMainReleaseSource(identity, identityPath);
   const apkBindingErrors = validateApkBinding(identity, apkSha256, apkPath);
-  const errors = [...evidenceErrors, ...bindingErrors, ...apkBindingErrors];
+  const errors = [...evidenceErrors, ...bindingErrors, ...sourceErrors, ...apkBindingErrors];
 
   if (errors.length) {
     console.error(`Android beta release binding validation failed with ${errors.length} error(s):`);
@@ -144,9 +167,9 @@ function main() {
   }
 
   if (options.requireCompleteSuite) {
-    console.log(`Android beta release binding OK: ${records.length} physical-device record(s) and the downloaded APK match the exact workflow-generated release identity.`);
+    console.log(`Android beta release binding OK: ${records.length} physical-device record(s) and the downloaded APK match a workflow-generated main-push release identity.`);
   } else {
-    console.log(`Android beta release binding OK: ${records.length} record(s) and the downloaded APK match the exact workflow-generated release identity.`);
+    console.log(`Android beta release binding OK: ${records.length} record(s) and the downloaded APK match a workflow-generated main-push release identity.`);
   }
 }
 
