@@ -284,15 +284,26 @@ jobs:
           const sha256 = process.env.APK_SHA256 ?? '';
           const workflowRunId = Number(process.env.GITHUB_RUN_ID);
           const artifactId = Number(process.env.APK_ARTIFACT_ID);
+          const repository = process.env.GITHUB_REPOSITORY ?? '';
+          const event = process.env.GITHUB_EVENT_NAME ?? '';
+          const ref = process.env.GITHUB_REF ?? '';
 
           if (!/^[0-9a-f]{40}$/.test(commitSha)) throw new Error(`Invalid GITHUB_SHA: ${commitSha}`);
           if (!/^[0-9a-f]{64}$/.test(sha256)) throw new Error(`Invalid APK SHA-256: ${sha256}`);
           if (!Number.isInteger(workflowRunId) || workflowRunId < 1) throw new Error(`Invalid GITHUB_RUN_ID: ${process.env.GITHUB_RUN_ID}`);
           if (!Number.isInteger(artifactId) || artifactId < 1) throw new Error(`Invalid APK artifact id: ${process.env.APK_ARTIFACT_ID}`);
+          if (!repository) throw new Error('Missing GITHUB_REPOSITORY');
+          if (!event) throw new Error('Missing GITHUB_EVENT_NAME');
+          if (!ref) throw new Error('Missing GITHUB_REF');
 
           const identity = {
             schemaVersion: 1,
             issue: 33,
+            source: {
+              repository,
+              event,
+              ref
+            },
             release: {
               commitSha,
               appPackage: 'com.kidsplay.app',
@@ -307,6 +318,7 @@ jobs:
           writeFileSync('android-release/android-beta-release-identity.json', `${JSON.stringify(identity, null, 2)}\n`, 'utf8');
           NODE
           cat android-release/android-beta-release-identity.json
+          echo "- Source: \`$GITHUB_REPOSITORY $GITHUB_EVENT_NAME $GITHUB_REF\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- Workflow run: \`$GITHUB_RUN_ID\`" >> "$GITHUB_STEP_SUMMARY"
           echo "- APK artifact id: \`$APK_ARTIFACT_ID\`" >> "$GITHUB_STEP_SUMMARY"
 
