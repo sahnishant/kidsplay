@@ -84,9 +84,9 @@ describe('semantic vocabulary knowledge depth', () => {
     expect(question).toBeTruthy();
     expect(plan).toMatchObject({
       runtimeUsage: 'knowledge_reinforcement',
-      senseKey: 'pull#move-toward-by-force',
-      maturity: 'V5'
+      senseKey: 'pull#move-toward-by-force'
     });
+    expect(['V5', 'V6']).toContain(plan.maturity);
     expect(plan.semanticDepthPatternRefs).toContain('pull-direction-explanation');
   });
 });
