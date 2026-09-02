@@ -54,7 +54,7 @@ jobs:
             const packet = JSON.parse(readFileSync(path, 'utf8'));
             if (packet.items?.length !== 16) throw new Error(`${path}: expected 16 rows`);
             if (packet.policy?.publicationState !== 'blocked_pending_editorial_review') throw new Error(`${path}: must remain blocked`);
-            if (packet.summary?.excludedTerminalReviewItems !== 40) throw new Error(`${path}: expected all 40 prior curator rows to be terminally excluded`);
+            if (packet.summary?.excludedPriorReview !== 40) throw new Error(`${path}: expected all 40 prior curator rows to be terminally excluded`);
             if (packet.items.some((item) => item.editorial?.status !== 'draft' || item.editorial?.reviewAuthority != null || item.editorial?.selectedCandidateId != null || item.profilePlacement?.approvedProfileRefs?.length)) throw new Error(`${path}: generated packet acquired authority`);
           }
           NODE
