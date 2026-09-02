@@ -29,10 +29,24 @@ jobs:
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
+      - name: Extend deterministic Grade 1 and Grade 2 curator windows
+        run: |
+          npm run lexicon:export:review-slice -- --sense-review content/lexicon/open/sense-review/grade-1-introduced-meaning-oewn.json --wordlist content/lexicon/open/review-wordlists/grade-1-introduced-meaning.json --output content/lexicon/open/curator-slices/grade-1-meaning-review-080.json --limit 80
+          npm run lexicon:export:review-slice -- --sense-review content/lexicon/open/sense-review/grade-2-introduced-meaning-oewn.json --wordlist content/lexicon/open/review-wordlists/grade-2-introduced-meaning.json --output content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --limit 80
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+          for (const grade of [1, 2]) {
+            const oldSlice = JSON.parse(readFileSync(`content/lexicon/open/curator-slices/grade-${grade}-meaning-review.json`, 'utf8'));
+            const extended = JSON.parse(readFileSync(`content/lexicon/open/curator-slices/grade-${grade}-meaning-review-080.json`, 'utf8'));
+            if (oldSlice.items?.length !== 40 || extended.items?.length !== 80) throw new Error(`grade ${grade}: expected 40 -> 80 curator rows`);
+            if (JSON.stringify(extended.items.slice(0, 40)) !== JSON.stringify(oldSlice.items)) throw new Error(`grade ${grade}: extending curator window changed the certified first 40 rows`);
+          }
+          NODE
+
       - name: Generate Grade 1 and Grade 2 batch 004 packets
         run: |
-          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review.json --output content/lexicon/editorial-packets/grade-1-batch-004.json --batch-id grade-1-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
-          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review.json --output content/lexicon/editorial-packets/grade-2-batch-004.json --batch-id grade-2-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review-080.json --output content/lexicon/editorial-packets/grade-1-batch-004.json --batch-id grade-1-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --output content/lexicon/editorial-packets/grade-2-batch-004.json --batch-id grade-2-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
           node --input-type=module <<'NODE'
           import { readFileSync } from 'node:fs';
           for (const grade of [1, 2]) {
@@ -40,6 +54,7 @@ jobs:
             const packet = JSON.parse(readFileSync(path, 'utf8'));
             if (packet.items?.length !== 16) throw new Error(`${path}: expected 16 rows`);
             if (packet.policy?.publicationState !== 'blocked_pending_editorial_review') throw new Error(`${path}: must remain blocked`);
+            if (packet.summary?.excludedTerminalReviewItems !== 40) throw new Error(`${path}: expected all 40 prior curator rows to be terminally excluded`);
             if (packet.items.some((item) => item.editorial?.status !== 'draft' || item.editorial?.reviewAuthority != null || item.editorial?.selectedCandidateId != null || item.profilePlacement?.approvedProfileRefs?.length)) throw new Error(`${path}: generated packet acquired authority`);
           }
           NODE
