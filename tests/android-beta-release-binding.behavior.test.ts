@@ -20,6 +20,11 @@ function releaseIdentity() {
   return {
     schemaVersion: 1,
     issue: 33,
+    source: {
+      repository: 'sahnishant/kidsplay',
+      event: 'push',
+      ref: 'refs/heads/main'
+    },
     release: {
       commitSha: '1'.repeat(40),
       appPackage: 'com.kidsplay.app',
@@ -109,7 +114,7 @@ afterEach(() => {
 });
 
 describe('Android beta workflow release binding', () => {
-  it('accepts a complete physical-device suite only when every record and the downloaded APK match the generated identity', () => {
+  it('accepts a complete physical-device suite only when every record and the downloaded APK match a generated main-push identity', () => {
     const directory = makeTempDir();
     writeJson(directory, 'small-phone.json', baseRecord());
     writeJson(directory, 'large-device.json', largeDeviceRecord());
@@ -165,6 +170,22 @@ describe('Android beta workflow release binding', () => {
 
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain('downloaded APK SHA-256 does not match the workflow-generated Android beta release identity');
+  });
+
+  it('rejects a PR-produced release identity even when its release metadata and APK bytes are otherwise valid', () => {
+    const directory = makeTempDir();
+    const recordPath = writeJson(directory, 'phone.json', baseRecord());
+    const identity = releaseIdentity();
+    identity.source.event = 'pull_request';
+    identity.source.ref = 'refs/pull/147/merge';
+    const identityPath = writeJson(directory, 'release-identity.txt.json', identity);
+    const apkPath = writeApk(directory);
+
+    const result = run(['--file', recordPath, '--release-identity', identityPath, '--apk', apkPath]);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('source.event must be push');
+    expect(result.stderr).toContain('source.ref must be refs/heads/main');
   });
 
   it('rejects an identity artifact that is not explicitly for issue 33', () => {
