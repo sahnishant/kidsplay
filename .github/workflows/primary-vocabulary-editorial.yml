@@ -114,18 +114,53 @@ jobs:
         run: |
           npm run lexicon:import:reviews
           node --input-type=module <<'NODE'
-          import { readFileSync } from 'node:fs';
+          import { readdirSync, readFileSync } from 'node:fs';
+          import { join } from 'node:path';
+
+          const reviewDir = 'content/lexicon/reviews';
+          const expected = new Map();
+          for (const name of readdirSync(reviewDir).filter((entry) => entry.endsWith('.json')).sort()) {
+            const document = JSON.parse(readFileSync(join(reviewDir, name), 'utf8'));
+            for (const decision of document.decisions ?? []) {
+              if (decision.status !== 'reviewed' || decision.decision !== 'accept') continue;
+              const lemma = String(decision.lemma ?? '').trim().toLowerCase();
+              if (!lemma) throw new Error(`${name}: accepted review requires lemma`);
+              if (expected.has(lemma)) throw new Error(`${lemma}: duplicate accepted review across handoffs`);
+              if (decision.reviewAuthority !== 'human_editor') throw new Error(`${lemma}: accepted review must have human_editor authority`);
+              if (!String(decision.reviewer ?? '').trim() || !/^\d{4}-\d{2}-\d{2}$/.test(String(decision.reviewedAt ?? ''))) {
+                throw new Error(`${lemma}: accepted review requires reviewer and ISO reviewedAt`);
+              }
+              expected.set(lemma, {
+                grade: Number(document.grade),
+                candidateId: decision.candidateId,
+                childDefinition: decision.childDefinition,
+                reviewer: decision.reviewer,
+                reviewedAt: decision.reviewedAt
+              });
+            }
+          }
+
           const knowledge = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed.json', 'utf8'));
           const entries = knowledge[0]?.entries ?? [];
-          if (entries.length !== 16) throw new Error(`Expected exactly 16 reviewed vocabulary rows, got ${entries.length}`);
-          if (entries.filter((entry) => entry.meta?.primaryVocabularyGrade === 1).length !== 8) throw new Error('Expected 8 Grade 1 reviewed rows');
-          if (entries.filter((entry) => entry.meta?.primaryVocabularyGrade === 2).length !== 8) throw new Error('Expected 8 Grade 2 reviewed rows');
+          if (entries.length !== expected.size) {
+            throw new Error(`Expected ${expected.size} reviewed vocabulary rows from accepted handoffs, got ${entries.length}`);
+          }
+          const seen = new Set();
           for (const entry of entries) {
+            const lemma = String(entry.subject?.label ?? entry.id ?? '').trim().toLowerCase();
+            const review = expected.get(lemma);
+            if (!review) throw new Error(`${entry.id}: runtime row has no accepted human review handoff`);
+            if (seen.has(lemma)) throw new Error(`${lemma}: duplicate runtime reviewed vocabulary row`);
+            seen.add(lemma);
             if (entry.meta?.curation?.status !== 'reviewed') throw new Error(`${entry.id}: expected reviewed curation state`);
-            if (entry.meta?.curation?.reviewer !== 'sahnishant') throw new Error(`${entry.id}: expected sahnishant reviewer identity`);
-            if (entry.meta?.curation?.reviewedAt !== '2026-08-31') throw new Error(`${entry.id}: expected 2026-08-31 review date`);
+            if (entry.meta?.primaryVocabularyGrade !== review.grade) throw new Error(`${entry.id}: grade does not match review handoff`);
+            if (entry.meta?.curation?.candidateId !== review.candidateId) throw new Error(`${entry.id}: candidate does not match review handoff`);
+            if (entry.meta?.curation?.reviewer !== review.reviewer) throw new Error(`${entry.id}: reviewer does not match review handoff`);
+            if (entry.meta?.curation?.reviewedAt !== review.reviewedAt) throw new Error(`${entry.id}: review date does not match review handoff`);
+            if (entry.object?.label !== review.childDefinition) throw new Error(`${entry.id}: child definition does not match review handoff`);
             if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss copy boundary failed`);
           }
+          if (seen.size !== expected.size) throw new Error('Not all accepted review handoffs produced runtime rows');
           NODE
           git diff --exit-code -- content/knowledge/english-vocabulary-primary-reviewed.json
 
