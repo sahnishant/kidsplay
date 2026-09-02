@@ -20,6 +20,7 @@
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
+  let submissionMode = $derived(feedbackMode === 'play' ? 'auto_when_complete' : 'explicit');
 
   function handleSubmit(response: unknown): void {
     const result = checkResponse(response);
@@ -32,5 +33,5 @@
 </script>
 
 {#key question.id}
-  <Engine {question} onSubmit={handleSubmit} {checkResponse} />
+  <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} />
 {/key}
