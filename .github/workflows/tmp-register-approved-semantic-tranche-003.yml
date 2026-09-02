@@ -1,0 +1,66 @@
+name: Temporary Register Approved Semantic Tranche 003
+
+on:
+  push:
+    branches:
+      - tmp/semantic-tranche-003-approved-registration
+    paths:
+      - '.github/workflows/tmp-register-approved-semantic-tranche-003.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout registration branch
+        uses: actions/checkout@v4
+        with:
+          ref: tmp/semantic-tranche-003-approved-registration
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Register approved review evidence
+        run: node scripts/tmp-register-approved-semantic-tranche-003.mjs
+
+      - name: Install dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Restore Linux native bindings omitted by cross-platform lockfile
+        shell: bash
+        run: |
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          LIGHTNINGCSS_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          NATIVE_DIR="$(mktemp -d)"
+          npm install --prefix "$NATIVE_DIR" --no-save --package-lock=false --no-audit --no-fund \
+            "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION" \
+            "lightningcss-linux-x64-gnu@$LIGHTNINGCSS_VERSION"
+          mkdir -p node_modules/@rolldown
+          rm -rf node_modules/@rolldown/binding-linux-x64-gnu node_modules/lightningcss-linux-x64-gnu
+          cp -R "$NATIVE_DIR/node_modules/@rolldown/binding-linux-x64-gnu" node_modules/@rolldown/
+          cp -R "$NATIVE_DIR/node_modules/lightningcss-linux-x64-gnu" node_modules/
+          rm -rf "$NATIVE_DIR"
+
+      - name: Prove full repository checks
+        run: npm run check
+
+      - name: Remove temporary registration helpers
+        run: |
+          rm scripts/tmp-register-approved-semantic-tranche-003.mjs
+          rm .github/workflows/tmp-register-approved-semantic-tranche-003.yml
+
+      - name: Commit certified registration
+        shell: bash
+        run: |
+          git add -A
+          git diff --cached --check
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'feat(#151): register independently approved tranche 003 senses'
+          git push origin HEAD:tmp/semantic-tranche-003-approved-registration
