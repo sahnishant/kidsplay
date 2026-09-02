@@ -106,8 +106,6 @@ const semanticDepthPatternsFor = (knowledgeRef, senseKey) => {
 
 const projectPlan = (item, runtimeUsage, knowledgeRef = null) => {
   const depthPatterns = semanticDepthPatternsFor(knowledgeRef, item.senseKey);
-  const parameters = { ...(item.parameters ?? {}) };
-  if (depthPatterns.length) parameters.semanticDepthMode = depthPatterns[0].type;
   return {
     knowledgeRef,
     runtimeUsage,
@@ -119,7 +117,7 @@ const projectPlan = (item, runtimeUsage, knowledgeRef = null) => {
     motionPolicy: item.motionPolicy,
     answerSafety: item.answerSafety,
     visualRef: item.visualRef ?? null,
-    parameters,
+    parameters: item.parameters ?? {},
     semanticDepthPatternRefs: [...new Set(depthPatterns.map((pattern) => pattern.id))]
   };
 };
@@ -173,9 +171,6 @@ const proofPlans = (templateProofs.senseKeys ?? []).flatMap((rawSenseKey) => {
     throw new Error(`${senseKey}: template proof requires a compositional semantic strategy; got ${item.strategy}`);
   }
   if (!item.sceneTemplate) throw new Error(`${senseKey}: template proof requires sceneTemplate`);
-  // A previously renderer-proven sense may later gain a real canonical knowledge mapping.
-  // Keep the original proof declaration conservative, but emit only the stronger knowledge plan
-  // so the runtime never carries two plans for the same sense.
   if (reinforcementSenseKeys.has(senseKey)) return [];
   return [projectPlan(item, 'template_proof')];
 });
