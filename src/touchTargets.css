@@ -1,0 +1,23 @@
+/*
+ * Young-child interaction invariant.
+ *
+ * Compact child-facing controls must remain at least 44 × 44 CSS px even when
+ * their component-local presentation is intentionally dense. Keep this file
+ * loaded after component/engine base styles so it acts as the product-wide
+ * minimum rather than a redesign of larger controls.
+ */
+:root {
+  --child-touch-target-min: 44px;
+}
+
+#app .home-button {
+  width: var(--child-touch-target-min);
+  min-width: var(--child-touch-target-min);
+  height: var(--child-touch-target-min);
+  min-height: var(--child-touch-target-min);
+}
+
+#app .sequence-order__move {
+  min-width: var(--child-touch-target-min);
+  min-height: var(--child-touch-target-min);
+}
