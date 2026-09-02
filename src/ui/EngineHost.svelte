@@ -2,6 +2,7 @@
   import type { Question } from '../contracts/question';
   import type { EvaluationResult } from '../contracts/runtime';
   import { playAnswerFeedback } from '../runtime/answerFeedbackAudio';
+  import { showAnswerFeedbackSplash } from '../runtime/answerFeedbackVisual';
   import { getEngineComponent } from '../runtime/engineRegistry';
 
   let {
@@ -18,6 +19,7 @@
 
   function handleSubmit(response: unknown): void {
     const result = checkResponse(response);
+    showAnswerFeedbackSplash(result.correct);
     playAnswerFeedback(result.correct);
     onSubmit(response);
   }
