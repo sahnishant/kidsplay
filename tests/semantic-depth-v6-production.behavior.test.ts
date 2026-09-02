@@ -48,11 +48,6 @@ const phaseDBaselineKnowledgeRefs = new Set([
   'kr.vocab.process.open.closed-to-open'
 ]);
 
-const stageAEvidence = {
-  headSha: 'a85af7a65787cf60497c0eb696721f428f2d2e9a',
-  windowsWorkflowRunId: 33583987996
-} as const;
-
 afterEach(() => cleanup());
 
 describe('#132 Phase D V6 semantic-depth production', () => {
@@ -78,16 +73,14 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     expect(scan(depth)).toEqual([]);
   });
 
-  it('keeps the certified #132 baseline V6 even as later Phase D tranches add more mapped senses', () => {
+  it('keeps the certified #132 baseline V6 even as later Phase D tranches advance global evidence', () => {
     const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     const knowledgePlans = runtime.plans.filter((plan: { runtimeUsage?: string }) => plan.runtimeUsage === 'knowledge_reinforcement');
     const baselinePlans = knowledgePlans.filter((plan: { knowledgeRef?: string }) => phaseDBaselineKnowledgeRefs.has(plan.knowledgeRef ?? ''));
 
     expect(runtime.semanticDepthIssueRefs).toEqual(expect.arrayContaining([84, 132]));
-    expect(runtime.maturityEvidence).toMatchObject({
-      headSha: stageAEvidence.headSha,
-      workflowRunId: stageAEvidence.windowsWorkflowRunId
-    });
+    expect(runtime.maturityEvidence?.headSha).toMatch(/^[0-9a-f]{40}$/);
+    expect(Number.isInteger(runtime.maturityEvidence?.workflowRunId)).toBe(true);
     expect(baselinePlans).toHaveLength(26);
     expect(new Set(baselinePlans.map((plan: { senseKey: string }) => plan.senseKey)).size).toBe(25);
     expect(baselinePlans.every((plan: { maturity?: string }) => plan.maturity === 'V6')).toBe(true);
