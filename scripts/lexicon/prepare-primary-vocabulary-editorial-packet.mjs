@@ -3,6 +3,7 @@ import { dirname, resolve } from 'node:path';
 
 const clean = (value) => String(value ?? '').trim();
 const normalizedLemma = (value) => clean(value).toLowerCase();
+const TERMINAL_HOLD_STATUSES = new Set(['sense_unresolved', 'blocked_candidate_pointer_mismatch']);
 
 function parseArgs(argv) {
   const args = {};
@@ -53,7 +54,46 @@ function assertReviewHandoff(handoff, grade, ref = '<review-handoff>') {
   }
 }
 
-export function collectReviewedLemmas(reviewHandoffs, grade) {
+function assertHumanReviewMetadata(metadata, ref, lemma, context) {
+  if (metadata?.reviewAuthority !== 'human_editor') {
+    throw new Error(`${ref}: ${lemma} ${context} requires human_editor review authority`);
+  }
+  if (!clean(metadata?.reviewer) || !/^\d{4}-\d{2}-\d{2}$/.test(clean(metadata?.reviewedAt))) {
+    throw new Error(`${ref}: ${lemma} ${context} requires reviewer and ISO reviewedAt`);
+  }
+}
+
+function assertTerminalHold(item, ref) {
+  const lemma = normalizedLemma(item?.lemma);
+  if (!lemma) throw new Error(`${ref}: held editorial item requires lemma`);
+  if (item?.decision !== 'hold' || !TERMINAL_HOLD_STATUSES.has(item?.status)) {
+    throw new Error(`${ref}: ${lemma} must be an explicit terminal editorial hold before exclusion`);
+  }
+
+  if (item.status === 'sense_unresolved') {
+    assertHumanReviewMetadata(item, ref, lemma, 'hold exclusion');
+    if (item?.candidateCorrectionRequiresExplicitApproval !== false) {
+      throw new Error(`${ref}: ${lemma} unresolved hold must not claim a pending candidate correction`);
+    }
+    return lemma;
+  }
+
+  assertHumanReviewMetadata(item?.humanWordingApproval, ref, lemma, 'candidate-mismatch hold exclusion');
+  if (item?.candidateCorrectionRequiresExplicitApproval !== true) {
+    throw new Error(`${ref}: ${lemma} candidate-mismatch hold must require explicit candidate correction approval`);
+  }
+  const approvedCandidateId = clean(item?.approvedCandidateId);
+  const proposedCorrectedCandidateId = clean(item?.proposedCorrectedCandidateId);
+  if (!approvedCandidateId || !proposedCorrectedCandidateId || approvedCandidateId === proposedCorrectedCandidateId) {
+    throw new Error(`${ref}: ${lemma} candidate-mismatch hold requires distinct approved and proposed candidate ids`);
+  }
+  if (item?.reasonCode !== 'candidate_pointer_mismatch') {
+    throw new Error(`${ref}: ${lemma} candidate-mismatch hold requires candidate_pointer_mismatch reasonCode`);
+  }
+  return lemma;
+}
+
+export function collectTerminalEditorialLemmas(reviewHandoffs, grade) {
   const lemmas = new Set();
   for (const [index, handoff] of (reviewHandoffs ?? []).entries()) {
     const ref = `<review-handoff-${index + 1}>`;
@@ -64,17 +104,18 @@ export function collectReviewedLemmas(reviewHandoffs, grade) {
       if (decision?.status !== 'reviewed' || !['accept', 'reject'].includes(decision?.decision)) {
         throw new Error(`${ref}: ${lemma} must be a terminal reviewed accept/reject decision before exclusion`);
       }
-      if (decision?.reviewAuthority !== 'human_editor') {
-        throw new Error(`${ref}: ${lemma} exclusion requires human_editor review authority`);
-      }
-      if (!clean(decision?.reviewer) || !/^\d{4}-\d{2}-\d{2}$/.test(clean(decision?.reviewedAt))) {
-        throw new Error(`${ref}: ${lemma} exclusion requires reviewer and ISO reviewedAt`);
-      }
+      assertHumanReviewMetadata(decision, ref, lemma, 'exclusion');
       lemmas.add(lemma);
     }
+    for (const held of handoff.unresolvedItems ?? []) lemmas.add(assertTerminalHold(held, ref));
   }
   return [...lemmas].sort((left, right) => left.localeCompare(right, 'en'));
 }
+
+// Backward-compatible export used by the existing batch-002 preparation tests.
+// Continuation now correctly treats explicit human editorial holds as terminal
+// for reselection, without making those holds runtime-importable decisions.
+export const collectReviewedLemmas = collectTerminalEditorialLemmas;
 
 function referenceCandidate(candidate) {
   const candidateId = clean(candidate?.candidateId);
@@ -207,7 +248,7 @@ function main() {
   const output = resolve(String(args.output));
   const excludedReviewRefs = parseCsvList(args['exclude-reviews']);
   const reviewHandoffs = excludedReviewRefs.map((path) => JSON.parse(readFileSync(resolve(path), 'utf8')));
-  const excludeLemmas = collectReviewedLemmas(reviewHandoffs, Number(curatorSlice.grade));
+  const excludeLemmas = collectTerminalEditorialLemmas(reviewHandoffs, Number(curatorSlice.grade));
   const packet = buildEditorialPacket(curatorSlice, {
     batchId: args['batch-id'],
     limit: args.limit == null ? undefined : Number(args.limit),
