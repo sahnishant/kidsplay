@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-1-batch-003-ai-draft-001",
+  "batchId": "grade-1-batch-003",
+  "grade": 1,
+  "generatedAt": "2026-09-02",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "watch",
+      "proposedCandidateId": "watch#n#1",
+      "proposedChildDefinition": "A watch is a small clock that you can wear or carry.",
+      "proposedChildExample": "Mina checked her watch before school.",
+      "rationale": "Concrete everyday timepiece sense is appropriate for early-primary use."
+    },
+    {
+      "lemma": "child",
+      "proposedCandidateId": "child#n#1",
+      "proposedChildDefinition": "A child is a young person.",
+      "proposedChildExample": "The child carried a blue school bag.",
+      "rationale": "Ordinary age-based sense is distinct from offspring and figurative senses."
+    },
+    {
+      "lemma": "again",
+      "proposedCandidateId": "again#r#1",
+      "proposedChildDefinition": "Again means one more time.",
+      "proposedChildExample": "Please read the last sentence again.",
+      "rationale": "Only supplied candidate and a common early-primary recurrence meaning."
+    },
+    {
+      "lemma": "language",
+      "proposedCandidateId": "language#n#1",
+      "proposedChildDefinition": "A language is a system of words or signs that people use to communicate.",
+      "proposedChildExample": "Hindi and English are languages used by many people in India.",
+      "rationale": "General communication-system sense fits foundational vocabulary better than speech-only or lyric senses."
+    },
+    {
+      "lemma": "popular",
+      "proposedCandidateId": "popular#a#1",
+      "proposedChildDefinition": "Popular means liked or enjoyed by many people.",
+      "proposedChildExample": "Cricket is a popular sport in India.",
+      "rationale": "Widely-liked sense is concrete and distinct from political or public-oriented senses."
+    },
+    {
+      "lemma": "today",
+      "proposedCandidateId": "today#r#2",
+      "proposedChildDefinition": "Today means on this day.",
+      "proposedChildExample": "We are visiting the library today.",
+      "rationale": "Current-day sense is the most direct early-primary temporal use."
+    },
+    {
+      "lemma": "cold",
+      "proposedCandidateId": "cold#a#1",
+      "proposedChildDefinition": "Cold means having a low temperature or feeling chilly.",
+      "proposedChildExample": "The water felt cold on my hands.",
+      "rationale": "Physical-temperature sense is concrete and avoids emotional or figurative meanings."
+    },
+    {
+      "lemma": "island",
+      "proposedCandidateId": "island#n#1",
+      "proposedChildDefinition": "An island is land with water all around it.",
+      "proposedChildExample": "The small island could be reached only by boat.",
+      "rationale": "Canonical geographic sense is unambiguous for primary learners."
+    },
+    {
+      "lemma": "remember",
+      "proposedCandidateId": "remember#v#1",
+      "proposedChildDefinition": "To remember means to bring something you know or experienced back into your mind.",
+      "proposedChildExample": "I remember where I left my pencil.",
+      "rationale": "Basic memory-recall sense is more foundational than reminder or reminiscence uses."
+    },
+    {
+      "lemma": "hold",
+      "proposedCandidateId": "hold#v#2",
+      "proposedChildDefinition": "To hold something means to keep it in your hands or arms.",
+      "proposedChildExample": "Hold the cup with both hands.",
+      "rationale": "Concrete grasping sense supports simple actions and instructions."
+    },
+    {
+      "lemma": "learn",
+      "proposedCandidateId": "learn#v#1",
+      "proposedChildDefinition": "To learn means to gain new knowledge or a new skill.",
+      "proposedChildExample": "We learn new words by reading stories.",
+      "rationale": "General knowledge-and-skill acquisition sense is foundational and broad."
+    },
+    {
+      "lemma": "woman",
+      "proposedCandidateId": "woman#n#1",
+      "proposedChildDefinition": "A woman is an adult who is female.",
+      "proposedChildExample": "The woman helped the children find their classroom.",
+      "rationale": "Basic adult-person sense avoids relationship-specific and collective-class meanings."
+    },
+    {
+      "lemma": "father",
+      "proposedCandidateId": "father#n#3",
+      "proposedChildDefinition": "A father is a male parent in a family.",
+      "proposedChildExample": "Her father packed lunch for the picnic.",
+      "rationale": "Everyday parent sense is candidate 3; earlier candidates are religious titles or historical theologians."
+    }
+  ]
+}

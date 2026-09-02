@@ -1,4 +1,6 @@
 import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { formatDataForEngine } from './formatters/registry.mjs';
 
 const root = new URL('../', import.meta.url);
@@ -6,6 +8,20 @@ const knowledgeDirectory = new URL('content/knowledge/', root);
 const recipeDirectory = new URL('content/recipes/', root);
 const questionOutput = new URL('content/questions/__generated-from-knowledge.json', root);
 const crosswordOutput = new URL('content/authoring/crosswords/__generated-from-knowledge.json', root);
+
+// Reviewed vocabulary knowledge is generated only from checked-in human-editor review
+// handoffs. Run the guarded importer before reading knowledge sources so every normal
+// content build (Windows, browser and Android included) materializes the exact same
+// accepted review batches without a second runtime or a hand-maintained question bank.
+for (const script of [
+  'scripts/lexicon/import-primary-vocabulary-reviews.mjs',
+  'scripts/lexicon/materialize-primary-vocabulary-review-delivery.mjs'
+]) {
+  execFileSync(process.execPath, [fileURLToPath(new URL(script, root))], {
+    cwd: fileURLToPath(root),
+    stdio: 'inherit'
+  });
+}
 
 const readJson = (url) => JSON.parse(readFileSync(url, 'utf8'));
 
