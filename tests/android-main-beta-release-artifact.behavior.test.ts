@@ -41,10 +41,7 @@ describe('Android #33 beta release candidate workflow', () => {
     expect(workflow).toContain("repository = process.env.GITHUB_REPOSITORY");
     expect(workflow).toContain("event = process.env.GITHUB_EVENT_NAME");
     expect(workflow).toContain("ref = process.env.GITHUB_REF");
-    expect(workflow).toContain('source: {');
-    expect(workflow).toContain('repository,');
-    expect(workflow).toContain('event,');
-    expect(workflow).toContain('ref');
+    expect(workflow).toMatch(/source:\s*\{\s*repository,\s*event,\s*ref\s*\}/);
   });
 
   it('keeps release identity separate from human physical-device acceptance evidence', () => {
