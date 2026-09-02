@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 
 const main = readFileSync(resolve('src/main.ts'), 'utf8').replace(/\r\n?/g, '\n');
 const policy = readFileSync(resolve('src/touchTargets.css'), 'utf8').replace(/\r\n?/g, '\n');
+const styles = readFileSync(resolve('src/styles.css'), 'utf8').replace(/\r\n?/g, '\n');
 
 describe('child touch-target product invariant', () => {
   it('loads the minimum-target policy after the ordinary component and engine styles', () => {
@@ -21,5 +22,9 @@ describe('child touch-target product invariant', () => {
     expect(policy).toContain('--child-touch-target-min: 44px;');
     expect(policy).toMatch(/#app \.home-button \{[\s\S]*?width: var\(--child-touch-target-min\);[\s\S]*?min-width: var\(--child-touch-target-min\);[\s\S]*?height: var\(--child-touch-target-min\);[\s\S]*?min-height: var\(--child-touch-target-min\);[\s\S]*?\}/);
     expect(policy).toMatch(/#app \.sequence-order__move \{[\s\S]*?min-width: var\(--child-touch-target-min\);[\s\S]*?min-height: var\(--child-touch-target-min\);[\s\S]*?\}/);
+  });
+
+  it('retains a visible keyboard focus treatment while enforcing the touch floor', () => {
+    expect(styles).toMatch(/button:focus-visible \{[\s\S]*?outline: 4px solid [^;]+;[\s\S]*?outline-offset: 3px;[\s\S]*?\}/);
   });
 });
