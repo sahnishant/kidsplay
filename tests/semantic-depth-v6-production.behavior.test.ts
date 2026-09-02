@@ -3,6 +3,7 @@ import { resolve } from 'node:path';
 import { afterEach, describe, expect, it } from 'vitest';
 import { cleanup, render } from '@testing-library/svelte';
 import VocabularySemanticScene from '../src/presentation/VocabularySemanticScene.svelte';
+import { resolveSemanticDepthMode } from '../src/presentation/semanticDepthRegistry';
 import {
   isVocabularyVisualPlanChildFacing,
   resolveVocabularyVisualPlanForKnowledgeRefs
@@ -50,7 +51,7 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     expect(runtime.semanticDepthIssueRefs).toEqual(expect.arrayContaining([84, 132]));
     expect(knowledgePlans).toHaveLength(26);
     expect(knowledgePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => (plan.semanticDepthPatternRefs?.length ?? 0) >= 1)).toBe(true);
-    expect(knowledgePlans.every((plan: { parameters?: { semanticDepthMode?: string } }) => Boolean(plan.parameters?.semanticDepthMode))).toBe(true);
+    expect(knowledgePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => Boolean(resolveSemanticDepthMode(plan.semanticDepthPatternRefs ?? [])))).toBe(true);
 
     for (const [knowledgeRef, senseKey, maturity] of rendererPromotions) {
       const plan = knowledgePlans.find((candidate: { knowledgeRef?: string }) => candidate.knowledgeRef === knowledgeRef);
@@ -83,7 +84,7 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     const compiler = readText('scripts/compile-vocabulary-visual-runtime.mjs');
     expect(compiler).toContain("child_facing_semantic_depth_explanation");
     expect(compiler).toContain('V6 semantic-depth proof is missing same-sense depth');
-    expect(compiler).toContain('semanticDepthMode');
+    expect(compiler).toContain('semanticDepthPatternsFor');
 
     const { container } = render(VocabularySemanticScene, { props: { senseKey: 'enormous#very-large-size' } });
     const root = container.querySelector('[data-vocabulary-sense="enormous#very-large-size"]');
