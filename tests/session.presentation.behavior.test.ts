@@ -3,7 +3,10 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/svelte';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import Session from '../src/ui/SessionViewport.svelte';
 
-afterEach(() => cleanup());
+afterEach(() => {
+  cleanup();
+  document.querySelector('[data-answer-feedback]')?.remove();
+});
 
 function authoredVisualQuestion(): SingleChoiceQuestion {
   return {
@@ -52,7 +55,7 @@ describe('viewport session presentation boundary', () => {
     expect(screen.getByText(/Section: Science/)).toBeTruthy();
   });
 
-  it('replaces the answer surface with a reaction surface after submission', async () => {
+  it('submits on the option tap and replaces the answer surface with a happy reaction', async () => {
     const { container } = render(Session, {
       props: {
         title: 'Visual Practice',
@@ -64,13 +67,35 @@ describe('viewport session presentation boundary', () => {
 
     expect(container.querySelector('[data-session-state="answer"]')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Check answer' })).toBeNull();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Land' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
     expect(screen.queryByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeNull();
     expect(screen.getByRole('status').textContent).toContain('Correct.');
+    const splash = document.querySelector('[data-answer-feedback="correct"]');
+    expect(splash).toBeTruthy();
+    expect(splash?.textContent).toContain('Correct!');
     expect(screen.getByRole('button', { name: 'See result' })).toBeTruthy();
+  });
+
+  it('shows a clear lost-state reaction immediately after a wrong option tap', async () => {
+    const { container } = render(Session, {
+      props: {
+        title: 'Visual Practice',
+        questions: [authoredVisualQuestion()],
+        childName: 'Explorer',
+        childAvatar: 'fox'
+      }
+    });
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Ocean' }));
+
+    expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
+    expect(screen.getByRole('status').textContent).toContain('Try again.');
+    const splash = document.querySelector('[data-answer-feedback="incorrect"]');
+    expect(splash).toBeTruthy();
+    expect(splash?.textContent).toContain('Not quite!');
   });
 });
