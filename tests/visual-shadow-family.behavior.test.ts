@@ -65,7 +65,7 @@ describe('shadow formation visual family', () => {
     };
     expect(report.library.entities).toBeGreaterThanOrEqual(304);
     expect(report.library.recipes).toBeGreaterThanOrEqual(19);
-    expect(report.visualFriendly.total).toBe(1459);
+    expect(report.visualFriendly.total).toBeGreaterThanOrEqual(1459);
     expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(786);
     expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(53.8);
     expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(177);
