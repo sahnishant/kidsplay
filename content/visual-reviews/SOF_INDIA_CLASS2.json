@@ -1,11 +1,73 @@
 {
   "schemaVersion": 1,
   "profileRef": "SOF_INDIA_CLASS2",
+  "reviewedAt": "2026-09-02",
+  "reviewedBy": "vocabulary-production-lane",
   "decisions": [
     {
       "semanticRef": "different-festivals",
       "status": "keep_text",
       "reason": "The concept is diversity across festivals. A single generic celebration icon would erase the distinction and could misteach the row."
+    },
+    {
+      "semanticRef": "accident",
+      "status": "keep_text",
+      "reason": "The reviewed meaning is an unexpected event that may cause damage or injury. A single crash, fall, or broken-object icon would narrow the meaning to one accident type."
+    },
+    {
+      "semanticRef": "busy",
+      "status": "keep_text",
+      "reason": "The reviewed meaning is having a lot to do. A single person or activity icon cannot express workload without adding a more specific scene than the semantic row warrants."
+    },
+    {
+      "semanticRef": "ask",
+      "status": "keep_text",
+      "reason": "The reviewed verb means saying a question because an answer is wanted. A generic speaking-person icon would not distinguish asking from talking, telling, or answering."
+    },
+    {
+      "semanticRef": "come",
+      "status": "keep_text",
+      "reason": "The reviewed verb is deictic movement toward the speaker or referenced place. A static movement icon lacks the required viewpoint and could teach the wrong direction."
+    },
+    {
+      "semanticRef": "environment",
+      "status": "keep_text",
+      "reason": "The reviewed meaning covers the place and surroundings where a person, animal, or plant lives. One habitat picture would incorrectly narrow this broad concept."
+    },
+    {
+      "semanticRef": "clothes",
+      "status": "keep_text",
+      "reason": "The meaning is the general category of things people wear. One garment icon would collapse the category to a particular item; a composed clothing-set visual should be authored separately."
+    },
+    {
+      "semanticRef": "sugar",
+      "status": "keep_text",
+      "reason": "The meaning is the sweet substance used in foods and drinks. A white-granule or bowl icon is visually ambiguous with salt and other powders without an authored contextual scene."
+    },
+    {
+      "semanticRef": "excellent",
+      "status": "keep_text",
+      "reason": "The reviewed adjective means extremely good. A star, trophy, or thumbs-up would encode praise rather than the lexical meaning and would not be semantically exact."
+    },
+    {
+      "semanticRef": "extreme",
+      "status": "keep_text",
+      "reason": "The reviewed adjective means very great or far beyond what is usual. Its visual form depends on the modified property, so one generic icon would be misleading."
+    },
+    {
+      "semanticRef": "familiar",
+      "status": "keep_text",
+      "reason": "The reviewed adjective means known through prior experience. Recognition depends on learner context and cannot be represented by a universal static object icon."
+    },
+    {
+      "semanticRef": "famous",
+      "status": "keep_text",
+      "reason": "The reviewed adjective means known by many people. A celebrity or landmark icon would substitute an example for the lexical relation itself."
+    },
+    {
+      "semanticRef": "fast",
+      "status": "keep_text",
+      "reason": "The reviewed adjective describes moving or happening very quickly. A static object would conflate the property with one fast thing; a motion-aware semantic scene belongs in the visual lane."
     }
   ]
 }
