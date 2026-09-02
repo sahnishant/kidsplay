@@ -51,3 +51,20 @@
 {:else}
   <VocabularySemanticScene senseKey={presentation.senseKey} compact={presentation.compact} />
 {/if}
+
+<style>
+  :global(section[data-semantic-depth-mode]) {
+    display: flex;
+    flex-direction: column;
+    height: 176px;
+  }
+  :global(section.compact[data-semantic-depth-mode]) { height: 138px; }
+  :global(section[data-semantic-depth-mode] :is(svg,.direct-entity)) {
+    min-height: 0;
+    margin: 0 auto;
+  }
+  :global(section[data-semantic-depth-mode] .semantic-depth-cue) {
+    position: static !important;
+    margin: 0 6px 2px auto;
+  }
+</style>

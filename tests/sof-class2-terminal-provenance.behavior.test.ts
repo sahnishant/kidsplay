@@ -43,9 +43,9 @@ describe('SOF Class 2 terminal provenance review', () => {
       ? 'exact_official_anchor'
       : 'reviewed_no_exact_public_anchor');
 
-    expect(memberIds).toHaveLength(202);
-    expect(new Set(memberIds).size).toBe(202);
-    expect(editorialIds.size).toBe(20);
+    expect(memberIds).toHaveLength(205);
+    expect(new Set(memberIds).size).toBe(205);
+    expect(editorialIds.size).toBe(23);
     expect(auditedMemberIds).toHaveLength(182);
     expect(exactIds.size).toBe(27);
     expect(auditedResolved.filter((value: string) => value === 'exact_official_anchor')).toHaveLength(27);
@@ -56,11 +56,11 @@ describe('SOF Class 2 terminal provenance review', () => {
       profileRef: 'SOF_INDIA_CLASS2',
       status: 'completed',
       membershipSnapshot: {
-        directRowCount: 202,
+        directRowCount: 205,
         exactOfficialAnchorCount: 27,
         reviewedNoExactPublicAnchorCount: 155,
-        humanEditorialPlacementCount: 20,
-        terminalRowCount: 202,
+        humanEditorialPlacementCount: 23,
+        terminalRowCount: 205,
         membershipBlobSha: gitBlobSha(membershipText),
         exactReviewBlobSha: gitBlobSha(exactReviewText),
         recoveryBlobSha: gitBlobSha(recoveryText)
@@ -75,7 +75,7 @@ describe('SOF Class 2 terminal provenance review', () => {
         reviewAuthority: 'human_editor',
         reviewer: 'sahnishant',
         reviewedAt: '2026-09-02',
-        reviewedDirectRows: 20,
+        reviewedDirectRows: 23,
         disposition: 'human_editorial_placement_no_official_anchor_claim'
       },
       sourceAudit: {

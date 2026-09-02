@@ -1,0 +1,3 @@
+/* Young-child interaction invariant: larger controls stay larger; 44px is the floor. */
+#app :is(.home-button,.panel-back) { width:44px; height:44px; }
+#app :is(.child-hud__player,.home-nav__button,.avatar-button,.primary-action,.choice-button,.fill-blank,.word-chip,.drag-item,.drop-target,.primary-button,.next-button,.memory-card,.hotspot__region,.sequence-order__move) { min-width:44px; min-height:44px; }

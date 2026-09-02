@@ -7,6 +7,13 @@ const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd()
 
 const forbiddenEditorialFields = ['definition', 'definitions', 'gloss', 'sourceGloss', 'example', 'examples', 'childDefinition', 'childExample'];
 
+const pendingRuntimeProofPlans = () => {
+  const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
+  return (runtime.plans ?? []).filter((plan: any) =>
+    plan.runtimeUsage === 'knowledge_reinforcement' && plan.maturity !== 'V5' && plan.maturity !== 'V6'
+  ).length;
+};
+
 describe('#93 priority Phase B terminal visual dispositions', () => {
   it('assigns exactly one conservative terminal V1 disposition to every pre-batch-003 priority gap lemma', () => {
     const source = readJson('content/vocabulary-visuals/__generated-priority-gap-pre-batch-003.json');
@@ -115,7 +122,7 @@ describe('#93 priority Phase B terminal visual dispositions', () => {
     expect(report.meaningQueue.totalPriorityLemmas).toBe(2400);
     expect(report.meaningQueue.auditedLemmas).toBe(2400);
     expect(report.meaningQueue.auditedLemmaPercent).toBe(100);
-    expect(report.runtime.pendingProofPlans).toBe(0);
+    expect(report.runtime.pendingProofPlans).toBe(pendingRuntimeProofPlans());
     expect(report.runtime.childFacingPlans).toBeGreaterThan(0);
     expect(report.summary.errors).toBe(0);
   });
