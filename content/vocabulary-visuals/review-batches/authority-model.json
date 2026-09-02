@@ -120,6 +120,20 @@
       "runtimeAuthority": "none"
     },
     {
+      "id": "sol_max_reviewed_unresolved_reference",
+      "semanticReviewAuthority": true,
+      "historicalMigrationOnly": false,
+      "requiresPinnedCandidateTrace": true,
+      "requiresExternalReviewEvidence": true,
+      "canCreateDisposition": false,
+      "canResolveSense": false,
+      "canSelectMultiCandidate": false,
+      "canClaimHumanReview": false,
+      "allowedManifestStatuses": [],
+      "maxSemanticMaturity": "V0",
+      "runtimeAuthority": "none"
+    },
+    {
       "id": "runtime_mapping_config",
       "semanticReviewAuthority": false,
       "canCreateDisposition": false,
