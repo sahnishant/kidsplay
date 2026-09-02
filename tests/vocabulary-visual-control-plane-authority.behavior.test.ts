@@ -85,7 +85,12 @@ describe('#76 vocabulary visual control-plane authority', () => {
       expect.objectContaining({ id: 'priority-batch-003', manifest: 'content/vocabulary-visuals/review-batches/priority-batch-003.json' }),
       expect.objectContaining({ id: 'priority-sense-resolution-001', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifestPath }),
       expect.objectContaining({ id: 'priority-sense-resolution-002', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifest2Path }),
-      expect.objectContaining({ id: 'priority-sense-resolution-002-reviewed-unresolved', authorityKind: 'sol_max_reviewed_unresolved_reference', path: reviewedUnresolvedPath }),
+      expect.objectContaining({
+        id: 'priority-sense-resolution-002-reviewed-unresolved',
+        authorityKind: 'sol_max_reviewed_unresolved_reference',
+        path: reviewedUnresolvedPath,
+        expectedGitBlobSha: 'e1d5c901525378fa00e51e0d706443e5b66b1249'
+      }),
       expect.objectContaining({ id: 'phase-c-candidate-relevance-review', path: relevancePath }),
       expect.objectContaining({ id: 'phase-c-corpus-terminal-policy', path: phaseCBuilderPath })
     ]));
@@ -153,9 +158,9 @@ describe('#76 vocabulary visual control-plane authority', () => {
     )).toBe(true);
 
     const productionSource = readText(phaseCBuilderPath);
-    for (const lemma of reviewedUnresolvedLemmas) {
-      expect(productionSource).not.toContain(`'${lemma}'`);
-      expect(productionSource).not.toContain(`\"${lemma}\"`);
+    for (const entry of review.entries) {
+      expect(productionSource).not.toContain(`\"${entry.lemma}\"`);
+      for (const candidateId of entry.candidateIds) expect(productionSource).not.toContain(candidateId);
     }
     expect(productionSource).toContain('priority-sense-resolution-002.unresolved.json');
   });
