@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -6,6 +7,8 @@ import { afterEach, describe, expect, it } from 'vitest';
 
 const script = join(process.cwd(), 'scripts', 'validate-android-beta-release-binding.mjs');
 const tempRoots: string[] = [];
+const APK_FIXTURE = 'kidsplay exact beta apk fixture';
+const APK_SHA256 = createHash('sha256').update(APK_FIXTURE).digest('hex');
 
 function makeTempDir() {
   const root = mkdtempSync(join(tmpdir(), 'kidsplay-beta-release-binding-'));
@@ -23,7 +26,7 @@ function releaseIdentity() {
       apk: {
         workflowRunId: 33462320942,
         artifactId: 123456789,
-        sha256: '2'.repeat(64)
+        sha256: APK_SHA256
       }
     }
   };
@@ -91,6 +94,12 @@ function writeJson(directory: string, name: string, value: unknown) {
   return path;
 }
 
+function writeApk(directory: string, contents = APK_FIXTURE) {
+  const path = join(directory, 'app-debug.apk');
+  writeFileSync(path, contents);
+  return path;
+}
+
 function run(args: string[]) {
   return spawnSync(process.execPath, [script, ...args], { encoding: 'utf8' });
 }
@@ -100,15 +109,17 @@ afterEach(() => {
 });
 
 describe('Android beta workflow release binding', () => {
-  it('accepts a complete physical-device suite only when every record matches the generated identity', () => {
+  it('accepts a complete physical-device suite only when every record and the downloaded APK match the generated identity', () => {
     const directory = makeTempDir();
     writeJson(directory, 'small-phone.json', baseRecord());
     writeJson(directory, 'large-device.json', largeDeviceRecord());
     const identityPath = writeJson(directory, 'release-identity.txt.json', releaseIdentity());
+    const apkPath = writeApk(directory);
 
     const result = run([
       '--dir', directory,
       '--release-identity', identityPath,
+      '--apk', apkPath,
       '--require-complete-suite'
     ]);
 
@@ -116,7 +127,7 @@ describe('Android beta workflow release binding', () => {
     expect(result.stdout).toContain('Android beta release binding OK');
   });
 
-  it('rejects a self-consistent evidence suite when it points at a different APK than the generated identity', () => {
+  it('rejects a self-consistent evidence suite when it points at a different APK identity', () => {
     const directory = makeTempDir();
     const small = baseRecord();
     const large = largeDeviceRecord();
@@ -125,15 +136,35 @@ describe('Android beta workflow release binding', () => {
     writeJson(directory, 'small-phone.json', small);
     writeJson(directory, 'large-device.json', large);
     const identityPath = writeJson(directory, 'release-identity.txt.json', releaseIdentity());
+    const apkPath = writeApk(directory);
 
     const result = run([
       '--dir', directory,
       '--release-identity', identityPath,
+      '--apk', apkPath,
       '--require-complete-suite'
     ]);
 
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain('release must exactly match the workflow-generated Android beta release identity');
+  });
+
+  it('rejects a downloaded APK whose bytes do not match the generated identity hash', () => {
+    const directory = makeTempDir();
+    writeJson(directory, 'small-phone.json', baseRecord());
+    writeJson(directory, 'large-device.json', largeDeviceRecord());
+    const identityPath = writeJson(directory, 'release-identity.txt.json', releaseIdentity());
+    const apkPath = writeApk(directory, 'different apk bytes');
+
+    const result = run([
+      '--dir', directory,
+      '--release-identity', identityPath,
+      '--apk', apkPath,
+      '--require-complete-suite'
+    ]);
+
+    expect(result.status).not.toBe(0);
+    expect(result.stderr).toContain('downloaded APK SHA-256 does not match the workflow-generated Android beta release identity');
   });
 
   it('rejects an identity artifact that is not explicitly for issue 33', () => {
@@ -142,8 +173,9 @@ describe('Android beta workflow release binding', () => {
     const identity = releaseIdentity();
     identity.issue = 76;
     const identityPath = writeJson(directory, 'release-identity.txt.json', identity);
+    const apkPath = writeApk(directory);
 
-    const result = run(['--file', recordPath, '--release-identity', identityPath]);
+    const result = run(['--file', recordPath, '--release-identity', identityPath, '--apk', apkPath]);
 
     expect(result.status).not.toBe(0);
     expect(result.stderr).toContain('issue must be 33');
