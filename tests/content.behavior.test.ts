@@ -4,6 +4,7 @@ import {
   getCatalogEntries,
   getFreeAnimalsQuestions,
   getFreeExploreQuestions,
+  getFreeVocabularyQuestions,
   getGoalReadiness,
   getProfileMockQuestions,
   getProfilePatternMockQuestions,
@@ -89,12 +90,15 @@ describe('catalog and profile-driven sessions', () => {
     expect(patternMockEntry?.description).toContain('not an official SOF paper');
   });
 
-  it('keeps every current profile fact in free exploration while launching short diverse sessions', () => {
-    const pool = getFreeAnimalsQuestions();
-    const poolRefs = pool.flatMap((question) => question.knowledgeRefs ?? []);
-    const poolIds = new Set(pool.map((question) => question.id));
+  it('keeps every current profile fact on a free surface while launching short diverse science sessions', () => {
+    const sciencePool = getFreeAnimalsQuestions();
+    const vocabularyPool = getFreeVocabularyQuestions();
+    const freePool = [...sciencePool, ...vocabularyPool];
+    const scienceRefs = sciencePool.flatMap((question) => question.knowledgeRefs ?? []);
+    const freeRefs = freePool.flatMap((question) => question.knowledgeRefs ?? []);
+    const scienceIds = new Set(sciencePool.map((question) => question.id));
     const profileRows = new Set(sofMembership.members.map((member) => member.rowId));
-    const freeRows = new Set(poolRefs);
+    const freeRows = new Set(freeRefs);
     const session = getFreeExploreQuestions({ count: 8 });
 
     for (const topic of [
@@ -102,13 +106,13 @@ describe('catalog and profile-driven sessions', () => {
       'transport', 'communication', 'air', 'water', 'rocks', 'universe', 'family', 'festivals',
       'reasoning'
     ]) {
-      expect(hasTopic(poolRefs, topic)).toBe(true);
+      expect(hasTopic(scienceRefs, topic)).toBe(true);
     }
     expect([...profileRows].filter((rowId) => !freeRows.has(rowId))).toEqual([]);
 
-    expect(poolIds.has('plants-water.passage.after-rain.001')).toBe(true);
-    expect(poolIds.has('air.visual.balloon-candle.001')).toBe(true);
-    expect(poolIds.has('rocks.visual.pumice-water.001')).toBe(true);
+    expect(scienceIds.has('plants-water.passage.after-rain.001')).toBe(true);
+    expect(scienceIds.has('air.visual.balloon-candle.001')).toBe(true);
+    expect(scienceIds.has('rocks.visual.pumice-water.001')).toBe(true);
     expect(session).toHaveLength(8);
     expect(knowledgeGroupCount(session)).toBeGreaterThanOrEqual(5);
     expect(new Set(session.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);

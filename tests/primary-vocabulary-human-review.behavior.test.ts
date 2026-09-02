@@ -24,13 +24,15 @@ function candidateIndex(slices: Json[]) {
 describe('primary vocabulary human review batch 001', () => {
   const grade1Review = readJson('content/lexicon/reviews/grade-1-batch-001.json');
   const grade2Review = readJson('content/lexicon/reviews/grade-2-batch-001.json');
+  const grade1Placement = readJson('content/lexicon/reviews/grade-1-batch-001-profile-placements.json');
+  const grade2Placement = readJson('content/lexicon/reviews/grade-2-batch-001-profile-placements.json');
   const grade1Slice = readJson('content/lexicon/open/curator-slices/grade-1-meaning-review.json');
   const grade2Slice = readJson('content/lexicon/open/curator-slices/grade-2-meaning-review.json');
   const grade1Overlay = readJson('content/lexicon/ai-draft-overlays/grade-1-batch-001-ai-draft-001.json');
   const grade2Overlay = readJson('content/lexicon/ai-draft-overlays/grade-2-batch-001-ai-draft-001.json');
   const checkedInKnowledge = readJson('content/knowledge/english-vocabulary-primary-reviewed.json');
 
-  it('records 16 explicit human accept decisions without profile-placement inference', () => {
+  it('records 16 explicit human accept decisions without inferring placement from meaning review', () => {
     for (const review of [grade1Review, grade2Review]) {
       expect(review.kind).toBe('primary_vocabulary_editorial_review_handoff');
       expect(review.policy.requiredReviewAuthority).toBe('human_editor');
@@ -70,14 +72,14 @@ describe('primary vocabulary human review batch 001', () => {
     }
   });
 
-  it('passes the guarded importer and exactly matches the checked-in generated knowledge', () => {
+  it('passes the guarded importer and exactly matches checked-in batch-001 knowledge', () => {
     const candidates = candidateIndex([grade1Slice, grade2Slice]);
     const decisions = [...grade1Review.decisions, ...grade2Review.decisions].map((decision: any) => ({
       ...decision,
       decisionFile: 'human-review-batch-001'
     }));
 
-    const knowledge = buildReviewedKnowledge(decisions, candidates);
+    const knowledge = buildReviewedKnowledge(decisions, candidates, { batchKey: '001' });
     expect(knowledge).toEqual(checkedInKnowledge);
     expect(knowledge).toHaveLength(1);
     expect(knowledge[0].entries).toHaveLength(16);
@@ -98,78 +100,39 @@ describe('primary vocabulary human review batch 001', () => {
     }
   });
 
-  it('keeps all 16 candidate profile placements fail-closed inside the canonical handoffs', () => {
-    const reviewedEntries = checkedInKnowledge[0].entries;
-    const reviewedByRowId = new Map(reviewedEntries.map((entry: any) => [entry.rowId, entry]));
+  it('applies the later explicit human profile-placement handoffs without changing board provenance', () => {
     const expectedProfilesByGrade: Record<number, string[]> = {
       1: ['CBSE_INDIA_CLASS1', 'CISCE_INDIA_CLASS1'],
       2: ['CBSE_INDIA_CLASS2', 'CISCE_INDIA_CLASS2', 'SOF_INDIA_CLASS2']
     };
 
-    for (const review of [grade1Review, grade2Review]) {
-      const queue = review.profilePlacementReviewQueue;
-      expect(review.policy.pendingPlacementCandidatesAreNonAuthoritative).toBe(true);
-      expect(review.summary.reviewedProfilePlacements).toBe(0);
-      expect(review.profilePlacements).toEqual([]);
-      expect(queue).toMatchObject({
-        status: 'pending_human_editorial_review',
+    for (const [review, placement] of [[grade1Review, grade1Placement], [grade2Review, grade2Placement]] as const) {
+      expect(placement.kind).toBe('primary_vocabulary_profile_placement_review_handoff');
+      expect(placement.policy).toMatchObject({
         requiredReviewAuthority: 'human_editor',
-        candidateOnly: true,
-        mayMutateProfileMembership: false,
-        mayInferFromGradeOrCorpus: false,
-        mayClaimBoardOrExamAlignment: false
+        profilePlacementIsEditorialNotOfficialBoardEvidence: true,
+        mayInferFromGradeOrCorpus: false
       });
-      expect(queue.items).toHaveLength(8);
+      expect(placement.profilePlacements).toHaveLength(8);
+      expect(placement.summary.approvedMemberships).toBe(review.grade === 1 ? 16 : 24);
 
       const decisionByLemma = new Map(review.decisions.map((decision: any) => [decision.lemma, decision]));
-      for (const item of queue.items) {
-        const entry = reviewedByRowId.get(item.rowId);
-        const decision = decisionByLemma.get(item.lemma);
-        expect(entry).toBeTruthy();
-        expect(decision).toBeTruthy();
-        expect(item.lemma).toBe(entry.subject.label);
-        expect(item.selectedCandidateId).toBe(entry.meta.curation.candidateId);
-        expect(item.selectedCandidateId).toBe(decision.candidateId);
-        expect(item.status).toBe('pending_human_editorial_review');
-        expect(item).not.toHaveProperty('reviewAuthority');
-        expect(item).not.toHaveProperty('reviewer');
-        expect(item).not.toHaveProperty('reviewedAt');
-
-        expect(item.candidatePlacements.map((placement: any) => placement.profileRef)).toEqual(
-          expectedProfilesByGrade[review.grade]
-        );
-
-        for (const placement of item.candidatePlacements) {
-          expect(placement.rationale).toContain('explicit human placement approval is still required');
-          const evidenceSlice = readJson(placement.evidenceRef);
-          expect(evidenceSlice.profileRef).toBe(placement.profileRef);
-          expect(evidenceSlice.status).toBe('curation_review_only');
-          expect(evidenceSlice.policy).toMatchObject({
-            runtimeContent: false,
-            mutatesKnowledge: false,
-            mutatesProfileMembership: false,
-            boardAlignmentClaimed: false,
-            profilePlacementRequiresEditorialReview: true
-          });
-
-          const evidenceItems = [
-            ...(evidenceSlice.readyForProfileReview ?? []),
-            ...(evidenceSlice.pendingEditorialReview ?? [])
-          ];
-          expect(evidenceItems.some((candidate: any) => candidate.lemma === item.lemma)).toBe(true);
-
-          const membership = readJson(`content/profile-memberships/${placement.profileRef}.json`);
-          expect(membership.profileRef).toBe(placement.profileRef);
-          expect(membership.members.some((member: any) => member.rowId === item.rowId)).toBe(false);
+      for (const item of placement.profilePlacements) {
+        expect(decisionByLemma.has(item.lemma)).toBe(true);
+        expect(item).toMatchObject({
+          status: 'reviewed',
+          reviewAuthority: 'human_editor',
+          reviewer: 'sahnishant',
+          reviewedAt: '2026-09-02'
+        });
+        expect(item.approvedProfileRefs).toEqual(expectedProfilesByGrade[review.grade]);
+        for (const profileRef of item.approvedProfileRefs) {
+          const membership = readJson(`content/profile-memberships/${profileRef}.json`);
+          expect(membership.provenance.status).toBe('prototype_unverified');
+          expect(membership.members).toContainEqual({ rowId: item.rowId, fit: 'core' });
         }
       }
     }
-
-    expect(
-      [...grade1Review.profilePlacementReviewQueue.items, ...grade2Review.profilePlacementReviewQueue.items]
-        .map((item: any) => item.rowId)
-        .sort()
-    ).toEqual(reviewedEntries.map((entry: any) => entry.rowId).sort());
 
     for (const overlay of [grade1Overlay, grade2Overlay]) {
       expect(overlay.policy).toMatchObject({

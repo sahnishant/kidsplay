@@ -2,7 +2,7 @@ name: Android Debug APK
 
 on:
   push:
-    branches: [kidsplay]
+    branches: [kidsplay, main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -247,9 +247,72 @@ jobs:
           path: android-smoke
           if-no-files-found: ignore
 
+      - name: Hash debug APK
+        id: apk-hash
+        shell: bash
+        run: |
+          set -euo pipefail
+          APK_PATH="android/app/build/outputs/apk/debug/app-debug.apk"
+          test -f "$APK_PATH"
+          APK_SHA256="$(sha256sum "$APK_PATH" | awk '{print $1}')"
+          [[ "$APK_SHA256" =~ ^[0-9a-f]{64}$ ]]
+          echo "sha256=$APK_SHA256" >> "$GITHUB_OUTPUT"
+          echo "### Android beta candidate" >> "$GITHUB_STEP_SUMMARY"
+          echo "- Commit: \`$GITHUB_SHA\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- APK SHA-256: \`$APK_SHA256\`" >> "$GITHUB_STEP_SUMMARY"
+
       - name: Upload debug APK
+        id: upload-debug-apk
         uses: actions/upload-artifact@v7
         with:
           name: kidsplay-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
+
+      - name: Write Android beta release identity
+        shell: bash
+        env:
+          APK_SHA256: ${{ steps.apk-hash.outputs.sha256 }}
+          APK_ARTIFACT_ID: ${{ steps.upload-debug-apk.outputs.artifact-id }}
+        run: |
+          set -euo pipefail
+          mkdir -p android-release
+          node --input-type=module <<'NODE'
+          import { writeFileSync } from 'node:fs';
+
+          const commitSha = process.env.GITHUB_SHA ?? '';
+          const sha256 = process.env.APK_SHA256 ?? '';
+          const workflowRunId = Number(process.env.GITHUB_RUN_ID);
+          const artifactId = Number(process.env.APK_ARTIFACT_ID);
+
+          if (!/^[0-9a-f]{40}$/.test(commitSha)) throw new Error(`Invalid GITHUB_SHA: ${commitSha}`);
+          if (!/^[0-9a-f]{64}$/.test(sha256)) throw new Error(`Invalid APK SHA-256: ${sha256}`);
+          if (!Number.isInteger(workflowRunId) || workflowRunId < 1) throw new Error(`Invalid GITHUB_RUN_ID: ${process.env.GITHUB_RUN_ID}`);
+          if (!Number.isInteger(artifactId) || artifactId < 1) throw new Error(`Invalid APK artifact id: ${process.env.APK_ARTIFACT_ID}`);
+
+          const identity = {
+            schemaVersion: 1,
+            issue: 33,
+            release: {
+              commitSha,
+              appPackage: 'com.kidsplay.app',
+              apk: {
+                workflowRunId,
+                artifactId,
+                sha256
+              }
+            }
+          };
+
+          writeFileSync('android-release/android-beta-release-identity.json', `${JSON.stringify(identity, null, 2)}\n`, 'utf8');
+          NODE
+          cat android-release/android-beta-release-identity.json
+          echo "- Workflow run: \`$GITHUB_RUN_ID\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- APK artifact id: \`$APK_ARTIFACT_ID\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload Android beta release identity
+        uses: actions/upload-artifact@v7
+        with:
+          name: kidsplay-android-beta-release-identity
+          path: android-release/android-beta-release-identity.json
           if-no-files-found: error
