@@ -5,7 +5,11 @@
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<DragToTargetQuestion> = $props();
+  let {
+    question,
+    onSubmit,
+    submissionMode = 'explicit'
+  }: EngineProps<DragToTargetQuestion> = $props();
 
   let assignments = $state<Record<string, string>>({});
   let selectedItemId = $state<string | null>(null);
@@ -18,6 +22,7 @@
     startY: number;
     moved: boolean;
   } | null = null;
+  let complete = $derived(question.interaction.items.every((item) => Boolean(assignments[item.id])));
   let displayOrder = $derived.by(() => createMatchingDisplayOrder(
     question.interaction.items,
     question.interaction.targets,
@@ -41,15 +46,23 @@
       : 'Drop here';
   }
 
+  function commit(nextAssignments: Record<string, string>): void {
+    if (locked) return;
+    locked = true;
+    onSubmit({ assignments: { ...nextAssignments } });
+  }
+
   function assign(itemId: string, targetId: string): void {
     if (locked) return;
     const nextAssignments = { ...assignments, [itemId]: targetId };
     assignments = nextAssignments;
     selectedItemId = null;
 
-    if (question.interaction.items.every((item) => Boolean(nextAssignments[item.id]))) {
-      locked = true;
-      onSubmit({ assignments: { ...nextAssignments } });
+    if (
+      submissionMode === 'auto_when_complete'
+      && question.interaction.items.every((item) => Boolean(nextAssignments[item.id]))
+    ) {
+      commit(nextAssignments);
     }
   }
 
@@ -151,6 +164,12 @@
     {/each}
   </div>
 </div>
+
+{#if submissionMode === 'explicit'}
+  <button class="primary-button" type="button" disabled={locked || !complete} onclick={() => commit(assignments)}>
+    Check answer
+  </button>
+{/if}
 
 <style>
   .drag-item--visual {
