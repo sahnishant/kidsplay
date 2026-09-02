@@ -63,7 +63,7 @@ describe('canonical semantic visual presenter', () => {
     expect(vocabulary.container.querySelector('[data-vocabulary-sense="pull#move-toward-by-force"]')).toBeTruthy();
   });
 
-  it('fails closed for unknown semantic capability ids', () => {
+  it('fails closed for unknown semantic capability ids without inventing authored meaning', () => {
     const recipe = render(SemanticVisualPresenter, {
       props: { presentation: recipeVisualPresentation('recipe.not-authored') }
     });
@@ -73,7 +73,10 @@ describe('canonical semantic visual presenter', () => {
     const animation = render(SemanticVisualPresenter, {
       props: { presentation: animationVisualPresentation('animation.not-authored') }
     });
-    expect(animation.container.querySelector('[data-animation-id]')).toBeNull();
+    const missingAnimation = animation.container.querySelector('[data-animation-id="animation.not-authored"]');
+    expect(missingAnimation?.classList.contains('semantic-animation--missing')).toBe(true);
+    expect(missingAnimation?.getAttribute('aria-label')).toBe('Missing animation animation.not-authored');
+    expect(animation.container.querySelector('[data-visual-ref]')).toBeNull();
     animation.unmount();
 
     const vocabulary = render(SemanticVisualPresenter, {
