@@ -119,6 +119,7 @@
       "authorityKind": "sol_max_reviewed_unresolved_reference",
       "lifecycle": "committed_review_reference",
       "order": 57,
+      "expectedGitBlobSha": "e1d5c901525378fa00e51e0d706443e5b66b1249",
       "supersession": "later_exact_review_may_resolve_blocker_without_deleting_review_history"
     },
     {
