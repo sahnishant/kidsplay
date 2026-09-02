@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "id": "priority-sense-resolution-003",
+  "sequence": 6,
+  "issueRef": 151,
+  "parentIssueRef": 76,
+  "status": "sol_max_reviewed_exact_sense",
+  "authority": {
+    "defaultKind": "sol_max_reviewed_exact_sense",
+    "referenceState": "sol_max_reviewed_exact_reference",
+    "resolutionState": "sol_max_resolved",
+    "dispositionState": "reviewed_strategy",
+    "runtimeAuthority": "none"
+  },
+  "source": {
+    "kind": "reviewed_items_file",
+    "reviewDataPath": "content/vocabulary-visuals/review-batches/priority-sense-resolution-003.items.json",
+    "expectedItemCount": 22,
+    "expectedGitBlobSha": "6b59910d77fec9f33d6ca81881e18b460a962c94",
+    "historicalStatus": "sol_max_reviewed_exact_sense"
+  },
+  "reviewEvidence": {
+    "kind": "sol_max_row_level_acceptance",
+    "pullRequest": 152,
+    "reviewNodeId": "PRR_kwDOUHzR8c8AAAABL6e00g",
+    "reviewedSemanticHeadSha": "21035772539059a62391741a4694bdb113891957",
+    "mergedMainSha": "63b02776e067daea839a256c3ae0f30e9189b370",
+    "mainBaselineAtRegistration": "63b02776e067daea839a256c3ae0f30e9189b370",
+    "submittedAt": "2026-09-02T20:00:17Z",
+    "acceptedRows": 22,
+    "claimsHumanEditorialReview": false
+  },
+  "output": {
+    "path": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-003.json",
+    "projectionMode": "authority_corrected_review_projection"
+  },
+  "supersession": {
+    "resolvesPriorUnresolvedForSameLemma": true,
+    "doesNotDeleteHistoricalDisposition": true
+  },
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "sourceGlossesIncluded": false,
+    "sourceExamplesIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false,
+    "runtimeMappingCreated": false,
+    "childDefinitionApprovalInferred": false,
+    "selectedCandidateMustBePinned": true,
+    "selectedCandidateMustEqualSenseKey": true,
+    "claimsHumanEditorialReview": false,
+    "requiresExternalReviewEvidence": true,
+    "maxMaturity": "V1"
+  }
+}

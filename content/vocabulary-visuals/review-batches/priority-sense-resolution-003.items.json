@@ -1,0 +1,532 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.visual-strategy.priority-sense-resolution.batch.003",
+  "issueRef": 151,
+  "parentIssueRef": 76,
+  "status": "sol_max_reviewed_exact_sense",
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "sourceGlossesIncluded": false,
+    "sourceExamplesIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false,
+    "runtimeMappingCreated": false,
+    "childDefinitionApprovalInferred": false
+  },
+  "reviewBasis": {
+    "candidateSource": "Open English WordNet 2025 candidate records already imported under CC-BY-4.0",
+    "selectionRule": "Independent row-level acceptance from PR #152 review PRR_kwDOUHzR8c8AAAABL6e00g; all pinned candidates were inspected and only the 22 explicitly accepted exact candidates are retained.",
+    "strategyRule": "Exact-sense registration is conservative V1 textual-only; later semantic-depth work may add reusable scene grammar without changing the reviewed sense.",
+    "reviewNodeId": "PRR_kwDOUHzR8c8AAAABL6e00g",
+    "reviewedSemanticHeadSha": "21035772539059a62391741a4694bdb113891957"
+  },
+  "items": [
+    {
+      "lemma": "dinner",
+      "senseKey": "dinner#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_04614",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "dinner#n#1",
+          "dinner#n#2"
+        ],
+        "selectedCandidateId": "dinner#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 2,
+        "globalQueueIndex": 496
+      }
+    },
+    {
+      "lemma": "proud",
+      "senseKey": "proud#a#1",
+      "partOfSpeech": "adjective",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_13579",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "proud#a#1",
+          "proud#a#2"
+        ],
+        "selectedCandidateId": "proud#a#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 3,
+        "globalQueueIndex": 498
+      }
+    },
+    {
+      "lemma": "accident",
+      "senseKey": "accident#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_00621",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "accident#n#1",
+          "accident#n#2"
+        ],
+        "selectedCandidateId": "accident#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 5,
+        "globalQueueIndex": 505
+      }
+    },
+    {
+      "lemma": "parliament",
+      "senseKey": "parliament#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_08414",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "parliament#n#1",
+          "parliament#n#2"
+        ],
+        "selectedCandidateId": "parliament#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 6,
+        "globalQueueIndex": 527
+      }
+    },
+    {
+      "lemma": "promise",
+      "senseKey": "promise#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_00905",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "promise#n#1",
+          "promise#n#2"
+        ],
+        "selectedCandidateId": "promise#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 7,
+        "globalQueueIndex": 542
+      }
+    },
+    {
+      "lemma": "talent",
+      "senseKey": "talent#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_14563",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "talent#n#1",
+          "talent#n#2"
+        ],
+        "selectedCandidateId": "talent#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 10,
+        "globalQueueIndex": 560
+      }
+    },
+    {
+      "lemma": "creative",
+      "senseKey": "creative#a#1",
+      "partOfSpeech": "adjective",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_04057",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "creative#a#1",
+          "creative#a#2"
+        ],
+        "selectedCandidateId": "creative#a#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 11,
+        "globalQueueIndex": 577
+      }
+    },
+    {
+      "lemma": "category",
+      "senseKey": "category#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_03053",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "category#n#1",
+          "category#n#2"
+        ],
+        "selectedCandidateId": "category#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 12,
+        "globalQueueIndex": 584
+      }
+    },
+    {
+      "lemma": "expert",
+      "senseKey": "expert#a#1",
+      "partOfSpeech": "adjective",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_05497",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "expert#a#1",
+          "expert#a#2"
+        ],
+        "selectedCandidateId": "expert#a#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 13,
+        "globalQueueIndex": 585
+      }
+    },
+    {
+      "lemma": "victim",
+      "senseKey": "victim#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_15006",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "victim#n#1",
+          "victim#n#2"
+        ],
+        "selectedCandidateId": "victim#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 14,
+        "globalQueueIndex": 587
+      }
+    },
+    {
+      "lemma": "existence",
+      "senseKey": "existence#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_05459",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "existence#n#1",
+          "existence#n#2"
+        ],
+        "selectedCandidateId": "existence#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 19,
+        "globalQueueIndex": 604
+      }
+    },
+    {
+      "lemma": "bike",
+      "senseKey": "bike#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_02463",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "bike#n#1",
+          "bike#n#2"
+        ],
+        "selectedCandidateId": "bike#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 20,
+        "globalQueueIndex": 605
+      }
+    },
+    {
+      "lemma": "fee",
+      "senseKey": "fee#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_05673",
+        "grade": 2,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "fee#n#1",
+          "fee#n#2"
+        ],
+        "selectedCandidateId": "fee#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 23,
+        "globalQueueIndex": 617
+      }
+    },
+    {
+      "lemma": "cheese",
+      "senseKey": "cheese#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_03220",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "cheese#n#1",
+          "cheese#n#2"
+        ],
+        "selectedCandidateId": "cheese#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 24,
+        "globalQueueIndex": 621
+      }
+    },
+    {
+      "lemma": "accurate",
+      "senseKey": "accurate#a#1",
+      "partOfSpeech": "adjective",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_01222",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "accurate#a#1",
+          "accurate#a#2"
+        ],
+        "selectedCandidateId": "accurate#a#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 26,
+        "globalQueueIndex": 628
+      }
+    },
+    {
+      "lemma": "permanent",
+      "senseKey": "permanent#a#1",
+      "partOfSpeech": "adjective",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_10907",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "permanent#a#1",
+          "permanent#a#2"
+        ],
+        "selectedCandidateId": "permanent#a#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 29,
+        "globalQueueIndex": 637
+      }
+    },
+    {
+      "lemma": "bread",
+      "senseKey": "bread#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_02673",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "bread#n#1",
+          "bread#n#2"
+        ],
+        "selectedCandidateId": "bread#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 32,
+        "globalQueueIndex": 642
+      }
+    },
+    {
+      "lemma": "permission",
+      "senseKey": "permission#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_10909",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "permission#n#1",
+          "permission#n#2"
+        ],
+        "selectedCandidateId": "permission#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 33,
+        "globalQueueIndex": 643
+      }
+    },
+    {
+      "lemma": "importance",
+      "senseKey": "importance#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_07037",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "importance#n#1",
+          "importance#n#2"
+        ],
+        "selectedCandidateId": "importance#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 37,
+        "globalQueueIndex": 662
+      }
+    },
+    {
+      "lemma": "personnel",
+      "senseKey": "personnel#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_10915",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "personnel#n#1",
+          "personnel#n#2"
+        ],
+        "selectedCandidateId": "personnel#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 38,
+        "globalQueueIndex": 664
+      }
+    },
+    {
+      "lemma": "tournament",
+      "senseKey": "tournament#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_14728",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "tournament#n#1",
+          "tournament#n#2"
+        ],
+        "selectedCandidateId": "tournament#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 39,
+        "globalQueueIndex": 668
+      }
+    },
+    {
+      "lemma": "arrest",
+      "senseKey": "arrest#n#1",
+      "partOfSpeech": "noun",
+      "strategy": "textual_only",
+      "maturity": "V1",
+      "motionPolicy": "none",
+      "answerSafety": "neutral_safe",
+      "reviewSource": "sol_max_row_level_exact_candidate_selection",
+      "sourceTrace": {
+        "sourceCorpusId": "word_en_01909",
+        "grade": 3,
+        "candidateSenseCount": 2,
+        "candidateIds": [
+          "arrest#n#1",
+          "arrest#n#2"
+        ],
+        "selectedCandidateId": "arrest#n#1",
+        "polysemyRisk": "medium",
+        "mediumQueueIndex": 40,
+        "globalQueueIndex": 674
+      }
+    }
+  ]
+}
