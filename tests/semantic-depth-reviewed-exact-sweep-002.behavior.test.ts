@@ -76,31 +76,31 @@ describe('#134 reviewed-exact Phase D expansion', () => {
     expect(scan(depth)).toEqual([]);
   });
 
-  it('promotes the 33 exact-reviewed mappings to V5 only after immutable Stage-A proof', () => {
+  it('promotes the 33 exact-reviewed mappings to V6 only after immutable V5 child-facing proof', () => {
     const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     const newPlans = runtime.plans.filter((plan: { senseKey?: string }) => exactSenseKeys.includes(plan.senseKey as typeof exactSenseKeys[number]));
 
     expect(runtime.semanticDepthIssueRefs).toEqual(expect.arrayContaining([84, 132, 134]));
     expect(runtime.maturityEvidence).toMatchObject({
-      headSha: '1f0d41bc495e2f862e195bb50540d8b2fa77a905',
-      workflowRunId: 33591030260
+      headSha: '10528c595967c26732abe5f9ec28df5ab411d6cc',
+      workflowRunId: 33600754656
     });
     expect(newPlans).toHaveLength(33);
     expect(new Set(newPlans.map((plan: { senseKey: string }) => plan.senseKey)).size).toBe(33);
-    expect(newPlans.every((plan: { maturity?: string }) => plan.maturity === 'V5')).toBe(true);
+    expect(newPlans.every((plan: { maturity?: string }) => plan.maturity === 'V6')).toBe(true);
     expect(newPlans.every((plan: any) => isVocabularyVisualPlanChildFacing(plan))).toBe(true);
     expect(newPlans.every((plan: { semanticDepthPatternRefs?: string[] }) => (plan.semanticDepthPatternRefs?.length ?? 0) === 1)).toBe(true);
     expect(newPlans.every((plan: { semanticDepthPatternRefs?: string[] }) => Boolean(resolveSemanticDepthMode(plan.semanticDepthPatternRefs ?? [])))).toBe(true);
   });
 
-  it('renders representative child-facing strategies across all six reviewed-exact presentation families', () => {
+  it('renders representative V6 strategies with an accessible connected-explanation cue', () => {
     for (const [senseKey, strategy] of representativeStrategies) {
       const { container, unmount } = render(VocabularySemanticScene, { props: { senseKey } });
       const root = container.querySelector(`[data-vocabulary-sense="${senseKey}"]`);
       expect(root, senseKey).toBeTruthy();
       expect(root?.getAttribute('data-vocabulary-strategy')).toBe(strategy);
       expect(root?.getAttribute('aria-label')).toContain('Visual explanation for');
-      expect(root?.getAttribute('aria-label')).not.toContain('Connected explanation:');
+      expect(root?.getAttribute('aria-label')).toContain('Connected explanation:');
       unmount();
     }
   });
