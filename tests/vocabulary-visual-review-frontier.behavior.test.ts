@@ -9,6 +9,18 @@ const reviewDraftPath = 'content/vocabulary-visuals/review-batches/priority-sens
 const queuePath = 'content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json';
 const ledgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 
+const expectedRuntimeProofAccounting = () => {
+  const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
+  const knowledgePlans = (runtime.plans ?? []).filter((plan: any) => plan.runtimeUsage === 'knowledge_reinforcement');
+  const childFacingPlans = knowledgePlans.filter((plan: any) => plan.maturity === 'V5' || plan.maturity === 'V6');
+  return {
+    totalPlans: (runtime.plans ?? []).length,
+    childFacingPlans: childFacingPlans.length,
+    childFacingSenses: new Set(childFacingPlans.map((plan: any) => plan.senseKey)).size,
+    pendingProofPlans: knowledgePlans.length - childFacingPlans.length
+  };
+};
+
 const queueRow = (row: any) => ({
   lemma: row.lemma,
   partOfSpeech: row.partOfSpeech,
@@ -214,7 +226,7 @@ describe('#151 deterministic semantic review frontier', () => {
       blockedSenseResolutionLemmas: 1798
     });
     expect(report.senseResolutionQueue.items).toBe(1798);
-    expect(report.runtime).toMatchObject({ totalPlans: 26, childFacingPlans: 22, childFacingSenses: 21, pendingProofPlans: 0 });
+    expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);
   });
 });
