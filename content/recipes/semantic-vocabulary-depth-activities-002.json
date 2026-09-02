@@ -1,0 +1,47 @@
+[
+  {
+    "id": "vocab.depth.dimensions.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "enormous-size",
+      "rapid-speed",
+      "ancient-age",
+      "quick-speed",
+      "small-size",
+      "large-size",
+      "hot-temperature",
+      "narrow-width",
+      "smooth-texture"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to the feature it describes."
+  },
+  {
+    "id": "vocab.depth.states-actions.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "fragile-state",
+      "scarce-availability",
+      "silent-sound",
+      "observe-action",
+      "quiet-sound",
+      "library-place"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to its connected idea."
+  },
+  {
+    "id": "vocab.depth.time-emotion.match.002",
+    "sourceRef": "knowledge.vocabulary.semantic.runtime-depth.002",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "early-time",
+      "cheerful-emotion",
+      "happy-emotion"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each word to the idea it describes."
+  }
+]
