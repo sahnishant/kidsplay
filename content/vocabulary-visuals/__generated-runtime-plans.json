@@ -95,7 +95,8 @@
         "contrast": "modern"
       },
       "semanticDepthPatternRefs": [
-        "ancient-meaning-explanation"
+        "ancient-meaning-explanation",
+        "ancient-modern-explanation"
       ]
     },
     {
