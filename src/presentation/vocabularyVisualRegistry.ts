@@ -139,11 +139,36 @@ const runtimePlans: RuntimePlanFile = {
   plans: rawRuntimePlans.plans.map(normalizePlan)
 };
 
+function semanticPresentationSignature(plan: VocabularyVisualRuntimePlan): string {
+  return JSON.stringify({
+    lemma: plan.lemma,
+    strategy: plan.strategy,
+    sceneTemplate: plan.sceneTemplate,
+    motionPolicy: plan.motionPolicy,
+    answerSafety: plan.answerSafety,
+    visualRef: plan.visualRef,
+    parameters: plan.parameters,
+    semanticDepthPatternRefs: plan.semanticDepthPatternRefs
+  });
+}
+
+function senseLookupPriority(plan: VocabularyVisualRuntimePlan): number {
+  if (plan.runtimeUsage !== 'knowledge_reinforcement') return 0;
+  return CHILD_FACING_MATURITIES.has(plan.maturity) ? 2 : 1;
+}
+
 const bySenseKey = new Map<string, VocabularyVisualRuntimePlan>();
 const byKnowledgeRef = new Map<string, VocabularyVisualRuntimePlan>();
 for (const plan of runtimePlans.plans) {
-  if (bySenseKey.has(plan.senseKey)) throw new Error(`Duplicate vocabulary visual runtime senseKey ${plan.senseKey}`);
-  bySenseKey.set(plan.senseKey, plan);
+  const existingSensePlan = bySenseKey.get(plan.senseKey);
+  if (existingSensePlan) {
+    if (semanticPresentationSignature(existingSensePlan) !== semanticPresentationSignature(plan)) {
+      throw new Error(`Conflicting vocabulary visual runtime presentation for senseKey ${plan.senseKey}`);
+    }
+    if (senseLookupPriority(plan) > senseLookupPriority(existingSensePlan)) bySenseKey.set(plan.senseKey, plan);
+  } else {
+    bySenseKey.set(plan.senseKey, plan);
+  }
 
   if (plan.knowledgeRef) {
     if (byKnowledgeRef.has(plan.knowledgeRef)) {
