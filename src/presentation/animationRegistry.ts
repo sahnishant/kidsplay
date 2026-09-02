@@ -10,8 +10,11 @@ const animationModules = import.meta.glob('../../content/animations/*.json', {
   import: 'default'
 }) as Record<string, unknown>;
 
-const compositions = Object.values(animationModules)
-  .flatMap((value) => (Array.isArray(value) ? (value as AnimationComposition[]) : []));
+// Make cross-file state order an explicit content contract rather than relying
+// on bundler/object enumeration. Authored order inside each file is preserved.
+const compositions = Object.entries(animationModules)
+  .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
+  .flatMap(([, value]) => (Array.isArray(value) ? (value as AnimationComposition[]) : []));
 
 const byId = new Map(compositions.map((composition) => [composition.id, composition]));
 const bySemanticRef = new Map<string, AnimationComposition[]>();

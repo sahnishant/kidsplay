@@ -63,6 +63,29 @@ describe('canonical semantic visual presenter', () => {
     expect(vocabulary.container.querySelector('[data-vocabulary-sense="pull#move-toward-by-force"]')).toBeTruthy();
   });
 
+  it('fails closed for unknown semantic capability ids without inventing authored meaning', () => {
+    const recipe = render(SemanticVisualPresenter, {
+      props: { presentation: recipeVisualPresentation('recipe.not-authored') }
+    });
+    expect(recipe.container.querySelector('[data-recipe-id]')).toBeNull();
+    recipe.unmount();
+
+    const animation = render(SemanticVisualPresenter, {
+      props: { presentation: animationVisualPresentation('animation.not-authored') }
+    });
+    const missingAnimation = animation.container.querySelector('[data-animation-id="animation.not-authored"]');
+    expect(missingAnimation?.classList.contains('semantic-animation--missing')).toBe(true);
+    expect(missingAnimation?.getAttribute('aria-label')).toBe('Missing animation animation.not-authored');
+    expect(animation.container.querySelector('[data-visual-ref]')).toBeNull();
+    animation.unmount();
+
+    const vocabulary = render(SemanticVisualPresenter, {
+      props: { presentation: vocabularyVisualPresentation('not-authored#sense') }
+    });
+    expect(vocabulary.container.querySelector('[data-vocabulary-sense]')).toBeNull();
+    expect(vocabulary.container.querySelector('[role="img"]')).toBeNull();
+  });
+
   it('preserves answer-surface identity-only recipe exposure in the shared item plan', () => {
     const option = resolveItemVisualPresentation({
       label: "Earth's revolution",

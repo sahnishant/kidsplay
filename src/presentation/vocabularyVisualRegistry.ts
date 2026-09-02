@@ -139,12 +139,44 @@ const runtimePlans: RuntimePlanFile = {
   plans: rawRuntimePlans.plans.map(normalizePlan)
 };
 
-const bySenseKey = new Map(runtimePlans.plans.map((plan) => [plan.senseKey, plan]));
-const byKnowledgeRef = new Map(
-  runtimePlans.plans
-    .filter((plan): plan is VocabularyVisualRuntimePlan & { knowledgeRef: string } => Boolean(plan.knowledgeRef))
-    .map((plan) => [plan.knowledgeRef, plan])
-);
+function semanticPresentationSignature(plan: VocabularyVisualRuntimePlan): string {
+  return JSON.stringify({
+    lemma: plan.lemma,
+    strategy: plan.strategy,
+    sceneTemplate: plan.sceneTemplate,
+    motionPolicy: plan.motionPolicy,
+    answerSafety: plan.answerSafety,
+    visualRef: plan.visualRef,
+    parameters: plan.parameters,
+    semanticDepthPatternRefs: plan.semanticDepthPatternRefs
+  });
+}
+
+function senseLookupPriority(plan: VocabularyVisualRuntimePlan): number {
+  if (plan.runtimeUsage !== 'knowledge_reinforcement') return 0;
+  return CHILD_FACING_MATURITIES.has(plan.maturity) ? 2 : 1;
+}
+
+const bySenseKey = new Map<string, VocabularyVisualRuntimePlan>();
+const byKnowledgeRef = new Map<string, VocabularyVisualRuntimePlan>();
+for (const plan of runtimePlans.plans) {
+  const existingSensePlan = bySenseKey.get(plan.senseKey);
+  if (existingSensePlan) {
+    if (semanticPresentationSignature(existingSensePlan) !== semanticPresentationSignature(plan)) {
+      throw new Error(`Conflicting vocabulary visual runtime presentation for senseKey ${plan.senseKey}`);
+    }
+    if (senseLookupPriority(plan) > senseLookupPriority(existingSensePlan)) bySenseKey.set(plan.senseKey, plan);
+  } else {
+    bySenseKey.set(plan.senseKey, plan);
+  }
+
+  if (plan.knowledgeRef) {
+    if (byKnowledgeRef.has(plan.knowledgeRef)) {
+      throw new Error(`Duplicate vocabulary visual runtime knowledgeRef ${plan.knowledgeRef}`);
+    }
+    byKnowledgeRef.set(plan.knowledgeRef, plan);
+  }
+}
 
 export function isVocabularyVisualPlanChildFacing(plan: VocabularyVisualRuntimePlan | null | undefined): boolean {
   return Boolean(plan && plan.runtimeUsage === 'knowledge_reinforcement' && CHILD_FACING_MATURITIES.has(plan.maturity));
