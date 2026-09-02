@@ -153,6 +153,23 @@ const reinforcementPlans = (reinforcement.mappings ?? []).map((mapping) => {
   return projectPlan(item, 'knowledge_reinforcement', knowledgeRef);
 });
 
+// Runtime visual resolution is sense-based, while semantic-depth evidence is
+// indexed by canonical knowledge rows. When several canonical rows intentionally
+// map to the same reviewed sense, every runtime plan for that sense must expose
+// one identical semantic presentation. Project the deterministic union of the
+// same-sense depth patterns to each mapping, while the V6 gate below still
+// requires every individual knowledge mapping to carry its own same-sense depth.
+for (const [senseKey, knowledgeRefs] of reinforcementKnowledgeRefsBySenseKey) {
+  const sharedDepthPatternRefs = [...new Set(
+    knowledgeRefs.flatMap((knowledgeRef) =>
+      semanticDepthPatternsFor(knowledgeRef, senseKey).map((pattern) => pattern.id)
+    )
+  )].sort((left, right) => left.localeCompare(right));
+  for (const plan of reinforcementPlans) {
+    if (plan.senseKey === senseKey) plan.semanticDepthPatternRefs = sharedDepthPatternRefs;
+  }
+}
+
 const templateProofs = readJson('content/vocabulary-visuals/runtime-template-proofs.json');
 if (templateProofs?.schemaVersion !== 1) throw new Error('Vocabulary visual runtime template proofs schemaVersion must be 1');
 if (templateProofs?.policy?.childFacingKnowledgeMapping !== false) throw new Error('Vocabulary template proofs must not imply child-facing knowledge mapping');
