@@ -25,9 +25,10 @@ export interface PresentableVisualItem {
 
 const visualModules = import.meta.glob('../../content/visuals/*.json', { eager: true, import: 'default' }) as Record<string, unknown>;
 
-// Cross-file precedence is part of semantic resolution because aliases are
-// registered once. Sort module paths explicitly instead of inheriting bundler
-// object enumeration; preserve authored order within each visual file.
+// Make cross-file registration order explicit instead of inheriting bundler
+// object enumeration. Authored order inside each visual file is preserved.
+// Conflicting alias/semantic ownership is rejected by validate-visuals before
+// runtime, so valid content never depends on collision precedence.
 const definitions = Object.entries(visualModules)
   .sort(([leftPath], [rightPath]) => leftPath.localeCompare(rightPath))
   .flatMap(([, value]) => (Array.isArray(value) ? (value as VisualDefinition[]) : []))
@@ -52,7 +53,7 @@ function registerSemanticKey(key: string, visualRef: string): void {
 for (const definition of definitions) {
   for (const alias of definition.aliases) {
     const normalizedAlias = normalizeLabel(alias);
-    if (!visualRefByAlias.has(normalizedAlias)) visualRefByAlias.set(normalizedAlias, definition.id);
+    visualRefByAlias.set(normalizedAlias, definition.id);
     registerSemanticKey(alias, definition.id);
   }
   const idParts = definition.id.split('.');
