@@ -9,12 +9,33 @@ const capabilityAdapters = [
   'SemanticAnimation.svelte',
   'VocabularySemanticScene.svelte'
 ] as const;
+const primitiveRenderers = [
+  'SceneIcon.svelte',
+  'EntityIcon.svelte',
+  'UtilityIcon.svelte',
+  'NatureSpaceIcon.svelte',
+  'EverydayIcon.svelte',
+  'ProcessIcon.svelte',
+  'MeasurementIcon.svelte',
+  'MaterialPropertyIcon.svelte',
+  'EnvironmentalActionIcon.svelte',
+  'SoilTypeIcon.svelte',
+  'AnimalExpansionIcon.svelte',
+  'ConceptIcon.svelte',
+  'CurriculumIcon.svelte',
+  'LearningIcon.svelte',
+  'PropertyIcon.svelte',
+  'Class2ConceptIcon.svelte',
+  'Class2FinalIcon.svelte'
+] as const;
+const restrictedVisualModules = [...capabilityAdapters, ...primitiveRenderers] as const;
 
 const allowedDirectImports = new Map<string, ReadonlySet<string>>([
   ['src/presentation/SemanticVisualPresenter.svelte', new Set(capabilityAdapters)],
   ['src/presentation/SemanticAnimation.svelte', new Set(['VisualEntity.svelte'])],
   ['src/presentation/VisualRecipe.svelte', new Set(['VisualEntity.svelte'])],
-  ['src/presentation/VocabularySemanticScene.svelte', new Set(['VisualEntity.svelte'])]
+  ['src/presentation/VocabularySemanticScene.svelte', new Set(['VisualEntity.svelte'])],
+  ['src/presentation/VisualEntity.svelte', new Set(primitiveRenderers)]
 ]);
 
 function sourceFiles(dir: string): string[] {
@@ -25,28 +46,28 @@ function sourceFiles(dir: string): string[] {
   });
 }
 
-function importedCapabilityAdapters(source: string): string[] {
-  return capabilityAdapters.filter((adapter) =>
-    new RegExp(`from\\s+['\"][^'\"]*${adapter.replace('.', '\\.') }['\"]`).test(source)
+function importedRestrictedModules(source: string): string[] {
+  return restrictedVisualModules.filter((moduleName) =>
+    new RegExp(`from\\s+['\"][^'\"]*${moduleName.replace('.', '\\.') }['\"]`).test(source)
   );
 }
 
 describe('semantic visual architecture boundaries', () => {
-  it('allows lower-level visual capability imports only at the canonical adapter boundary', () => {
+  it('allows visual capability/primitive imports only at their canonical adapter boundaries', () => {
     const violations: string[] = [];
 
     for (const path of sourceFiles(root)) {
       const source = readFileSync(path, 'utf8');
-      const imported = importedCapabilityAdapters(source);
+      const imported = importedRestrictedModules(source);
       if (!imported.length) continue;
 
       const allowed = allowedDirectImports.get(path) ?? new Set<string>();
-      for (const adapter of imported) {
-        if (!allowed.has(adapter)) violations.push(`${relative('.', path)} -> ${adapter}`);
+      for (const moduleName of imported) {
+        if (!allowed.has(moduleName)) violations.push(`${relative('.', path)} -> ${moduleName}`);
       }
     }
 
-    expect(violations, 'direct capability imports must stay behind SemanticVisualPresenter').toEqual([]);
+    expect(violations, 'visual imports must stay behind SemanticVisualPresenter/VisualEntity boundaries').toEqual([]);
   });
 
   it('prevents product surfaces from bypassing the canonical item-presentation resolver', () => {
@@ -61,6 +82,9 @@ describe('semantic visual architecture boundaries', () => {
   it('keeps capability ownership explicit rather than growing another equivalent wrapper', () => {
     const presenter = readFileSync('src/presentation/SemanticVisualPresenter.svelte', 'utf8');
     for (const adapter of capabilityAdapters) expect(presenter).toContain(adapter);
+
+    const entity = readFileSync('src/presentation/VisualEntity.svelte', 'utf8');
+    for (const primitive of primitiveRenderers) expect(entity).toContain(primitive);
 
     const scene = readFileSync('src/presentation/Scene.svelte', 'utf8');
     const meaning = readFileSync('src/presentation/VisualMeaningPresenter.svelte', 'utf8');
