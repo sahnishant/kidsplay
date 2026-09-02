@@ -7,6 +7,7 @@ const priorityQueueOutputUrl = new URL('content/vocabulary-visuals/__generated-p
 const corpusQueueOutputUrl = new URL('content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json', root);
 const ownBatchName = '__generated-corpus-terminal-dispositions.json';
 const relevanceReviewPath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
+const reviewedUnresolvedPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json';
 const reviewLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
@@ -22,6 +23,9 @@ for (let grade = 1; grade <= 6; grade += 1) {
     candidateIdsByLemma.set(candidate.lemma, values);
   }
   for (const missing of review.missing ?? []) meaningQueueLemmas.add(missing.lemma);
+}
+for (const [lemma, values] of candidateIdsByLemma) {
+  candidateIdsByLemma.set(lemma, [...new Set(values)].sort());
 }
 
 const batchNames = readdirSync(new URL('content/vocabulary-visuals/batches/', root))
@@ -56,6 +60,64 @@ for (const entry of reviewLedger.batches ?? []) {
   }
 }
 
+const reviewedUnresolved = readJson(reviewedUnresolvedPath);
+if (
+  reviewedUnresolved?.schemaVersion !== 1 ||
+  reviewedUnresolved?.issueRef !== 106 ||
+  reviewedUnresolved?.parentIssueRef !== 76 ||
+  reviewedUnresolved?.authorityKind !== 'sol_max_reviewed_unresolved_reference' ||
+  reviewedUnresolved?.status !== 'sol_max_reviewed_unresolved_reference'
+) {
+  throw new Error('Reviewed-unresolved reference must use schemaVersion 1, source issue #106, parent #76 and the non-resolving Sol Max reference authority');
+}
+const unresolvedEvidence = reviewedUnresolved.reviewEvidence ?? {};
+if (
+  unresolvedEvidence.kind !== 'sol_max_row_level_unresolved_acceptance' ||
+  !Number.isInteger(unresolvedEvidence.pullRequest) || unresolvedEvidence.pullRequest < 1 ||
+  !String(unresolvedEvidence.reviewNodeId ?? '').startsWith('PRR_') ||
+  !/^[0-9a-f]{40}$/.test(String(unresolvedEvidence.reviewedSemanticHeadSha ?? '')) ||
+  unresolvedEvidence.claimsHumanEditorialReview !== false
+) {
+  throw new Error('Reviewed-unresolved reference requires immutable non-human-editorial external review evidence');
+}
+const unresolvedPolicy = reviewedUnresolved.policy ?? {};
+for (const key of [
+  'createsSenseSelection',
+  'createsSemanticDisposition',
+  'countsAsResolved',
+  'removesBlocker',
+  'createsRuntimeAuthority',
+  'createsProfilePlacement',
+  'createsChildDefinitionApproval',
+  'copiesSourceGlossOrExample'
+]) {
+  if (unresolvedPolicy[key] !== false) throw new Error(`Reviewed-unresolved reference policy ${key} must be false`);
+}
+if (unresolvedPolicy.revisitRequiresNewContextOrEvidence !== true) {
+  throw new Error('Reviewed-unresolved reference must require new context or evidence before revisit');
+}
+const reviewedUnresolvedByLemma = new Map();
+const allowedUnresolvedDispositions = new Set(['proposal_rejected_back_to_unresolved', 'unresolved_confirmed']);
+for (const entry of reviewedUnresolved.entries ?? []) {
+  const lemma = String(entry?.lemma ?? '').trim();
+  const candidateIds = [...new Set(entry?.candidateIds ?? [])].map(String).sort();
+  const pinnedCandidateIds = candidateIdsByLemma.get(lemma) ?? [];
+  if (!lemma || reviewedUnresolvedByLemma.has(lemma)) throw new Error(`Duplicate/missing reviewed-unresolved lemma ${lemma || '<empty>'}`);
+  if (candidateIds.length < 2 || JSON.stringify(candidateIds) !== JSON.stringify(pinnedCandidateIds)) {
+    throw new Error(`${lemma}: reviewed-unresolved candidate trace no longer matches the pinned OEWN candidate set`);
+  }
+  if (!allowedUnresolvedDispositions.has(entry.reviewDisposition) || !String(entry.reasonCode ?? '').trim() || !String(entry.reason ?? '').trim()) {
+    throw new Error(`${lemma}: reviewed-unresolved entry requires an accepted unresolved disposition, reasonCode and reason`);
+  }
+  for (const forbidden of ['senseKey', 'strategy', 'maturity', 'knowledgeRef', 'runtimeUsage', 'profileRef', 'childDefinition']) {
+    if (forbidden in entry) throw new Error(`${lemma}: reviewed-unresolved reference cannot create ${forbidden} authority`);
+  }
+  reviewedUnresolvedByLemma.set(lemma, entry);
+}
+if (reviewedUnresolvedByLemma.size !== unresolvedEvidence.reviewedRows || reviewedUnresolvedByLemma.size !== 22) {
+  throw new Error(`Reviewed-unresolved reference must preserve exactly the 22 #106/#109 outcomes; got ${reviewedUnresolvedByLemma.size}`);
+}
+
 const relevanceReview = readJson(relevanceReviewPath);
 if (relevanceReview?.schemaVersion !== 1 || relevanceReview?.parentIssueRef !== 76 || relevanceReview?.authorityKind !== 'approved_terminal_policy') {
   throw new Error('Phase C candidate-relevance review must use schemaVersion 1, parent #76 and approved_terminal_policy authority');
@@ -85,12 +147,16 @@ for (const lemma of meaningQueueLemmas) {
   const dispositions = itemsByLemma.get(lemma) ?? [];
   const unresolved = dispositions.find((item) => item.strategy === 'sense_unresolved');
   const relevanceReviewEntry = relevanceByLemma.get(lemma);
+  const reviewedUnresolvedEntry = reviewedUnresolvedByLemma.get(lemma);
   const relevanceBlocked = Boolean(relevanceReviewEntry);
   if (!unresolved && !relevanceBlocked) continue;
 
   const disposition = unresolved ?? dispositions.find((item) => item.sourceTrace?.candidateSenseCount === 1);
   if (!corpusEntry || !disposition) throw new Error(`${lemma}: priority blocker lacks corpus/disposition trace`);
   const candidateIds = [...new Set(disposition.sourceTrace?.candidateIds ?? candidateIdsByLemma.get(lemma) ?? [])].sort();
+  if (reviewedUnresolvedEntry && JSON.stringify(candidateIds) !== JSON.stringify([...reviewedUnresolvedEntry.candidateIds].sort())) {
+    throw new Error(`${lemma}: active blocker candidate trace drifted from its independently reviewed unresolved record`);
+  }
   priorityResolutionItems.push({
     lemma,
     partOfSpeech: corpusEntry.partOfSpeech,
@@ -102,11 +168,18 @@ for (const lemma of meaningQueueLemmas) {
       (disposition.sourceTrace?.polysemyRisk ?? riskFor(candidateIds.length)),
     terminalDispositionSenseKey: disposition.senseKey,
     terminalStrategy: disposition.strategy,
-    status: relevanceBlocked && !unresolved ? 'candidate_relevance_review_required' : 'human_sense_selection_required',
+    status: relevanceBlocked && !unresolved ? 'candidate_relevance_review_required' :
+      reviewedUnresolvedEntry ? 'reviewed_unresolved_revisit_only' : 'human_sense_selection_required',
     ...(relevanceBlocked ? {
       candidateRelevanceReasonCode: relevanceReviewEntry.reasonCode,
       candidateRelevanceReason: relevanceReviewEntry.reason,
       candidateRelevanceReviewSource: relevanceReviewPath
+    } : {}),
+    ...(reviewedUnresolvedEntry ? {
+      reviewedUnresolvedReasonCode: reviewedUnresolvedEntry.reasonCode,
+      reviewedUnresolvedReviewDisposition: reviewedUnresolvedEntry.reviewDisposition,
+      reviewedUnresolvedReviewSource: reviewedUnresolvedPath,
+      reviewedUnresolvedReviewNodeId: unresolvedEvidence.reviewNodeId
     } : {})
   });
 }
@@ -167,6 +240,7 @@ writeFileSync(batchOutputUrl, `${JSON.stringify({
   reviewBasis: {
     corpus: 'content/lexicon/open/primary-grade-corpus.json',
     candidateRelevanceReview: relevanceReviewPath,
+    reviewedUnresolvedReference: reviewedUnresolvedPath,
     exactReviewLedger: reviewLedgerPath,
     rule: 'Every corpus lemma not already covered by a reviewed strategy receives an explicit fail-closed disposition. Later exact reviewed senses supersede active blocker status for the same lemma without deleting the historical unresolved record.'
   },
@@ -186,23 +260,31 @@ const countBy = (values, key) => values.reduce((counts, item) => {
   counts[value] = (counts[value] ?? 0) + 1;
   return counts;
 }, {});
+const priorityByStatus = countBy(priorityResolutionItems, 'status');
 writeFileSync(priorityQueueOutputUrl, `${JSON.stringify({
   schemaVersion: 1,
   issueRef: 76,
   status: 'human_sense_selection_queue',
-  reviewBasis: { candidateRelevanceReview: relevanceReviewPath, exactReviewLedger: reviewLedgerPath },
+  reviewBasis: {
+    candidateRelevanceReview: relevanceReviewPath,
+    reviewedUnresolvedReference: reviewedUnresolvedPath,
+    exactReviewLedger: reviewLedgerPath
+  },
   policy: {
     candidateIdsAreReferenceOnly: true,
     selectsSense: false,
     createsVisualStrategy: false,
     importsGlossOrExample: false,
-    unresolvedItemsRemainReportVisible: true
+    unresolvedItemsRemainReportVisible: true,
+    reviewedUnresolvedRequiresNewContextOrEvidence: true
   },
   summary: {
     items: priorityResolutionItems.length,
     exactReviewedSupersededBlockers: exactReviewedLemmas.size,
+    reviewedUnresolvedRevisitOnly: priorityByStatus.reviewed_unresolved_revisit_only ?? 0,
+    firstPassHumanSenseSelection: priorityByStatus.human_sense_selection_required ?? 0,
     byRisk: countBy(priorityResolutionItems, 'polysemyRisk'),
-    byStatus: countBy(priorityResolutionItems, 'status')
+    byStatus: priorityByStatus
   },
   items: priorityResolutionItems
 }, null, 2)}\n`, 'utf8');
@@ -224,5 +306,6 @@ writeFileSync(corpusQueueOutputUrl, `${JSON.stringify({
 
 console.log(
   `Built #76 Phase C terminal accounting: ${previouslyDispositionedLemmas} existing + ${items.length} blocker(s) = ` +
-  `${corpus.entries.length}/${corpus.entries.length}; exact reviewed supersessions ${exactReviewedLemmas.size}; priority resolution queue ${priorityResolutionItems.length}.`
+  `${corpus.entries.length}/${corpus.entries.length}; exact reviewed supersessions ${exactReviewedLemmas.size}; ` +
+  `priority resolution queue ${priorityResolutionItems.length} (${priorityByStatus.reviewed_unresolved_revisit_only ?? 0} reviewed-unresolved revisit-only).`
 );

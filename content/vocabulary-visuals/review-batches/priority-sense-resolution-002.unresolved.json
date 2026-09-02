@@ -1,0 +1,184 @@
+{
+  "schemaVersion": 1,
+  "id": "vocabulary.semantic-priority-medium-risk-tranche-002.reviewed-unresolved",
+  "issueRef": 106,
+  "parentIssueRef": 76,
+  "authorityKind": "sol_max_reviewed_unresolved_reference",
+  "status": "sol_max_reviewed_unresolved_reference",
+  "reviewEvidence": {
+    "kind": "sol_max_row_level_unresolved_acceptance",
+    "pullRequest": 109,
+    "reviewNodeId": "PRR_kwDOUHzR8c8AAAABLo97tQ",
+    "reviewedSemanticHeadSha": "c37833a9fafd8c6fc71dcd25b858e5b11b9a46c9",
+    "submittedAt": "2026-09-01T09:03:08Z",
+    "reviewedRows": 22,
+    "claimsHumanEditorialReview": false
+  },
+  "policy": {
+    "createsSenseSelection": false,
+    "createsSemanticDisposition": false,
+    "countsAsResolved": false,
+    "removesBlocker": false,
+    "createsRuntimeAuthority": false,
+    "createsProfilePlacement": false,
+    "createsChildDefinitionApproval": false,
+    "copiesSourceGlossOrExample": false,
+    "revisitRequiresNewContextOrEvidence": true
+  },
+  "entries": [
+    {
+      "lemma": "public",
+      "candidateIds": ["public#a#1", "public#a#2"],
+      "reviewDisposition": "proposal_rejected_back_to_unresolved",
+      "reasonCode": "candidate_overlap",
+      "reason": "The adjective candidates overlap around public, not-private and general-community scope; the bare lemma does not justify one exact candidate."
+    },
+    {
+      "lemma": "research",
+      "candidateIds": ["research#n#1", "research#n#2"],
+      "reviewDisposition": "proposal_rejected_back_to_unresolved",
+      "reasonCode": "fine_grained_overlap",
+      "reason": "Systematic investigation as an activity versus inquiry or knowledge-seeking is too fine-grained to select exactly without context."
+    },
+    {
+      "lemma": "project",
+      "candidateIds": ["project#n#1", "project#n#2"],
+      "reviewDisposition": "proposal_rejected_back_to_unresolved",
+      "reasonCode": "fine_grained_overlap",
+      "reason": "Undertaking or piece of work versus plan or scheme is too close to select exactly without contextual or editorial intent."
+    },
+    {
+      "lemma": "times",
+      "candidateIds": ["times#n#1", "times#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "Periods or eras and the multiplication operation are both ordinary primary-school meanings."
+    },
+    {
+      "lemma": "possible",
+      "candidateIds": ["possible#a#1", "possible#a#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "near_synonymous_candidates",
+      "reason": "The two possibility and feasibility candidates are too closely related for exact selection from the lemma alone."
+    },
+    {
+      "lemma": "probably",
+      "candidateIds": ["probably#r#1", "probably#r#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "near_synonymous_candidates",
+      "reason": "The two likelihood and evidential candidates make a fine-grained distinction that needs sentential context."
+    },
+    {
+      "lemma": "final",
+      "candidateIds": ["final#n#1", "final#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "A competition final and a final examination are both ordinary child-facing noun senses."
+    },
+    {
+      "lemma": "self",
+      "candidateIds": ["self#n#1", "self#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "Identity or conscious-self and individual-person readings are both grade-relevant."
+    },
+    {
+      "lemma": "especially",
+      "candidateIds": ["especially#r#1", "especially#r#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "near_synonymous_candidates",
+      "reason": "The two focus and intensifier candidates are too close pragmatically to select without sentence context."
+    },
+    {
+      "lemma": "increase",
+      "candidateIds": ["increase#v#1", "increase#v#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "argument_structure_ambiguity",
+      "reason": "The candidates split intransitive become-greater from transitive make-greater, and the bare verb supplies no argument structure."
+    },
+    {
+      "lemma": "recent",
+      "candidateIds": ["recent#a#1", "recent#a#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "near_synonymous_candidates",
+      "reason": "Newly occurring and immediate-past readings are both common and closely related."
+    },
+    {
+      "lemma": "individual",
+      "candidateIds": ["individual#n#1", "individual#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "A single entity or organism and an individual person are both ordinary noun readings."
+    },
+    {
+      "lemma": "imagine",
+      "candidateIds": ["imagine#v#1", "imagine#v#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "Mental imagery and suppose or believe are both common classroom uses of the verb."
+    },
+    {
+      "lemma": "judge",
+      "candidateIds": ["judge#n#1", "judge#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "A judicial official and a contest or merit evaluator are both ordinary child-facing noun senses."
+    },
+    {
+      "lemma": "plus",
+      "candidateIds": ["plus#n#1", "plus#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "An advantage and the mathematical plus sign are both common noun readings."
+    },
+    {
+      "lemma": "pro",
+      "candidateIds": ["pro#n#1", "pro#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "A professional person and a position or argument in favor are both ordinary noun readings."
+    },
+    {
+      "lemma": "none",
+      "candidateIds": ["none#n#1", "none#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "no_candidate_matches_primary_intent",
+      "reason": "Neither pinned noun candidate represents the ordinary child meaning 'not any'."
+    },
+    {
+      "lemma": "christmas",
+      "candidateIds": ["christmas#n#1", "christmas#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "fine_grained_overlap",
+      "reason": "The pinned candidates distinguish closely related holiday, day and season readings that the bare noun does not disambiguate."
+    },
+    {
+      "lemma": "interview",
+      "candidateIds": ["interview#n#1", "interview#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "Information-gathering conversation and formal consultation or meeting readings are both ordinary uses."
+    },
+    {
+      "lemma": "therefore",
+      "candidateIds": ["therefore#r#1", "therefore#r#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "near_synonymous_candidates",
+      "reason": "The causal and inferential adverb candidates are near-synonymous and need context for an exact choice."
+    },
+    {
+      "lemma": "worry",
+      "candidateIds": ["worry#n#1", "worry#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "A cause or object of concern and the feeling or state of anxiety are both common noun readings."
+    },
+    {
+      "lemma": "status",
+      "candidateIds": ["status#n#1", "status#n#2"],
+      "reviewDisposition": "unresolved_confirmed",
+      "reasonCode": "context_polysemy",
+      "reason": "Social standing or rank and state or condition are both common noun readings."
+    }
+  ]
+}

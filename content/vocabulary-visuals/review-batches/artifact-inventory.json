@@ -113,6 +113,16 @@
       "supersession": "resolves_prior_unresolved_for_same_lemma_without_deleting_history"
     },
     {
+      "id": "priority-sense-resolution-002-reviewed-unresolved",
+      "path": "content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json",
+      "artifactKind": "sol_max_reviewed_unresolved_reference",
+      "authorityKind": "sol_max_reviewed_unresolved_reference",
+      "lifecycle": "committed_review_reference",
+      "order": 57,
+      "expectedGitBlobSha": "e1d5c901525378fa00e51e0d706443e5b66b1249",
+      "supersession": "later_exact_review_may_resolve_blocker_without_deleting_review_history"
+    },
+    {
       "id": "phase-c-candidate-relevance-review",
       "path": "content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json",
       "artifactKind": "reviewed_relevance_blockers",

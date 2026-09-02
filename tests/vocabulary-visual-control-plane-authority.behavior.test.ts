@@ -9,11 +9,16 @@ const readText = (path: string) => readFileSync(resolve(process.cwd(), path), 'u
 const authorityPath = 'content/vocabulary-visuals/review-batches/authority-model.json';
 const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-inventory.json';
 const relevancePath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
+const reviewedUnresolvedPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json';
 const exactReviewManifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json';
 const exactReviewManifest2Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.json';
 const phaseCBuilderPath = 'scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs';
 const publicCompilerPath = 'scripts/vocabulary-visuals/compile-reviewed-batches.mjs';
 const blockingLemmas = ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'];
+const reviewedUnresolvedLemmas = [
+  'public', 'research', 'project', 'times', 'possible', 'probably', 'final', 'self', 'especially', 'increase',
+  'recent', 'individual', 'imagine', 'judge', 'plus', 'pro', 'none', 'christmas', 'interview', 'therefore', 'worry', 'status'
+];
 
 const reportJson = () => JSON.parse(execFileSync(
   process.execPath,
@@ -55,6 +60,17 @@ describe('#76 vocabulary visual control-plane authority', () => {
     expect(byId.get('approved_terminal_policy')).toMatchObject({ semanticReviewAuthority: true, canClaimHumanReview: false, canSelectMultiCandidate: false, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
     expect(byId.get('human_reviewed_exact_sense')).toMatchObject({ requiresHumanCurationEvidence: true, canClaimHumanReview: true, canSelectMultiCandidate: true, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
     expect(byId.get('sol_max_reviewed_exact_sense')).toMatchObject({ requiresExternalReviewEvidence: true, canClaimHumanReview: false, canSelectMultiCandidate: true, maxSemanticMaturity: 'V2', runtimeAuthority: 'none' });
+    expect(byId.get('sol_max_reviewed_unresolved_reference')).toMatchObject({
+      semanticReviewAuthority: true,
+      requiresPinnedCandidateTrace: true,
+      requiresExternalReviewEvidence: true,
+      canCreateDisposition: false,
+      canResolveSense: false,
+      canSelectMultiCandidate: false,
+      canClaimHumanReview: false,
+      maxSemanticMaturity: 'V0',
+      runtimeAuthority: 'none'
+    });
     expect(byId.get('external_runtime_proof')).toMatchObject({ semanticReviewAuthority: false, runtimeAuthority: 'external_proof_only' });
   });
 
@@ -80,6 +96,12 @@ describe('#76 vocabulary visual control-plane authority', () => {
       expect.objectContaining({ id: 'priority-batch-003', manifest: 'content/vocabulary-visuals/review-batches/priority-batch-003.json' }),
       expect.objectContaining({ id: 'priority-sense-resolution-001', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifestPath }),
       expect.objectContaining({ id: 'priority-sense-resolution-002', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifest2Path }),
+      expect.objectContaining({
+        id: 'priority-sense-resolution-002-reviewed-unresolved',
+        authorityKind: 'sol_max_reviewed_unresolved_reference',
+        path: reviewedUnresolvedPath,
+        expectedGitBlobSha: 'e1d5c901525378fa00e51e0d706443e5b66b1249'
+      }),
       expect.objectContaining({ id: 'phase-c-candidate-relevance-review', path: relevancePath }),
       expect.objectContaining({ id: 'phase-c-corpus-terminal-policy', path: phaseCBuilderPath })
     ]));
@@ -107,6 +129,51 @@ describe('#76 vocabulary visual control-plane authority', () => {
       expect(productionSource).not.toContain(`\"${lemma}\"`);
     }
     expect(productionSource).toContain('candidate-relevance-review-001.json');
+  });
+
+  it('persists the 22 independently reviewed unresolved outcomes as non-resolving reference data', () => {
+    const review = readJson(reviewedUnresolvedPath);
+    expect(review).toMatchObject({
+      schemaVersion: 1,
+      issueRef: 106,
+      parentIssueRef: 76,
+      authorityKind: 'sol_max_reviewed_unresolved_reference',
+      status: 'sol_max_reviewed_unresolved_reference',
+      reviewEvidence: {
+        kind: 'sol_max_row_level_unresolved_acceptance',
+        pullRequest: 109,
+        reviewNodeId: 'PRR_kwDOUHzR8c8AAAABLo97tQ',
+        reviewedSemanticHeadSha: 'c37833a9fafd8c6fc71dcd25b858e5b11b9a46c9',
+        reviewedRows: 22,
+        claimsHumanEditorialReview: false
+      },
+      policy: {
+        createsSenseSelection: false,
+        createsSemanticDisposition: false,
+        countsAsResolved: false,
+        removesBlocker: false,
+        createsRuntimeAuthority: false,
+        createsProfilePlacement: false,
+        createsChildDefinitionApproval: false,
+        copiesSourceGlossOrExample: false,
+        revisitRequiresNewContextOrEvidence: true
+      }
+    });
+    expect(review.entries).toHaveLength(22);
+    expect(review.entries.map((entry: any) => entry.lemma).sort()).toEqual([...reviewedUnresolvedLemmas].sort());
+    expect(review.entries.every((entry: any) =>
+      entry.candidateIds.length === 2 &&
+      ['proposal_rejected_back_to_unresolved', 'unresolved_confirmed'].includes(entry.reviewDisposition) &&
+      Boolean(entry.reasonCode) && Boolean(entry.reason) &&
+      !('senseKey' in entry) && !('strategy' in entry) && !('maturity' in entry)
+    )).toBe(true);
+
+    const productionSource = readText(phaseCBuilderPath);
+    for (const entry of review.entries) {
+      expect(productionSource).not.toContain(`\"${entry.lemma}\"`);
+      for (const candidateId of entry.candidateIds) expect(productionSource).not.toContain(candidateId);
+    }
+    expect(productionSource).toContain('priority-sense-resolution-002.unresolved.json');
   });
 
   it('preserves exact post-#106 terminal, resolved, blocked, queue and proof-derived runtime boundaries', () => {
