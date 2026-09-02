@@ -2,6 +2,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 
 const clean = (value) => String(value ?? '').trim();
+const normalizedLemma = (value) => clean(value).toLowerCase();
 
 function parseArgs(argv) {
   const args = {};
@@ -16,9 +17,13 @@ function parseArgs(argv) {
   return args;
 }
 
-function parseProfileTargets(value) {
+function parseCsvList(value) {
   if (!value) return [];
   return [...new Set(String(value).split(',').map(clean).filter(Boolean))];
+}
+
+function parseProfileTargets(value) {
+  return parseCsvList(value);
 }
 
 function assertCuratorSlice(slice) {
@@ -34,6 +39,41 @@ function assertCuratorSlice(slice) {
   if (!Number.isInteger(Number(slice.grade)) || Number(slice.grade) < 1) {
     throw new Error('Curator slice requires a positive integer grade');
   }
+}
+
+function assertReviewHandoff(handoff, grade, ref = '<review-handoff>') {
+  if (handoff?.kind !== 'primary_vocabulary_editorial_review_handoff' || handoff?.schemaVersion !== 1) {
+    throw new Error(`${ref}: expected a schemaVersion 1 primary vocabulary editorial review handoff`);
+  }
+  if (Number(handoff.grade) !== Number(grade)) {
+    throw new Error(`${ref}: review handoff grade ${handoff.grade} does not match curator grade ${grade}`);
+  }
+  if (handoff?.policy?.requiredReviewAuthority !== 'human_editor') {
+    throw new Error(`${ref}: review handoff must require human_editor authority`);
+  }
+}
+
+export function collectReviewedLemmas(reviewHandoffs, grade) {
+  const lemmas = new Set();
+  for (const [index, handoff] of (reviewHandoffs ?? []).entries()) {
+    const ref = `<review-handoff-${index + 1}>`;
+    assertReviewHandoff(handoff, grade, ref);
+    for (const decision of handoff.decisions ?? []) {
+      const lemma = normalizedLemma(decision?.lemma);
+      if (!lemma) throw new Error(`${ref}: reviewed decision requires lemma`);
+      if (decision?.status !== 'reviewed' || !['accept', 'reject'].includes(decision?.decision)) {
+        throw new Error(`${ref}: ${lemma} must be a terminal reviewed accept/reject decision before exclusion`);
+      }
+      if (decision?.reviewAuthority !== 'human_editor') {
+        throw new Error(`${ref}: ${lemma} exclusion requires human_editor review authority`);
+      }
+      if (!clean(decision?.reviewer) || !/^\d{4}-\d{2}-\d{2}$/.test(clean(decision?.reviewedAt))) {
+        throw new Error(`${ref}: ${lemma} exclusion requires reviewer and ISO reviewedAt`);
+      }
+      lemmas.add(lemma);
+    }
+  }
+  return [...lemmas].sort((left, right) => left.localeCompare(right, 'en'));
 }
 
 function referenceCandidate(candidate) {
@@ -64,14 +104,21 @@ export function buildEditorialPacket(curatorSlice, options = {}) {
   if (!Number.isInteger(limit) || limit < 1) throw new Error('limit must be a positive integer');
   const batchId = clean(options.batchId) || `grade-${grade}-batch-001`;
   const profileReviewTargets = [...new Set((options.profileReviewTargets ?? []).map(clean).filter(Boolean))];
+  const excludedPriorReviewLemmas = [...new Set((options.excludeLemmas ?? []).map(normalizedLemma).filter(Boolean))]
+    .sort((left, right) => left.localeCompare(right, 'en'));
+  const excluded = new Set(excludedPriorReviewLemmas);
+  const excludedReviewRefs = [...new Set((options.excludedReviewRefs ?? []).map(clean).filter(Boolean))]
+    .sort((left, right) => left.localeCompare(right, 'en'));
 
-  const sourceItems = [...(curatorSlice.items ?? [])]
-    .sort((left, right) => Number(right.priorityScore ?? 0) - Number(left.priorityScore ?? 0) || clean(left.lemma).localeCompare(clean(right.lemma), 'en'))
+  const rankedItems = [...(curatorSlice.items ?? [])]
+    .sort((left, right) => Number(right.priorityScore ?? 0) - Number(left.priorityScore ?? 0) || clean(left.lemma).localeCompare(clean(right.lemma), 'en'));
+  const sourceItems = rankedItems
+    .filter((item) => !excluded.has(normalizedLemma(item?.lemma)))
     .slice(0, limit);
 
   const seen = new Set();
   const items = sourceItems.map((item) => {
-    const lemma = clean(item?.lemma).toLowerCase();
+    const lemma = normalizedLemma(item?.lemma);
     if (!lemma) throw new Error('Editorial packet item requires lemma');
     if (seen.has(lemma)) throw new Error(`${lemma}: duplicate lemma in editorial packet`);
     seen.add(lemma);
@@ -125,6 +172,11 @@ export function buildEditorialPacket(curatorSlice, options = {}) {
       sourceVersion: curatorSlice?.generatedFrom?.sourceVersion ?? null,
       license: 'CC-BY-4.0'
     },
+    selection: {
+      requestedLimit: limit,
+      excludedPriorReviewLemmas,
+      excludedReviewRefs
+    },
     policy: {
       publicationState: 'blocked_pending_editorial_review',
       importedGlossRuntimeAllowed: false,
@@ -139,6 +191,7 @@ export function buildEditorialPacket(curatorSlice, options = {}) {
     summary: {
       words: items.length,
       candidateSenses: items.reduce((sum, item) => sum + item.candidateSenses.length, 0),
+      excludedPriorReview: rankedItems.filter((item) => excluded.has(normalizedLemma(item?.lemma))).length,
       reviewed: 0,
       accepted: 0,
       rejected: 0
@@ -152,14 +205,19 @@ function main() {
   if (!args.slice || !args.output) throw new Error('--slice and --output are required');
   const curatorSlice = JSON.parse(readFileSync(resolve(String(args.slice)), 'utf8'));
   const output = resolve(String(args.output));
+  const excludedReviewRefs = parseCsvList(args['exclude-reviews']);
+  const reviewHandoffs = excludedReviewRefs.map((path) => JSON.parse(readFileSync(resolve(path), 'utf8')));
+  const excludeLemmas = collectReviewedLemmas(reviewHandoffs, Number(curatorSlice.grade));
   const packet = buildEditorialPacket(curatorSlice, {
     batchId: args['batch-id'],
     limit: args.limit == null ? undefined : Number(args.limit),
-    profileReviewTargets: parseProfileTargets(args['profile-targets'])
+    profileReviewTargets: parseProfileTargets(args['profile-targets']),
+    excludeLemmas,
+    excludedReviewRefs
   });
   mkdirSync(dirname(output), { recursive: true });
   writeFileSync(output, `${JSON.stringify(packet, null, 2)}\n`, 'utf8');
-  console.log(`Primary vocabulary editorial packet prepared: grade=${packet.grade}, batch=${packet.batchId}, words=${packet.summary.words} -> ${output}`);
+  console.log(`Primary vocabulary editorial packet prepared: grade=${packet.grade}, batch=${packet.batchId}, words=${packet.summary.words}, excluded=${packet.summary.excludedPriorReview} -> ${output}`);
 }
 
-if (import.meta.url === `file://${resolve(process.argv[1] ?? '')}`) main();
+if (import.meta.url === `file://${resolve(process.argv[1] ?? '')`) main();
