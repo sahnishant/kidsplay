@@ -18,7 +18,6 @@
     startY: number;
     moved: boolean;
   } | null = null;
-  let complete = $derived(question.interaction.items.every((item) => Boolean(assignments[item.id])));
   let displayOrder = $derived.by(() => createMatchingDisplayOrder(
     question.interaction.items,
     question.interaction.targets,
@@ -44,8 +43,14 @@
 
   function assign(itemId: string, targetId: string): void {
     if (locked) return;
-    assignments[itemId] = targetId;
+    const nextAssignments = { ...assignments, [itemId]: targetId };
+    assignments = nextAssignments;
     selectedItemId = null;
+
+    if (question.interaction.items.every((item) => Boolean(nextAssignments[item.id]))) {
+      locked = true;
+      onSubmit({ assignments: { ...nextAssignments } });
+    }
   }
 
   function clickItem(itemId: string): void {
@@ -97,12 +102,6 @@
     if (state.moved) suppressClickFor = itemId;
     if (state.moved && targetId) assign(itemId, targetId);
   }
-
-  function submit(): void {
-    if (!complete || locked) return;
-    locked = true;
-    onSubmit({ assignments: { ...assignments } });
-  }
 </script>
 
 <div class="drag-stage">
@@ -152,10 +151,6 @@
     {/each}
   </div>
 </div>
-
-<button class="primary-button" type="button" disabled={locked || !complete} onclick={submit}>
-  Check answer
-</button>
 
 <style>
   .drag-item--visual {
