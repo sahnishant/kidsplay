@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
+  import { onDestroy, untrack } from 'svelte';
   import type { WordSearchQuestion } from '../contracts/question';
   import type { GridPoint } from '../mechanics/grid';
   import { lineBetween, pointKey, samePoint } from '../mechanics/grid';
@@ -31,6 +31,13 @@
   let locked = $state(false);
   let liveStatus = $state(untrack(() => `${question.interaction.terms.length} words to find.`));
   let gridElement: HTMLDivElement;
+  let completionTimer: ReturnType<typeof setTimeout> | null = null;
+
+  function clearCompletionTimer(): void {
+    if (!completionTimer) return;
+    clearTimeout(completionTimer);
+    completionTimer = null;
+  }
 
   function showPreview(points: readonly GridPoint[]): void {
     previewCellKeys = points.map(pointKey);
@@ -49,6 +56,7 @@
   }
 
   function commit(termIds = foundTermIds): void {
+    clearCompletionTimer();
     if (locked) return;
     locked = true;
     onSubmit({ foundTermIds: [...termIds] });
@@ -87,7 +95,11 @@
 
     if (!remaining && submissionMode === 'auto_when_complete') {
       const completedTerms = [...foundTermIds];
-      window.setTimeout(() => commit(completedTerms), 250);
+      clearCompletionTimer();
+      completionTimer = setTimeout(() => {
+        completionTimer = null;
+        commit(completedTerms);
+      }, 250);
     }
   }
 
@@ -164,6 +176,8 @@
     const key = pointKey(point);
     return `word-search__cell${previewCellKeys.includes(key) ? ' word-search__cell--preview' : ''}${foundCellKeys.includes(key) ? ' word-search__cell--found' : ''}`;
   }
+
+  onDestroy(clearCompletionTimer);
 </script>
 
 <div class="word-search">
