@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { isDeepStrictEqual } from 'node:util';
@@ -12,6 +13,7 @@ function parseArgs(argv) {
     file: null,
     dir: null,
     releaseIdentity: null,
+    apk: null,
     requireCompleteSuite: false
   };
 
@@ -23,6 +25,8 @@ function parseArgs(argv) {
     else if (arg.startsWith('--dir=')) options.dir = arg.slice('--dir='.length);
     else if (arg === '--release-identity') options.releaseIdentity = argv[++index];
     else if (arg.startsWith('--release-identity=')) options.releaseIdentity = arg.slice('--release-identity='.length);
+    else if (arg === '--apk') options.apk = argv[++index];
+    else if (arg.startsWith('--apk=')) options.apk = arg.slice('--apk='.length);
     else if (arg === '--require-complete-suite') options.requireCompleteSuite = true;
     else throw new Error(`Unknown argument: ${arg}`);
   }
@@ -33,12 +37,19 @@ function parseArgs(argv) {
   if (!options.releaseIdentity) {
     throw new Error('Use --release-identity <path> with the workflow-generated Android beta release identity');
   }
+  if (!options.apk) {
+    throw new Error('Use --apk <path> with the exact downloaded APK selected for physical testing');
+  }
 
   return options;
 }
 
 function loadJson(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
+}
+
+function sha256File(path) {
+  return createHash('sha256').update(readFileSync(path)).digest('hex');
 }
 
 function loadRecords(options) {
@@ -88,17 +99,32 @@ export function validateReleaseIdentityBinding(records, identity, identityLabel 
   return errors;
 }
 
+export function validateApkBinding(identity, apkSha256, apkLabel = 'APK') {
+  const expectedSha256 = identity?.release?.apk?.sha256;
+  if (typeof expectedSha256 !== 'string') {
+    return [`${apkLabel}: workflow-generated release identity is missing release.apk.sha256`];
+  }
+  if (apkSha256 !== expectedSha256.toLowerCase()) {
+    return [`${apkLabel}: downloaded APK SHA-256 does not match the workflow-generated Android beta release identity`];
+  }
+  return [];
+}
+
 function main() {
   let options;
   let records;
   let identity;
   let identityPath;
+  let apkPath;
+  let apkSha256;
 
   try {
     options = parseArgs(process.argv.slice(2));
     records = loadRecords(options);
     identityPath = resolve(options.releaseIdentity);
     identity = loadJson(identityPath);
+    apkPath = resolve(options.apk);
+    apkSha256 = sha256File(apkPath);
   } catch (error) {
     console.error(`Android beta release binding validation failed: ${error.message}`);
     process.exit(1);
@@ -108,7 +134,8 @@ function main() {
     ? validateSuite(records)
     : records.flatMap(({ record, label }) => validateRecord(record, label));
   const bindingErrors = validateReleaseIdentityBinding(records, identity, identityPath);
-  const errors = [...evidenceErrors, ...bindingErrors];
+  const apkBindingErrors = validateApkBinding(identity, apkSha256, apkPath);
+  const errors = [...evidenceErrors, ...bindingErrors, ...apkBindingErrors];
 
   if (errors.length) {
     console.error(`Android beta release binding validation failed with ${errors.length} error(s):`);
@@ -117,9 +144,9 @@ function main() {
   }
 
   if (options.requireCompleteSuite) {
-    console.log(`Android beta release binding OK: ${records.length} physical-device record(s) match the exact workflow-generated APK identity.`);
+    console.log(`Android beta release binding OK: ${records.length} physical-device record(s) and the downloaded APK match the exact workflow-generated release identity.`);
   } else {
-    console.log(`Android beta release binding OK: ${records.length} record(s) match the exact workflow-generated APK identity.`);
+    console.log(`Android beta release binding OK: ${records.length} record(s) and the downloaded APK match the exact workflow-generated release identity.`);
   }
 }
 
