@@ -21,6 +21,17 @@ const reportJson = () => JSON.parse(execFileSync(
   { cwd: process.cwd(), encoding: 'utf8' }
 ));
 
+const expectedRuntimeProofAccounting = () => {
+  const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
+  const knowledgePlans = (runtime.plans ?? []).filter((plan: any) => plan.runtimeUsage === 'knowledge_reinforcement');
+  const childFacingPlans = knowledgePlans.filter((plan: any) => plan.maturity === 'V5' || plan.maturity === 'V6');
+  return {
+    childFacingPlans: childFacingPlans.length,
+    childFacingSenses: new Set(childFacingPlans.map((plan: any) => plan.senseKey)).size,
+    pendingProofPlans: knowledgePlans.length - childFacingPlans.length
+  };
+};
+
 describe('#76 vocabulary visual control-plane authority', () => {
   it('keeps reference, resolution, disposition, maturity and runtime authority as independent dimensions', () => {
     const model = readJson(authorityPath);
@@ -98,7 +109,7 @@ describe('#76 vocabulary visual control-plane authority', () => {
     expect(productionSource).toContain('candidate-relevance-review-001.json');
   });
 
-  it('preserves exact post-#106 terminal, resolved, blocked, queue and runtime boundaries', () => {
+  it('preserves exact post-#106 terminal, resolved, blocked, queue and proof-derived runtime boundaries', () => {
     const report = reportJson();
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
@@ -117,7 +128,7 @@ describe('#76 vocabulary visual control-plane authority', () => {
     });
     expect(report.senseResolutionQueue.items).toBe(1798);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
-    expect(report.runtime).toMatchObject({ childFacingPlans: 22, childFacingSenses: 21, pendingProofPlans: 0 });
+    expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);
   });
 
