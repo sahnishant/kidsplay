@@ -82,6 +82,21 @@ node scripts/validate-android-beta-evidence.mjs --dir qa/android-beta-acceptance
 
 The suite validator intentionally fails when evidence is incomplete. Do not weaken it to turn CI/emulator proof into physical acceptance.
 
+## Bind evidence to the workflow-generated APK identity
+
+A self-consistent evidence set can still be wrong if the same mistyped commit/run/artifact/hash was copied into every record. Before any #33 closure claim, download `android-beta-release-identity.json` from the **same successful current-`main` Android run whose APK was installed on the physical devices**, then run the release-binding validator:
+
+```bash
+node scripts/validate-android-beta-release-binding.mjs \
+  --release-identity <downloaded-path>/android-beta-release-identity.json \
+  --dir qa/android-beta-acceptance/evidence \
+  --require-complete-suite
+```
+
+This command first applies the existing physical-evidence suite validation and then requires every evidence record's entire `release` object to exactly match the workflow-generated identity. The identity file may sit inside the evidence directory; the validator excludes the exact `--release-identity` path from the device-record scan.
+
+This closes the machine-checkable copy/identity gap only. It still cannot establish that the APK came from `main` by itself, that the APK was actually installed on the named physical hardware, or that a human performed the observations. Those remain explicit tester/release-selection responsibilities.
+
 ## Closure rule
 
-Issue #33 may close only when the final evidence directory passes `--require-complete-suite` **and** all required observations were genuinely performed on physical devices. Repository validation proves that the record is internally complete; it does not prove that a human observation actually happened.
+Issue #33 may close only when the final evidence directory passes `--require-complete-suite`, the same records pass `validate-android-beta-release-binding.mjs` against the downloaded identity from the selected current-`main` APK, **and** all required observations were genuinely performed on physical devices. Repository validation proves that the records are internally complete and bound to the selected generated identity; it does not prove that a human observation actually happened.
