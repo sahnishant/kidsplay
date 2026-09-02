@@ -118,7 +118,8 @@ describe('permanent semantic visual invariants', () => {
 
     const compiler = readFileSync('scripts/compile-vocabulary-visual-runtime.mjs', 'utf8');
     expect(compiler).toContain('sharedDepthPatternRefs');
-    expect(compiler).toContain('still requires every individual knowledge mapping to carry its own same-sense depth');
+    expect(compiler).toContain('missingDepthRefs');
+    expect(compiler).toContain('semanticDepthPatternsFor(knowledgeRef, senseKey)');
   });
 
   it('keeps semantic visual selection free of runtime randomness', () => {
