@@ -5,22 +5,28 @@
   import { showAnswerFeedbackSplash } from '../runtime/answerFeedbackVisual';
   import { getEngineComponent } from '../runtime/engineRegistry';
 
+  export type AnswerFeedbackMode = 'play' | 'assessment';
+
   let {
     question,
     onSubmit,
-    checkResponse
+    checkResponse,
+    feedbackMode = 'play'
   }: {
     question: Question;
     onSubmit: (response: unknown) => void;
     checkResponse: (response: unknown) => EvaluationResult;
+    feedbackMode?: AnswerFeedbackMode;
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
 
   function handleSubmit(response: unknown): void {
     const result = checkResponse(response);
-    showAnswerFeedbackSplash(result.correct);
-    playAnswerFeedback(result.correct);
+    if (feedbackMode === 'play') {
+      showAnswerFeedbackSplash(result.correct);
+      playAnswerFeedback(result.correct);
+    }
     onSubmit(response);
   }
 </script>
