@@ -3,7 +3,24 @@ import { describe, expect, it } from 'vitest';
 import { getAnimationCompositions, resolveAnimationForState } from '../src/presentation/animationRegistry';
 import { getSceneDefinitions } from '../src/presentation/sceneRegistry';
 import { resolveVisualDefinition } from '../src/presentation/visualRegistry';
-import { getVocabularyVisualRuntimePlans } from '../src/presentation/vocabularyVisualRegistry';
+import {
+  getVocabularyVisualRuntimePlans,
+  resolveVocabularyVisualPlan,
+  type VocabularyVisualRuntimePlan
+} from '../src/presentation/vocabularyVisualRegistry';
+
+function vocabularyPresentationSignature(plan: VocabularyVisualRuntimePlan): string {
+  return JSON.stringify({
+    lemma: plan.lemma,
+    strategy: plan.strategy,
+    sceneTemplate: plan.sceneTemplate,
+    motionPolicy: plan.motionPolicy,
+    answerSafety: plan.answerSafety,
+    visualRef: plan.visualRef,
+    parameters: plan.parameters,
+    semanticDepthPatternRefs: plan.semanticDepthPatternRefs
+  });
+}
 
 describe('permanent semantic visual invariants', () => {
   it('keeps semantic state fallback deterministic across repeated resolution', () => {
@@ -61,14 +78,28 @@ describe('permanent semantic visual invariants', () => {
     expect(reporter).toContain('authored semantic composition has no child-facing scene owner');
   });
 
-  it('keeps generated vocabulary runtime ownership one-to-one', () => {
+  it('keeps vocabulary knowledge ownership unique while allowing deterministic same-sense reuse', () => {
     const plans = getVocabularyVisualRuntimePlans();
-    expect(new Set(plans.map((plan) => plan.senseKey)).size).toBe(plans.length);
     const knowledgeRefs = plans.flatMap((plan) => plan.knowledgeRef ? [plan.knowledgeRef] : []);
     expect(new Set(knowledgeRefs).size).toBe(knowledgeRefs.length);
 
+    const plansBySense = new Map<string, VocabularyVisualRuntimePlan[]>();
+    for (const plan of plans) {
+      const group = plansBySense.get(plan.senseKey) ?? [];
+      group.push(plan);
+      plansBySense.set(plan.senseKey, group);
+    }
+
+    for (const [senseKey, group] of plansBySense) {
+      expect(new Set(group.map(vocabularyPresentationSignature)).size, `${senseKey} presentation semantics`).toBe(1);
+      const first = resolveVocabularyVisualPlan(senseKey);
+      expect(first, `${senseKey} should resolve`).toBeTruthy();
+      const repeated = Array.from({ length: 25 }, () => resolveVocabularyVisualPlan(senseKey));
+      expect(new Set(repeated.map((plan) => plan?.knowledgeRef ?? null))).toEqual(new Set([first?.knowledgeRef ?? null]));
+    }
+
     const registry = readFileSync('src/presentation/vocabularyVisualRegistry.ts', 'utf8');
-    expect(registry).toContain('Duplicate vocabulary visual runtime senseKey');
+    expect(registry).toContain('Conflicting vocabulary visual runtime presentation for senseKey');
     expect(registry).toContain('Duplicate vocabulary visual runtime knowledgeRef');
   });
 
