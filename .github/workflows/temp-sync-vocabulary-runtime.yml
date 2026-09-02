@@ -26,8 +26,8 @@ jobs:
         with:
           node-version: 22
 
-      - name: Compile exact tracked runtime projection
-        run: node scripts/compile-vocabulary-visual-runtime.mjs
+      - name: Compile reviewed batches and exact runtime projection
+        run: npm run compile:vocabulary-visual-batches
 
       - name: Commit generated projection and remove one-shot workflow
         shell: bash
