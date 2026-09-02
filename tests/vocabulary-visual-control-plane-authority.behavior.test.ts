@@ -12,6 +12,8 @@ const relevancePath = 'content/vocabulary-visuals/review-batches/candidate-relev
 const reviewedUnresolvedPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json';
 const exactReviewManifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-001.json';
 const exactReviewManifest2Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.json';
+const exactReviewManifest3Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.json';
+const reviewedUnresolvedPath3 = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.unresolved.json';
 const phaseCBuilderPath = 'scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs';
 const publicCompilerPath = 'scripts/vocabulary-visuals/compile-reviewed-batches.mjs';
 const blockingLemmas = ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'];
@@ -96,6 +98,8 @@ describe('#76 vocabulary visual control-plane authority', () => {
       expect.objectContaining({ id: 'priority-batch-003', manifest: 'content/vocabulary-visuals/review-batches/priority-batch-003.json' }),
       expect.objectContaining({ id: 'priority-sense-resolution-001', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifestPath }),
       expect.objectContaining({ id: 'priority-sense-resolution-002', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifest2Path }),
+      expect.objectContaining({ id: 'priority-sense-resolution-003', authorityKind: 'sol_max_reviewed_exact_sense', manifest: exactReviewManifest3Path }),
+      expect.objectContaining({ id: 'priority-sense-resolution-003-reviewed-unresolved', authorityKind: 'sol_max_reviewed_unresolved_reference', path: reviewedUnresolvedPath3 }),
       expect.objectContaining({
         id: 'priority-sense-resolution-002-reviewed-unresolved',
         authorityKind: 'sol_max_reviewed_unresolved_reference',
@@ -173,7 +177,7 @@ describe('#76 vocabulary visual control-plane authority', () => {
       expect(productionSource).not.toContain(`\"${entry.lemma}\"`);
       for (const candidateId of entry.candidateIds) expect(productionSource).not.toContain(candidateId);
     }
-    expect(productionSource).toContain('priority-sense-resolution-002.unresolved.json');
+    expect(productionSource).toContain('sol_max_reviewed_unresolved_reference');
   });
 
   it('preserves exact post-#106 terminal, resolved, blocked, queue and proof-derived runtime boundaries', () => {
@@ -181,19 +185,19 @@ describe('#76 vocabulary visual control-plane authority', () => {
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 635,
-      blockedSenseResolutionLemmas: 9365,
-      exactReviewedSupersedingLemmas: 48,
+      resolvedStrategyLemmas: 657,
+      blockedSenseResolutionLemmas: 9343,
+      exactReviewedSupersedingLemmas: 70,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 602,
-      blockedSenseResolutionLemmas: 1798,
+      resolvedStrategyLemmas: 624,
+      blockedSenseResolutionLemmas: 1776,
       auditedLemmaPercent: 100
     });
-    expect(report.senseResolutionQueue.items).toBe(1798);
+    expect(report.senseResolutionQueue.items).toBe(1776);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
     expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);

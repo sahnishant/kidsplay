@@ -8,6 +8,10 @@ const reviewedUnresolvedLemmas = [
   'public', 'research', 'project', 'times', 'possible', 'probably', 'final', 'self', 'especially', 'increase',
   'recent', 'individual', 'imagine', 'judge', 'plus', 'pro', 'none', 'christmas', 'interview', 'therefore', 'worry', 'status'
 ];
+const reviewedUnresolvedLemmas003 = [
+  'prevent', 'improve', 'holiday', 'discuss', 'favourite', 'rice', 'bathroom', 'calm', 'hat', 'witness',
+  'parent', 'chemical', 'lane', 'unlike', 'x-ray', 'tradition', 'historic', 'basketball'
+];
 
 const expectedRuntimeProofAccounting = () => {
   const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
@@ -41,7 +45,7 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
       summary: {
         corpusLemmas: 10000,
         previouslyDispositionedLemmas: 2435,
-        exactReviewedSupersedingLemmas: 48,
+        exactReviewedSupersedingLemmas: 70,
         senseUnresolvedItems: 7565,
         finalTerminalDispositionLemmas: 10000
       }
@@ -66,15 +70,15 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
       status: 'human_sense_selection_queue',
       policy: { reviewedUnresolvedRequiresNewContextOrEvidence: true },
       summary: {
-        items: 1798,
-        exactReviewedSupersededBlockers: 48,
-        reviewedUnresolvedRevisitOnly: 22,
-        firstPassHumanSenseSelection: 1764,
-        byRisk: { candidate_relevance: 13, medium: 481, high: 1304 },
+        items: 1776,
+        exactReviewedSupersededBlockers: 70,
+        reviewedUnresolvedRevisitOnly: 40,
+        firstPassHumanSenseSelection: 1724,
+        byRisk: { candidate_relevance: 13, medium: 459, high: 1304 },
         byStatus: {
           candidate_relevance_review_required: 12,
-          reviewed_unresolved_revisit_only: 22,
-          human_sense_selection_required: 1764
+          reviewed_unresolved_revisit_only: 40,
+          human_sense_selection_required: 1724
         }
       }
     });
@@ -84,19 +88,25 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     expect(relevance.every((item: { candidateSenseCount: number; terminalStrategy: string }) =>
       item.candidateSenseCount === 1 && item.terminalStrategy === 'textual_only'
     )).toBe(true);
-    expect(revisitOnly.map((item: { lemma: string }) => item.lemma).sort()).toEqual([...reviewedUnresolvedLemmas].sort());
-    expect(revisitOnly.every((item: {
-      candidateSenseCount: number;
-      terminalStrategy: string;
-      reviewedUnresolvedReviewNodeId: string;
-      reviewedUnresolvedReviewSource: string;
-    }) =>
-      item.candidateSenseCount === 2 &&
-      item.terminalStrategy === 'sense_unresolved' &&
-      item.reviewedUnresolvedReviewNodeId === 'PRR_kwDOUHzR8c8AAAABLo97tQ' &&
-      item.reviewedUnresolvedReviewSource === 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json'
-    )).toBe(true);
-    expect(unresolved).toHaveLength(1764);
+    expect(revisitOnly.map((item: { lemma: string }) => item.lemma).sort()).toEqual([...reviewedUnresolvedLemmas, ...reviewedUnresolvedLemmas003].sort());
+    const revisitByLemma = new Map(revisitOnly.map((item: any) => [item.lemma, item]));
+    for (const lemma of reviewedUnresolvedLemmas) {
+      expect(revisitByLemma.get(lemma)).toMatchObject({
+        candidateSenseCount: 2,
+        terminalStrategy: 'sense_unresolved',
+        reviewedUnresolvedReviewNodeId: 'PRR_kwDOUHzR8c8AAAABLo97tQ',
+        reviewedUnresolvedReviewSource: 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json'
+      });
+    }
+    for (const lemma of reviewedUnresolvedLemmas003) {
+      expect(revisitByLemma.get(lemma)).toMatchObject({
+        candidateSenseCount: 2,
+        terminalStrategy: 'sense_unresolved',
+        reviewedUnresolvedReviewNodeId: 'PRR_kwDOUHzR8c8AAAABL6e00g',
+        reviewedUnresolvedReviewSource: 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.unresolved.json'
+      });
+    }
+    expect(unresolved).toHaveLength(1724);
     expect(unresolved.every((item: { terminalStrategy: string; candidateIds: string[] }) =>
       item.terminalStrategy === 'sense_unresolved' && item.candidateIds.length >= 1
     )).toBe(true);
@@ -132,18 +142,18 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 635,
-      blockedSenseResolutionLemmas: 9365,
-      exactReviewedSupersedingLemmas: 48,
+      resolvedStrategyLemmas: 657,
+      blockedSenseResolutionLemmas: 9343,
+      exactReviewedSupersedingLemmas: 70,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 602,
-      blockedSenseResolutionLemmas: 1798
+      resolvedStrategyLemmas: 624,
+      blockedSenseResolutionLemmas: 1776
     });
-    expect(report.senseResolutionQueue.items).toBe(1798);
+    expect(report.senseResolutionQueue.items).toBe(1776);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
     expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);
