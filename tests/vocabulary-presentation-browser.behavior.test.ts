@@ -23,9 +23,16 @@ describe('browser visual meaning slice projection', () => {
     expect(forward).toEqual(reverse);
     expect(forward.plans.map((plan) => plan.senseKey)).toEqual([...requested].sort());
     expect(forward.summary.requested).toBe(4);
+    expect(forward.summary.visualAllowed).toBe(4);
+    expect(forward.summary.textFallback).toBe(0);
     expect(forward.summary.payloadBytes).toBeGreaterThan(0);
     expect(forward.summary.payloadBytes).toBeLessThanOrEqual(contract.slicePolicy.maxPayloadBytes);
     expect(forward.summary.maxRequestedSenses).toBe(contract.slicePolicy.maxRequestedSenses);
+    expect(forward.plans.find((plan) => plan.senseKey === 'village#settlement')).toMatchObject({
+      deliveryMode: 'compose',
+      visualAllowed: true,
+      maturity: 'V6'
+    });
   });
 
   it('resolves canonical knowledge refs without a lemma shortcut or input-order visual choice', () => {
@@ -37,7 +44,7 @@ describe('browser visual meaning slice projection', () => {
       derivedMode: 'compare',
       deliveryMode: 'compare',
       visualAllowed: true,
-      maturity: 'V5'
+      maturity: 'V6'
     });
 
     const sameSenseRefs = [
@@ -49,7 +56,8 @@ describe('browser visual meaning slice projection', () => {
     expect(ancientForward).toEqual(ancientReverse);
     expect(ancientForward).toMatchObject({
       senseKey: 'ancient#very-old-from-long-ago',
-      visualAllowed: true
+      visualAllowed: true,
+      maturity: 'V6'
     });
 
     const conflict = resolveVisualMeaningPresentationForKnowledgeRefs([

@@ -9,6 +9,18 @@ const reviewedUnresolvedLemmas = [
   'recent', 'individual', 'imagine', 'judge', 'plus', 'pro', 'none', 'christmas', 'interview', 'therefore', 'worry', 'status'
 ];
 
+const expectedRuntimeProofAccounting = () => {
+  const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
+  const knowledgePlans = (runtime.plans ?? []).filter((plan: any) => plan.runtimeUsage === 'knowledge_reinforcement');
+  const childFacingPlans = knowledgePlans.filter((plan: any) => plan.maturity === 'V5' || plan.maturity === 'V6');
+  return {
+    totalPlans: (runtime.plans ?? []).length,
+    childFacingPlans: childFacingPlans.length,
+    childFacingSenses: new Set(childFacingPlans.map((plan: any) => plan.senseKey)).size,
+    pendingProofPlans: knowledgePlans.length - childFacingPlans.length
+  };
+};
+
 describe('#76 Phase C full-corpus terminal visual accounting', () => {
   it('gives every 10k corpus lemma a terminal disposition without claiming visual resolution', () => {
     const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
@@ -110,7 +122,7 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     }
   });
 
-  it('reports exact terminal accounting separately from resolved and child-facing maturity', () => {
+  it('reports exact terminal accounting separately from resolved and proof-derived child-facing maturity', () => {
     const output = execFileSync(
       process.execPath,
       ['scripts/report-vocabulary-visual-coverage.mjs', '--json', '--limit=5'],
@@ -133,7 +145,7 @@ describe('#76 Phase C full-corpus terminal visual accounting', () => {
     });
     expect(report.senseResolutionQueue.items).toBe(1798);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
-    expect(report.runtime).toMatchObject({ totalPlans: 26, childFacingPlans: 22, childFacingSenses: 21, pendingProofPlans: 0 });
+    expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);
   });
 

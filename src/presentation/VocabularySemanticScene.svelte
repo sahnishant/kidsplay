@@ -1,5 +1,6 @@
 <script lang="ts">
   import VisualEntity from './VisualEntity.svelte';
+  import { resolveSemanticDepthMode } from './semanticDepthRegistry';
   import { resolveVocabularyVisualPlan } from './vocabularyVisualRegistry';
 
   let {
@@ -22,6 +23,8 @@
   let density = $derived(String(parameters.density ?? 'medium'));
   let buildingCount = $derived(density === 'high' ? 7 : density === 'low' ? 3 : 5);
   let buildings = $derived(Array.from({ length: buildingCount }, (_, index) => index));
+  let semanticDepthMode = $derived(plan ? resolveSemanticDepthMode(plan.semanticDepthPatternRefs) ?? '' : '');
+  let semanticDepthCue = $derived(plan?.maturity === 'V6' && semanticDepthMode ? depthCueFor(semanticDepthMode) : '');
 
   const ink = '#40566b';
   const softInk = '#71899a';
@@ -37,6 +40,22 @@
     return String(value ?? '')
       .replaceAll('-', ' ')
       .replace(/\b\w/g, (letter) => letter.toUpperCase());
+  }
+
+  function depthCueFor(mode: string): string {
+    const labels: Record<string, string> = {
+      cause_effect: 'Cause → result',
+      compare_contrast: 'Compare the ideas',
+      state_transition: 'Track the change',
+      spatial_reasoning: 'Notice the position',
+      sequence: 'Follow the order',
+      classification: 'Connect the category',
+      quantity: 'Compare the amount',
+      action_explanation: 'Action → meaning',
+      state_explanation: 'State → meaning',
+      attribute_explanation: 'Compare the feature'
+    };
+    return labels[mode] ?? 'Connected explanation';
   }
 
   function relationPosition(value: string): { x: number; y: number } {
@@ -66,7 +85,8 @@
     data-vocabulary-strategy={plan.strategy}
     data-scene-template={plan.sceneTemplate ?? 'direct'}
     data-motion-policy={plan.motionPolicy}
-    aria-label={`Visual explanation for ${plan.lemma}: ${labelFor(plan.strategy)}.`}
+    data-semantic-depth-mode={semanticDepthMode || undefined}
+    aria-label={`Visual explanation for ${plan.lemma}: ${labelFor(plan.strategy)}.${semanticDepthCue ? ` Connected explanation: ${semanticDepthCue}.` : ''}`}
   >
     {#if plan.strategy === 'direct_entity' && plan.visualRef}
       <div class="direct-entity" data-scene-kind="direct-entity">
@@ -284,9 +304,14 @@
         <text x="16" y="160" font-size="12" font-weight="850" fill={ink}>{plan.lemma}</text>
       </svg>
     {/if}
+    {#if semanticDepthCue}
+      <div class="semantic-depth-cue" data-semantic-depth-cue data-semantic-depth-mode={semanticDepthMode} aria-hidden="true">
+        {semanticDepthCue}
+      </div>
+    {/if}
   </section>
 {/if}
 
 <style>
-  .vocabulary-semantic-scene{width:100%;min-height:176px;overflow:hidden;border:1px solid rgba(38,50,59,.16);border-radius:22px;background:#f7fbff}.compact{min-height:138px;border-radius:18px}.semantic-svg{display:block;width:100%;height:176px}.compact .semantic-svg{height:138px}.direct-entity{width:min(160px,42vw);height:150px;margin:12px auto}.motion-travel{animation:vocab-travel 1.3s ease-in-out infinite alternate}.motion-bob{animation:vocab-bob 1.5s ease-in-out infinite alternate}.motion-focus{transform-box:fill-box;transform-origin:center;animation:vocab-focus 1.35s ease-in-out infinite alternate}.motion-push{animation:vocab-push 1.35s ease-in-out infinite alternate}.motion-pull{animation:vocab-pull 1.35s ease-in-out infinite alternate}.motion-open{transform-box:fill-box;transform-origin:left center;animation:vocab-open 1.5s ease-in-out infinite alternate}@keyframes vocab-travel{from{transform:translateX(-33px)}to{transform:translateX(0)}}@keyframes vocab-bob{from{transform:translateY(0)}to{transform:translateY(-5px)}}@keyframes vocab-focus{from{transform:scale(.93);opacity:.7}to{transform:scale(1.06);opacity:1}}@keyframes vocab-push{from{transform:translateX(-7px)}to{transform:translateX(13px)}}@keyframes vocab-pull{from{transform:translateX(12px)}to{transform:translateX(-9px)}}@keyframes vocab-open{from{transform:skewY(0deg) scaleX(1)}to{transform:skewY(-7deg) scaleX(.76)}}@media(prefers-reduced-motion:reduce){.vocabulary-semantic-scene *{animation:none!important}}
+  .vocabulary-semantic-scene{position:relative;width:100%;min-height:176px;overflow:hidden;border:1px solid rgba(38,50,59,.16);border-radius:22px;background:#f7fbff}.compact{min-height:138px;border-radius:18px}.semantic-svg{display:block;width:100%;height:176px}.compact .semantic-svg{height:138px}.direct-entity{width:min(160px,42vw);height:150px;margin:12px auto}.semantic-depth-cue{position:absolute;top:6px;right:6px;padding:3px 6px;border-radius:12px;background:#fff;font-size:.65rem;font-weight:800;color:#40566b}.motion-travel{animation:vocab-travel 1.3s ease-in-out infinite alternate}.motion-bob{animation:vocab-bob 1.5s ease-in-out infinite alternate}.motion-focus{transform-box:fill-box;transform-origin:center;animation:vocab-focus 1.35s ease-in-out infinite alternate}.motion-push{animation:vocab-push 1.35s ease-in-out infinite alternate}.motion-pull{animation:vocab-pull 1.35s ease-in-out infinite alternate}.motion-open{transform-box:fill-box;transform-origin:left center;animation:vocab-open 1.5s ease-in-out infinite alternate}@keyframes vocab-travel{from{transform:translateX(-33px)}to{transform:translateX(0)}}@keyframes vocab-bob{from{transform:translateY(0)}to{transform:translateY(-5px)}}@keyframes vocab-focus{from{transform:scale(.93);opacity:.7}to{transform:scale(1.06);opacity:1}}@keyframes vocab-push{from{transform:translateX(-7px)}to{transform:translateX(13px)}}@keyframes vocab-pull{from{transform:translateX(12px)}to{transform:translateX(-9px)}}@keyframes vocab-open{from{transform:skewY(0deg) scaleX(1)}to{transform:skewY(-7deg) scaleX(.76)}}@media(prefers-reduced-motion:reduce){.vocabulary-semantic-scene *{animation:none!important}}
 </style>

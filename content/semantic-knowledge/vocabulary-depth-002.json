@@ -1,0 +1,298 @@
+{
+  "schemaVersion": 1,
+  "issueRef": 132,
+  "id": "semantic-knowledge.vocabulary-depth.002",
+  "policy": {
+    "canonicalFactsCopied": false,
+    "artReferencesAllowed": false,
+    "coordinatesAllowed": false,
+    "motionInstructionsAllowed": false,
+    "profilePlacementInferred": false,
+    "sourceGlossesAllowed": false
+  },
+  "neighbourhoods": [
+    {
+      "id": "runtime-depth-dimensions",
+      "conceptRefs": ["enormous", "rapid", "quick", "small", "large", "hot", "narrow", "smooth", "ancient", "fast"],
+      "rowRefs": [
+        "kr.vocab.depth.enormous.describes-very-large-size",
+        "kr.vocab.depth.rapid.describes-very-fast-speed",
+        "kr.vocab.depth.quick.describes-fast-speed",
+        "kr.vocab.depth.small.describes-small-size",
+        "kr.vocab.depth.large.describes-large-size",
+        "kr.vocab.depth.hot.describes-high-temperature",
+        "kr.vocab.depth.narrow.describes-small-width",
+        "kr.vocab.depth.smooth.describes-even-texture",
+        "kr.vocab.depth.ancient.describes-very-old-age",
+        "kr.vocab.speed.fast.describes-high-speed",
+        "kr.vocab.speed.slow.describes-low-speed"
+      ],
+      "visualSenseKeys": [
+        "enormous#very-large-size",
+        "rapid#very-fast",
+        "quick#fast-speed",
+        "small#small-size",
+        "large#big-size",
+        "hot#high-temperature",
+        "narrow#small-width",
+        "smooth#even-surface",
+        "ancient#very-old-from-long-ago",
+        "fast#a#1"
+      ],
+      "reasoningModes": ["attribute_explanation", "compare_contrast"]
+    },
+    {
+      "id": "runtime-depth-states-availability-sound",
+      "conceptRefs": ["fragile", "scarce", "silent", "quiet", "full", "empty"],
+      "rowRefs": [
+        "kr.vocab.depth.fragile.describes-easily-broken-state",
+        "kr.vocab.depth.scarce.describes-limited-availability",
+        "kr.vocab.depth.silent.describes-no-sound",
+        "kr.vocab.depth.quiet.describes-low-sound",
+        "kr.vocab.state.full.describes-container-content",
+        "kr.vocab.state.empty.describes-container-content"
+      ],
+      "visualSenseKeys": [
+        "fragile#easily-broken",
+        "scarce#not-enough-hard-to-find",
+        "silent#making-no-sound",
+        "quiet#making-little-or-no-sound",
+        "full#a#1"
+      ],
+      "reasoningModes": ["state_explanation", "quantity", "compare_contrast"]
+    },
+    {
+      "id": "runtime-depth-emotion-observation",
+      "conceptRefs": ["cheerful", "happy", "observe"],
+      "rowRefs": [
+        "kr.vocab.depth.cheerful.describes-positive-emotion",
+        "kr.vocab.depth.happy.describes-positive-emotion",
+        "kr.vocab.depth.observe.is-attentive-looking-action",
+        "kr.vocab.meaning.cheerful.happy-positive",
+        "kr.vocab.synonym.happy.glad",
+        "kr.vocab.meaning.observe.watch-carefully"
+      ],
+      "visualSenseKeys": [
+        "cheerful#happy-positive",
+        "happy#positive-emotional-state",
+        "observe#watch-carefully"
+      ],
+      "reasoningModes": ["state_explanation", "action_explanation"]
+    },
+    {
+      "id": "runtime-depth-time-capacity",
+      "conceptRefs": ["early", "late", "before", "after", "full", "empty"],
+      "rowRefs": [
+        "kr.vocab.depth.early.describes-before-expected-time",
+        "kr.vocab.antonym.early.late",
+        "kr.vocab.order.before.contrasts-with-after",
+        "kr.vocab.primary.meaning.full.full-a-1",
+        "kr.vocab.state.full.describes-container-content",
+        "kr.vocab.state.empty.describes-container-content"
+      ],
+      "visualSenseKeys": ["early#before-expected-time", "full#a#1"],
+      "reasoningModes": ["sequence", "compare_contrast"]
+    },
+    {
+      "id": "runtime-depth-learning-place",
+      "conceptRefs": ["library", "reading", "place", "village", "settlement"],
+      "rowRefs": [
+        "kr.vocab.depth.library.is-reading-resource-place",
+        "kr.vocab.primary.meaning.library.library-n-3",
+        "kr.vocab.place.village.is-settlement",
+        "kr.vocab.place.settlement.people-live-there"
+      ],
+      "visualSenseKeys": ["library#n#3", "village#settlement"],
+      "reasoningModes": ["classification", "meaning"]
+    },
+    {
+      "id": "runtime-depth-renderer-promotions",
+      "conceptRefs": ["under", "same", "different", "village", "open"],
+      "rowRefs": [
+        "kr.vocab.spatial.under.describes-relative-position",
+        "kr.vocab.comparison.same.matches-target-dimension",
+        "kr.vocab.comparison.different.not-matching-target-dimension",
+        "kr.vocab.place.village.is-settlement",
+        "kr.vocab.process.open.closed-to-open"
+      ],
+      "visualSenseKeys": [
+        "under#below-reference",
+        "same#matching-in-target-dimension",
+        "village#settlement",
+        "open#change-from-closed"
+      ],
+      "reasoningModes": ["spatial_reasoning", "compare_contrast", "classification", "state_transition"]
+    }
+  ],
+  "reasoningPatterns": [
+    {
+      "id": "enormous-size-explanation",
+      "type": "attribute_explanation",
+      "premiseRowRefs": ["kr.vocab.meaning.enormous.very-large", "kr.vocab.depth.enormous.describes-very-large-size"],
+      "contrastRowRefs": ["kr.vocab.depth.small.describes-small-size"],
+      "visualSenseKey": "enormous#very-large-size"
+    },
+    {
+      "id": "fragile-state-explanation",
+      "type": "state_explanation",
+      "premiseRowRefs": ["kr.vocab.meaning.fragile.easily-broken", "kr.vocab.depth.fragile.describes-easily-broken-state"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "fragile#easily-broken"
+    },
+    {
+      "id": "rapid-speed-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.meaning.rapid.very-fast", "kr.vocab.depth.rapid.describes-very-fast-speed", "kr.vocab.speed.fast.describes-high-speed"],
+      "contrastRowRefs": ["kr.vocab.speed.slow.describes-low-speed"],
+      "visualSenseKey": "rapid#very-fast"
+    },
+    {
+      "id": "ancient-meaning-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.meaning.ancient.very-old", "kr.vocab.depth.ancient.describes-very-old-age"],
+      "contrastRowRefs": ["kr.vocab.antonym.ancient.modern"],
+      "visualSenseKey": "ancient#very-old-from-long-ago"
+    },
+    {
+      "id": "cheerful-emotion-explanation",
+      "type": "state_explanation",
+      "premiseRowRefs": ["kr.vocab.meaning.cheerful.happy-positive", "kr.vocab.depth.cheerful.describes-positive-emotion"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "cheerful#happy-positive"
+    },
+    {
+      "id": "scarce-availability-explanation",
+      "type": "quantity",
+      "premiseRowRefs": ["kr.vocab.meaning.scarce.hard-to-find", "kr.vocab.depth.scarce.describes-limited-availability"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "scarce#not-enough-hard-to-find"
+    },
+    {
+      "id": "silent-sound-explanation",
+      "type": "state_explanation",
+      "premiseRowRefs": ["kr.vocab.meaning.silent.no-sound", "kr.vocab.depth.silent.describes-no-sound"],
+      "contrastRowRefs": ["kr.vocab.depth.quiet.describes-low-sound"],
+      "visualSenseKey": "silent#making-no-sound"
+    },
+    {
+      "id": "observe-action-explanation",
+      "type": "action_explanation",
+      "premiseRowRefs": ["kr.vocab.meaning.observe.watch-carefully", "kr.vocab.depth.observe.is-attentive-looking-action"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "observe#watch-carefully"
+    },
+    {
+      "id": "happy-emotion-explanation",
+      "type": "state_explanation",
+      "premiseRowRefs": ["kr.vocab.synonym.happy.glad", "kr.vocab.depth.happy.describes-positive-emotion"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "happy#positive-emotional-state"
+    },
+    {
+      "id": "quick-speed-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.synonym.quick.fast", "kr.vocab.depth.quick.describes-fast-speed", "kr.vocab.speed.fast.describes-high-speed"],
+      "contrastRowRefs": ["kr.vocab.speed.slow.describes-low-speed"],
+      "visualSenseKey": "quick#fast-speed"
+    },
+    {
+      "id": "small-size-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.synonym.small.tiny", "kr.vocab.depth.small.describes-small-size"],
+      "contrastRowRefs": ["kr.vocab.depth.large.describes-large-size"],
+      "visualSenseKey": "small#small-size"
+    },
+    {
+      "id": "large-size-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.synonym.large.big", "kr.vocab.depth.large.describes-large-size"],
+      "contrastRowRefs": ["kr.vocab.depth.small.describes-small-size"],
+      "visualSenseKey": "large#big-size"
+    },
+    {
+      "id": "quiet-sound-explanation",
+      "type": "state_explanation",
+      "premiseRowRefs": ["kr.vocab.synonym.quiet.silent", "kr.vocab.depth.quiet.describes-low-sound"],
+      "contrastRowRefs": ["kr.vocab.depth.silent.describes-no-sound"],
+      "visualSenseKey": "quiet#making-little-or-no-sound"
+    },
+    {
+      "id": "hot-temperature-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.antonym.hot.cold", "kr.vocab.depth.hot.describes-high-temperature"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "hot#high-temperature"
+    },
+    {
+      "id": "early-time-explanation",
+      "type": "sequence",
+      "premiseRowRefs": ["kr.vocab.antonym.early.late", "kr.vocab.depth.early.describes-before-expected-time"],
+      "contrastRowRefs": ["kr.vocab.order.before.contrasts-with-after"],
+      "visualSenseKey": "early#before-expected-time"
+    },
+    {
+      "id": "narrow-width-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.antonym.narrow.wide", "kr.vocab.depth.narrow.describes-small-width"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "narrow#small-width"
+    },
+    {
+      "id": "smooth-texture-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.antonym.smooth.rough", "kr.vocab.depth.smooth.describes-even-texture"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "smooth#even-surface"
+    },
+    {
+      "id": "ancient-modern-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.antonym.ancient.modern", "kr.vocab.depth.ancient.describes-very-old-age"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "ancient#very-old-from-long-ago"
+    },
+    {
+      "id": "fast-primary-speed-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.primary.meaning.fast.fast-a-1", "kr.vocab.speed.fast.describes-high-speed"],
+      "contrastRowRefs": ["kr.vocab.speed.slow.describes-low-speed"],
+      "visualSenseKey": "fast#a#1"
+    },
+    {
+      "id": "full-primary-capacity-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.primary.meaning.full.full-a-1", "kr.vocab.state.full.describes-container-content"],
+      "contrastRowRefs": ["kr.vocab.state.empty.describes-container-content"],
+      "visualSenseKey": "full#a#1"
+    },
+    {
+      "id": "library-place-explanation",
+      "type": "classification",
+      "premiseRowRefs": ["kr.vocab.primary.meaning.library.library-n-3", "kr.vocab.depth.library.is-reading-resource-place"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "library#n#3"
+    },
+    {
+      "id": "under-position-explanation",
+      "type": "spatial_reasoning",
+      "premiseRowRefs": ["kr.vocab.spatial.under.describes-relative-position"],
+      "contrastRowRefs": ["kr.vocab.spatial.between.describes-relative-position"],
+      "visualSenseKey": "under#below-reference"
+    },
+    {
+      "id": "same-target-comparison-explanation",
+      "type": "compare_contrast",
+      "premiseRowRefs": ["kr.vocab.comparison.same.matches-target-dimension"],
+      "contrastRowRefs": ["kr.vocab.comparison.different.not-matching-target-dimension"],
+      "visualSenseKey": "same#matching-in-target-dimension"
+    },
+    {
+      "id": "village-settlement-classification",
+      "type": "classification",
+      "premiseRowRefs": ["kr.vocab.place.village.is-settlement", "kr.vocab.place.settlement.people-live-there"],
+      "contrastRowRefs": [],
+      "visualSenseKey": "village#settlement"
+    }
+  ],
+  "processRowRefs": []
+}

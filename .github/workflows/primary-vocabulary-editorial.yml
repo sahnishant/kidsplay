@@ -127,7 +127,7 @@ jobs:
               if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss boundary failed`);
             }
           }
-          if (globallySeen.size !== 39) throw new Error(`Expected 39 reviewed runtime meanings across batches 001-002, got ${globallySeen.size}`);
+          if (globallySeen.size !== 46) throw new Error(`Expected 46 reviewed runtime meanings across batches 001-002, got ${globallySeen.size}`);
           NODE
           git diff --exit-code -- content/knowledge/english-vocabulary-primary-reviewed.json content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
 
