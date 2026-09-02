@@ -6,7 +6,11 @@
   import { generateWordSearch, normalizeSearchWord } from '../mechanics/wordSearch';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<WordSearchQuestion> = $props();
+  let {
+    question,
+    onSubmit,
+    submissionMode = 'explicit'
+  }: EngineProps<WordSearchQuestion> = $props();
 
   let generated = $derived.by(() => generateWordSearch({
     terms: question.interaction.terms,
@@ -44,6 +48,12 @@
     return points.map((point) => generated.grid[point.row][point.col]).join('');
   }
 
+  function commit(termIds = foundTermIds): void {
+    if (locked) return;
+    locked = true;
+    onSubmit({ foundTermIds: [...termIds] });
+  }
+
   function resolveSelection(start: GridPoint, end: GridPoint): void {
     const points = lineBetween(start, end);
     previewCellKeys = [];
@@ -74,6 +84,11 @@
     liveStatus = remaining
       ? `${term.label} found. ${remaining} word${remaining === 1 ? '' : 's'} left.`
       : 'You found every word.';
+
+    if (!remaining && submissionMode === 'auto_when_complete') {
+      const completedTerms = [...foundTermIds];
+      window.setTimeout(() => commit(completedTerms), 250);
+    }
   }
 
   function handleTap(point: GridPoint): void {
@@ -149,12 +164,6 @@
     const key = pointKey(point);
     return `word-search__cell${previewCellKeys.includes(key) ? ' word-search__cell--preview' : ''}${foundCellKeys.includes(key) ? ' word-search__cell--found' : ''}`;
   }
-
-  function submit(): void {
-    if (locked) return;
-    locked = true;
-    onSubmit({ foundTermIds: [...foundTermIds] });
-  }
 </script>
 
 <div class="word-search">
@@ -195,7 +204,7 @@
   </div>
 
   <div class="word-search__status" role="status" aria-live="polite">{liveStatus}</div>
-  <button class="primary-button" type="button" disabled={locked} onclick={submit}>
+  <button class="primary-button" type="button" disabled={locked} onclick={() => commit()}>
     {foundTermIds.length === question.interaction.terms.length ? 'All found — continue' : 'Finish word search'}
   </button>
 </div>
