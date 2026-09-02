@@ -7,8 +7,14 @@ const priorityQueueOutputUrl = new URL('content/vocabulary-visuals/__generated-p
 const corpusQueueOutputUrl = new URL('content/vocabulary-visuals/__generated-corpus-sense-resolution-queue.json', root);
 const ownBatchName = '__generated-corpus-terminal-dispositions.json';
 const relevanceReviewPath = 'content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json';
-const reviewedUnresolvedPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.unresolved.json';
+const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-inventory.json';
 const reviewLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
+const inventory = readJson(inventoryPath);
+const reviewedUnresolvedPaths = (inventory.semanticSources ?? [])
+  .filter((entry) => entry.authorityKind === 'sol_max_reviewed_unresolved_reference' && entry.path)
+  .sort((left, right) => (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) || left.id.localeCompare(right.id))
+  .map((entry) => entry.path);
+if (!reviewedUnresolvedPaths.length) throw new Error('At least one reviewed-unresolved reference must be inventoried');
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
 const corpusByLemma = new Map((corpus.entries ?? []).map((entry) => [entry.lemma, entry]));
@@ -60,64 +66,71 @@ for (const entry of reviewLedger.batches ?? []) {
   }
 }
 
-const reviewedUnresolved = readJson(reviewedUnresolvedPath);
-if (
-  reviewedUnresolved?.schemaVersion !== 1 ||
-  reviewedUnresolved?.issueRef !== 106 ||
-  reviewedUnresolved?.parentIssueRef !== 76 ||
-  reviewedUnresolved?.authorityKind !== 'sol_max_reviewed_unresolved_reference' ||
-  reviewedUnresolved?.status !== 'sol_max_reviewed_unresolved_reference'
-) {
-  throw new Error('Reviewed-unresolved reference must use schemaVersion 1, source issue #106, parent #76 and the non-resolving Sol Max reference authority');
-}
-const unresolvedEvidence = reviewedUnresolved.reviewEvidence ?? {};
-if (
-  unresolvedEvidence.kind !== 'sol_max_row_level_unresolved_acceptance' ||
-  !Number.isInteger(unresolvedEvidence.pullRequest) || unresolvedEvidence.pullRequest < 1 ||
-  !String(unresolvedEvidence.reviewNodeId ?? '').startsWith('PRR_') ||
-  !/^[0-9a-f]{40}$/.test(String(unresolvedEvidence.reviewedSemanticHeadSha ?? '')) ||
-  unresolvedEvidence.claimsHumanEditorialReview !== false
-) {
-  throw new Error('Reviewed-unresolved reference requires immutable non-human-editorial external review evidence');
-}
-const unresolvedPolicy = reviewedUnresolved.policy ?? {};
-for (const key of [
-  'createsSenseSelection',
-  'createsSemanticDisposition',
-  'countsAsResolved',
-  'removesBlocker',
-  'createsRuntimeAuthority',
-  'createsProfilePlacement',
-  'createsChildDefinitionApproval',
-  'copiesSourceGlossOrExample'
-]) {
-  if (unresolvedPolicy[key] !== false) throw new Error(`Reviewed-unresolved reference policy ${key} must be false`);
-}
-if (unresolvedPolicy.revisitRequiresNewContextOrEvidence !== true) {
-  throw new Error('Reviewed-unresolved reference must require new context or evidence before revisit');
-}
 const reviewedUnresolvedByLemma = new Map();
 const allowedUnresolvedDispositions = new Set(['proposal_rejected_back_to_unresolved', 'unresolved_confirmed']);
-for (const entry of reviewedUnresolved.entries ?? []) {
-  const lemma = String(entry?.lemma ?? '').trim();
-  const candidateIds = [...new Set(entry?.candidateIds ?? [])].map(String).sort();
-  const pinnedCandidateIds = candidateIdsByLemma.get(lemma) ?? [];
-  if (!lemma || reviewedUnresolvedByLemma.has(lemma)) throw new Error(`Duplicate/missing reviewed-unresolved lemma ${lemma || '<empty>'}`);
-  if (candidateIds.length < 2 || JSON.stringify(candidateIds) !== JSON.stringify(pinnedCandidateIds)) {
-    throw new Error(`${lemma}: reviewed-unresolved candidate trace no longer matches the pinned OEWN candidate set`);
+for (const reviewedUnresolvedPath of reviewedUnresolvedPaths) {
+  const reviewedUnresolved = readJson(reviewedUnresolvedPath);
+  if (
+    reviewedUnresolved?.schemaVersion !== 1 ||
+    !Number.isInteger(reviewedUnresolved?.issueRef) || reviewedUnresolved.issueRef < 1 ||
+    reviewedUnresolved?.parentIssueRef !== 76 ||
+    reviewedUnresolved?.authorityKind !== 'sol_max_reviewed_unresolved_reference' ||
+    reviewedUnresolved?.status !== 'sol_max_reviewed_unresolved_reference'
+  ) {
+    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference must use schemaVersion 1, parent #76 and the non-resolving Sol Max reference authority`);
   }
-  if (!allowedUnresolvedDispositions.has(entry.reviewDisposition) || !String(entry.reasonCode ?? '').trim() || !String(entry.reason ?? '').trim()) {
-    throw new Error(`${lemma}: reviewed-unresolved entry requires an accepted unresolved disposition, reasonCode and reason`);
+  const unresolvedEvidence = reviewedUnresolved.reviewEvidence ?? {};
+  if (
+    unresolvedEvidence.kind !== 'sol_max_row_level_unresolved_acceptance' ||
+    !Number.isInteger(unresolvedEvidence.pullRequest) || unresolvedEvidence.pullRequest < 1 ||
+    !String(unresolvedEvidence.reviewNodeId ?? '').startsWith('PRR_') ||
+    !/^[0-9a-f]{40}$/.test(String(unresolvedEvidence.reviewedSemanticHeadSha ?? '')) ||
+    unresolvedEvidence.claimsHumanEditorialReview !== false
+  ) {
+    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference requires immutable non-human-editorial external review evidence`);
   }
-  for (const forbidden of ['senseKey', 'strategy', 'maturity', 'knowledgeRef', 'runtimeUsage', 'profileRef', 'childDefinition']) {
-    if (forbidden in entry) throw new Error(`${lemma}: reviewed-unresolved reference cannot create ${forbidden} authority`);
+  const unresolvedPolicy = reviewedUnresolved.policy ?? {};
+  for (const key of [
+    'createsSenseSelection',
+    'createsSemanticDisposition',
+    'countsAsResolved',
+    'removesBlocker',
+    'createsRuntimeAuthority',
+    'createsProfilePlacement',
+    'createsChildDefinitionApproval',
+    'copiesSourceGlossOrExample'
+  ]) {
+    if (unresolvedPolicy[key] !== false) throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved policy ${key} must be false`);
   }
-  reviewedUnresolvedByLemma.set(lemma, entry);
+  if (unresolvedPolicy.revisitRequiresNewContextOrEvidence !== true) {
+    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference must require new context or evidence before revisit`);
+  }
+  let reviewedRows = 0;
+  for (const entry of reviewedUnresolved.entries ?? []) {
+    const lemma = String(entry?.lemma ?? '').trim();
+    const candidateIds = [...new Set(entry?.candidateIds ?? [])].map(String).sort();
+    const pinnedCandidateIds = candidateIdsByLemma.get(lemma) ?? [];
+    if (!lemma || reviewedUnresolvedByLemma.has(lemma)) throw new Error(`Duplicate/missing reviewed-unresolved lemma ${lemma || '<empty>'}`);
+    if (candidateIds.length < 2 || JSON.stringify(candidateIds) !== JSON.stringify(pinnedCandidateIds)) {
+      throw new Error(`${lemma}: reviewed-unresolved candidate trace no longer matches the pinned OEWN candidate set`);
+    }
+    if (!allowedUnresolvedDispositions.has(entry.reviewDisposition) || !String(entry.reasonCode ?? '').trim() || !String(entry.reason ?? '').trim()) {
+      throw new Error(`${lemma}: reviewed-unresolved entry requires an accepted unresolved disposition, reasonCode and reason`);
+    }
+    for (const forbidden of ['senseKey', 'strategy', 'maturity', 'knowledgeRef', 'runtimeUsage', 'profileRef', 'childDefinition']) {
+      if (forbidden in entry) throw new Error(`${lemma}: reviewed-unresolved reference cannot create ${forbidden} authority`);
+    }
+    reviewedUnresolvedByLemma.set(lemma, {
+      ...entry,
+      reviewSource: reviewedUnresolvedPath,
+      reviewNodeId: unresolvedEvidence.reviewNodeId
+    });
+    reviewedRows += 1;
+  }
+  if (reviewedRows !== unresolvedEvidence.reviewedRows) {
+    throw new Error(`${reviewedUnresolvedPath}: reviewedRows evidence ${unresolvedEvidence.reviewedRows} does not match ${reviewedRows} entries`);
+  }
 }
-if (reviewedUnresolvedByLemma.size !== unresolvedEvidence.reviewedRows || reviewedUnresolvedByLemma.size !== 22) {
-  throw new Error(`Reviewed-unresolved reference must preserve exactly the 22 #106/#109 outcomes; got ${reviewedUnresolvedByLemma.size}`);
-}
-
 const relevanceReview = readJson(relevanceReviewPath);
 if (relevanceReview?.schemaVersion !== 1 || relevanceReview?.parentIssueRef !== 76 || relevanceReview?.authorityKind !== 'approved_terminal_policy') {
   throw new Error('Phase C candidate-relevance review must use schemaVersion 1, parent #76 and approved_terminal_policy authority');
@@ -178,8 +191,8 @@ for (const lemma of meaningQueueLemmas) {
     ...(reviewedUnresolvedEntry ? {
       reviewedUnresolvedReasonCode: reviewedUnresolvedEntry.reasonCode,
       reviewedUnresolvedReviewDisposition: reviewedUnresolvedEntry.reviewDisposition,
-      reviewedUnresolvedReviewSource: reviewedUnresolvedPath,
-      reviewedUnresolvedReviewNodeId: unresolvedEvidence.reviewNodeId
+      reviewedUnresolvedReviewSource: reviewedUnresolvedEntry.reviewSource,
+      reviewedUnresolvedReviewNodeId: reviewedUnresolvedEntry.reviewNodeId
     } : {})
   });
 }
@@ -240,7 +253,7 @@ writeFileSync(batchOutputUrl, `${JSON.stringify({
   reviewBasis: {
     corpus: 'content/lexicon/open/primary-grade-corpus.json',
     candidateRelevanceReview: relevanceReviewPath,
-    reviewedUnresolvedReference: reviewedUnresolvedPath,
+    reviewedUnresolvedReferences: reviewedUnresolvedPaths,
     exactReviewLedger: reviewLedgerPath,
     rule: 'Every corpus lemma not already covered by a reviewed strategy receives an explicit fail-closed disposition. Later exact reviewed senses supersede active blocker status for the same lemma without deleting the historical unresolved record.'
   },
@@ -267,7 +280,7 @@ writeFileSync(priorityQueueOutputUrl, `${JSON.stringify({
   status: 'human_sense_selection_queue',
   reviewBasis: {
     candidateRelevanceReview: relevanceReviewPath,
-    reviewedUnresolvedReference: reviewedUnresolvedPath,
+    reviewedUnresolvedReferences: reviewedUnresolvedPaths,
     exactReviewLedger: reviewLedgerPath
   },
   policy: {
