@@ -145,6 +145,13 @@ async function solveMaze(page: Page): Promise<void> {
   for (const index of path.slice(1)) await buttons.nth(index).click();
 }
 
+async function submitCheckAnswerIfPresent(page: Page): Promise<void> {
+  const checkAnswer = page.getByRole('button', { name: 'Check answer' });
+  if (!(await checkAnswer.count())) return;
+  await expect(checkAnswer).toBeEnabled();
+  await checkAnswer.click();
+}
+
 async function answerByEngine(page: Page, engine: EngineKind): Promise<void> {
   if (engine === 'memory_pairs') {
     await solveMemoryPairs(page);
@@ -175,9 +182,7 @@ async function answerByEngine(page: Page, engine: EngineKind): Promise<void> {
       await items.nth(index).press('Enter');
       await target.press('Enter');
     }
-    const checkAnswer = page.getByRole('button', { name: 'Check answer' });
-    await expect(checkAnswer).toBeEnabled();
-    await checkAnswer.click();
+    await submitCheckAnswerIfPresent(page);
     return;
   }
   if (engine === 'word_bank_fill') {
@@ -187,17 +192,16 @@ async function answerByEngine(page: Page, engine: EngineKind): Promise<void> {
       await blanks.nth(index).click();
       await words.first().click();
     }
-    await page.getByRole('button', { name: 'Check answer' }).click();
+    await submitCheckAnswerIfPresent(page);
     return;
   }
   if (engine === 'hotspot') {
     await page.locator('.hotspot__region').first().click();
-    await page.getByRole('button', { name: 'Check answer' }).click();
+    await submitCheckAnswerIfPresent(page);
     return;
   }
 
   await page.locator('.choice-grid').getByRole('button').first().click();
-  await page.getByRole('button', { name: 'Check answer' }).click();
 }
 
 export async function answerCurrentQuestion(page: Page): Promise<AnsweredQuestion> {
