@@ -38,7 +38,7 @@ describe('permanent semantic visual invariants', () => {
     }
   });
 
-  it('makes cross-file registry precedence explicit instead of inheriting glob enumeration', () => {
+  it('makes cross-file registry order explicit and rejects conflicting visual ownership', () => {
     for (const path of [
       'src/presentation/animationRegistry.ts',
       'src/presentation/sceneRegistry.ts',
@@ -50,8 +50,10 @@ describe('permanent semantic visual invariants', () => {
       expect(source, `${path} should sort module paths`).toContain('localeCompare(');
     }
 
-    const visualRegistry = readFileSync('src/presentation/visualRegistry.ts', 'utf8');
-    expect(visualRegistry).toContain('if (!visualRefByAlias.has(normalizedAlias))');
+    const validator = readFileSync('scripts/validate-visuals.mjs', 'utf8');
+    expect(validator).toContain('Visual alias');
+    expect(validator).toContain('Semantic visual key');
+    expect(validator).toContain('is owned by both');
   });
 
   it('keeps every authored composition accessible and meaningful without motion', () => {
