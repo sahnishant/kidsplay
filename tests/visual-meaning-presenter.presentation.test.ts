@@ -13,9 +13,9 @@ describe('VisualMeaningPresenter', () => {
       derivedMode: 'compare',
       deliveryMode: 'compare',
       visualAllowed: true,
-      runtimeUsage: 'knowledge_reinforcement'
+      runtimeUsage: 'knowledge_reinforcement',
+      maturity: 'V6'
     });
-    expect(['V5', 'V6']).toContain(resolved.maturity);
 
     const { container } = render(VisualMeaningPresenter, {
       props: {
@@ -35,14 +35,14 @@ describe('VisualMeaningPresenter', () => {
     expect(screen.getByText('Very large.')).toBeTruthy();
   });
 
-  it('does not promote a V3 canonical knowledge mapping into a child-facing dictionary visual', () => {
+  it('promotes an exact V6 canonical mapping into a child-facing dictionary visual after semantic-depth proof', () => {
     const resolved = resolveVisualMeaningPresentation('village#settlement');
     expect(resolved).toMatchObject({
       derivedMode: 'compose',
-      deliveryMode: 'text',
-      visualAllowed: false,
-      fallbackReason: 'runtime_not_child_facing',
-      maturity: 'V3',
+      deliveryMode: 'compose',
+      visualAllowed: true,
+      fallbackReason: null,
+      maturity: 'V6',
       runtimeUsage: 'knowledge_reinforcement'
     });
 
@@ -54,10 +54,12 @@ describe('VisualMeaningPresenter', () => {
       }
     });
     const root = container.querySelector('[data-presentation-key="visual-meaning:v1:village#settlement"]');
-    expect(root?.getAttribute('data-presentation-mode')).toBe('text');
+    expect(root?.getAttribute('data-presentation-mode')).toBe('compose');
     expect(root?.getAttribute('data-derived-mode')).toBe('compose');
-    expect(root?.getAttribute('data-visual-fallback')).toBe('runtime_not_child_facing');
-    expect(container.querySelector('[data-visual-meaning-scene]')).toBeNull();
+    expect(root?.getAttribute('data-visual-allowed')).toBe('true');
+    expect(root?.getAttribute('data-visual-fallback')).toBeNull();
+    expect(container.querySelector('[data-visual-meaning-scene]')).toBeTruthy();
+    expect(container.querySelector('[data-scene-kind="place"]')).toBeTruthy();
     expect(screen.getByText('A small settlement where people live.')).toBeTruthy();
   });
 
@@ -70,9 +72,9 @@ describe('VisualMeaningPresenter', () => {
       derivedMode: 'compare',
       deliveryMode: 'text',
       visualAllowed: false,
-      fallbackReason: 'answer_safety'
+      fallbackReason: 'answer_safety',
+      maturity: 'V6'
     });
-    expect(['V5', 'V6']).toContain(resolved.maturity);
 
     const { container } = render(VisualMeaningPresenter, {
       props: {

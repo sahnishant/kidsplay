@@ -12,12 +12,17 @@ import {
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 const readText = (path: string) => readFileSync(resolve(process.cwd(), path), 'utf8');
 
-const rendererPromotions = [
-  ['kr.vocab.place.village.is-settlement', 'village#settlement', 'V3'],
-  ['kr.vocab.spatial.under.describes-relative-position', 'under#below-reference', 'V3'],
-  ['kr.vocab.comparison.same.matches-target-dimension', 'same#matching-in-target-dimension', 'V3'],
-  ['kr.vocab.process.open.closed-to-open', 'open#change-from-closed', 'V4']
+const promotedMappings = [
+  ['kr.vocab.place.village.is-settlement', 'village#settlement'],
+  ['kr.vocab.spatial.under.describes-relative-position', 'under#below-reference'],
+  ['kr.vocab.comparison.same.matches-target-dimension', 'same#matching-in-target-dimension'],
+  ['kr.vocab.process.open.closed-to-open', 'open#change-from-closed']
 ] as const;
+
+const stageAEvidence = {
+  headSha: 'a85af7a65787cf60497c0eb696721f428f2d2e9a',
+  windowsWorkflowRunId: 33583987996
+} as const;
 
 afterEach(() => cleanup());
 
@@ -44,20 +49,30 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     expect(scan(depth)).toEqual([]);
   });
 
-  it('projects semantic depth onto every admitted knowledge mapping while renderer-only candidates remain fail-closed before promotion', () => {
+  it('projects same-sense semantic depth onto every admitted mapping and promotes all proof-backed mappings to V6 only from Stage-A evidence', () => {
     const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     const knowledgePlans = runtime.plans.filter((plan: { runtimeUsage?: string }) => plan.runtimeUsage === 'knowledge_reinforcement');
 
     expect(runtime.semanticDepthIssueRefs).toEqual(expect.arrayContaining([84, 132]));
+    expect(runtime.maturityEvidence).toMatchObject({
+      headSha: stageAEvidence.headSha,
+      workflowRunId: stageAEvidence.windowsWorkflowRunId
+    });
     expect(knowledgePlans).toHaveLength(26);
+    expect(new Set(knowledgePlans.map((plan: { senseKey: string }) => plan.senseKey)).size).toBe(25);
+    expect(knowledgePlans.every((plan: { maturity?: string }) => plan.maturity === 'V6')).toBe(true);
     expect(knowledgePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => (plan.semanticDepthPatternRefs?.length ?? 0) >= 1)).toBe(true);
     expect(knowledgePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => Boolean(resolveSemanticDepthMode(plan.semanticDepthPatternRefs ?? [])))).toBe(true);
+    expect(knowledgePlans.every((plan: any) => isVocabularyVisualPlanChildFacing(plan))).toBe(true);
 
-    for (const [knowledgeRef, senseKey, maturity] of rendererPromotions) {
+    for (const [knowledgeRef, senseKey] of promotedMappings) {
       const plan = knowledgePlans.find((candidate: { knowledgeRef?: string }) => candidate.knowledgeRef === knowledgeRef);
-      expect(plan).toMatchObject({ knowledgeRef, senseKey, maturity });
-      expect(isVocabularyVisualPlanChildFacing(plan)).toBe(false);
-      expect(resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef])).toBeNull();
+      expect(plan).toMatchObject({ knowledgeRef, senseKey, maturity: 'V6' });
+      expect(resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef])).toMatchObject({
+        knowledgeRef,
+        senseKey,
+        maturity: 'V6'
+      });
     }
   });
 
@@ -80,7 +95,7 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     expect((byId.get('vocab.depth.happy.recognition.002') as { interaction?: { type?: string } })?.interaction?.type).toBe('single_choice');
   });
 
-  it('contains a hard V6 compiler boundary but does not render a V6 cue before proof promotion', () => {
+  it('keeps the hard V6 compiler boundary and renders the connected cue only after exact proof promotion', () => {
     const compiler = readText('scripts/compile-vocabulary-visual-runtime.mjs');
     expect(compiler).toContain("child_facing_semantic_depth_explanation");
     expect(compiler).toContain('V6 semantic-depth proof is missing same-sense depth');
@@ -88,7 +103,9 @@ describe('#132 Phase D V6 semantic-depth production', () => {
 
     const { container } = render(VocabularySemanticScene, { props: { senseKey: 'enormous#very-large-size' } });
     const root = container.querySelector('[data-vocabulary-sense="enormous#very-large-size"]');
+    const cue = container.querySelector('[data-semantic-depth-cue]');
     expect(root?.getAttribute('data-semantic-depth-mode')).toBe('attribute_explanation');
-    expect(container.querySelector('[data-semantic-depth-cue]')).toBeNull();
+    expect(root?.getAttribute('aria-label')).toContain('Connected explanation: Compare the feature.');
+    expect(cue?.textContent).toContain('Compare the feature');
   });
 });
