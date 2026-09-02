@@ -21,9 +21,14 @@ export function buildVisualSemanticRoleSets(knowledgeDocuments) {
       for (const entry of source.entries) {
         const subjectId = typeof entry?.subject?.id === 'string' ? normalizeVisualSemantic(entry.subject.id) : '';
         const objectId = typeof entry?.object?.id === 'string' ? normalizeVisualSemantic(entry.object.id) : '';
+        const vocabularyEntry = vocabularySource
+          || (entry?.conceptIds ?? []).some((conceptId) =>
+            typeof conceptId === 'string' && conceptId.startsWith('vocabulary.')
+          )
+          || (entry?.meta?.skills ?? []).includes('vocabulary');
         if (subjectId) subjectSemanticRefs.add(subjectId);
         if (objectId) objectSemanticRefs.add(objectId);
-        if (vocabularySource) {
+        if (vocabularyEntry) {
           if (subjectId) vocabularySemanticRefs.add(subjectId);
           if (objectId) vocabularySemanticRefs.add(objectId);
         }
