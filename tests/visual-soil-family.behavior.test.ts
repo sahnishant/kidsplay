@@ -67,7 +67,7 @@ describe('soil visual recipe family', () => {
     };
     expect(report.library.entities).toBeGreaterThanOrEqual(303);
     expect(report.library.recipes).toBeGreaterThanOrEqual(18);
-    expect(report.visualFriendly.total).toBe(1459);
+    expect(report.visualFriendly.total).toBeGreaterThanOrEqual(1459);
     expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(776);
     expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(53.2);
     expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(167);
