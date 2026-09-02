@@ -1,0 +1,59 @@
+name: Temporary compact full-check diagnostic
+
+on:
+  push:
+    branches:
+      - integration/semantic-depth-v6-current-main-review
+    paths:
+      - '.github/workflows/temp-diagnose-full-check.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  diagnose:
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout integration branch
+        uses: actions/checkout@v7
+        with:
+          ref: integration/semantic-depth-v6-current-main-review
+          fetch-depth: 0
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        shell: pwsh
+        run: npm ci --no-audit --no-fund | Out-Null
+
+      - name: Run full validation and print compact failure tail
+        id: check
+        shell: pwsh
+        run: |
+          npm run check *> check-output.txt
+          $code = $LASTEXITCODE
+          "check_exit=$code" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8
+          Write-Host "=== npm run check compact tail ==="
+          Get-Content check-output.txt -Tail 220
+          Write-Host "=== end compact tail; exit=$code ==="
+          exit 0
+
+      - name: Remove one-shot workflow
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/temp-diagnose-full-check.yml
+          git commit -m "chore(integration): remove one-shot full-check diagnostic"
+          git push origin HEAD:integration/semantic-depth-v6-current-main-review
+
+      - name: Preserve validation result
+        if: steps.check.outputs.check_exit != '0'
+        shell: pwsh
+        run: exit 1
