@@ -2,7 +2,8 @@
   "schemaVersion": 1,
   "issueRef": 80,
   "semanticDepthIssueRefs": [
-    84
+    84,
+    132
   ],
   "maturityEvidence": {
     "workflowRunId": 33462320942,
@@ -33,7 +34,9 @@
         "target": "enormous",
         "contrast": "ordinary-size"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "enormous-size-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.fragile.easily-broken",
@@ -50,7 +53,9 @@
         "state": "fragile",
         "exampleKind": "glass"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "fragile-state-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.rapid.very-fast",
@@ -68,7 +73,9 @@
         "target": "rapid",
         "contrast": "slow"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "rapid-speed-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.ancient.very-old",
@@ -86,7 +93,9 @@
         "target": "ancient",
         "contrast": "modern"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "ancient-meaning-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.cheerful.happy-positive",
@@ -102,7 +111,9 @@
       "parameters": {
         "expression": "happy"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "cheerful-emotion-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.scarce.hard-to-find",
@@ -119,7 +130,9 @@
         "quantity": "few",
         "comparison": "scarce"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "scarce-availability-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.silent.no-sound",
@@ -136,7 +149,9 @@
         "state": "silent",
         "exampleKind": "speaker"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "silent-sound-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.meaning.observe.watch-carefully",
@@ -152,7 +167,9 @@
       "parameters": {
         "action": "observe"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "observe-action-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.synonym.happy.glad",
@@ -168,7 +185,9 @@
       "parameters": {
         "expression": "happy"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "happy-emotion-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.synonym.quick.fast",
@@ -186,7 +205,9 @@
         "target": "quick",
         "contrast": "slow"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "quick-speed-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.synonym.small.tiny",
@@ -204,7 +225,9 @@
         "target": "small",
         "contrast": "big"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "small-size-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.synonym.large.big",
@@ -222,7 +245,9 @@
         "target": "large",
         "contrast": "small"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "large-size-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.synonym.quiet.silent",
@@ -239,7 +264,9 @@
         "state": "silent",
         "exampleKind": "speaker"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "quiet-sound-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.antonym.hot.cold",
@@ -257,7 +284,9 @@
         "target": "hot",
         "contrast": "cold"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "hot-temperature-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.antonym.early.late",
@@ -273,7 +302,9 @@
       "parameters": {
         "timeRelation": "before-expected"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "early-time-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.antonym.narrow.wide",
@@ -291,7 +322,9 @@
         "target": "narrow",
         "contrast": "wide"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "narrow-width-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.antonym.smooth.rough",
@@ -309,7 +342,9 @@
         "target": "smooth",
         "contrast": "rough"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "smooth-texture-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.antonym.ancient.modern",
@@ -327,7 +362,10 @@
         "target": "ancient",
         "contrast": "modern"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "ancient-meaning-explanation",
+        "ancient-modern-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.force.pull.can-move-object-toward",
@@ -364,7 +402,9 @@
         "target": "fast",
         "contrast": "slow"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "fast-primary-speed-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.primary.meaning.full.full-a-1",
@@ -382,7 +422,9 @@
         "target": "full",
         "contrast": "empty"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "full-primary-capacity-explanation"
+      ]
     },
     {
       "knowledgeRef": "kr.vocab.primary.meaning.library.library-n-3",
@@ -398,11 +440,13 @@
       "parameters": {
         "placeKind": "library"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "library-place-explanation"
+      ]
     },
     {
-      "knowledgeRef": null,
-      "runtimeUsage": "template_proof",
+      "knowledgeRef": "kr.vocab.place.village.is-settlement",
+      "runtimeUsage": "knowledge_reinforcement",
       "senseKey": "village#settlement",
       "lemma": "village",
       "strategy": "place_scene",
@@ -418,11 +462,14 @@
         "farmland": "high",
         "traffic": "low"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "settlement-size-comparison",
+        "village-settlement-classification"
+      ]
     },
     {
-      "knowledgeRef": null,
-      "runtimeUsage": "template_proof",
+      "knowledgeRef": "kr.vocab.spatial.under.describes-relative-position",
+      "runtimeUsage": "knowledge_reinforcement",
       "senseKey": "under#below-reference",
       "lemma": "under",
       "strategy": "spatial_relation",
@@ -434,11 +481,31 @@
       "parameters": {
         "relation": "below"
       },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "under-position-explanation"
+      ]
     },
     {
-      "knowledgeRef": null,
-      "runtimeUsage": "template_proof",
+      "knowledgeRef": "kr.vocab.comparison.same.matches-target-dimension",
+      "runtimeUsage": "knowledge_reinforcement",
+      "senseKey": "same#matching-in-target-dimension",
+      "lemma": "same",
+      "strategy": "comparison_scene",
+      "sceneTemplate": "comparison",
+      "maturity": "V3",
+      "motionPolicy": "none",
+      "answerSafety": "post_answer_only",
+      "visualRef": null,
+      "parameters": {
+        "comparison": "same"
+      },
+      "semanticDepthPatternRefs": [
+        "same-target-comparison-explanation"
+      ]
+    },
+    {
+      "knowledgeRef": "kr.vocab.process.open.closed-to-open",
+      "runtimeUsage": "knowledge_reinforcement",
       "senseKey": "open#change-from-closed",
       "lemma": "open",
       "strategy": "process_scene",
@@ -451,23 +518,9 @@
         "from": "closed",
         "to": "open"
       },
-      "semanticDepthPatternRefs": []
-    },
-    {
-      "knowledgeRef": null,
-      "runtimeUsage": "template_proof",
-      "senseKey": "same#matching-in-target-dimension",
-      "lemma": "same",
-      "strategy": "comparison_scene",
-      "sceneTemplate": "comparison",
-      "maturity": "V3",
-      "motionPolicy": "none",
-      "answerSafety": "post_answer_only",
-      "visualRef": null,
-      "parameters": {
-        "comparison": "same"
-      },
-      "semanticDepthPatternRefs": []
+      "semanticDepthPatternRefs": [
+        "opening-state-transition"
+      ]
     }
   ]
 }
