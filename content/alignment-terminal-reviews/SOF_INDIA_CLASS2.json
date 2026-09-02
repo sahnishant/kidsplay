@@ -4,14 +4,14 @@
   "status": "completed",
   "reviewedAt": "2026-09-02",
   "membershipSnapshot": {
-    "directRowCount": 205,
-    "membershipBlobSha": "d8f76af779c66a57c28703354ef010b719a643af",
+    "directRowCount": 221,
+    "membershipBlobSha": "d0c9e1ed8af659356a96583d3c4191bff850546e",
     "exactReviewBlobSha": "ff784620598c051661f7df0e689191977191302c",
     "recoveryBlobSha": "e73ec9a417868316e084a4b304a3197125824ac3",
     "exactOfficialAnchorCount": 27,
     "reviewedNoExactPublicAnchorCount": 155,
-    "humanEditorialPlacementCount": 23,
-    "terminalRowCount": 205
+    "humanEditorialPlacementCount": 39,
+    "terminalRowCount": 221
   },
   "resolutionPolicy": {
     "exactOfficialAnchor": {
@@ -35,10 +35,11 @@
     "reviewer": "sahnishant",
     "reviewedAt": "2026-09-02",
     "profileRef": "SOF_INDIA_CLASS2",
-    "reviewedDirectRows": 23,
+    "reviewedDirectRows": 39,
     "handoffRefs": [
       "content/lexicon/reviews/grade-2-batch-001-profile-placements.json",
-      "content/lexicon/reviews/grade-2-batch-002.json"
+      "content/lexicon/reviews/grade-2-batch-002.json",
+      "content/lexicon/reviews/grade-2-batch-003.json"
     ],
     "disposition": "human_editorial_placement_no_official_anchor_claim",
     "meaning": "This disposition records an explicit Kidsplay human-editorial profile placement. It does not claim that SOF officially lists the word, that an exact public official row anchor exists, or that the 2026-08-31 SOF source audit covered this later-added membership."
