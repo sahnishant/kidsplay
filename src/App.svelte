@@ -236,6 +236,7 @@
 {#if activeSession}
   <Session
     title={activeSession.title}
+    mode={activeSession.mode}
     questions={activeSession.questions}
     sections={activeSession.sections}
     childName={child.name}
