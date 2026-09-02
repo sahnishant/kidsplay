@@ -15,6 +15,28 @@ The open corpus and OEWN candidate glosses remain reference material. A packet m
 
    The packet starts with `publicationState: "blocked_pending_editorial_review"`. Every item starts with `editorial.status: "draft"`, no selected sense, no child definition, no reviewer, no review authority, and no approved profile placement.
 
+   When continuing production after an earlier human-reviewed handoff, use the same generic packet builder with `--exclude-reviews`. It excludes only lemmas that already have terminal `human_editor` accept/reject decisions in the supplied checked-in review handoff; it does not infer profile placement or treat a grade signal as approval. For the next bounded 16-word Grade 1/2 pass:
+
+   ```bash
+   npm run lexicon:prepare:editorial -- \
+     --slice content/lexicon/open/curator-slices/grade-1-meaning-review.json \
+     --output content/lexicon/editorial-packets/grade-1-batch-002.json \
+     --batch-id grade-1-batch-002 \
+     --limit 16 \
+     --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json \
+     --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
+
+   npm run lexicon:prepare:editorial -- \
+     --slice content/lexicon/open/curator-slices/grade-2-meaning-review.json \
+     --output content/lexicon/editorial-packets/grade-2-batch-002.json \
+     --batch-id grade-2-batch-002 \
+     --limit 16 \
+     --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json \
+     --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
+   ```
+
+   `selection.excludedPriorReviewLemmas` and `selection.excludedReviewRefs` make that de-duplication auditable and deterministic. A malformed, wrong-grade, pending, non-human, or reviewer-less decision fails closed instead of silently skipping content.
+
 2. Optionally attach the bounded checked-in AI draft overlay:
 
    ```bash
