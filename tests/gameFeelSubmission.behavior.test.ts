@@ -233,7 +233,7 @@ describe('child game-feel submission policy', () => {
     expect(assessmentSubmissions).toHaveLength(1);
   });
 
-  it('auto-continues normal play after the short reaction window', async () => {
+  it('auto-continues normal play after the short correct-answer reaction window', async () => {
     vi.useFakeTimers();
     render(Session, {
       props: {
@@ -252,6 +252,28 @@ describe('child game-feel submission policy', () => {
 
     await vi.advanceTimersByTimeAsync(1600);
     expect(screen.getByRole('heading', { name: 'Second choice.' })).toBeTruthy();
+  });
+
+  it('keeps incorrect teaching feedback visible until the child continues', async () => {
+    vi.useFakeTimers();
+    render(Session, {
+      props: {
+        title: 'Play correction',
+        mode: 'free_explore',
+        questions: [
+          choiceQuestion('test.game-feel.wrong-1', 'Try this choice.'),
+          choiceQuestion('test.game-feel.wrong-2', 'Next choice.')
+        ]
+      }
+    });
+
+    await fireEvent.click(screen.getByRole('button', { name: 'No' }));
+    expect(screen.getByRole('status').textContent).toContain('Try again.');
+    expect(screen.getByRole('button', { name: 'Next' })).toBeTruthy();
+
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(screen.getByRole('status').textContent).toContain('Try again.');
+    expect(screen.queryByRole('heading', { name: 'Next choice.' })).toBeNull();
   });
 
   it('keeps celebratory splash feedback out of assessment mode', async () => {
