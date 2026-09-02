@@ -19,10 +19,34 @@ const promotedMappings = [
   ['kr.vocab.process.open.closed-to-open', 'open#change-from-closed']
 ] as const;
 
-const stageAEvidence = {
-  headSha: 'a85af7a65787cf60497c0eb696721f428f2d2e9a',
-  windowsWorkflowRunId: 33583987996
-} as const;
+const phaseDBaselineKnowledgeRefs = new Set([
+  'kr.vocab.meaning.enormous.very-large',
+  'kr.vocab.meaning.fragile.easily-broken',
+  'kr.vocab.meaning.rapid.very-fast',
+  'kr.vocab.meaning.ancient.very-old',
+  'kr.vocab.meaning.cheerful.happy-positive',
+  'kr.vocab.meaning.scarce.hard-to-find',
+  'kr.vocab.meaning.silent.no-sound',
+  'kr.vocab.meaning.observe.watch-carefully',
+  'kr.vocab.synonym.happy.glad',
+  'kr.vocab.synonym.quick.fast',
+  'kr.vocab.synonym.small.tiny',
+  'kr.vocab.synonym.large.big',
+  'kr.vocab.synonym.quiet.silent',
+  'kr.vocab.antonym.hot.cold',
+  'kr.vocab.antonym.early.late',
+  'kr.vocab.antonym.narrow.wide',
+  'kr.vocab.antonym.smooth.rough',
+  'kr.vocab.antonym.ancient.modern',
+  'kr.vocab.force.pull.can-move-object-toward',
+  'kr.vocab.primary.meaning.fast.fast-a-1',
+  'kr.vocab.primary.meaning.full.full-a-1',
+  'kr.vocab.primary.meaning.library.library-n-3',
+  'kr.vocab.place.village.is-settlement',
+  'kr.vocab.spatial.under.describes-relative-position',
+  'kr.vocab.comparison.same.matches-target-dimension',
+  'kr.vocab.process.open.closed-to-open'
+]);
 
 afterEach(() => cleanup());
 
@@ -49,34 +73,29 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     expect(scan(depth)).toEqual([]);
   });
 
-  it('projects same-sense semantic depth onto every admitted mapping and promotes all proof-backed mappings to V6 only from Stage-A evidence', () => {
+  it('keeps the certified #132 baseline V6 even as later Phase D tranches advance global evidence', () => {
     const runtime = readJson('content/vocabulary-visuals/__generated-runtime-plans.json');
     const knowledgePlans = runtime.plans.filter((plan: { runtimeUsage?: string }) => plan.runtimeUsage === 'knowledge_reinforcement');
+    const baselinePlans = knowledgePlans.filter((plan: { knowledgeRef?: string }) => phaseDBaselineKnowledgeRefs.has(plan.knowledgeRef ?? ''));
 
     expect(runtime.semanticDepthIssueRefs).toEqual(expect.arrayContaining([84, 132]));
-    expect(runtime.maturityEvidence).toMatchObject({
-      headSha: stageAEvidence.headSha,
-      workflowRunId: stageAEvidence.windowsWorkflowRunId
-    });
-    expect(knowledgePlans).toHaveLength(26);
-    expect(new Set(knowledgePlans.map((plan: { senseKey: string }) => plan.senseKey)).size).toBe(25);
-    expect(knowledgePlans.every((plan: { maturity?: string }) => plan.maturity === 'V6')).toBe(true);
-    expect(knowledgePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => (plan.semanticDepthPatternRefs?.length ?? 0) >= 1)).toBe(true);
-    expect(knowledgePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => Boolean(resolveSemanticDepthMode(plan.semanticDepthPatternRefs ?? [])))).toBe(true);
-    expect(knowledgePlans.every((plan: any) => isVocabularyVisualPlanChildFacing(plan))).toBe(true);
+    expect(runtime.maturityEvidence?.headSha).toMatch(/^[0-9a-f]{40}$/);
+    expect(Number.isInteger(runtime.maturityEvidence?.workflowRunId)).toBe(true);
+    expect(baselinePlans).toHaveLength(26);
+    expect(new Set(baselinePlans.map((plan: { senseKey: string }) => plan.senseKey)).size).toBe(25);
+    expect(baselinePlans.every((plan: { maturity?: string }) => plan.maturity === 'V6')).toBe(true);
+    expect(baselinePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => (plan.semanticDepthPatternRefs?.length ?? 0) >= 1)).toBe(true);
+    expect(baselinePlans.every((plan: { semanticDepthPatternRefs?: string[] }) => Boolean(resolveSemanticDepthMode(plan.semanticDepthPatternRefs ?? [])))).toBe(true);
+    expect(baselinePlans.every((plan: any) => isVocabularyVisualPlanChildFacing(plan))).toBe(true);
 
     for (const [knowledgeRef, senseKey] of promotedMappings) {
-      const plan = knowledgePlans.find((candidate: { knowledgeRef?: string }) => candidate.knowledgeRef === knowledgeRef);
+      const plan = baselinePlans.find((candidate: { knowledgeRef?: string }) => candidate.knowledgeRef === knowledgeRef);
       expect(plan).toMatchObject({ knowledgeRef, senseKey, maturity: 'V6' });
-      expect(resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef])).toMatchObject({
-        knowledgeRef,
-        senseKey,
-        maturity: 'V6'
-      });
+      expect(resolveVocabularyVisualPlanForKnowledgeRefs([knowledgeRef])).toMatchObject({ knowledgeRef, senseKey, maturity: 'V6' });
     }
   });
 
-  it('generates multiple bounded learner forms from the new canonical rows using existing engines', () => {
+  it('generates multiple bounded learner forms from the #132 canonical rows using existing engines', () => {
     const questions = readJson('content/questions/__generated-from-knowledge.json');
     const byId = new Map(questions.map((question: { id: string }) => [question.id, question]));
 
@@ -95,7 +114,7 @@ describe('#132 Phase D V6 semantic-depth production', () => {
     expect((byId.get('vocab.depth.happy.recognition.002') as { interaction?: { type?: string } })?.interaction?.type).toBe('single_choice');
   });
 
-  it('keeps the hard V6 compiler boundary and renders the connected cue only after exact proof promotion', () => {
+  it('keeps the hard V6 compiler boundary and renders the connected cue for the certified #132 baseline', () => {
     const compiler = readText('scripts/compile-vocabulary-visual-runtime.mjs');
     expect(compiler).toContain("child_facing_semantic_depth_explanation");
     expect(compiler).toContain('V6 semantic-depth proof is missing same-sense depth');
