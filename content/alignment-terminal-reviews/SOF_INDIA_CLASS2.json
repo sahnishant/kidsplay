@@ -4,14 +4,14 @@
   "status": "completed",
   "reviewedAt": "2026-09-02",
   "membershipSnapshot": {
-    "directRowCount": 202,
-    "membershipBlobSha": "c56bfa845e9e805371defdc2bb58ef58a855d997",
+    "directRowCount": 205,
+    "membershipBlobSha": "d8f76af779c66a57c28703354ef010b719a643af",
     "exactReviewBlobSha": "ff784620598c051661f7df0e689191977191302c",
     "recoveryBlobSha": "e73ec9a417868316e084a4b304a3197125824ac3",
     "exactOfficialAnchorCount": 27,
     "reviewedNoExactPublicAnchorCount": 155,
-    "humanEditorialPlacementCount": 20,
-    "terminalRowCount": 202
+    "humanEditorialPlacementCount": 23,
+    "terminalRowCount": 205
   },
   "resolutionPolicy": {
     "exactOfficialAnchor": {
@@ -35,7 +35,7 @@
     "reviewer": "sahnishant",
     "reviewedAt": "2026-09-02",
     "profileRef": "SOF_INDIA_CLASS2",
-    "reviewedDirectRows": 20,
+    "reviewedDirectRows": 23,
     "handoffRefs": [
       "content/lexicon/reviews/grade-2-batch-001-profile-placements.json",
       "content/lexicon/reviews/grade-2-batch-002.json"
