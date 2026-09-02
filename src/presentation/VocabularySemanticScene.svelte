@@ -1,5 +1,6 @@
 <script lang="ts">
   import VisualEntity from './VisualEntity.svelte';
+  import { resolveSemanticDepthMode } from './semanticDepthRegistry';
   import { resolveVocabularyVisualPlan } from './vocabularyVisualRegistry';
 
   let {
@@ -22,7 +23,7 @@
   let density = $derived(String(parameters.density ?? 'medium'));
   let buildingCount = $derived(density === 'high' ? 7 : density === 'low' ? 3 : 5);
   let buildings = $derived(Array.from({ length: buildingCount }, (_, index) => index));
-  let semanticDepthMode = $derived(String(parameters.semanticDepthMode ?? ''));
+  let semanticDepthMode = $derived(plan ? resolveSemanticDepthMode(plan.semanticDepthPatternRefs) ?? '' : '');
   let semanticDepthCue = $derived(plan?.maturity === 'V6' && semanticDepthMode ? depthCueFor(semanticDepthMode) : '');
 
   const ink = '#40566b';
