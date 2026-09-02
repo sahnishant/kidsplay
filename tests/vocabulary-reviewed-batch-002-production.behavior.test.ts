@@ -4,6 +4,7 @@ import grade1Review from '../content/lexicon/reviews/grade-1-batch-002.json';
 import grade2Review from '../content/lexicon/reviews/grade-2-batch-002.json';
 import deliveryMatrix from '../content/lexicon/reviews/reviewed-delivery-batch-002-compatibility.json';
 import reviewedLearnablesJson from '../content/learnables/primary-vocabulary-reviewed-batch-002.json';
+import vocabularyFoundationLearnablesJson from '../content/learnables/vocabulary-foundation.json';
 import reviewedKnowledgeJson from '../content/knowledge/english-vocabulary-primary-reviewed-batch-002.json';
 import generatedCrosswordAuthoringJson from '../content/authoring/crosswords/__generated-from-knowledge.json';
 import generatedQuestionsJson from '../content/questions/__generated-from-knowledge.json';
@@ -17,7 +18,9 @@ const rowById = new Map(entries.map((entry: any) => [entry.rowId, entry]));
 const generatedQuestions = generatedQuestionsJson as any[];
 const questionById = new Map(generatedQuestions.map((question: any) => [question.id, question]));
 const crosswords = generatedCrosswordAuthoringJson as any[];
-const learnableIds = new Set((reviewedLearnablesJson as any[]).map((learnable: any) => learnable.id));
+const batchLearnableIds = new Set((reviewedLearnablesJson as any[]).map((learnable: any) => learnable.id));
+const foundationLearnableIds = new Set((vocabularyFoundationLearnablesJson as any[]).map((learnable: any) => learnable.id));
+const globalVocabularyLearnableIds = new Set([...batchLearnableIds, ...foundationLearnableIds]);
 
 function perEntryRefs() {
   return [
@@ -114,10 +117,12 @@ describe('reviewed primary vocabulary production batch 002', () => {
     }
   });
 
-  it('preserves semantic row and learnable traceability for every generated batch-002 activity', () => {
-    expect(learnableIds.size).toBe(23);
+  it('preserves semantic row and learnable traceability while reusing existing concepts without duplicate learnables', () => {
+    expect(batchLearnableIds.size).toBe(22);
+    expect(batchLearnableIds.has('vocabulary.meaning.ancient')).toBe(false);
+    expect(foundationLearnableIds.has('vocabulary.meaning.ancient')).toBe(true);
     for (const entry of entries) {
-      expect(learnableIds.has(entry.conceptIds[0])).toBe(true);
+      expect(globalVocabularyLearnableIds.has(entry.conceptIds[0])).toBe(true);
       for (const prefix of ['vocab.primary.reviewed.mcq.word-to-meaning.002', 'vocab.primary.reviewed.mcq.meaning-to-word.002', 'vocab.primary.reviewed.unscramble.002']) {
         const question = questionById.get(`${prefix}.${entry.id}`);
         expect(question?.knowledgeRefs).toEqual([entry.rowId]);
