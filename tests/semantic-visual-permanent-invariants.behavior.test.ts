@@ -105,6 +105,22 @@ describe('permanent semantic visual invariants', () => {
     expect(registry).toContain('Duplicate vocabulary visual runtime knowledgeRef');
   });
 
+  it('projects one shared depth presentation across multiple canonical rows for the same reviewed sense', () => {
+    const ancientPlans = getVocabularyVisualRuntimePlans().filter((plan) => plan.senseKey === 'ancient#very-old-from-long-ago');
+    expect(ancientPlans).toHaveLength(2);
+    expect(new Set(ancientPlans.map(vocabularyPresentationSignature)).size).toBe(1);
+    for (const plan of ancientPlans) {
+      expect(plan.semanticDepthPatternRefs).toEqual([
+        'ancient-meaning-explanation',
+        'ancient-modern-explanation'
+      ]);
+    }
+
+    const compiler = readFileSync('scripts/compile-vocabulary-visual-runtime.mjs', 'utf8');
+    expect(compiler).toContain('sharedDepthPatternRefs');
+    expect(compiler).toContain('still requires every individual knowledge mapping to carry its own same-sense depth');
+  });
+
   it('keeps semantic visual selection free of runtime randomness', () => {
     for (const path of [
       'src/presentation/animationRegistry.ts',
