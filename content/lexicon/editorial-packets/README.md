@@ -15,7 +15,7 @@ The open corpus and OEWN candidate glosses remain reference material. A packet m
 
    The packet starts with `publicationState: "blocked_pending_editorial_review"`. Every item starts with `editorial.status: "draft"`, no selected sense, no child definition, no reviewer, no review authority, and no approved profile placement.
 
-   When continuing production after an earlier human-reviewed handoff, use the same generic packet builder with `--exclude-reviews`. It excludes only lemmas that already have terminal `human_editor` accept/reject decisions in the supplied checked-in review handoff; it does not infer profile placement or treat a grade signal as approval. For example:
+   When continuing production after earlier human-reviewed handoffs, use the same generic packet builder with `--exclude-reviews`. It excludes terminal `human_editor` outcomes from the supplied checked-in handoffs: reviewed accept/reject decisions and explicit terminal HOLD records such as `sense_unresolved` or a blocked candidate-pointer mismatch. Pending/non-human rows are not silently treated as reviewed, and a terminal HOLD stays excluded unless a dedicated revisit mechanism explicitly calls it back. The builder never infers profile placement or treats a grade signal as approval. For example:
 
    ```bash
    npm run lexicon:prepare:editorial -- \
@@ -35,27 +35,32 @@ The open corpus and OEWN candidate glosses remain reference material. A packet m
      --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
    ```
 
-   `selection.excludedPriorReviewLemmas` and `selection.excludedReviewRefs` make that de-duplication auditable and deterministic. A malformed, wrong-grade, pending, non-human, or reviewer-less decision fails closed instead of silently skipping content.
+   `selection.excludedPriorReviewLemmas` and `selection.excludedReviewRefs` make that de-duplication auditable and deterministic. A malformed, wrong-grade, non-human, reviewer-less, or otherwise invalid terminal outcome fails closed instead of silently skipping content.
 
-2. Optionally attach the bounded checked-in AI draft overlay:
+2. Optionally attach a bounded checked-in AI draft overlay:
 
    ```bash
-   npm run lexicon:ai-draft:grade1
-   npm run lexicon:ai-draft:grade2
+   npm run lexicon:apply:ai-draft -- \
+     --packet content/lexicon/editorial-packets/grade-1-batch-005.json \
+     --overlay content/lexicon/ai-draft-overlays/grade-1-batch-005-ai-draft-001.json \
+     --output content/lexicon/editorial-packets/grade-1-batch-005.ai-draft.json
    ```
 
-   This produces `grade-*-batch-001.ai-draft.json` for editorial convenience. Suggestions live under `item.aiDraft`; they do **not** populate `editorial.selectedCandidateId`, acceptance state, `reviewAuthority`, reviewer/date, or profile placement. The finalizer therefore still sees zero reviewed decisions until a human editor acts.
+   Suggestions live under `item.aiDraft`; they do **not** populate `editorial.selectedCandidateId`, acceptance state, `reviewAuthority`, reviewer/date, or profile placement. The finalizer therefore still sees zero reviewed decisions until a human editor acts.
+
+   A review aid may include an `ambiguityWarning` (`low`, `medium`, or `hold_recommended`) and a `profilePlacementRationale`. These are convenience notes only. A HOLD warning does not create a terminal HOLD record, and a profile-placement rationale is not approval or official CBSE/CISCE/SOF evidence.
 
    The overlay applicator rejects unknown candidate IDs, human-review fields supplied by AI, application to already reviewed items, verbatim selected-OEWN-gloss/example reuse, and overlays larger than the bounded 20-item batch. Source overlays live in `content/lexicon/ai-draft-overlays/`.
 
-3. Editorially review each item.
+3. Editorially review each item in one bounded pass.
 
-   - Choose an exact `selectedCandidateId` from that item's OEWN candidate list. An `aiDraft.proposedCandidateId` is only a suggestion.
+   - Inspect all candidate senses, not merely candidate 1.
+   - Choose an exact `selectedCandidateId` only when the intended sense is defensible; otherwise record the existing explicit HOLD/unresolved outcome.
    - Write or explicitly approve/rewrite a Kidsplay child definition independently. Do not copy the OEWN gloss.
-   - AI wording may be used only as a draft for an editor to review; it never supplies review authority.
+   - Treat `aiDraft.proposedCandidateId`, wording, ambiguity warning, and placement rationale as suggestions only.
    - Only a real editorial review may set `editorial.status: "reviewed"` together with `reviewAuthority: "human_editor"`, `decision: "accept"` or `"reject"`, `reviewer`, and ISO `reviewedAt`.
    - The finalizer rejects a reviewed item whose `reviewAuthority` is anything other than `human_editor`.
-   - Profile placement is separate and requires its own `reviewAuthority: "human_editor"`. Corpus grade, packet targets and AI suggestions are only review cues; they never imply CBSE/CISCE/SOF membership.
+   - Profile placement is separate and requires its own `reviewAuthority: "human_editor"`. Corpus grade, packet targets and AI suggestions are only review cues; they never imply CBSE/CISCE/SOF membership or official provenance.
 
 4. Finalize the packet into the review-handoff format:
 
