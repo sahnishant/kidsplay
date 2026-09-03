@@ -25,41 +25,55 @@ function plugin(overrides: Partial<MockNativePlugin> = {}): MockNativePlugin {
 async function loadBridge({
   native = true,
   platform = 'android',
+  pluginAvailable = true,
   nativePlugin = plugin()
 }: {
   native?: boolean;
   platform?: string;
+  pluginAvailable?: boolean;
   nativePlugin?: MockNativePlugin;
 } = {}) {
   vi.resetModules();
-  vi.doMock('@capacitor/core', () => ({
+  const registerPlugin = vi.fn(() => nativePlugin);
+  Object.assign(window, {
     Capacitor: {
       isNativePlatform: () => native,
-      getPlatform: () => platform
-    },
-    registerPlugin: () => nativePlugin
-  }));
+      getPlatform: () => platform,
+      isPluginAvailable: () => pluginAvailable,
+      registerPlugin,
+      Plugins: {}
+    }
+  });
   const bridge = await import('../src/runtime/androidOfflineSpeech');
-  return { bridge, nativePlugin };
+  return { bridge, nativePlugin, registerPlugin };
 }
 
 afterEach(() => {
   vi.useRealTimers();
   vi.resetModules();
-  vi.doUnmock('@capacitor/core');
+  delete (window as Window & { Capacitor?: unknown }).Capacitor;
 });
 
 describe('Android strict offline speech bridge', () => {
   it('never invokes the native plugin outside a native Android runtime', async () => {
-    const { bridge, nativePlugin } = await loadBridge({ native: false });
+    const { bridge, nativePlugin, registerPlugin } = await loadBridge({ native: false });
 
     expect(bridge.isAndroidOfflineSpeechRuntime()).toBe(false);
     expect(await bridge.getAndroidOfflineSpeechStatus('en-IN')).toBeNull();
     expect(await bridge.speakAndroidOffline({ text: 'Hello', language: 'en-IN', rate: 0.8, pitch: 1.1 }))
       .toEqual({ spoken: false });
     expect(await bridge.openAndroidOfflineVoiceInstaller()).toBe(false);
+    expect(registerPlugin).not.toHaveBeenCalled();
     expect(nativePlugin.getStatus).not.toHaveBeenCalled();
     expect(nativePlugin.speak).not.toHaveBeenCalled();
+  });
+
+  it('fails closed when the generated native bridge does not expose the plugin', async () => {
+    const { bridge, registerPlugin } = await loadBridge({ pluginAvailable: false });
+
+    expect(await bridge.getAndroidOfflineSpeechStatus('en-IN')).toBeNull();
+    expect(bridge.startAndroidOfflineSpeech({ text: 'Hello', language: 'en-IN', rate: 0.8, pitch: 1.1 })).toBe(false);
+    expect(registerPlugin).not.toHaveBeenCalled();
   });
 
   it('refuses to speak when Android reports no installed offline voice', async () => {
@@ -84,7 +98,7 @@ describe('Android strict offline speech bridge', () => {
   });
 
   it('forwards the authored character delivery profile only after an offline voice is confirmed', async () => {
-    const { bridge, nativePlugin } = await loadBridge();
+    const { bridge, nativePlugin, registerPlugin } = await loadBridge();
 
     const result = await bridge.speakAndroidOffline({
       text: 'Look at the clue.',
@@ -94,6 +108,7 @@ describe('Android strict offline speech bridge', () => {
     });
 
     expect(result).toEqual({ spoken: true, voiceName: 'offline-en-IN' });
+    expect(registerPlugin).toHaveBeenCalledTimes(1);
     expect(nativePlugin.speak).toHaveBeenCalledWith({
       text: 'Look at the clue.',
       lang: 'en-IN',
