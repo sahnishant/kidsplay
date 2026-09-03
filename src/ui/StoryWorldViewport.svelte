@@ -13,7 +13,7 @@
   } from '../story/storyDirector';
   import { buildStoryLocationPresentation } from '../story/storyPresentation';
   import type { StoryProgressSnapshot } from '../story/storyProgress';
-  import type { StoryLocation, StoryMission } from '../story/storyTypes';
+  import type { StoryBeat, StoryLocation, StoryMission } from '../story/storyTypes';
   import type { WorldChange, WorldLocationId, WorldRewardState } from '../story/worldRewards';
   import ExpeditionNode from './story/ExpeditionNode.svelte';
 
@@ -94,6 +94,19 @@
     if (value === 'dheu') return heroName;
     if (value === 'scientu') return 'Scientu';
     return 'Shaitanu';
+  }
+
+  function beatMood(beat: StoryBeat): 'happy' | 'thinking' | 'mischievous' | 'celebrate' | 'worried' | 'ready' {
+    if (beat.mood === 'thinking' || beat.mood === 'mischievous' || beat.mood === 'celebrate' || beat.mood === 'worried' || beat.mood === 'ready') {
+      return beat.mood;
+    }
+    return 'happy';
+  }
+
+  function speakerPrompt(beat: StoryBeat): string {
+    if (beat.speakerRef === 'dheu') return 'Dheu is in the adventure.';
+    if (beat.speakerRef === 'scientu') return 'Scientu spotted something.';
+    return 'Shaitanu has a trick.';
   }
 
   function worldChangesFor(locationId: string): WorldChange[] {
@@ -216,9 +229,10 @@
         Continue Adventure <span aria-hidden="true">▶</span>
       </button>
     {/if}
-    <div class="next-adventure__guides" aria-label="Story guides">
-      <span aria-hidden="true"><StoryCharacter character="scientu" mood="thinking" motion="float" /></span>
-      <span aria-hidden="true"><StoryCharacter character="shaitanu" mood="mischievous" motion="wiggle" /></span>
+    <div class="next-adventure__guides" aria-label="Story characters">
+      <span aria-hidden="true"><StoryCharacter character="dheu" expression="wonder" pose="inspect" angle="three-quarter-right" motion="head-tilt" /></span>
+      <span aria-hidden="true"><StoryCharacter character="scientu" expression="thinking" pose="inspect" angle="three-quarter-left" motion="float" /></span>
+      <span aria-hidden="true"><StoryCharacter character="shaitanu" expression="sly" pose="proud" angle="three-quarter-left" motion="wiggle" /></span>
     </div>
   </header>
 
@@ -290,12 +304,31 @@
           {#if selectedMission.openingSceneRef}
             <div class="mission-scene"><Scene sceneId={selectedMission.openingSceneRef} /></div>
           {/if}
-          <div class="mission-challenge">
-            <span class="mission-character" aria-hidden="true"><StoryCharacter character="shaitanu" mood="mischievous" motion="wiggle" /></span>
-            <div><strong>Shaitanu has a guess.</strong><span>Check the clues before you believe the trick.</span></div>
+          <div
+            class={`mission-persona mission-persona--${selectedBeat.speakerRef}`}
+            data-speaker={selectedBeat.speakerRef}
+            data-intent={selectedBeat.intent ?? 'story'}
+          >
+            <span class="mission-character" aria-hidden="true">
+              <StoryCharacter
+                character={selectedBeat.speakerRef}
+                mood={beatMood(selectedBeat)}
+                expression={selectedBeat.expression}
+                pose={selectedBeat.pose}
+                angle={selectedBeat.angle}
+                motion={selectedBeat.motion}
+              />
+            </span>
+            <div>
+              <strong>{speakerName(selectedBeat.speakerRef)}</strong>
+              <span>{speakerPrompt(selectedBeat)}</span>
+            </div>
           </div>
           <div class="mission-dialogue" aria-live="polite" aria-label="Mission dialogue">
-            <p data-speaker={selectedBeat.speakerRef}><strong>{speakerName(selectedBeat.speakerRef)}</strong><span>{selectedBeat.text.replaceAll('Dheu', heroName)}</span></p>
+            <p data-speaker={selectedBeat.speakerRef} data-delivery={selectedBeat.delivery ?? 'plain'}>
+              <strong>{speakerName(selectedBeat.speakerRef)}</strong>
+              <span>{selectedBeat.text.replaceAll('Dheu', heroName)}</span>
+            </p>
           </div>
         </div>
 
@@ -314,13 +347,13 @@
 
 <style>
   .story-world-viewport{height:100%;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:6px;padding:7px;border-radius:20px;background:linear-gradient(#f7fbff,#fff9e7);overflow:hidden}
-  .next-adventure{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:14px;background:#fffffff2}.next-adventure__copy{min-width:0;flex:1}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.next-adventure h2{margin:1px 0 2px;font-size:clamp(1rem,3.4vw,1.3rem);line-height:1}.next-adventure p{margin:0;color:var(--muted);font-size:.6rem}.next-adventure__guides{display:flex;gap:3px;flex:none}.next-adventure__guides>span{width:30px;height:30px;display:grid;place-items:center}
+  .next-adventure{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:14px;background:#fffffff2}.next-adventure__copy{min-width:0;flex:1}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.next-adventure h2{margin:1px 0 2px;font-size:clamp(1rem,3.4vw,1.3rem);line-height:1}.next-adventure p{margin:0;color:var(--muted);font-size:.6rem}.next-adventure__guides{display:flex;gap:2px;flex:none}.next-adventure__guides>span{width:31px;height:31px;display:grid;place-items:center}
   .world-stage{min-height:0;position:relative;overflow:hidden;border-radius:17px}.world-map{position:absolute;inset:0;overflow:hidden;border-radius:17px;background:linear-gradient(180deg,#dff4ff 0 28%,#dff3cf 28%)}.world-map__river{position:absolute;width:150%;height:14%;left:-18%;top:54%;border-radius:50%;background:#51b0e1b3;transform:rotate(-8deg)}.world-map__path{position:absolute;width:70%;height:4.5%;min-height:14px;left:8%;top:72%;border-radius:999px;background:#cbaa7791;transform:rotate(5deg)}
   .world-progress{position:absolute;top:7px;z-index:8}.world-progress span{padding:3px 7px;border-radius:999px;background:#ffffffe6;font-size:.53rem}
   .mission-overlay{position:absolute;inset:0;z-index:20;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:7px;padding:9px;border-radius:17px;background:linear-gradient(160deg,#f4f0ff,#fff9e9)}.mission-overlay__header{display:flex;align-items:center;gap:8px}.mission-close{width:44px;height:44px;flex:none;border:0;border-radius:12px;color:var(--accent);font-weight:950;cursor:pointer}.mission-overlay__title{min-width:0;flex:1}.mission-overlay__title h3{margin:2px 0 0;font-size:1rem}.mission-beat-count{padding:4px 6px;border-radius:999px;color:var(--muted);font-size:.6rem;font-weight:850}
-  .mission-overlay__body{min-height:0;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-rows:minmax(0,1fr) auto;gap:7px;overflow:hidden}.mission-scene{min-height:0;grid-row:1/3;overflow:hidden;border-radius:14px}.mission-challenge{display:flex;align-items:center;gap:7px;padding:8px}.mission-character{width:44px;height:44px;flex:none}.mission-challenge div{display:grid}.mission-challenge span{color:var(--muted);font-size:.62rem}.mission-dialogue{display:grid;align-items:end}.mission-dialogue p{margin:0;display:grid;padding:9px;font-size:.7rem;line-height:1.3}
+  .mission-overlay__body{min-height:0;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);grid-template-rows:minmax(0,1fr) auto;gap:7px;overflow:hidden}.mission-scene{min-height:0;grid-row:1/3;overflow:hidden;border-radius:14px}.mission-persona{display:flex;align-items:center;gap:8px;padding:7px 9px;border-radius:14px;background:#ffffffc7;border:1px solid rgba(36,48,58,.07)}.mission-character{width:60px;height:60px;flex:none;display:grid;place-items:center}.mission-persona div{min-width:0;display:grid;gap:1px}.mission-persona strong{font-size:.72rem}.mission-persona span{color:var(--muted);font-size:.6rem}.mission-persona--dheu{background:#fff8dccf}.mission-persona--scientu{background:#e9f9fccf}.mission-persona--shaitanu{background:#f4edffcf}.mission-dialogue{display:grid;align-items:end}.mission-dialogue p{margin:0;display:grid;gap:3px;padding:9px;border-radius:14px;background:#ffffffc9;font-size:.7rem;line-height:1.3}.mission-dialogue p[data-delivery='boast']{font-weight:760}.mission-dialogue p[data-delivery='gentle']{background:#f8fffbdd}.mission-dialogue p[data-delivery='suspicious']{background:#f5fbffdd}
   .mission-overlay__actions{display:grid;grid-template-columns:1fr auto;gap:6px}.mission-start,.mission-later{min-height:44px;border:0;border-radius:13px;padding:7px 12px;font:inherit;font-weight:900;cursor:pointer}.mission-start{background:var(--accent);color:#fff}.mission-later{background:#fff;color:var(--muted)}
-  @media(max-width:650px){.story-world-viewport{padding:5px}.next-adventure{min-height:62px}.next-adventure p,.next-adventure__guides{display:none}.mission-overlay__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.mission-scene{grid-row:auto}.mission-character{width:36px;height:36px}}
-  @media(max-width:420px){.next-adventure h2{font-size:.94rem}.mission-overlay{padding:6px}.mission-overlay__actions{grid-template-columns:1fr}}
-  @media(prefers-reduced-motion:reduce){.next-adventure__guides :global(*){animation:none!important}}
+  @media(max-width:650px){.story-world-viewport{padding:5px}.next-adventure{min-height:62px}.next-adventure p,.next-adventure__guides{display:none}.mission-overlay__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.mission-scene{grid-row:auto}.mission-persona{min-height:62px}.mission-character{width:50px;height:50px}.mission-dialogue p{font-size:.68rem}}
+  @media(max-width:420px){.next-adventure h2{font-size:.94rem}.mission-overlay{padding:6px}.mission-overlay__actions{grid-template-columns:1fr}.mission-persona{padding:5px 7px}.mission-character{width:46px;height:46px}}
+  @media(prefers-reduced-motion:reduce){.next-adventure__guides :global(*),.mission-persona :global(*){animation:none!important}}
 </style>
