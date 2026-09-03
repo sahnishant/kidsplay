@@ -22,10 +22,11 @@ function baseQuestion(): Omit<SingleChoiceQuestion, 'interaction' | 'solution'> 
   };
 }
 
-function singleChoice(conceptIds = ['animals']): SingleChoiceQuestion {
+function singleChoice(conceptIds = ['animals'], knowledgeRefs = ['kr.animals.dog.home.kennel']): SingleChoiceQuestion {
   return {
     ...baseQuestion(),
     conceptIds,
+    knowledgeRefs,
     interaction: {
       type: 'single_choice',
       version: 1,
@@ -38,7 +39,7 @@ function singleChoice(conceptIds = ['animals']): SingleChoiceQuestion {
   };
 }
 
-function dragToTarget(conceptIds = ['animal-home']): DragToTargetQuestion {
+function dragToTarget(conceptIds = ['animals.dog.home']): DragToTargetQuestion {
   return {
     ...baseQuestion(),
     conceptIds,
@@ -55,18 +56,19 @@ function dragToTarget(conceptIds = ['animal-home']): DragToTargetQuestion {
 function sequence(): SequenceOrderQuestion {
   return {
     ...baseQuestion(),
-    conceptIds: ['plant-process'],
+    conceptIds: ['animals.butterfly.life-cycle'],
+    knowledgeRefs: ['kr.animals.butterfly.lifecycle.egg-to-butterfly'],
     interaction: {
       type: 'sequence_order',
       version: 1,
       seed: 7,
       items: [
-        { id: 'seed', label: 'Seed' },
-        { id: 'sprout', label: 'Sprout' },
-        { id: 'plant', label: 'Plant' }
+        { id: 'egg', label: 'Egg' },
+        { id: 'caterpillar', label: 'Caterpillar' },
+        { id: 'butterfly', label: 'Butterfly' }
       ]
     },
-    solution: { type: 'ordered_items', orderedItemIds: ['seed', 'sprout', 'plant'] }
+    solution: { type: 'ordered_items', orderedItemIds: ['egg', 'caterpillar', 'butterfly'] }
   };
 }
 
@@ -92,10 +94,14 @@ describe('experience recipe architecture', () => {
     expect(resolveExperienceRecipe(sequence(), 'assessment')).toBeNull();
   });
 
-  it('resolves specific semantic recipes before generic interaction-family fallbacks', () => {
+  it('resolves real canonical Forest semantics before generic interaction-family fallbacks', () => {
     expect(resolveExperienceRecipe(dragToTarget(), 'story')?.family).toBe('guide_to_home');
-    expect(resolveExperienceRecipe(dragToTarget(['classification']), 'story')?.family).toBe('sort_or_match');
+    expect(resolveExperienceRecipe(dragToTarget(['plants.parts.root']), 'story')?.family).toBe('sort_or_match');
     expect(resolveExperienceRecipe(singleChoice(['cause-effect']), 'story')?.family).toBe('cause_effect_discovery');
+    expect(resolveExperienceRecipe(singleChoice(
+      ['plants.parts.seed'],
+      ['kr.plants.seed.function.new-plant']
+    ), 'story')?.id).toBe('experience.seed-growth-discovery');
     expect(resolveExperienceRecipe(singleChoice(), 'story')?.family).toBe('observe_choose');
     expect(resolveExperienceRecipe(sequence(), 'free_play')?.family).toBe('sequence_process');
   });
