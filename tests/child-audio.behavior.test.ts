@@ -101,20 +101,20 @@ describe('Phase C offline child audio runtime', () => {
     expect(selectOfflineSpeechVoice([generic, lighter], 'en-IN')).toBe(lighter);
   });
 
-  it('refuses remote-only TTS instead of ever speaking through an online voice', () => {
+  it('refuses remote-only TTS without surfacing device setup to the child', () => {
     const { synthesis } = installSpeechSynthesis([voice('Cloud English', 'en-IN', false)]);
     const result = playQuestionPrompt('Which animal lives in a kennel?', 'en-IN');
 
-    expect(result.source).toBe('pending_local_voice');
+    expect(result.source).toBe('silent_fallback');
     expect(synthesis.speak).not.toHaveBeenCalled();
   });
 
-  it('retries a briefly empty mobile voice list so Repeat can recover when voices arrive late', () => {
+  it('retries a briefly empty mobile voice list silently so Repeat can recover when voices arrive late', () => {
     vi.useFakeTimers();
     const voices: SpeechSynthesisVoice[] = [];
     const { synthesis } = installSpeechSynthesis(voices);
 
-    expect(playQuestionPrompt('Take every animal to the correct home.', 'en-IN').source).toBe('pending_local_voice');
+    expect(playQuestionPrompt('Take every animal to the correct home.', 'en-IN').source).toBe('silent_fallback');
     voices.push(voice('Microsoft Zira Desktop', 'en-IN', true));
     vi.advanceTimersByTime(120);
 
