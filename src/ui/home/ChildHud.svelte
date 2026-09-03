@@ -5,13 +5,13 @@
   let {
     child,
     displayName,
-    stars,
+    worldChanged,
     currentLevel,
     onOpenPlayer
   }: {
     child: ChildSettings;
     displayName: string;
-    stars: number;
+    worldChanged: boolean;
     currentLevel: number | null;
     onOpenPlayer: () => void;
   } = $props();
@@ -26,7 +26,13 @@
   </button>
 
   <div class="child-hud__progress">
-    <span class="hud-pill" aria-label={`${stars} story stars`}>⭐ <strong>{stars}</strong></span>
+    <span
+      class="hud-pill hud-pill--world"
+      aria-label={worldChanged ? 'Learning has changed the adventure world' : 'Adventure world ready to grow'}
+    >
+      <span aria-hidden="true">🌍</span>
+      <strong>{worldChanged ? 'World changed' : 'World ready'}</strong>
+    </span>
     {#if currentLevel !== null}
       <span class="hud-pill hud-pill--level" aria-label={`Current adventure level ${currentLevel}`}>
         Level <strong>{currentLevel}</strong>
@@ -43,5 +49,7 @@
   .child-hud__player strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .child-hud__progress{display:flex;gap:5px;flex:none}
   .hud-pill{min-height:32px;display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border-radius:999px;background:#fff7d7;font-size:.68rem;font-weight:850}
+  .hud-pill--world{background:var(--good-soft);color:var(--good)}
   .hud-pill--level{background:var(--accent-soft);color:var(--accent)}
+  @media(max-width:420px){.hud-pill--world{padding-inline:6px;font-size:.6rem}.child-hud__progress{gap:3px}}
 </style>
