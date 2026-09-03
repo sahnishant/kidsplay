@@ -169,7 +169,7 @@ jobs:
               if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss boundary failed`);
             }
           }
-          if (globallySeen.size !== 103) throw new Error(`Expected 103 reviewed runtime meanings across batches 001-004, got ${globallySeen.size}`);
+          if (globallySeen.size !== 133) throw new Error(`Expected 133 reviewed runtime meanings across batches 001-005, got ${globallySeen.size}`);
           const batch3 = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed-batch-003.json', 'utf8'))[0]?.entries ?? [];
           if (batch3.length !== 32) throw new Error(`Expected 32 batch-003 rows, got ${batch3.length}`);
           const expectedSenses = new Map([['experience','experience#n#3'],['natural','natural#a#2'],['once','once#r#1'],['appear','appear#v#2']]);
@@ -177,6 +177,11 @@ jobs:
             const row = batch3.find((entry) => entry.id === lemma);
             if (row?.meta?.curation?.candidateId !== candidateId) throw new Error(`${lemma}: expected ${candidateId}`);
           }
+          const batch5 = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed-batch-005.json', 'utf8'))[0]?.entries ?? [];
+          if (batch5.length !== 30) throw new Error(`Expected 30 batch-005 rows, got ${batch5.length}`);
+          if (batch5.some((entry) => entry.id === 'break' || entry.id === 'ride')) throw new Error('Batch 005 HOLD rows must not become runtime meanings');
+          const hurt = batch5.find((entry) => entry.id === 'hurt');
+          if (hurt?.object?.label !== 'To hurt means to be painful.') throw new Error('Batch 005 hurt wording does not match the human review');
           NODE
           git diff --exit-code -- content/knowledge/english-vocabulary-primary-reviewed.json content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
 
@@ -221,12 +226,17 @@ jobs:
             content/lexicon/reviews/grade-2-batch-003.json
             content/lexicon/reviews/grade-1-batch-004.json
             content/lexicon/reviews/grade-2-batch-004.json
+            content/lexicon/reviews/grade-1-batch-005.json
+            content/lexicon/reviews/grade-2-batch-005.json
             content/knowledge/english-vocabulary-primary-reviewed.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-003.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-004.json
+            content/knowledge/english-vocabulary-primary-reviewed-batch-005.json
             content/learnables/primary-vocabulary-reviewed-batch-003.json
             content/learnables/primary-vocabulary-reviewed-batch-004.json
+            content/learnables/primary-vocabulary-reviewed-batch-005.json
             content/recipes/primary-vocabulary-reviewed-delivery-batch-003.json
             content/recipes/primary-vocabulary-reviewed-delivery-batch-004.json
+            content/recipes/primary-vocabulary-reviewed-delivery-batch-005.json
           if-no-files-found: error
