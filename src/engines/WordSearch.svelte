@@ -43,6 +43,11 @@
     previewCellKeys = points.map(pointKey);
   }
 
+  function pointFromKey(key: string): GridPoint {
+    const [row, col] = key.split(':').map(Number);
+    return { row, col };
+  }
+
   function pointFromElement(element: Element | null): GridPoint | null {
     const cell = element?.closest<HTMLElement>('.word-search__cell');
     if (!cell || !gridElement.contains(cell)) return null;
@@ -215,6 +220,37 @@
         >{letter}</button>
       {/each}
     {/each}
+
+    <svg
+      class="word-search__bands"
+      viewBox={`0 0 ${generated.grid.length} ${generated.grid.length}`}
+      preserveAspectRatio="none"
+      aria-hidden="true"
+    >
+      {#each generated.placements as placement (placement.termId)}
+        {#if foundTermIds.includes(placement.termId)}
+          <line
+            class="word-search__band word-search__band--found"
+            x1={placement.points[0].col + 0.5}
+            y1={placement.points[0].row + 0.5}
+            x2={placement.points[placement.points.length - 1].col + 0.5}
+            y2={placement.points[placement.points.length - 1].row + 0.5}
+          />
+        {/if}
+      {/each}
+
+      {#if previewCellKeys.length > 0}
+        {@const previewStart = pointFromKey(previewCellKeys[0])}
+        {@const previewEnd = pointFromKey(previewCellKeys[previewCellKeys.length - 1])}
+        <line
+          class="word-search__band word-search__band--preview"
+          x1={previewStart.col + 0.5}
+          y1={previewStart.row + 0.5}
+          x2={previewEnd.col + 0.5}
+          y2={previewEnd.row + 0.5}
+        />
+      {/if}
+    </svg>
   </div>
 
   <div class="word-search__status" role="status" aria-live="polite">{liveStatus}</div>
