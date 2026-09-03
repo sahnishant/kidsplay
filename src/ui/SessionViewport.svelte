@@ -3,6 +3,7 @@
   import type { SessionLaunch, SessionSection } from '../content';
   import type { Question } from '../contracts/question';
   import type { ResponseAssistanceKind, SessionAttempt } from '../contracts/runtime';
+  import { resolveExperienceRecipe, type ExperienceRecipeFamily } from '../experience/experienceRecipes';
   import {
     loadChildAudioPreferences,
     playCharacterNarration,
@@ -42,6 +43,19 @@
     rewardLabel: string;
     stars: number;
   }
+
+  const experienceCueByFamily: Record<ExperienceRecipeFamily, string> = {
+    guide_to_home: 'Guide each thing toward the place where it belongs.',
+    sort_or_match: 'Put the clues that belong together.',
+    observe_choose: 'Look closely at the clue before you choose.',
+    sequence_process: 'Put the stages from first to last, then see what changes.',
+    cause_effect_discovery: 'Try the clue, then notice what happens.'
+  };
+  const experienceCharacterName = {
+    dheu: 'Dheu',
+    scientu: 'Scientu',
+    shaitanu: 'Shaitanu'
+  } as const;
 
   let {
     title,
@@ -84,6 +98,17 @@
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
   let question = $derived(questions[sessionState.index]);
   let assessmentMode = $derived(mode === 'goal_mock' || mode === 'goal_pattern_mock');
+  let experienceRecipe = $derived(
+    storyCompletion && question && !assessmentMode ? resolveExperienceRecipe(question, 'story') : null
+  );
+  let experienceCueBody = $derived(
+    experienceRecipe ? experienceCueByFamily[experienceRecipe.family] : null
+  );
+  let experienceCueText = $derived(
+    experienceRecipe && experienceCueBody
+      ? `${experienceCharacterName[experienceRecipe.choreography.leadCharacter]}: ${experienceCueBody}`
+      : null
+  );
   let retryPolicy = $derived(question ? resolveRetryPolicy(question, mode) : null);
   let latestResponse = $derived(question ? sessionState.responses[sessionState.index] : undefined);
   let retryAvailable = $derived(Boolean(
@@ -161,9 +186,30 @@
         : null;
   }
 
+  function narratedQuestionText(): string {
+    if (!question) return '';
+    if (!experienceCueBody || experienceRecipe?.choreography.audioCue !== 'prompt_and_reaction') return question.prompt.text;
+    return `${experienceCueBody} ${question.prompt.text}`;
+  }
+
+  function playCurrentQuestionNarration(forceRestart: boolean): ChildAudioPlaybackResult | null {
+    if (!question) return null;
+    const text = narratedQuestionText();
+    if (experienceRecipe?.choreography.audioCue === 'prompt_and_reaction') {
+      return playCharacterNarration(
+        experienceRecipe.choreography.leadCharacter,
+        text,
+        question.language,
+        forceRestart
+      );
+    }
+    return playQuestionPrompt(text, question.language, forceRestart);
+  }
+
   function repeatQuestionPrompt(): void {
     if (!question || !soundEnabled) return;
-    showAudioAvailability(playQuestionPrompt(question.prompt.text, question.language, true));
+    const result = playCurrentQuestionNarration(true);
+    if (result) showAudioAvailability(result);
   }
 
   function toggleSound(): void {
@@ -262,7 +308,7 @@
     const submitted = sessionState.submitted;
     const enabled = soundEnabled;
     if (!currentQuestion || submitted || !enabled) return;
-    playQuestionPrompt(currentQuestion.prompt.text, currentQuestion.language, true);
+    playCurrentQuestionNarration(true);
   });
 
   onDestroy(() => {
@@ -317,6 +363,7 @@
               <span class="reasoning-cue">Section: {currentSection.title} · {currentSection.marksPerQuestion} {currentSection.marksPerQuestion === 1 ? 'mark' : 'marks'} each</span>
             {/if}
             {#if onCheckpoint}<span class="saved-session-note">Mock progress saves on this device</span>{/if}
+            {#if experienceCueText}<span class="reasoning-cue reasoning-cue--goal">{experienceCueText}</span>{/if}
             {#if reasoningQuestion}<span class="reasoning-cue reasoning-cue--goal">Think it through</span>{/if}
             {#if sessionState.retryState}<span class="reasoning-cue reasoning-cue--goal">Try again</span>{/if}
           </div>

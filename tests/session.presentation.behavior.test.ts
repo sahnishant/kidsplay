@@ -34,6 +34,31 @@ function authoredVisualQuestion(): SingleChoiceQuestion {
   };
 }
 
+function seedGrowthQuestion(): SingleChoiceQuestion {
+  return {
+    id: 'test.seed.growth.001',
+    revision: 1,
+    schemaVersion: 1,
+    conceptIds: ['plants.parts.seed'],
+    knowledgeRefs: ['kr.plants.seed.function.new-plant'],
+    difficulty: 1,
+    language: 'en',
+    prompt: { text: 'Which plant part can grow into a new plant?' },
+    interaction: {
+      type: 'single_choice',
+      version: 1,
+      shuffleOptions: false,
+      options: [
+        { id: 'seed', label: 'Seed' },
+        { id: 'flower', label: 'Flower' }
+      ]
+    },
+    solution: { type: 'exact_option', correctOptionIds: ['seed'] },
+    feedback: { correct: 'Correct.', incorrect: 'Try again.' },
+    authoring: { status: 'reviewed', source: 'behavior-test' }
+  };
+}
+
 describe('viewport session presentation boundary', () => {
   it('keeps an explicitly authored scene visible from the start inside a structured mock', () => {
     const { container } = render(Session, {
@@ -53,6 +78,57 @@ describe('viewport session presentation boundary', () => {
       })
     ).toBeTruthy();
     expect(screen.getByText(/Section: Science/)).toBeTruthy();
+  });
+
+  it('shows experience framing only inside a story mission', () => {
+    render(Session, {
+      props: {
+        title: 'The Forest Trail Mix-Up',
+        questions: [seedGrowthQuestion()],
+        childName: 'Mira',
+        childAvatar: 'fox',
+        storyCompletion: {
+          text: 'Forest trail restored.',
+          rewardLabel: 'Forest Trail Keeper',
+          stars: 3
+        }
+      }
+    });
+
+    expect(screen.getByText('Scientu: Try the clue, then notice what happens.')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Which plant part can grow into a new plant?' })).toBeTruthy();
+  });
+
+  it('does not add story experience framing to ordinary Free Play', () => {
+    render(Session, {
+      props: {
+        title: 'Free Play',
+        questions: [seedGrowthQuestion()],
+        childName: 'Mira',
+        childAvatar: 'fox'
+      }
+    });
+
+    expect(screen.queryByText('Scientu: Try the clue, then notice what happens.')).toBeNull();
+  });
+
+  it('suppresses story experience framing in assessment even if a story completion view is supplied', () => {
+    render(Session, {
+      props: {
+        title: 'Assessment',
+        mode: 'goal_mock',
+        questions: [seedGrowthQuestion()],
+        childName: 'Mira',
+        childAvatar: 'fox',
+        storyCompletion: {
+          text: 'Not used in assessment.',
+          rewardLabel: 'None',
+          stars: 0
+        }
+      }
+    });
+
+    expect(screen.queryByText('Scientu: Try the clue, then notice what happens.')).toBeNull();
   });
 
   it('submits on the option tap and replaces the answer surface with a happy reaction', async () => {

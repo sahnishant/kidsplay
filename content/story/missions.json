@@ -2,6 +2,32 @@
   "schemaVersion": 1,
   "missions": [
     {
+      "id": "mission.forest-explorer-trail",
+      "title": "The Forest Trail Mix-Up",
+      "locationRef": "forest",
+      "status": "prototype",
+      "access": "free",
+      "questionPackRef": "free.animals-foundation.1",
+      "questionCount": 7,
+      "knowledgeRefs": [
+        "kr.animals.rabbit.home.burrow",
+        "kr.animals.butterfly.lifecycle.egg-to-butterfly",
+        "kr.plants.roots.function.absorb-water",
+        "kr.plants.leaves.function.make-food",
+        "kr.plants.seed.function.new-plant",
+        "kr.plants.lotus.type.aquatic"
+      ],
+      "openingSceneRef": "scene.plants.air-fresh",
+      "successSceneRef": "scene.plants.air-fresh",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "I mixed up the forest trail! Homes, plant jobs and growing clues are all in the wrong places." },
+        { "speakerRef": "scientu", "mood": "thinking", "text": "Then we should investigate one clue at a time. Watch where animals belong, what plant parts do and how a butterfly changes." },
+        { "speakerRef": "dheu", "mood": "ready", "text": "I will help the forest clues find their places and put the growing stages back in order." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Forest trail restored. You guided, matched, observed and ordered the clues instead of treating every puzzle the same way." },
+      "reward": { "id": "badge.forest-trail-keeper", "label": "Forest Trail Keeper", "stars": 3 }
+    },
+    {
       "id": "mission.puppy-by-pond",
       "title": "The Puppy by the Pond",
       "locationRef": "river-pond",

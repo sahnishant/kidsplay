@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import type { DragToTargetQuestion } from '../src/contracts/question';
 import type { MasteryCounter } from '../src/runtime/localProgress';
 import {
   createStoryMissionLaunch,
@@ -45,6 +46,26 @@ describe('story mission director', () => {
         launch.session.questions.flatMap((question) => question.knowledgeRefs ?? [])
       );
       for (const rowId of mission.knowledgeRefs) expect(coveredRefs.has(rowId)).toBe(true);
+    }
+  });
+
+  it('prefers compact mission-focused home matching over the six-animal free-play board', () => {
+    for (const missionId of ['mission.forest-explorer-trail', 'mission.puppy-by-pond']) {
+      const launch = createStoryMissionLaunch(missionId);
+      expect(launch.session.questions.map((question) => question.id)).toContain(
+        'animals.homes.match.story-pair.generated.001'
+      );
+      expect(launch.session.questions.map((question) => question.id)).not.toContain(
+        'animals.homes.match.generated.001'
+      );
+
+      const matching = launch.session.questions.find(
+        (question): question is DragToTargetQuestion =>
+          question.id === 'animals.homes.match.story-pair.generated.001'
+          && question.interaction.type === 'drag_to_target'
+      );
+      expect(matching?.interaction.items).toHaveLength(2);
+      expect(matching?.interaction.targets).toHaveLength(2);
     }
   });
 

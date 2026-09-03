@@ -1,35 +1,5 @@
 [
   {
-    "id": "animals.butterfly.lifecycle.sequence.001",
-    "revision": 1,
-    "schemaVersion": 1,
-    "conceptIds": ["animals.butterfly.life-cycle"],
-    "gradeBands": [1, 2],
-    "difficulty": 2,
-    "language": "en",
-    "prompt": { "text": "Put the butterfly life cycle in order." },
-    "interaction": {
-      "type": "sequence_order",
-      "version": 1,
-      "seed": 290826,
-      "items": [
-        { "id": "egg", "label": "Egg", "symbol": "🥚", "visualRefs": ["entity.lifecycle.egg"] },
-        { "id": "caterpillar", "label": "Caterpillar", "symbol": "🐛", "visualRefs": ["entity.lifecycle.caterpillar"] },
-        { "id": "chrysalis", "label": "Chrysalis", "symbol": "🟤", "visualRefs": ["entity.lifecycle.chrysalis"] },
-        { "id": "butterfly", "label": "Butterfly", "symbol": "🦋", "visualRefs": ["entity.animal.butterfly"] }
-      ]
-    },
-    "solution": {
-      "type": "ordered_items",
-      "orderedItemIds": ["egg", "caterpillar", "chrysalis", "butterfly"]
-    },
-    "feedback": {
-      "correct": "Correct. Egg, caterpillar, chrysalis, then butterfly.",
-      "incorrect": "Think about how a butterfly changes as it grows."
-    },
-    "authoring": { "status": "reviewed", "source": "internal" }
-  },
-  {
     "id": "animals.habitat.hotspot.001",
     "revision": 1,
     "schemaVersion": 1,

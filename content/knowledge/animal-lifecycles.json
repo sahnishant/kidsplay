@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.butterfly.lifecycle.001",
+  "kind": "process",
+  "version": 1,
+  "rowId": "kr.animals.butterfly.lifecycle.egg-to-butterfly",
+  "language": "en",
+  "subject": "Science",
+  "topic": "Animals - Life Cycles",
+  "label": "a butterfly growing through its life cycle",
+  "stages": [
+    { "id": "egg", "label": "Egg", "semanticRef": "lifecycle-egg" },
+    { "id": "caterpillar", "label": "Caterpillar", "semanticRef": "caterpillar" },
+    { "id": "chrysalis", "label": "Chrysalis", "semanticRef": "chrysalis" },
+    { "id": "butterfly", "label": "Butterfly", "semanticRef": "butterfly" }
+  ],
+  "conceptIds": ["animals.butterfly.life-cycle"],
+  "meta": {
+    "knowledgeLevel": "foundation",
+    "skills": ["recall", "reasoning"]
+  },
+  "authoring": {
+    "status": "reviewed",
+    "source": "kidsplay-editorial-elementary-science"
+  }
+}

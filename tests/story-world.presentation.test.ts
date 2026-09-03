@@ -90,7 +90,8 @@ describe('Dheu viewport story-world presentation', () => {
     expect(onStartMission).toHaveBeenCalledWith('mission.puppy-by-pond');
   });
 
-  it('keeps the first incomplete explicit level current even when adaptive focus recommends a later topic', async () => {
+  it('keeps the first incomplete explicit level current and launches its curated mission even when adaptive focus recommends a later topic', async () => {
+    const onStartMission = vi.fn();
     const onExploreLocation = vi.fn();
     render(StoryWorld, {
       props: {
@@ -99,7 +100,7 @@ describe('Dheu viewport story-world presentation', () => {
         storyProgress: emptyStoryProgress(),
         recommendedTopics: [safetyRecommendation],
         topicProgress: [safetyRecommendation],
-        onStartMission: vi.fn(),
+        onStartMission,
         onExploreLocation
       }
     });
@@ -110,8 +111,15 @@ describe('Dheu viewport story-world presentation', () => {
     expect(forest.textContent).toContain('Play next');
 
     await fireEvent.click(forest);
-    expect(onExploreLocation).toHaveBeenCalledOnce();
-    expect(onExploreLocation).toHaveBeenCalledWith('forest');
+    expect(screen.getByRole('dialog')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'The Forest Trail Mix-Up' })).toBeTruthy();
+    expect(onExploreLocation).not.toHaveBeenCalled();
+
+    await advanceMissionStory();
+    expect(screen.getByRole('button', { name: 'Start investigation · 7 clues' })).toBeTruthy();
+    await fireEvent.click(screen.getByRole('button', { name: 'Start investigation · 7 clues' }));
+    expect(onStartMission).toHaveBeenCalledOnce();
+    expect(onStartMission).toHaveBeenCalledWith('mission.forest-explorer-trail');
   });
 
   it('unlocks the next story location and renders completed/current/available/locked states separately', () => {

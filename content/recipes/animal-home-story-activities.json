@@ -1,0 +1,10 @@
+[
+  {
+    "id": "animals.homes.match.story-pair.generated.001",
+    "sourceRef": "knowledge.animals.homes.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["dog-kennel", "rabbit-burrow"],
+    "difficulty": 1,
+    "prompt": "Help Dheu take the dog and rabbit to the correct homes."
+  }
+]

@@ -21,7 +21,9 @@ export interface ExperienceRecipeSelector {
   surfaces: Exclude<ExperienceSurface, 'assessment'>[];
   interactionTypes: Question['interaction']['type'][];
   conceptAny?: string[];
+  conceptSuffixes?: string[];
   knowledgeRefPrefixes?: string[];
+  knowledgeRefFragments?: string[];
 }
 
 export interface ExperienceChoreography {
@@ -143,9 +145,15 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
   const conceptAny = selector.conceptAny === undefined
     ? undefined
     : assertStringArray(selector.conceptAny, `${id}.selector.conceptAny`);
+  const conceptSuffixes = selector.conceptSuffixes === undefined
+    ? undefined
+    : assertStringArray(selector.conceptSuffixes, `${id}.selector.conceptSuffixes`);
   const knowledgeRefPrefixes = selector.knowledgeRefPrefixes === undefined
     ? undefined
     : assertStringArray(selector.knowledgeRefPrefixes, `${id}.selector.knowledgeRefPrefixes`);
+  const knowledgeRefFragments = selector.knowledgeRefFragments === undefined
+    ? undefined
+    : assertStringArray(selector.knowledgeRefFragments, `${id}.selector.knowledgeRefFragments`);
 
   const situation = choreography.situation;
   const leadCharacter = choreography.leadCharacter;
@@ -175,7 +183,9 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
       surfaces: surfaces as Exclude<ExperienceSurface, 'assessment'>[],
       interactionTypes: interactionTypes as Question['interaction']['type'][],
       ...(conceptAny ? { conceptAny } : {}),
-      ...(knowledgeRefPrefixes ? { knowledgeRefPrefixes } : {})
+      ...(conceptSuffixes ? { conceptSuffixes } : {}),
+      ...(knowledgeRefPrefixes ? { knowledgeRefPrefixes } : {}),
+      ...(knowledgeRefFragments ? { knowledgeRefFragments } : {})
     },
     choreography: {
       situation: situation as ExperienceSituation,
@@ -219,8 +229,12 @@ export function getExperienceRecipes(): ExperienceRecipe[] {
       surfaces: [...recipe.selector.surfaces],
       interactionTypes: [...recipe.selector.interactionTypes],
       ...(recipe.selector.conceptAny ? { conceptAny: [...recipe.selector.conceptAny] } : {}),
+      ...(recipe.selector.conceptSuffixes ? { conceptSuffixes: [...recipe.selector.conceptSuffixes] } : {}),
       ...(recipe.selector.knowledgeRefPrefixes
         ? { knowledgeRefPrefixes: [...recipe.selector.knowledgeRefPrefixes] }
+        : {}),
+      ...(recipe.selector.knowledgeRefFragments
+        ? { knowledgeRefFragments: [...recipe.selector.knowledgeRefFragments] }
         : {})
     },
     choreography: { ...recipe.choreography }
@@ -235,9 +249,16 @@ function selectorMatches(question: Question, recipe: ExperienceRecipe, surface: 
     if (!question.conceptIds.some((conceptId) => recipe.selector.conceptAny?.includes(conceptId))) return false;
   }
 
+  if (recipe.selector.conceptSuffixes?.length) {
+    if (!question.conceptIds.some((conceptId) => recipe.selector.conceptSuffixes?.some((suffix) => conceptId.endsWith(suffix)))) return false;
+  }
+
+  const refs = question.knowledgeRefs ?? [];
   if (recipe.selector.knowledgeRefPrefixes?.length) {
-    const refs = question.knowledgeRefs ?? [];
     if (!refs.some((rowId) => recipe.selector.knowledgeRefPrefixes?.some((prefix) => rowId.startsWith(prefix)))) return false;
+  }
+  if (recipe.selector.knowledgeRefFragments?.length) {
+    if (!refs.some((rowId) => recipe.selector.knowledgeRefFragments?.some((fragment) => rowId.includes(fragment)))) return false;
   }
 
   return true;
