@@ -17,7 +17,7 @@
   "conceptIds": ["animals.butterfly.life-cycle"],
   "meta": {
     "knowledgeLevel": "foundation",
-    "skills": ["recall", "reasoning", "sequence"]
+    "skills": ["recall", "reasoning"]
   },
   "authoring": {
     "status": "reviewed",
