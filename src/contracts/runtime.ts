@@ -1,5 +1,13 @@
 import type { Question } from './question';
 
+export type ResponseAttemptKind = 'independent' | 'retry';
+export type ResponseAssistanceKind =
+  | 'hint'
+  | 'visual_scaffold'
+  | 'answer_elimination'
+  | 'demonstration'
+  | 'explanation';
+
 export interface QuestionResponseEnvelope {
   sessionId: string;
   questionId: string;
@@ -10,7 +18,10 @@ export interface QuestionResponseEnvelope {
   startedAt: string;
   submittedAt: string;
   durationMs: number;
+  /** 1 for the first independent response, then 2+ for retries. */
   attempts: number;
+  attemptKind: ResponseAttemptKind;
+  assistanceKinds: ResponseAssistanceKind[];
   hintsUsed: string[];
 }
 
