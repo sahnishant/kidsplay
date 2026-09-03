@@ -59,14 +59,20 @@ let activeMedia: HTMLAudioElement | null = null;
 let voiceListenerCleanup: (() => void) | null = null;
 let playbackGeneration = 0;
 
-function canUseStorage(): boolean {
-  return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
+function getStorage(): Storage | null {
+  if (typeof window === 'undefined') return null;
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
 }
 
 export function loadChildAudioPreferences(): ChildAudioPreferences {
-  if (!canUseStorage()) return { ...DEFAULT_PREFERENCES };
+  const storage = getStorage();
+  if (!storage) return { ...DEFAULT_PREFERENCES };
   try {
-    const raw = window.localStorage.getItem(AUDIO_PREFERENCES_KEY);
+    const raw = storage.getItem(AUDIO_PREFERENCES_KEY);
     if (!raw) return { ...DEFAULT_PREFERENCES };
     const parsed = JSON.parse(raw) as Partial<ChildAudioPreferences> | null;
     return {
@@ -80,9 +86,10 @@ export function loadChildAudioPreferences(): ChildAudioPreferences {
 
 export function saveChildAudioPreferences(enabled: boolean): ChildAudioPreferences {
   const preferences: ChildAudioPreferences = { version: 1, enabled };
-  if (!canUseStorage()) return preferences;
+  const storage = getStorage();
+  if (!storage) return preferences;
   try {
-    window.localStorage.setItem(AUDIO_PREFERENCES_KEY, JSON.stringify(preferences));
+    storage.setItem(AUDIO_PREFERENCES_KEY, JSON.stringify(preferences));
   } catch {
     // Restricted/private storage must never block the child session.
   }
@@ -97,7 +104,13 @@ export function isBundledChildAudioPath(value: string | undefined): value is str
   if (!value) return false;
   const path = value.trim();
   if (!path.startsWith('/audio/')) return false;
-  if (path.includes('..') || path.includes('://') || path.includes('?') || path.includes('#')) return false;
+  if (path.includes('\\') || path.includes('://') || path.includes('?') || path.includes('#')) return false;
+  try {
+    const decoded = decodeURIComponent(path);
+    if (decoded.includes('..') || decoded.includes('\\')) return false;
+  } catch {
+    return false;
+  }
   return path.length > '/audio/'.length;
 }
 
@@ -288,7 +301,10 @@ function speakWithOfflineVoice(
  * a speechSynthesis voice must explicitly report localService=true.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
-  if (request.enabled === false) return { source: 'muted' };
+  if (request.enabled === false) {
+    stopChildAudio();
+    return { source: 'muted' };
+  }
   if (!request.text.trim()) return { source: 'unavailable' };
 
   stopChildAudio();
