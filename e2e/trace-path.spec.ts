@@ -109,7 +109,9 @@ test('Trace & Discover gives honest retry and completes three pointer traces wit
 
   await page.getByRole('button', { name: 'Try again' }).click();
   await expect(page.getByRole('heading', { level: 1 })).toHaveText(first.prompt);
-  await expect(page.getByText('Try again', { exact: true })).toBeVisible();
+  await expect(
+    page.locator('[data-session-state="answer"] .question-meta .reasoning-cue').filter({ hasText: /^Try again$/ })
+  ).toBeVisible();
   await drawTrace(page, first.boardLabel, first.path);
   await expect(sessionFeedback(page)).toContainText('Nice work!');
   if (first.successText) await expect(sessionFeedback(page)).toContainText(first.successText);
