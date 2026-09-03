@@ -62,12 +62,18 @@ async function openPractice(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Open practice activities' }).click();
 }
 
+async function openGrownUpArea(page: Page): Promise<void> {
+  await openPlayer(page);
+  await page.getByRole('button', { name: 'Open grown-up area' }).click();
+}
+
 async function openGoals(page: Page): Promise<void> {
-  await page.getByRole('button', { name: 'Open goal learning' }).click();
+  await openGrownUpArea(page);
+  await page.getByRole('button', { name: 'Assessment' }).click();
 }
 
 async function openProgress(page: Page): Promise<void> {
-  await page.getByRole('button', { name: 'Open learning progress' }).click();
+  await openGrownUpArea(page);
 }
 
 async function progressAttempts(page: Page): Promise<number> {
@@ -87,6 +93,7 @@ async function advanceMissionStory(page: Page): Promise<void> {
 test.describe('Kidsplay child journeys', () => {
   test('player setup, free explore, feedback and local persistence', async ({ page }) => {
     await openCleanApp(page);
+    await expect(page.getByRole('button', { name: 'Continue Adventure' })).toBeVisible();
     await expect(page.getByLabel('Current adventure level 1')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
     await expectNoDocumentVerticalOverflow(page, 'home world');
@@ -147,7 +154,7 @@ test.describe('Kidsplay child journeys', () => {
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
 
     await openGoals(page);
-    await expect(page.getByRole('heading', { name: 'Goal learning' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Assessment & mocks' })).toBeVisible();
     await page.goBack();
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
 
@@ -194,14 +201,14 @@ test.describe('Kidsplay child journeys', () => {
 
     await page.getByRole('button', { name: 'Back to Dheu’s world' }).click();
     await expect(page.getByLabel('3 story stars')).toBeVisible();
-    await expect(page.getByLabel('6 of 9 places open; 1 complete')).toBeVisible();
+    await expect(page.getByLabel('Current adventure level 6')).toBeVisible();
     await expect(page.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: The Invisible Air Mystery" })).toBeEnabled();
   });
 
   test('35-question SOF pattern mock resumes exact submitted and unsubmitted boundaries', async ({ page }) => {
     await openCleanApp(page);
-    await openPractice(page);
-    await page.getByRole('button', { name: 'Try 35-question mock' }).click();
+    await openGoals(page);
+    await page.getByRole('button', { name: 'Start mock ▶' }).click();
 
     await expect(page.getByText('Mock progress saves on this device')).toBeVisible();
     await expect(page.getByText(/^1 \/ 35$/)).toBeVisible();
@@ -294,6 +301,7 @@ test.describe('Android-like viewport acceptance', () => {
     await openCleanApp(page);
     await expectNoHorizontalOverflow(page, 'home at 360px');
     await expectNoDocumentVerticalOverflow(page, 'home at 360x640');
+    await expectChildTapTarget(page.getByRole('button', { name: 'Continue Adventure' }), 'continue adventure');
 
     await expectChildTapTarget(
       page.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }),
@@ -337,9 +345,9 @@ test.describe('Android-like viewport acceptance', () => {
 
   test('35-question mock remains viewport-contained after a landscape rotation', async ({ page }) => {
     await openCleanApp(page);
-    await openPractice(page);
-    await expectChildTapTarget(page.getByRole('button', { name: 'Try 35-question mock' }), 'mock entry');
-    await page.getByRole('button', { name: 'Try 35-question mock' }).click();
+    await openGoals(page);
+    await expectChildTapTarget(page.getByRole('button', { name: 'Start mock ▶' }), 'mock entry');
+    await page.getByRole('button', { name: 'Start mock ▶' }).click();
 
     await expect(page.getByText(/^1 \/ 35$/)).toBeVisible();
     await expect(page.getByText('Mock progress saves on this device')).toBeVisible();
