@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
@@ -12,7 +12,7 @@ const readJson = (path: string) => JSON.parse(readFileSync(resolve(path), 'utf8'
 const profileTargets = (grade: number) => grade === 1
   ? ['CBSE_INDIA_CLASS1', 'CISCE_INDIA_CLASS1']
   : ['CBSE_INDIA_CLASS2', 'CISCE_INDIA_CLASS2', 'SOF_INDIA_CLASS2'];
-const reviewPaths = (grade: number) => [1, 2, 3, 4].map((batch) =>
+const priorReviewPaths = (grade: number) => [1, 2, 3, 4].map((batch) =>
   `content/lexicon/reviews/grade-${grade}-batch-${String(batch).padStart(3, '0')}.json`
 );
 
@@ -34,7 +34,7 @@ const nonFirstSenseChoices = new Map<number, Map<string, string>>([
 
 function buildBatch005(grade: number) {
   const slice = readJson(`content/lexicon/open/curator-slices/grade-${grade}-meaning-review-080.json`);
-  const paths = reviewPaths(grade);
+  const paths = priorReviewPaths(grade);
   const handoffs = paths.map(readJson);
   const excluded = collectTerminalEditorialLemmas(handoffs, grade);
   const packet = buildEditorialPacket(slice, {
@@ -52,12 +52,13 @@ function reviewedRuntimeCount() {
     'content/knowledge/english-vocabulary-primary-reviewed.json',
     'content/knowledge/english-vocabulary-primary-reviewed-batch-002.json',
     'content/knowledge/english-vocabulary-primary-reviewed-batch-003.json',
-    'content/knowledge/english-vocabulary-primary-reviewed-batch-004.json'
+    'content/knowledge/english-vocabulary-primary-reviewed-batch-004.json',
+    'content/knowledge/english-vocabulary-primary-reviewed-batch-005.json'
   ].reduce((total, path) => total + (readJson(path)[0]?.entries?.length ?? 0), 0);
 }
 
-describe('primary vocabulary editorial batch 005 preparation', () => {
-  it('selects the next deterministic 16 + 16 only after all terminal batch 001-004 outcomes', () => {
+describe('primary vocabulary editorial batch 005 review and publication boundary', () => {
+  it('reproduces the deterministic 16 + 16 review packet from terminal batch 001-004 outcomes', () => {
     for (const grade of [1, 2]) {
       const first = buildBatch005(grade);
       const second = buildBatch005(grade);
@@ -104,7 +105,7 @@ describe('primary vocabulary editorial batch 005 preparation', () => {
     }
   });
 
-  it('attaches one bounded evidence-aware AI review aid per candidate without granting authority', () => {
+  it('keeps the AI overlay suggestion-only even after a separate human review handoff exists', () => {
     for (const grade of [1, 2]) {
       const { packet } = buildBatch005(grade);
       const overlay = readJson(`content/lexicon/ai-draft-overlays/grade-${grade}-batch-005-ai-draft-001.json`);
@@ -169,16 +170,33 @@ describe('primary vocabulary editorial batch 005 preparation', () => {
     }
   });
 
-  it('keeps the reviewed runtime and launch cardinalities unchanged before human approval', () => {
-    expect(reviewedRuntimeCount()).toBe(103);
-    const freeVocabularyPack = readJson('content/packs/free-vocabulary.json');
-    const reviewedLaunchRefs = (freeVocabularyPack.questionRefs ?? [])
-      .filter((ref: string) => ref.startsWith('vocab.primary.reviewed.'));
-    expect(reviewedLaunchRefs).toHaveLength(389);
-    expect(new Set(reviewedLaunchRefs).size).toBe(389);
+  it('publishes only the 30 explicit human accepts, with break and ride remaining held', () => {
+    const grade1 = readJson('content/lexicon/reviews/grade-1-batch-005.json');
+    const grade2 = readJson('content/lexicon/reviews/grade-2-batch-005.json');
+    expect(grade1.summary).toMatchObject({ reviewedDecisions: 15, accepted: 15, held: 1, reviewedProfilePlacements: 15 });
+    expect(grade2.summary).toMatchObject({ reviewedDecisions: 15, accepted: 15, held: 1, reviewedProfilePlacements: 15 });
+    expect(grade1.unresolvedItems.map((item: any) => item.lemma)).toEqual(['break']);
+    expect(grade2.unresolvedItems.map((item: any) => item.lemma)).toEqual(['ride']);
+    expect(grade1.profilePlacements.every((item: any) =>
+      item.reviewAuthority === 'human_editor' &&
+      JSON.stringify(item.approvedProfileRefs) === JSON.stringify(['CBSE_INDIA_CLASS1', 'CISCE_INDIA_CLASS1'])
+    )).toBe(true);
+    expect(grade2.profilePlacements.every((item: any) =>
+      item.reviewAuthority === 'human_editor' &&
+      JSON.stringify(item.approvedProfileRefs) === JSON.stringify(['CBSE_INDIA_CLASS2', 'CISCE_INDIA_CLASS2', 'SOF_INDIA_CLASS2'])
+    )).toBe(true);
 
-    expect(existsSync(resolve('content/knowledge/english-vocabulary-primary-reviewed-batch-005.json'))).toBe(false);
-    expect(existsSync(resolve('content/learnables/primary-vocabulary-reviewed-batch-005.json'))).toBe(false);
-    expect(existsSync(resolve('content/recipes/primary-vocabulary-reviewed-delivery-batch-005.json'))).toBe(false);
+    expect(reviewedRuntimeCount()).toBe(133);
+    const batch5 = readJson('content/knowledge/english-vocabulary-primary-reviewed-batch-005.json')[0]?.entries ?? [];
+    expect(batch5).toHaveLength(30);
+    expect(new Set(batch5.map((entry: any) => entry.id)).has('break')).toBe(false);
+    expect(new Set(batch5.map((entry: any) => entry.id)).has('ride')).toBe(false);
+    expect(batch5.find((entry: any) => entry.id === 'hurt')?.object?.label).toBe('To hurt means to be painful.');
+    expect(batch5.every((entry: any) =>
+      entry.meta?.curation?.status === 'reviewed' &&
+      entry.meta?.curation?.reviewer === 'sahnishant' &&
+      entry.meta?.curation?.reviewedAt === '2026-09-03' &&
+      entry.meta?.curation?.sourceGlossCopied === false
+    )).toBe(true);
   });
 });
