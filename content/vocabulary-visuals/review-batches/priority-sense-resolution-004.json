@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "id": "priority-sense-resolution-004",
+  "sequence": 7,
+  "issueRef": 76,
+  "parentIssueRef": 76,
+  "status": "human_reviewed_exact_sense",
+  "authority": {
+    "defaultKind": "human_reviewed_exact_sense",
+    "referenceState": "human_reviewed_exact_reference",
+    "resolutionState": "human_resolved",
+    "dispositionState": "reviewed_strategy",
+    "runtimeAuthority": "none"
+  },
+  "source": {
+    "kind": "reviewed_items_file",
+    "reviewDataPath": "content/vocabulary-visuals/review-batches/priority-sense-resolution-004.items.json",
+    "expectedItemCount": 30,
+    "expectedGitBlobSha": "7dfd23bb7c8c0fdafcab2e1b3891dd13491800f2",
+    "historicalStatus": "human_reviewed_exact_sense"
+  },
+  "reviewEvidence": {
+    "kind": "human_row_level_semantic_acceptance",
+    "pullRequest": 193,
+    "reviewNodeId": "PRR_kwDOUHzR8c8AAAABMEduSQ",
+    "reviewedSemanticHeadSha": "ec4cadb9e0464a90c56faf0a47657b6925041e5c",
+    "submittedAt": "2026-09-03T17:35:40Z",
+    "reviewer": "sahnishant",
+    "acceptedRows": 30,
+    "claimsHumanEditorialReview": false,
+    "claimsHumanSemanticReview": true
+  },
+  "output": {
+    "path": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-004.json",
+    "projectionMode": "human_reviewed_exact_review_projection"
+  },
+  "supersession": {
+    "resolvesPriorUnresolvedForSameLemma": true,
+    "doesNotDeleteHistoricalDisposition": true
+  },
+  "policy": {
+    "bareLemmaMappingAllowed": false,
+    "definitionsIncluded": false,
+    "sourceGlossesIncluded": false,
+    "sourceExamplesIncluded": false,
+    "profilePlacementInferred": false,
+    "assessmentAnswerRevealAllowed": false,
+    "runtimeMappingCreated": false,
+    "childDefinitionApprovalInferred": false,
+    "selectedCandidateMustBePinned": true,
+    "selectedCandidateMustEqualSenseKey": true,
+    "claimsHumanEditorialReview": false,
+    "claimsHumanSemanticReview": true,
+    "requiresExternalHumanSemanticReviewEvidence": true,
+    "maxMaturity": "V1"
+  }
+}
