@@ -6,6 +6,7 @@ on:
       - content/vocabulary-editorial-batch-004-prep
     paths:
       - '.github/workflows/tmp-materialize-approved-vocabulary-batch-004.yml'
+      - 'content/recipes/primary-vocabulary-reviewed-delivery-batch-004.json'
 
 permissions:
   contents: write
