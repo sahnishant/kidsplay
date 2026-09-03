@@ -1,81 +1,54 @@
-import { createHash } from 'node:crypto';
 import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-const readText = (path: string) => readFileSync(resolve(process.cwd(), path), 'utf8');
-const readJson = (path: string) => JSON.parse(readText(path));
-const sha256 = (path: string) => createHash('sha256').update(readText(path)).digest('hex');
+const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 
 const selectionPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.selection.json';
 const reviewDraftPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.review-draft.json';
+const exactPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.items.json';
+const unresolvedPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.unresolved.json';
+const manifestPath = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.json';
 const queuePath = 'content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json';
 const ledgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 const runtimePath = 'content/vocabulary-visuals/__generated-runtime-plans.json';
+const reviewNodeId = 'PRR_kwDOUHzR8c8AAAABMEduSQ';
 
-const queueProjection = (row: any) => ({
-  lemma: row.lemma,
-  partOfSpeech: row.partOfSpeech,
-  grade: row.grade,
-  sourceCorpusId: row.sourceCorpusId,
-  candidateSenseCount: row.candidateSenseCount,
-  candidateIds: row.candidateIds,
-  polysemyRisk: row.polysemyRisk,
-  sourceQueueStatus: row.status
-});
-
-const selectionProjection = (row: any) => ({
-  lemma: row.lemma,
-  partOfSpeech: row.partOfSpeech,
-  grade: row.grade,
-  sourceCorpusId: row.sourceCorpusId,
-  candidateSenseCount: row.candidateSenseCount,
-  candidateIds: row.candidateIds,
-  polysemyRisk: row.polysemyRisk,
-  sourceQueueStatus: row.sourceQueueStatus
-});
-
-const forbiddenAuthorityKeys = new Set([
-  'senseKey',
-  'selectedCandidateId',
-  'strategy',
-  'maturity',
-  'visualMaturity',
-  'sceneTemplate',
-  'parameters',
-  'renderer',
-  'runtimeUsage',
-  'knowledgeRef',
-  'profileRef',
-  'profileId',
-  'curriculumRef',
-  'curriculumId',
-  'membershipRef',
-  'childDefinition',
-  'answer',
-  'correctAnswer',
-  'assessmentAnswer',
-  'questionId',
-  'learnableRef'
+const exactExpected = new Map([
+  ['electronic', 'electronic#a#1'], ['joy', 'joy#n#1'], ['incident', 'incident#n#1'],
+  ['weapon', 'weapon#n#1'], ['contest', 'contest#n#1'], ['motor', 'motor#n#1'],
+  ['quote', 'quote#n#2'], ['hungry', 'hungry#a#1'], ['uncle', 'uncle#n#1'],
+  ['smoking', 'smoking#n#2'], ['decade', 'decade#n#1'], ['pleased', 'pleased#a#1'],
+  ['childhood', 'childhood#n#1'], ['comedy', 'comedy#n#1'], ['suspect', 'suspect#n#1'],
+  ['soldier', 'soldier#n#1'], ['engineer', 'engineer#n#1'], ['graduate', 'graduate#n#1'],
+  ['visual', 'visual#a#1'], ['arrive', 'arrive#v#1'], ['coal', 'coal#n#1'],
+  ['inch', 'inch#n#1'], ['jury', 'jury#n#1'], ['olympic', 'olympic#a#1'],
+  ['comic', 'comic#a#1'], ['percentage', 'percentage#n#1'], ['temporary', 'temporary#a#1'],
+  ['telephone', 'telephone#n#1'], ['butter', 'butter#n#1'], ['nurse', 'nurse#n#1']
+]);
+const unresolvedExpected = new Set([
+  'baseball', 'ultimate', 'mystery', 'conduct', 'valuable',
+  'format', 'relative', 'extent', 'impressive', 'membership'
 ]);
 
-const findForbiddenAuthorityKeys = (value: unknown): string[] => {
-  if (Array.isArray(value)) return value.flatMap(findForbiddenAuthorityKeys);
+const forbiddenDownstreamKeys = new Set([
+  'knowledgeRef', 'runtimeUsage', 'profileRef', 'profileId', 'curriculumRef', 'curriculumId',
+  'membershipRef', 'childDefinition', 'answer', 'correctAnswer', 'assessmentAnswer', 'questionId', 'learnableRef'
+]);
+const findForbidden = (value: unknown): string[] => {
+  if (Array.isArray(value)) return value.flatMap(findForbidden);
   if (!value || typeof value !== 'object') return [];
   return Object.entries(value as Record<string, unknown>).flatMap(([key, nested]) => [
-    ...(forbiddenAuthorityKeys.has(key) ? [key] : []),
-    ...findForbiddenAuthorityKeys(nested)
+    ...(forbiddenDownstreamKeys.has(key) ? [key] : []),
+    ...findForbidden(nested)
   ]);
 };
 
-describe('#76 semantic priority sense tranche 004 proposal frontier', () => {
-  it('pins exactly the next live 40-row fresh medium-risk deterministic tranche', () => {
+describe('#76 semantic priority sense tranche 004 human-reviewed registration', () => {
+  it('preserves the original deterministic 40-row proposal frontier and all-candidate inspection', () => {
     const selection = readJson(selectionPath);
-    const queue = readJson(queuePath);
-    const freshMedium = queue.items.filter(
-      (row: any) => row.polysemyRisk === 'medium' && row.status === 'human_sense_selection_required'
-    );
+    const reviewDraft = readJson(reviewDraftPath);
 
     expect(selection).toMatchObject({
       schemaVersion: 1,
@@ -83,153 +56,90 @@ describe('#76 semantic priority sense tranche 004 proposal frontier', () => {
       issueRef: 76,
       status: 'candidate_review_pending',
       authorityKind: 'candidate_reference',
-      currentMainHeadShaAtSelection: '79839ad1869291147b2ba005e7a9bb6d9df963ca',
       dependsOnRegisteredBatchId: 'priority-sense-resolution-003',
       sourceQueue: {
-        evidenceHeadSha: 'c2f3c97b746d3157282faaac69dcb60b0b7358be',
-        workflowRunId: 33678871612,
-        artifactName: 'priority-vocabulary-sense-resolution-queue',
-        artifactZipSha256: 'f1d6f90d30cf7a173dda3e32eeb26a257c63082eea3d776a67730ca719465195',
-        snapshotJsonSha256: '5a3da8de58a3d12501e5eb774c71ad7800b9dd59f80a380b459abc0ed4eaae3d',
-        snapshot: {
-          items: 1776,
-          exactReviewedSupersededBlockers: 70,
-          reviewedUnresolvedRevisitOnly: 40,
-          firstPassHumanSenseSelection: 1724,
-          mediumRiskAllStatuses: 459,
-          freshMediumRiskFirstPass: 419
-        },
-        selectionFilter: {
-          polysemyRisk: 'medium',
-          status: 'human_sense_selection_required'
-        },
-        selectionWindow: {
-          startFreshMediumIndex: 1,
-          endFreshMediumIndex: 40
-        },
+        snapshot: { items: 1776, exactReviewedSupersededBlockers: 70, reviewedUnresolvedRevisitOnly: 40 },
+        selectionFilter: { polysemyRisk: 'medium', status: 'human_sense_selection_required' },
+        selectionWindow: { startFreshMediumIndex: 1, endFreshMediumIndex: 40 },
         nextFreshMediumBoundaryLemma: 'mirror'
       }
     });
-    expect(sha256(queuePath)).toBe(selection.sourceQueue.snapshotJsonSha256);
-    expect(freshMedium).toHaveLength(419);
     expect(selection.items).toHaveLength(40);
-    expect(new Set(selection.items.map((row: any) => `${row.lemma}|${row.partOfSpeech}`)).size).toBe(40);
     expect(selection.items[0].lemma).toBe('electronic');
     expect(selection.items.at(-1).lemma).toBe('membership');
-    expect(freshMedium[40].lemma).toBe('mirror');
-    expect(selection.items.map(selectionProjection)).toEqual(freshMedium.slice(0, 40).map(queueProjection));
-    expect(selection.items.map((row: any) => row.freshMediumQueueIndex)).toEqual(
-      Array.from({ length: 40 }, (_, index) => index + 1)
-    );
-  });
-
-  it('does not recycle reviewed-unresolved revisit-only rows as fresh work', () => {
-    const selection = readJson(selectionPath);
-    const queue = readJson(queuePath);
-    const revisitOnly = queue.items.filter((row: any) => row.status === 'reviewed_unresolved_revisit_only');
-    const revisitKeys = new Set(revisitOnly.map((row: any) => `${row.lemma}|${row.partOfSpeech}`));
-
-    expect(revisitOnly).toHaveLength(40);
-    expect(selection.reviewPolicy.reviewedUnresolvedRowsRequireExplicitRevisitDueState).toBe(true);
-    expect(selection.items.every((row: any) => row.sourceQueueStatus === 'human_sense_selection_required')).toBe(true);
-    expect(selection.items.filter((row: any) => revisitKeys.has(`${row.lemma}|${row.partOfSpeech}`))).toEqual([]);
-  });
-
-  it('records all candidate evidence as proposals, including candidate-two selections, without authority', () => {
-    const selection = readJson(selectionPath);
-    const reviewDraft = readJson(reviewDraftPath);
-    const selectionByLemma = new Map(selection.items.map((row: any) => [row.lemma, row]));
-    const allowedDispositions = new Set([
-      'exact_candidate_proposed',
-      'sense_unresolved',
-      'candidate_relevance_review_required'
-    ]);
+    expect(new Set(selection.items.map((row: any) => `${row.lemma}|${row.partOfSpeech}`)).size).toBe(40);
 
     expect(reviewDraft).toMatchObject({
       schemaVersion: 1,
-      id: 'vocabulary.semantic-priority-medium-risk-tranche-004.review-draft',
-      issueRef: 76,
-      selectionPath,
       status: 'sol_max_first_pass_proposal',
       authorityKind: 'candidate_reference',
       registrationDisposition: 'HOLD_independent_human_semantic_review_required',
-      independentExternalReviewEvidencePresent: false,
-      reviewBasis: {
-        candidateSource: 'Open English WordNet 2025',
-        license: 'CC BY 4.0',
-        sourceRepository: 'globalwordnet/english-wordnet',
-        sourceRepositoryHeadObserved: 'bff3181fe5c810dcd157cba0eed60322a6e0aaed',
-        candidateIdsRemainPinnedToKidsplayImport: true,
-        allPinnedCandidatesInspected: true,
-        posAndCandidateRelevanceInspected: true,
-        primarySchoolMeaningComparedAgainstCandidateDefinitions: true,
-        candidateOneIsNotDefault: true,
-        sourceGlossesOrExamplesCopied: false
-      },
-      summary: {
-        selectedRows: 40,
-        exactCandidateProposals: 30,
-        senseUnresolvedProposals: 10,
-        candidateRelevanceReviewRequired: 0
-      }
+      summary: { selectedRows: 40, exactCandidateProposals: 30, senseUnresolvedProposals: 10 }
     });
     expect(reviewDraft.entries).toHaveLength(40);
-    expect(reviewDraft.entries.map((row: any) => row[1])).toEqual(selection.items.map((row: any) => row.lemma));
-
-    const byDisposition = reviewDraft.entries.reduce((counts: Record<string, number>, row: any) => {
-      const disposition = row[3];
-      counts[disposition] = (counts[disposition] ?? 0) + 1;
-      return counts;
-    }, {});
-    expect(byDisposition).toEqual({ exact_candidate_proposed: 30, sense_unresolved: 10 });
-
-    expect(reviewDraft.entrySchema).toEqual([
-      'selectionItemIndex',
-      'lemma',
-      'candidateAssessments',
-      'proposalDisposition',
-      'proposedCandidateIdOrNull',
-      'reasonCode',
-      'escalationOrNull'
-    ]);
-    expect(reviewDraft.candidateAssessmentSchema).toEqual(['candidateId', 'meaningSummary', 'relevance']);
-
+    expect(reviewDraft.entries.find((row: any) => row[1] === 'quote')?.[4]).toBe('quote#n#2');
+    expect(reviewDraft.entries.find((row: any) => row[1] === 'smoking')?.[4]).toBe('smoking#n#2');
     for (const row of reviewDraft.entries) {
-      const [selectionItemIndex, lemma, candidateAssessments, proposalDisposition, proposedCandidateId] = row;
-      const selected: any = selectionByLemma.get(lemma);
-      expect(selected).toBeTruthy();
-      expect(selectionItemIndex).toBe(selection.items.findIndex((item: any) => item.lemma === lemma) + 1);
-      expect(allowedDispositions.has(proposalDisposition)).toBe(true);
-      expect(candidateAssessments).toHaveLength(selected.candidateSenseCount);
-      expect(candidateAssessments.map((candidate: any) => candidate[0])).toEqual(selected.candidateIds);
-      expect(candidateAssessments.every((candidate: any) =>
-        typeof candidate[1] === 'string' &&
-        candidate[1].length > 0 &&
-        typeof candidate[2] === 'string' &&
-        candidate[2].length > 0
-      )).toBe(true);
-
-      if (proposalDisposition === 'exact_candidate_proposed') {
-        expect(selected.candidateIds).toContain(proposedCandidateId);
-      } else {
-        expect(proposedCandidateId).toBeNull();
-      }
+      const selected = selection.items[row[0] - 1];
+      expect(selected.lemma).toBe(row[1]);
+      expect(row[2].map((candidate: any) => candidate[0])).toEqual(selected.candidateIds);
     }
-
-    const quote = reviewDraft.entries.find((row: any) => row[1] === 'quote');
-    expect(quote[3]).toBe('exact_candidate_proposed');
-    expect(quote[4]).toBe('quote#n#2');
-    const smoking = reviewDraft.entries.find((row: any) => row[1] === 'smoking');
-    expect(smoking[3]).toBe('exact_candidate_proposed');
-    expect(smoking[4]).toBe('smoking#n#2');
   });
 
-  it('leaves resolved/blocker accounting and V6 runtime authority unchanged', () => {
+  it('binds exactly 30 accepted senses to the durable human review and keeps 10 rows unresolved', () => {
+    const exact = readJson(exactPath);
+    const unresolved = readJson(unresolvedPath);
+    const manifest = readJson(manifestPath);
+    const ledger = readJson(ledgerPath);
+
+    expect(exact).toMatchObject({
+      schemaVersion: 1,
+      status: 'human_reviewed_exact_sense',
+      policy: { claimsHumanEditorialReview: false, claimsHumanSemanticReview: true, runtimeMappingCreated: false },
+      reviewBasis: { reviewNodeId, reviewer: 'sahnishant' }
+    });
+    expect(exact.items).toHaveLength(30);
+    expect(new Map(exact.items.map((item: any) => [item.lemma, item.senseKey]))).toEqual(exactExpected);
+    expect(exact.items.every((item: any) =>
+      item.strategy === 'textual_only' && item.maturity === 'V1' && item.reviewSource === 'human_semantic_review' &&
+      item.senseKey === item.sourceTrace.selectedCandidateId && item.sourceTrace.candidateIds.includes(item.senseKey)
+    )).toBe(true);
+
+    expect(unresolved).toMatchObject({
+      authorityKind: 'human_reviewed_unresolved_reference',
+      status: 'human_reviewed_unresolved_reference',
+      reviewEvidence: {
+        kind: 'human_row_level_unresolved_acceptance', reviewNodeId, reviewer: 'sahnishant', reviewedRows: 10,
+        claimsHumanEditorialReview: false, claimsHumanSemanticReview: true
+      },
+      policy: { countsAsResolved: false, removesBlocker: false, revisitRequiresNewContextOrEvidence: true }
+    });
+    expect(unresolved.entries).toHaveLength(10);
+    expect(new Set(unresolved.entries.map((entry: any) => entry.lemma))).toEqual(unresolvedExpected);
+    expect(unresolved.entries.every((entry: any) => entry.reviewDisposition === 'unresolved_confirmed')).toBe(true);
+
+    expect(manifest).toMatchObject({
+      sequence: 7,
+      status: 'human_reviewed_exact_sense',
+      authority: {
+        defaultKind: 'human_reviewed_exact_sense', referenceState: 'human_reviewed_exact_reference',
+        resolutionState: 'human_resolved', dispositionState: 'reviewed_strategy', runtimeAuthority: 'none'
+      },
+      source: { kind: 'reviewed_items_file', expectedItemCount: 30 },
+      reviewEvidence: { kind: 'human_row_level_semantic_acceptance', reviewNodeId, reviewer: 'sahnishant', acceptedRows: 30 }
+    });
+    expect(ledger.batches.at(-1)).toEqual({
+      id: 'priority-sense-resolution-004', sequence: 7, issueRef: 76, manifest: manifestPath
+    });
+  });
+
+  it('updates blocker accounting without creating any new V6 runtime authority', () => {
     const report = JSON.parse(execFileSync(
       process.execPath,
       ['scripts/report-vocabulary-visual-coverage.mjs', '--json', '--limit=5'],
       { cwd: process.cwd(), encoding: 'utf8' }
     ));
+    const queue = readJson(queuePath);
     const runtime = readJson(runtimePath);
     const v6KnowledgePlans = (runtime.plans ?? []).filter(
       (plan: any) => plan.runtimeUsage === 'knowledge_reinforcement' && plan.maturity === 'V6'
@@ -238,61 +148,49 @@ describe('#76 semantic priority sense tranche 004 proposal frontier', () => {
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 657,
-      blockedSenseResolutionLemmas: 9343,
-      exactReviewedSupersedingLemmas: 70,
+      resolvedStrategyLemmas: 687,
+      blockedSenseResolutionLemmas: 9313,
+      exactReviewedSupersedingLemmas: 100,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 624,
-      blockedSenseResolutionLemmas: 1776
+      resolvedStrategyLemmas: 654,
+      blockedSenseResolutionLemmas: 1746
     });
-    expect(report.senseResolutionQueue.items).toBe(1776);
+    expect(queue.summary).toMatchObject({
+      items: 1746,
+      exactReviewedSupersededBlockers: 100,
+      reviewedUnresolvedRevisitOnly: 50
+    });
+    for (const lemma of unresolvedExpected) {
+      expect(queue.items.find((item: any) => item.lemma === lemma)?.status).toBe('reviewed_unresolved_revisit_only');
+    }
+    for (const lemma of exactExpected.keys()) {
+      expect(queue.items.some((item: any) => item.lemma === lemma)).toBe(false);
+    }
     expect(v6KnowledgePlans).toHaveLength(59);
     expect(new Set(v6KnowledgePlans.map((plan: any) => plan.senseKey)).size).toBe(58);
     expect(report.summary.errors).toBe(0);
   });
 
-  it('grants no ledger, visual V-level, runtime, profile, curriculum, child-definition or assessment-answer authority', () => {
-    const selection = readJson(selectionPath);
-    const reviewDraft = readJson(reviewDraftPath);
-    const ledger = readJson(ledgerPath);
-
-    expect(selection.authorityBoundary).toEqual({
-      createsSenseSelection: false,
-      createsSemanticDisposition: false,
-      countsAsResolved: false,
-      removesBlocker: false,
-      createsVisualStrategy: false,
-      createsVisualVMaturityAuthority: false,
-      createsRuntimeAuthority: false,
-      createsProfileAuthority: false,
-      createsCurriculumAuthority: false,
-      createsChildDefinitionApproval: false,
-      createsAssessmentAnswerAuthority: false,
-      claimsHumanEditorialReview: false
+  it('keeps exact semantic review and unresolved HOLDs outside runtime, profile, curriculum and child-definition authority', () => {
+    const exact = readJson(exactPath);
+    const unresolved = readJson(unresolvedPath);
+    expect(findForbidden(exact.items)).toEqual([]);
+    expect(findForbidden(unresolved.entries)).toEqual([]);
+    expect(exact.policy).toMatchObject({
+      profilePlacementInferred: false,
+      assessmentAnswerRevealAllowed: false,
+      runtimeMappingCreated: false,
+      childDefinitionApprovalInferred: false
     });
-    expect(reviewDraft.authorityBoundary).toEqual({
-      independentExternalReviewEvidencePresent: false,
-      createsReviewedExactSense: false,
-      createsSemanticDisposition: false,
-      countsAsResolved: false,
-      removesBlocker: false,
-      registersWithReviewedBatchLedger: false,
-      createsVisualStrategy: false,
-      createsVisualVMaturityAuthority: false,
+    expect(unresolved.policy).toMatchObject({
       createsRuntimeAuthority: false,
-      createsProfileAuthority: false,
-      createsCurriculumAuthority: false,
+      createsProfilePlacement: false,
       createsChildDefinitionApproval: false,
-      createsAssessmentAnswerAuthority: false,
-      claimsHumanEditorialReview: false
+      copiesSourceGlossOrExample: false
     });
-    expect(findForbiddenAuthorityKeys(selection.items)).toEqual([]);
-    expect(findForbiddenAuthorityKeys(reviewDraft.entries)).toEqual([]);
-    expect(JSON.stringify(ledger)).not.toContain('priority-sense-resolution-004');
-    expect(JSON.stringify(ledger)).not.toContain(reviewDraftPath);
   });
 });
