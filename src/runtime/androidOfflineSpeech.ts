@@ -1,5 +1,3 @@
-import { Capacitor, registerPlugin } from '@capacitor/core';
-
 export interface AndroidOfflineSpeechStatus {
   ready: boolean;
   available: boolean;
@@ -26,22 +24,57 @@ interface KidsplayOfflineSpeechPlugin {
   openInstall(): Promise<{ opened: boolean }>;
 }
 
-const nativeSpeech = registerPlugin<KidsplayOfflineSpeechPlugin>('KidsplayOfflineSpeech');
+interface NativeCapacitorRuntime {
+  getPlatform?: () => string;
+  isNativePlatform?: () => boolean;
+  isPluginAvailable?: (name: string) => boolean;
+  registerPlugin?: <T>(name: string) => T;
+  Plugins?: Record<string, unknown>;
+}
+
+type CapacitorWindow = Window & typeof globalThis & {
+  Capacitor?: NativeCapacitorRuntime;
+};
+
 const READY_RETRY_DELAYS_MS = [0, 120, 360, 850] as const;
 let speechGeneration = 0;
+let cachedPlugin: KidsplayOfflineSpeechPlugin | null | undefined;
 
 function pause(delayMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, delayMs));
 }
 
+function getCapacitorRuntime(): NativeCapacitorRuntime | null {
+  if (typeof window === 'undefined') return null;
+  return (window as CapacitorWindow).Capacitor ?? null;
+}
+
+function getNativeSpeech(): KidsplayOfflineSpeechPlugin | null {
+  if (cachedPlugin !== undefined) return cachedPlugin;
+  const capacitor = getCapacitorRuntime();
+  if (!capacitor || !isAndroidOfflineSpeechRuntime()) return (cachedPlugin = null);
+  try {
+    if (capacitor.isPluginAvailable?.('KidsplayOfflineSpeech') === false) {
+      return (cachedPlugin = null);
+    }
+    const existing = capacitor.Plugins?.KidsplayOfflineSpeech as KidsplayOfflineSpeechPlugin | undefined;
+    return (cachedPlugin = existing ?? capacitor.registerPlugin?.<KidsplayOfflineSpeechPlugin>('KidsplayOfflineSpeech') ?? null);
+  } catch {
+    return (cachedPlugin = null);
+  }
+}
+
 export function isAndroidOfflineSpeechRuntime(): boolean {
-  return Capacitor.isNativePlatform() && Capacitor.getPlatform() === 'android';
+  const capacitor = getCapacitorRuntime();
+  return capacitor?.isNativePlatform?.() === true && capacitor.getPlatform?.() === 'android';
 }
 
 export async function getAndroidOfflineSpeechStatus(
   language: string
 ): Promise<AndroidOfflineSpeechStatus | null> {
   if (!isAndroidOfflineSpeechRuntime()) return null;
+  const nativeSpeech = getNativeSpeech();
+  if (!nativeSpeech) return null;
 
   let lastStatus: AndroidOfflineSpeechStatus | null = null;
   for (const delayMs of READY_RETRY_DELAYS_MS) {
@@ -60,6 +93,8 @@ export async function speakAndroidOffline(
   request: AndroidOfflineSpeechRequest
 ): Promise<{ spoken: boolean; voiceName?: string }> {
   if (!isAndroidOfflineSpeechRuntime()) return { spoken: false };
+  const nativeSpeech = getNativeSpeech();
+  if (!nativeSpeech) return { spoken: false };
   const generation = ++speechGeneration;
 
   const status = await getAndroidOfflineSpeechStatus(request.language);
@@ -87,7 +122,7 @@ export async function speakAndroidOffline(
  * generation so a delayed initialization can never speak after navigation.
  */
 export function startAndroidOfflineSpeech(request: AndroidOfflineSpeechRequest): boolean {
-  if (!isAndroidOfflineSpeechRuntime()) return false;
+  if (!isAndroidOfflineSpeechRuntime() || !getNativeSpeech()) return false;
   void speakAndroidOffline(request);
   return true;
 }
@@ -96,7 +131,7 @@ export async function stopAndroidOfflineSpeech(): Promise<void> {
   speechGeneration += 1;
   if (!isAndroidOfflineSpeechRuntime()) return;
   try {
-    await nativeSpeech.stop();
+    await getNativeSpeech()?.stop();
   } catch {
     // Audio teardown must never block child navigation.
   }
@@ -105,7 +140,7 @@ export async function stopAndroidOfflineSpeech(): Promise<void> {
 export async function openAndroidOfflineVoiceInstaller(): Promise<boolean> {
   if (!isAndroidOfflineSpeechRuntime()) return false;
   try {
-    return (await nativeSpeech.openInstall()).opened;
+    return (await getNativeSpeech()?.openInstall())?.opened === true;
   } catch {
     return false;
   }
