@@ -2,6 +2,23 @@
   "schemaVersion": 1,
   "recipes": [
     {
+      "id": "experience.seed-growth-discovery",
+      "family": "cause_effect_discovery",
+      "priority": 60,
+      "selector": {
+        "surfaces": ["story", "free_play"],
+        "interactionTypes": ["single_choice"],
+        "knowledgeRefPrefixes": ["kr.plants.seed.function.new-plant"]
+      },
+      "choreography": {
+        "situation": "trigger_then_observe_result",
+        "leadCharacter": "scientu",
+        "audioCue": "prompt_and_reaction",
+        "worldConsequence": "progress_projection"
+      },
+      "assessmentPolicy": "suppress_pre_answer"
+    },
+    {
       "id": "experience.cause-effect-discovery",
       "family": "cause_effect_discovery",
       "priority": 50,
@@ -25,7 +42,7 @@
       "selector": {
         "surfaces": ["story", "free_play"],
         "interactionTypes": ["drag_to_target"],
-        "conceptAny": ["animal-home", "habitat-home", "home"]
+        "conceptSuffixes": [".home"]
       },
       "choreography": {
         "situation": "guide_subject_to_destination",
