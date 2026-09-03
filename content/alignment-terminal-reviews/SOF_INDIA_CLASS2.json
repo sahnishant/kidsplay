@@ -2,16 +2,16 @@
   "schemaVersion": 1,
   "profileRef": "SOF_INDIA_CLASS2",
   "status": "completed",
-  "reviewedAt": "2026-09-02",
+  "reviewedAt": "2026-09-03",
   "membershipSnapshot": {
-    "directRowCount": 221,
-    "membershipBlobSha": "d0c9e1ed8af659356a96583d3c4191bff850546e",
+    "directRowCount": 234,
+    "membershipBlobSha": "ffbf93a83689b8e30c6c6886d9bdaa278fe4b168",
     "exactReviewBlobSha": "ff784620598c051661f7df0e689191977191302c",
     "recoveryBlobSha": "e73ec9a417868316e084a4b304a3197125824ac3",
     "exactOfficialAnchorCount": 27,
     "reviewedNoExactPublicAnchorCount": 155,
-    "humanEditorialPlacementCount": 39,
-    "terminalRowCount": 221
+    "humanEditorialPlacementCount": 52,
+    "terminalRowCount": 234
   },
   "resolutionPolicy": {
     "exactOfficialAnchor": {
@@ -21,7 +21,7 @@
     "humanEditorialPlacement": {
       "when": "rowId is explicitly approved for SOF_INDIA_CLASS2 by a human_editor handoff after the historical public-official source audit",
       "disposition": "human_editorial_placement_no_official_anchor_claim",
-      "reviewRef": "sof-class2-human-editorial-placement-2026-09-02"
+      "reviewRef": "sof-class2-human-editorial-placement-2026-09-03"
     },
     "otherwise": {
       "disposition": "reviewed_no_exact_public_anchor",
@@ -29,17 +29,18 @@
     }
   },
   "editorialPlacementReview": {
-    "id": "sof-class2-human-editorial-placement-2026-09-02",
+    "id": "sof-class2-human-editorial-placement-2026-09-03",
     "status": "completed",
     "reviewAuthority": "human_editor",
     "reviewer": "sahnishant",
-    "reviewedAt": "2026-09-02",
+    "reviewedAt": "2026-09-03",
     "profileRef": "SOF_INDIA_CLASS2",
-    "reviewedDirectRows": 39,
+    "reviewedDirectRows": 52,
     "handoffRefs": [
       "content/lexicon/reviews/grade-2-batch-001-profile-placements.json",
       "content/lexicon/reviews/grade-2-batch-002.json",
-      "content/lexicon/reviews/grade-2-batch-003.json"
+      "content/lexicon/reviews/grade-2-batch-003.json",
+      "content/lexicon/reviews/grade-2-batch-004.json"
     ],
     "disposition": "human_editorial_placement_no_official_anchor_claim",
     "meaning": "This disposition records an explicit Kidsplay human-editorial profile placement. It does not claim that SOF officially lists the word, that an exact public official row anchor exists, or that the 2026-08-31 SOF source audit covered this later-added membership."

@@ -80,7 +80,7 @@ describe('viewport session presentation boundary', () => {
     expect(screen.getByRole('button', { name: 'See result' })).toBeTruthy();
   });
 
-  it('shows a clear lost-state reaction immediately after a wrong option tap', async () => {
+  it('shows a clear lost-state reaction and returns to the same item for retry', async () => {
     const { container } = render(Session, {
       props: {
         title: 'Visual Practice',
@@ -93,9 +93,14 @@ describe('viewport session presentation boundary', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Ocean' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
-    expect(screen.getByRole('status').textContent).toContain('Try again.');
+    expect(screen.getByRole('status').textContent).toContain('Try another way.');
     const splash = document.querySelector('[data-answer-feedback="incorrect"]');
     expect(splash).toBeTruthy();
     expect(splash?.textContent).toContain('Not quite!');
+    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+    expect(container.querySelector('[data-session-state="answer"]')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeTruthy();
   });
 });

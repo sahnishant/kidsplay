@@ -2,7 +2,16 @@
   import { onDestroy } from 'svelte';
   import type { SessionLaunch, SessionSection } from '../content';
   import type { Question } from '../contracts/question';
-  import type { SessionAttempt } from '../contracts/runtime';
+  import type { ResponseAssistanceKind, SessionAttempt } from '../contracts/runtime';
+  import {
+    loadChildAudioPreferences,
+    playCharacterNarration,
+    playQuestionPrompt,
+    playVocabularyAudio,
+    saveChildAudioPreferences,
+    stopChildAudio,
+    type ChildAudioPlaybackResult
+  } from '../runtime/childAudio';
   import type { AvatarId } from '../runtime/localProgress';
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
@@ -15,9 +24,11 @@
   import { recipeVisualPresentation } from '../presentation/semanticVisualPresentation';
   import { resolveVisualMeaningPresentation } from '../presentation/vocabularyPresentation';
   import { resolveStoryReaction } from '../story/storyReaction';
+  import { resolveRetryPolicy } from '../runtime/retryPolicy';
   import {
     advanceSession,
     createSessionState,
+    prepareRetry,
     replaySession,
     submitResponse,
     summarizeSectionResults,
@@ -68,14 +79,29 @@
   const vocabularyScenePrefix = 'vocabulary:';
   let sessionState = $state(seededState);
   let restoredSubmitted = $state(seededState.submitted);
+  let soundEnabled = $state(loadChildAudioPreferences().enabled);
+  let audioNotice = $state<string | null>(null);
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
   let question = $derived(questions[sessionState.index]);
   let assessmentMode = $derived(mode === 'goal_mock' || mode === 'goal_pattern_mock');
+  let retryPolicy = $derived(question ? resolveRetryPolicy(question, mode) : null);
+  let latestResponse = $derived(question ? sessionState.responses[sessionState.index] : undefined);
+  let retryAvailable = $derived(Boolean(
+    question
+      && sessionState.submitted
+      && sessionState.lastResult
+      && !sessionState.lastResult.correct
+      && retryPolicy?.retryAllowed
+  ));
+  let repeatedDifficulty = $derived(Boolean(retryAvailable && (latestResponse?.attempts ?? 1) >= 2));
+  let showCanonicalFeedback = $derived(Boolean(
+    sessionState.lastResult?.correct || !retryAvailable || repeatedDifficulty
+  ));
   let authoredSceneId = $derived(
     question?.stimulus?.type === 'scene' ? question.stimulus.sceneId : null
   );
   let reinforcementSceneId = $derived(
-    question && !authoredSceneId && sections.length === 0 && sessionState.submitted
+    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && showCanonicalFeedback
       ? resolveQuestionSceneId(question)
       : null
   );
@@ -88,7 +114,12 @@
     vocabularySenseKey ? resolveVisualMeaningPresentation(vocabularySenseKey) : null
   );
   let feedbackRecipeId = $derived(
-    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && !reinforcementSceneId
+    question
+      && !authoredSceneId
+      && sections.length === 0
+      && sessionState.submitted
+      && showCanonicalFeedback
+      && !reinforcementSceneId
       ? resolveQuestionFeedbackRecipeId(question)
       : null
   );
@@ -104,7 +135,7 @@
   let earnedMarks = $derived(sectionScores.reduce((sum, section) => sum + section.earnedMarks, 0));
   let maxMarks = $derived(sectionScores.reduce((sum, section) => sum + section.maxMarks, 0));
   let storyReaction = $derived(
-    storyCompletion && question && sessionState.submitted && sessionState.lastResult
+    storyCompletion && question && sessionState.submitted && sessionState.lastResult && showCanonicalFeedback
       ? resolveStoryReaction({
           correct: sessionState.lastResult.correct,
           difficulty: question.difficulty,
@@ -120,6 +151,38 @@
     if (!autoAdvanceTimer) return;
     clearTimeout(autoAdvanceTimer);
     autoAdvanceTimer = null;
+  }
+
+  function showAudioAvailability(result: ChildAudioPlaybackResult): void {
+    audioNotice = result.source === 'unavailable'
+      ? 'This device does not have an offline voice for this language yet.'
+      : result.source === 'pending_local_voice'
+        ? 'Getting the offline voice ready…'
+        : null;
+  }
+
+  function repeatQuestionPrompt(): void {
+    if (!question || !soundEnabled) return;
+    showAudioAvailability(playQuestionPrompt(question.prompt.text, question.language, true));
+  }
+
+  function toggleSound(): void {
+    const next = saveChildAudioPreferences(!soundEnabled);
+    soundEnabled = next.enabled;
+    audioNotice = null;
+    if (!soundEnabled) stopChildAudio();
+  }
+
+  function hearStoryReaction(): void {
+    if (!storyReaction || !question || !soundEnabled) return;
+    showAudioAvailability(
+      playCharacterNarration(storyReaction.character, storyReaction.text, question.language, true)
+    );
+  }
+
+  function hearVocabulary(): void {
+    if (!vocabularyPresentation?.lemma || !question || !soundEnabled) return;
+    showAudioAvailability(playVocabularyAudio(vocabularyPresentation.lemma, question.language, true));
   }
 
   function autoAdvanceDelay(currentQuestion: Question): number {
@@ -140,9 +203,11 @@
 
   function handleSubmit(response: unknown): void {
     if (!question) return;
+    stopChildAudio();
+    audioNotice = null;
     const submittedQuestion = question;
     const result = submitResponse(sessionState, submittedQuestion, response);
-    const storedResponse = sessionState.responses[sessionState.responses.length - 1];
+    const storedResponse = sessionState.responses[sessionState.index];
     if (result && storedResponse) {
       onAttempt?.({ question: submittedQuestion, response: storedResponse, result });
       onCheckpoint?.(sessionState);
@@ -150,8 +215,23 @@
     }
   }
 
+  function retryAssistance(): ResponseAssistanceKind[] {
+    if (!repeatedDifficulty) return [];
+    const assistance: ResponseAssistanceKind[] = ['explanation'];
+    if (reinforcementSceneId || feedbackRecipeId) assistance.push('visual_scaffold');
+    return assistance;
+  }
+
   function handleAdvance(): void {
     clearAutoAdvance();
+    stopChildAudio();
+    audioNotice = null;
+    if (question && retryAvailable && prepareRetry(sessionState, question, retryAssistance())) {
+      restoredSubmitted = false;
+      onCheckpoint?.(sessionState);
+      return;
+    }
+
     advanceSession(sessionState);
     restoredSubmitted = false;
     if (sessionState.index >= questions.length) {
@@ -163,12 +243,32 @@
 
   function handleReplay(): void {
     clearAutoAdvance();
+    stopChildAudio();
+    audioNotice = null;
     replaySession(sessionState);
     restoredSubmitted = false;
     onCheckpoint?.(sessionState);
   }
 
-  onDestroy(clearAutoAdvance);
+  function handleExit(): void {
+    clearAutoAdvance();
+    stopChildAudio();
+    audioNotice = null;
+    onExit?.();
+  }
+
+  $effect(() => {
+    const currentQuestion = question;
+    const submitted = sessionState.submitted;
+    const enabled = soundEnabled;
+    if (!currentQuestion || submitted || !enabled) return;
+    playQuestionPrompt(currentQuestion.prompt.text, currentQuestion.language, true);
+  });
+
+  onDestroy(() => {
+    clearAutoAdvance();
+    stopChildAudio();
+  });
 </script>
 
 {#if question}
@@ -176,7 +276,7 @@
     <header class="session-topbar">
       <div class="session-topbar__identity">
         {#if onExit}
-          <button class="home-button" type="button" onclick={onExit} aria-label="Back to Kidsplay home">←</button>
+          <button class="home-button" type="button" onclick={handleExit} aria-label="Back to Kidsplay home">←</button>
         {/if}
         <span class="player-avatar" aria-hidden="true">
           <Avatar
@@ -194,7 +294,19 @@
           <span>{title}</span>
         </div>
       </div>
-      <div class="progress-pill">{sessionState.index + 1} / {questions.length}</div>
+      <div style="display:flex;align-items:center;gap:6px">
+        <button
+          type="button"
+          aria-pressed={soundEnabled}
+          aria-label={soundEnabled ? 'Turn sound off' : 'Turn sound on'}
+          title={soundEnabled ? 'Sound on' : 'Sound off'}
+          onclick={toggleSound}
+          style="width:44px;height:44px;padding:0;border:0;border-radius:13px;background:var(--accent-soft);font-size:1.05rem;cursor:pointer"
+        >
+          <span aria-hidden="true">{soundEnabled ? '🔊' : '🔇'}</span>
+        </button>
+        <div class="progress-pill">{sessionState.index + 1} / {questions.length}</div>
+      </div>
     </header>
 
     {#if !sessionState.submitted}
@@ -206,18 +318,40 @@
             {/if}
             {#if onCheckpoint}<span class="saved-session-note">Mock progress saves on this device</span>{/if}
             {#if reasoningQuestion}<span class="reasoning-cue reasoning-cue--goal">Think it through</span>{/if}
+            {#if sessionState.retryState}<span class="reasoning-cue reasoning-cue--goal">Try again</span>{/if}
           </div>
+
+          {#if sessionState.retryState?.assistanceKinds.includes('explanation')}
+            <div class="restored-answer-note" role="note" aria-label="Retry clue"><strong>Clue:</strong> {question.feedback.incorrect}</div>
+          {/if}
 
           {#if authoredSceneId}
             <div class="answer-scene"><Scene sceneId={authoredSceneId} /></div>
           {/if}
 
           <h1 class="question-prompt">{question.prompt.text}</h1>
+          <div style="text-align:center;margin:-6px 0 10px">
+            <button
+              type="button"
+              disabled={!soundEnabled}
+              aria-label="Repeat question"
+              onclick={repeatQuestionPrompt}
+              style="min-height:44px;padding:7px 12px;border:0;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:inherit;font-size:.78rem;font-weight:900;cursor:pointer"
+            >
+              <span aria-hidden="true">↻</span>
+              <span>Repeat</span>
+            </button>
+          </div>
+          {#if audioNotice}
+            <p class="saved-session-note" style="display:block;margin:0 auto 8px;text-align:center" aria-live="polite">{audioNotice}</p>
+          {/if}
+
           <div class="interaction-host">
             <EngineHost
               {question}
               onSubmit={handleSubmit}
               feedbackMode={assessmentMode ? 'assessment' : 'play'}
+              {soundEnabled}
               checkResponse={(response) => evaluate(question, response)}
             />
           </div>
@@ -232,8 +366,18 @@
 
           {#if sessionState.lastResult}
             <div class={`feedback feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}`} role="status">
-              <strong>{sessionState.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
-              <span>{question.feedback[sessionState.lastResult.feedbackKey]}</span>
+              <strong>
+                {sessionState.lastResult.correct
+                  ? 'Nice work!'
+                  : retryAvailable
+                    ? (repeatedDifficulty ? 'Here’s a clue' : 'Give it another try')
+                    : 'Try this idea'}
+              </strong>
+              <span>
+                {sessionState.lastResult.correct || showCanonicalFeedback
+                  ? question.feedback[sessionState.lastResult.feedbackKey]
+                  : 'That one did not work. Try another way.'}
+              </span>
             </div>
           {/if}
 
@@ -245,8 +389,22 @@
               <span class="story-reaction__copy">
                 <strong>{storyReaction.speaker}</strong>
                 <span>{storyReaction.text}</span>
+                <button
+                  type="button"
+                  disabled={!soundEnabled}
+                  aria-label={`Hear ${storyReaction.speaker}`}
+                  onclick={hearStoryReaction}
+                  style="justify-self:start;min-height:44px;padding:7px 10px;border:0;border-radius:999px;background:#fff;color:var(--ink);font:inherit;font-size:.72rem;font-weight:850;cursor:pointer"
+                >
+                  <span aria-hidden="true">🔊</span>
+                  <span>Hear {storyReaction.speaker}</span>
+                </button>
               </span>
             </div>
+          {/if}
+
+          {#if audioNotice}
+            <p class="saved-session-note" style="display:block;margin:0 auto 8px;text-align:center" aria-live="polite">{audioNotice}</p>
           {/if}
 
           {#if vocabularySenseKey && vocabularyPresentation?.lemma}
@@ -256,6 +414,7 @@
                 word={vocabularyPresentation.lemma}
                 mode="glance"
                 phase="explanation"
+                onSpeak={soundEnabled ? hearVocabulary : null}
               />
             </div>
           {:else if reinforcementSceneId}
@@ -278,7 +437,9 @@
         </div>
 
         <button class="next-button" type="button" onclick={handleAdvance}>
-          {sessionState.index + 1 < questions.length ? 'Next' : 'See result'}
+          {retryAvailable
+            ? (repeatedDifficulty ? 'Try with this clue' : 'Try again')
+            : (sessionState.index + 1 < questions.length ? 'Next' : 'See result')}
         </button>
       </article>
     {/if}
@@ -321,7 +482,7 @@
       <div class="completion-actions">
         <button class="primary-button" type="button" onclick={handleReplay}>Play again</button>
         {#if onExit}
-          <button class="secondary-button" type="button" onclick={onExit}>{storyCompletion ? 'Back to Dheu’s world' : 'Back home'}</button>
+          <button class="secondary-button" type="button" onclick={handleExit}>{storyCompletion ? 'Back to Dheu’s world' : 'Back home'}</button>
         {/if}
       </div>
     </article>

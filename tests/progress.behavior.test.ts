@@ -10,7 +10,7 @@ import {
   type MasteryCounter,
   type ProgressSnapshot
 } from '../src/runtime/localProgress';
-import { createSessionState, submitResponse } from '../src/runtime/session';
+import { createSessionState, prepareRetry, submitResponse } from '../src/runtime/session';
 
 function testQuestion(): SingleChoiceQuestion {
   return {
@@ -99,6 +99,71 @@ describe('offline progress persistence', () => {
     expect(summary.recommendedTopics).toHaveLength(0);
   });
 
+  it('retains retry recovery without rewriting first-response accuracy or mastery counts', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+
+    const firstResult = submitResponse(state, question, { selectedOptionIds: ['whale'] });
+    expect(firstResult?.correct).toBe(false);
+    recordAttempt({ question, response: state.responses[0], result: firstResult! });
+
+    expect(prepareRetry(state, question)).toBe(true);
+    const retryResult = submitResponse(state, question, { selectedOptionIds: ['dog'] });
+    expect(retryResult?.correct).toBe(true);
+    recordAttempt({ question, response: state.responses[0], result: retryResult! });
+
+    const progress = loadProgress();
+    const knowledge = progress.knowledge['kr.test.animals.dog.domestic'];
+    const summary = summarizeProgress(progress);
+
+    expect(progress.attempts).toHaveLength(2);
+    expect(progress.attempts[0]).toMatchObject({
+      attemptNumber: 1,
+      attemptKind: 'independent',
+      countsTowardAccuracy: true,
+      masteryWeight: 1
+    });
+    expect(progress.attempts[1]).toMatchObject({
+      attemptNumber: 2,
+      attemptKind: 'retry',
+      assistanceKinds: [],
+      countsTowardAccuracy: false,
+      masteryWeight: 0.5
+    });
+    expect(summary).toMatchObject({ totalAttempts: 1, correctAttempts: 0, accuracy: 0, masteredKnowledge: 0 });
+    expect(knowledge).toMatchObject({ attempts: 1, correct: 0, totalWeight: 1.5, correctWeight: 0.5 });
+  });
+
+  it('weights assisted success below an unassisted retry and never converts it into an independent success', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+
+    const firstResult = submitResponse(state, question, { selectedOptionIds: ['whale'] });
+    recordAttempt({ question, response: state.responses[0], result: firstResult! });
+    expect(prepareRetry(state, question, ['explanation', 'visual_scaffold'])).toBe(true);
+
+    const assistedResult = submitResponse(state, question, { selectedOptionIds: ['dog'] });
+    recordAttempt({ question, response: state.responses[0], result: assistedResult! });
+
+    const progress = loadProgress();
+    const assisted = progress.attempts[1];
+    const summary = summarizeProgress(progress);
+
+    expect(assisted).toMatchObject({
+      attemptKind: 'retry',
+      assistanceKinds: ['explanation', 'visual_scaffold'],
+      countsTowardAccuracy: false,
+      masteryWeight: 0.25
+    });
+    expect(progress.knowledge['kr.test.animals.dog.domestic']).toMatchObject({
+      attempts: 1,
+      correct: 0,
+      totalWeight: 1.25,
+      correctWeight: 0.25
+    });
+    expect(summary).toMatchObject({ totalAttempts: 1, correctAttempts: 0, accuracy: 0, masteredKnowledge: 0 });
+  });
+
   it('does not double-count an identical submitted attempt if the UI replays the write', () => {
     const question = testQuestion();
     const state = createSessionState();
@@ -115,7 +180,7 @@ describe('offline progress persistence', () => {
     expect(progress.concepts['test.animals.domestic'].attempts).toBe(1);
   });
 
-  it('drops corrupt local evidence instead of letting it distort progress', () => {
+  it('loads legacy attempt evidence as independent while dropping corrupt local evidence', () => {
     window.localStorage.setItem('kidsplay.progress.v1', JSON.stringify({
       version: 1,
       attempts: [
@@ -169,6 +234,13 @@ describe('offline progress persistence', () => {
 
     const progress = loadProgress();
     expect(progress.attempts.map((attempt) => attempt.questionId)).toEqual(['question.valid']);
+    expect(progress.attempts[0]).toMatchObject({
+      attemptNumber: 1,
+      attemptKind: 'independent',
+      assistanceKinds: [],
+      countsTowardAccuracy: true,
+      masteryWeight: 1
+    });
     expect(Object.keys(progress.knowledge)).toEqual(['kr.animals.valid']);
     expect(Object.keys(progress.concepts)).toEqual(['animals.valid']);
     expect(progress.updatedAt).toBeNull();

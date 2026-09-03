@@ -55,7 +55,7 @@ describe('consolidated visual runtime consumption', () => {
     expect(session).toContain("import VisualMeaningPresenter from '../presentation/VisualMeaningPresenter.svelte'");
     expect(session).toContain("import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte'");
     expect(session).toContain("import { recipeVisualPresentation } from '../presentation/semanticVisualPresentation'");
-    expect(session).toContain('sessionState.submitted && !reinforcementSceneId');
+    expect(session).toContain('sessionState.submitted && showCanonicalFeedback');
     expect(session).toContain('<VisualMeaningPresenter');
     expect(session).toContain('<SemanticVisualPresenter');
     expect(session).toContain('recipeVisualPresentation(feedbackRecipeId)');

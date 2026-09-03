@@ -7,7 +7,8 @@
   import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
   import { getStoryLocations, getStoryMissions } from '../story/storyDirector';
   import { currentStoryLocation } from '../story/storyPresentation';
-  import { storyStarTotal, type StoryProgressSnapshot } from '../story/storyProgress';
+  import type { StoryProgressSnapshot } from '../story/storyProgress';
+  import { deriveWorldRewardState } from '../story/worldRewards';
   import ChildHud from './home/ChildHud.svelte';
   import GoalsViewport from './home/GoalsViewport.svelte';
   import HomeBottomNav from './home/HomeBottomNav.svelte';
@@ -46,7 +47,7 @@
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
-  let storyStars = $derived(storyStarTotal(storyProgress));
+  let worldState = $derived(deriveWorldRewardState(progress));
   let currentLevel = $derived(currentStoryLocation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)?.progression.level ?? null);
   let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
   let freeExploreEntries = $derived(catalog.filter((entry) => entry.kind === 'free_explore'));
@@ -78,9 +79,9 @@
 
 <main class="home-viewport" data-home-view={view}>
   {#if view === 'world'}
-    <ChildHud {child} {displayName} stars={storyStars} {currentLevel} onOpenPlayer={() => openView('player')} />
+    <ChildHud {child} {displayName} worldChanged={worldState.totalChanges > 0} {currentLevel} onOpenPlayer={() => openView('player')} />
     <div class="home-viewport__stage">
-      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress}
+      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState}
         recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
         {onStartMission} {onExploreLocation} />
     </div>

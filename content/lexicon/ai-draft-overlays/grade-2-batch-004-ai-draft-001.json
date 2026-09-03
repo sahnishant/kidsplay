@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-2-batch-004-ai-draft-001",
+  "batchId": "grade-2-batch-004",
+  "grade": 2,
+  "generatedAt": "2026-09-03",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "sort",
+      "proposedCandidateId": "sort#n#1",
+      "proposedChildDefinition": "A sort is a group or type of things that share something in common.",
+      "proposedChildExample": "This sort of fruit grows in summer.",
+      "rationale": "Category or kind is the ordinary child-facing noun; approximate-description and person-type readings are secondary."
+    },
+    {
+      "lemma": "speed",
+      "proposedCandidateId": "speed#n#1",
+      "proposedChildDefinition": "Speed tells how fast something moves by comparing distance with time.",
+      "proposedChildExample": "The bicycle's speed increased on the smooth road.",
+      "rationale": "Distance travelled per unit time is the clearest school meaning; general event rate and hurrying are distinct."
+    },
+    {
+      "lemma": "quick",
+      "proposedCandidateId": "quick#a#1",
+      "proposedChildDefinition": "Quick means happening or being done in a short time.",
+      "proposedChildExample": "Nina gave a quick answer.",
+      "rationale": "Rapid completion without delay is the ordinary adjective reading; hurried-brief and agile-motion senses are narrower."
+    },
+    {
+      "lemma": "clean",
+      "proposedCandidateId": "clean#a#1",
+      "proposedChildDefinition": "Clean means free from dirt or unwanted material.",
+      "proposedChildExample": "Wash your hands until they are clean.",
+      "rationale": "Freedom from dirt or impurities is the foundational meaning; unrestricted and sound/color senses are specialized."
+    },
+    {
+      "lemma": "computer",
+      "proposedCandidateId": "computer#n#1",
+      "proposedChildDefinition": "A computer is an electronic machine that processes information and follows instructions.",
+      "proposedChildExample": "We used the computer to type our project.",
+      "rationale": "The machine sense is the ordinary modern child meaning; the historical human-calculator sense is secondary."
+    },
+    {
+      "lemma": "hotel",
+      "proposedCandidateId": "hotel#n#1",
+      "proposedChildDefinition": "A hotel is a place where travelers can pay to stay for a short time.",
+      "proposedChildExample": "The family stayed at a hotel during the trip.",
+      "rationale": "Only supplied candidate and the ordinary lodging meaning."
+    },
+    {
+      "lemma": "beach",
+      "proposedCandidateId": "beach#n#1",
+      "proposedChildDefinition": "A beach is an area of sand or small stones beside a sea or lake.",
+      "proposedChildExample": "We collected shells on the beach.",
+      "rationale": "Only supplied candidate and an unambiguous primary geography meaning."
+    },
+    {
+      "lemma": "color",
+      "proposedCandidateId": "color#n#1",
+      "proposedChildDefinition": "Color is the visual quality that makes things appear red, blue, green, or other shades.",
+      "proposedChildExample": "The leaf changed color from green to yellow.",
+      "rationale": "Visual color is the ordinary early-primary meaning; vividness and musical timbre are specialized."
+    },
+    {
+      "lemma": "shop",
+      "proposedCandidateId": "shop#n#1",
+      "proposedChildDefinition": "A shop is a place where people buy goods or services.",
+      "proposedChildExample": "We bought pencils from the shop.",
+      "rationale": "Retail establishment is the ordinary child-facing noun; workshop and trade-class meanings are secondary."
+    },
+    {
+      "lemma": "camera",
+      "proposedCandidateId": "camera#n#1",
+      "proposedChildDefinition": "A camera is a device used to take photographs or record images.",
+      "proposedChildExample": "Dad used the camera to take a picture.",
+      "rationale": "General photographic-camera sense fits the child vocabulary target better than the specialized television-camera sense."
+    },
+    {
+      "lemma": "lake",
+      "proposedCandidateId": "lake#n#1",
+      "proposedChildDefinition": "A lake is a body of water surrounded by land.",
+      "proposedChildExample": "Boats moved across the calm lake.",
+      "rationale": "Geographic water-body sense is unambiguous for children; the other candidates are pigment senses."
+    },
+    {
+      "lemma": "adult",
+      "proposedCandidateId": "adult#n#1",
+      "proposedChildDefinition": "An adult is a fully grown person.",
+      "proposedChildExample": "An adult helped the children cross the road.",
+      "rationale": "Mature person is the general social meaning; mature animal is a distinct science sense."
+    },
+    {
+      "lemma": "window",
+      "proposedCandidateId": "window#n#1",
+      "proposedChildDefinition": "A window is an opening with glass in a wall or roof that lets in light and may let in air.",
+      "proposedChildExample": "Sunlight came through the classroom window.",
+      "rationale": "Building window is the ordinary child-facing noun; vehicle and transparent-panel senses are narrower."
+    }
+  ]
+}
