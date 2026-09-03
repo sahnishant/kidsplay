@@ -13,6 +13,7 @@ const PROHIBITED_SUGGESTION_FIELDS = new Set([
   'profilePlacement',
   'editorial'
 ]);
+const AMBIGUITY_LEVELS = new Set(['low', 'medium', 'hold_recommended']);
 
 function parseArgs(argv) {
   const args = {};
@@ -57,6 +58,25 @@ function assertNoHumanReviewFields(suggestion, lemma) {
   for (const key of Object.keys(suggestion ?? {})) {
     if (PROHIBITED_SUGGESTION_FIELDS.has(key)) throw new Error(`${lemma}: AI suggestion may not set human review field ${key}`);
   }
+}
+
+function normalizeAmbiguityWarning(value, lemma) {
+  if (value == null) return null;
+  if (typeof value !== 'object' || Array.isArray(value)) throw new Error(`${lemma}: ambiguityWarning must be an object or null`);
+  const level = clean(value.level);
+  const note = clean(value.note);
+  if (!AMBIGUITY_LEVELS.has(level)) throw new Error(`${lemma}: ambiguityWarning.level must be low, medium or hold_recommended`);
+  if (note.length > 280) throw new Error(`${lemma}: ambiguityWarning.note must be at most 280 characters`);
+  if (level === 'hold_recommended' && note.length < 3) throw new Error(`${lemma}: hold_recommended ambiguity warnings require an explanatory note`);
+  return { level, note: note || null };
+}
+
+function normalizeProfilePlacementRationale(value, lemma) {
+  if (value == null) return null;
+  if (typeof value !== 'string') throw new Error(`${lemma}: profilePlacementRationale must be a string or null`);
+  const rationale = clean(value);
+  if (rationale.length > 280) throw new Error(`${lemma}: profilePlacementRationale must be at most 280 characters`);
+  return rationale || null;
 }
 
 export function applyAiDraftOverlay(packet, overlay) {
@@ -109,6 +129,8 @@ export function applyAiDraftOverlay(packet, overlay) {
       proposedChildDefinition,
       proposedChildExample: proposedChildExample || null,
       rationale: clean(suggestion.rationale) || null,
+      ambiguityWarning: normalizeAmbiguityWarning(suggestion.ambiguityWarning, lemma),
+      profilePlacementRationale: normalizeProfilePlacementRationale(suggestion.profilePlacementRationale, lemma),
       mayCountAsReviewed: false,
       humanReviewRequired: true,
       profilePlacementApproved: false
