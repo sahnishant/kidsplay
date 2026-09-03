@@ -72,6 +72,16 @@ describe('Android offline-speech native installation', () => {
     expect(source).not.toContain('android.permission.INTERNET');
   });
 
+  it('never falls through from native Android into WebView speech', () => {
+    const source = readFileSync(resolve(repoRoot, 'src/runtime/childAudio.ts'), 'utf8');
+    const androidGate = source.indexOf('if (nativeAndroid) {', source.indexOf('export function playChildAudio'));
+    const browserFallback = source.indexOf('const speechResult = speakWithOfflineVoice', androidGate);
+
+    expect(androidGate).toBeGreaterThan(0);
+    expect(browserFallback).toBeGreaterThan(androidGate);
+    expect(source.slice(androidGate, browserFallback)).toContain("return { source: 'silent_fallback' }");
+  });
+
   it('binds the installer to every Capacitor sync without adding a generated Android tree to source control', () => {
     const packageJson = JSON.parse(readFileSync(resolve(repoRoot, 'package.json'), 'utf8')) as {
       scripts: Record<string, string>;
