@@ -47,6 +47,7 @@
     recordStoryMissionCompletion
   } from './story/storyProgress';
   import type { StoryLocation, StoryMission } from './story/storyTypes';
+  import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
 
@@ -259,6 +260,7 @@
       onComplete={handleSessionComplete}
       onExit={requestSessionExit}
     />
+    <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
   </div>
 {:else}
   <Home

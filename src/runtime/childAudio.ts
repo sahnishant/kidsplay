@@ -1,3 +1,9 @@
+import {
+  isAndroidOfflineSpeechRuntime,
+  startAndroidOfflineSpeech,
+  stopAndroidOfflineSpeech
+} from './androidOfflineSpeech';
+
 export type ChildAudioChannel = 'prompt' | 'character' | 'vocabulary' | 'phoneme';
 export type ChildAudioCharacter = 'dheu' | 'scientu' | 'shaitanu';
 export type ChildAudioPlaybackSource =
@@ -144,10 +150,9 @@ function childFriendlyVoiceScore(voice: SpeechSynthesisVoice): number {
 }
 
 /**
- * Strict offline voice selection. Voices that are not explicitly marked
- * localService are never eligible, even when a browser would otherwise choose
- * them automatically. When several local voices fit, prefer system voices
- * whose names commonly indicate a lighter child-friendly delivery.
+ * Strict offline voice selection for ordinary browsers. Native Android never
+ * reaches this browser path; it uses the native plugin below, which applies the
+ * equivalent networkConnectionRequired=false rule to Android Voice objects.
  */
 export function selectOfflineSpeechVoice(
   voices: readonly SpeechSynthesisVoice[],
@@ -279,6 +284,7 @@ export function stopChildAudio(): void {
     }
     activeMedia = null;
   }
+  void stopAndroidOfflineSpeech();
   try {
     getSpeechSynthesis()?.cancel();
   } catch {
@@ -291,6 +297,20 @@ function voiceProfileFor(request: ChildAudioRequest): VoiceProfile {
     return VOICE_PROFILES[request.character];
   }
   return VOICE_PROFILES[request.channel];
+}
+
+function startNativeAndroidVoice(
+  request: ChildAudioRequest,
+  generation: number
+): boolean {
+  if (!isAndroidOfflineSpeechRuntime() || generation !== playbackGeneration) return false;
+  const profile = voiceProfileFor(request);
+  return startAndroidOfflineSpeech({
+    text: request.text.trim(),
+    language: request.language,
+    rate: profile.rate,
+    pitch: profile.pitch
+  });
 }
 
 function speakWithOfflineVoice(
@@ -351,10 +371,11 @@ function waitForOfflineVoice(
 }
 
 /**
- * Plays narration without any remote fallback. Bundled app audio wins; the
- * browser/device speech engine is allowed only when it explicitly exposes a
- * matching localService voice. Android WebViews can populate that voice list
- * late, so a short bounded retry also runs after a child presses Repeat.
+ * Plays narration without any remote fallback. Bundled app audio wins. Native
+ * Android then uses the repo-owned TextToSpeech plugin, which accepts only
+ * installed voices that do not require a network connection. Other browsers
+ * may use Web Speech only when the browser explicitly marks a matching voice
+ * localService=true.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
   if (request.enabled === false) {
@@ -374,6 +395,7 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
       void media.play().catch(() => {
         if (generation !== playbackGeneration) return;
         activeMedia = null;
+        if (startNativeAndroidVoice(request, generation)) return;
         const result = speakWithOfflineVoice(request, generation);
         if (result.source === 'unavailable') waitForOfflineVoice(request, generation);
       });
@@ -381,6 +403,10 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     } catch {
       activeMedia = null;
     }
+  }
+
+  if (startNativeAndroidVoice(request, generation)) {
+    return { source: 'pending_local_voice' };
   }
 
   const speechResult = speakWithOfflineVoice(request, generation);
