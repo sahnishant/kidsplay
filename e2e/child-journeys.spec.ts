@@ -193,7 +193,9 @@ test.describe('Kidsplay child journeys', () => {
     await expect(completion).toContainText('⭐ 3');
 
     await page.getByRole('button', { name: 'Back to Dheu’s world' }).click();
-    await expect(page.getByLabel('3 story stars')).toBeVisible();
+    await expect(page.getByLabel('3 story stars')).toHaveCount(0);
+    await expect(page.getByLabel('Learning has changed the world')).toBeVisible();
+    await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1:.*Trail sign repaired/ })).toBeVisible();
     await expect(page.getByLabel('6 of 9 places open; 1 complete')).toBeVisible();
     await expect(page.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: The Invisible Air Mystery" })).toBeEnabled();
   });
@@ -317,7 +319,6 @@ test.describe('Android-like viewport acceptance', () => {
     await expectChildTapTarget(page.getByRole('button', { name: 'Panda' }), 'avatar choice');
     await page.getByRole('button', { name: "Back to Dheu's world" }).click();
     await expectNoDocumentVerticalOverflow(page, 'world after player edit');
-
     await openPractice(page);
     await expectChildTapTarget(page.getByRole('button', { name: 'Play free' }), 'free-play entry');
     await expectNoDocumentVerticalOverflow(page, 'practice chooser');

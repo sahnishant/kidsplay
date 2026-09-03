@@ -13,17 +13,18 @@
   } from '../story/storyDirector';
   import { buildStoryLocationPresentation } from '../story/storyPresentation';
   import {
-    storyStarTotal,
     storyUnlockedLocationCount,
     type StoryProgressSnapshot
   } from '../story/storyProgress';
   import type { StoryLocation, StoryMission } from '../story/storyTypes';
+  import type { WorldChange, WorldLocationId, WorldRewardState } from '../story/worldRewards';
   import ExpeditionNode from './story/ExpeditionNode.svelte';
 
   let {
     childName,
     childAvatar,
     storyProgress,
+    worldState,
     recommendedTopics = [],
     topicProgress = [],
     onStartMission,
@@ -32,6 +33,7 @@
     childName: string;
     childAvatar: AvatarId;
     storyProgress: StoryProgressSnapshot;
+    worldState?: WorldRewardState;
     recommendedTopics?: TopicProgressSummary[];
     topicProgress?: TopicProgressSummary[];
     onStartMission: (missionId: string) => void;
@@ -52,11 +54,14 @@
     Boolean(selectedMission && missionBeatIndex < selectedMission.beats.length - 1)
   );
   let heroName = $derived(getHeroDisplayName(childName));
-  let stars = $derived(storyStarTotal(storyProgress));
   let unlockedPlaces = $derived(storyUnlockedLocationCount(storyProgress, locations));
   let presentations = $derived(buildStoryLocationPresentation(locations, missions, storyProgress, recommendedTopics));
   let currentPresentation = $derived(presentations.find((item) => item.state === 'current') ?? null);
   let completedPlaces = $derived(presentations.filter((item) => item.state === 'complete').length);
+  let worldChangeCount = $derived(worldState?.totalChanges ?? 0);
+  let worldCollectibles = $derived(worldState?.collectibles ?? []);
+  let worldDiscoveries = $derived(worldState?.discoveries ?? []);
+  let worldTrophies = $derived(worldState?.trophies ?? []);
 
   function unlockMissionTitle(location: StoryLocation): string | null {
     if (location.unlock.type !== 'mission') return null;
@@ -91,6 +96,18 @@
     if (value === 'dheu') return heroName;
     if (value === 'scientu') return 'Scientu';
     return 'Shaitanu';
+  }
+
+  function worldChangesFor(locationId: string): WorldChange[] {
+    return worldState?.locations[locationId as WorldLocationId]?.changes ?? [];
+  }
+
+  function changeNames(changes: WorldChange[]): string {
+    return changes.map((change) => change.title).join(', ');
+  }
+
+  function changeIcons(changes: WorldChange[]): string {
+    return changes.slice(-2).map((change) => change.icon).join('');
   }
 
   function closeMissionFromBack(): void {
@@ -158,8 +175,22 @@
       <div class="world-progress" aria-label={`${unlockedPlaces} of ${locations.length} places open; ${completedPlaces} complete`}>
         <span><strong>{completedPlaces}</strong> done</span>
         <span><strong>{unlockedPlaces}/{locations.length}</strong> open</span>
-        <span><strong>⭐ {stars}</strong></span>
+        <span aria-label={worldChangeCount > 0 ? 'Learning has changed the world' : 'World ready to grow'}><strong>🌍 {worldChangeCount > 0 ? 'changed' : 'ready'}</strong></span>
       </div>
+
+      {#if worldCollectibles.length > 0 || worldDiscoveries.length > 0 || worldTrophies.length > 0}
+        <div class="world-progress" style="right:auto;left:7px" aria-label="Persistent learning keepsakes">
+          {#if worldCollectibles.length > 0}
+            <span role="group" aria-label={`Backpack collectibles: ${changeNames(worldCollectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldCollectibles)}</strong></span>
+          {/if}
+          {#if worldDiscoveries.length > 0}
+            <span role="group" aria-label={`Lab and science discoveries: ${changeNames(worldDiscoveries)}`}><strong aria-hidden="true">🔬{changeIcons(worldDiscoveries)}</strong></span>
+          {/if}
+          {#if worldTrophies.length > 0}
+            <span role="group" aria-label={`Puzzle trophies: ${changeNames(worldTrophies)}`}><strong aria-hidden="true">🏆{changeIcons(worldTrophies)}</strong></span>
+          {/if}
+        </div>
+      {/if}
 
       {#each presentations as item}
         <ExpeditionNode
@@ -169,6 +200,7 @@
           {childAvatar}
           actionLabel={actionLabel(item.state, item.mission)}
           ariaLabel={locationAriaLabel(item.location, item.state, item.mission)}
+          worldChanges={worldChangesFor(item.location.id)}
           onActivate={() => {
             if (item.state === 'locked') return;
             if (item.mission) openMission(item.mission.id);

@@ -3,25 +3,47 @@
   import type { AvatarId } from '../../runtime/localProgress';
   import type { StoryLocationVisualState } from '../../story/storyPresentation';
   import type { StoryLocation } from '../../story/storyTypes';
+  import type { WorldChange } from '../../story/worldRewards';
 
-  let { location, state, icon, childAvatar, actionLabel, ariaLabel, onActivate }: {
+  let {
+    location,
+    state,
+    icon,
+    childAvatar,
+    actionLabel,
+    ariaLabel,
+    worldChanges = [],
+    onActivate
+  }: {
     location: StoryLocation;
     state: StoryLocationVisualState;
     icon: string;
     childAvatar: AvatarId;
     actionLabel: string;
     ariaLabel: string;
+    worldChanges?: WorldChange[];
     onActivate: () => void;
   } = $props();
+
+  let visibleWorldChanges = $derived(worldChanges.slice(-3));
+  let accessibleLabel = $derived(
+    worldChanges.length === 0
+      ? ariaLabel
+      : `${ariaLabel}. Learning changed this place: ${worldChanges.map((change) => change.title).join(', ')}.`
+  );
 </script>
 
 <div class:expedition-shell--current={state === 'current'} class="expedition-shell"
   style={`--world-x:${location.position.x}%;--world-y:${location.position.y}%`}>
   {#if state === 'current'}<span class="hero-marker" aria-hidden="true"><Avatar avatar={childAvatar} mood="happy" motion="bounce" /></span>{/if}
-  <button type="button" class="expedition-node" data-state={state} disabled={state === 'locked'} aria-label={ariaLabel} onclick={onActivate}>
+  <button type="button" class="expedition-node" data-state={state} disabled={state === 'locked'} aria-label={accessibleLabel} onclick={onActivate}>
     <span class="expedition-node__state" aria-hidden="true">{state === 'complete' ? '✓' : state === 'locked' ? '🔒' : state === 'current' ? '▶' : '•'}</span>
     <span class="expedition-node__icon" aria-hidden="true">{state === 'locked' ? '☁️' : icon}</span>
-    <span class="expedition-node__level">LEVEL {location.progression.level}</span><strong>{location.expeditionTitle}</strong><small>{actionLabel}</small>
+    <span class="expedition-node__level">LEVEL {location.progression.level}</span><strong>{location.expeditionTitle}</strong>
+    {#if visibleWorldChanges.length > 0}
+      <span aria-hidden="true">{#each visibleWorldChanges as change}{change.icon}{/each}</span>
+    {/if}
+    <small>{actionLabel}</small>
   </button>
 </div>
 

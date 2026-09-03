@@ -5,13 +5,13 @@
   let {
     child,
     displayName,
-    stars,
+    worldChanged,
     currentLevel,
     onOpenPlayer
   }: {
     child: ChildSettings;
     displayName: string;
-    stars: number;
+    worldChanged: boolean;
     currentLevel: number | null;
     onOpenPlayer: () => void;
   } = $props();
@@ -26,7 +26,13 @@
   </button>
 
   <div class="child-hud__progress">
-    <span class="hud-pill" aria-label={`${stars} story stars`}>⭐ <strong>{stars}</strong></span>
+    <span
+      class="hud-pill"
+      aria-label={worldChanged ? 'Learning has changed the adventure world' : 'Adventure world ready to grow'}
+    >
+      <span aria-hidden="true">🌍</span>
+      <strong>{worldChanged ? 'World changed' : 'World ready'}</strong>
+    </span>
     {#if currentLevel !== null}
       <span class="hud-pill hud-pill--level" aria-label={`Current adventure level ${currentLevel}`}>
         Level <strong>{currentLevel}</strong>
