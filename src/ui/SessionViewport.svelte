@@ -45,12 +45,17 @@
   }
 
   const experienceCueByFamily: Record<ExperienceRecipeFamily, string> = {
-    guide_to_home: 'Dheu: Guide each thing toward the place where it belongs.',
-    sort_or_match: 'Dheu: Put the clues that belong together.',
-    observe_choose: 'Scientu: Look closely at the clue before you choose.',
-    sequence_process: 'Scientu: Put the stages from first to last, then see what changes.',
-    cause_effect_discovery: 'Scientu: Try the clue, then notice what happens.'
+    guide_to_home: 'Guide each thing toward the place where it belongs.',
+    sort_or_match: 'Put the clues that belong together.',
+    observe_choose: 'Look closely at the clue before you choose.',
+    sequence_process: 'Put the stages from first to last, then see what changes.',
+    cause_effect_discovery: 'Try the clue, then notice what happens.'
   };
+  const experienceCharacterName = {
+    dheu: 'Dheu',
+    scientu: 'Scientu',
+    shaitanu: 'Shaitanu'
+  } as const;
 
   let {
     title,
@@ -96,8 +101,13 @@
   let experienceRecipe = $derived(
     storyCompletion && question && !assessmentMode ? resolveExperienceRecipe(question, 'story') : null
   );
-  let experienceCueText = $derived(
+  let experienceCueBody = $derived(
     experienceRecipe ? experienceCueByFamily[experienceRecipe.family] : null
+  );
+  let experienceCueText = $derived(
+    experienceRecipe && experienceCueBody
+      ? `${experienceCharacterName[experienceRecipe.choreography.leadCharacter]}: ${experienceCueBody}`
+      : null
   );
   let retryPolicy = $derived(question ? resolveRetryPolicy(question, mode) : null);
   let latestResponse = $derived(question ? sessionState.responses[sessionState.index] : undefined);
@@ -178,13 +188,28 @@
 
   function narratedQuestionText(): string {
     if (!question) return '';
-    if (!experienceCueText || experienceRecipe?.choreography.audioCue !== 'prompt_and_reaction') return question.prompt.text;
-    return `${experienceCueText} ${question.prompt.text}`;
+    if (!experienceCueBody || experienceRecipe?.choreography.audioCue !== 'prompt_and_reaction') return question.prompt.text;
+    return `${experienceCueBody} ${question.prompt.text}`;
+  }
+
+  function playCurrentQuestionNarration(forceRestart: boolean): ChildAudioPlaybackResult | null {
+    if (!question) return null;
+    const text = narratedQuestionText();
+    if (experienceRecipe?.choreography.audioCue === 'prompt_and_reaction') {
+      return playCharacterNarration(
+        experienceRecipe.choreography.leadCharacter,
+        text,
+        question.language,
+        forceRestart
+      );
+    }
+    return playQuestionPrompt(text, question.language, forceRestart);
   }
 
   function repeatQuestionPrompt(): void {
     if (!question || !soundEnabled) return;
-    showAudioAvailability(playQuestionPrompt(narratedQuestionText(), question.language, true));
+    const result = playCurrentQuestionNarration(true);
+    if (result) showAudioAvailability(result);
   }
 
   function toggleSound(): void {
@@ -282,9 +307,8 @@
     const currentQuestion = question;
     const submitted = sessionState.submitted;
     const enabled = soundEnabled;
-    const narratedText = narratedQuestionText();
     if (!currentQuestion || submitted || !enabled) return;
-    playQuestionPrompt(narratedText, currentQuestion.language, true);
+    playCurrentQuestionNarration(true);
   });
 
   onDestroy(() => {
