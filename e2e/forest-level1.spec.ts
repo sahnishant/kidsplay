@@ -1,5 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
-import animalLifecycleKnowledge from '../content/knowledge/animal-lifecycles.json';
+import animalLifecycleKnowledge from '../content/knowledge/animal-lifecycles.json' with { type: 'json' };
 import {
   answerCurrentQuestion,
   cssTimeToMilliseconds,
