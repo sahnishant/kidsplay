@@ -203,7 +203,7 @@ test.describe('Kidsplay child journeys', () => {
     await expect(page.getByLabel('3 story stars')).toHaveCount(0);
     await expect(page.getByLabel('Learning has changed the world')).toBeVisible();
     await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1:.*Trail sign repaired/ })).toBeVisible();
-    await expect(page.getByLabel('Current adventure level 6')).toBeVisible();
+    await expect(page.getByLabel('Current adventure level 1')).toBeVisible();
     await expect(page.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: The Invisible Air Mystery" })).toBeEnabled();
   });
 
