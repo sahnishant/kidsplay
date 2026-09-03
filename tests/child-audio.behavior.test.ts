@@ -77,6 +77,8 @@ describe('Phase C offline child audio runtime', () => {
     expect(isBundledChildAudioPath('https://example.com/dog.mp3')).toBe(false);
     expect(isBundledChildAudioPath('//example.com/dog.mp3')).toBe(false);
     expect(isBundledChildAudioPath('/audio/../remote.mp3')).toBe(false);
+    expect(isBundledChildAudioPath('/audio/%2e%2e/remote.mp3')).toBe(false);
+    expect(isBundledChildAudioPath('/audio\\..\\remote.mp3')).toBe(false);
     expect(isBundledChildAudioPath('/audio/dog.mp3?cache=1')).toBe(false);
     expect(isBundledChildAudioPath('data:audio/wav;base64,AAAA')).toBe(false);
   });
@@ -137,11 +139,12 @@ describe('Phase C offline child audio runtime', () => {
     expect(dheu.rate).not.toBe(shaitanu.rate);
   });
 
-  it('returns muted without touching speech when the master gate is off', () => {
+  it('returns muted and cancels in-flight narration when the master gate is off', () => {
     const { synthesis } = installSpeechSynthesis([voice('Offline English', 'en-IN', true)]);
     const result = playQuestionPrompt('Do not speak this.', 'en-IN', false);
 
     expect(result.source).toBe('muted');
+    expect(synthesis.cancel).toHaveBeenCalled();
     expect(synthesis.speak).not.toHaveBeenCalled();
   });
 });
