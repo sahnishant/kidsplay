@@ -21,6 +21,7 @@ export interface ExperienceRecipeSelector {
   surfaces: Exclude<ExperienceSurface, 'assessment'>[];
   interactionTypes: Question['interaction']['type'][];
   conceptAny?: string[];
+  conceptSuffixes?: string[];
   knowledgeRefPrefixes?: string[];
 }
 
@@ -143,6 +144,9 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
   const conceptAny = selector.conceptAny === undefined
     ? undefined
     : assertStringArray(selector.conceptAny, `${id}.selector.conceptAny`);
+  const conceptSuffixes = selector.conceptSuffixes === undefined
+    ? undefined
+    : assertStringArray(selector.conceptSuffixes, `${id}.selector.conceptSuffixes`);
   const knowledgeRefPrefixes = selector.knowledgeRefPrefixes === undefined
     ? undefined
     : assertStringArray(selector.knowledgeRefPrefixes, `${id}.selector.knowledgeRefPrefixes`);
@@ -175,6 +179,7 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
       surfaces: surfaces as Exclude<ExperienceSurface, 'assessment'>[],
       interactionTypes: interactionTypes as Question['interaction']['type'][],
       ...(conceptAny ? { conceptAny } : {}),
+      ...(conceptSuffixes ? { conceptSuffixes } : {}),
       ...(knowledgeRefPrefixes ? { knowledgeRefPrefixes } : {})
     },
     choreography: {
@@ -219,6 +224,7 @@ export function getExperienceRecipes(): ExperienceRecipe[] {
       surfaces: [...recipe.selector.surfaces],
       interactionTypes: [...recipe.selector.interactionTypes],
       ...(recipe.selector.conceptAny ? { conceptAny: [...recipe.selector.conceptAny] } : {}),
+      ...(recipe.selector.conceptSuffixes ? { conceptSuffixes: [...recipe.selector.conceptSuffixes] } : {}),
       ...(recipe.selector.knowledgeRefPrefixes
         ? { knowledgeRefPrefixes: [...recipe.selector.knowledgeRefPrefixes] }
         : {})
@@ -233,6 +239,10 @@ function selectorMatches(question: Question, recipe: ExperienceRecipe, surface: 
 
   if (recipe.selector.conceptAny?.length) {
     if (!question.conceptIds.some((conceptId) => recipe.selector.conceptAny?.includes(conceptId))) return false;
+  }
+
+  if (recipe.selector.conceptSuffixes?.length) {
+    if (!question.conceptIds.some((conceptId) => recipe.selector.conceptSuffixes?.some((suffix) => conceptId.endsWith(suffix)))) return false;
   }
 
   if (recipe.selector.knowledgeRefPrefixes?.length) {
