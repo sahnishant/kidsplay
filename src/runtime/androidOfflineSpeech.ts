@@ -38,7 +38,7 @@ type CapacitorWindow = Window & typeof globalThis & {
 
 const READY_RETRY_DELAYS_MS = [0, 120, 360, 850] as const;
 let speechGeneration = 0;
-let cachedPlugin: KidsplayOfflineSpeechPlugin | null | undefined;
+let cachedPlugin: KidsplayOfflineSpeechPlugin | undefined;
 
 function pause(delayMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, delayMs));
@@ -50,17 +50,17 @@ function getCapacitorRuntime(): NativeCapacitorRuntime | null {
 }
 
 function getNativeSpeech(): KidsplayOfflineSpeechPlugin | null {
-  if (cachedPlugin !== undefined) return cachedPlugin;
+  if (cachedPlugin) return cachedPlugin;
   const capacitor = getCapacitorRuntime();
-  if (!capacitor || !isAndroidOfflineSpeechRuntime()) return (cachedPlugin = null);
+  if (!capacitor || !isAndroidOfflineSpeechRuntime()) return null;
   try {
-    if (capacitor.isPluginAvailable?.('KidsplayOfflineSpeech') === false) {
-      return (cachedPlugin = null);
-    }
+    if (capacitor.isPluginAvailable?.('KidsplayOfflineSpeech') === false) return null;
     const existing = capacitor.Plugins?.KidsplayOfflineSpeech as KidsplayOfflineSpeechPlugin | undefined;
-    return (cachedPlugin = existing ?? capacitor.registerPlugin?.<KidsplayOfflineSpeechPlugin>('KidsplayOfflineSpeech') ?? null);
+    const plugin = existing ?? capacitor.registerPlugin?.<KidsplayOfflineSpeechPlugin>('KidsplayOfflineSpeech');
+    if (plugin) cachedPlugin = plugin;
+    return plugin ?? null;
   } catch {
-    return (cachedPlugin = null);
+    return null;
   }
 }
 
