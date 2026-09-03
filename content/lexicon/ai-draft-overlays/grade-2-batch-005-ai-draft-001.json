@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-2-batch-005-ai-draft-001",
+  "batchId": "grade-2-batch-005",
+  "grade": 2,
+  "generatedAt": "2026-09-03",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "map",
+      "proposedCandidateId": "map#n#1",
+      "proposedChildDefinition": "A map is a drawing or diagram that shows where places are.",
+      "proposedChildExample": "We used a map to find the river.",
+      "rationale": "Candidate 1 is the ordinary geographic representation. Candidate 2 is the specialized mathematical-function sense.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The geographic meaning is clear and distinct from the mathematical reading."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "fly",
+      "proposedCandidateId": "fly#n#1",
+      "proposedChildDefinition": "A fly is a small two-winged insect.",
+      "proposedChildExample": "A fly landed on the windowsill.",
+      "rationale": "Candidate 1 is the insect. Candidate 2 is a tent flap and candidate 3 is the opening on a garment.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The insect noun is concrete and clearly represented by candidate 1."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "warm",
+      "proposedCandidateId": "warm#a#1",
+      "proposedChildDefinition": "Warm means having a comfortable amount of heat without being very hot.",
+      "proposedChildExample": "The soup was warm enough to eat.",
+      "rationale": "Candidate 1 is physical temperature. Candidate 2 is friendly/responsive and candidate 3 describes warm colors.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "Physical temperature is the clearest primary reading; social and color contexts are separate."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "email",
+      "proposedCandidateId": "email#n#2",
+      "proposedChildDefinition": "An email is a message sent electronically over the internet.",
+      "proposedChildExample": "I sent my teacher an email about the project.",
+      "rationale": "Candidate 2 is an individual email message. Candidate 1 is the communication system and candidate 3 is an email address, so candidate 1 should not be selected automatically.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Email can mean the system, a message, or an address. Approve candidate 2 only if the intended classroom noun is a message."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "holiday",
+      "proposedCandidateId": "holiday#n#2",
+      "proposedChildDefinition": "A holiday is a day when school or regular work is not held.",
+      "proposedChildExample": "School is closed for the holiday.",
+      "rationale": "Candidate 2 is a designated day off, which fits a primary school context. Candidate 1 is a longer period of leisure or vacation.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Indian and British usage can use holiday for both a day off and a vacation period. The human editor should choose from the intended curriculum context."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "laugh",
+      "proposedCandidateId": "laugh#n#1",
+      "proposedChildDefinition": "A laugh is the sound a person makes while laughing.",
+      "proposedChildExample": "Her loud laugh made everyone smile.",
+      "rationale": "Candidate 1 is the sound of laughing. Candidate 2 is a facial expression and candidate 3 is a joke or humorous remark.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The sound noun is well covered and distinct from the expression and joke senses."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "document",
+      "proposedCandidateId": "document#n#1",
+      "proposedChildDefinition": "A document is a written or digital record that gives information.",
+      "proposedChildExample": "The teacher opened a document with the class rules.",
+      "rationale": "Candidate 1 is information-bearing writing, including official writing. Candidate 2 is a broader symbolic representation and candidate 3 is an ownership or obligation record.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "The proposed wording broadens paper writing to familiar digital documents; the editor should confirm that extension is intended."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "join",
+      "proposedCandidateId": "join#v#1",
+      "proposedChildDefinition": "To join means to become part of a group or activity.",
+      "proposedChildExample": "Arun joined the school chess club.",
+      "rationale": "Candidate 1 is becoming a member or part of a group. Candidate 2 means connecting parts and candidate 3 means coming into someone's company.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Connecting two physical things is also a common child meaning, so group membership should be explicit in the reviewed example."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "hurt",
+      "proposedCandidateId": "hurt#v#1",
+      "proposedChildDefinition": "To hurt means to be painful or cause an aching feeling.",
+      "proposedChildExample": "My knee hurts after I fall.",
+      "rationale": "Candidate 1 is being a source of pain, as in 'my knee hurts'. Candidate 2 is transitive trouble/pain and candidate 3 is emotional hurt.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Intransitive 'my knee hurts' and transitive 'that hurt my knee' are neighboring senses. Keep the grammatical context explicit."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "drink",
+      "proposedCandidateId": "drink#v#1",
+      "proposedChildDefinition": "To drink means to take a liquid into your mouth and swallow it.",
+      "proposedChildExample": "Drink some water after the game.",
+      "rationale": "Candidate 1 is ordinary liquid intake. Candidate 2 specifically means consuming alcohol and candidate 3 means making a toast.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "Candidate 1 is the clear child-appropriate base sense."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "grow",
+      "proposedCandidateId": "grow#v#3",
+      "proposedChildDefinition": "To grow means to become bigger through a natural process.",
+      "proposedChildExample": "The seedling will grow into a taller plant.",
+      "rationale": "Candidate 3 is natural biological growth. Candidate 1 is gradually becoming a condition and candidate 2 is general increase, so the life-science primary meaning is not candidate 1.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "General increase and natural biological growth are both common. Candidate 3 is appropriate only when the intended context is living things or natural growth."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "sit",
+      "proposedCandidateId": "sit#v#1",
+      "proposedChildDefinition": "To sit means to be in a seated position with your upper body mostly upright.",
+      "proposedChildExample": "We sit on the mat for story time.",
+      "rationale": "Candidate 1 is the state of being seated. Candidate 3 is the action of taking a seat, while candidate 2 is remaining around idly.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "The state 'be seated' and action 'take a seat' are close but distinct candidates; approve according to the intended sentence pattern."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "carry",
+      "proposedCandidateId": "carry#v#1",
+      "proposedChildDefinition": "To carry means to move something while holding or supporting it.",
+      "proposedChildExample": "She carried the bag to the bus.",
+      "rationale": "Candidate 1 is physical transport while supporting something. Candidate 2 is simply having something with you and candidate 3 is transmission.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "Physical carrying is clearly represented by candidate 1 and is suitable for a concrete primary example."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "ride",
+      "proposedCandidateId": "ride#v#2",
+      "proposedChildDefinition": "To ride means to travel on or in a vehicle.",
+      "proposedChildExample": "We ride the bus to school.",
+      "rationale": "Candidate 2 covers travel on or in a vehicle. Candidate 1 is specifically riding an animal and candidate 3 is an idiom meaning continue undisturbed.",
+      "ambiguityWarning": {
+        "level": "hold_recommended",
+        "note": "A common child target is actively riding a bicycle, which is not cleanly surfaced by these top candidates. HOLD if bicycle riding is the intended curriculum sense."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "draw",
+      "proposedCandidateId": "draw#v#3",
+      "proposedChildDefinition": "To draw means to make lines or marks that form a picture or shape.",
+      "proposedChildExample": "I like to draw animals with a pencil.",
+      "rationale": "Candidate 3 is making marks or lines on a surface. Candidate 1 means pulling and candidate 2 means deriving or obtaining, so the child-art sense is not candidate 1.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "The familiar art meaning is candidate 3; reviewers should not accept candidate 1 simply because it appears first in OEWN order."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    },
+    {
+      "lemma": "jump",
+      "proposedCandidateId": "jump#v#1",
+      "proposedChildDefinition": "To jump means to push off the ground and move through the air.",
+      "proposedChildExample": "The child jumped over the puddle.",
+      "rationale": "Candidate 1 is the ordinary leap/bound movement. Candidate 2 is a startle reaction and candidate 3 is an attack sense.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The physical leap meaning is clear and child-appropriate."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 2 queue placement makes this reasonable to consider for Class 2 profile review; it is not official CBSE/CISCE/SOF board or exam evidence."
+    }
+  ]
+}
