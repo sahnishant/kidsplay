@@ -11,12 +11,14 @@
     question,
     onSubmit,
     checkResponse,
-    feedbackMode = 'play'
+    feedbackMode = 'play',
+    soundEnabled = true
   }: {
     question: Question;
     onSubmit: (response: unknown) => void;
     checkResponse: (response: unknown) => EvaluationResult;
     feedbackMode?: AnswerFeedbackMode;
+    soundEnabled?: boolean;
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
@@ -26,7 +28,7 @@
     const result = checkResponse(response);
     if (feedbackMode === 'play') {
       showAnswerFeedbackSplash(result.correct);
-      playAnswerFeedback(result.correct);
+      playAnswerFeedback(result.correct, soundEnabled);
     }
     onSubmit(response);
   }
