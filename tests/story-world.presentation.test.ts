@@ -61,7 +61,8 @@ describe('Dheu viewport story-world presentation', () => {
 
     expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
     expect(screen.getAllByText('LEVEL 1').length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByLabelText('5 of 9 places open; 0 complete')).toBeTruthy();
+    expect(screen.queryByLabelText('5 of 9 places open; 0 complete')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Forest Explorer Trail, Level 1: play next' })).toBeTruthy();
     expect(screen.queryByRole('dialog')).toBeNull();
 
     const lab = screen.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: locked until The Puppy by the Pond" }) as HTMLButtonElement;
@@ -142,7 +143,7 @@ describe('Dheu viewport story-world presentation', () => {
       }
     });
 
-    expect(screen.getByLabelText('6 of 9 places open; 1 complete')).toBeTruthy();
+    expect(screen.queryByLabelText('6 of 9 places open; 1 complete')).toBeNull();
     expect(screen.getByRole('button', { name: 'River & Pond Quest, Level 4: complete, replay' }).textContent).toContain('Replay');
     expect((screen.getByRole('button', { name: "Scientu's Lab Investigation, Level 6: The Invisible Air Mystery" }) as HTMLButtonElement).disabled).toBe(false);
   });
