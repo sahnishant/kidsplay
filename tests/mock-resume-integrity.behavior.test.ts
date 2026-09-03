@@ -9,6 +9,12 @@ import {
 } from '../src/runtime/mockContract';
 import { loadMockCheckpoint, saveMockCheckpoint } from '../src/runtime/mockPersistence';
 
+async function openAssessment(): Promise<void> {
+  await fireEvent.click(screen.getByRole('button', { name: 'Open player settings' }));
+  await fireEvent.click(screen.getByRole('button', { name: 'Open grown-up area' }));
+  await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
+}
+
 describe('mock resume contract integrity', () => {
   beforeEach(() => {
     window.localStorage.clear();
@@ -65,7 +71,8 @@ describe('mock resume contract integrity', () => {
 
     render(App);
     expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
-    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    await openAssessment();
+    expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
@@ -73,7 +80,7 @@ describe('mock resume contract integrity', () => {
     expect(screen.getByRole('alert').textContent).toMatch(/one or more saved questions changed/i);
     expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
     expect(loadMockCheckpoint()).toBeNull();
-    expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
   });
 
   it('preserves a valid saved mock when unified back exits the resumed session', async () => {
@@ -96,7 +103,7 @@ describe('mock resume contract integrity', () => {
     });
 
     render(App);
-    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    await openAssessment();
     await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
     expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
 
@@ -104,7 +111,7 @@ describe('mock resume contract integrity', () => {
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     expect(loadMockCheckpoint()?.state.sessionId).toBe('session.back-preserved');
-    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    await openAssessment();
     expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
   });
 });
