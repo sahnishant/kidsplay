@@ -33,7 +33,7 @@
     childName: string;
     childAvatar: AvatarId;
     storyProgress: StoryProgressSnapshot;
-    worldState: WorldRewardState;
+    worldState?: WorldRewardState;
     recommendedTopics?: TopicProgressSummary[];
     topicProgress?: TopicProgressSummary[];
     onStartMission: (missionId: string) => void;
@@ -58,6 +58,10 @@
   let presentations = $derived(buildStoryLocationPresentation(locations, missions, storyProgress, recommendedTopics));
   let currentPresentation = $derived(presentations.find((item) => item.state === 'current') ?? null);
   let completedPlaces = $derived(presentations.filter((item) => item.state === 'complete').length);
+  let worldChangeCount = $derived(worldState?.totalChanges ?? 0);
+  let worldCollectibles = $derived(worldState?.collectibles ?? []);
+  let worldDiscoveries = $derived(worldState?.discoveries ?? []);
+  let worldTrophies = $derived(worldState?.trophies ?? []);
 
   function unlockMissionTitle(location: StoryLocation): string | null {
     if (location.unlock.type !== 'mission') return null;
@@ -95,7 +99,7 @@
   }
 
   function worldChangesFor(locationId: string): WorldChange[] {
-    return worldState.locations[locationId as WorldLocationId]?.changes ?? [];
+    return worldState?.locations[locationId as WorldLocationId]?.changes ?? [];
   }
 
   function changeNames(changes: WorldChange[]): string {
@@ -168,22 +172,22 @@
     <div class="world-map" aria-label={`${heroName}'s story world`}>
       <div class="world-map__river" aria-hidden="true"></div>
       <div class="world-map__path" aria-hidden="true"></div>
-      <div class="world-progress" aria-label={`${unlockedPlaces} of ${locations.length} places open; ${completedPlaces} complete; ${worldState.totalChanges > 0 ? 'learning has changed the world' : 'world ready to grow'}`}>
+      <div class="world-progress" aria-label={`${unlockedPlaces} of ${locations.length} places open; ${completedPlaces} complete`}>
         <span><strong>{completedPlaces}</strong> done</span>
         <span><strong>{unlockedPlaces}/{locations.length}</strong> open</span>
-        <span><strong>🌍 {worldState.totalChanges > 0 ? 'changed' : 'ready'}</strong></span>
+        <span aria-label={worldChangeCount > 0 ? 'Learning has changed the world' : 'World ready to grow'}><strong>🌍 {worldChangeCount > 0 ? 'changed' : 'ready'}</strong></span>
       </div>
 
-      {#if worldState.collectibles.length > 0 || worldState.discoveries.length > 0 || worldState.trophies.length > 0}
+      {#if worldCollectibles.length > 0 || worldDiscoveries.length > 0 || worldTrophies.length > 0}
         <div class="world-progress" style="right:auto;left:7px" aria-label="Persistent learning keepsakes">
-          {#if worldState.collectibles.length > 0}
-            <span role="group" aria-label={`Backpack collectibles: ${changeNames(worldState.collectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldState.collectibles)}</strong></span>
+          {#if worldCollectibles.length > 0}
+            <span role="group" aria-label={`Backpack collectibles: ${changeNames(worldCollectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldCollectibles)}</strong></span>
           {/if}
-          {#if worldState.discoveries.length > 0}
-            <span role="group" aria-label={`Lab and science discoveries: ${changeNames(worldState.discoveries)}`}><strong aria-hidden="true">🔬{changeIcons(worldState.discoveries)}</strong></span>
+          {#if worldDiscoveries.length > 0}
+            <span role="group" aria-label={`Lab and science discoveries: ${changeNames(worldDiscoveries)}`}><strong aria-hidden="true">🔬{changeIcons(worldDiscoveries)}</strong></span>
           {/if}
-          {#if worldState.trophies.length > 0}
-            <span role="group" aria-label={`Puzzle trophies: ${changeNames(worldState.trophies)}`}><strong aria-hidden="true">🏆{changeIcons(worldState.trophies)}</strong></span>
+          {#if worldTrophies.length > 0}
+            <span role="group" aria-label={`Puzzle trophies: ${changeNames(worldTrophies)}`}><strong aria-hidden="true">🏆{changeIcons(worldTrophies)}</strong></span>
           {/if}
         </div>
       {/if}
