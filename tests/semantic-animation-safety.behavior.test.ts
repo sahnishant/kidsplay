@@ -118,7 +118,6 @@ describe('semantic animation coverage and safety invariants', () => {
     expect(container.querySelector('[data-animation-id="animation.dog.happy-bone"]')).toBeNull();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
     expect(container.querySelector('[data-animation-id="animation.dog.happy-bone"]')).toBeTruthy();
@@ -137,7 +136,6 @@ describe('semantic animation coverage and safety invariants', () => {
 
     expect(container.querySelector('[data-animation-id="animation.dog.happy-bone"]')).toBeNull();
     await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
     expect(container.querySelector('[data-animation-id="animation.dog.happy-bone"]')).toBeNull();

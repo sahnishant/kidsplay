@@ -5,7 +5,11 @@
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<DragToTargetQuestion> = $props();
+  let {
+    question,
+    onSubmit,
+    submissionMode = 'explicit'
+  }: EngineProps<DragToTargetQuestion> = $props();
 
   let assignments = $state<Record<string, string>>({});
   let selectedItemId = $state<string | null>(null);
@@ -42,10 +46,24 @@
       : 'Drop here';
   }
 
+  function commit(nextAssignments: Record<string, string>): void {
+    if (locked) return;
+    locked = true;
+    onSubmit({ assignments: { ...nextAssignments } });
+  }
+
   function assign(itemId: string, targetId: string): void {
     if (locked) return;
-    assignments[itemId] = targetId;
+    const nextAssignments = { ...assignments, [itemId]: targetId };
+    assignments = nextAssignments;
     selectedItemId = null;
+
+    if (
+      submissionMode === 'auto_when_complete'
+      && question.interaction.items.every((item) => Boolean(nextAssignments[item.id]))
+    ) {
+      commit(nextAssignments);
+    }
   }
 
   function clickItem(itemId: string): void {
@@ -97,12 +115,6 @@
     if (state.moved) suppressClickFor = itemId;
     if (state.moved && targetId) assign(itemId, targetId);
   }
-
-  function submit(): void {
-    if (!complete || locked) return;
-    locked = true;
-    onSubmit({ assignments: { ...assignments } });
-  }
 </script>
 
 <div class="drag-stage">
@@ -153,9 +165,11 @@
   </div>
 </div>
 
-<button class="primary-button" type="button" disabled={locked || !complete} onclick={submit}>
-  Check answer
-</button>
+{#if submissionMode === 'explicit'}
+  <button class="primary-button" type="button" disabled={locked || !complete} onclick={() => commit(assignments)}>
+    Check answer
+  </button>
+{/if}
 
 <style>
   .drag-item--visual {

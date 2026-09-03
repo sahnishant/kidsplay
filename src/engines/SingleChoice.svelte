@@ -22,10 +22,11 @@
   let selectedOptionId = $state<string | null>(null);
   let locked = $state(false);
 
-  function submit(): void {
-    if (!selectedOptionId || locked) return;
+  function selectAndSubmit(optionId: string): void {
+    if (locked) return;
+    selectedOptionId = optionId;
     locked = true;
-    onSubmit({ selectedOptionIds: [selectedOptionId] });
+    onSubmit({ selectedOptionIds: [optionId] });
   }
 </script>
 
@@ -37,7 +38,7 @@
       class={`choice-button${visual.hasVisuals ? ' choice-button--visual' : ''}${selectedOptionId === option.id ? ' choice-button--selected' : ''}`}
       aria-pressed={selectedOptionId === option.id}
       disabled={locked}
-      onclick={() => (selectedOptionId = option.id)}
+      onclick={() => selectAndSubmit(option.id)}
     >
       <SemanticVisualPresenter
         presentation={visual}
@@ -48,9 +49,6 @@
     </button>
   {/each}
 </div>
-<button class="primary-button" type="button" disabled={locked || !selectedOptionId} onclick={submit}>
-  Check answer
-</button>
 
 <style>
   .choice-button--visual {

@@ -252,7 +252,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: 'Nice work, Dheu' })).toBeTruthy();
   });
 
-  it('submits through the engine host, emits one attempt and reaches completion', async () => {
+  it('submits a single-choice answer on the option tap, emits one attempt and reaches completion', async () => {
     const attempts: SessionAttempt[] = [];
     render(Session, {
       props: {
@@ -264,8 +264,8 @@ describe('user-facing product flow', () => {
       }
     });
 
+    expect(screen.queryByRole('button', { name: 'Check answer' })).toBeNull();
     await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
 
     expect(screen.getByRole('status').textContent).toContain('Yes, a dog is a common pet.');
     expect(attempts).toHaveLength(1);
@@ -274,6 +274,25 @@ describe('user-facing product flow', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'See result' }));
     expect(screen.getByRole('heading', { name: 'Nice work, Dheu' })).toBeTruthy();
+  });
+
+  it('shows incorrect feedback immediately after a wrong option tap', async () => {
+    const attempts: SessionAttempt[] = [];
+    render(Session, {
+      props: {
+        title: 'Behavior Test',
+        questions: [testQuestion()],
+        childName: 'Dheu',
+        childAvatar: 'fox',
+        onAttempt: (attempt: SessionAttempt) => attempts.push(attempt)
+      }
+    });
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Whale' }));
+
+    expect(screen.getByRole('status').textContent).toContain('Try the animal that often lives with people.');
+    expect(attempts).toHaveLength(1);
+    expect(attempts[0].result.correct).toBe(false);
   });
 
   it('marks multi-knowledge challenge questions as a think-it-through moment', () => {
@@ -302,7 +321,6 @@ describe('user-facing product flow', () => {
 
     expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
     await fireEvent.click(screen.getByRole('button', { name: 'Moving air' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
     expect(screen.getByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeTruthy();
     first.unmount();
 
@@ -318,7 +336,6 @@ describe('user-facing product flow', () => {
 
     expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
     await fireEvent.click(screen.getByRole('button', { name: 'Moving air' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Check answer' }));
     expect(screen.queryByRole('img', { name: 'A kite moving in the air while wind blows across the sky.' })).toBeNull();
   });
 
