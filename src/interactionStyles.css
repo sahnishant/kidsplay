@@ -33,16 +33,12 @@
 .memory-card {
   position: relative;
   height: 118px;
-  min-height: 0;
-  min-width: 0;
-  padding: 0;
   border: 0;
   border-radius: 18px;
   background: linear-gradient(145deg, #625add, #4d46bd);
   color: white;
   cursor: pointer;
   overflow: hidden;
-  contain: layout paint;
   box-shadow: 0 7px 16px rgba(36, 48, 58, 0.12);
   -webkit-tap-highlight-color: transparent;
 }
@@ -51,14 +47,10 @@
 .memory-card__front {
   position: absolute;
   inset: 0;
-  min-width: 0;
-  min-height: 0;
   display: grid;
   place-content: center;
   gap: 5px;
   padding: 10px;
-  overflow: hidden;
-  box-sizing: border-box;
 }
 
 .memory-card__back {
@@ -96,23 +88,14 @@
 }
 
 .memory-card__symbol {
-  max-width: 100%;
   font-size: 2.3rem;
   line-height: 1;
-  overflow: hidden;
 }
 
 .memory-card__label {
-  display: -webkit-box;
-  max-width: 100%;
-  overflow: hidden;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
   font-size: 0.95rem;
   font-weight: 900;
   line-height: 1.15;
-  overflow-wrap: anywhere;
 }
 
 .sequence-order__list {
@@ -256,18 +239,11 @@
 
   .memory-card {
     height: 102px;
-    min-height: 0;
     border-radius: 15px;
   }
 
-  .memory-card__back,
-  .memory-card__front {
-    padding: 7px;
-  }
-
   .memory-card__label {
-    font-size: 0.78rem;
-    line-height: 1.1;
+    font-size: 0.82rem;
   }
 
   .sequence-order__row {
