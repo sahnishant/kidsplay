@@ -120,8 +120,12 @@
   }
 </script>
 
-<div class={`drag-stage${compactLayout ? ' drag-stage--compact' : ''}`}>
-  <div class="drag-items" aria-label="Things to move">
+<div class="drag-stage" style={compactLayout ? 'gap:8px' : undefined}>
+  <div
+    class="drag-items"
+    aria-label="Things to move"
+    style={compactLayout ? 'min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px' : undefined}
+  >
     {#each displayOrder.items as item (item.id)}
       {@const visual = resolveItemVisualPresentation(item, { allowLabelInference: false, context: 'drag-item' })}
       <button
@@ -129,6 +133,7 @@
         class={`drag-item${visual.hasVisuals ? ' drag-item--visual' : ''}${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
         aria-pressed={selectedItemId === item.id}
         disabled={locked}
+        style={compactLayout ? `min-width:0;min-height:${visual.hasVisuals ? '72px' : '54px'};padding:7px 5px;font-size:.9rem;line-height:1.05` : undefined}
         onclick={() => clickItem(item.id)}
         onpointerdown={(event) => pointerDown(item.id, event)}
         onpointermove={(event) => pointerMove(item.id, event)}
@@ -145,7 +150,10 @@
     {/each}
   </div>
 
-  <div class="target-grid">
+  <div
+    class="target-grid"
+    style={compactLayout ? 'grid-template-columns:repeat(3,minmax(0,1fr));gap:6px' : undefined}
+  >
     {#each displayOrder.targets as target (target.id)}
       {@const visual = resolveItemVisualPresentation(target, { allowLabelInference: false, context: 'drag-target' })}
       <button
@@ -154,6 +162,7 @@
         data-drop-target="true"
         data-target-id={target.id}
         disabled={locked}
+        style={compactLayout ? 'min-height:112px;gap:4px;padding:7px 5px;border-width:2px' : undefined}
         onclick={() => selectedItemId && assign(selectedItemId, target.id)}
       >
         {#if visual.hasVisuals}
@@ -161,8 +170,8 @@
         {:else if target.symbol}
           <span class="drag-symbol" aria-hidden="true">{target.symbol}</span>
         {/if}
-        <strong>{targetDisplayLabel(target.id, target.label)}</strong>
-        <span class="drop-target__slot">{assignedLabel(target.id)}</span>
+        <strong style={compactLayout ? 'font-size:.82rem;line-height:1.08' : undefined}>{targetDisplayLabel(target.id, target.label)}</strong>
+        <span class="drop-target__slot" style={compactLayout ? 'min-height:0;font-size:.72rem;line-height:1.05' : undefined}>{assignedLabel(target.id)}</span>
       </button>
     {/each}
   </div>
@@ -208,73 +217,5 @@
 
   .drop-target--visual {
     min-height: 150px;
-  }
-
-  @media (max-width: 480px) {
-    .drag-stage--compact {
-      gap: 8px;
-    }
-
-    .drag-stage--compact .drag-items {
-      min-height: 0;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-      padding: 6px;
-      border-radius: 16px;
-    }
-
-    .drag-stage--compact .drag-item {
-      min-width: 0;
-      min-height: 54px;
-      padding: 7px 5px;
-      border-radius: 14px;
-      font-size: 0.9rem;
-      line-height: 1.05;
-    }
-
-    .drag-stage--compact .drag-item--visual {
-      min-width: 0;
-      min-height: 72px;
-    }
-
-    .drag-stage--compact :global(.drag-visual) {
-      width: 44px;
-      height: 38px;
-    }
-
-    .drag-stage--compact .drag-symbol {
-      font-size: 1.6rem;
-    }
-
-    .drag-stage--compact .target-grid {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 6px;
-    }
-
-    .drag-stage--compact .drop-target,
-    .drag-stage--compact .drop-target--visual {
-      min-height: 112px;
-      gap: 4px;
-      padding: 7px 5px;
-      border-width: 2px;
-      border-radius: 14px;
-    }
-
-    .drag-stage--compact .drop-target strong {
-      font-size: 0.82rem;
-      line-height: 1.08;
-    }
-
-    .drag-stage--compact .drop-target__slot {
-      min-height: 0;
-      font-size: 0.72rem;
-      line-height: 1.05;
-    }
-
-    .drag-stage--compact :global(.target-visual) {
-      width: 42px;
-      height: 36px;
-    }
   }
 </style>
