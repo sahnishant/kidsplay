@@ -18,6 +18,11 @@
   const guide = $derived(question.interaction.board.guidePath);
   const guidePath = $derived(toPath(guide));
   const childPath = $derived(toPath(points));
+  const boardTheme = $derived(
+    ['plain', 'grass', 'sky'].includes(question.interaction.board.theme ?? '')
+      ? question.interaction.board.theme
+      : 'plain'
+  );
 
   function toPath(path: readonly NormalizedPoint[]): string {
     return path.map((point, index) => `${index ? 'L' : 'M'} ${point.x * 100} ${point.y * 100}`).join(' ');
@@ -86,7 +91,8 @@
 <div class="hotspot">
   <p class="hotspot__instructions">Trace the dotted path from the first marker to the last.</p>
   <svg
-    class="hotspot__board hotspot__board--plain trace-board"
+    class={`hotspot__board hotspot__board--${boardTheme}`}
+    style="touch-action: none"
     viewBox="0 0 100 100"
     role="group"
     aria-label={question.interaction.board.ariaLabel}
@@ -95,30 +101,29 @@
     onpointerup={finishTrace}
     onpointercancel={cancelTrace}
   >
-    <path class="trace-line trace-corridor" d={guidePath} />
-    <path class="trace-line trace-guide" d={guidePath} />
+    <path d={guidePath} fill="none" stroke="#dfe4e8" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" pointer-events="none" />
+    <path d={guidePath} fill="none" stroke="#687785" stroke-width="2.4" stroke-dasharray="3 3" stroke-linecap="round" stroke-linejoin="round" pointer-events="none" />
     {#each question.interaction.board.landmarks ?? [] as landmark (landmark.id)}
       <text
-        class="trace-icon trace-landmark"
         x={(landmark.x + landmark.width / 2) * 100}
         y={(landmark.y + landmark.height / 2) * 100}
+        text-anchor="middle"
+        dominant-baseline="middle"
+        font-size="14"
+        pointer-events="none"
         aria-hidden="true"
       >{landmark.symbol ?? landmark.label}</text>
     {/each}
     <circle cx={question.interaction.board.start.point.x * 100} cy={question.interaction.board.start.point.y * 100} r="6" fill="#f8c54b" />
-    <text class="trace-icon" x={question.interaction.board.start.point.x * 100} y={question.interaction.board.start.point.y * 100}>{question.interaction.board.start.symbol ?? '●'}</text>
+    <text x={question.interaction.board.start.point.x * 100} y={question.interaction.board.start.point.y * 100} text-anchor="middle" dominant-baseline="middle" font-size="8" pointer-events="none">{question.interaction.board.start.symbol ?? '●'}</text>
     <circle cx={question.interaction.board.goal.point.x * 100} cy={question.interaction.board.goal.point.y * 100} r="6" fill="#63ba78" />
-    <text class="trace-icon" x={question.interaction.board.goal.point.x * 100} y={question.interaction.board.goal.point.y * 100}>{question.interaction.board.goal.symbol ?? '★'}</text>
-    {#if childPath}<path class="trace-line trace-stroke" d={childPath} />{/if}
+    <text x={question.interaction.board.goal.point.x * 100} y={question.interaction.board.goal.point.y * 100} text-anchor="middle" dominant-baseline="middle" font-size="8" pointer-events="none">{question.interaction.board.goal.symbol ?? '★'}</text>
+    {#if childPath}<path d={childPath} fill="none" stroke="var(--accent)" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" pointer-events="none" />{/if}
   </svg>
   <div class="hotspot__status" role="status" aria-live="polite">{status}</div>
-  <div class="trace-actions">
-    <button type="button" class="secondary-button" disabled={locked || keyboardStep >= guide.length - 1} onclick={advanceKeyboardPath}>Move along path</button>
-    <button type="button" class="secondary-button" disabled={locked || (!points.length && keyboardStep === 0)} onclick={reset}>Start over</button>
-    {#if submissionMode === 'explicit'}<button type="button" class="primary-button" disabled={locked || points.length < 2} onclick={commit}>Check path</button>{/if}
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 7px">
+    <button type="button" class="secondary-button" style="min-height: 48px" disabled={locked || keyboardStep >= guide.length - 1} onclick={advanceKeyboardPath}>Move along path</button>
+    <button type="button" class="secondary-button" style="min-height: 48px" disabled={locked || (!points.length && keyboardStep === 0)} onclick={reset}>Start over</button>
+    {#if submissionMode === 'explicit'}<button type="button" class="primary-button" style="min-height: 48px" disabled={locked || points.length < 2} onclick={commit}>Check path</button>{/if}
   </div>
 </div>
-
-<style>
-  .trace-board{touch-action:none}.trace-line{fill:none;stroke-linecap:round;stroke-linejoin:round;pointer-events:none}.trace-corridor{stroke:#dfe4e8;stroke-width:14}.trace-guide{stroke:#687785;stroke-width:2.4;stroke-dasharray:3 3}.trace-stroke{stroke:var(--accent);stroke-width:4.2}.trace-icon{text-anchor:middle;dominant-baseline:middle;font-size:8px;pointer-events:none}.trace-landmark{font-size:14px}.trace-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:7px}.trace-actions button{min-height:48px}
-</style>
