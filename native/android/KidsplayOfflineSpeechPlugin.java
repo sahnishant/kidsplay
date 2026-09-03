@@ -138,7 +138,7 @@ public class KidsplayOfflineSpeechPlugin extends Plugin {
 
         Locale requested = Locale.forLanguageTag(languageTag);
         String requestedLanguage = requested.getLanguage();
-        if (requestedLanguage == null || requestedLanguage.isBlank()) return null;
+        if (requestedLanguage == null || requestedLanguage.isEmpty()) return null;
 
         List<Voice> candidates = new ArrayList<>();
         for (Voice voice : voices) {
@@ -162,7 +162,7 @@ public class KidsplayOfflineSpeechPlugin extends Plugin {
     private int localeScore(Locale voiceLocale, Locale requested) {
         if (voiceLocale == null) return 0;
         if (voiceLocale.toLanguageTag().equalsIgnoreCase(requested.toLanguageTag())) return 3;
-        if (!requested.getCountry().isBlank() && requested.getCountry().equalsIgnoreCase(voiceLocale.getCountry())) return 2;
+        if (!requested.getCountry().isEmpty() && requested.getCountry().equalsIgnoreCase(voiceLocale.getCountry())) return 2;
         return 1;
     }
 
