@@ -223,14 +223,18 @@
 
     <svg
       class="word-search__bands"
-      viewBox={`0 0 ${generated.grid.length} ${generated.grid.length}`}
+      viewBox={`-0.12 -0.12 ${generated.grid.length + 0.24} ${generated.grid.length + 0.24}`}
       preserveAspectRatio="none"
+      fill="none"
+      stroke-linecap="round"
+      stroke-width="0.68"
       aria-hidden="true"
     >
       {#each generated.placements as placement (placement.termId)}
         {#if foundTermIds.includes(placement.termId)}
           <line
-            class="word-search__band word-search__band--found"
+            stroke="#177a4c"
+            stroke-opacity="0.2"
             x1={placement.points[0].col + 0.5}
             y1={placement.points[0].row + 0.5}
             x2={placement.points[placement.points.length - 1].col + 0.5}
@@ -243,7 +247,8 @@
         {@const previewStart = pointFromKey(previewCellKeys[0])}
         {@const previewEnd = pointFromKey(previewCellKeys[previewCellKeys.length - 1])}
         <line
-          class="word-search__band word-search__band--preview"
+          stroke="#594fd7"
+          stroke-opacity="0.22"
           x1={previewStart.col + 0.5}
           y1={previewStart.row + 0.5}
           x2={previewEnd.col + 0.5}
