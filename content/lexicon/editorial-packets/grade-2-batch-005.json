@@ -1,0 +1,1819 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_editorial_packet",
+  "language": "en",
+  "grade": 2,
+  "batchId": "grade-2-batch-005",
+  "purpose": "Editorial sense selection, independently authored child-definition review and explicit profile-placement review before runtime publication.",
+  "generatedFrom": {
+    "curatorSliceKind": "primary_vocabulary_curator_sense_slice",
+    "wordlistId": "vocabulary.primary.grade2.introduced.meaning.review",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "selection": {
+    "requestedLimit": 16,
+    "excludedPriorReviewLemmas": [
+      "accident",
+      "adult",
+      "ancient",
+      "appear",
+      "beach",
+      "breath",
+      "brown",
+      "busy",
+      "camera",
+      "clean",
+      "clothes",
+      "color",
+      "competition",
+      "computer",
+      "decide",
+      "describe",
+      "environment",
+      "excellent",
+      "exercise",
+      "extreme",
+      "familiar",
+      "famous",
+      "floor",
+      "fruit",
+      "guard",
+      "guide",
+      "height",
+      "hotel",
+      "imagine",
+      "immediately",
+      "lake",
+      "library",
+      "minute",
+      "notice",
+      "opportunity",
+      "opposite",
+      "path",
+      "plant",
+      "pull",
+      "push",
+      "quick",
+      "radio",
+      "region",
+      "regular",
+      "sentence",
+      "shop",
+      "sort",
+      "speed",
+      "strange",
+      "subject",
+      "sugar",
+      "suggest",
+      "sun",
+      "treatment",
+      "window",
+      "yellow"
+    ],
+    "excludedReviewRefs": [
+      "content/lexicon/reviews/grade-2-batch-001.json",
+      "content/lexicon/reviews/grade-2-batch-002.json",
+      "content/lexicon/reviews/grade-2-batch-003.json",
+      "content/lexicon/reviews/grade-2-batch-004.json"
+    ]
+  },
+  "policy": {
+    "publicationState": "blocked_pending_editorial_review",
+    "importedGlossRuntimeAllowed": false,
+    "aiDraftAllowed": true,
+    "aiDraftMayCountAsReviewed": false,
+    "requiredReviewAuthority": "human_editor",
+    "explicitReviewerRequiredForAcceptance": true,
+    "profilePlacementRequiresExplicitApproval": true,
+    "corpusGradeMayImplyBoardAlignment": false
+  },
+  "profileReviewTargets": [
+    "CBSE_INDIA_CLASS2",
+    "CISCE_INDIA_CLASS2",
+    "SOF_INDIA_CLASS2"
+  ],
+  "summary": {
+    "words": 16,
+    "candidateSenses": 46,
+    "excludedPriorReview": 56,
+    "reviewed": 0,
+    "accepted": 0,
+    "rejected": 0
+  },
+  "items": [
+    {
+      "lemma": "map",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.76
+      },
+      "priorityScore": 33.52,
+      "candidateSenses": [
+        {
+          "candidateId": "map#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "map%1:06:00::",
+            "synsetId": "03725654-n",
+            "definition": "a diagrammatic representation of the earth's surface (or part of it)",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "map%1:06:00::",
+              "03725654-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "map#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "map%1:24:00::",
+            "synsetId": "13806028-n",
+            "definition": "(mathematics) a mathematical relation such that each element of a given set (the domain of the function) is associated with an element of another set (the range of the function)",
+            "examples": [],
+            "synonyms": [
+              "function",
+              "mathematical function",
+              "single-valued function",
+              "mapping"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "map%1:24:00::",
+              "13806028-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "fly",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.75
+      },
+      "priorityScore": 33.5,
+      "candidateSenses": [
+        {
+          "candidateId": "fly#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "fly%1:05:00::",
+            "synsetId": "02192818-n",
+            "definition": "two-winged insects characterized by active flight",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fly%1:05:00::",
+              "02192818-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fly#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "fly%1:06:01::",
+            "synsetId": "04419232-n",
+            "definition": "flap consisting of a piece of canvas that can be drawn back to provide entrance to a tent",
+            "examples": [],
+            "synonyms": [
+              "tent-fly",
+              "rainfly",
+              "fly sheet",
+              "tent flap"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fly%1:06:01::",
+              "04419232-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "fly#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "fly%1:06:00::",
+            "synsetId": "03377906-n",
+            "definition": "an opening in a garment that is closed by a zipper or by buttons concealed under a fold of cloth",
+            "examples": [],
+            "synonyms": [
+              "fly front"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "fly%1:06:00::",
+              "03377906-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "warm",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.71
+      },
+      "priorityScore": 33.42,
+      "candidateSenses": [
+        {
+          "candidateId": "warm#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "warm%3:00:01::",
+            "synsetId": "02539669-a",
+            "definition": "having or producing a comfortable and agreeable degree of heat or imparting or maintaining heat",
+            "examples": [
+              "a warm body",
+              "a warm room",
+              "a warm climate",
+              "a warm coat"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "warm%3:00:01::",
+              "02539669-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "warm#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "warm%3:00:02::",
+            "synsetId": "02541266-a",
+            "definition": "psychologically warm; friendly and responsive",
+            "examples": [
+              "a warm greeting",
+              "a warm personality",
+              "warm support"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "warm%3:00:02::",
+              "02541266-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "warm#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "warm%3:00:03::",
+            "synsetId": "02542324-a",
+            "definition": "inducing the impression of warmth; used especially of reds and oranges and yellows when referring to color",
+            "examples": [
+              "warm reds and yellows and orange"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "warm%3:00:03::",
+              "02542324-a"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "email",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.68
+      },
+      "priorityScore": 33.36,
+      "candidateSenses": [
+        {
+          "candidateId": "email#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "email%1:10:00::",
+            "synsetId": "06289979-n",
+            "definition": "(computer science) a system of world-wide electronic communication in which a computer user can compose a message at one terminal that can be regenerated at the recipient's terminal when the recipient logs in",
+            "examples": [
+              "you cannot send packages by electronic mail"
+            ],
+            "synonyms": [
+              "electronic mail",
+              "e-mail"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "email%1:10:00::",
+              "06289979-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "email#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "email%1:10:01::",
+            "synsetId": "82169826-n",
+            "definition": "a message sent over the internet via the email system",
+            "examples": [],
+            "synonyms": [
+              "email message",
+              "e-mail message",
+              "e-mail"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "email%1:10:01::",
+              "82169826-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "email#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "email%1:10:02::",
+            "synsetId": "83993005-n",
+            "definition": "an identifier that a person uses as their identity to communicate on the email system",
+            "examples": [],
+            "synonyms": [
+              "email address",
+              "e-mail address",
+              "e-mail"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "email%1:10:02::",
+              "83993005-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "holiday",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.66
+      },
+      "priorityScore": 33.32,
+      "candidateSenses": [
+        {
+          "candidateId": "holiday#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "holiday%1:28:00::",
+            "synsetId": "15162842-n",
+            "definition": "leisure time away from work devoted to rest or pleasure",
+            "examples": [
+              "we get two weeks of vacation every summer",
+              "we took a short holiday in Puerto Rico"
+            ],
+            "synonyms": [
+              "vacation"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "holiday%1:28:00::",
+              "15162842-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "holiday#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "holiday%1:28:01::",
+            "synsetId": "15208263-n",
+            "definition": "a day on which work is suspended by law or custom",
+            "examples": [
+              "no mail is delivered on federal holidays",
+              "it's a good thing that New Year's was a holiday because everyone had a hangover"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "holiday%1:28:01::",
+              "15208263-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "laugh",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.66
+      },
+      "priorityScore": 33.32,
+      "candidateSenses": [
+        {
+          "candidateId": "laugh#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "laugh%1:10:00::",
+            "synsetId": "07141714-n",
+            "definition": "the sound of laughing",
+            "examples": [],
+            "synonyms": [
+              "laughter"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "laugh%1:10:00::",
+              "07141714-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "laugh#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "laugh%1:10:02::",
+            "synsetId": "06891454-n",
+            "definition": "a facial expression characteristic of a person laughing",
+            "examples": [
+              "his face wrinkled in a silent laugh of derision"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "laugh%1:10:02::",
+              "06891454-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "laugh#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "laugh%1:10:01::",
+            "synsetId": "06790941-n",
+            "definition": "a humorous anecdote or remark intended to provoke laughter",
+            "examples": [
+              "he told a very funny joke",
+              "he knows a million gags",
+              "thanks for the laugh",
+              "he laughed unpleasantly at his own jest",
+              "even a schoolboy's jape is supposed to have some ascertainable point"
+            ],
+            "synonyms": [
+              "joke",
+              "gag",
+              "jest",
+              "jape"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "laugh%1:10:01::",
+              "06790941-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "document",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.5
+      },
+      "priorityScore": 33,
+      "candidateSenses": [
+        {
+          "candidateId": "document#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "document%1:10:00::",
+            "synsetId": "06481744-n",
+            "definition": "writing that provides information (especially information of an official nature)",
+            "examples": [],
+            "synonyms": [
+              "written document",
+              "papers"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "document%1:10:00::",
+              "06481744-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "document#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "document%1:06:00::",
+            "synsetId": "03222161-n",
+            "definition": "anything serving as a representation of a person's thinking by means of symbolic marks",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "document%1:06:00::",
+              "03222161-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "document#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "document%1:21:00::",
+            "synsetId": "13424504-n",
+            "definition": "a written account of ownership or obligation",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "document%1:21:00::",
+              "13424504-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "join",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 5
+      },
+      "priorityScore": 32,
+      "candidateSenses": [
+        {
+          "candidateId": "join#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "join%2:41:00::",
+            "synsetId": "02439823-v",
+            "definition": "become part of; become a member of a group or organization",
+            "examples": [
+              "He joined the Communist Party as a young man"
+            ],
+            "synonyms": [
+              "fall in",
+              "get together"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "join%2:41:00::",
+              "02439823-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "join#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "join%2:35:01::",
+            "synsetId": "01297878-v",
+            "definition": "cause to become joined or linked",
+            "examples": [
+              "join these two parts so that they fit together"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "join%2:35:01::",
+              "01297878-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "join#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "join%2:41:01::",
+            "synsetId": "02604762-v",
+            "definition": "come into the company of",
+            "examples": [
+              "She joined him for a drink"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "join%2:41:01::",
+              "02604762-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "hurt",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.94
+      },
+      "priorityScore": 31.88,
+      "candidateSenses": [
+        {
+          "candidateId": "hurt#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "hurt%2:39:00::",
+            "synsetId": "02126629-v",
+            "definition": "be the source of pain",
+            "examples": [],
+            "synonyms": [
+              "ache",
+              "smart"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hurt%2:39:00::",
+              "02126629-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "hurt#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "hurt%2:29:01::",
+            "synsetId": "00064414-v",
+            "definition": "give trouble or pain to",
+            "examples": [
+              "This exercise will hurt your back"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hurt%2:29:01::",
+              "00064414-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "hurt#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "hurt%2:37:01::",
+            "synsetId": "01796596-v",
+            "definition": "cause emotional anguish or make miserable",
+            "examples": [
+              "It pains me to see my children not being taught well in school"
+            ],
+            "synonyms": [
+              "pain",
+              "anguish"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hurt%2:37:01::",
+              "01796596-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "drink",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.9
+      },
+      "priorityScore": 31.8,
+      "candidateSenses": [
+        {
+          "candidateId": "drink#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "drink%2:34:00::",
+            "synsetId": "01172332-v",
+            "definition": "take in liquids",
+            "examples": [
+              "The patient must drink several liters each day",
+              "The children like to drink soda"
+            ],
+            "synonyms": [
+              "imbibe"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "drink%2:34:00::",
+              "01172332-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "drink#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "drink%2:34:01::",
+            "synsetId": "01173463-v",
+            "definition": "consume alcohol",
+            "examples": [
+              "We were up drinking all night"
+            ],
+            "synonyms": [
+              "hit the bottle",
+              "booze",
+              "fuddle"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "drink%2:34:01::",
+              "01173463-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "drink#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "drink%2:34:12::",
+            "synsetId": "01177764-v",
+            "definition": "propose a toast to",
+            "examples": [
+              "Let us toast the birthday girl!",
+              "Let's drink to the New Year"
+            ],
+            "synonyms": [
+              "toast",
+              "pledge",
+              "salute",
+              "wassail"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "drink%2:34:12::",
+              "01177764-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "grow",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.9
+      },
+      "priorityScore": 31.8,
+      "candidateSenses": [
+        {
+          "candidateId": "grow#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "grow%2:30:03::",
+            "synsetId": "00125649-v",
+            "definition": "pass into a condition gradually, take on a specific property or attribute; become",
+            "examples": [
+              "The weather turned nasty",
+              "She grew angry"
+            ],
+            "synonyms": [
+              "turn"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "grow%2:30:03::",
+              "00125649-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "grow#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "grow%2:30:00::",
+            "synsetId": "00231172-v",
+            "definition": "become larger, greater, or bigger; expand or gain",
+            "examples": [
+              "The problem grew too large for me",
+              "Her business grew fast"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "grow%2:30:00::",
+              "00231172-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "grow#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "grow%2:30:02::",
+            "synsetId": "00231983-v",
+            "definition": "increase in size by natural process",
+            "examples": [
+              "Corn doesn't grow here",
+              "In these forests, mushrooms grow under the trees",
+              "her hair doesn't grow much anymore"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "grow%2:30:02::",
+              "00231983-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "sit",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.9
+      },
+      "priorityScore": 31.8,
+      "candidateSenses": [
+        {
+          "candidateId": "sit#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sit%2:35:00::",
+            "synsetId": "01545905-v",
+            "definition": "be in a position in which one's upper body is largely upright and supported by one's backside",
+            "examples": [],
+            "synonyms": [
+              "sit down"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sit%2:35:00::",
+              "01545905-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "sit#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sit%2:42:00::",
+            "synsetId": "02698724-v",
+            "definition": "be around, often idly or without specific purpose",
+            "examples": [
+              "The object sat in the corner",
+              "We sat around chatting for another hour"
+            ],
+            "synonyms": [
+              "sit around"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sit%2:42:00::",
+              "02698724-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "sit#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sit%2:38:00::",
+            "synsetId": "01988916-v",
+            "definition": "take a seat",
+            "examples": [],
+            "synonyms": [
+              "sit down"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sit%2:38:00::",
+              "01988916-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "carry",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.89
+      },
+      "priorityScore": 31.78,
+      "candidateSenses": [
+        {
+          "candidateId": "carry#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "carry%2:35:02::",
+            "synsetId": "01452567-v",
+            "definition": "move while supporting, either in a vehicle or in one's hands or on one's body",
+            "examples": [
+              "You must carry your camping gear",
+              "carry the suitcases to the car",
+              "This train is carrying nuclear waste",
+              "These pipes carry waste water into the river"
+            ],
+            "synonyms": [
+              "transport"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "carry%2:35:02::",
+              "01452567-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "carry#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "carry%2:42:01::",
+            "synsetId": "02722977-v",
+            "definition": "have with oneself; have on one's person",
+            "examples": [
+              "She always takes an umbrella",
+              "I always carry money",
+              "She packs a gun when she goes into the mountains"
+            ],
+            "synonyms": [
+              "pack",
+              "take"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "carry%2:42:01::",
+              "02722977-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "carry#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "carry%2:38:03::",
+            "synsetId": "02084180-v",
+            "definition": "transmit or serve as the medium for transmission",
+            "examples": [
+              "Sound carries well over water",
+              "The airwaves carry the sound",
+              "Many metals conduct heat"
+            ],
+            "synonyms": [
+              "impart",
+              "conduct",
+              "transmit",
+              "convey",
+              "channel"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "carry%2:38:03::",
+              "02084180-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "ride",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.85
+      },
+      "priorityScore": 31.7,
+      "candidateSenses": [
+        {
+          "candidateId": "ride#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "ride%2:38:01::",
+            "synsetId": "01961388-v",
+            "definition": "sit and travel on the back of animal, usually while controlling its motions",
+            "examples": [
+              "She never sat a horse!",
+              "Did you ever ride a camel?",
+              "The girl liked to drive the young mare"
+            ],
+            "synonyms": [
+              "sit"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ride%2:38:01::",
+              "01961388-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "ride#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "ride%2:38:00::",
+            "synsetId": "01959843-v",
+            "definition": "be carried or travel on or in a vehicle",
+            "examples": [
+              "I ride to work in a bus",
+              "He rides the subway downtown every day"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ride%2:38:00::",
+              "01959843-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "ride#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "ride%2:42:00::",
+            "synsetId": "02690467-v",
+            "definition": "continue undisturbed and without interference",
+            "examples": [
+              "Let it ride"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "ride%2:42:00::",
+              "02690467-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "draw",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.81
+      },
+      "priorityScore": 31.62,
+      "candidateSenses": [
+        {
+          "candidateId": "draw#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "draw%2:35:03::",
+            "synsetId": "01450719-v",
+            "definition": "cause to move by pulling",
+            "examples": [
+              "draw a wagon",
+              "pull a sled"
+            ],
+            "synonyms": [
+              "pull"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "draw%2:35:03::",
+              "01450719-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "draw#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "draw%2:40:00::",
+            "synsetId": "02298109-v",
+            "definition": "get or derive",
+            "examples": [
+              "He drew great benefits from his membership in the association"
+            ],
+            "synonyms": [
+              "reap"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "draw%2:40:00::",
+              "02298109-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "draw#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "draw%2:35:01::",
+            "synsetId": "01585566-v",
+            "definition": "make a mark or lines on a surface",
+            "examples": [
+              "draw a line",
+              "trace the outline of a figure in the sand"
+            ],
+            "synonyms": [
+              "trace",
+              "line",
+              "describe",
+              "delineate"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "draw%2:35:01::",
+              "01585566-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "jump",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.69
+      },
+      "priorityScore": 31.38,
+      "candidateSenses": [
+        {
+          "candidateId": "jump#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "jump%2:38:00::",
+            "synsetId": "01967949-v",
+            "definition": "move forward by leaps and bounds",
+            "examples": [
+              "The horse bounded across the meadow",
+              "The child leapt across the puddle",
+              "Can you jump over the fence?"
+            ],
+            "synonyms": [
+              "leap",
+              "bound",
+              "spring"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "jump%2:38:00::",
+              "01967949-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "jump#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "jump%2:38:04::",
+            "synsetId": "01914366-v",
+            "definition": "move or jump suddenly, as if in surprise or alarm",
+            "examples": [
+              "She startled when I walked into the room"
+            ],
+            "synonyms": [
+              "startle",
+              "start"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "jump%2:38:04::",
+              "01914366-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "jump#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "jump%2:33:00::",
+            "synsetId": "01123596-v",
+            "definition": "make a sudden physical attack on",
+            "examples": [
+              "The muggers jumped the woman in the fur coat"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "jump%2:33:00::",
+              "01123596-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    }
+  ]
+}

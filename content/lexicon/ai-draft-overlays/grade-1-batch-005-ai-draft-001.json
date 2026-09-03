@@ -1,0 +1,213 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_ai_draft_overlay",
+  "overlayId": "grade-1-batch-005-ai-draft-001",
+  "batchId": "grade-1-batch-005",
+  "grade": 1,
+  "generatedAt": "2026-09-03",
+  "generatedBy": {
+    "kind": "ai_editorial_draft",
+    "purpose": "Reduce human sense-selection and child-definition drafting effort; suggestions remain unreviewed."
+  },
+  "policy": {
+    "publicationState": "draft_suggestions_only",
+    "mayCountAsHumanReview": false,
+    "maySetHumanReviewMetadata": false,
+    "mayApproveProfilePlacement": false,
+    "sourceGlossesReferenceOnly": true
+  },
+  "suggestions": [
+    {
+      "lemma": "use",
+      "proposedCandidateId": "use#n#2",
+      "proposedChildDefinition": "Use means the purpose or job that something has.",
+      "proposedChildExample": "One use of an umbrella is to keep rain off you.",
+      "rationale": "Candidate 2 is the concrete purpose/function reading. Candidate 1 is the act of using and candidate 3 is a narrower service reading.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Both the act-of-using and purpose readings are common. Approve only if the intended classroom context is purpose or function."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "better",
+      "proposedCandidateId": "better#a#1",
+      "proposedChildDefinition": "Better means having a higher quality or being more suitable than something else.",
+      "proposedChildExample": "This pencil is better for drawing because it has a sharp point.",
+      "rationale": "Candidate 1 is the ordinary comparative-of-good reading; candidate 2 is specifically improved health and candidate 3 means more advisable.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The general comparison sense is well covered; health and advice contexts should be reviewed separately."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "help",
+      "proposedCandidateId": "help#n#1",
+      "proposedChildDefinition": "Help is support that makes a task easier or meets a need.",
+      "proposedChildExample": "Mina asked for help carrying the books.",
+      "rationale": "Candidate 1 is the activity/support meaning. Candidates 2 and 3 shift to a helper person or a helpful resource.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The support/activity noun is the broad primary reading; person-as-helper contexts are distinct."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "little",
+      "proposedCandidateId": "little#a#1",
+      "proposedChildDefinition": "Little means small in size, number, or amount.",
+      "proposedChildExample": "A little box sat beside the big one.",
+      "rationale": "Candidate 1 is the general small/below-average adjective. Candidate 2 is a mass-noun quantity reading and candidate 3 means young or immature.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Little changes meaning with context, especially before mass nouns or when describing a young child or animal."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "break",
+      "proposedCandidateId": "break#v#2",
+      "proposedChildDefinition": "To break means to come apart into pieces or parts.",
+      "proposedChildExample": "The dry stick may break if you bend it.",
+      "rationale": "Candidate 2 is the physical come-apart reading and is more primary than candidate 1 terminate/end or candidate 3 make inoperable.",
+      "ambiguityWarning": {
+        "level": "hold_recommended",
+        "note": "The common transitive child meaning 'break a toy' is not cleanly represented by these top candidates. HOLD if that causative physical-damage sense is intended."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "big",
+      "proposedCandidateId": "big#a#1",
+      "proposedChildDefinition": "Big means larger than usual in size, number, or amount.",
+      "proposedChildExample": "A big elephant stood beside the small calf.",
+      "rationale": "Candidate 1 is the foundational size/amount reading. Candidate 2 means significant and candidate 3 means serious or severe.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The physical size/amount reading is clear; figurative importance or severity contexts should not be collapsed into it."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "continue",
+      "proposedCandidateId": "continue#v#1",
+      "proposedChildDefinition": "To continue means to keep doing something instead of stopping.",
+      "proposedChildExample": "After lunch, we continued reading the story.",
+      "rationale": "Candidate 1 covers continuing an activity or state. Candidate 2 is specifically continuing speech and candidate 3 is maintaining something unchanged.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The ongoing-activity reading is well covered and suitable for a general primary definition."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "build",
+      "proposedCandidateId": "build#v#1",
+      "proposedChildDefinition": "To build means to make something by putting materials or parts together.",
+      "proposedChildExample": "We used blocks to build a tall tower.",
+      "rationale": "Candidate 1 is the concrete construction sense. Candidate 2 is gradual accumulation and candidate 3 is abstract establishment.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The concrete construction meaning is distinct and appropriate for early-primary use."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "small",
+      "proposedCandidateId": "small#a#1",
+      "proposedChildDefinition": "Small means less than usual in size, number, or amount.",
+      "proposedChildExample": "The kitten slept in a small basket.",
+      "rationale": "Candidate 1 is the general size/amount adjective. Candidate 2 is a limited/moderate scale reading and candidate 3 means young or immature.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Young-child or limited-scale contexts can activate the other candidate senses, so the example context should stay concrete."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "white",
+      "proposedCandidateId": "white#a#1",
+      "proposedChildDefinition": "White is the very light color seen in fresh snow or milk.",
+      "proposedChildExample": "She drew a white cloud on blue paper.",
+      "rationale": "Candidate 1 is the color adjective. Candidate 2 is a racial-group usage and candidate 3 is a figurative moral-purity usage.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "Keep the child-facing item strictly on the color sense represented by candidate 1."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "consider",
+      "proposedCandidateId": "consider#v#2",
+      "proposedChildDefinition": "To consider something means to think about it carefully.",
+      "proposedChildExample": "We considered both ideas before choosing one.",
+      "rationale": "Candidate 2 is the careful-thought reading. Candidate 1 means regard/deem and candidate 3 introduces an example for consideration, so candidate 1 should not be selected blindly.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "The intended classroom meaning must distinguish careful thought from judging or regarding something in a particular way."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "open",
+      "proposedCandidateId": "open#a#1",
+      "proposedChildDefinition": "Open means not shut or closed, so there is a clear entrance or exit.",
+      "proposedChildExample": "The classroom door was open.",
+      "rationale": "Candidate 1 is the ordinary not-shut meaning. Candidate 2 generalizes to free passage and candidate 3 means unprotected or exposed.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The door/entrance reading is concrete and clearly represented by candidate 1."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "black",
+      "proposedCandidateId": "black#a#1",
+      "proposedChildDefinition": "Black is the very dark color seen in coal or a dark night sky.",
+      "proposedChildExample": "He used a black crayon for the night sky.",
+      "rationale": "Candidate 1 is the color adjective. Candidate 2 is a racial-group usage and candidate 3 is a figurative anger/hostility usage.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "Keep the child-facing item strictly on the color sense represented by candidate 1."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "like",
+      "proposedCandidateId": "like#v#2",
+      "proposedChildDefinition": "To like something means to enjoy it or find it pleasant.",
+      "proposedChildExample": "I like reading funny stories.",
+      "rationale": "Candidate 2 is the enjoy/find-agreeable reading. Candidate 1 is desire/preference in 'would like', while candidate 3 is fondness toward a person, so candidate 1 is not the best generic primary sense.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Would-like requests and fondness toward people use neighboring but distinct senses; keep the review context explicit."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "light",
+      "proposedCandidateId": "light#n#2",
+      "proposedChildDefinition": "Light is what makes things visible so our eyes can see them.",
+      "proposedChildExample": "Sunlight filled the room with light.",
+      "rationale": "Candidate 2 is visible light. Candidate 1 is a specific religious sense and candidate 3 is a lamp or other device, so the evidence requires selecting beyond candidate 1.",
+      "ambiguityWarning": {
+        "level": "medium",
+        "note": "Countable 'a light' often means a lamp or device, while uncountable 'light' means illumination. Approve only for the intended illumination context."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    },
+    {
+      "lemma": "red",
+      "proposedCandidateId": "red#n#1",
+      "proposedChildDefinition": "Red is the color seen in many ripe tomatoes and roses.",
+      "proposedChildExample": "Red is my favorite color for drawing hearts.",
+      "rationale": "Candidate 1 is the color noun. Candidate 2 is a political label and candidate 3 is the financial-loss expression 'in the red'.",
+      "ambiguityWarning": {
+        "level": "low",
+        "note": "The color noun is clearly separated from the specialized political and financial readings."
+      },
+      "profilePlacementRationale": "Editorial cue only: Grade 1 queue placement makes this reasonable to consider for Class 1 profile review; it is not official CBSE/CISCE evidence."
+    }
+  ]
+}
