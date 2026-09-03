@@ -68,7 +68,8 @@ describe('#94 generic semantic-vocabulary review-batch factory', () => {
       'priority-batch-003',
       'priority-sense-resolution-001',
       'priority-sense-resolution-002',
-      'priority-sense-resolution-003'
+      'priority-sense-resolution-003',
+      'priority-sense-resolution-004'
     ]);
     expect(new Set(ledger.batches.map((entry: { id: string }) => entry.id)).size).toBe(ledger.batches.length);
     expect(new Set(ledger.batches.map((entry: { sequence: number }) => entry.sequence)).size).toBe(ledger.batches.length);
