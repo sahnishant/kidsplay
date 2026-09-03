@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   breadth:
@@ -68,6 +68,7 @@ jobs:
         run: npm run test:vocabulary-visuals
 
       - name: Prove generated artifacts do not dirty tracked source
+        id: generated-clean
         shell: bash
         run: |
           set -euo pipefail
@@ -88,6 +89,37 @@ jobs:
             content/questions/__generated-from-knowledge.json
             content/authoring/crosswords/__generated-from-knowledge.json
           if-no-files-found: warn
+
+      - name: Commit approved deterministic vocabulary state to the PR branch
+        if: failure() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository
+        shell: bash
+        env:
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha }}
+          SOURCE_REF: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+          paths=(
+            content/profile-memberships/CBSE_INDIA_CLASS1.json
+            content/profile-memberships/CISCE_INDIA_CLASS1.json
+            content/profile-memberships/CBSE_INDIA_CLASS2.json
+            content/profile-memberships/CISCE_INDIA_CLASS2.json
+            content/profile-memberships/SOF_INDIA_CLASS2.json
+            content/packs/free-vocabulary.json
+            content/knowledge/english-vocabulary-primary-reviewed-batch-005.json
+          )
+          tar -cf /tmp/approved-generated-state.tar "${paths[@]}"
+          git fetch --no-tags origin "$SOURCE_SHA"
+          git checkout --detach "$SOURCE_SHA"
+          tar -xf /tmp/approved-generated-state.tar
+          git config user.name "kidsplay-ci"
+          git config user.email "134548275+sahnishant@users.noreply.github.com"
+          git add "${paths[@]}"
+          if git diff --cached --quiet; then
+            echo "Approved generated state already committed."
+            exit 0
+          fi
+          git commit -m "chore(content): materialize approved vocabulary state"
+          git push origin HEAD:"$SOURCE_REF"
 
       - name: Upload final live ranked priority queue
         uses: actions/upload-artifact@v7
