@@ -143,4 +143,47 @@ describe('Phase C child audio session controls', () => {
     expect(utterance.pitch).toBe(0.96);
     expect(utterance.text).toContain('Final clue checked');
   });
+
+  it('cancels narration before retry and exit transitions', async () => {
+    const synthesis = window.speechSynthesis as unknown as {
+      cancel: ReturnType<typeof vi.fn>;
+      speak: ReturnType<typeof vi.fn>;
+    };
+    const onExit = vi.fn();
+    render(Session, { props: { title: 'Retry trail', questions: [choiceQuestion()], onExit } });
+    await waitFor(() => expect(synthesis.speak).toHaveBeenCalledTimes(1));
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Fish' }));
+    const afterWrongSubmit = synthesis.cancel.mock.calls.length;
+    await fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+    expect(synthesis.cancel.mock.calls.length).toBeGreaterThan(afterWrongSubmit);
+
+    const afterRetry = synthesis.cancel.mock.calls.length;
+    await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
+    expect(synthesis.cancel.mock.calls.length).toBeGreaterThan(afterRetry);
+    expect(onExit).toHaveBeenCalledTimes(1);
+  });
+
+  it('cancels character narration before advancing to the next clue', async () => {
+    const synthesis = window.speechSynthesis as unknown as { cancel: ReturnType<typeof vi.fn> };
+    render(Session, {
+      props: {
+        title: 'Story transition trail',
+        questions: [choiceQuestion('test.audio.first'), choiceQuestion('test.audio.second')],
+        storyCompletion: {
+          text: 'The trail is safe again.',
+          rewardLabel: 'Forest badge',
+          stars: 1
+        }
+      }
+    });
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
+    await fireEvent.click(screen.getByRole('button', { name: /^Hear / }));
+    const beforeTransition = synthesis.cancel.mock.calls.length;
+    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
+
+    expect(synthesis.cancel.mock.calls.length).toBeGreaterThan(beforeTransition);
+    expect(screen.getByText('2 / 2')).toBeTruthy();
+  });
 });
