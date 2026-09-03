@@ -130,6 +130,15 @@
     "difficulty": 1,
     "prompt": "Which plant part makes food for the plant?"
   },
+  {
+    "id": "plants.parts.mcq.seed-growth.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "single_choice@1",
+    "entryIds": ["seed-new-plant"],
+    "distractorCount": 3,
+    "difficulty": 1,
+    "prompt": "Which plant part can grow into a new plant?"
+  },
 
   {
     "id": "plants.types.memory.generated.001",
