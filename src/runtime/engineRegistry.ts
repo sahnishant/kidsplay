@@ -12,34 +12,45 @@ import WordSearch from '../engines/WordSearch.svelte';
 
 export type EngineRetryCapability = 'retry_same_state' | 'reset_for_retry' | 'explanation_only';
 
-interface EngineRegistration {
-  component: EngineComponent;
-  retryCapability: EngineRetryCapability;
-}
-
-const engines = new Map<string, EngineRegistration>([
-  ['single_choice@1', { component: SingleChoice, retryCapability: 'reset_for_retry' }],
-  ['word_bank_fill@1', { component: WordBankFill, retryCapability: 'reset_for_retry' }],
-  ['drag_to_target@1', { component: DragToTarget, retryCapability: 'reset_for_retry' }],
-  ['word_search@1', { component: WordSearch, retryCapability: 'explanation_only' }],
-  ['memory_pairs@1', { component: MemoryPairs, retryCapability: 'explanation_only' }],
-  ['sequence_order@1', { component: SequenceOrder, retryCapability: 'explanation_only' }],
-  ['hotspot@1', { component: Hotspot, retryCapability: 'explanation_only' }],
-  ['crossword@1', { component: Crossword, retryCapability: 'explanation_only' }],
-  ['maze_path@1', { component: MazePath, retryCapability: 'explanation_only' }]
+// Keep this registry in the canonical key -> component shape consumed by validate-engine-registry.mjs.
+const engines = new Map<string, EngineComponent>([
+  ['single_choice@1', SingleChoice],
+  ['word_bank_fill@1', WordBankFill],
+  ['drag_to_target@1', DragToTarget],
+  ['word_search@1', WordSearch],
+  ['memory_pairs@1', MemoryPairs],
+  ['sequence_order@1', SequenceOrder],
+  ['hotspot@1', Hotspot],
+  ['crossword@1', Crossword],
+  ['maze_path@1', MazePath]
 ]);
 
-function getEngineRegistration(question: Question): EngineRegistration {
-  const key = `${question.interaction.type}@${question.interaction.version}`;
-  const registration = engines.get(key);
-  if (!registration) throw new Error(`Unsupported interaction engine: ${key}`);
-  return registration;
+const retryCapabilities = new Map<string, EngineRetryCapability>([
+  ['single_choice@1', 'reset_for_retry'],
+  ['word_bank_fill@1', 'reset_for_retry'],
+  ['drag_to_target@1', 'reset_for_retry'],
+  ['word_search@1', 'explanation_only'],
+  ['memory_pairs@1', 'explanation_only'],
+  ['sequence_order@1', 'explanation_only'],
+  ['hotspot@1', 'explanation_only'],
+  ['crossword@1', 'explanation_only'],
+  ['maze_path@1', 'explanation_only']
+]);
+
+function engineKey(question: Question): string {
+  return `${question.interaction.type}@${question.interaction.version}`;
 }
 
 export function getEngineComponent(question: Question): EngineComponent {
-  return getEngineRegistration(question).component;
+  const key = engineKey(question);
+  const engine = engines.get(key);
+  if (!engine) throw new Error(`Unsupported interaction engine: ${key}`);
+  return engine;
 }
 
 export function getEngineRetryCapability(question: Question): EngineRetryCapability {
-  return getEngineRegistration(question).retryCapability;
+  const key = engineKey(question);
+  const capability = retryCapabilities.get(key);
+  if (!capability) throw new Error(`Unsupported retry capability: ${key}`);
+  return capability;
 }
