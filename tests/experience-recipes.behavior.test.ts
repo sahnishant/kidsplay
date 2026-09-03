@@ -39,10 +39,14 @@ function singleChoice(conceptIds = ['animals'], knowledgeRefs = ['kr.animals.dog
   };
 }
 
-function dragToTarget(conceptIds = ['animals.dog.home']): DragToTargetQuestion {
+function dragToTarget(
+  conceptIds = ['animals.dog.home'],
+  knowledgeRefs = ['kr.animals.dog.home.kennel']
+): DragToTargetQuestion {
   return {
     ...baseQuestion(),
     conceptIds,
+    knowledgeRefs,
     interaction: {
       type: 'drag_to_target',
       version: 1,
@@ -96,7 +100,10 @@ describe('experience recipe architecture', () => {
 
   it('resolves real canonical Forest semantics before generic interaction-family fallbacks', () => {
     expect(resolveExperienceRecipe(dragToTarget(), 'story')?.family).toBe('guide_to_home');
-    expect(resolveExperienceRecipe(dragToTarget(['plants.parts.root']), 'story')?.family).toBe('sort_or_match');
+    expect(resolveExperienceRecipe(dragToTarget(
+      ['plants.parts.root'],
+      ['kr.plants.roots.function.absorb-water']
+    ), 'story')?.family).toBe('sort_or_match');
     expect(resolveExperienceRecipe(singleChoice(['cause-effect']), 'story')?.family).toBe('cause_effect_discovery');
     expect(resolveExperienceRecipe(singleChoice(
       ['plants.parts.seed'],
