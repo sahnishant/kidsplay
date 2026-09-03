@@ -69,6 +69,7 @@ describe('Android offline-speech native installation', () => {
     expect(source).toContain('textToSpeech.setVoice(voice)');
     expect(source).toContain('TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA');
     expect(source).not.toContain('textToSpeech.setLanguage(');
+    expect(source).not.toContain('.isBlank()');
     expect(source).not.toContain('android.permission.INTERNET');
   });
 
