@@ -5,6 +5,7 @@ import { getGoalReadiness, getProfileQuestions } from '../src/content';
 
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 const PROFILE_REF = 'SOF_INDIA_CLASS3';
+const FULL_PROFILE_POOL_LIMIT = 1000;
 
 describe('Class 3 runtime profile inheritance', () => {
   it('uses the generated effective Class 3 membership at runtime after factory expansion', () => {
@@ -18,7 +19,7 @@ describe('Class 3 runtime profile inheritance', () => {
   });
 
   it('selects both inherited Class 2 truth and direct Class 3 truth without copying knowledge rows', () => {
-    const questions = getProfileQuestions(PROFILE_REF, { count: 500 });
+    const questions = getProfileQuestions(PROFILE_REF, { count: FULL_PROFILE_POOL_LIMIT });
     const refs = new Set(questions.flatMap((question) => question.knowledgeRefs ?? []));
 
     expect(refs.has('kr.animals.dog.domestic')).toBe(true);
@@ -31,7 +32,7 @@ describe('Class 3 runtime profile inheritance', () => {
   });
 
   it('keeps expanded current-class HOTS inside the same profile-safe runtime pool', () => {
-    const questions = getProfileQuestions(PROFILE_REF, { count: 500 });
+    const questions = getProfileQuestions(PROFILE_REF, { count: FULL_PROFILE_POOL_LIMIT });
     const class3Hots = questions.filter((question) =>
       question.authoring.source === 'kidsplay-editorial-hots'
         && (question.knowledgeRefs?.length ?? 0) > 0
