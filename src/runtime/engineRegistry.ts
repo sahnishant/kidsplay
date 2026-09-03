@@ -6,7 +6,7 @@ import MazePath from '../engines/MazePath.svelte';
 import MemoryPairs from '../engines/MemoryPairs.svelte';
 import SequenceOrder from '../engines/SequenceOrder.svelte';
 import SingleChoice from '../engines/SingleChoice.svelte';
-import TracePath from '../engines/TracePath.svelte';
+import TracePath from '../engines/LazyTracePath.svelte';
 import type { EngineComponent } from '../engines/types';
 import WordBankFill from '../engines/WordBankFill.svelte';
 import WordSearch from '../engines/WordSearch.svelte';
