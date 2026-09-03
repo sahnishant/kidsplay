@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import animalLifecycleKnowledge from '../content/knowledge/animal-lifecycles.json';
 import {
   answerCurrentQuestion,
   cssTimeToMilliseconds,
@@ -67,6 +68,26 @@ async function expectVisibleInteractionTargets(page: Page, label: string): Promi
   for (let index = 0; index < await buttons.count(); index += 1) {
     await expectChildTapTarget(buttons.nth(index), `${label} interaction control ${index + 1}`);
   }
+}
+
+async function answerCanonicalButterflySequence(page: Page): Promise<void> {
+  const buttons = page.locator('.sequence-order__item');
+  const desiredLabels = animalLifecycleKnowledge.stages.map((stage) => stage.label);
+  expect(await buttons.count(), 'Forest butterfly sequence should render every canonical lifecycle stage')
+    .toBe(desiredLabels.length);
+
+  for (let targetIndex = 0; targetIndex < desiredLabels.length; targetIndex += 1) {
+    const currentLabels = (await buttons.allInnerTexts()).map((label) => label.trim());
+    if (currentLabels[targetIndex] === desiredLabels[targetIndex]) continue;
+
+    const sourceIndex = currentLabels.indexOf(desiredLabels[targetIndex]);
+    expect(sourceIndex, `canonical lifecycle stage ${desiredLabels[targetIndex]} should be present`).toBeGreaterThanOrEqual(0);
+    await buttons.nth(targetIndex).click();
+    await buttons.nth(sourceIndex).click();
+    await expect(buttons.nth(targetIndex)).toHaveText(desiredLabels[targetIndex]);
+  }
+
+  await page.getByRole('button', { name: 'Check order' }).click();
 }
 
 async function advanceMissionStory(page: Page): Promise<void> {
@@ -234,7 +255,11 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       if (await memoryCards.count() === 6) sawCompactMemory = true;
 
       await expectVisibleInteractionTargets(page, `Forest clue ${index + 1}`);
-      await answerCurrentQuestion(page);
+      if (await page.locator('.sequence-order').count()) {
+        await answerCanonicalButterflySequence(page);
+      } else {
+        await answerCurrentQuestion(page);
+      }
       await expect(sessionFeedback(page)).toContainText('Nice work!');
       await expectNoHorizontalOverflow(page, `Forest clue ${index + 1} reaction`);
       await expectNoDocumentVerticalOverflow(page, `Forest clue ${index + 1} reaction`);
