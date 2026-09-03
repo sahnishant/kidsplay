@@ -243,10 +243,7 @@
           </div>
 
           {#if sessionState.retryState?.assistanceKinds.includes('explanation')}
-            <div class="retry-hint" role="note" aria-label="Retry clue">
-              <strong>Clue</strong>
-              <span>{question.feedback.incorrect}</span>
-            </div>
+            <div class="restored-answer-note" role="note" aria-label="Retry clue"><strong>Clue:</strong> {question.feedback.incorrect}</div>
           {/if}
 
           {#if authoredSceneId}
@@ -440,9 +437,6 @@
   .question-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; }
   .reasoning-cue, .saved-session-note { display: inline-flex; padding: 5px 8px; border-radius: 999px; background: #f4f6f7; color: var(--muted); font-size: .66rem; font-weight: 800; }
   .reasoning-cue--goal { background: var(--accent-soft); color: var(--accent); }
-  .retry-hint { width: min(100%, 34rem); margin: 10px auto 0; display: grid; gap: 3px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: #fffaf0; }
-  .retry-hint strong { color: var(--accent); font-size: .74rem; }
-  .retry-hint span { font-weight: 700; line-height: 1.35; }
 
   .answer-scene :global(.scene) { height: clamp(125px, 25vh, 190px); }
   .question-prompt { margin: 14px 4px 12px; font-size: clamp(1.25rem, 4.5vw, 1.85rem); line-height: 1.14; text-align: center; }
