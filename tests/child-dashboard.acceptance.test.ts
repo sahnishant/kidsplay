@@ -50,6 +50,19 @@ afterEach(() => {
 });
 
 describe('child dashboard acceptance surfaces', () => {
+  it('makes Continue Adventure primary and keeps adult progress and assessment navigation off the child home', () => {
+    render(App);
+
+    expect(screen.getByRole('button', { name: 'Continue Adventure' })).toBeTruthy();
+    expect(screen.getByText('CONTINUE ADVENTURE')).toBeTruthy();
+    expect(screen.getByLabelText('Current adventure level 1')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Open practice activities' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Open learning progress' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open goal learning' })).toBeNull();
+    expect(screen.queryByText('OLYMPIAD CHALLENGE')).toBeNull();
+    expect(screen.queryByText(/Curriculum profile:/)).toBeNull();
+  });
+
   it('puts strong facts and adaptive next focus ahead of analytics while keeping topic state explicit', () => {
     const { container } = render(ProgressViewport, { props: { progress: focusedProgress } });
 
@@ -63,17 +76,27 @@ describe('child dashboard acceptance surfaces', () => {
     expect(screen.getByText('Numbers for grown-ups')).toBeTruthy();
   });
 
-  it('leads Goals with the child challenge journey when there is no saved mock', async () => {
+  it('moves progress, mocks and curriculum profile metadata behind the grown-up area', async () => {
     render(App);
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Open player settings' }));
+    expect(screen.getByText('For grown-ups')).toBeTruthy();
+    await fireEvent.click(screen.getByRole('button', { name: 'Open grown-up area' }));
 
-    expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
+    expect(screen.getByRole('navigation', { name: 'Grown-up sections' })).toBeTruthy();
+    expect(screen.getByText('Numbers for grown-ups')).toBeTruthy();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
+    expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
     expect(screen.getByText('OLYMPIAD CHALLENGE')).toBeTruthy();
     expect(screen.getByRole('heading', { name: /% ready$/ })).toBeTruthy();
     expect(screen.getByLabelText('Learn, practise, mock journey')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Start mock ▶' })).toBeTruthy();
     expect(screen.getByText('ⓘ About readiness')).toBeTruthy();
-    expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Programmes' }));
+    expect(screen.getByRole('heading', { name: 'Programmes & profiles' })).toBeTruthy();
+    expect(screen.getAllByText(/Curriculum profile:/).length).toBeGreaterThan(0);
   });
 });

@@ -73,6 +73,11 @@ function motionQuestion(): SingleChoiceQuestion {
   };
 }
 
+async function openGrownUpArea(): Promise<void> {
+  await fireEvent.click(screen.getByRole('button', { name: 'Open player settings' }));
+  await fireEvent.click(screen.getByRole('button', { name: 'Open grown-up area' }));
+}
+
 beforeEach(() => {
   window.localStorage.clear();
   window.history.replaceState({}, '', '/');
@@ -83,7 +88,7 @@ afterEach(() => {
 });
 
 describe('user-facing product flow', () => {
-  it('makes the home screen a compact level-first mission control and keeps Player behind the avatar', async () => {
+  it('makes the home screen a compact child-first mission control and keeps grown-up data behind Player', async () => {
     render(App);
 
     expect(screen.getByRole('button', { name: 'Open player settings' })).toBeTruthy();
@@ -93,9 +98,10 @@ describe('user-facing product flow', () => {
     expect(screen.queryByText('Kidsplay')).toBeNull();
     expect(screen.queryByRole('heading', { name: "Dheu's science world" })).toBeNull();
     expect(screen.getByRole('button', { name: 'Open story world' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Open learning progress' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open practice activities' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Open goal learning' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Open learning progress' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open goal learning' })).toBeNull();
+    expect(screen.queryByText(/Curriculum profile:/)).toBeNull();
     expect(screen.queryByLabelText('Child name')).toBeNull();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Open player settings' }));
@@ -104,11 +110,9 @@ describe('user-facing product flow', () => {
     await fireEvent.input(nameInput, { target: { value: 'Dheu' } });
     const stored = JSON.parse(window.localStorage.getItem(CHILD_KEY) ?? '{}') as { name?: string };
     expect(stored.name).toBe('Dheu');
+    expect(screen.getByText('For grown-ups')).toBeTruthy();
 
-    await fireEvent.click(screen.getByRole('button', { name: "Back to Dheu's world" }));
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
-
-    await fireEvent.click(screen.getByRole('button', { name: 'Open learning progress' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Open grown-up area' }));
     expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: '0 strong facts!' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: "Science worlds you've explored" })).toBeTruthy();
@@ -118,12 +122,12 @@ describe('user-facing product flow', () => {
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     await fireEvent.click(screen.getByRole('button', { name: 'Open practice activities' }));
-    expect(screen.getByRole('heading', { name: 'Choose a practice adventure' })).toBeTruthy();
-    expect(screen.getAllByText('Profile: SOF_INDIA_CLASS2')).toHaveLength(3);
-    expect(screen.getByRole('button', { name: 'Try 35-question mock' })).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Choose a play activity' })).toBeTruthy();
+    expect(screen.queryByText(/Curriculum profile:/)).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Try 35-question mock' })).toBeNull();
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Try prototype' }));
-    expect(screen.getByText('Class 2 Science Olympiad: Core Science & EVS')).toBeTruthy();
+    await fireEvent.click(screen.getByRole('button', { name: 'Play free' }));
+    expect(screen.getByText('Science Explorer: Class 2 Science & EVS')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
@@ -133,14 +137,16 @@ describe('user-facing product flow', () => {
   it('uses Escape and browser Back through one overlay-first home navigation contract', async () => {
     render(App);
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Open learning progress' }));
-    expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
-    await fireEvent.keyDown(window, { key: 'Escape' });
+    await fireEvent.click(screen.getByRole('button', { name: 'Open player settings' }));
+    expect(screen.getByRole('heading', { name: 'Who is playing?' })).toBeTruthy();
+    window.history.back();
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
-    expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
-    window.history.back();
+    await openGrownUpArea();
+    expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
+    await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
+    expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
+    await fireEvent.keyDown(window, { key: 'Escape' });
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
     await fireEvent.click(screen.getByRole('button', { name: 'River & Pond Quest, Level 4: The Puppy by the Pond' }));
@@ -150,7 +156,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
   });
 
-  it('keeps saved mock resume/history behind a saved-challenge-first goal screen', async () => {
+  it('keeps saved mock resume/history behind the grown-up assessment screen', async () => {
     const patternEntry = getCatalogEntries().find((entry) => entry.actionLabel === 'Try 35-question mock');
     expect(patternEntry).toBeTruthy();
     const launch = createSessionForCatalogEntry(patternEntry!.id, {});
@@ -214,8 +220,9 @@ describe('user-facing product flow', () => {
     expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
     expect(screen.queryByRole('heading', { name: 'Mock medals' })).toBeNull();
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Open goal learning' }));
-    expect(screen.getByRole('heading', { name: 'Goal learning' })).toBeTruthy();
+    await openGrownUpArea();
+    await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
+    expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
     expect(screen.getByText('0 / 35')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Mock medals' })).toBeTruthy();

@@ -12,10 +12,7 @@
     getStoryMissions
   } from '../story/storyDirector';
   import { buildStoryLocationPresentation } from '../story/storyPresentation';
-  import {
-    storyUnlockedLocationCount,
-    type StoryProgressSnapshot
-  } from '../story/storyProgress';
+  import type { StoryProgressSnapshot } from '../story/storyProgress';
   import type { StoryLocation, StoryMission } from '../story/storyTypes';
   import type { WorldChange, WorldLocationId, WorldRewardState } from '../story/worldRewards';
   import ExpeditionNode from './story/ExpeditionNode.svelte';
@@ -54,11 +51,9 @@
     Boolean(selectedMission && missionBeatIndex < selectedMission.beats.length - 1)
   );
   let heroName = $derived(getHeroDisplayName(childName));
-  let unlockedPlaces = $derived(storyUnlockedLocationCount(storyProgress, locations));
   let presentations = $derived(buildStoryLocationPresentation(locations, missions, storyProgress, recommendedTopics));
   let currentPresentation = $derived(presentations.find((item) => item.state === 'current') ?? null);
-  let completedPlaces = $derived(presentations.filter((item) => item.state === 'complete').length);
-  let worldChangeCount = $derived(worldState?.totalChanges ?? 0);
+  let worldChanged = $derived((worldState?.totalChanges ?? 0) > 0);
   let worldCollectibles = $derived(worldState?.collectibles ?? []);
   let worldDiscoveries = $derived(worldState?.discoveries ?? []);
   let worldTrophies = $derived(worldState?.trophies ?? []);
@@ -123,6 +118,15 @@
     releaseMissionBack = pushAppBackLayer(`story-mission:${missionId}`, closeMissionFromBack);
   }
 
+  function continueAdventure(): void {
+    if (!currentPresentation) return;
+    if (currentPresentation.mission) {
+      openMission(currentPresentation.mission.id);
+      return;
+    }
+    onExploreLocation(currentPresentation.location.id);
+  }
+
   function requestCloseMission(): void {
     requestAppBack(closeMissionFromBack);
   }
@@ -153,15 +157,20 @@
 <section class="story-world-viewport" aria-labelledby="story-world-heading">
   <header class="next-adventure">
     <div class="next-adventure__copy">
-      <span class="eyebrow">YOUR NEXT ADVENTURE</span>
+      <span class="eyebrow">CONTINUE ADVENTURE</span>
       {#if currentPresentation}
         <h2 id="story-world-heading">{currentPresentation.location.expeditionTitle}</h2>
-        <p><strong>LEVEL {currentPresentation.location.progression.level}</strong> · Find the clues and make this world stronger.</p>
+        <p><strong>LEVEL {currentPresentation.location.progression.level}</strong> · Follow the glowing path to the next story.</p>
       {:else}
         <h2 id="story-world-heading">Explore {heroName}'s science world</h2>
-        <p>Choose any open expedition.</p>
+        <p>Your worlds stay open for another adventure.</p>
       {/if}
     </div>
+    {#if currentPresentation}
+      <button class="mission-start" type="button" onclick={continueAdventure} aria-label="Continue Adventure">
+        Continue Adventure <span aria-hidden="true">▶</span>
+      </button>
+    {/if}
     <div class="next-adventure__guides" aria-label="Story guides">
       <span aria-hidden="true"><StoryCharacter character="scientu" mood="thinking" motion="float" /></span>
       <span aria-hidden="true"><StoryCharacter character="shaitanu" mood="mischievous" motion="wiggle" /></span>
@@ -169,17 +178,18 @@
   </header>
 
   <div class="world-stage">
-    <div class="world-map" aria-label={`${heroName}'s story world`}>
+    <div class="world-map" aria-label={`${heroName}'s story world. Progress is shown by complete, current, available and locked expedition states.`}>
       <div class="world-map__river" aria-hidden="true"></div>
       <div class="world-map__path" aria-hidden="true"></div>
-      <div class="world-progress" aria-label={`${unlockedPlaces} of ${locations.length} places open; ${completedPlaces} complete`}>
-        <span><strong>{completedPlaces}</strong> done</span>
-        <span><strong>{unlockedPlaces}/{locations.length}</strong> open</span>
-        <span aria-label={worldChangeCount > 0 ? 'Learning has changed the world' : 'World ready to grow'}><strong>🌍 {worldChangeCount > 0 ? 'changed' : 'ready'}</strong></span>
-      </div>
+
+      {#if worldChanged}
+        <div class="world-progress" style="right:7px" aria-label="Learning has changed the world">
+          <span><strong>🌍 changed</strong></span>
+        </div>
+      {/if}
 
       {#if worldCollectibles.length > 0 || worldDiscoveries.length > 0 || worldTrophies.length > 0}
-        <div class="world-progress" style="right:auto;left:7px" aria-label="Persistent learning keepsakes">
+        <div class="world-progress" style="left:7px" aria-label="Persistent learning keepsakes">
           {#if worldCollectibles.length > 0}
             <span role="group" aria-label={`Backpack collectibles: ${changeNames(worldCollectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldCollectibles)}</strong></span>
           {/if}
@@ -251,13 +261,13 @@
 
 <style>
   .story-world-viewport{height:100%;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:6px;padding:7px;border-radius:20px;background:linear-gradient(#f7fbff,#fff9e7);overflow:hidden}
-  .next-adventure{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 9px;border-radius:14px;background:#fffffff2}.next-adventure__copy{min-width:0}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.next-adventure h2{margin:1px 0 2px;font-size:clamp(1rem,3.4vw,1.3rem);line-height:1}.next-adventure p{margin:0;color:var(--muted);font-size:.6rem;font-weight:750}.next-adventure p strong{color:var(--accent)}.next-adventure__guides{display:flex;gap:3px;flex:none}.next-adventure__guides>span{width:32px;height:32px;display:grid;place-items:center}
+  .next-adventure{min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 9px;border-radius:14px;background:#fffffff2}.next-adventure__copy{min-width:0;flex:1}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.next-adventure h2{margin:1px 0 2px;font-size:clamp(1rem,3.4vw,1.3rem);line-height:1}.next-adventure p{margin:0;color:var(--muted);font-size:.6rem}.next-adventure__guides{display:flex;gap:3px;flex:none}.next-adventure__guides>span{width:30px;height:30px;display:grid;place-items:center}
   .world-stage{min-height:0;position:relative;overflow:hidden;border-radius:17px}.world-map{position:absolute;inset:0;overflow:hidden;border-radius:17px;background:linear-gradient(180deg,#dff4ff 0 28%,#dff3cf 28%)}.world-map__river{position:absolute;width:150%;height:14%;left:-18%;top:54%;border-radius:50%;background:#51b0e1b3;transform:rotate(-8deg)}.world-map__path{position:absolute;width:70%;height:4.5%;min-height:14px;left:8%;top:72%;border-radius:999px;background:#cbaa7791;transform:rotate(5deg)}
-  .world-progress{position:absolute;top:7px;right:7px;z-index:8;display:flex;gap:4px}.world-progress span{padding:3px 7px;border-radius:999px;background:#ffffffe6;color:var(--muted);font-size:.53rem;font-weight:800}.world-progress strong{color:var(--ink)}
+  .world-progress{position:absolute;top:7px;z-index:8}.world-progress span{padding:3px 7px;border-radius:999px;background:#ffffffe6;font-size:.53rem}
   .mission-overlay{position:absolute;inset:0;z-index:20;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:7px;padding:9px;border-radius:17px;background:linear-gradient(160deg,#f4f0ff,#fff9e9)}.mission-overlay__header{display:flex;align-items:center;gap:8px}.mission-close{width:40px;height:40px;flex:none;border:0;border-radius:12px;color:var(--accent);font-weight:950;cursor:pointer}.mission-overlay__title{min-width:0;flex:1}.mission-overlay__title h3{margin:2px 0 0;font-size:1rem}.mission-beat-count{padding:4px 6px;border-radius:999px;color:var(--muted);font-size:.6rem;font-weight:850}
-  .mission-overlay__body{min-height:0;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-rows:minmax(0,1fr) auto;gap:7px;overflow:hidden}.mission-scene{min-height:0;grid-row:1/3;overflow:hidden;border-radius:14px}.mission-challenge{display:flex;align-items:center;gap:7px;padding:8px}.mission-character{width:44px;height:44px;flex:none}.mission-challenge div{display:grid}.mission-challenge strong{font-size:.76rem}.mission-challenge span{color:var(--muted);font-size:.62rem}.mission-dialogue{display:grid;align-items:end}.mission-dialogue p{margin:0;display:grid;padding:9px;font-size:.7rem;line-height:1.3}.mission-dialogue p strong{color:var(--accent)}
-  .mission-overlay__actions{display:grid;grid-template-columns:1fr auto;gap:6px}.mission-start,.mission-later{min-height:42px;border:0;border-radius:13px;padding:7px 12px;font:inherit;font-weight:900;cursor:pointer}.mission-start{background:var(--accent);color:#fff}.mission-later{background:#fff;color:var(--muted)}
-  @media(max-width:600px){.story-world-viewport{padding:5px}.next-adventure{min-height:49px}.next-adventure p{display:none}.world-progress span:first-child{display:none}.mission-overlay__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.mission-scene{grid-row:auto}.mission-character{width:36px;height:36px}}
-  @media(max-width:420px){.next-adventure__guides{display:none}.world-progress span{padding:2px 5px}.mission-overlay{padding:6px}.mission-overlay__actions{grid-template-columns:1fr}}
+  .mission-overlay__body{min-height:0;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-rows:minmax(0,1fr) auto;gap:7px;overflow:hidden}.mission-scene{min-height:0;grid-row:1/3;overflow:hidden;border-radius:14px}.mission-challenge{display:flex;align-items:center;gap:7px;padding:8px}.mission-character{width:44px;height:44px;flex:none}.mission-challenge div{display:grid}.mission-challenge span{color:var(--muted);font-size:.62rem}.mission-dialogue{display:grid;align-items:end}.mission-dialogue p{margin:0;display:grid;padding:9px;font-size:.7rem;line-height:1.3}
+  .mission-overlay__actions{display:grid;grid-template-columns:1fr auto;gap:6px}.mission-start,.mission-later{min-height:44px;border:0;border-radius:13px;padding:7px 12px;font:inherit;font-weight:900;cursor:pointer}.mission-start{background:var(--accent);color:#fff}.mission-later{background:#fff;color:var(--muted)}
+  @media(max-width:650px){.story-world-viewport{padding:5px}.next-adventure{min-height:62px}.next-adventure p,.next-adventure__guides{display:none}.mission-overlay__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.mission-scene{grid-row:auto}.mission-character{width:36px;height:36px}}
+  @media(max-width:420px){.next-adventure h2{font-size:.94rem}.mission-overlay{padding:6px}.mission-overlay__actions{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){.next-adventure__guides :global(*){animation:none!important}}
 </style>
