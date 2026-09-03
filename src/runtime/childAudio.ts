@@ -374,10 +374,10 @@ function waitForOfflineVoice(
 /**
  * Plays narration without any remote fallback. Bundled app audio wins. Native
  * Android then uses the repo-owned TextToSpeech plugin, which accepts only
- * installed voices that do not require a network connection. Other browsers
- * may use Web Speech only when the browser explicitly marks a matching voice
- * localService=true. Missing voice data stays silent so the child is never
- * asked to understand device setup.
+ * installed voices that do not require a network connection. Android never
+ * falls through to WebView speech. Other browsers may use Web Speech only when
+ * the browser explicitly marks a matching voice localService=true. Missing
+ * voice data stays silent so the child is never asked to understand device setup.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
   if (request.enabled === false) {
@@ -388,6 +388,7 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
 
   stopChildAudio();
   const generation = playbackGeneration;
+  const nativeAndroid = isAndroidOfflineSpeechRuntime();
 
   if (isBundledChildAudioPath(request.bundledSrc) && typeof Audio !== 'undefined') {
     try {
@@ -397,7 +398,10 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
       void media.play().catch(() => {
         if (generation !== playbackGeneration) return;
         activeMedia = null;
-        if (startNativeAndroidVoice(request, generation)) return;
+        if (nativeAndroid) {
+          startNativeAndroidVoice(request, generation);
+          return;
+        }
         const result = speakWithOfflineVoice(request, generation);
         if (result.source === 'unavailable') waitForOfflineVoice(request, generation);
       });
@@ -407,7 +411,8 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     }
   }
 
-  if (startNativeAndroidVoice(request, generation)) {
+  if (nativeAndroid) {
+    startNativeAndroidVoice(request, generation);
     return { source: 'silent_fallback' };
   }
 
