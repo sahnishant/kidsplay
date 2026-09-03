@@ -127,7 +127,7 @@ describe('user-facing product flow', () => {
     expect(screen.queryByRole('button', { name: 'Try 35-question mock' })).toBeNull();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Play free' }));
-    expect(screen.getByText('Class 2 Science Olympiad: Core Science & EVS')).toBeTruthy();
+    expect(screen.getByText('Science Explorer: Class 2 Science & EVS')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
