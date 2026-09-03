@@ -37,7 +37,7 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
-  delete (HTMLButtonElement.prototype as HTMLButtonElement & { setPointerCapture?: unknown }).setPointerCapture;
+  Reflect.deleteProperty(HTMLButtonElement.prototype, 'setPointerCapture');
 });
 
 describe('drag-to-target child input', () => {
