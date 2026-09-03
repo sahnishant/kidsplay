@@ -42,7 +42,7 @@
       "selector": {
         "surfaces": ["story", "free_play"],
         "interactionTypes": ["drag_to_target"],
-        "conceptSuffixes": [".home"]
+        "knowledgeRefFragments": [".home."]
       },
       "choreography": {
         "situation": "guide_subject_to_destination",
