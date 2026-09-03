@@ -3,7 +3,7 @@ import freeAnimalsPack from '../content/packs/free-animals.json';
 import sequenceHotspotQuestions from '../content/questions/sequence-hotspot.json';
 import animalLifecycleKnowledge from '../content/knowledge/animal-lifecycles.json';
 import lifecycleRecipes from '../content/recipes/animal-lifecycle-activities.json';
-import { resolveExperienceRecipe } from '../src/experience/experienceRecipes';
+import { resolveExperienceRecipe, type ExperienceRecipe } from '../src/experience/experienceRecipes';
 import { createStoryMissionLaunch, getStoryMission } from '../src/story/storyDirector';
 
 const FOREST_MISSION_ID = 'mission.forest-explorer-trail';
@@ -51,7 +51,7 @@ describe('Forest Explorer Trail experience vertical', () => {
     const launch = createStoryMissionLaunch(FOREST_MISSION_ID);
     const resolved = launch.session.questions
       .map((question) => resolveExperienceRecipe(question, 'story'))
-      .filter((recipe): recipe is NonNullable<typeof recipe> => Boolean(recipe));
+      .filter((recipe): recipe is ExperienceRecipe => recipe !== null);
     const families = new Set(resolved.map((recipe) => recipe.family));
 
     expect(families).toEqual(new Set([
