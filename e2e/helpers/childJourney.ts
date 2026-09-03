@@ -25,7 +25,7 @@ export async function openCleanApp(page: Page): Promise<void> {
 }
 
 export function sessionFeedback(page: Page): Locator {
-  return page.getByRole('status').filter({ hasText: /Nice work!|Try this idea/ }).first();
+  return page.getByRole('status').filter({ hasText: /Nice work!|Give it another try|Here’s a clue|Try this idea/ }).first();
 }
 
 async function detectEngine(page: Page): Promise<EngineKind> {
