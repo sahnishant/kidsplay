@@ -45,11 +45,11 @@
   }
 
   const experienceCueByFamily: Record<ExperienceRecipeFamily, string> = {
-    guide_to_home: 'Dheu: Guide the animal toward the home that belongs with it.',
-    sort_or_match: 'Dheu: Put the forest clues that belong together.',
+    guide_to_home: 'Dheu: Guide each thing toward the place where it belongs.',
+    sort_or_match: 'Dheu: Put the clues that belong together.',
     observe_choose: 'Scientu: Look closely at the clue before you choose.',
-    sequence_process: 'Scientu: Put the growing stages from first to last.',
-    cause_effect_discovery: 'Scientu: Try the clue and notice what can grow or change.'
+    sequence_process: 'Scientu: Put the stages from first to last, then see what changes.',
+    cause_effect_discovery: 'Scientu: Try the clue, then notice what happens.'
   };
 
   let {
