@@ -33,6 +33,12 @@ function desiredRefsCovered(question: Question, desired: Set<string>): string[] 
   return (question.knowledgeRefs ?? []).filter((rowId) => desired.has(rowId));
 }
 
+function missionFocusScore(question: Question, desiredRefs: string[]): number {
+  const questionRefs = [...new Set(question.knowledgeRefs ?? [])];
+  if (!questionRefs.length) return 0;
+  return desiredRefs.length / questionRefs.length;
+}
+
 function cloneMission(mission: StoryMission): StoryMission {
   return {
     ...mission,
@@ -96,6 +102,7 @@ function chooseMissionQuestions(
           coverageGain: uncoveredRefs.length,
           masteryScore: missionQuestionMasteryScore(uncoveredRefs.length ? uncoveredRefs : refs, mastery),
           experienceNovelty: experienceFamily && !usedExperienceFamilies.has(experienceFamily) ? 1 : 0,
+          missionFocus: missionFocusScore(question, refs),
           engineNovelty: usedEngines.has(question.interaction.type) ? 0 : 1,
           familyNovelty: usedFamilies.has(questionFamily(question)) ? 0 : 1
         };
@@ -104,6 +111,7 @@ function chooseMissionQuestions(
         right.coverageGain - left.coverageGain
         || left.masteryScore - right.masteryScore
         || right.experienceNovelty - left.experienceNovelty
+        || right.missionFocus - left.missionFocus
         || right.familyNovelty - left.familyNovelty
         || right.engineNovelty - left.engineNovelty
         || right.refs.length - left.refs.length
