@@ -35,6 +35,7 @@
 
 .word-search__grid {
   --word-search-size: 7;
+  position: relative;
   width: min(100%, 520px);
   margin: 0 auto;
   display: grid;
@@ -63,15 +64,20 @@
 }
 
 .word-search__cell--preview {
-  background: var(--accent-soft);
   color: #3630a3;
-  box-shadow: inset 0 0 0 2px var(--accent);
 }
 
 .word-search__cell--found {
-  background: var(--good-soft);
   color: var(--good);
-  box-shadow: inset 0 0 0 2px rgba(23, 122, 76, 0.32);
+}
+
+.word-search__bands {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .word-search__status {
