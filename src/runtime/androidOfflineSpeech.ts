@@ -28,7 +28,6 @@ interface NativeCapacitorRuntime {
   getPlatform?: () => string;
   isNativePlatform?: () => boolean;
   isPluginAvailable?: (name: string) => boolean;
-  registerPlugin?: <T>(name: string) => T;
   Plugins?: Record<string, unknown>;
 }
 
@@ -53,15 +52,10 @@ function getNativeSpeech(): KidsplayOfflineSpeechPlugin | null {
   if (cachedPlugin) return cachedPlugin;
   const capacitor = getCapacitorRuntime();
   if (!capacitor || !isAndroidOfflineSpeechRuntime()) return null;
-  try {
-    if (capacitor.isPluginAvailable?.('KidsplayOfflineSpeech') === false) return null;
-    const existing = capacitor.Plugins?.KidsplayOfflineSpeech as KidsplayOfflineSpeechPlugin | undefined;
-    const plugin = existing ?? capacitor.registerPlugin?.<KidsplayOfflineSpeechPlugin>('KidsplayOfflineSpeech');
-    if (plugin) cachedPlugin = plugin;
-    return plugin ?? null;
-  } catch {
-    return null;
-  }
+  if (capacitor.isPluginAvailable?.('KidsplayOfflineSpeech') === false) return null;
+  const plugin = capacitor.Plugins?.KidsplayOfflineSpeech as KidsplayOfflineSpeechPlugin | undefined;
+  if (plugin) cachedPlugin = plugin;
+  return plugin ?? null;
 }
 
 export function isAndroidOfflineSpeechRuntime(): boolean {
