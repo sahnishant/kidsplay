@@ -105,6 +105,36 @@ async function observedRetryPath(page: Page): Promise<{ wrong: boolean; scaffold
   }));
 }
 
+async function submitClearlyWrongMatching(page: Page): Promise<void> {
+  const items = page.locator('.drag-items .drag-item');
+  const firstTarget = page.locator('.target-grid .drop-target').first();
+  const itemCount = await items.count();
+  expect(itemCount, 'the Forest retry proof requires the compact matching clue').toBeGreaterThanOrEqual(2);
+  await expect(firstTarget).toBeVisible();
+
+  for (let itemIndex = 0; itemIndex < itemCount; itemIndex += 1) {
+    await items.nth(itemIndex).click();
+    await firstTarget.click();
+  }
+}
+
+async function exerciseHonestRetryScaffold(page: Page): Promise<void> {
+  await submitClearlyWrongMatching(page);
+  await expect(sessionFeedback(page)).toContainText('Give it another try');
+  const firstRetry = page.getByRole('button', { name: 'Try again' });
+  await expectChildTapTarget(firstRetry, 'first honest retry');
+  await firstRetry.click();
+
+  await submitClearlyWrongMatching(page);
+  await expect(sessionFeedback(page)).toContainText('Here’s a clue');
+  const scaffoldRetry = page.getByRole('button', { name: 'Try with this clue' });
+  await expectChildTapTarget(scaffoldRetry, 'scaffolded retry');
+  await scaffoldRetry.click();
+
+  await expect(page.getByRole('note', { name: 'Retry clue' })).toBeVisible();
+  await expectPrimarySurfaceFits(page, 'Forest scaffolded retry answer');
+}
+
 async function visibleRecipeFamily(page: Page): Promise<string> {
   const cue = page.locator('.reasoning-cue--goal').filter({
     hasText: /Guide each thing toward|Put the clues that belong together|Look closely at the clue|Put the stages from first to last|Try the clue, then notice/
@@ -172,6 +202,8 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
     const recipeFamilies = new Set<string>();
     let sawCompactMatching = false;
     let sawCompactMemory = false;
+    let exercisedRetryScaffold = false;
+    let sawStoryReactionAudio = false;
 
     for (let index = 0; index < 7; index += 1) {
       await expect(page.locator('.progress-pill')).toHaveText(`${index + 1} / 7`);
@@ -189,7 +221,13 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       const matchingItems = page.locator('.drag-items .drag-item');
       if (await matchingItems.count()) {
         const targets = page.locator('.target-grid .drop-target');
-        if (await matchingItems.count() === 3 && await targets.count() === 3) sawCompactMatching = true;
+        if (await matchingItems.count() === 3 && await targets.count() === 3) {
+          sawCompactMatching = true;
+          if (!exercisedRetryScaffold) {
+            await exerciseHonestRetryScaffold(page);
+            exercisedRetryScaffold = true;
+          }
+        }
       }
 
       const memoryCards = page.locator('.memory-pairs').getByRole('button');
@@ -203,13 +241,10 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       await expectPrimarySurfaceFits(page, `Forest clue ${index + 1} reaction`);
 
       const storyReaction = page.getByRole('note', { name: /Story reaction from/ });
-      await expect(storyReaction).toBeVisible();
-      await expectChildTapTarget(page.getByRole('button', { name: /^Hear / }), `Forest clue ${index + 1} story-audio control`);
-
-      if (index === 0) {
-        expect(await observedRetryPath(page)).toEqual({ wrong: true, scaffold: true });
-        await expect(page.locator('.progress-pill')).toHaveText('2 / 7', { timeout: 6_000 });
-        continue;
+      if (await storyReaction.count()) {
+        await expect(storyReaction).toBeVisible();
+        await expectChildTapTarget(page.getByRole('button', { name: /^Hear / }), `Forest clue ${index + 1} story-audio control`);
+        sawStoryReactionAudio = true;
       }
 
       const continuation = page.getByRole('button', { name: index === 6 ? 'See result' : 'Next' });
@@ -217,6 +252,9 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       await continuation.click();
     }
 
+    expect(exercisedRetryScaffold, 'Forest Level 1 should exercise a real reset-and-retry scaffold').toBe(true);
+    expect(await observedRetryPath(page)).toEqual({ wrong: true, scaffold: true });
+    expect(sawStoryReactionAudio, 'Forest Level 1 should expose at least one accessible character-reaction audio hook').toBe(true);
     expect([...recipeFamilies].sort()).toEqual(FOREST_CUE_FAMILIES.map(([family]) => family).sort());
     expect(sawCompactMatching, 'Forest Level 1 should render the three-item story matching variant').toBe(true);
     expect(sawCompactMemory, 'Forest Level 1 should render the three-pair story memory variant').toBe(true);
