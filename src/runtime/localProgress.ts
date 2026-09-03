@@ -1,4 +1,8 @@
-import type { SessionAttempt } from '../contracts/runtime';
+import type {
+  ResponseAssistanceKind,
+  ResponseAttemptKind,
+  SessionAttempt
+} from '../contracts/runtime';
 
 export type AvatarId = 'fox' | 'owl' | 'panda' | 'tiger';
 
@@ -8,8 +12,11 @@ export interface ChildSettings {
 }
 
 export interface MasteryCounter {
+  /** Independent first responses only. */
   attempts: number;
+  /** Correct independent first responses only. */
   correct: number;
+  /** Weighted evidence may include reduced recovery credit from retries. */
   totalWeight: number;
   correctWeight: number;
   lastResult: 'correct' | 'incorrect';
@@ -26,6 +33,11 @@ export interface StoredAttempt {
   maxScore: number;
   knowledgeRefs: string[];
   conceptIds: string[];
+  attemptNumber: number;
+  attemptKind: ResponseAttemptKind;
+  assistanceKinds: ResponseAssistanceKind[];
+  countsTowardAccuracy: boolean;
+  masteryWeight: number;
 }
 
 export interface ProgressSnapshot {
@@ -124,6 +136,19 @@ function isStringArray(value: unknown): value is string[] {
   return Array.isArray(value) && value.every((item) => typeof item === 'string' && item.length > 0);
 }
 
+function isAssistanceKind(value: unknown): value is ResponseAssistanceKind {
+  return value === 'hint'
+    || value === 'visual_scaffold'
+    || value === 'answer_elimination'
+    || value === 'demonstration'
+    || value === 'explanation';
+}
+
+function normalizeAssistanceKinds(value: unknown): ResponseAssistanceKind[] {
+  if (!Array.isArray(value)) return [];
+  return [...new Set(value.filter(isAssistanceKind))];
+}
+
 function normalizedChildName(value: unknown): string {
   return typeof value === 'string' ? value.trim().slice(0, 24) : '';
 }
@@ -174,24 +199,60 @@ function isMasteryCounter(value: unknown): value is MasteryCounter {
     && isTimestamp(item.lastSeenAt);
 }
 
-function isStoredAttempt(value: unknown): value is StoredAttempt {
-  if (!value || typeof value !== 'object') return false;
+function normalizeStoredAttempt(value: unknown): StoredAttempt | null {
+  if (!value || typeof value !== 'object') return null;
   const item = value as Partial<StoredAttempt>;
-  return typeof item.sessionId === 'string'
-    && item.sessionId.length > 0
-    && typeof item.questionId === 'string'
-    && item.questionId.length > 0
-    && isTimestamp(item.submittedAt)
-    && Number.isFinite(item.durationMs)
-    && Number(item.durationMs) >= 0
-    && typeof item.correct === 'boolean'
-    && Number.isFinite(item.score)
-    && Number(item.score) >= 0
-    && Number.isFinite(item.maxScore)
-    && Number(item.maxScore) >= 0
-    && Number(item.score) <= Number(item.maxScore)
-    && isStringArray(item.knowledgeRefs)
-    && isStringArray(item.conceptIds);
+  if (typeof item.sessionId !== 'string'
+    || item.sessionId.length === 0
+    || typeof item.questionId !== 'string'
+    || item.questionId.length === 0
+    || !isTimestamp(item.submittedAt)
+    || !Number.isFinite(item.durationMs)
+    || Number(item.durationMs) < 0
+    || typeof item.correct !== 'boolean'
+    || !Number.isFinite(item.score)
+    || Number(item.score) < 0
+    || !Number.isFinite(item.maxScore)
+    || Number(item.maxScore) < 0
+    || Number(item.score) > Number(item.maxScore)
+    || !isStringArray(item.knowledgeRefs)
+    || !isStringArray(item.conceptIds)) {
+    return null;
+  }
+
+  const attemptKind: ResponseAttemptKind = item.attemptKind === 'retry' ? 'retry' : 'independent';
+  const assistanceKinds = normalizeAssistanceKinds(item.assistanceKinds);
+  const attemptNumber = Number.isInteger(item.attemptNumber) && Number(item.attemptNumber) >= 1
+    ? Number(item.attemptNumber)
+    : attemptKind === 'retry' ? 2 : 1;
+  const countsTowardAccuracy = typeof item.countsTowardAccuracy === 'boolean'
+    ? item.countsTowardAccuracy
+    : attemptKind === 'independent';
+  const fallbackMasteryWeight = attemptKind === 'independent'
+    ? 1
+    : item.correct ? (assistanceKinds.length ? 0.25 : 0.5) : 0;
+  const masteryWeight = Number.isFinite(item.masteryWeight)
+    && Number(item.masteryWeight) >= 0
+    && Number(item.masteryWeight) <= 1
+    ? Number(item.masteryWeight)
+    : fallbackMasteryWeight;
+
+  return {
+    sessionId: item.sessionId,
+    questionId: item.questionId,
+    submittedAt: item.submittedAt,
+    durationMs: Number(item.durationMs),
+    correct: item.correct,
+    score: Number(item.score),
+    maxScore: Number(item.maxScore),
+    knowledgeRefs: [...item.knowledgeRefs],
+    conceptIds: [...item.conceptIds],
+    attemptNumber,
+    attemptKind,
+    assistanceKinds,
+    countsTowardAccuracy,
+    masteryWeight
+  };
 }
 
 function sanitizeCounters(value: unknown): Record<string, MasteryCounter> {
@@ -207,11 +268,15 @@ export function loadProgress(): ProgressSnapshot {
   const value = readJson(PROGRESS_KEY);
   if (!value || typeof value !== 'object') return emptyProgress();
   const candidate = value as Partial<ProgressSnapshot>;
+  const attempts = Array.isArray(candidate.attempts)
+    ? candidate.attempts
+        .map(normalizeStoredAttempt)
+        .filter((attempt): attempt is StoredAttempt => attempt !== null)
+        .slice(-MAX_STORED_ATTEMPTS)
+    : [];
   return {
     version: 1,
-    attempts: Array.isArray(candidate.attempts)
-      ? candidate.attempts.filter(isStoredAttempt).slice(-MAX_STORED_ATTEMPTS)
-      : [],
+    attempts,
     knowledge: sanitizeCounters(candidate.knowledge),
     concepts: sanitizeCounters(candidate.concepts),
     updatedAt: isTimestamp(candidate.updatedAt) ? candidate.updatedAt : null
@@ -222,10 +287,14 @@ function applyEvidence(
   counters: Record<string, MasteryCounter>,
   id: string,
   result: 'correct' | 'incorrect',
-  weight: number,
+  evidenceWeight: number,
+  responseWeight: number,
+  countAsIndependentAttempt: boolean,
   seenAt: string
 ): void {
-  const safeWeight = Number.isFinite(weight) && weight > 0 ? weight : 1;
+  const safeEvidenceWeight = Number.isFinite(evidenceWeight) && evidenceWeight > 0 ? evidenceWeight : 1;
+  const safeResponseWeight = Number.isFinite(responseWeight) && responseWeight >= 0 ? responseWeight : 0;
+  const weightedEvidence = safeEvidenceWeight * safeResponseWeight;
   const current = counters[id] ?? {
     attempts: 0,
     correct: 0,
@@ -234,12 +303,13 @@ function applyEvidence(
     lastResult: result,
     lastSeenAt: seenAt
   };
-  current.attempts += 1;
-  current.totalWeight += safeWeight;
-  if (result === 'correct') {
-    current.correct += 1;
-    current.correctWeight += safeWeight;
+
+  if (countAsIndependentAttempt) {
+    current.attempts += 1;
+    if (result === 'correct') current.correct += 1;
   }
+  current.totalWeight += weightedEvidence;
+  if (result === 'correct') current.correctWeight += weightedEvidence;
   current.lastResult = result;
   current.lastSeenAt = seenAt;
   counters[id] = current;
@@ -251,11 +321,19 @@ function sameStoredAttempt(stored: StoredAttempt, attempt: SessionAttempt): bool
     && stored.submittedAt === attempt.response.submittedAt;
 }
 
+function responseMasteryWeight(attempt: SessionAttempt): number {
+  if (attempt.response.attemptKind === 'independent') return 1;
+  if (!attempt.result.correct) return 0;
+  return attempt.response.assistanceKinds.length > 0 ? 0.25 : 0.5;
+}
+
 export function recordAttempt(attempt: SessionAttempt): ProgressSnapshot {
   const snapshot = loadProgress();
   if (snapshot.attempts.some((stored) => sameStoredAttempt(stored, attempt))) return snapshot;
 
   const seenAt = attempt.response.submittedAt;
+  const independent = attempt.response.attemptKind === 'independent';
+  const masteryWeight = responseMasteryWeight(attempt);
 
   snapshot.attempts.push({
     sessionId: attempt.response.sessionId,
@@ -266,15 +344,36 @@ export function recordAttempt(attempt: SessionAttempt): ProgressSnapshot {
     score: attempt.result.score,
     maxScore: attempt.result.maxScore,
     knowledgeRefs: [...(attempt.question.knowledgeRefs ?? [])],
-    conceptIds: [...attempt.question.conceptIds]
+    conceptIds: [...attempt.question.conceptIds],
+    attemptNumber: attempt.response.attempts,
+    attemptKind: attempt.response.attemptKind,
+    assistanceKinds: [...attempt.response.assistanceKinds],
+    countsTowardAccuracy: independent,
+    masteryWeight
   });
   snapshot.attempts = snapshot.attempts.slice(-MAX_STORED_ATTEMPTS);
 
   for (const evidence of attempt.result.knowledgeEvidence) {
-    applyEvidence(snapshot.knowledge, evidence.rowId, evidence.result, evidence.weight, seenAt);
+    applyEvidence(
+      snapshot.knowledge,
+      evidence.rowId,
+      evidence.result,
+      evidence.weight,
+      masteryWeight,
+      independent,
+      seenAt
+    );
   }
   for (const evidence of attempt.result.masteryEvidence) {
-    applyEvidence(snapshot.concepts, evidence.conceptId, evidence.result, evidence.weight, seenAt);
+    applyEvidence(
+      snapshot.concepts,
+      evidence.conceptId,
+      evidence.result,
+      evidence.weight,
+      masteryWeight,
+      independent,
+      seenAt
+    );
   }
 
   snapshot.updatedAt = seenAt;
@@ -299,9 +398,9 @@ export function summarizeTopicProgress(snapshot: ProgressSnapshot): TopicProgres
     const counters = Object.entries(snapshot.knowledge)
       .filter(([rowId]) => topicIdForRow(rowId) === id)
       .map(([, counter]) => counter);
-    const totalWeight = counters.reduce((sum, counter) => sum + counter.totalWeight, 0);
-    const correctWeight = counters.reduce((sum, counter) => sum + counter.correctWeight, 0);
-    const accuracy = totalWeight > 0 ? correctWeight / totalWeight : null;
+    const totalAttempts = counters.reduce((sum, counter) => sum + counter.attempts, 0);
+    const correctAttempts = counters.reduce((sum, counter) => sum + counter.correct, 0);
+    const accuracy = totalAttempts > 0 ? correctAttempts / totalAttempts : null;
     const strongKnowledge = counters.filter(isStrongCounter).length;
 
     let status: TopicProgressStatus = 'not_started';
@@ -353,8 +452,9 @@ function recommendTopics(topics: TopicProgressSummary[]): TopicProgressSummary[]
 }
 
 export function summarizeProgress(snapshot: ProgressSnapshot): ProgressSummary {
-  const totalAttempts = snapshot.attempts.length;
-  const correctAttempts = snapshot.attempts.filter((attempt) => attempt.correct).length;
+  const accuracyAttempts = snapshot.attempts.filter((attempt) => attempt.countsTowardAccuracy);
+  const totalAttempts = accuracyAttempts.length;
+  const correctAttempts = accuracyAttempts.filter((attempt) => attempt.correct).length;
   const masteredKnowledge = Object.values(snapshot.knowledge).filter(isStrongCounter).length;
   const topics = summarizeTopicProgress(snapshot);
 
