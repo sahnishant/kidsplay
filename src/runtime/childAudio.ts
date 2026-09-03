@@ -1,11 +1,7 @@
-import { TextToSpeech, type SpeechSynthesisVoice as NativeSpeechSynthesisVoice } from '@capacitor-community/text-to-speech';
-import { Capacitor } from '@capacitor/core';
-
 export type ChildAudioChannel = 'prompt' | 'character' | 'vocabulary' | 'phoneme';
 export type ChildAudioCharacter = 'dheu' | 'scientu' | 'shaitanu';
 export type ChildAudioPlaybackSource =
   | 'bundled'
-  | 'native_local_voice'
   | 'local_voice'
   | 'pending_local_voice'
   | 'muted'
@@ -45,11 +41,6 @@ type VoiceProfile = {
   pitch: number;
 };
 
-type NativeVoiceSelection = {
-  voice: NativeSpeechSynthesisVoice;
-  index: number;
-};
-
 const AUDIO_PREFERENCES_KEY = 'kidsplay.audio.v1';
 const DEFAULT_PREFERENCES: ChildAudioPreferences = { version: 1, enabled: true };
 
@@ -76,12 +67,13 @@ const CHILD_FRIENDLY_VOICE_HINTS = [
   'natural'
 ] as const;
 
+const VOICE_READY_RETRY_DELAYS_MS = [120, 360, 850] as const;
+
 let audioContext: AudioContext | null = null;
 let activeMedia: HTMLAudioElement | null = null;
 let voiceListenerCleanup: (() => void) | null = null;
+let voiceRetryTimers: Array<ReturnType<typeof setTimeout>> = [];
 let playbackGeneration = 0;
-let nativeVoices: NativeSpeechSynthesisVoice[] | null = null;
-let nativeVoicesPromise: Promise<NativeSpeechSynthesisVoice[]> | null = null;
 
 function getStorage(): Storage | null {
   if (typeof window === 'undefined') return null;
@@ -142,7 +134,7 @@ function normalizedLanguage(language: string): string {
   return language.trim().replace('_', '-').toLowerCase();
 }
 
-function childFriendlyVoiceScore(voice: { name: string; default?: boolean }): number {
+function childFriendlyVoiceScore(voice: SpeechSynthesisVoice): number {
   const name = voice.name.toLowerCase();
   const hintScore = CHILD_FRIENDLY_VOICE_HINTS.reduce(
     (score, hint, index) => score + (name.includes(hint) ? CHILD_FRIENDLY_VOICE_HINTS.length - index : 0),
@@ -151,10 +143,16 @@ function childFriendlyVoiceScore(voice: { name: string; default?: boolean }): nu
   return hintScore + (voice.default ? 1 : 0);
 }
 
-function bestLocalVoice<T extends { lang: string; localService: boolean; name: string; default?: boolean }>(
-  voices: readonly T[],
+/**
+ * Strict offline voice selection. Voices that are not explicitly marked
+ * localService are never eligible, even when a browser would otherwise choose
+ * them automatically. When several local voices fit, prefer system voices
+ * whose names commonly indicate a lighter child-friendly delivery.
+ */
+export function selectOfflineSpeechVoice(
+  voices: readonly SpeechSynthesisVoice[],
   language: string
-): T | null {
+): SpeechSynthesisVoice | null {
   const requested = normalizedLanguage(language);
   if (!requested) return null;
   const base = requested.split('-')[0];
@@ -166,29 +164,6 @@ function bestLocalVoice<T extends { lang: string; localService: boolean; name: s
     const scoreDelta = childFriendlyVoiceScore(right) - childFriendlyVoiceScore(left);
     return scoreDelta || left.name.localeCompare(right.name);
   })[0] ?? null;
-}
-
-/**
- * Strict offline voice selection. Voices that are not explicitly marked
- * localService are never eligible, even when a browser would otherwise choose
- * them automatically. When several local voices fit, prefer names that are
- * commonly used for lighter child-friendly system voices.
- */
-export function selectOfflineSpeechVoice(
-  voices: readonly SpeechSynthesisVoice[],
-  language: string
-): SpeechSynthesisVoice | null {
-  return bestLocalVoice(voices, language);
-}
-
-export function selectOfflineNativeSpeechVoice(
-  voices: readonly NativeSpeechSynthesisVoice[],
-  language: string
-): NativeVoiceSelection | null {
-  const selected = bestLocalVoice(voices, language);
-  if (!selected) return null;
-  const index = voices.indexOf(selected);
-  return index >= 0 ? { voice: selected, index } : null;
 }
 
 function getAudioContext(): AudioContext | null {
@@ -286,22 +261,15 @@ function clearVoiceListener(): void {
   voiceListenerCleanup = null;
 }
 
-function isNativeRuntime(): boolean {
-  try {
-    return Capacitor.isNativePlatform();
-  } catch {
-    return false;
-  }
-}
-
-function stopNativeSpeech(): void {
-  if (!isNativeRuntime()) return;
-  void TextToSpeech.stop().catch(() => undefined);
+function clearVoiceRetryTimers(): void {
+  for (const timer of voiceRetryTimers) clearTimeout(timer);
+  voiceRetryTimers = [];
 }
 
 export function stopChildAudio(): void {
   playbackGeneration += 1;
   clearVoiceListener();
+  clearVoiceRetryTimers();
   if (activeMedia) {
     try {
       activeMedia.pause();
@@ -311,7 +279,6 @@ export function stopChildAudio(): void {
     }
     activeMedia = null;
   }
-  stopNativeSpeech();
   try {
     getSpeechSynthesis()?.cancel();
   } catch {
@@ -326,49 +293,20 @@ function voiceProfileFor(request: ChildAudioRequest): VoiceProfile {
   return VOICE_PROFILES[request.channel];
 }
 
-async function loadNativeVoices(): Promise<NativeSpeechSynthesisVoice[]> {
-  if (nativeVoices) return nativeVoices;
-  nativeVoicesPromise ??= TextToSpeech.getSupportedVoices()
-    .then(({ voices }) => {
-      nativeVoices = voices;
-      return voices;
-    })
-    .catch(() => {
-      nativeVoices = [];
-      return [];
-    })
-    .finally(() => {
-      nativeVoicesPromise = null;
-    });
-  return nativeVoicesPromise;
-}
-
 function speakWithOfflineVoice(
   request: ChildAudioRequest,
-  generation: number,
-  allowVoiceWait: boolean
+  generation: number
 ): ChildAudioPlaybackResult {
   if (typeof SpeechSynthesisUtterance === 'undefined') return { source: 'unavailable' };
   const synthesis = getSpeechSynthesis();
   if (!synthesis) return { source: 'unavailable' };
 
-  const voices = synthesis.getVoices();
-  const voice = selectOfflineSpeechVoice(voices, request.language);
-  if (!voice) {
-    if (allowVoiceWait && voices.length === 0 && typeof synthesis.addEventListener === 'function') {
-      const onVoicesChanged = () => {
-        clearVoiceListener();
-        if (generation !== playbackGeneration) return;
-        speakWithOfflineVoice(request, generation, false);
-      };
-      synthesis.addEventListener('voiceschanged', onVoicesChanged, { once: true });
-      voiceListenerCleanup = () => synthesis.removeEventListener('voiceschanged', onVoicesChanged);
-      return { source: 'pending_local_voice' };
-    }
-    return { source: 'unavailable' };
-  }
+  const voice = selectOfflineSpeechVoice(synthesis.getVoices(), request.language);
+  if (!voice) return { source: 'unavailable' };
 
   try {
+    if (generation !== playbackGeneration) return { source: 'unavailable' };
+    synthesis.resume();
     const utterance = new SpeechSynthesisUtterance(request.text.trim());
     const profile = voiceProfileFor(request);
     utterance.voice = voice;
@@ -383,56 +321,40 @@ function speakWithOfflineVoice(
   }
 }
 
-function speakWithNativeVoice(
-  request: ChildAudioRequest,
-  generation: number,
-  selection: NativeVoiceSelection
-): void {
-  const profile = voiceProfileFor(request);
-  void TextToSpeech.speak({
-    text: request.text.trim(),
-    lang: selection.voice.lang,
-    rate: profile.rate,
-    pitch: profile.pitch,
-    volume: 1,
-    voice: selection.index
-  }).catch(() => {
-    if (generation !== playbackGeneration) return;
-    speakWithOfflineVoice(request, generation, true);
-  });
-}
-
-function startSpeechPlayback(
+function waitForOfflineVoice(
   request: ChildAudioRequest,
   generation: number
 ): ChildAudioPlaybackResult {
-  if (!isNativeRuntime()) {
-    return speakWithOfflineVoice(request, generation, true);
-  }
+  const synthesis = getSpeechSynthesis();
+  if (!synthesis) return { source: 'unavailable' };
 
-  if (nativeVoices) {
-    const selection = selectOfflineNativeSpeechVoice(nativeVoices, request.language);
-    if (!selection) return speakWithOfflineVoice(request, generation, true);
-    speakWithNativeVoice(request, generation, selection);
-    return { source: 'native_local_voice', voiceName: selection.voice.name };
-  }
+  clearVoiceListener();
+  clearVoiceRetryTimers();
 
-  void loadNativeVoices().then((voices) => {
+  const trySpeak = () => {
     if (generation !== playbackGeneration) return;
-    const selection = selectOfflineNativeSpeechVoice(voices, request.language);
-    if (selection) {
-      speakWithNativeVoice(request, generation, selection);
-      return;
+    const result = speakWithOfflineVoice(request, generation);
+    if (result.source === 'local_voice') {
+      clearVoiceListener();
+      clearVoiceRetryTimers();
     }
-    speakWithOfflineVoice(request, generation, true);
-  });
+  };
+
+  if (typeof synthesis.addEventListener === 'function') {
+    const onVoicesChanged = () => trySpeak();
+    synthesis.addEventListener('voiceschanged', onVoicesChanged);
+    voiceListenerCleanup = () => synthesis.removeEventListener('voiceschanged', onVoicesChanged);
+  }
+
+  voiceRetryTimers = VOICE_READY_RETRY_DELAYS_MS.map((delay) => setTimeout(trySpeak, delay));
   return { source: 'pending_local_voice' };
 }
 
 /**
- * Plays narration without any remote fallback. Bundled app audio wins; on a
- * native Capacitor build the Android/iOS TTS engine is queried for a matching
- * local voice; otherwise Web Speech must explicitly report localService=true.
+ * Plays narration without any remote fallback. Bundled app audio wins; the
+ * browser/device speech engine is allowed only when it explicitly exposes a
+ * matching localService voice. Android WebViews can populate that voice list
+ * late, so a short bounded retry also runs after a child presses Repeat.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
   if (request.enabled === false) {
@@ -452,7 +374,8 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
       void media.play().catch(() => {
         if (generation !== playbackGeneration) return;
         activeMedia = null;
-        startSpeechPlayback(request, generation);
+        const result = speakWithOfflineVoice(request, generation);
+        if (result.source === 'unavailable') waitForOfflineVoice(request, generation);
       });
       return { source: 'bundled' };
     } catch {
@@ -460,7 +383,10 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     }
   }
 
-  return startSpeechPlayback(request, generation);
+  const speechResult = speakWithOfflineVoice(request, generation);
+  return speechResult.source === 'unavailable'
+    ? waitForOfflineVoice(request, generation)
+    : speechResult;
 }
 
 export function playQuestionPrompt(
