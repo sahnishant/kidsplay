@@ -1,0 +1,19 @@
+[
+  {
+    "id": "plants.parts.match.story-trio.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "drag_to_target@1",
+    "entryIds": ["roots-absorb-water", "leaves-make-food", "seed-new-plant"],
+    "difficulty": 1,
+    "prompt": "Help Dheu match roots, leaves and seeds with what they do."
+  },
+  {
+    "id": "plants.parts.memory.story-trio.generated.001",
+    "sourceRef": "knowledge.plants.parts.001",
+    "engine": "memory_pairs@1",
+    "entryIds": ["roots-absorb-water", "leaves-make-food", "seed-new-plant"],
+    "seed": 20260903,
+    "difficulty": 1,
+    "prompt": "Find the three plant-part pairs."
+  }
+]
