@@ -85,7 +85,7 @@
         <div
           class="sequence-order__row"
           role="listitem"
-          style={compactSequence ? 'grid-template-columns:24px minmax(0,1fr) 92px;gap:4px' : undefined}
+          style={compactSequence ? 'grid-template-columns:24px minmax(0,1fr) 92px;gap:4px;padding:3px' : undefined}
         >
           <span
             class="sequence-order__position"
