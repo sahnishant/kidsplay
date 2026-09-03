@@ -10,6 +10,7 @@ export type ChildAudioPlaybackSource =
   | 'bundled'
   | 'local_voice'
   | 'pending_local_voice'
+  | 'silent_fallback'
   | 'muted'
   | 'unavailable';
 
@@ -346,7 +347,7 @@ function waitForOfflineVoice(
   generation: number
 ): ChildAudioPlaybackResult {
   const synthesis = getSpeechSynthesis();
-  if (!synthesis) return { source: 'unavailable' };
+  if (!synthesis) return { source: 'silent_fallback' };
 
   clearVoiceListener();
   clearVoiceRetryTimers();
@@ -367,7 +368,7 @@ function waitForOfflineVoice(
   }
 
   voiceRetryTimers = VOICE_READY_RETRY_DELAYS_MS.map((delay) => setTimeout(trySpeak, delay));
-  return { source: 'pending_local_voice' };
+  return { source: 'silent_fallback' };
 }
 
 /**
@@ -375,7 +376,8 @@ function waitForOfflineVoice(
  * Android then uses the repo-owned TextToSpeech plugin, which accepts only
  * installed voices that do not require a network connection. Other browsers
  * may use Web Speech only when the browser explicitly marks a matching voice
- * localService=true.
+ * localService=true. Missing voice data stays silent so the child is never
+ * asked to understand device setup.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
   if (request.enabled === false) {
@@ -406,7 +408,7 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
   }
 
   if (startNativeAndroidVoice(request, generation)) {
-    return { source: 'pending_local_voice' };
+    return { source: 'silent_fallback' };
   }
 
   const speechResult = speakWithOfflineVoice(request, generation);
