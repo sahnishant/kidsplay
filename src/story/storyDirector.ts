@@ -3,6 +3,7 @@ import locationsJson from '../../content/story/locations.json';
 import missionsJson from '../../content/story/missions.json';
 import { getFreeAnimalsQuestions, getFreePackQuestions, type SessionLaunch } from '../content';
 import type { Question } from '../contracts/question';
+import { resolveExperienceRecipe, type ExperienceRecipeFamily } from '../experience/experienceRecipes';
 import type { MasteryCounter } from '../runtime/localProgress';
 import type {
   StoryCharacter,
@@ -62,6 +63,10 @@ function missionQuestionPool(mission: StoryMission): Question[] {
     : getFreeAnimalsQuestions();
 }
 
+function questionExperienceFamily(question: Question): ExperienceRecipeFamily | null {
+  return resolveExperienceRecipe(question, 'story')?.family ?? null;
+}
+
 function chooseMissionQuestions(
   mission: StoryMission,
   mastery: Record<string, MasteryCounter> = {}
@@ -75,6 +80,7 @@ function chooseMissionQuestions(
   const covered = new Set<string>();
   const usedEngines = new Set<Question['interaction']['type']>();
   const usedFamilies = new Set<string>();
+  const usedExperienceFamilies = new Set<ExperienceRecipeFamily>();
 
   while (selected.length < mission.questionCount) {
     const next = candidates
@@ -82,11 +88,14 @@ function chooseMissionQuestions(
       .map((question) => {
         const refs = desiredRefsCovered(question, desired);
         const uncoveredRefs = refs.filter((rowId) => !covered.has(rowId));
+        const experienceFamily = questionExperienceFamily(question);
         return {
           question,
           refs,
+          experienceFamily,
           coverageGain: uncoveredRefs.length,
           masteryScore: missionQuestionMasteryScore(uncoveredRefs.length ? uncoveredRefs : refs, mastery),
+          experienceNovelty: experienceFamily && !usedExperienceFamilies.has(experienceFamily) ? 1 : 0,
           engineNovelty: usedEngines.has(question.interaction.type) ? 0 : 1,
           familyNovelty: usedFamilies.has(questionFamily(question)) ? 0 : 1
         };
@@ -94,6 +103,7 @@ function chooseMissionQuestions(
       .sort((left, right) =>
         right.coverageGain - left.coverageGain
         || left.masteryScore - right.masteryScore
+        || right.experienceNovelty - left.experienceNovelty
         || right.familyNovelty - left.familyNovelty
         || right.engineNovelty - left.engineNovelty
         || right.refs.length - left.refs.length
@@ -106,6 +116,7 @@ function chooseMissionQuestions(
     selectedIds.add(next.question.id);
     usedEngines.add(next.question.interaction.type);
     usedFamilies.add(questionFamily(next.question));
+    if (next.experienceFamily) usedExperienceFamilies.add(next.experienceFamily);
     for (const rowId of next.refs) covered.add(rowId);
   }
 
