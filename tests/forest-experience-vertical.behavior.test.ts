@@ -49,6 +49,32 @@ describe('Forest Explorer Trail experience vertical', () => {
     expect(launch.session.questions.every((question) => (question.knowledgeRefs?.length ?? 0) > 0)).toBe(true);
   });
 
+  it('keeps story matching and memory boards child-sized while Free Play retains the larger canonical variants', () => {
+    const launch = createStoryMissionLaunch(FOREST_MISSION_ID);
+    const questionIds = launch.session.questions.map((question) => question.id);
+
+    expect(questionIds).toContain('plants.parts.match.story-trio.generated.001');
+    expect(questionIds).toContain('plants.parts.memory.story-trio.generated.001');
+    expect(questionIds).not.toContain('plants.parts.match.generated.001');
+    expect(questionIds).not.toContain('plants.parts.memory.generated.001');
+
+    const matching = launch.session.questions.find((question) => question.id === 'plants.parts.match.story-trio.generated.001');
+    expect(matching?.interaction.type).toBe('drag_to_target');
+    if (matching?.interaction.type === 'drag_to_target') {
+      expect(matching.interaction.items).toHaveLength(3);
+      expect(matching.interaction.targets).toHaveLength(3);
+    }
+
+    const memory = launch.session.questions.find((question) => question.id === 'plants.parts.memory.story-trio.generated.001');
+    expect(memory?.interaction.type).toBe('memory_pairs');
+    if (memory?.interaction.type === 'memory_pairs') {
+      expect(memory.interaction.cards).toHaveLength(6);
+    }
+
+    expect(freeAnimalsPack.questionRefs).toContain('plants.parts.match.generated.001');
+    expect(freeAnimalsPack.questionRefs).toContain('plants.parts.memory.generated.001');
+  });
+
   it('projects the first Forest learning attempt into the existing persistent world state', () => {
     const afterFirstMissionAttempt: ProgressSummary = {
       totalAttempts: 1,
