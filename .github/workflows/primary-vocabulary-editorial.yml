@@ -161,7 +161,7 @@ jobs:
               if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss boundary failed`);
             }
           }
-          if (globallySeen.size !== 78) throw new Error(`Expected 78 reviewed runtime meanings across batches 001-003, got ${globallySeen.size}`);
+          if (globallySeen.size !== 103) throw new Error(`Expected 103 reviewed runtime meanings across batches 001-004, got ${globallySeen.size}`);
           const batch3 = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed-batch-003.json', 'utf8'))[0]?.entries ?? [];
           if (batch3.length !== 32) throw new Error(`Expected 32 batch-003 rows, got ${batch3.length}`);
           const expectedSenses = new Map([['experience','experience#n#3'],['natural','natural#a#2'],['once','once#r#1'],['appear','appear#v#2']]);
@@ -175,7 +175,7 @@ jobs:
       - name: Compile and run vocabulary production acceptance suite
         run: |
           npm run test:vocabulary-corpus
-          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/primary-vocabulary-editorial-batch-003.behavior.test.ts tests/primary-vocabulary-editorial-batch-004.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
+          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/primary-vocabulary-editorial-batch-003.behavior.test.ts tests/primary-vocabulary-editorial-batch-004.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-batch-004-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
 
       - name: Upload editorial and reviewed production proof
         uses: actions/upload-artifact@v7
@@ -204,9 +204,14 @@ jobs:
             content/lexicon/reviews/grade-2-batch-002.json
             content/lexicon/reviews/grade-1-batch-003.json
             content/lexicon/reviews/grade-2-batch-003.json
+            content/lexicon/reviews/grade-1-batch-004.json
+            content/lexicon/reviews/grade-2-batch-004.json
             content/knowledge/english-vocabulary-primary-reviewed.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-003.json
+            content/knowledge/english-vocabulary-primary-reviewed-batch-004.json
             content/learnables/primary-vocabulary-reviewed-batch-003.json
+            content/learnables/primary-vocabulary-reviewed-batch-004.json
             content/recipes/primary-vocabulary-reviewed-delivery-batch-003.json
+            content/recipes/primary-vocabulary-reviewed-delivery-batch-004.json
           if-no-files-found: error
