@@ -1,6 +1,7 @@
 import type { MazePathQuestion, Question } from '../contracts/question';
 import type { EvaluationResult } from '../contracts/runtime';
 import { canTravel } from '../mechanics/maze';
+import { traceCorridorScore } from '../mechanics/tracePath';
 
 const sameStringSet = (actual: string[], expected: string[]): boolean => {
   if (actual.length !== expected.length) return false;
@@ -122,6 +123,9 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     const payload = response as { selectedRegionIds?: unknown };
     const actual = new Set(Array.isArray(payload?.selectedRegionIds) ? payload.selectedRegionIds.filter((value): value is string => typeof value === 'string') : []);
     score = setOverlapScore(new Set(question.solution.correctRegionIds), actual);
+  }
+  if (question.solution.type === 'trace_corridor' && question.interaction.type === 'trace_path') {
+    score = traceCorridorScore(question, response);
   }
   if (question.solution.type === 'crossword_answers') {
     const payload = response as { answers?: Record<string, unknown> };

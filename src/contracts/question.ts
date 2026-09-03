@@ -86,6 +86,41 @@ export interface HotspotQuestion extends BaseQuestion {
   solution: { type: 'selected_regions'; correctRegionIds: string[]; };
 }
 
+/** Device-independent 0..1 coordinate used by trace/draw interactions. */
+export interface NormalizedPoint { x: number; y: number; }
+export interface TraceAnchor extends PresentableItem { point: NormalizedPoint; symbol?: string; }
+export interface TraceLandmark extends PresentableItem {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  symbol?: string;
+}
+export interface TracePathQuestion extends BaseQuestion {
+  interaction: {
+    type: 'trace_path';
+    version: 1;
+    board: {
+      ariaLabel: string;
+      theme?: 'plain' | 'grass' | 'sky' | 'room' | 'playground';
+      start: TraceAnchor;
+      goal: TraceAnchor;
+      /** Authored route guide only. Scoring thresholds remain solution-owned. */
+      guidePath: NormalizedPoint[];
+      landmarks?: TraceLandmark[];
+    };
+  };
+  solution: {
+    type: 'trace_corridor';
+    minPointCount: number;
+    startRadius: number;
+    goalRadius: number;
+    corridorRadius: number;
+    minInCorridorRatio: number;
+    minGuideCoverage: number;
+  };
+}
+
 export interface CrosswordEntry {
   id: string;
   clue: string;
@@ -125,5 +160,6 @@ export type Question =
   | MemoryPairsQuestion
   | SequenceOrderQuestion
   | HotspotQuestion
+  | TracePathQuestion
   | CrosswordQuestion
   | MazePathQuestion;

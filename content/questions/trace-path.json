@@ -1,0 +1,104 @@
+[
+  {
+    "id": "phaseg.trace.under.bridge.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["vocabulary.spatial.under"],
+    "knowledgeRefs": ["kr.vocab.spatial.under.describes-relative-position"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Trace the ball's path under the bridge." },
+    "interaction": {
+      "type": "trace_path",
+      "version": 1,
+      "board": {
+        "ariaLabel": "A ball moving along a dotted path under a bridge",
+        "theme": "grass",
+        "start": { "id": "ball-start", "label": "Ball", "symbol": "⚽", "point": { "x": 0.1, "y": 0.76 } },
+        "goal": { "id": "ball-goal", "label": "Finish", "symbol": "⭐", "point": { "x": 0.9, "y": 0.76 } },
+        "guidePath": [
+          { "x": 0.1, "y": 0.76 }, { "x": 0.22, "y": 0.76 }, { "x": 0.34, "y": 0.77 },
+          { "x": 0.46, "y": 0.79 }, { "x": 0.58, "y": 0.78 }, { "x": 0.72, "y": 0.76 }, { "x": 0.9, "y": 0.76 }
+        ],
+        "landmarks": [
+          { "id": "bridge", "label": "Bridge", "symbol": "🌉", "x": 0.34, "y": 0.34, "width": 0.32, "height": 0.25 }
+        ]
+      }
+    },
+    "solution": { "type": "trace_corridor", "minPointCount": 6, "startRadius": 0.14, "goalRadius": 0.14, "corridorRadius": 0.11, "minInCorridorRatio": 0.75, "minGuideCoverage": 0.7 },
+    "feedback": {
+      "correct": "Yes. The ball travelled under the bridge.",
+      "incorrect": "Keep the ball on the dotted path below the bridge from start to finish."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-phase-g1" }
+  },
+  {
+    "id": "phaseg.trace.inside.box.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["vocabulary.spatial.inside"],
+    "knowledgeRefs": ["kr.vocab.spatial.inside.describes-relative-position"],
+    "gradeBands": [1, 2],
+    "difficulty": 1,
+    "language": "en",
+    "prompt": { "text": "Trace the toy's path inside the box." },
+    "interaction": {
+      "type": "trace_path",
+      "version": 1,
+      "board": {
+        "ariaLabel": "A toy moving from outside to inside a box",
+        "theme": "room",
+        "start": { "id": "toy-start", "label": "Toy", "symbol": "🧸", "point": { "x": 0.12, "y": 0.64 } },
+        "goal": { "id": "toy-goal", "label": "Inside", "symbol": "⭐", "point": { "x": 0.77, "y": 0.62 } },
+        "guidePath": [
+          { "x": 0.12, "y": 0.64 }, { "x": 0.24, "y": 0.63 }, { "x": 0.36, "y": 0.62 },
+          { "x": 0.48, "y": 0.62 }, { "x": 0.58, "y": 0.62 }, { "x": 0.67, "y": 0.62 }, { "x": 0.77, "y": 0.62 }
+        ],
+        "landmarks": [
+          { "id": "box", "label": "Box", "symbol": "📦", "x": 0.58, "y": 0.38, "width": 0.29, "height": 0.38 }
+        ]
+      }
+    },
+    "solution": { "type": "trace_corridor", "minPointCount": 6, "startRadius": 0.14, "goalRadius": 0.13, "corridorRadius": 0.1, "minInCorridorRatio": 0.75, "minGuideCoverage": 0.7 },
+    "feedback": {
+      "correct": "Yes. The toy ended inside the box.",
+      "incorrect": "Follow the dotted path until the toy finishes within the box."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-phase-g1" }
+  },
+  {
+    "id": "phaseg.trace.pull.toward.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["vocabulary.action.pull", "sof3.force.pull"],
+    "knowledgeRefs": ["kr.vocab.force.pull.can-move-object-toward"],
+    "gradeBands": [2, 3],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": { "text": "Trace the wagon moving toward the child who pulls it." },
+    "interaction": {
+      "type": "trace_path",
+      "version": 1,
+      "board": {
+        "ariaLabel": "A wagon following a dotted path toward a child",
+        "theme": "playground",
+        "start": { "id": "wagon-start", "label": "Wagon", "symbol": "🛒", "point": { "x": 0.88, "y": 0.68 } },
+        "goal": { "id": "child-goal", "label": "Child", "symbol": "🧒", "point": { "x": 0.18, "y": 0.62 } },
+        "guidePath": [
+          { "x": 0.88, "y": 0.68 }, { "x": 0.76, "y": 0.68 }, { "x": 0.64, "y": 0.67 },
+          { "x": 0.52, "y": 0.66 }, { "x": 0.4, "y": 0.65 }, { "x": 0.29, "y": 0.63 }, { "x": 0.18, "y": 0.62 }
+        ],
+        "landmarks": [
+          { "id": "puller", "label": "Puller", "symbol": "🧒", "x": 0.07, "y": 0.28, "width": 0.22, "height": 0.28 }
+        ]
+      }
+    },
+    "solution": { "type": "trace_corridor", "minPointCount": 6, "startRadius": 0.14, "goalRadius": 0.14, "corridorRadius": 0.11, "minInCorridorRatio": 0.75, "minGuideCoverage": 0.7 },
+    "feedback": {
+      "correct": "Yes. Pulling can move the wagon toward the puller.",
+      "incorrect": "Start at the wagon and follow the path toward the child."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-editorial-phase-g1" }
+  }
+]
