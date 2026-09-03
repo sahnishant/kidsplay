@@ -14,21 +14,25 @@ describe('Forest Level-1 human-review polish', () => {
     expect(app).toContain("activeStoryLocation?.id === 'forest'");
     expect(app).toContain('class:forest-session-host={forestLevelOneSession}');
     expect(css).toContain('.forest-session-host .session-card');
+    expect(css).toContain('radial-gradient');
     expect(css).toContain('.forest-session-host .reaction-state__scroll');
-    expect(css).toContain("content: '✓'");
+    expect(css).toContain('.forest-session-host .next-button');
   });
 
   it('keeps hidden and revealed memory cards the same bounded size at phone width', () => {
     const engine = source('src/engines/MemoryPairs.svelte');
+    const presenter = source('src/presentation/SemanticVisualPresenter.svelte');
     const css = source('src/interactionStyles.css');
 
     expect(css).toMatch(/\.memory-card\s*\{[^}]*height:\s*118px/s);
     expect(css).toMatch(/@media \(max-width: 480px\)[\s\S]*\.memory-card\s*\{[^}]*height:\s*102px/s);
     expect(css).toMatch(/\.memory-card\s*\{[^}]*overflow:\s*hidden/s);
-    expect(css).toMatch(/\.memory-card\s*\{[^}]*contain:\s*layout paint/s);
-    expect(engine).toContain('.memory-card__front :global(.visual-recipe)');
-    expect(engine).toContain('max-height: 54px !important');
-    expect(engine).toContain('memory-card__match-tick');
+    expect(engine).toContain('height:50px;min-width:0;overflow:hidden');
+    expect(engine).toContain('height:46px;min-width:0;min-height:0;overflow:hidden');
+    expect(engine).toContain('-webkit-line-clamp:2');
+    expect(engine).toContain('>✓</span>');
+    expect(presenter).toContain('style={style || undefined}');
+    expect(presenter).toContain('style={itemStyle || undefined}');
   });
 
   it('gives memory mismatches honest audio feedback without waiting for final submission', () => {
