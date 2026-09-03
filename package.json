@@ -95,7 +95,6 @@
     "android:open": "npx cap open android"
   },
   "dependencies": {
-    "@capacitor-community/text-to-speech": "8.0.2",
     "@capacitor/core": "8.5.0",
     "svelte": "5.56.10"
   },
