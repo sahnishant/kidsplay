@@ -31,6 +31,7 @@ function installOfflineSpeech() {
   const spoken: MockUtterance[] = [];
   const synthesis = {
     cancel: vi.fn(),
+    resume: vi.fn(),
     speak: vi.fn((utterance: MockUtterance) => spoken.push(utterance)),
     getVoices: vi.fn(() => [offlineVoice()]),
     addEventListener: vi.fn(),
@@ -140,7 +141,7 @@ describe('Phase C child audio session controls', () => {
     await fireEvent.click(hear);
     expect(synthesis.speak).toHaveBeenCalledTimes(before + 1);
     const utterance = synthesis.speak.mock.calls.at(-1)?.[0] as MockUtterance;
-    expect(utterance.pitch).toBe(0.96);
+    expect(utterance.pitch).toBe(1.1);
     expect(utterance.text).toContain('Final clue checked');
   });
 
