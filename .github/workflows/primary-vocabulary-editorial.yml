@@ -36,7 +36,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   prepare-and-validate:
@@ -47,6 +47,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Use Node.js 22
         uses: actions/setup-node@v7
@@ -71,7 +73,7 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Regenerate blocked Grade 1 and Grade 2 editorial packets through batch 004
+      - name: Regenerate blocked Grade 1 and Grade 2 editorial packets through batch 005
         run: |
           npm run lexicon:prepare:editorial:grade1
           npm run lexicon:prepare:editorial:grade2
@@ -83,11 +85,28 @@ jobs:
           npm run lexicon:export:review-slice -- --sense-review content/lexicon/open/sense-review/grade-2-introduced-meaning-oewn.json --wordlist content/lexicon/open/review-wordlists/grade-2-introduced-meaning.json --output content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --limit 80
           npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review-080.json --output content/lexicon/editorial-packets/grade-1-batch-004.json --batch-id grade-1-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
           npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --output content/lexicon/editorial-packets/grade-2-batch-004.json --batch-id grade-2-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review-080.json --output content/lexicon/editorial-packets/grade-1-batch-005.json --batch-id grade-1-batch-005 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json,content/lexicon/reviews/grade-1-batch-004.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --output content/lexicon/editorial-packets/grade-2-batch-005.json --batch-id grade-2-batch-005 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json,content/lexicon/reviews/grade-2-batch-004.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
           git diff --exit-code -- \
             content/lexicon/open/curator-slices/grade-1-meaning-review-080.json \
             content/lexicon/open/curator-slices/grade-2-meaning-review-080.json \
             content/lexicon/editorial-packets/grade-1-batch-004.json \
-            content/lexicon/editorial-packets/grade-2-batch-004.json
+            content/lexicon/editorial-packets/grade-2-batch-004.json \
+            content/lexicon/editorial-packets/grade-1-batch-005.json \
+            content/lexicon/editorial-packets/grade-2-batch-005.json
+
+      - name: Persist generated batch 005 packets for this preparation branch
+        if: github.event_name == 'pull_request' && github.head_ref == 'content/vocabulary-editorial-batch-005-prep'
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git status --porcelain -- content/lexicon/editorial-packets/grade-1-batch-005.json content/lexicon/editorial-packets/grade-2-batch-005.json | grep -q .; then
+            git config user.name 'github-actions[bot]'
+            git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+            git add content/lexicon/editorial-packets/grade-1-batch-005.json content/lexicon/editorial-packets/grade-2-batch-005.json
+            git commit -m 'content(vocabulary): materialize batch 005 editorial packets'
+            git push origin HEAD:${GITHUB_HEAD_REF}
+          fi
 
       - name: Keep AI drafts blocked from human authority
         run: |
@@ -97,6 +116,8 @@ jobs:
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-003.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-003-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-003.ai-draft.json
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-1-batch-004.json --overlay content/lexicon/ai-draft-overlays/grade-1-batch-004-ai-draft-001.json --output content/lexicon/editorial-packets/grade-1-batch-004.ai-draft.json
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-004.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-004-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-004.ai-draft.json
+          npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-1-batch-005.json --overlay content/lexicon/ai-draft-overlays/grade-1-batch-005-ai-draft-001.json --output content/lexicon/editorial-packets/grade-1-batch-005.ai-draft.json
+          npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-005.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-005-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-005.ai-draft.json
           node --input-type=module <<'NODE'
           import { readFileSync } from 'node:fs';
           const proofs = [
@@ -105,7 +126,9 @@ jobs:
             { grade: 1, batch: '003', suggestions: 13, intentionallyUndrafted: ['experience', 'natural', 'once'] },
             { grade: 2, batch: '003', suggestions: 15, intentionallyUndrafted: ['appear'] },
             { grade: 1, batch: '004', suggestions: 12, intentionallyUndrafted: ['earth', 'well', 'move', 'long'] },
-            { grade: 2, batch: '004', suggestions: 13, intentionallyUndrafted: ['region', 'sun', 'subject'] }
+            { grade: 2, batch: '004', suggestions: 13, intentionallyUndrafted: ['region', 'sun', 'subject'] },
+            { grade: 1, batch: '005', suggestions: 16, intentionallyUndrafted: [] },
+            { grade: 2, batch: '005', suggestions: 16, intentionallyUndrafted: [] }
           ];
           for (const proof of proofs) {
             const path = `content/lexicon/editorial-packets/grade-${proof.grade}-batch-${proof.batch}.ai-draft.json`;
@@ -175,7 +198,10 @@ jobs:
       - name: Compile and run vocabulary production acceptance suite
         run: |
           npm run test:vocabulary-corpus
-          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/primary-vocabulary-editorial-batch-003.behavior.test.ts tests/primary-vocabulary-editorial-batch-004.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-batch-004-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
+          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/primary-vocabulary-editorial-batch-003.behavior.test.ts tests/primary-vocabulary-editorial-batch-004.behavior.test.ts tests/primary-vocabulary-editorial-batch-005.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-batch-004-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
+
+      - name: Run full repository check
+        run: npm run check
 
       - name: Upload editorial and reviewed production proof
         uses: actions/upload-artifact@v7
@@ -196,6 +222,10 @@ jobs:
             content/lexicon/editorial-packets/grade-2-batch-004.json
             content/lexicon/editorial-packets/grade-1-batch-004.ai-draft.json
             content/lexicon/editorial-packets/grade-2-batch-004.ai-draft.json
+            content/lexicon/editorial-packets/grade-1-batch-005.json
+            content/lexicon/editorial-packets/grade-2-batch-005.json
+            content/lexicon/editorial-packets/grade-1-batch-005.ai-draft.json
+            content/lexicon/editorial-packets/grade-2-batch-005.ai-draft.json
             content/lexicon/reviews/grade-1-batch-001.json
             content/lexicon/reviews/grade-2-batch-001.json
             content/lexicon/reviews/grade-1-batch-001-profile-placements.json
