@@ -1,4 +1,4 @@
-import type { MazePathQuestion, Question } from '../contracts/question';
+import type { MazePathQuestion, Question, TracePathQuestion } from '../contracts/question';
 import type { EvaluationResult } from '../contracts/runtime';
 import { canTravel } from '../mechanics/maze';
 import { traceCorridorScore } from '../mechanics/tracePath';
@@ -125,7 +125,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
     score = setOverlapScore(new Set(question.solution.correctRegionIds), actual);
   }
   if (question.solution.type === 'trace_corridor' && question.interaction.type === 'trace_path') {
-    score = traceCorridorScore(question, response);
+    score = traceCorridorScore(question as TracePathQuestion, response);
   }
   if (question.solution.type === 'crossword_answers') {
     const payload = response as { answers?: Record<string, unknown> };
