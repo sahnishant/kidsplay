@@ -4,6 +4,12 @@ import { openCleanApp, sessionFeedback } from './helpers/childJourney';
 test.use({ viewport: { width: 360, height: 640 } });
 
 type Point = { x: number; y: number };
+type TraceCase = {
+  prompt: string;
+  boardLabel: string;
+  path: readonly Point[];
+  successText?: string;
+};
 
 async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   const dimensions = await page.evaluate(() => ({
@@ -34,18 +40,55 @@ async function drawTrace(page: Page, boardLabel: string, points: readonly Point[
   await page.mouse.up();
 }
 
-const underPath: Point[] = [
-  { x: 0.1, y: 0.76 }, { x: 0.22, y: 0.76 }, { x: 0.34, y: 0.77 },
-  { x: 0.46, y: 0.79 }, { x: 0.58, y: 0.78 }, { x: 0.72, y: 0.76 }, { x: 0.9, y: 0.76 }
+const traceCases: readonly TraceCase[] = [
+  {
+    prompt: "Trace the ball's path under the bridge.",
+    boardLabel: 'A ball moving along a dotted path under a bridge',
+    path: [
+      { x: 0.1, y: 0.76 }, { x: 0.22, y: 0.76 }, { x: 0.34, y: 0.77 },
+      { x: 0.46, y: 0.79 }, { x: 0.58, y: 0.78 }, { x: 0.72, y: 0.76 }, { x: 0.9, y: 0.76 }
+    ],
+    successText: 'The ball travelled under the bridge'
+  },
+  {
+    prompt: "Trace the toy's path inside the box.",
+    boardLabel: 'A toy moving from outside to inside a box',
+    path: [
+      { x: 0.12, y: 0.64 }, { x: 0.24, y: 0.63 }, { x: 0.36, y: 0.62 },
+      { x: 0.48, y: 0.62 }, { x: 0.58, y: 0.62 }, { x: 0.67, y: 0.62 }, { x: 0.77, y: 0.62 }
+    ]
+  },
+  {
+    prompt: 'Trace the wagon moving toward the child who pulls it.',
+    boardLabel: 'A wagon following a dotted path toward a child',
+    path: [
+      { x: 0.88, y: 0.68 }, { x: 0.76, y: 0.68 }, { x: 0.64, y: 0.67 },
+      { x: 0.52, y: 0.66 }, { x: 0.4, y: 0.65 }, { x: 0.29, y: 0.63 }, { x: 0.18, y: 0.62 }
+    ]
+  }
 ];
-const insidePath: Point[] = [
-  { x: 0.12, y: 0.64 }, { x: 0.24, y: 0.63 }, { x: 0.36, y: 0.62 },
-  { x: 0.48, y: 0.62 }, { x: 0.58, y: 0.62 }, { x: 0.67, y: 0.62 }, { x: 0.77, y: 0.62 }
-];
-const pullPath: Point[] = [
-  { x: 0.88, y: 0.68 }, { x: 0.76, y: 0.68 }, { x: 0.64, y: 0.67 },
-  { x: 0.52, y: 0.66 }, { x: 0.4, y: 0.65 }, { x: 0.29, y: 0.63 }, { x: 0.18, y: 0.62 }
-];
+
+async function waitForTraceCase(page: Page, seen = new Set<string>()): Promise<TraceCase> {
+  const heading = page.getByRole('heading', { level: 1 });
+  await expect(heading).toHaveText(/^Trace /, { timeout: 7_000 });
+  const prompt = (await heading.innerText()).trim();
+  const traceCase = traceCases.find((candidate) => candidate.prompt === prompt);
+  if (!traceCase) throw new Error(`Unexpected Trace & Discover prompt: ${prompt}`);
+  if (seen.has(prompt)) throw new Error(`Trace & Discover repeated a completed prompt: ${prompt}`);
+  return traceCase;
+}
+
+function deliberatelyWrongPath(traceCase: TraceCase): Point[] {
+  const first = traceCase.path[0];
+  const last = traceCase.path[traceCase.path.length - 1];
+  return [
+    first,
+    { x: first.x + (last.x - first.x) * 0.25, y: 0.18 },
+    { x: first.x + (last.x - first.x) * 0.5, y: 0.14 },
+    { x: first.x + (last.x - first.x) * 0.75, y: 0.18 },
+    last
+  ];
+}
 
 test('Trace & Discover gives honest retry and completes three pointer traces without a Check step', async ({ page }) => {
   test.setTimeout(60_000);
@@ -55,33 +98,33 @@ test('Trace & Discover gives honest retry and completes three pointer traces wit
   await expect(page.getByRole('heading', { name: 'Trace & Discover' })).toBeVisible();
   await page.getByRole('button', { name: 'Trace paths' }).click();
 
-  await expect(page.getByRole('heading', { name: "Trace the ball's path under the bridge." })).toBeVisible();
+  const completed = new Set<string>();
+  const first = await waitForTraceCase(page);
   await expect(page.getByRole('button', { name: 'Check path' })).toHaveCount(0);
   await expectNoHorizontalOverflow(page);
 
-  await drawTrace(page, 'A ball moving along a dotted path under a bridge', [
-    { x: 0.1, y: 0.76 }, { x: 0.24, y: 0.25 }, { x: 0.4, y: 0.18 },
-    { x: 0.56, y: 0.18 }, { x: 0.72, y: 0.25 }, { x: 0.9, y: 0.76 }
-  ]);
+  await drawTrace(page, first.boardLabel, deliberatelyWrongPath(first));
   await expect(sessionFeedback(page)).toContainText('Give it another try');
   await expect(page.getByRole('button', { name: 'Try again' })).toBeVisible();
 
   await page.getByRole('button', { name: 'Try again' }).click();
-  await expect(page.getByRole('heading', { name: "Trace the ball's path under the bridge." })).toBeVisible();
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(first.prompt);
   await expect(page.getByText('Try again', { exact: true })).toBeVisible();
-  await drawTrace(page, 'A ball moving along a dotted path under a bridge', underPath);
+  await drawTrace(page, first.boardLabel, first.path);
   await expect(sessionFeedback(page)).toContainText('Nice work!');
-  await expect(sessionFeedback(page)).toContainText('The ball travelled under the bridge');
+  if (first.successText) await expect(sessionFeedback(page)).toContainText(first.successText);
+  completed.add(first.prompt);
 
-  await expect(page.getByRole('heading', { name: "Trace the toy's path inside the box." })).toBeVisible({ timeout: 5_000 });
-  await expect(page.getByRole('button', { name: 'Check path' })).toHaveCount(0);
-  await drawTrace(page, 'A toy moving from outside to inside a box', insidePath);
-  await expect(sessionFeedback(page)).toContainText('Nice work!');
+  while (completed.size < traceCases.length) {
+    const current = await waitForTraceCase(page, completed);
+    await expect(page.getByRole('button', { name: 'Check path' })).toHaveCount(0);
+    await drawTrace(page, current.boardLabel, current.path);
+    await expect(sessionFeedback(page)).toContainText('Nice work!');
+    if (current.successText) await expect(sessionFeedback(page)).toContainText(current.successText);
+    completed.add(current.prompt);
+  }
 
-  await expect(page.getByRole('heading', { name: 'Trace the wagon moving toward the child who pulls it.' })).toBeVisible({ timeout: 5_000 });
-  await drawTrace(page, 'A wagon following a dotted path toward a child', pullPath);
-  await expect(sessionFeedback(page)).toContainText('Nice work!');
-
-  await expect(page.getByRole('heading', { name: /Nice work, Dheu/ })).toBeVisible({ timeout: 5_000 });
+  expect(completed).toEqual(new Set(traceCases.map((traceCase) => traceCase.prompt)));
+  await expect(page.getByRole('heading', { name: /Nice work, Dheu/ })).toBeVisible({ timeout: 7_000 });
   await expectNoHorizontalOverflow(page);
 });
