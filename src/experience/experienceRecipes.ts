@@ -91,7 +91,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function assertStringArray(value: unknown, context: string): string[] {
-  if (!Array.isArray(value) || value.some((item) => typeof item !== 'string' || item.length === 0)) {
+  if (!Array.isArray(value) || value.length === 0 || value.some((item) => typeof item !== 'string' || item.length === 0)) {
     throw new Error(`${context} must be a non-empty string array`);
   }
   return value;
@@ -125,7 +125,7 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
   if (typeof family !== 'string' || !validFamilies.has(family as ExperienceRecipeFamily)) {
     throw new Error(`${id}: invalid family`);
   }
-  if (!Number.isInteger(priority) || (priority as number) < 0) {
+  if (typeof priority !== 'number' || !Number.isInteger(priority) || priority < 0) {
     throw new Error(`${id}: priority must be a non-negative integer`);
   }
   if (!isRecord(selector)) throw new Error(`${id}: selector is required`);
@@ -170,7 +170,7 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
   return {
     id,
     family: family as ExperienceRecipeFamily,
-    priority: priority as number,
+    priority,
     selector: {
       surfaces: surfaces as Exclude<ExperienceSurface, 'assessment'>[],
       interactionTypes: interactionTypes as Question['interaction']['type'][],
