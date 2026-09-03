@@ -1,0 +1,1656 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_editorial_packet",
+  "language": "en",
+  "grade": 2,
+  "batchId": "grade-2-batch-004",
+  "purpose": "Editorial sense selection, independently authored child-definition review and explicit profile-placement review before runtime publication.",
+  "generatedFrom": {
+    "curatorSliceKind": "primary_vocabulary_curator_sense_slice",
+    "wordlistId": "vocabulary.primary.grade2.introduced.meaning.review",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "selection": {
+    "requestedLimit": 16,
+    "excludedPriorReviewLemmas": [
+      "accident",
+      "ancient",
+      "appear",
+      "breath",
+      "brown",
+      "busy",
+      "clothes",
+      "competition",
+      "decide",
+      "describe",
+      "environment",
+      "excellent",
+      "exercise",
+      "extreme",
+      "familiar",
+      "famous",
+      "floor",
+      "fruit",
+      "guard",
+      "guide",
+      "height",
+      "imagine",
+      "immediately",
+      "library",
+      "minute",
+      "notice",
+      "opportunity",
+      "opposite",
+      "path",
+      "plant",
+      "pull",
+      "push",
+      "radio",
+      "regular",
+      "sentence",
+      "strange",
+      "sugar",
+      "suggest",
+      "treatment",
+      "yellow"
+    ],
+    "excludedReviewRefs": [
+      "content/lexicon/reviews/grade-2-batch-001.json",
+      "content/lexicon/reviews/grade-2-batch-002.json",
+      "content/lexicon/reviews/grade-2-batch-003.json"
+    ]
+  },
+  "policy": {
+    "publicationState": "blocked_pending_editorial_review",
+    "importedGlossRuntimeAllowed": false,
+    "aiDraftAllowed": true,
+    "aiDraftMayCountAsReviewed": false,
+    "requiredReviewAuthority": "human_editor",
+    "explicitReviewerRequiredForAcceptance": true,
+    "profilePlacementRequiresExplicitApproval": true,
+    "corpusGradeMayImplyBoardAlignment": false
+  },
+  "profileReviewTargets": [
+    "CBSE_INDIA_CLASS2",
+    "CISCE_INDIA_CLASS2",
+    "SOF_INDIA_CLASS2"
+  ],
+  "summary": {
+    "words": 16,
+    "candidateSenses": 41,
+    "excludedPriorReview": 40,
+    "reviewed": 0,
+    "accepted": 0,
+    "rejected": 0
+  },
+  "items": [
+    {
+      "lemma": "region",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5
+      },
+      "priorityScore": 34,
+      "candidateSenses": [
+        {
+          "candidateId": "region#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "region%1:15:00::",
+            "synsetId": "08647614-n",
+            "definition": "the extended spatial location of something",
+            "examples": [
+              "the farming regions of France",
+              "religions in all parts of the world",
+              "regions of outer space"
+            ],
+            "synonyms": [
+              "part"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "region%1:15:00::",
+              "08647614-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "region#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "region%1:08:00::",
+            "synsetId": "05229188-n",
+            "definition": "a part of an animal that has a special function or is supplied by a given artery or nerve",
+            "examples": [
+              "in the abdominal region"
+            ],
+            "synonyms": [
+              "area"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "region%1:08:00::",
+              "05229188-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "region#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "region%1:15:01::",
+            "synsetId": "08648560-n",
+            "definition": "a large indefinite location on the surface of the Earth",
+            "examples": [
+              "penguins inhabit the polar regions"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "region%1:15:01::",
+              "08648560-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "sort",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5
+      },
+      "priorityScore": 34,
+      "candidateSenses": [
+        {
+          "candidateId": "sort#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sort%1:09:00::",
+            "synsetId": "05847533-n",
+            "definition": "a category of things distinguished by some common characteristic or quality",
+            "examples": [
+              "sculpture is a form of art",
+              "what kinds of desserts are there?"
+            ],
+            "synonyms": [
+              "kind",
+              "form",
+              "variety"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sort%1:09:00::",
+              "05847533-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sort#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sort%1:07:00::",
+            "synsetId": "04753502-n",
+            "definition": "an approximate definition or example",
+            "examples": [
+              "she wore a sort of magenta dress",
+              "she served a creamy sort of dessert thing"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sort%1:07:00::",
+              "04753502-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sort#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sort%1:18:00::",
+            "synsetId": "10646084-n",
+            "definition": "a person of a particular character or nature",
+            "examples": [
+              "what sort of person is he?",
+              "he's a good sort"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sort%1:18:00::",
+              "10646084-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "speed",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5
+      },
+      "priorityScore": 34,
+      "candidateSenses": [
+        {
+          "candidateId": "speed#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "speed%1:28:00::",
+            "synsetId": "15307914-n",
+            "definition": "distance travelled per unit time",
+            "examples": [],
+            "synonyms": [
+              "velocity"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "speed%1:28:00::",
+              "15307914-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "speed#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "speed%1:07:00::",
+            "synsetId": "05065291-n",
+            "definition": "a rate (usually rapid) at which something happens",
+            "examples": [
+              "the project advanced with gratifying speed"
+            ],
+            "synonyms": [
+              "swiftness",
+              "fastness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "speed%1:07:00::",
+              "05065291-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "speed#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "speed%1:04:00::",
+            "synsetId": "00330986-n",
+            "definition": "changing location rapidly",
+            "examples": [],
+            "synonyms": [
+              "speeding",
+              "hurrying"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "speed%1:04:00::",
+              "00330986-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "quick",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.98
+      },
+      "priorityScore": 33.96,
+      "candidateSenses": [
+        {
+          "candidateId": "quick#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "quick%5:00:00:fast:01",
+            "synsetId": "00982557-s",
+            "definition": "accomplished rapidly and without delay",
+            "examples": [
+              "was quick to make friends",
+              "his quick reaction prevented an accident",
+              "hoped for a speedy resolution of the problem",
+              "a speedy recovery",
+              "he has a right to a speedy trial"
+            ],
+            "synonyms": [
+              "speedy"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "quick%5:00:00:fast:01",
+              "00982557-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "quick#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "quick%5:00:00:hurried:00",
+            "synsetId": "01273596-s",
+            "definition": "hurried and brief",
+            "examples": [
+              "paid a flying visit",
+              "took a flying glance at the book",
+              "a quick inspection",
+              "a fast visit"
+            ],
+            "synonyms": [
+              "flying",
+              "fast"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "quick%5:00:00:hurried:00",
+              "01273596-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "quick#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "quick%5:00:00:active:01",
+            "synsetId": "00032846-s",
+            "definition": "moving quickly and lightly",
+            "examples": [
+              "sleek and agile as a gymnast",
+              "as nimble as a deer",
+              "nimble fingers",
+              "quick of foot",
+              "the old dog was so spry it was halfway up the stairs before we could stop it"
+            ],
+            "synonyms": [
+              "agile",
+              "nimble",
+              "spry"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "quick%5:00:00:active:01",
+              "00032846-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "clean",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.97
+      },
+      "priorityScore": 33.94,
+      "candidateSenses": [
+        {
+          "candidateId": "clean#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "clean%3:00:01::",
+            "synsetId": "00418932-a",
+            "definition": "free from dirt or impurities; or having clean habits",
+            "examples": [
+              "children with clean shining faces",
+              "clean white shirts",
+              "clean dishes",
+              "a spotlessly clean house",
+              "cats are clean animals"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "clean%3:00:01::",
+              "00418932-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "clean#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "clean%5:00:00:unqualified:02",
+            "synsetId": "01920489-s",
+            "definition": "free of restrictions or qualifications",
+            "examples": [
+              "a clean bill of health",
+              "a clear winner"
+            ],
+            "synonyms": [
+              "clear"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "clean%5:00:00:unqualified:02",
+              "01920489-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "clean#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "clean%5:00:01:pure:02",
+            "synsetId": "01912661-s",
+            "definition": "(of sound or color) free from anything that dulls or dims",
+            "examples": [
+              "efforts to obtain a clean bass in orchestral recordings",
+              "clear laughter like a waterfall",
+              "clear reds and blues",
+              "a light lilting voice like a silver bell"
+            ],
+            "synonyms": [
+              "clear",
+              "light",
+              "unclouded"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "clean%5:00:01:pure:02",
+              "01912661-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "computer",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.97
+      },
+      "priorityScore": 33.94,
+      "candidateSenses": [
+        {
+          "candidateId": "computer#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "computer%1:06:00::",
+            "synsetId": "03086983-n",
+            "definition": "a machine for performing calculations automatically",
+            "examples": [],
+            "synonyms": [
+              "computing machine",
+              "computing device",
+              "data processor",
+              "electronic computer",
+              "information processing system"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "computer%1:06:00::",
+              "03086983-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "computer#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "computer%1:18:00::",
+            "synsetId": "09906486-n",
+            "definition": "an expert at calculation (or at operating calculating machines)",
+            "examples": [],
+            "synonyms": [
+              "calculator",
+              "reckoner",
+              "figurer",
+              "estimator"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "computer%1:18:00::",
+              "09906486-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "sun",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.97
+      },
+      "priorityScore": 33.94,
+      "candidateSenses": [
+        {
+          "candidateId": "sun#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sun%1:28:00::",
+            "synsetId": "15188844-n",
+            "definition": "first day of the week; observed as a day of rest and worship by most Christians",
+            "examples": [],
+            "synonyms": [
+              "Sunday",
+              "Lord's Day",
+              "Dominicus"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sun%1:28:00::",
+              "15188844-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sun#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sun%1:19:00::",
+            "synsetId": "11505767-n",
+            "definition": "the rays of the sun",
+            "examples": [
+              "the shingles were weathered by the sun and wind"
+            ],
+            "synonyms": [
+              "sunlight",
+              "sunshine"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sun%1:19:00::",
+              "11505767-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "sun#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "sun%1:18:00::",
+            "synsetId": "10694335-n",
+            "definition": "a person considered as a source of warmth or energy or glory etc",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "sun%1:18:00::",
+              "10694335-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "subject",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 4.96
+      },
+      "priorityScore": 33.92,
+      "candidateSenses": [
+        {
+          "candidateId": "subject#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "subject%5:00:00:susceptible:00",
+            "synsetId": "02370095-s",
+            "definition": "possibly accepting or permitting",
+            "examples": [
+              "a passage capable of misinterpretation",
+              "open to interpretation",
+              "an issue open to question",
+              "the time is fixed by the director and players and therefore subject to much variation"
+            ],
+            "synonyms": [
+              "capable",
+              "open"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "subject%5:00:00:susceptible:00",
+              "02370095-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "subject#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "subject%5:00:00:subordinate:02",
+            "synsetId": "02337856-s",
+            "definition": "being under the power or sovereignty of another or others",
+            "examples": [
+              "subject peoples",
+              "a dependent prince"
+            ],
+            "synonyms": [
+              "dependent"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "subject%5:00:00:subordinate:02",
+              "02337856-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "subject#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "subject%5:00:00:affected:00",
+            "synsetId": "00072167-s",
+            "definition": "likely to be affected by something",
+            "examples": [
+              "the bond is subject to taxation",
+              "he is subject to fits of depression"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "subject%5:00:00:affected:00",
+              "00072167-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "hotel",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.95
+      },
+      "priorityScore": 33.9,
+      "candidateSenses": [
+        {
+          "candidateId": "hotel#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "hotel%1:06:00::",
+            "synsetId": "03547513-n",
+            "definition": "a building where travelers can pay for lodging and meals and other services",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "hotel%1:06:00::",
+              "03547513-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "beach",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.92
+      },
+      "priorityScore": 33.84,
+      "candidateSenses": [
+        {
+          "candidateId": "beach#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "beach%1:17:00::",
+            "synsetId": "09240137-n",
+            "definition": "an area of sand sloping down to the water of a sea or lake",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "beach%1:17:00::",
+              "09240137-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "color",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.91
+      },
+      "priorityScore": 33.82,
+      "candidateSenses": [
+        {
+          "candidateId": "color#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "color%1:07:00::",
+            "synsetId": "04963771-n",
+            "definition": "a visual attribute of things that results from the light they emit or transmit or reflect",
+            "examples": [
+              "a white color is made up of many different wavelengths of light"
+            ],
+            "synonyms": [
+              "colour",
+              "coloring",
+              "colouring"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "color%1:07:00::",
+              "04963771-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "color#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "color%1:07:03::",
+            "synsetId": "05200606-n",
+            "definition": "interest and variety and intensity",
+            "examples": [
+              "the Puritan Period was lacking in color",
+              "the characters were delineated with exceptional vividness"
+            ],
+            "synonyms": [
+              "colour",
+              "vividness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "color%1:07:03::",
+              "05200606-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "color#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "color%1:07:02::",
+            "synsetId": "04995727-n",
+            "definition": "the timbre of a musical sound",
+            "examples": [
+              "the recording fails to capture the true color of the original music"
+            ],
+            "synonyms": [
+              "colour",
+              "coloration",
+              "colouration"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "color%1:07:02::",
+              "04995727-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "shop",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.88
+      },
+      "priorityScore": 33.76,
+      "candidateSenses": [
+        {
+          "candidateId": "shop#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "shop%1:06:00::",
+            "synsetId": "04209460-n",
+            "definition": "a mercantile establishment for the retail sale of goods or services",
+            "examples": [
+              "he bought it at a shop on Cape Cod"
+            ],
+            "synonyms": [
+              "store"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "shop%1:06:00::",
+              "04209460-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "shop#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "shop%1:06:01::",
+            "synsetId": "04610439-n",
+            "definition": "small workplace where handcrafts or manufacturing are done",
+            "examples": [],
+            "synonyms": [
+              "workshop"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "shop%1:06:01::",
+              "04610439-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "shop#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "shop%1:04:00::",
+            "synsetId": "00893934-n",
+            "definition": "a course of instruction in a trade (as carpentry or electricity)",
+            "examples": [
+              "I built a birdhouse in shop"
+            ],
+            "synonyms": [
+              "shop class"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "shop%1:04:00::",
+              "00893934-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "camera",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.87
+      },
+      "priorityScore": 33.74,
+      "candidateSenses": [
+        {
+          "candidateId": "camera#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "camera%1:06:00::",
+            "synsetId": "02946154-n",
+            "definition": "equipment for taking photographs (usually consisting of a lightproof box with a lens at one end and light-sensitive film at the other)",
+            "examples": [],
+            "synonyms": [
+              "photographic camera"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "camera%1:06:00::",
+              "02946154-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "camera#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "camera%1:06:01::",
+            "synsetId": "04412132-n",
+            "definition": "television equipment consisting of a lens system that focuses an image on a photosensitive mosaic that is scanned by an electron beam",
+            "examples": [],
+            "synonyms": [
+              "television camera",
+              "tv camera"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "camera%1:06:01::",
+              "04412132-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "lake",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.83
+      },
+      "priorityScore": 33.66,
+      "candidateSenses": [
+        {
+          "candidateId": "lake#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "lake%1:17:00::",
+            "synsetId": "09351810-n",
+            "definition": "a body of (usually fresh) water surrounded by land",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lake%1:17:00::",
+              "09351810-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "lake#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "lake%1:27:01::",
+            "synsetId": "15015673-n",
+            "definition": "a purplish red pigment prepared from lac or cochineal",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lake%1:27:01::",
+              "15015673-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "lake#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "lake%1:27:00::",
+            "synsetId": "15015571-n",
+            "definition": "any of numerous bright translucent organic pigments",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "lake%1:27:00::",
+              "15015571-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "adult",
+      "grade": 2,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.8
+      },
+      "priorityScore": 33.6,
+      "candidateSenses": [
+        {
+          "candidateId": "adult#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "adult%1:18:00::",
+            "synsetId": "09628463-n",
+            "definition": "a fully developed person from maturity onward",
+            "examples": [],
+            "synonyms": [
+              "grownup"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "adult%1:18:00::",
+              "09628463-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "adult#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "adult%1:05:00::",
+            "synsetId": "01323947-n",
+            "definition": "any mature animal",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "adult%1:05:00::",
+              "01323947-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "window",
+      "grade": 2,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 4.8
+      },
+      "priorityScore": 33.6,
+      "candidateSenses": [
+        {
+          "candidateId": "window#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "window%1:06:00::",
+            "synsetId": "04594951-n",
+            "definition": "a framework of wood or metal that contains a glass windowpane and is built into a wall or roof to admit light or air",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "window%1:06:00::",
+              "04594951-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "window#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "window%1:06:01::",
+            "synsetId": "04595668-n",
+            "definition": "a transparent opening in a vehicle that allow vision out of the sides or back; usually is capable of being opened",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "window%1:06:01::",
+              "04595668-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "window#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "window%1:06:02::",
+            "synsetId": "04595890-n",
+            "definition": "a transparent panel (as of an envelope) inserted in an otherwise opaque material",
+            "examples": [],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "window%1:06:02::",
+              "04595890-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    }
+  ]
+}
