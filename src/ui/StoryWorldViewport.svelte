@@ -42,8 +42,8 @@
   let selectedMissionId = $state<string | null>(null);
   let missionBeatIndex = $state(0);
   let releaseMissionBack: (() => void) | null = null;
-  let missionOverlay: HTMLDivElement | null = null;
-  let missionCloseButton: HTMLButtonElement | null = null;
+  let missionOverlay = $state<HTMLDivElement | null>(null);
+  let missionCloseButton = $state<HTMLButtonElement | null>(null);
   let returnFocusElement: HTMLElement | null = null;
 
   let selectedMission = $derived(
@@ -271,6 +271,7 @@
         role="dialog"
         aria-modal="true"
         aria-labelledby="mission-overlay-heading"
+        tabindex="-1"
         bind:this={missionOverlay}
         onkeydown={handleMissionKeydown}
       >

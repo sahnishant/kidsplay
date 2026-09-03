@@ -166,10 +166,14 @@ describe('Phase C child audio session controls', () => {
 
   it('cancels character narration before advancing to the next clue', async () => {
     const synthesis = window.speechSynthesis as unknown as { cancel: ReturnType<typeof vi.fn> };
+    const hardFirst = choiceQuestion('test.audio.first');
+    hardFirst.difficulty = 3;
+    hardFirst.knowledgeRefs = ['kr.test.audio.one', 'kr.test.audio.two', 'kr.test.audio.three'];
+
     render(Session, {
       props: {
         title: 'Story transition trail',
-        questions: [choiceQuestion('test.audio.first'), choiceQuestion('test.audio.second')],
+        questions: [hardFirst, choiceQuestion('test.audio.second')],
         storyCompletion: {
           text: 'The trail is safe again.',
           rewardLabel: 'Forest badge',
@@ -179,7 +183,7 @@ describe('Phase C child audio session controls', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
-    await fireEvent.click(screen.getByRole('button', { name: /^Hear / }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Hear Scientu' }));
     const beforeTransition = synthesis.cancel.mock.calls.length;
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 

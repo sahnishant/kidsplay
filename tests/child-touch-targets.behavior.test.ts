@@ -17,7 +17,10 @@ const representativeSelectors = [
   '.drag-item',
   '.drop-target',
   '.primary-button',
+  '.secondary-button',
   '.next-button',
+  '.mission-start',
+  '.mission-later',
   '.memory-card',
   '.hotspot__region',
   '.sequence-order__move'
@@ -35,10 +38,10 @@ describe('child touch-target product invariant', () => {
     expect(touchTargets).toBeGreaterThan(viewportStyles);
   });
 
-  it('keeps compact navigation and representative child interaction families at the 44px floor', () => {
-    expect(policy).toMatch(/#app :is\(\.home-button,\.panel-back\) \{ width:44px; height:44px; \}/);
+  it('keeps compact navigation, story controls and representative child interaction families at the 44px floor', () => {
+    expect(policy).toMatch(/#app :is\(\.home-button,\.panel-back,\.mission-close\) \{ width:44px; height:44px; \}/);
 
-    for (const selector of ['.home-button', '.panel-back', ...representativeSelectors]) {
+    for (const selector of ['.home-button', '.panel-back', '.mission-close', ...representativeSelectors]) {
       expect(policy, `${selector} should be covered by the child touch-target policy`).toContain(selector);
     }
     expect(policy).toMatch(/#app :is\([^)]+\.sequence-order__move\) \{ min-width:44px; min-height:44px; \}/);
