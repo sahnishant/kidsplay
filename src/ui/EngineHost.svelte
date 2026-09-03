@@ -35,5 +35,5 @@
 </script>
 
 {#key question.id}
-  <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} />
+  <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
 {/key}
