@@ -236,7 +236,7 @@ describe('#151 deterministic semantic review frontier', () => {
     expect(ledger.batches).toEqual(expect.arrayContaining([expect.objectContaining({ id: 'priority-sense-resolution-003', sequence: 6, manifest: manifestPath })]));
   });
 
-  it('does not change terminal, resolved, blocker or runtime accounting', () => {
+  it('preserves tranche-003 decisions while later tranche registrations advance canonical accounting', () => {
     const report = JSON.parse(execFileSync(
       process.execPath,
       ['scripts/report-vocabulary-visual-coverage.mjs', '--json', '--limit=5'],
@@ -245,18 +245,18 @@ describe('#151 deterministic semantic review frontier', () => {
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 657,
-      blockedSenseResolutionLemmas: 9343,
-      exactReviewedSupersedingLemmas: 70,
+      resolvedStrategyLemmas: 687,
+      blockedSenseResolutionLemmas: 9313,
+      exactReviewedSupersedingLemmas: 100,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 624,
-      blockedSenseResolutionLemmas: 1776
+      resolvedStrategyLemmas: 654,
+      blockedSenseResolutionLemmas: 1746
     });
-    expect(report.senseResolutionQueue.items).toBe(1776);
+    expect(report.senseResolutionQueue.items).toBe(1746);
     expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);
   });

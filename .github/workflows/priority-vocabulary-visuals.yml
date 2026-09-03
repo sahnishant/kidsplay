@@ -74,6 +74,21 @@ jobs:
           git diff --exit-code
           test -z "$(git status --short --untracked-files=all)"
 
+      - name: Upload generated tracked-state diagnostics on drift
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: generated-tracked-state-diagnostics
+          path: |
+            content/profile-memberships
+            content/profiles
+            content/profile-scope-targets
+            content/packs/free-vocabulary.json
+            content/knowledge/english-vocabulary-primary-reviewed-batch-005.json
+            content/questions/__generated-from-knowledge.json
+            content/authoring/crosswords/__generated-from-knowledge.json
+          if-no-files-found: warn
+
       - name: Upload final live ranked priority queue
         uses: actions/upload-artifact@v7
         with:

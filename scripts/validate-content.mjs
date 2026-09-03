@@ -35,12 +35,14 @@ const packs = readObjectDirectory('content/packs/');
 
 const supportedEngines = new Set([
   'single_choice@1', 'word_bank_fill@1', 'drag_to_target@1', 'word_search@1',
-  'memory_pairs@1', 'sequence_order@1', 'hotspot@1', 'crossword@1', 'maze_path@1'
+  'memory_pairs@1', 'sequence_order@1', 'hotspot@1', 'trace_path@1', 'crossword@1', 'maze_path@1'
 ]);
 const wordSearchDirections = new Set(['right','left','down','up','down_right','down_left','up_right','up_left']);
 const hotspotThemes = new Set(['plain', 'grass', 'ocean', 'sky', 'split-land-water']);
+const traceThemes = new Set(['plain', 'grass', 'sky', 'room', 'playground']);
 const pairKey = (first, second) => (first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`);
 const isNormalized = (value) => Number.isFinite(value) && value >= 0 && value <= 1;
+const normalizedPoint = (point) => Boolean(point && isNormalized(point.x) && isNormalized(point.y));
 const normalizeText = (value) => String(value ?? '').toUpperCase().replace(/[^A-Z0-9]/g, '');
 const WALL_TOP = 1;
 const WALL_RIGHT = 2;
@@ -161,6 +163,34 @@ for (const question of questions) {
     if (!correctIds.length) errors.push(`${prefix}: hotspot needs at least one correct region`);
     if (interaction.selectionMode === 'single' && correctIds.length !== 1) errors.push(`${prefix}: single-select hotspot must have exactly one correct region`);
     for (const regionId of correctIds) if (!regionIds.has(regionId)) errors.push(`${prefix}: hotspot solution refers to missing region ${regionId}`);
+  }
+
+  if (interaction?.type === 'trace_path') {
+    const board = interaction.board ?? {};
+    const guide = board.guidePath ?? [];
+    if (board.theme && !traceThemes.has(board.theme)) errors.push(`${prefix}: unsupported trace-path theme ${board.theme}`);
+    if (!normalizedPoint(board.start?.point)) errors.push(`${prefix}: trace start must use normalized x/y`);
+    if (!normalizedPoint(board.goal?.point)) errors.push(`${prefix}: trace goal must use normalized x/y`);
+    if (!Array.isArray(guide) || guide.length < 2 || !guide.every(normalizedPoint)) errors.push(`${prefix}: trace guidePath needs at least two normalized points`);
+    if (guide.length >= 2 && normalizedPoint(board.start?.point) && normalizedPoint(board.goal?.point)) {
+      const first = guide[0];
+      const last = guide[guide.length - 1];
+      const distance = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+      if (distance(first, board.start.point) > 0.001) errors.push(`${prefix}: trace guidePath must begin at start point`);
+      if (distance(last, board.goal.point) > 0.001) errors.push(`${prefix}: trace guidePath must end at goal point`);
+    }
+    duplicateIds(board.landmarks ?? [], `${prefix} trace landmark`);
+    for (const landmark of board.landmarks ?? []) {
+      if (![landmark.x, landmark.y, landmark.width, landmark.height].every(isNormalized) || landmark.width <= 0 || landmark.height <= 0 || landmark.x + landmark.width > 1 || landmark.y + landmark.height > 1) {
+        errors.push(`${prefix}: trace landmark ${landmark.id ?? '<unknown>'} must fit inside normalized board bounds`);
+      }
+    }
+    const solution = question.solution ?? {};
+    if (solution.type !== 'trace_corridor') errors.push(`${prefix}: trace_path requires trace_corridor solution`);
+    if (!Number.isInteger(solution.minPointCount) || solution.minPointCount < 2) errors.push(`${prefix}: trace minPointCount must be an integer >= 2`);
+    for (const key of ['startRadius', 'goalRadius', 'corridorRadius', 'minInCorridorRatio', 'minGuideCoverage']) {
+      if (!isNormalized(solution[key]) || solution[key] <= 0) errors.push(`${prefix}: trace solution ${key} must be > 0 and <= 1`);
+    }
   }
 
   if (interaction?.type === 'crossword') {

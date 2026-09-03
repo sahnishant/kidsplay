@@ -143,12 +143,32 @@
       "supersession": "later_exact_review_may_resolve_blocker_without_deleting_review_history"
     },
     {
+      "id": "priority-sense-resolution-004",
+      "artifactKind": "manifest_human_reviewed_projection",
+      "authorityKind": "human_reviewed_exact_sense",
+      "lifecycle": "manifest_source_generated_projection",
+      "order": 60,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-004.json",
+      "generatedPath": "content/vocabulary-visuals/batches/__generated-priority-sense-resolution-batch-004.json",
+      "supersession": "resolves_prior_unresolved_for_same_lemma_without_deleting_history"
+    },
+    {
+      "id": "priority-sense-resolution-004-reviewed-unresolved",
+      "path": "content/vocabulary-visuals/review-batches/priority-sense-resolution-004.unresolved.json",
+      "artifactKind": "human_reviewed_unresolved_reference",
+      "authorityKind": "human_reviewed_unresolved_reference",
+      "lifecycle": "committed_review_reference",
+      "order": 61,
+      "expectedGitBlobSha": "3a0e93ef0e96acd9c68a0d161c366db2c5d920bf",
+      "supersession": "later_exact_review_may_resolve_blocker_without_deleting_review_history"
+    },
+    {
       "id": "phase-c-candidate-relevance-review",
       "path": "content/vocabulary-visuals/review-batches/candidate-relevance-review-001.json",
       "artifactKind": "reviewed_relevance_blockers",
       "authorityKind": "approved_terminal_policy",
       "lifecycle": "committed_review_policy_data",
-      "order": 60,
+      "order": 70,
       "supersession": "exact_review_required_to_remove_blocker"
     },
     {
@@ -157,7 +177,7 @@
       "artifactKind": "deterministic_terminal_policy_compiler",
       "authorityKind": "approved_terminal_policy",
       "lifecycle": "internal_policy_compiler",
-      "order": 70,
+      "order": 80,
       "generatedPath": "content/vocabulary-visuals/batches/__generated-corpus-terminal-dispositions.json",
       "humanReviewQueues": [
         "content/vocabulary-visuals/__generated-priority-sense-resolution-queue.json",

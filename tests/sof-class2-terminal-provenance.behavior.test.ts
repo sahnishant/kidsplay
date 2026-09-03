@@ -34,6 +34,7 @@ describe('SOF Class 2 terminal provenance review', () => {
     const batch2Review = readJson('content/lexicon/reviews/grade-2-batch-002.json');
     const batch3Review = readJson('content/lexicon/reviews/grade-2-batch-003.json');
     const batch4Review = readJson('content/lexicon/reviews/grade-2-batch-004.json');
+    const batch5Review = readJson('content/lexicon/reviews/grade-2-batch-005.json');
 
     const memberIds = membership.members.map((member: { rowId: string }) => member.rowId);
     const exactIds = new Set<string>(exactReview.rowEvidence.map((entry: { rowId: string }) => entry.rowId));
@@ -41,16 +42,17 @@ describe('SOF Class 2 terminal provenance review', () => {
       ...reviewedPlacementRowIds(batch1Placements),
       ...reviewedPlacementRowIds(batch2Review),
       ...reviewedPlacementRowIds(batch3Review),
-      ...reviewedPlacementRowIds(batch4Review)
+      ...reviewedPlacementRowIds(batch4Review),
+      ...reviewedPlacementRowIds(batch5Review)
     ]);
     const auditedMemberIds = memberIds.filter((rowId: string) => !editorialIds.has(rowId));
     const auditedResolved = auditedMemberIds.map((rowId: string) => exactIds.has(rowId)
       ? 'exact_official_anchor'
       : 'reviewed_no_exact_public_anchor');
 
-    expect(memberIds).toHaveLength(234);
-    expect(new Set(memberIds).size).toBe(234);
-    expect(editorialIds.size).toBe(52);
+    expect(memberIds).toHaveLength(249);
+    expect(new Set(memberIds).size).toBe(249);
+    expect(editorialIds.size).toBe(67);
     expect(auditedMemberIds).toHaveLength(182);
     expect(exactIds.size).toBe(27);
     expect(auditedResolved.filter((value: string) => value === 'exact_official_anchor')).toHaveLength(27);
@@ -61,11 +63,11 @@ describe('SOF Class 2 terminal provenance review', () => {
       profileRef: 'SOF_INDIA_CLASS2',
       status: 'completed',
       membershipSnapshot: {
-        directRowCount: 234,
+        directRowCount: 249,
         exactOfficialAnchorCount: 27,
         reviewedNoExactPublicAnchorCount: 155,
-        humanEditorialPlacementCount: 52,
-        terminalRowCount: 234,
+        humanEditorialPlacementCount: 67,
+        terminalRowCount: 249,
         membershipBlobSha: gitBlobSha(membershipText),
         exactReviewBlobSha: gitBlobSha(exactReviewText),
         recoveryBlobSha: gitBlobSha(recoveryText)
@@ -80,7 +82,7 @@ describe('SOF Class 2 terminal provenance review', () => {
         reviewAuthority: 'human_editor',
         reviewer: 'sahnishant',
         reviewedAt: '2026-09-03',
-        reviewedDirectRows: 52,
+        reviewedDirectRows: 67,
         disposition: 'human_editorial_placement_no_official_anchor_claim'
       },
       sourceAudit: {
@@ -91,6 +93,7 @@ describe('SOF Class 2 terminal provenance review', () => {
 
     expect(terminal.editorialPlacementReview.handoffRefs).toContain('content/lexicon/reviews/grade-2-batch-003.json');
     expect(terminal.editorialPlacementReview.handoffRefs).toContain('content/lexicon/reviews/grade-2-batch-004.json');
+    expect(terminal.editorialPlacementReview.handoffRefs).toContain('content/lexicon/reviews/grade-2-batch-005.json');
     expect(new Set(terminal.sourceAudit.recoveryLeadRefs)).toEqual(new Set(recovery.leads.map((lead: { id: string }) => lead.id)));
     for (const lead of recovery.leads) expect(lead.evidenceEligible).toBe(false);
     expect(terminal.sourceAudit.terminalMeaning).toContain('does not claim');

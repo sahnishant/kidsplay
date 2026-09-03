@@ -170,6 +170,17 @@ const validateManifestAuthority = (manifest, humanReviewedByLemma) => {
       throw new Error(`${manifest.id}: Sol Max exact-sense authority requires immutable external review evidence for every accepted row`);
     }
   }
+  if (defaultKind.requiresExternalHumanSemanticReviewEvidence && manifest.source?.kind === 'reviewed_items_file') {
+    const evidence = manifest.reviewEvidence;
+    if (evidence?.kind !== 'human_row_level_semantic_acceptance' || !Number.isInteger(evidence?.pullRequest) || evidence.pullRequest < 1 ||
+      !String(evidence?.reviewNodeId ?? '').startsWith('PRR_') ||
+      !/^[0-9a-f]{40}$/.test(String(evidence?.reviewedSemanticHeadSha ?? '')) ||
+      !String(evidence?.reviewer ?? '').trim() || !/^\d{4}-\d{2}-\d{2}T/.test(String(evidence?.submittedAt ?? '')) ||
+      evidence?.claimsHumanEditorialReview !== false || evidence?.claimsHumanSemanticReview !== true ||
+      evidence?.acceptedRows !== manifest.source?.expectedItemCount) {
+      throw new Error(`${manifest.id}: human exact-sense authority requires immutable row-level human semantic review evidence for every accepted row`);
+    }
+  }
 
   const overrideLemmas = new Set();
   for (const override of manifest.authority?.overrides ?? []) {
@@ -282,26 +293,38 @@ const validateReviewedItemsFile = (manifest) => {
     if ('knowledgeRef' in item || 'runtimeUsage' in item) throw new Error(`${manifest.id}/${lemma}: reviewed-items source cannot create runtime or knowledge authority`);
   }
 
+  const isHumanSemantic = manifest.authority?.defaultKind === 'human_reviewed_exact_sense';
+  if (isHumanSemantic) {
+    if (source.policy?.claimsHumanSemanticReview !== true || source.policy?.claimsHumanEditorialReview !== false ||
+      source.reviewBasis?.reviewNodeId !== manifest.reviewEvidence?.reviewNodeId || source.reviewBasis?.reviewer !== manifest.reviewEvidence?.reviewer ||
+      source.items.some((item) => item.reviewSource !== 'human_semantic_review')) {
+      throw new Error(`${manifest.id}: human reviewed-items source does not match its durable human semantic review evidence`);
+    }
+  }
+
   const projection = {
     ...source,
     status: manifest.status,
     reviewBasis: {
       ...(source.reviewBasis ?? {}),
-      authorityCorrection: 'Historical source mislabeled the tranche as human review; the generated projection uses the immutable Sol Max row-level acceptance evidence recorded in the manifest.'
+      ...(isHumanSemantic
+        ? { authorityBinding: 'Generated projection is bound to immutable row-level human semantic review evidence recorded in the manifest.' }
+        : { authorityCorrection: 'Historical source mislabeled the tranche as human review; the generated projection uses the immutable Sol Max row-level acceptance evidence recorded in the manifest.' })
     },
     reviewEvidence: manifest.reviewEvidence,
     policy: {
       ...(source.policy ?? {}),
       claimsHumanEditorialReview: false,
+      ...(isHumanSemantic ? { claimsHumanSemanticReview: true } : {}),
       runtimeMappingCreated: false
     },
     items: source.items.map((item) => ({
       ...item,
-      reviewSource: 'sol_max_reviewed_exact_sense',
-      reviewDisposition: 'sol_max_selected_exact_candidate',
+      reviewSource: isHumanSemantic ? 'human_reviewed_exact_sense' : 'sol_max_reviewed_exact_sense',
+      reviewDisposition: isHumanSemantic ? 'human_selected_exact_candidate' : 'sol_max_selected_exact_candidate',
       sourceTrace: {
         ...item.sourceTrace,
-        candidateReviewStatus: 'sol_max_accepted'
+        candidateReviewStatus: isHumanSemantic ? 'human_accepted' : 'sol_max_accepted'
       }
     }))
   };

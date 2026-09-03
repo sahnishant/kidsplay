@@ -10,10 +10,14 @@ const relevanceReviewPath = 'content/vocabulary-visuals/review-batches/candidate
 const inventoryPath = 'content/vocabulary-visuals/review-batches/artifact-inventory.json';
 const reviewLedgerPath = 'content/vocabulary-visuals/review-batches/ledger.json';
 const inventory = readJson(inventoryPath);
-const reviewedUnresolvedPaths = (inventory.semanticSources ?? [])
-  .filter((entry) => entry.authorityKind === 'sol_max_reviewed_unresolved_reference' && entry.path)
-  .sort((left, right) => (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) || left.id.localeCompare(right.id))
-  .map((entry) => entry.path);
+const reviewedUnresolvedAuthorityKinds = new Set([
+  'sol_max_reviewed_unresolved_reference',
+  'human_reviewed_unresolved_reference'
+]);
+const reviewedUnresolvedSources = (inventory.semanticSources ?? [])
+  .filter((entry) => reviewedUnresolvedAuthorityKinds.has(entry.authorityKind) && entry.path)
+  .sort((left, right) => (left.order ?? Number.MAX_SAFE_INTEGER) - (right.order ?? Number.MAX_SAFE_INTEGER) || left.id.localeCompare(right.id));
+const reviewedUnresolvedPaths = reviewedUnresolvedSources.map((entry) => entry.path);
 if (!reviewedUnresolvedPaths.length) throw new Error('At least one reviewed-unresolved reference must be inventoried');
 
 const corpus = readJson('content/lexicon/open/primary-grade-corpus.json');
@@ -68,26 +72,33 @@ for (const entry of reviewLedger.batches ?? []) {
 
 const reviewedUnresolvedByLemma = new Map();
 const allowedUnresolvedDispositions = new Set(['proposal_rejected_back_to_unresolved', 'unresolved_confirmed']);
-for (const reviewedUnresolvedPath of reviewedUnresolvedPaths) {
+for (const reviewedUnresolvedSource of reviewedUnresolvedSources) {
+  const reviewedUnresolvedPath = reviewedUnresolvedSource.path;
   const reviewedUnresolved = readJson(reviewedUnresolvedPath);
+  const authorityKind = reviewedUnresolvedSource.authorityKind;
+  const humanSemanticReview = authorityKind === 'human_reviewed_unresolved_reference';
   if (
     reviewedUnresolved?.schemaVersion !== 1 ||
     !Number.isInteger(reviewedUnresolved?.issueRef) || reviewedUnresolved.issueRef < 1 ||
     reviewedUnresolved?.parentIssueRef !== 76 ||
-    reviewedUnresolved?.authorityKind !== 'sol_max_reviewed_unresolved_reference' ||
-    reviewedUnresolved?.status !== 'sol_max_reviewed_unresolved_reference'
+    reviewedUnresolved?.authorityKind !== authorityKind ||
+    reviewedUnresolved?.status !== authorityKind
   ) {
-    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference must use schemaVersion 1, parent #76 and the non-resolving Sol Max reference authority`);
+    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference must use schemaVersion 1, parent #76 and its inventoried non-resolving review authority`);
   }
   const unresolvedEvidence = reviewedUnresolved.reviewEvidence ?? {};
+  const expectedEvidenceKind = humanSemanticReview
+    ? 'human_row_level_unresolved_acceptance'
+    : 'sol_max_row_level_unresolved_acceptance';
   if (
-    unresolvedEvidence.kind !== 'sol_max_row_level_unresolved_acceptance' ||
+    unresolvedEvidence.kind !== expectedEvidenceKind ||
     !Number.isInteger(unresolvedEvidence.pullRequest) || unresolvedEvidence.pullRequest < 1 ||
     !String(unresolvedEvidence.reviewNodeId ?? '').startsWith('PRR_') ||
     !/^[0-9a-f]{40}$/.test(String(unresolvedEvidence.reviewedSemanticHeadSha ?? '')) ||
-    unresolvedEvidence.claimsHumanEditorialReview !== false
+    unresolvedEvidence.claimsHumanEditorialReview !== false ||
+    (humanSemanticReview && (!String(unresolvedEvidence.reviewer ?? '').trim() || unresolvedEvidence.claimsHumanSemanticReview !== true))
   ) {
-    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference requires immutable non-human-editorial external review evidence`);
+    throw new Error(`${reviewedUnresolvedPath}: reviewed-unresolved reference requires immutable external review evidence matching its authority kind`);
   }
   const unresolvedPolicy = reviewedUnresolved.policy ?? {};
   for (const key of [
@@ -123,7 +134,8 @@ for (const reviewedUnresolvedPath of reviewedUnresolvedPaths) {
     reviewedUnresolvedByLemma.set(lemma, {
       ...entry,
       reviewSource: reviewedUnresolvedPath,
-      reviewNodeId: unresolvedEvidence.reviewNodeId
+      reviewNodeId: unresolvedEvidence.reviewNodeId,
+      reviewAuthorityKind: authorityKind
     });
     reviewedRows += 1;
   }
@@ -192,7 +204,8 @@ for (const lemma of meaningQueueLemmas) {
       reviewedUnresolvedReasonCode: reviewedUnresolvedEntry.reasonCode,
       reviewedUnresolvedReviewDisposition: reviewedUnresolvedEntry.reviewDisposition,
       reviewedUnresolvedReviewSource: reviewedUnresolvedEntry.reviewSource,
-      reviewedUnresolvedReviewNodeId: reviewedUnresolvedEntry.reviewNodeId
+      reviewedUnresolvedReviewNodeId: reviewedUnresolvedEntry.reviewNodeId,
+      reviewedUnresolvedReviewAuthorityKind: reviewedUnresolvedEntry.reviewAuthorityKind
     } : {})
   });
 }

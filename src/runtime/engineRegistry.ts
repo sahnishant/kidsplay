@@ -6,6 +6,7 @@ import MazePath from '../engines/MazePath.svelte';
 import MemoryPairs from '../engines/MemoryPairs.svelte';
 import SequenceOrder from '../engines/SequenceOrder.svelte';
 import SingleChoice from '../engines/SingleChoice.svelte';
+import TracePath from '../engines/LazyTracePath.svelte';
 import type { EngineComponent } from '../engines/types';
 import WordBankFill from '../engines/WordBankFill.svelte';
 import WordSearch from '../engines/WordSearch.svelte';
@@ -21,6 +22,7 @@ const engines = new Map<string, EngineComponent>([
   ['memory_pairs@1', MemoryPairs],
   ['sequence_order@1', SequenceOrder],
   ['hotspot@1', Hotspot],
+  ['trace_path@1', TracePath],
   ['crossword@1', Crossword],
   ['maze_path@1', MazePath]
 ]);
@@ -29,6 +31,7 @@ const retryCapabilities = new Map<string, EngineRetryCapability>([
   ['single_choice@1', 'reset_for_retry'],
   ['word_bank_fill@1', 'reset_for_retry'],
   ['drag_to_target@1', 'reset_for_retry'],
+  ['trace_path@1', 'reset_for_retry'],
   ['word_search@1', 'explanation_only'],
   ['memory_pairs@1', 'explanation_only'],
   ['sequence_order@1', 'explanation_only'],

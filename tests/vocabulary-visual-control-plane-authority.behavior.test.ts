@@ -14,6 +14,8 @@ const exactReviewManifestPath = 'content/vocabulary-visuals/review-batches/prior
 const exactReviewManifest2Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-002.json';
 const exactReviewManifest3Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.json';
 const reviewedUnresolvedPath3 = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-003.unresolved.json';
+const exactReviewManifest4Path = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.json';
+const reviewedUnresolvedPath4 = 'content/vocabulary-visuals/review-batches/priority-sense-resolution-004.unresolved.json';
 const phaseCBuilderPath = 'scripts/vocabulary-visuals/build-corpus-terminal-dispositions.mjs';
 const publicCompilerPath = 'scripts/vocabulary-visuals/compile-reviewed-batches.mjs';
 const blockingLemmas = ['add', 'converse', 'customs', 'gay', 'guts', 'least', 'ness', 'pants', 'principal', 'rolling', 'slight', 'so'];
@@ -60,7 +62,18 @@ describe('#76 vocabulary visual control-plane authority', () => {
     const byId = new Map(model.authorityKinds.map((entry: any) => [entry.id, entry]));
     expect(byId.get('candidate_reference')).toMatchObject({ semanticReviewAuthority: false, canCreateDisposition: false, canResolveSense: false, maxSemanticMaturity: 'V0' });
     expect(byId.get('approved_terminal_policy')).toMatchObject({ semanticReviewAuthority: true, canClaimHumanReview: false, canSelectMultiCandidate: false, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
-    expect(byId.get('human_reviewed_exact_sense')).toMatchObject({ requiresHumanCurationEvidence: true, canClaimHumanReview: true, canSelectMultiCandidate: true, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
+    expect(byId.get('human_reviewed_exact_sense')).toMatchObject({ requiresHumanCurationEvidence: true, requiresExternalHumanSemanticReviewEvidence: true, canClaimHumanReview: true, canSelectMultiCandidate: true, maxSemanticMaturity: 'V1', runtimeAuthority: 'none' });
+    expect(byId.get('human_reviewed_unresolved_reference')).toMatchObject({
+      semanticReviewAuthority: true,
+      requiresPinnedCandidateTrace: true,
+      requiresExternalHumanSemanticReviewEvidence: true,
+      canCreateDisposition: false,
+      canResolveSense: false,
+      canSelectMultiCandidate: false,
+      canClaimHumanReview: true,
+      maxSemanticMaturity: 'V0',
+      runtimeAuthority: 'none'
+    });
     expect(byId.get('sol_max_reviewed_exact_sense')).toMatchObject({ requiresExternalReviewEvidence: true, canClaimHumanReview: false, canSelectMultiCandidate: true, maxSemanticMaturity: 'V2', runtimeAuthority: 'none' });
     expect(byId.get('sol_max_reviewed_unresolved_reference')).toMatchObject({
       semanticReviewAuthority: true,
@@ -106,6 +119,8 @@ describe('#76 vocabulary visual control-plane authority', () => {
         path: reviewedUnresolvedPath,
         expectedGitBlobSha: 'e1d5c901525378fa00e51e0d706443e5b66b1249'
       }),
+      expect.objectContaining({ id: 'priority-sense-resolution-004', authorityKind: 'human_reviewed_exact_sense', manifest: exactReviewManifest4Path }),
+      expect.objectContaining({ id: 'priority-sense-resolution-004-reviewed-unresolved', authorityKind: 'human_reviewed_unresolved_reference', path: reviewedUnresolvedPath4 }),
       expect.objectContaining({ id: 'phase-c-candidate-relevance-review', path: relevancePath }),
       expect.objectContaining({ id: 'phase-c-corpus-terminal-policy', path: phaseCBuilderPath })
     ]));
@@ -135,7 +150,7 @@ describe('#76 vocabulary visual control-plane authority', () => {
     expect(productionSource).toContain('candidate-relevance-review-001.json');
   });
 
-  it('persists the 22 independently reviewed unresolved outcomes as non-resolving reference data', () => {
+  it('persists the 22 tranche-002 independently reviewed unresolved outcomes as non-resolving reference data', () => {
     const review = readJson(reviewedUnresolvedPath);
     expect(review).toMatchObject({
       schemaVersion: 1,
@@ -178,26 +193,27 @@ describe('#76 vocabulary visual control-plane authority', () => {
       for (const candidateId of entry.candidateIds) expect(productionSource).not.toContain(candidateId);
     }
     expect(productionSource).toContain('sol_max_reviewed_unresolved_reference');
+    expect(productionSource).toContain('human_reviewed_unresolved_reference');
   });
 
-  it('preserves exact post-#106 terminal, resolved, blocked, queue and proof-derived runtime boundaries', () => {
+  it('preserves exact post-tranche-004 terminal, resolved, blocked, queue and proof-derived runtime boundaries', () => {
     const report = reportJson();
     expect(report.corpus).toMatchObject({
       totalLemmas: 10000,
       terminalDispositionLemmas: 10000,
-      resolvedStrategyLemmas: 657,
-      blockedSenseResolutionLemmas: 9343,
-      exactReviewedSupersedingLemmas: 70,
+      resolvedStrategyLemmas: 687,
+      blockedSenseResolutionLemmas: 9313,
+      exactReviewedSupersedingLemmas: 100,
       unauditedLemmas: 0
     });
     expect(report.meaningQueue).toMatchObject({
       totalPriorityLemmas: 2400,
       terminalDispositionLemmas: 2400,
-      resolvedStrategyLemmas: 624,
-      blockedSenseResolutionLemmas: 1776,
+      resolvedStrategyLemmas: 654,
+      blockedSenseResolutionLemmas: 1746,
       auditedLemmaPercent: 100
     });
-    expect(report.senseResolutionQueue.items).toBe(1776);
+    expect(report.senseResolutionQueue.items).toBe(1746);
     expect(report.corpusSenseResolutionQueue.items).toBe(7565);
     expect(report.runtime).toMatchObject(expectedRuntimeProofAccounting());
     expect(report.summary.errors).toBe(0);

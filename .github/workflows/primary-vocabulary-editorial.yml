@@ -71,7 +71,7 @@ jobs:
           tar -xzf "/tmp/${LIGHTNING_TARBALL}" -C node_modules/lightningcss-linux-x64-gnu --strip-components=1
           node -e "require('@rolldown/binding-linux-x64-gnu'); require('lightningcss')"
 
-      - name: Regenerate blocked Grade 1 and Grade 2 editorial packets through batch 004
+      - name: Regenerate blocked Grade 1 and Grade 2 editorial packets through batch 005
         run: |
           npm run lexicon:prepare:editorial:grade1
           npm run lexicon:prepare:editorial:grade2
@@ -83,11 +83,15 @@ jobs:
           npm run lexicon:export:review-slice -- --sense-review content/lexicon/open/sense-review/grade-2-introduced-meaning-oewn.json --wordlist content/lexicon/open/review-wordlists/grade-2-introduced-meaning.json --output content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --limit 80
           npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review-080.json --output content/lexicon/editorial-packets/grade-1-batch-004.json --batch-id grade-1-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
           npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --output content/lexicon/editorial-packets/grade-2-batch-004.json --batch-id grade-2-batch-004 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-1-meaning-review-080.json --output content/lexicon/editorial-packets/grade-1-batch-005.json --batch-id grade-1-batch-005 --limit 16 --exclude-reviews content/lexicon/reviews/grade-1-batch-001.json,content/lexicon/reviews/grade-1-batch-002.json,content/lexicon/reviews/grade-1-batch-003.json,content/lexicon/reviews/grade-1-batch-004.json --profile-targets CBSE_INDIA_CLASS1,CISCE_INDIA_CLASS1
+          npm run lexicon:prepare:editorial -- --slice content/lexicon/open/curator-slices/grade-2-meaning-review-080.json --output content/lexicon/editorial-packets/grade-2-batch-005.json --batch-id grade-2-batch-005 --limit 16 --exclude-reviews content/lexicon/reviews/grade-2-batch-001.json,content/lexicon/reviews/grade-2-batch-002.json,content/lexicon/reviews/grade-2-batch-003.json,content/lexicon/reviews/grade-2-batch-004.json --profile-targets CBSE_INDIA_CLASS2,CISCE_INDIA_CLASS2,SOF_INDIA_CLASS2
           git diff --exit-code -- \
             content/lexicon/open/curator-slices/grade-1-meaning-review-080.json \
             content/lexicon/open/curator-slices/grade-2-meaning-review-080.json \
             content/lexicon/editorial-packets/grade-1-batch-004.json \
-            content/lexicon/editorial-packets/grade-2-batch-004.json
+            content/lexicon/editorial-packets/grade-2-batch-004.json \
+            content/lexicon/editorial-packets/grade-1-batch-005.json \
+            content/lexicon/editorial-packets/grade-2-batch-005.json
 
       - name: Keep AI drafts blocked from human authority
         run: |
@@ -97,6 +101,8 @@ jobs:
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-003.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-003-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-003.ai-draft.json
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-1-batch-004.json --overlay content/lexicon/ai-draft-overlays/grade-1-batch-004-ai-draft-001.json --output content/lexicon/editorial-packets/grade-1-batch-004.ai-draft.json
           npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-004.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-004-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-004.ai-draft.json
+          npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-1-batch-005.json --overlay content/lexicon/ai-draft-overlays/grade-1-batch-005-ai-draft-001.json --output content/lexicon/editorial-packets/grade-1-batch-005.ai-draft.json
+          npm run lexicon:apply:ai-draft -- --packet content/lexicon/editorial-packets/grade-2-batch-005.json --overlay content/lexicon/ai-draft-overlays/grade-2-batch-005-ai-draft-001.json --output content/lexicon/editorial-packets/grade-2-batch-005.ai-draft.json
           node --input-type=module <<'NODE'
           import { readFileSync } from 'node:fs';
           const proofs = [
@@ -105,7 +111,9 @@ jobs:
             { grade: 1, batch: '003', suggestions: 13, intentionallyUndrafted: ['experience', 'natural', 'once'] },
             { grade: 2, batch: '003', suggestions: 15, intentionallyUndrafted: ['appear'] },
             { grade: 1, batch: '004', suggestions: 12, intentionallyUndrafted: ['earth', 'well', 'move', 'long'] },
-            { grade: 2, batch: '004', suggestions: 13, intentionallyUndrafted: ['region', 'sun', 'subject'] }
+            { grade: 2, batch: '004', suggestions: 13, intentionallyUndrafted: ['region', 'sun', 'subject'] },
+            { grade: 1, batch: '005', suggestions: 16, intentionallyUndrafted: [] },
+            { grade: 2, batch: '005', suggestions: 16, intentionallyUndrafted: [] }
           ];
           for (const proof of proofs) {
             const path = `content/lexicon/editorial-packets/grade-${proof.grade}-batch-${proof.batch}.ai-draft.json`;
@@ -161,7 +169,7 @@ jobs:
               if (entry.meta?.curation?.sourceGlossCopied !== false) throw new Error(`${entry.id}: source gloss boundary failed`);
             }
           }
-          if (globallySeen.size !== 103) throw new Error(`Expected 103 reviewed runtime meanings across batches 001-004, got ${globallySeen.size}`);
+          if (globallySeen.size !== 133) throw new Error(`Expected 133 reviewed runtime meanings across batches 001-005, got ${globallySeen.size}`);
           const batch3 = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed-batch-003.json', 'utf8'))[0]?.entries ?? [];
           if (batch3.length !== 32) throw new Error(`Expected 32 batch-003 rows, got ${batch3.length}`);
           const expectedSenses = new Map([['experience','experience#n#3'],['natural','natural#a#2'],['once','once#r#1'],['appear','appear#v#2']]);
@@ -169,13 +177,21 @@ jobs:
             const row = batch3.find((entry) => entry.id === lemma);
             if (row?.meta?.curation?.candidateId !== candidateId) throw new Error(`${lemma}: expected ${candidateId}`);
           }
+          const batch5 = JSON.parse(readFileSync('content/knowledge/english-vocabulary-primary-reviewed-batch-005.json', 'utf8'))[0]?.entries ?? [];
+          if (batch5.length !== 30) throw new Error(`Expected 30 batch-005 rows, got ${batch5.length}`);
+          if (batch5.some((entry) => entry.id === 'break' || entry.id === 'ride')) throw new Error('Batch 005 HOLD rows must not become runtime meanings');
+          const hurt = batch5.find((entry) => entry.id === 'hurt');
+          if (hurt?.object?.label !== 'To hurt means to be painful.') throw new Error('Batch 005 hurt wording does not match the human review');
           NODE
           git diff --exit-code -- content/knowledge/english-vocabulary-primary-reviewed.json content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
 
       - name: Compile and run vocabulary production acceptance suite
         run: |
           npm run test:vocabulary-corpus
-          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/primary-vocabulary-editorial-batch-003.behavior.test.ts tests/primary-vocabulary-editorial-batch-004.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-batch-004-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
+          npx vitest run tests/primary-vocabulary-editorial-batch-002.behavior.test.ts tests/primary-vocabulary-editorial-batch-003.behavior.test.ts tests/primary-vocabulary-editorial-batch-004.behavior.test.ts tests/primary-vocabulary-editorial-batch-005.behavior.test.ts tests/vocabulary-reviewed-batch-002-production.behavior.test.ts tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-batch-004-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts
+
+      - name: Run full repository check
+        run: npm run check
 
       - name: Upload editorial and reviewed production proof
         uses: actions/upload-artifact@v7
@@ -196,6 +212,10 @@ jobs:
             content/lexicon/editorial-packets/grade-2-batch-004.json
             content/lexicon/editorial-packets/grade-1-batch-004.ai-draft.json
             content/lexicon/editorial-packets/grade-2-batch-004.ai-draft.json
+            content/lexicon/editorial-packets/grade-1-batch-005.json
+            content/lexicon/editorial-packets/grade-2-batch-005.json
+            content/lexicon/editorial-packets/grade-1-batch-005.ai-draft.json
+            content/lexicon/editorial-packets/grade-2-batch-005.ai-draft.json
             content/lexicon/reviews/grade-1-batch-001.json
             content/lexicon/reviews/grade-2-batch-001.json
             content/lexicon/reviews/grade-1-batch-001-profile-placements.json
@@ -206,12 +226,17 @@ jobs:
             content/lexicon/reviews/grade-2-batch-003.json
             content/lexicon/reviews/grade-1-batch-004.json
             content/lexicon/reviews/grade-2-batch-004.json
+            content/lexicon/reviews/grade-1-batch-005.json
+            content/lexicon/reviews/grade-2-batch-005.json
             content/knowledge/english-vocabulary-primary-reviewed.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-002.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-003.json
             content/knowledge/english-vocabulary-primary-reviewed-batch-004.json
+            content/knowledge/english-vocabulary-primary-reviewed-batch-005.json
             content/learnables/primary-vocabulary-reviewed-batch-003.json
             content/learnables/primary-vocabulary-reviewed-batch-004.json
+            content/learnables/primary-vocabulary-reviewed-batch-005.json
             content/recipes/primary-vocabulary-reviewed-delivery-batch-003.json
             content/recipes/primary-vocabulary-reviewed-delivery-batch-004.json
+            content/recipes/primary-vocabulary-reviewed-delivery-batch-005.json
           if-no-files-found: error

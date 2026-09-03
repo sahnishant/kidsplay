@@ -1,0 +1,15 @@
+{
+  "id": "free.trace-playground.1",
+  "kind": "learning_pack",
+  "title": "Trace & Discover",
+  "description": "Trace simple paths to explore where things move and where they belong.",
+  "status": "prototype",
+  "actionLabel": "Trace paths",
+  "catalogVisible": true,
+  "access": { "type": "free" },
+  "questionRefs": [
+    "phaseg.trace.under.bridge.001",
+    "phaseg.trace.inside.box.001",
+    "phaseg.trace.pull.toward.001"
+  ]
+}

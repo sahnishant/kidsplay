@@ -32,6 +32,12 @@
       "sequence": 6,
       "issueRef": 151,
       "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-003.json"
+    },
+    {
+      "id": "priority-sense-resolution-004",
+      "sequence": 7,
+      "issueRef": 76,
+      "manifest": "content/vocabulary-visuals/review-batches/priority-sense-resolution-004.json"
     }
   ]
 }
