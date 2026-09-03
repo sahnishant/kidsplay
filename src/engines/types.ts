@@ -9,6 +9,7 @@ export interface EngineProps<Q extends Question = Question> {
   onSubmit: (response: unknown) => void;
   checkResponse: (response: unknown) => EvaluationResult;
   submissionMode?: EngineSubmissionMode;
+  soundEnabled?: boolean;
 }
 
 export type EngineComponent = Component<any>;
