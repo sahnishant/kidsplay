@@ -86,123 +86,25 @@
           {#if visual.hasVisuals}
             <SemanticVisualPresenter
               presentation={visual}
-              class="memory-card__visuals"
-              itemClass="memory-card__visual"
-              compoundClass="memory-card__visuals--compound"
+              style="display:flex;align-items:center;justify-content:center;gap:3px;width:min(72px,100%);height:50px;min-width:0;overflow:hidden;margin:auto"
+              itemStyle="display:block;width:48px;height:46px;min-width:0;min-height:0;overflow:hidden"
             />
           {:else if card.symbol}
             <span class="memory-card__symbol">{card.symbol}</span>
           {/if}
-          <span class="memory-card__label">{card.label}</span>
+          <span
+            class="memory-card__label"
+            style="display:-webkit-box;max-width:100%;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow-wrap:anywhere"
+          >{card.label}</span>
         </span>
         {#if matchedCardIds.includes(card.id)}
-          <span class="memory-card__match-tick" aria-hidden="true">✓</span>
+          <span
+            aria-hidden="true"
+            style="position:absolute;top:5px;right:5px;z-index:3;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--good);color:#fff;font-size:.82rem;font-weight:950;pointer-events:none"
+          >✓</span>
         {/if}
       </button>
     {/each}
   </div>
   <div class="memory-pairs__status" role="status" aria-live="polite">{status}</div>
 </div>
-
-<style>
-  :global(.memory-card__visuals) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    width: min(72px, 100%);
-    height: 54px;
-    min-width: 0;
-    min-height: 0;
-    margin: 0 auto 2px;
-    overflow: hidden;
-  }
-
-  :global(.memory-card__visuals--compound) {
-    width: min(88px, 100%);
-  }
-
-  :global(.memory-card__visual) {
-    width: 50px;
-    height: 46px;
-    min-width: 0;
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  :global(.memory-card__visuals--compound .memory-card__visual) {
-    width: 39px;
-    height: 39px;
-  }
-
-  .memory-card__front :global(.visual-recipe) {
-    width: 100% !important;
-    height: 54px !important;
-    min-height: 0 !important;
-    max-height: 54px !important;
-    gap: 0 !important;
-    margin: 0 !important;
-    overflow: hidden !important;
-  }
-
-  .memory-card__front :global(.visual-recipe__row) {
-    width: 100% !important;
-    height: 100% !important;
-    min-height: 0 !important;
-    gap: 2px !important;
-    overflow: hidden !important;
-  }
-
-  .memory-card__front :global(.visual-recipe__slot) {
-    width: min(40px, 31%) !important;
-    height: 42px !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
-    overflow: hidden !important;
-  }
-
-  .memory-card__front :global(.visual-recipe__connector) {
-    font-size: .7rem !important;
-  }
-
-  .memory-card__front :global(.visual-recipe__slot-label),
-  .memory-card__front :global(.visual-recipe figcaption) {
-    display: none !important;
-  }
-
-  .memory-card__front :global(section[data-semantic-depth-mode]),
-  .memory-card__front :global(section.compact[data-semantic-depth-mode]) {
-    width: 100% !important;
-    height: 54px !important;
-    min-height: 0 !important;
-    max-height: 54px !important;
-    overflow: hidden !important;
-  }
-
-  .memory-card__front :global(svg),
-  .memory-card__front :global(img),
-  .memory-card__front :global(.direct-entity) {
-    max-width: 100% !important;
-    max-height: 100% !important;
-  }
-
-  .memory-card__match-tick {
-    position: absolute;
-    top: 6px;
-    right: 6px;
-    z-index: 3;
-    width: 24px;
-    height: 24px;
-    display: grid;
-    place-items: center;
-    border: 2px solid rgba(255,255,255,.9);
-    border-radius: 999px;
-    background: var(--good);
-    color: #fff;
-    font-size: .82rem;
-    font-weight: 950;
-    line-height: 1;
-    box-shadow: 0 3px 8px rgba(24, 135, 72, .2);
-    pointer-events: none;
-  }
-</style>
