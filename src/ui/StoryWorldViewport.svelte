@@ -102,6 +102,10 @@
     return changes.map((change) => change.title).join(', ');
   }
 
+  function changeIcons(changes: WorldChange[]): string {
+    return changes.slice(-2).map((change) => change.icon).join('');
+  }
+
   function closeMissionFromBack(): void {
     selectedMissionId = null;
     missionBeatIndex = 0;
@@ -167,28 +171,19 @@
       <div class="world-progress" aria-label={`${unlockedPlaces} of ${locations.length} places open; ${completedPlaces} complete; ${worldState.totalChanges > 0 ? 'learning has changed the world' : 'world ready to grow'}`}>
         <span><strong>{completedPlaces}</strong> done</span>
         <span><strong>{unlockedPlaces}/{locations.length}</strong> open</span>
-        <span class="world-progress__growth"><strong>🌍 {worldState.totalChanges > 0 ? 'changed' : 'ready'}</strong></span>
+        <span><strong>🌍 {worldState.totalChanges > 0 ? 'changed' : 'ready'}</strong></span>
       </div>
 
       {#if worldState.collectibles.length > 0 || worldState.discoveries.length > 0 || worldState.trophies.length > 0}
-        <div class="world-keepsakes" aria-label="Persistent learning keepsakes">
+        <div class="world-progress" style="right:auto;left:7px" aria-label="Persistent learning keepsakes">
           {#if worldState.collectibles.length > 0}
-            <span class="world-keepsake" role="group" aria-label={`Backpack collectibles: ${changeNames(worldState.collectibles)}`}>
-              <strong aria-hidden="true">🎒</strong>
-              {#each worldState.collectibles.slice(-2) as change}<span aria-hidden="true">{change.icon}</span>{/each}
-            </span>
+            <span role="group" aria-label={`Backpack collectibles: ${changeNames(worldState.collectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldState.collectibles)}</strong></span>
           {/if}
           {#if worldState.discoveries.length > 0}
-            <span class="world-keepsake" role="group" aria-label={`Lab and science discoveries: ${changeNames(worldState.discoveries)}`}>
-              <strong aria-hidden="true">🔬</strong>
-              {#each worldState.discoveries.slice(-2) as change}<span aria-hidden="true">{change.icon}</span>{/each}
-            </span>
+            <span role="group" aria-label={`Lab and science discoveries: ${changeNames(worldState.discoveries)}`}><strong aria-hidden="true">🔬{changeIcons(worldState.discoveries)}</strong></span>
           {/if}
           {#if worldState.trophies.length > 0}
-            <span class="world-keepsake" role="group" aria-label={`Puzzle trophies: ${changeNames(worldState.trophies)}`}>
-              <strong aria-hidden="true">🏆</strong>
-              {#each worldState.trophies.slice(-2) as change}<span aria-hidden="true">{change.icon}</span>{/each}
-            </span>
+            <span role="group" aria-label={`Puzzle trophies: ${changeNames(worldState.trophies)}`}><strong aria-hidden="true">🏆{changeIcons(worldState.trophies)}</strong></span>
           {/if}
         </div>
       {/if}
@@ -254,12 +249,11 @@
   .story-world-viewport{height:100%;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr);gap:6px;padding:7px;border-radius:20px;background:linear-gradient(#f7fbff,#fff9e7);overflow:hidden}
   .next-adventure{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 9px;border-radius:14px;background:#fffffff2}.next-adventure__copy{min-width:0}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.next-adventure h2{margin:1px 0 2px;font-size:clamp(1rem,3.4vw,1.3rem);line-height:1}.next-adventure p{margin:0;color:var(--muted);font-size:.6rem;font-weight:750}.next-adventure p strong{color:var(--accent)}.next-adventure__guides{display:flex;gap:3px;flex:none}.next-adventure__guides>span{width:32px;height:32px;display:grid;place-items:center}
   .world-stage{min-height:0;position:relative;overflow:hidden;border-radius:17px}.world-map{position:absolute;inset:0;overflow:hidden;border-radius:17px;background:linear-gradient(180deg,#dff4ff 0 28%,#dff3cf 28%)}.world-map__river{position:absolute;width:150%;height:14%;left:-18%;top:54%;border-radius:50%;background:#51b0e1b3;transform:rotate(-8deg)}.world-map__path{position:absolute;width:70%;height:4.5%;min-height:14px;left:8%;top:72%;border-radius:999px;background:#cbaa7791;transform:rotate(5deg)}
-  .world-progress{position:absolute;top:7px;right:7px;z-index:8;display:flex;gap:4px}.world-progress span{padding:3px 7px;border-radius:999px;background:#ffffffe6;color:var(--muted);font-size:.53rem;font-weight:800}.world-progress strong{color:var(--ink)}.world-progress__growth{background:var(--good-soft)!important}.world-progress__growth strong{color:var(--good)}
-  .world-keepsakes{position:absolute;top:7px;left:7px;z-index:9;display:flex;gap:4px;pointer-events:none}.world-keepsake{min-height:25px;display:inline-flex;align-items:center;gap:2px;padding:3px 6px;border:1px solid #24303a12;border-radius:999px;background:#fffffff0;box-shadow:0 2px 7px #24303a18;font-size:.72rem}.world-keepsake strong{font-size:.78rem}
+  .world-progress{position:absolute;top:7px;right:7px;z-index:8;display:flex;gap:4px}.world-progress span{padding:3px 7px;border-radius:999px;background:#ffffffe6;color:var(--muted);font-size:.53rem;font-weight:800}.world-progress strong{color:var(--ink)}
   .mission-overlay{position:absolute;inset:0;z-index:20;min-height:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:7px;padding:9px;border-radius:17px;background:linear-gradient(160deg,#f4f0ff,#fff9e9)}.mission-overlay__header{display:flex;align-items:center;gap:8px}.mission-close{width:40px;height:40px;flex:none;border:0;border-radius:12px;color:var(--accent);font-weight:950;cursor:pointer}.mission-overlay__title{min-width:0;flex:1}.mission-overlay__title h3{margin:2px 0 0;font-size:1rem}.mission-beat-count{padding:4px 6px;border-radius:999px;color:var(--muted);font-size:.6rem;font-weight:850}
   .mission-overlay__body{min-height:0;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);grid-template-rows:minmax(0,1fr) auto;gap:7px;overflow:hidden}.mission-scene{min-height:0;grid-row:1/3;overflow:hidden;border-radius:14px}.mission-challenge{display:flex;align-items:center;gap:7px;padding:8px}.mission-character{width:44px;height:44px;flex:none}.mission-challenge div{display:grid}.mission-challenge strong{font-size:.76rem}.mission-challenge span{color:var(--muted);font-size:.62rem}.mission-dialogue{display:grid;align-items:end}.mission-dialogue p{margin:0;display:grid;padding:9px;font-size:.7rem;line-height:1.3}.mission-dialogue p strong{color:var(--accent)}
   .mission-overlay__actions{display:grid;grid-template-columns:1fr auto;gap:6px}.mission-start,.mission-later{min-height:42px;border:0;border-radius:13px;padding:7px 12px;font:inherit;font-weight:900;cursor:pointer}.mission-start{background:var(--accent);color:#fff}.mission-later{background:#fff;color:var(--muted)}
-  @media(max-width:600px){.story-world-viewport{padding:5px}.next-adventure{min-height:49px}.next-adventure p{display:none}.world-progress span:first-child{display:none}.world-keepsake{padding:2px 4px}.mission-overlay__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.mission-scene{grid-row:auto}.mission-character{width:36px;height:36px}}
-  @media(max-width:420px){.next-adventure__guides{display:none}.world-progress span{padding:2px 5px}.world-keepsakes{top:4px;left:4px;gap:2px}.world-keepsake{min-height:21px;font-size:.62rem}.mission-overlay{padding:6px}.mission-overlay__actions{grid-template-columns:1fr}}
+  @media(max-width:600px){.story-world-viewport{padding:5px}.next-adventure{min-height:49px}.next-adventure p{display:none}.world-progress span:first-child{display:none}.mission-overlay__body{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto auto}.mission-scene{grid-row:auto}.mission-character{width:36px;height:36px}}
+  @media(max-width:420px){.next-adventure__guides{display:none}.world-progress span{padding:2px 5px}.mission-overlay{padding:6px}.mission-overlay__actions{grid-template-columns:1fr}}
   @media(prefers-reduced-motion:reduce){.next-adventure__guides :global(*){animation:none!important}}
 </style>
