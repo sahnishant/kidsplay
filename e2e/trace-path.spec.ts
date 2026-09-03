@@ -127,6 +127,6 @@ test('Trace & Discover gives honest retry and completes three pointer traces wit
   }
 
   expect(completed).toEqual(new Set(traceCases.map((traceCase) => traceCase.prompt)));
-  await expect(page.getByRole('heading', { name: /Nice work, Dheu/ })).toBeVisible({ timeout: 7_000 });
+  await expect(page.locator('.completion-viewport').getByRole('heading', { name: /^Nice work,/ })).toBeVisible({ timeout: 7_000 });
   await expectNoHorizontalOverflow(page);
 });
