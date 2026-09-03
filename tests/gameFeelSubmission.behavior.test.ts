@@ -254,7 +254,7 @@ describe('child game-feel submission policy', () => {
     expect(screen.getByRole('heading', { name: 'Second choice.' })).toBeTruthy();
   });
 
-  it('keeps incorrect teaching feedback visible until the child continues', async () => {
+  it('keeps incorrect teaching feedback visible until the child explicitly retries', async () => {
     vi.useFakeTimers();
     render(Session, {
       props: {
@@ -268,11 +268,15 @@ describe('child game-feel submission policy', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'No' }));
-    expect(screen.getByRole('status').textContent).toContain('Try again.');
-    expect(screen.getByRole('button', { name: 'Next' })).toBeTruthy();
+    expect(screen.getByRole('status').textContent).toContain('Try another way.');
+    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
 
     await vi.advanceTimersByTimeAsync(5000);
-    expect(screen.getByRole('status').textContent).toContain('Try again.');
+    expect(screen.getByRole('status').textContent).toContain('Try another way.');
+    expect(screen.queryByRole('heading', { name: 'Next choice.' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
+    expect(screen.getByRole('heading', { name: 'Try this choice.' })).toBeTruthy();
     expect(screen.queryByRole('heading', { name: 'Next choice.' })).toBeNull();
   });
 

@@ -2,11 +2,13 @@ import { describe, expect, it } from 'vitest';
 import type { SingleChoiceQuestion } from '../src/contracts/question';
 import type { EvaluationResult } from '../src/contracts/runtime';
 import { getFreeAnimalsQuestions } from '../src/content';
-import { getEngineComponent } from '../src/runtime/engineRegistry';
+import { getEngineComponent, getEngineRetryCapability } from '../src/runtime/engineRegistry';
+import { resolveRetryPolicy } from '../src/runtime/retryPolicy';
 import {
   advanceSession,
   createSessionCheckpoint,
   createSessionState,
+  prepareRetry,
   replaySession,
   restoreSessionState,
   submitResponse,
@@ -61,6 +63,7 @@ describe('session state and engine hosting', () => {
     const first = submitResponse(state, question, { selectedOptionIds: ['dog'] });
     expect(first?.correct).toBe(true);
     expect(state.responses).toHaveLength(1);
+    expect(state.attemptHistory).toHaveLength(1);
     expect(state.results).toHaveLength(1);
     expect(state.submitted).toBe(true);
 
@@ -77,7 +80,66 @@ describe('session state and engine hosting', () => {
     expect(state.sessionId).not.toBe(originalSessionId);
     expect(state.index).toBe(0);
     expect(state.responses).toHaveLength(0);
+    expect(state.attemptHistory).toHaveLength(0);
     expect(state.results).toHaveLength(0);
+  });
+
+  it('keeps the first independent response immutable while a later retry completes the item', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+
+    const firstResult = submitResponse(state, question, { selectedOptionIds: ['whale'] });
+    const firstResponse = state.attemptHistory[0];
+    expect(firstResult?.correct).toBe(false);
+    expect(firstResponse).toMatchObject({ attempts: 1, attemptKind: 'independent', assistanceKinds: [] });
+
+    expect(prepareRetry(state, question)).toBe(true);
+    expect(state.submitted).toBe(false);
+    expect(state.retryState).toMatchObject({ attemptNumber: 2, assistanceKinds: [] });
+
+    const retryResult = submitResponse(state, question, { selectedOptionIds: ['dog'] });
+    expect(retryResult?.correct).toBe(true);
+    expect(state.responses).toHaveLength(1);
+    expect(state.results).toHaveLength(1);
+    expect(state.results[0].correct).toBe(true);
+    expect(state.responses[0]).toMatchObject({ attempts: 2, attemptKind: 'retry', assistanceKinds: [] });
+    expect(state.attemptHistory).toHaveLength(2);
+    expect(state.attemptHistory[0]).toEqual(firstResponse);
+    expect(state.attemptHistory[0].response).toEqual({ selectedOptionIds: ['whale'] });
+  });
+
+  it('persists an open assisted retry and its original wrong evidence through checkpoint restore', () => {
+    const question = testQuestion();
+    const state = createSessionState();
+    submitResponse(state, question, { selectedOptionIds: ['whale'] });
+
+    expect(prepareRetry(state, question)).toBe(true);
+    submitResponse(state, question, { selectedOptionIds: ['whale'] });
+    expect(prepareRetry(state, question, ['explanation', 'visual_scaffold'])).toBe(true);
+
+    const checkpoint = createSessionCheckpoint(state);
+    const restored = restoreSessionState([question], checkpoint);
+
+    expect(restored.submitted).toBe(false);
+    expect(restored.responses).toHaveLength(1);
+    expect(restored.attemptHistory).toHaveLength(2);
+    expect(restored.attemptHistory[0]).toMatchObject({ attempts: 1, attemptKind: 'independent' });
+    expect(restored.attemptHistory[1]).toMatchObject({ attempts: 2, attemptKind: 'retry' });
+    expect(restored.retryState).toEqual({
+      questionId: question.id,
+      attemptNumber: 3,
+      assistanceKinds: ['explanation', 'visual_scaffold']
+    });
+
+    const recovered = submitResponse(restored, question, { selectedOptionIds: ['dog'] });
+    expect(recovered?.correct).toBe(true);
+    expect(restored.responses[0]).toMatchObject({
+      attempts: 3,
+      attemptKind: 'retry',
+      assistanceKinds: ['explanation', 'visual_scaffold']
+    });
+    expect(restored.attemptHistory).toHaveLength(3);
+    expect(restored.attemptHistory[0].response).toEqual({ selectedOptionIds: ['whale'] });
   });
 
   it('restores submitted feedback from a compact checkpoint without trusting stored scores', () => {
@@ -92,6 +154,7 @@ describe('session state and engine hosting', () => {
     expect(restored.index).toBe(0);
     expect(restored.submitted).toBe(true);
     expect(restored.responses).toEqual(state.responses);
+    expect(restored.attemptHistory).toEqual(state.attemptHistory);
     expect(restored.results).toHaveLength(1);
     expect(restored.results[0].correct).toBe(true);
     expect(restored.lastResult?.correct).toBe(true);
@@ -122,6 +185,32 @@ describe('session state and engine hosting', () => {
 
     expect(interactionTypes.size).toBe(9);
     for (const question of questions) expect(() => getEngineComponent(question)).not.toThrow();
+  });
+
+  it('declares shared safe retry support for SingleChoice plus two non-trivial engines', () => {
+    const questions = getFreeAnimalsQuestions();
+    for (const interactionType of ['single_choice', 'drag_to_target', 'word_bank_fill'] as const) {
+      const question = questions.find((candidate) => candidate.interaction.type === interactionType);
+      expect(question, `${interactionType} fixture should exist`).toBeDefined();
+      expect(getEngineRetryCapability(question!)).toBe('reset_for_retry');
+    }
+  });
+
+  it('keeps retry and scaffolding out of structured assessment modes', () => {
+    const question = testQuestion();
+    expect(resolveRetryPolicy(question, 'free_explore')).toMatchObject({
+      capability: 'reset_for_retry',
+      retryAllowed: true,
+      scaffoldAllowed: true
+    });
+    expect(resolveRetryPolicy(question, 'goal_mock')).toMatchObject({
+      retryAllowed: false,
+      scaffoldAllowed: false
+    });
+    expect(resolveRetryPolicy(question, 'goal_pattern_mock')).toMatchObject({
+      retryAllowed: false,
+      scaffoldAllowed: false
+    });
   });
 
   it('summarizes structured mock performance without mixing section boundaries or marks', () => {

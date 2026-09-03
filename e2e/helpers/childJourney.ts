@@ -17,6 +17,11 @@ export interface AnsweredQuestion {
   visualSingleChoice: boolean;
 }
 
+type IndexedLabel = {
+  index: number;
+  label: string;
+};
+
 export async function openCleanApp(page: Page): Promise<void> {
   await page.goto('/');
   await page.evaluate(() => window.localStorage.clear());
@@ -25,7 +30,11 @@ export async function openCleanApp(page: Page): Promise<void> {
 }
 
 export function sessionFeedback(page: Page): Locator {
-  return page.getByRole('status').filter({ hasText: /Nice work!|Try this idea/ }).first();
+  return page.getByRole('status').filter({ hasText: /Nice work!|Give it another try|Here’s a clue|Try this idea/ }).first();
+}
+
+function retryButton(page: Page): Locator {
+  return page.getByRole('button', { name: /Try again|Try with this clue/ }).first();
 }
 
 async function detectEngine(page: Page): Promise<EngineKind> {
@@ -44,6 +53,34 @@ async function detectEngine(page: Page): Promise<EngineKind> {
     if (await page.locator(selector).count()) return kind;
   }
   throw new Error('Could not identify the current interaction engine');
+}
+
+async function indexedLabels(buttons: Locator): Promise<IndexedLabel[]> {
+  const entries: IndexedLabel[] = [];
+  for (let index = 0; index < await buttons.count(); index += 1) {
+    entries.push({ index, label: (await buttons.nth(index).innerText()).trim() });
+  }
+  return entries.sort((left, right) => left.label.localeCompare(right.label));
+}
+
+function factorial(value: number): number {
+  let result = 1;
+  for (let factor = 2; factor <= value; factor += 1) result *= factor;
+  return result;
+}
+
+function permutationForAttempt<T>(values: readonly T[], attempt: number): T[] {
+  const remaining = [...values];
+  const result: T[] = [];
+  let rank = attempt % factorial(remaining.length);
+
+  while (remaining.length > 0) {
+    const blockSize = factorial(remaining.length - 1);
+    const index = Math.floor(rank / blockSize);
+    rank %= blockSize;
+    result.push(remaining.splice(index, 1)[0]);
+  }
+  return result;
 }
 
 async function solveMemoryPairs(page: Page): Promise<void> {
@@ -152,7 +189,61 @@ async function submitCheckAnswerIfPresent(page: Page): Promise<void> {
   await checkAnswer.click();
 }
 
-async function answerByEngine(page: Page, engine: EngineKind): Promise<void> {
+async function answerSingleChoice(page: Page, attempt: number): Promise<void> {
+  const buttons = page.locator('.choice-grid').getByRole('button');
+  const options = await indexedLabels(buttons);
+  if (options.length === 0) throw new Error('Single-choice question has no options');
+  await buttons.nth(options[attempt % options.length].index).click();
+}
+
+async function answerDragToTarget(page: Page, attempt: number): Promise<void> {
+  const itemButtons = page.locator('.drag-items .drag-item');
+  const targetButtons = page.locator('.target-grid .drop-target');
+  const items = await indexedLabels(itemButtons);
+  const targets: IndexedLabel[] = [];
+
+  for (let index = 0; index < await targetButtons.count(); index += 1) {
+    targets.push({
+      index,
+      label: (await targetButtons.nth(index).locator('strong').innerText()).trim()
+    });
+  }
+  targets.sort((left, right) => left.label.localeCompare(right.label));
+
+  if (items.length === 0 || targets.length === 0) throw new Error('Matching question has no items or targets');
+
+  const assignmentTargets = items.length === targets.length && targets.length <= 7
+    ? permutationForAttempt(targets, attempt)
+    : items.map((_, itemIndex) => {
+        const divisor = Math.max(1, targets.length ** itemIndex);
+        return targets[Math.floor(attempt / divisor) % targets.length];
+      });
+
+  for (let itemIndex = 0; itemIndex < items.length; itemIndex += 1) {
+    await itemButtons.nth(items[itemIndex].index).press('Enter');
+    await targetButtons.nth(assignmentTargets[itemIndex].index).press('Enter');
+  }
+  await submitCheckAnswerIfPresent(page);
+}
+
+async function answerWordBankFill(page: Page, attempt: number): Promise<void> {
+  const blanks = page.getByRole('button', { name: 'Blank answer' });
+  const wordButtons = page.locator('.word-bank').getByRole('button');
+  const words = await indexedLabels(wordButtons);
+  const blankCount = await blanks.count();
+
+  if (blankCount === 0 || words.length === 0) throw new Error('Word-bank question has no blanks or words');
+
+  for (let blankIndex = 0; blankIndex < blankCount; blankIndex += 1) {
+    const divisor = Math.max(1, words.length ** blankIndex);
+    const word = words[Math.floor(attempt / divisor) % words.length];
+    await blanks.nth(blankIndex).click();
+    await wordButtons.nth(word.index).click();
+  }
+  await submitCheckAnswerIfPresent(page);
+}
+
+async function answerByEngine(page: Page, engine: EngineKind, attempt = 0): Promise<void> {
   if (engine === 'memory_pairs') {
     await solveMemoryPairs(page);
     return;
@@ -174,25 +265,11 @@ async function answerByEngine(page: Page, engine: EngineKind): Promise<void> {
     return;
   }
   if (engine === 'drag_to_target') {
-    const items = page.locator('.drag-items .drag-item');
-    const target = page.locator('.target-grid .drop-target').first();
-    const itemCount = await items.count();
-    expect(itemCount).toBeGreaterThan(0);
-    for (let index = 0; index < itemCount; index += 1) {
-      await items.nth(index).press('Enter');
-      await target.press('Enter');
-    }
-    await submitCheckAnswerIfPresent(page);
+    await answerDragToTarget(page, attempt);
     return;
   }
   if (engine === 'word_bank_fill') {
-    const blanks = page.getByRole('button', { name: 'Blank answer' });
-    const words = page.locator('.word-bank').getByRole('button');
-    for (let index = 0; index < await blanks.count(); index += 1) {
-      await blanks.nth(index).click();
-      await words.first().click();
-    }
-    await submitCheckAnswerIfPresent(page);
+    await answerWordBankFill(page, attempt);
     return;
   }
   if (engine === 'hotspot') {
@@ -201,7 +278,7 @@ async function answerByEngine(page: Page, engine: EngineKind): Promise<void> {
     return;
   }
 
-  await page.locator('.choice-grid').getByRole('button').first().click();
+  await answerSingleChoice(page, attempt);
 }
 
 export async function answerCurrentQuestion(page: Page): Promise<AnsweredQuestion> {
@@ -209,9 +286,19 @@ export async function answerCurrentQuestion(page: Page): Promise<AnsweredQuestio
   const prompt = await page.getByRole('heading', { level: 1 }).innerText();
   const engine = await detectEngine(page);
   const visualSingleChoice = engine === 'single_choice' && await page.locator('.choice-button--visual').count() > 0;
-  await answerByEngine(page, engine);
-  await expect(sessionFeedback(page)).toBeVisible({ timeout: 15_000 });
-  return { engine, prompt, visualSingleChoice };
+
+  for (let attempt = 0; attempt < 128; attempt += 1) {
+    await answerByEngine(page, engine, attempt);
+    await expect(sessionFeedback(page)).toBeVisible({ timeout: 15_000 });
+
+    const retry = retryButton(page);
+    if (!(await retry.isVisible())) return { engine, prompt, visualSingleChoice };
+
+    await retry.click();
+    await expect(page.locator('.interaction-host')).toBeVisible({ timeout: 10_000 });
+  }
+
+  throw new Error(`Child-journey solver exhausted retry attempts for ${engine}: ${prompt}`);
 }
 
 export async function cssTimeToMilliseconds(value: string): Promise<number> {

@@ -1,4 +1,8 @@
-import type { QuestionResponseEnvelope } from '../contracts/runtime';
+import type {
+  QuestionResponseEnvelope,
+  ResponseAssistanceKind,
+  ResponseAttemptKind
+} from '../contracts/runtime';
 import type { SectionScoreSummary, SessionCheckpointState } from './session';
 
 export interface StoredMockCheckpoint {
@@ -45,6 +49,11 @@ const MAX_QUESTION_IDS = 100;
 const MAX_HISTORY = 20;
 const NUMBER_EPSILON = 1e-9;
 
+type PersistedQuestionResponse = Omit<QuestionResponseEnvelope, 'attemptKind' | 'assistanceKinds'> & {
+  attemptKind?: ResponseAttemptKind;
+  assistanceKinds?: ResponseAssistanceKind[];
+};
+
 function canUseStorage(): boolean {
   return typeof window !== 'undefined' && typeof window.localStorage !== 'undefined';
 }
@@ -80,9 +89,9 @@ function nearlyEqual(left: number, right: number): boolean {
   return Math.abs(left - right) <= NUMBER_EPSILON;
 }
 
-function isQuestionResponse(value: unknown): value is QuestionResponseEnvelope {
+function isPersistedQuestionResponse(value: unknown): value is PersistedQuestionResponse {
   if (!value || typeof value !== 'object') return false;
-  const item = value as Partial<QuestionResponseEnvelope> & { response?: unknown };
+  const item = value as Partial<PersistedQuestionResponse> & { response?: unknown };
   return isNonEmptyString(item.sessionId)
     && isNonEmptyString(item.questionId)
     && Number.isInteger(item.questionRevision)
@@ -95,32 +104,74 @@ function isQuestionResponse(value: unknown): value is QuestionResponseEnvelope {
     && isTimestamp(item.submittedAt)
     && Number.isFinite(item.durationMs)
     && Number(item.durationMs) >= 0
-    && Number.isInteger(item.attempts)
-    && Number(item.attempts) >= 1
+    // Assessment evidence is first-response-only. Legacy envelopes did not carry attemptKind/assistanceKinds.
+    && item.attempts === 1
+    && (item.attemptKind === undefined || item.attemptKind === 'independent')
+    && (item.assistanceKinds === undefined
+      || (Array.isArray(item.assistanceKinds) && item.assistanceKinds.length === 0))
     && Array.isArray(item.hintsUsed)
-    && item.hintsUsed.every((hint) => typeof hint === 'string');
+    && item.hintsUsed.length === 0;
 }
 
-function isCheckpointState(value: unknown, questionCount: number): value is SessionCheckpointState {
-  if (!value || typeof value !== 'object') return false;
+function normalizeMockResponse(response: PersistedQuestionResponse): QuestionResponseEnvelope {
+  return {
+    ...response,
+    attempts: 1,
+    attemptKind: 'independent',
+    assistanceKinds: [],
+    hintsUsed: []
+  };
+}
+
+function normalizeCheckpointState(value: unknown, questionCount: number): SessionCheckpointState | null {
+  if (!value || typeof value !== 'object') return null;
   const item = value as Partial<SessionCheckpointState>;
   if (!isNonEmptyString(item.sessionId)
     || !Number.isInteger(item.index)
     || Number(item.index) < 0
     || Number(item.index) > questionCount
     || typeof item.submitted !== 'boolean'
+    || item.retryState != null
     || !Array.isArray(item.responses)
-    || !item.responses.every(isQuestionResponse)) {
-    return false;
+    || !item.responses.every(isPersistedQuestionResponse)) {
+    return null;
   }
 
   const expectedResponses = Number(item.index) + (item.submitted ? 1 : 0);
-  return item.responses.length === expectedResponses
-    && item.responses.every((response) => response.sessionId === item.sessionId);
+  if (item.responses.length !== expectedResponses
+    || !item.responses.every((response) => response.sessionId === item.sessionId)) {
+    return null;
+  }
+
+  const responses = item.responses.map((response) => normalizeMockResponse(response as PersistedQuestionResponse));
+  const rawAttemptHistory = item.attemptHistory ?? item.responses;
+  if (!Array.isArray(rawAttemptHistory)
+    || !rawAttemptHistory.every(isPersistedQuestionResponse)
+    || rawAttemptHistory.length !== responses.length
+    || !rawAttemptHistory.every((response) => response.sessionId === item.sessionId)) {
+    return null;
+  }
+
+  const attemptHistory = rawAttemptHistory.map((response) => normalizeMockResponse(response as PersistedQuestionResponse));
+  if (!attemptHistory.every((response, index) =>
+    response.questionId === responses[index]?.questionId
+      && response.submittedAt === responses[index]?.submittedAt
+  )) {
+    return null;
+  }
+
+  return {
+    sessionId: item.sessionId,
+    index: Number(item.index),
+    responses,
+    attemptHistory,
+    submitted: item.submitted,
+    retryState: null
+  };
 }
 
-function isStoredMockCheckpoint(value: unknown): value is StoredMockCheckpoint {
-  if (!value || typeof value !== 'object') return false;
+function normalizeStoredMockCheckpoint(value: unknown): StoredMockCheckpoint | null {
+  if (!value || typeof value !== 'object') return null;
   const item = value as Partial<StoredMockCheckpoint>;
   if (item.version !== 1
     || !isNonEmptyString(item.entryId)
@@ -133,9 +184,21 @@ function isStoredMockCheckpoint(value: unknown): value is StoredMockCheckpoint {
     || item.questionIds.length > MAX_QUESTION_IDS
     || !item.questionIds.every(isNonEmptyString)
     || new Set(item.questionIds).size !== item.questionIds.length) {
-    return false;
+    return null;
   }
-  return isCheckpointState(item.state, item.questionIds.length);
+
+  const state = normalizeCheckpointState(item.state, item.questionIds.length);
+  if (!state) return null;
+  return {
+    version: 1,
+    entryId: item.entryId,
+    title: item.title,
+    questionIds: [...item.questionIds],
+    sectionSignature: item.sectionSignature,
+    questionSignature: item.questionSignature,
+    state,
+    savedAt: item.savedAt
+  };
 }
 
 function isSectionSummary(value: unknown): value is SectionScoreSummary {
@@ -201,16 +264,23 @@ function isMockHistoryRecord(value: unknown): value is MockHistoryRecord {
     && nearlyEqual(maxMarks, Number(item.maxMarks));
 }
 
+function cloneResponse(response: QuestionResponseEnvelope): QuestionResponseEnvelope {
+  return {
+    ...response,
+    assistanceKinds: [...response.assistanceKinds],
+    hintsUsed: [...response.hintsUsed]
+  };
+}
+
 function cloneCheckpoint(checkpoint: StoredMockCheckpoint): StoredMockCheckpoint {
   return {
     ...checkpoint,
     questionIds: [...checkpoint.questionIds],
     state: {
       ...checkpoint.state,
-      responses: checkpoint.state.responses.map((response) => ({
-        ...response,
-        hintsUsed: [...response.hintsUsed]
-      }))
+      responses: checkpoint.state.responses.map(cloneResponse),
+      attemptHistory: checkpoint.state.attemptHistory?.map(cloneResponse),
+      retryState: null
     }
   };
 }
@@ -223,6 +293,9 @@ function cloneHistoryRecord(record: MockHistoryRecord): MockHistoryRecord {
 }
 
 export function saveMockCheckpoint(input: Omit<StoredMockCheckpoint, 'version' | 'savedAt'>): StoredMockCheckpoint {
+  const normalizedState = normalizeCheckpointState(input.state, input.questionIds.length);
+  if (!normalizedState) throw new Error('Refusing to persist an invalid mock checkpoint');
+
   const checkpoint: StoredMockCheckpoint = {
     version: 1,
     entryId: input.entryId,
@@ -230,23 +303,18 @@ export function saveMockCheckpoint(input: Omit<StoredMockCheckpoint, 'version' |
     questionIds: [...input.questionIds],
     sectionSignature: input.sectionSignature,
     questionSignature: input.questionSignature,
-    state: {
-      ...input.state,
-      responses: input.state.responses.map((response) => ({
-        ...response,
-        hintsUsed: [...response.hintsUsed]
-      }))
-    },
+    state: normalizedState,
     savedAt: new Date().toISOString()
   };
-  if (!isStoredMockCheckpoint(checkpoint)) throw new Error('Refusing to persist an invalid mock checkpoint');
-  writeJson(ACTIVE_MOCK_KEY, checkpoint);
-  return cloneCheckpoint(checkpoint);
+  const normalizedCheckpoint = normalizeStoredMockCheckpoint(checkpoint);
+  if (!normalizedCheckpoint) throw new Error('Refusing to persist an invalid mock checkpoint');
+  writeJson(ACTIVE_MOCK_KEY, normalizedCheckpoint);
+  return cloneCheckpoint(normalizedCheckpoint);
 }
 
 export function loadMockCheckpoint(): StoredMockCheckpoint | null {
-  const value = readJson(ACTIVE_MOCK_KEY);
-  return isStoredMockCheckpoint(value) ? cloneCheckpoint(value) : null;
+  const checkpoint = normalizeStoredMockCheckpoint(readJson(ACTIVE_MOCK_KEY));
+  return checkpoint ? cloneCheckpoint(checkpoint) : null;
 }
 
 export function clearMockCheckpoint(): void {

@@ -32,6 +32,8 @@ describe('offline mock persistence', () => {
     expect(loadMockCheckpoint()).toEqual(saved);
     expect(loadMockCheckpoint()?.questionIds).toEqual(['q.one', 'q.two', 'q.three']);
     expect(loadMockCheckpoint()?.questionSignature).toBe('question-contract-v1');
+    expect(loadMockCheckpoint()?.state.attemptHistory).toEqual([]);
+    expect(loadMockCheckpoint()?.state.retryState).toBeNull();
 
     clearMockCheckpoint();
     expect(loadMockCheckpoint()).toBeNull();
@@ -55,6 +57,44 @@ describe('offline mock persistence', () => {
     }));
 
     expect(loadMockCheckpoint()).toBeNull();
+  });
+
+  it('rejects retry or assisted response state from structured assessment persistence', () => {
+    const response = {
+      sessionId: 'session.retry-not-allowed',
+      questionId: 'q.one',
+      questionRevision: 1,
+      interactionType: 'single_choice' as const,
+      interactionVersion: 1,
+      response: { selectedOptionIds: ['dog'] },
+      startedAt: '2026-09-03T01:00:00.000Z',
+      submittedAt: '2026-09-03T01:00:01.000Z',
+      durationMs: 1000,
+      attempts: 2,
+      attemptKind: 'retry' as const,
+      assistanceKinds: ['explanation' as const],
+      hintsUsed: ['retry:explanation']
+    };
+
+    expect(() => saveMockCheckpoint({
+      entryId: 'goal.pattern.2026-27',
+      title: '35-Question Pattern Mock',
+      questionIds: ['q.one'],
+      sectionSignature: 'assessment-contract-v1',
+      questionSignature: 'question-contract-v1',
+      state: {
+        sessionId: response.sessionId,
+        index: 0,
+        responses: [response],
+        attemptHistory: [response],
+        submitted: false,
+        retryState: {
+          questionId: 'q.one',
+          attemptNumber: 3,
+          assistanceKinds: ['explanation']
+        }
+      }
+    })).toThrow(/invalid mock checkpoint/i);
   });
 
   it('stores internally consistent completion summaries and deduplicates the same session result', () => {

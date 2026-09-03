@@ -2,7 +2,7 @@
   import { onDestroy } from 'svelte';
   import type { SessionLaunch, SessionSection } from '../content';
   import type { Question } from '../contracts/question';
-  import type { SessionAttempt } from '../contracts/runtime';
+  import type { ResponseAssistanceKind, SessionAttempt } from '../contracts/runtime';
   import {
     loadChildAudioPreferences,
     playCharacterNarration,
@@ -24,9 +24,11 @@
   import { recipeVisualPresentation } from '../presentation/semanticVisualPresentation';
   import { resolveVisualMeaningPresentation } from '../presentation/vocabularyPresentation';
   import { resolveStoryReaction } from '../story/storyReaction';
+  import { resolveRetryPolicy } from '../runtime/retryPolicy';
   import {
     advanceSession,
     createSessionState,
+    prepareRetry,
     replaySession,
     submitResponse,
     summarizeSectionResults,
@@ -82,11 +84,24 @@
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
   let question = $derived(questions[sessionState.index]);
   let assessmentMode = $derived(mode === 'goal_mock' || mode === 'goal_pattern_mock');
+  let retryPolicy = $derived(question ? resolveRetryPolicy(question, mode) : null);
+  let latestResponse = $derived(question ? sessionState.responses[sessionState.index] : undefined);
+  let retryAvailable = $derived(Boolean(
+    question
+      && sessionState.submitted
+      && sessionState.lastResult
+      && !sessionState.lastResult.correct
+      && retryPolicy?.retryAllowed
+  ));
+  let repeatedDifficulty = $derived(Boolean(retryAvailable && (latestResponse?.attempts ?? 1) >= 2));
+  let showCanonicalFeedback = $derived(Boolean(
+    sessionState.lastResult?.correct || !retryAvailable || repeatedDifficulty
+  ));
   let authoredSceneId = $derived(
     question?.stimulus?.type === 'scene' ? question.stimulus.sceneId : null
   );
   let reinforcementSceneId = $derived(
-    question && !authoredSceneId && sections.length === 0 && sessionState.submitted
+    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && showCanonicalFeedback
       ? resolveQuestionSceneId(question)
       : null
   );
@@ -99,7 +114,12 @@
     vocabularySenseKey ? resolveVisualMeaningPresentation(vocabularySenseKey) : null
   );
   let feedbackRecipeId = $derived(
-    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && !reinforcementSceneId
+    question
+      && !authoredSceneId
+      && sections.length === 0
+      && sessionState.submitted
+      && showCanonicalFeedback
+      && !reinforcementSceneId
       ? resolveQuestionFeedbackRecipeId(question)
       : null
   );
@@ -115,7 +135,7 @@
   let earnedMarks = $derived(sectionScores.reduce((sum, section) => sum + section.earnedMarks, 0));
   let maxMarks = $derived(sectionScores.reduce((sum, section) => sum + section.maxMarks, 0));
   let storyReaction = $derived(
-    storyCompletion && question && sessionState.submitted && sessionState.lastResult
+    storyCompletion && question && sessionState.submitted && sessionState.lastResult && showCanonicalFeedback
       ? resolveStoryReaction({
           correct: sessionState.lastResult.correct,
           difficulty: question.difficulty,
@@ -187,7 +207,7 @@
     audioNotice = null;
     const submittedQuestion = question;
     const result = submitResponse(sessionState, submittedQuestion, response);
-    const storedResponse = sessionState.responses[sessionState.responses.length - 1];
+    const storedResponse = sessionState.responses[sessionState.index];
     if (result && storedResponse) {
       onAttempt?.({ question: submittedQuestion, response: storedResponse, result });
       onCheckpoint?.(sessionState);
@@ -195,10 +215,23 @@
     }
   }
 
+  function retryAssistance(): ResponseAssistanceKind[] {
+    if (!repeatedDifficulty) return [];
+    const assistance: ResponseAssistanceKind[] = ['explanation'];
+    if (reinforcementSceneId || feedbackRecipeId) assistance.push('visual_scaffold');
+    return assistance;
+  }
+
   function handleAdvance(): void {
     clearAutoAdvance();
     stopChildAudio();
     audioNotice = null;
+    if (question && retryAvailable && prepareRetry(sessionState, question, retryAssistance())) {
+      restoredSubmitted = false;
+      onCheckpoint?.(sessionState);
+      return;
+    }
+
     advanceSession(sessionState);
     restoredSubmitted = false;
     if (sessionState.index >= questions.length) {
@@ -285,7 +318,12 @@
             {/if}
             {#if onCheckpoint}<span class="saved-session-note">Mock progress saves on this device</span>{/if}
             {#if reasoningQuestion}<span class="reasoning-cue reasoning-cue--goal">Think it through</span>{/if}
+            {#if sessionState.retryState}<span class="reasoning-cue reasoning-cue--goal">Try again</span>{/if}
           </div>
+
+          {#if sessionState.retryState?.assistanceKinds.includes('explanation')}
+            <div class="restored-answer-note" role="note" aria-label="Retry clue"><strong>Clue:</strong> {question.feedback.incorrect}</div>
+          {/if}
 
           {#if authoredSceneId}
             <div class="answer-scene"><Scene sceneId={authoredSceneId} /></div>
@@ -328,8 +366,18 @@
 
           {#if sessionState.lastResult}
             <div class={`feedback feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}`} role="status">
-              <strong>{sessionState.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
-              <span>{question.feedback[sessionState.lastResult.feedbackKey]}</span>
+              <strong>
+                {sessionState.lastResult.correct
+                  ? 'Nice work!'
+                  : retryAvailable
+                    ? (repeatedDifficulty ? 'Here’s a clue' : 'Give it another try')
+                    : 'Try this idea'}
+              </strong>
+              <span>
+                {sessionState.lastResult.correct || showCanonicalFeedback
+                  ? question.feedback[sessionState.lastResult.feedbackKey]
+                  : 'That one did not work. Try another way.'}
+              </span>
             </div>
           {/if}
 
@@ -389,7 +437,9 @@
         </div>
 
         <button class="next-button" type="button" onclick={handleAdvance}>
-          {sessionState.index + 1 < questions.length ? 'Next' : 'See result'}
+          {retryAvailable
+            ? (repeatedDifficulty ? 'Try with this clue' : 'Try again')
+            : (sessionState.index + 1 < questions.length ? 'Next' : 'See result')}
         </button>
       </article>
     {/if}
