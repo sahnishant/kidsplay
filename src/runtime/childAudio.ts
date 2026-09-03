@@ -1,7 +1,11 @@
+import { TextToSpeech, type SpeechSynthesisVoice as NativeSpeechSynthesisVoice } from '@capacitor-community/text-to-speech';
+import { Capacitor } from '@capacitor/core';
+
 export type ChildAudioChannel = 'prompt' | 'character' | 'vocabulary' | 'phoneme';
 export type ChildAudioCharacter = 'dheu' | 'scientu' | 'shaitanu';
 export type ChildAudioPlaybackSource =
   | 'bundled'
+  | 'native_local_voice'
   | 'local_voice'
   | 'pending_local_voice'
   | 'muted'
@@ -41,23 +45,43 @@ type VoiceProfile = {
   pitch: number;
 };
 
+type NativeVoiceSelection = {
+  voice: NativeSpeechSynthesisVoice;
+  index: number;
+};
+
 const AUDIO_PREFERENCES_KEY = 'kidsplay.audio.v1';
 const DEFAULT_PREFERENCES: ChildAudioPreferences = { version: 1, enabled: true };
 
 const VOICE_PROFILES: Record<ChildAudioChannel | ChildAudioCharacter, VoiceProfile> = {
-  prompt: { rate: 0.9, pitch: 1 },
-  character: { rate: 0.9, pitch: 1 },
-  vocabulary: { rate: 0.76, pitch: 1.02 },
-  phoneme: { rate: 0.68, pitch: 1.04 },
-  dheu: { rate: 0.92, pitch: 1.12 },
-  scientu: { rate: 0.86, pitch: 0.96 },
-  shaitanu: { rate: 0.98, pitch: 0.82 }
+  prompt: { rate: 0.84, pitch: 1.16 },
+  character: { rate: 0.86, pitch: 1.15 },
+  vocabulary: { rate: 0.74, pitch: 1.08 },
+  phoneme: { rate: 0.66, pitch: 1.08 },
+  dheu: { rate: 0.88, pitch: 1.22 },
+  scientu: { rate: 0.82, pitch: 1.1 },
+  shaitanu: { rate: 0.94, pitch: 0.98 }
 };
+
+const CHILD_FRIENDLY_VOICE_HINTS = [
+  'child',
+  'young',
+  'aria',
+  'ava',
+  'samantha',
+  'susan',
+  'zira',
+  'hazel',
+  'female',
+  'natural'
+] as const;
 
 let audioContext: AudioContext | null = null;
 let activeMedia: HTMLAudioElement | null = null;
 let voiceListenerCleanup: (() => void) | null = null;
 let playbackGeneration = 0;
+let nativeVoices: NativeSpeechSynthesisVoice[] | null = null;
+let nativeVoicesPromise: Promise<NativeSpeechSynthesisVoice[]> | null = null;
 
 function getStorage(): Storage | null {
   if (typeof window === 'undefined') return null;
@@ -118,22 +142,53 @@ function normalizedLanguage(language: string): string {
   return language.trim().replace('_', '-').toLowerCase();
 }
 
+function childFriendlyVoiceScore(voice: { name: string; default?: boolean }): number {
+  const name = voice.name.toLowerCase();
+  const hintScore = CHILD_FRIENDLY_VOICE_HINTS.reduce(
+    (score, hint, index) => score + (name.includes(hint) ? CHILD_FRIENDLY_VOICE_HINTS.length - index : 0),
+    0
+  );
+  return hintScore + (voice.default ? 1 : 0);
+}
+
+function bestLocalVoice<T extends { lang: string; localService: boolean; name: string; default?: boolean }>(
+  voices: readonly T[],
+  language: string
+): T | null {
+  const requested = normalizedLanguage(language);
+  if (!requested) return null;
+  const base = requested.split('-')[0];
+  const local = voices.filter((voice) => voice.localService === true);
+  const exact = local.filter((voice) => normalizedLanguage(voice.lang) === requested);
+  const sameLanguage = local.filter((voice) => normalizedLanguage(voice.lang).split('-')[0] === base);
+  const candidates = exact.length ? exact : sameLanguage;
+  return [...candidates].sort((left, right) => {
+    const scoreDelta = childFriendlyVoiceScore(right) - childFriendlyVoiceScore(left);
+    return scoreDelta || left.name.localeCompare(right.name);
+  })[0] ?? null;
+}
+
 /**
  * Strict offline voice selection. Voices that are not explicitly marked
  * localService are never eligible, even when a browser would otherwise choose
- * them automatically.
+ * them automatically. When several local voices fit, prefer names that are
+ * commonly used for lighter child-friendly system voices.
  */
 export function selectOfflineSpeechVoice(
   voices: readonly SpeechSynthesisVoice[],
   language: string
 ): SpeechSynthesisVoice | null {
-  const requested = normalizedLanguage(language);
-  if (!requested) return null;
-  const base = requested.split('-')[0];
-  const local = voices.filter((voice) => voice.localService === true);
-  return local.find((voice) => normalizedLanguage(voice.lang) === requested)
-    ?? local.find((voice) => normalizedLanguage(voice.lang).split('-')[0] === base)
-    ?? null;
+  return bestLocalVoice(voices, language);
+}
+
+export function selectOfflineNativeSpeechVoice(
+  voices: readonly NativeSpeechSynthesisVoice[],
+  language: string
+): NativeVoiceSelection | null {
+  const selected = bestLocalVoice(voices, language);
+  if (!selected) return null;
+  const index = voices.indexOf(selected);
+  return index >= 0 ? { voice: selected, index } : null;
 }
 
 function getAudioContext(): AudioContext | null {
@@ -194,10 +249,11 @@ function runToneSequence(
 export function playAnswerCue(correct: boolean, enabled = true): void {
   const tones: readonly Tone[] = correct
     ? [
-        [523.25, 0, 0.18],
-        [659.25, 0.08, 0.2],
-        [783.99, 0.16, 0.22],
-        [1046.5, 0.25, 0.27]
+        [523.25, 0, 0.14],
+        [659.25, 0.07, 0.15],
+        [783.99, 0.14, 0.17],
+        [1046.5, 0.23, 0.22],
+        [1318.51, 0.36, 0.18]
       ]
     : [
         [392, 0, 0.11],
@@ -207,7 +263,7 @@ export function playAnswerCue(correct: boolean, enabled = true): void {
         [293.66, 0.29, 0.14],
         [261.63, 0.38, 0.2]
       ];
-  runToneSequence(tones, correct ? 0.035 : 0.028, correct ? 'sine' : 'triangle', enabled);
+  runToneSequence(tones, correct ? 0.042 : 0.026, correct ? 'sine' : 'triangle', enabled);
 }
 
 export function playCharacterCue(character: ChildAudioCharacter, enabled = true): void {
@@ -230,6 +286,19 @@ function clearVoiceListener(): void {
   voiceListenerCleanup = null;
 }
 
+function isNativeRuntime(): boolean {
+  try {
+    return Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+}
+
+function stopNativeSpeech(): void {
+  if (!isNativeRuntime()) return;
+  void TextToSpeech.stop().catch(() => undefined);
+}
+
 export function stopChildAudio(): void {
   playbackGeneration += 1;
   clearVoiceListener();
@@ -242,6 +311,7 @@ export function stopChildAudio(): void {
     }
     activeMedia = null;
   }
+  stopNativeSpeech();
   try {
     getSpeechSynthesis()?.cancel();
   } catch {
@@ -254,6 +324,23 @@ function voiceProfileFor(request: ChildAudioRequest): VoiceProfile {
     return VOICE_PROFILES[request.character];
   }
   return VOICE_PROFILES[request.channel];
+}
+
+async function loadNativeVoices(): Promise<NativeSpeechSynthesisVoice[]> {
+  if (nativeVoices) return nativeVoices;
+  nativeVoicesPromise ??= TextToSpeech.getSupportedVoices()
+    .then(({ voices }) => {
+      nativeVoices = voices;
+      return voices;
+    })
+    .catch(() => {
+      nativeVoices = [];
+      return [];
+    })
+    .finally(() => {
+      nativeVoicesPromise = null;
+    });
+  return nativeVoicesPromise;
 }
 
 function speakWithOfflineVoice(
@@ -296,9 +383,56 @@ function speakWithOfflineVoice(
   }
 }
 
+function speakWithNativeVoice(
+  request: ChildAudioRequest,
+  generation: number,
+  selection: NativeVoiceSelection
+): void {
+  const profile = voiceProfileFor(request);
+  void TextToSpeech.speak({
+    text: request.text.trim(),
+    lang: selection.voice.lang,
+    rate: profile.rate,
+    pitch: profile.pitch,
+    volume: 1,
+    voice: selection.index
+  }).catch(() => {
+    if (generation !== playbackGeneration) return;
+    speakWithOfflineVoice(request, generation, true);
+  });
+}
+
+function startSpeechPlayback(
+  request: ChildAudioRequest,
+  generation: number
+): ChildAudioPlaybackResult {
+  if (!isNativeRuntime()) {
+    return speakWithOfflineVoice(request, generation, true);
+  }
+
+  if (nativeVoices) {
+    const selection = selectOfflineNativeSpeechVoice(nativeVoices, request.language);
+    if (!selection) return speakWithOfflineVoice(request, generation, true);
+    speakWithNativeVoice(request, generation, selection);
+    return { source: 'native_local_voice', voiceName: selection.voice.name };
+  }
+
+  void loadNativeVoices().then((voices) => {
+    if (generation !== playbackGeneration) return;
+    const selection = selectOfflineNativeSpeechVoice(voices, request.language);
+    if (selection) {
+      speakWithNativeVoice(request, generation, selection);
+      return;
+    }
+    speakWithOfflineVoice(request, generation, true);
+  });
+  return { source: 'pending_local_voice' };
+}
+
 /**
- * Plays narration without any remote fallback. Bundled app audio wins; otherwise
- * a speechSynthesis voice must explicitly report localService=true.
+ * Plays narration without any remote fallback. Bundled app audio wins; on a
+ * native Capacitor build the Android/iOS TTS engine is queried for a matching
+ * local voice; otherwise Web Speech must explicitly report localService=true.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
   if (request.enabled === false) {
@@ -318,7 +452,7 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
       void media.play().catch(() => {
         if (generation !== playbackGeneration) return;
         activeMedia = null;
-        speakWithOfflineVoice(request, generation, true);
+        startSpeechPlayback(request, generation);
       });
       return { source: 'bundled' };
     } catch {
@@ -326,7 +460,7 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     }
   }
 
-  return speakWithOfflineVoice(request, generation, true);
+  return startSpeechPlayback(request, generation);
 }
 
 export function playQuestionPrompt(
