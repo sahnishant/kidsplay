@@ -23,6 +23,7 @@ export interface ExperienceRecipeSelector {
   conceptAny?: string[];
   conceptSuffixes?: string[];
   knowledgeRefPrefixes?: string[];
+  knowledgeRefFragments?: string[];
 }
 
 export interface ExperienceChoreography {
@@ -150,6 +151,9 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
   const knowledgeRefPrefixes = selector.knowledgeRefPrefixes === undefined
     ? undefined
     : assertStringArray(selector.knowledgeRefPrefixes, `${id}.selector.knowledgeRefPrefixes`);
+  const knowledgeRefFragments = selector.knowledgeRefFragments === undefined
+    ? undefined
+    : assertStringArray(selector.knowledgeRefFragments, `${id}.selector.knowledgeRefFragments`);
 
   const situation = choreography.situation;
   const leadCharacter = choreography.leadCharacter;
@@ -180,7 +184,8 @@ function validateRecipe(value: unknown, index: number): ExperienceRecipe {
       interactionTypes: interactionTypes as Question['interaction']['type'][],
       ...(conceptAny ? { conceptAny } : {}),
       ...(conceptSuffixes ? { conceptSuffixes } : {}),
-      ...(knowledgeRefPrefixes ? { knowledgeRefPrefixes } : {})
+      ...(knowledgeRefPrefixes ? { knowledgeRefPrefixes } : {}),
+      ...(knowledgeRefFragments ? { knowledgeRefFragments } : {})
     },
     choreography: {
       situation: situation as ExperienceSituation,
@@ -227,6 +232,9 @@ export function getExperienceRecipes(): ExperienceRecipe[] {
       ...(recipe.selector.conceptSuffixes ? { conceptSuffixes: [...recipe.selector.conceptSuffixes] } : {}),
       ...(recipe.selector.knowledgeRefPrefixes
         ? { knowledgeRefPrefixes: [...recipe.selector.knowledgeRefPrefixes] }
+        : {}),
+      ...(recipe.selector.knowledgeRefFragments
+        ? { knowledgeRefFragments: [...recipe.selector.knowledgeRefFragments] }
         : {})
     },
     choreography: { ...recipe.choreography }
@@ -245,9 +253,12 @@ function selectorMatches(question: Question, recipe: ExperienceRecipe, surface: 
     if (!question.conceptIds.some((conceptId) => recipe.selector.conceptSuffixes?.some((suffix) => conceptId.endsWith(suffix)))) return false;
   }
 
+  const refs = question.knowledgeRefs ?? [];
   if (recipe.selector.knowledgeRefPrefixes?.length) {
-    const refs = question.knowledgeRefs ?? [];
     if (!refs.some((rowId) => recipe.selector.knowledgeRefPrefixes?.some((prefix) => rowId.startsWith(prefix)))) return false;
+  }
+  if (recipe.selector.knowledgeRefFragments?.length) {
+    if (!refs.some((rowId) => recipe.selector.knowledgeRefFragments?.some((fragment) => rowId.includes(fragment)))) return false;
   }
 
   return true;
