@@ -13,7 +13,7 @@
   let drawing = $state(false);
   let locked = $state(false);
   let keyboardStep = $state(0);
-  let status = $state(`Start at ${question.interaction.board.start.label} and trace to ${question.interaction.board.goal.label}.`);
+  let status = $state('Start at the first marker and trace to the last marker.');
 
   const guide = $derived(question.interaction.board.guidePath);
   const guidePath = $derived(toPath(guide));
