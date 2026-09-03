@@ -6,7 +6,6 @@ on:
       - content/vocabulary-editorial-batch-004-prep
     paths:
       - '.github/workflows/tmp-materialize-approved-vocabulary-batch-004.yml'
-      - 'content/recipes/primary-vocabulary-reviewed-delivery-batch-004.json'
 
 permissions:
   contents: write
@@ -49,34 +48,11 @@ jobs:
       - name: Materialize approved reviewed vocabulary production
         run: npm run compile:content
 
-      - name: Update permanent editorial gate and SOF provenance partition
+      - name: Update SOF editorial provenance partition
         run: |
           node --input-type=module <<'NODE'
           import { createHash } from 'node:crypto';
           import { readFileSync, writeFileSync } from 'node:fs';
-
-          const workflowPath = '.github/workflows/primary-vocabulary-editorial.yml';
-          let workflow = readFileSync(workflowPath, 'utf8');
-          const totalOld = "if (globallySeen.size !== 78) throw new Error(`Expected 78 reviewed runtime meanings across batches 001-003, got ${globallySeen.size}`);";
-          const totalNew = "if (globallySeen.size !== 103) throw new Error(`Expected 103 reviewed runtime meanings across batches 001-004, got ${globallySeen.size}`);";
-          if (!workflow.includes(totalOld)) throw new Error('Could not locate reviewed vocabulary total expectation');
-          workflow = workflow.replace(totalOld, totalNew);
-
-          const testOld = 'tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts';
-          const testNew = 'tests/vocabulary-reviewed-batch-003-production.behavior.test.ts tests/vocabulary-reviewed-batch-004-production.behavior.test.ts tests/vocabulary-reviewed-concept-trace.behavior.test.ts';
-          if (!workflow.includes(testOld)) throw new Error('Could not locate production test list');
-          workflow = workflow.replace(testOld, testNew);
-
-          const reviewsOld = '            content/lexicon/reviews/grade-1-batch-003.json\n            content/lexicon/reviews/grade-2-batch-003.json\n            content/knowledge/english-vocabulary-primary-reviewed.json';
-          const reviewsNew = '            content/lexicon/reviews/grade-1-batch-003.json\n            content/lexicon/reviews/grade-2-batch-003.json\n            content/lexicon/reviews/grade-1-batch-004.json\n            content/lexicon/reviews/grade-2-batch-004.json\n            content/knowledge/english-vocabulary-primary-reviewed.json';
-          if (!workflow.includes(reviewsOld)) throw new Error('Could not locate artifact review list');
-          workflow = workflow.replace(reviewsOld, reviewsNew);
-
-          const productionOld = '            content/knowledge/english-vocabulary-primary-reviewed-batch-003.json\n            content/learnables/primary-vocabulary-reviewed-batch-003.json\n            content/recipes/primary-vocabulary-reviewed-delivery-batch-003.json';
-          const productionNew = '            content/knowledge/english-vocabulary-primary-reviewed-batch-003.json\n            content/knowledge/english-vocabulary-primary-reviewed-batch-004.json\n            content/learnables/primary-vocabulary-reviewed-batch-003.json\n            content/learnables/primary-vocabulary-reviewed-batch-004.json\n            content/recipes/primary-vocabulary-reviewed-delivery-batch-003.json\n            content/recipes/primary-vocabulary-reviewed-delivery-batch-004.json';
-          if (!workflow.includes(productionOld)) throw new Error('Could not locate artifact production list');
-          workflow = workflow.replace(productionOld, productionNew);
-          writeFileSync(workflowPath, workflow, 'utf8');
 
           const membershipPath = 'content/profile-memberships/SOF_INDIA_CLASS2.json';
           const membershipText = readFileSync(membershipPath, 'utf8').replace(/\r\n/g, '\n');
@@ -107,15 +83,25 @@ jobs:
       - name: Prove full repository checks
         run: npm run check
 
-      - name: Remove temporary workflow
-        run: rm .github/workflows/tmp-materialize-approved-vocabulary-batch-004.yml
-
-      - name: Commit certified production state
+      - name: Commit only certified non-workflow production outputs
         shell: bash
         run: |
-          git add -A
+          git add \
+            content/knowledge/english-vocabulary-primary-reviewed-batch-004.json \
+            content/packs/free-vocabulary.json \
+            content/profile-memberships/CBSE_INDIA_CLASS1.json \
+            content/profile-memberships/CISCE_INDIA_CLASS1.json \
+            content/profile-memberships/CBSE_INDIA_CLASS2.json \
+            content/profile-memberships/CISCE_INDIA_CLASS2.json \
+            content/profile-memberships/SOF_INDIA_CLASS2.json \
+            content/alignment-terminal-reviews/SOF_INDIA_CLASS2.json
           git diff --cached --check
+          if [ -n "$(git diff --name-only)" ]; then
+            echo 'Unexpected unstaged generated changes:'
+            git diff --name-only
+            exit 1
+          fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git commit -m 'content(#163): publish approved vocabulary batch 004'
+          git commit -m 'content(#163): materialize approved vocabulary batch 004'
           git push origin HEAD:content/vocabulary-editorial-batch-004-prep
