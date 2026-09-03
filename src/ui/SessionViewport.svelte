@@ -2,7 +2,7 @@
   import { onDestroy } from 'svelte';
   import type { SessionLaunch, SessionSection } from '../content';
   import type { Question } from '../contracts/question';
-  import type { SessionAttempt } from '../contracts/runtime';
+  import type { ResponseAssistanceKind, SessionAttempt } from '../contracts/runtime';
   import type { AvatarId } from '../runtime/localProgress';
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
@@ -15,9 +15,11 @@
   import { recipeVisualPresentation } from '../presentation/semanticVisualPresentation';
   import { resolveVisualMeaningPresentation } from '../presentation/vocabularyPresentation';
   import { resolveStoryReaction } from '../story/storyReaction';
+  import { resolveRetryPolicy } from '../runtime/retryPolicy';
   import {
     advanceSession,
     createSessionState,
+    prepareRetry,
     replaySession,
     submitResponse,
     summarizeSectionResults,
@@ -71,11 +73,24 @@
   let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
   let question = $derived(questions[sessionState.index]);
   let assessmentMode = $derived(mode === 'goal_mock' || mode === 'goal_pattern_mock');
+  let retryPolicy = $derived(question ? resolveRetryPolicy(question, mode) : null);
+  let latestResponse = $derived(question ? sessionState.responses[sessionState.index] : undefined);
+  let retryAvailable = $derived(Boolean(
+    question
+      && sessionState.submitted
+      && sessionState.lastResult
+      && !sessionState.lastResult.correct
+      && retryPolicy?.retryAllowed
+  ));
+  let repeatedDifficulty = $derived(Boolean(retryAvailable && (latestResponse?.attempts ?? 1) >= 2));
+  let showCanonicalFeedback = $derived(Boolean(
+    sessionState.lastResult?.correct || !retryAvailable || repeatedDifficulty
+  ));
   let authoredSceneId = $derived(
     question?.stimulus?.type === 'scene' ? question.stimulus.sceneId : null
   );
   let reinforcementSceneId = $derived(
-    question && !authoredSceneId && sections.length === 0 && sessionState.submitted
+    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && showCanonicalFeedback
       ? resolveQuestionSceneId(question)
       : null
   );
@@ -88,7 +103,12 @@
     vocabularySenseKey ? resolveVisualMeaningPresentation(vocabularySenseKey) : null
   );
   let feedbackRecipeId = $derived(
-    question && !authoredSceneId && sections.length === 0 && sessionState.submitted && !reinforcementSceneId
+    question
+      && !authoredSceneId
+      && sections.length === 0
+      && sessionState.submitted
+      && showCanonicalFeedback
+      && !reinforcementSceneId
       ? resolveQuestionFeedbackRecipeId(question)
       : null
   );
@@ -104,7 +124,7 @@
   let earnedMarks = $derived(sectionScores.reduce((sum, section) => sum + section.earnedMarks, 0));
   let maxMarks = $derived(sectionScores.reduce((sum, section) => sum + section.maxMarks, 0));
   let storyReaction = $derived(
-    storyCompletion && question && sessionState.submitted && sessionState.lastResult
+    storyCompletion && question && sessionState.submitted && sessionState.lastResult && showCanonicalFeedback
       ? resolveStoryReaction({
           correct: sessionState.lastResult.correct,
           difficulty: question.difficulty,
@@ -142,7 +162,7 @@
     if (!question) return;
     const submittedQuestion = question;
     const result = submitResponse(sessionState, submittedQuestion, response);
-    const storedResponse = sessionState.responses[sessionState.responses.length - 1];
+    const storedResponse = sessionState.responses[sessionState.index];
     if (result && storedResponse) {
       onAttempt?.({ question: submittedQuestion, response: storedResponse, result });
       onCheckpoint?.(sessionState);
@@ -150,8 +170,21 @@
     }
   }
 
+  function retryAssistance(): ResponseAssistanceKind[] {
+    if (!repeatedDifficulty) return [];
+    const assistance: ResponseAssistanceKind[] = ['explanation'];
+    if (reinforcementSceneId || feedbackRecipeId) assistance.push('visual_scaffold');
+    return assistance;
+  }
+
   function handleAdvance(): void {
     clearAutoAdvance();
+    if (question && retryAvailable && prepareRetry(sessionState, question, retryAssistance())) {
+      restoredSubmitted = false;
+      onCheckpoint?.(sessionState);
+      return;
+    }
+
     advanceSession(sessionState);
     restoredSubmitted = false;
     if (sessionState.index >= questions.length) {
@@ -206,7 +239,15 @@
             {/if}
             {#if onCheckpoint}<span class="saved-session-note">Mock progress saves on this device</span>{/if}
             {#if reasoningQuestion}<span class="reasoning-cue reasoning-cue--goal">Think it through</span>{/if}
+            {#if sessionState.retryState}<span class="reasoning-cue reasoning-cue--goal">Try again</span>{/if}
           </div>
+
+          {#if sessionState.retryState?.assistanceKinds.includes('explanation')}
+            <div class="retry-hint" role="note" aria-label="Retry clue">
+              <strong>Clue</strong>
+              <span>{question.feedback.incorrect}</span>
+            </div>
+          {/if}
 
           {#if authoredSceneId}
             <div class="answer-scene"><Scene sceneId={authoredSceneId} /></div>
@@ -232,8 +273,18 @@
 
           {#if sessionState.lastResult}
             <div class={`feedback feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}`} role="status">
-              <strong>{sessionState.lastResult.correct ? 'Nice work!' : 'Try this idea'}</strong>
-              <span>{question.feedback[sessionState.lastResult.feedbackKey]}</span>
+              <strong>
+                {sessionState.lastResult.correct
+                  ? 'Nice work!'
+                  : retryAvailable
+                    ? (repeatedDifficulty ? 'Here’s a clue' : 'Give it another try')
+                    : 'Try this idea'}
+              </strong>
+              <span>
+                {sessionState.lastResult.correct || showCanonicalFeedback
+                  ? question.feedback[sessionState.lastResult.feedbackKey]
+                  : 'That one did not work. Try another way.'}
+              </span>
             </div>
           {/if}
 
@@ -278,7 +329,9 @@
         </div>
 
         <button class="next-button" type="button" onclick={handleAdvance}>
-          {sessionState.index + 1 < questions.length ? 'Next' : 'See result'}
+          {retryAvailable
+            ? (repeatedDifficulty ? 'Try with this clue' : 'Try again')
+            : (sessionState.index + 1 < questions.length ? 'Next' : 'See result')}
         </button>
       </article>
     {/if}
@@ -387,6 +440,9 @@
   .question-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; }
   .reasoning-cue, .saved-session-note { display: inline-flex; padding: 5px 8px; border-radius: 999px; background: #f4f6f7; color: var(--muted); font-size: .66rem; font-weight: 800; }
   .reasoning-cue--goal { background: var(--accent-soft); color: var(--accent); }
+  .retry-hint { width: min(100%, 34rem); margin: 10px auto 0; display: grid; gap: 3px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 14px; background: #fffaf0; }
+  .retry-hint strong { color: var(--accent); font-size: .74rem; }
+  .retry-hint span { font-weight: 700; line-height: 1.35; }
 
   .answer-scene :global(.scene) { height: clamp(125px, 25vh, 190px); }
   .question-prompt { margin: 14px 4px 12px; font-size: clamp(1.25rem, 4.5vw, 1.85rem); line-height: 1.14; text-align: center; }
