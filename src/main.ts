@@ -7,6 +7,7 @@ import './crossword.css';
 import './maze.css';
 import './viewport.css';
 import './touchTargets.css';
+import './forestSessionPolish.css';
 import App from './App.svelte';
 import { installViewportFocusKeeper } from './runtime/viewportFocus';
 
