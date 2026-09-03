@@ -1,0 +1,1947 @@
+{
+  "schemaVersion": 1,
+  "kind": "primary_vocabulary_editorial_packet",
+  "language": "en",
+  "grade": 1,
+  "batchId": "grade-1-batch-005",
+  "purpose": "Editorial sense selection, independently authored child-definition review and explicit profile-placement review before runtime publication.",
+  "generatedFrom": {
+    "curatorSliceKind": "primary_vocabulary_curator_sense_slice",
+    "wordlistId": "vocabulary.primary.grade1.introduced.meaning.review",
+    "sourceId": "open-english-wordnet",
+    "sourceVersion": "2025",
+    "license": "CC-BY-4.0"
+  },
+  "selection": {
+    "requestedLimit": 16,
+    "excludedPriorReviewLemmas": [
+      "again",
+      "answer",
+      "ask",
+      "believe",
+      "best",
+      "century",
+      "child",
+      "class",
+      "cold",
+      "come",
+      "different",
+      "difficult",
+      "door",
+      "early",
+      "earth",
+      "experience",
+      "eye",
+      "fast",
+      "father",
+      "find",
+      "first",
+      "friend",
+      "full",
+      "go",
+      "good",
+      "government",
+      "great",
+      "group",
+      "history",
+      "hold",
+      "house",
+      "important",
+      "island",
+      "kind",
+      "language",
+      "learn",
+      "long",
+      "love",
+      "move",
+      "natural",
+      "new",
+      "often",
+      "old",
+      "once",
+      "past",
+      "popular",
+      "possible",
+      "put",
+      "remember",
+      "school",
+      "today",
+      "watch",
+      "water",
+      "well",
+      "woman",
+      "work"
+    ],
+    "excludedReviewRefs": [
+      "content/lexicon/reviews/grade-1-batch-001.json",
+      "content/lexicon/reviews/grade-1-batch-002.json",
+      "content/lexicon/reviews/grade-1-batch-003.json",
+      "content/lexicon/reviews/grade-1-batch-004.json"
+    ]
+  },
+  "policy": {
+    "publicationState": "blocked_pending_editorial_review",
+    "importedGlossRuntimeAllowed": false,
+    "aiDraftAllowed": true,
+    "aiDraftMayCountAsReviewed": false,
+    "requiredReviewAuthority": "human_editor",
+    "explicitReviewerRequiredForAcceptance": true,
+    "profilePlacementRequiresExplicitApproval": true,
+    "corpusGradeMayImplyBoardAlignment": false
+  },
+  "profileReviewTargets": [
+    "CBSE_INDIA_CLASS1",
+    "CISCE_INDIA_CLASS1"
+  ],
+  "summary": {
+    "words": 16,
+    "candidateSenses": 48,
+    "excludedPriorReview": 56,
+    "reviewed": 0,
+    "accepted": 0,
+    "rejected": 0
+  },
+  "items": [
+    {
+      "lemma": "use",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.81
+      },
+      "priorityScore": 38.62,
+      "candidateSenses": [
+        {
+          "candidateId": "use#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "use%1:04:00::",
+            "synsetId": "00948944-n",
+            "definition": "the act of using",
+            "examples": [
+              "he warned against the use of narcotic drugs",
+              "skilled in the utilization of computers"
+            ],
+            "synonyms": [
+              "usage",
+              "utilization",
+              "utilisation",
+              "employment",
+              "exercise"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "use%1:04:00::",
+              "00948944-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "use#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "use%1:07:00::",
+            "synsetId": "05156572-n",
+            "definition": "what something is used for",
+            "examples": [
+              "the function of an auger is to bore holes",
+              "ballet is beautiful but what use is it?"
+            ],
+            "synonyms": [
+              "function",
+              "purpose",
+              "role"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "use%1:07:00::",
+              "05156572-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "use#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "use%1:07:02::",
+            "synsetId": "05157225-n",
+            "definition": "a particular service",
+            "examples": [
+              "he put his knowledge to good use",
+              "patrons have their uses"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "use%1:07:02::",
+              "05157225-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "better",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.76
+      },
+      "priorityScore": 38.52,
+      "candidateSenses": [
+        {
+          "candidateId": "better#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "better%3:00:00::",
+            "synsetId": "00231927-a",
+            "definition": "(comparative of ‘good’) superior to another (of the same class or set or kind) in excellence or quality or desirability or suitability; more highly skilled than another",
+            "examples": [
+              "You're a better man than I am, Gunga Din",
+              "a better coat",
+              "a better type of car",
+              "a suit with a better fit",
+              "a better chance of success",
+              "produced a better mousetrap",
+              "she's better in math than in history"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "better%3:00:00::",
+              "00231927-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "better#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "better%3:00:02::",
+            "synsetId": "00233353-a",
+            "definition": "(comparative of ‘good’) changed for the better in health or fitness",
+            "examples": [
+              "her health is better now",
+              "I feel better"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "better%3:00:02::",
+              "00233353-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "better#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "better%5:00:00:advisable:00",
+            "synsetId": "00067988-s",
+            "definition": "(comparative and superlative of ‘well’) wiser or more advantageous and hence advisable",
+            "examples": [
+              "it would be better to speak to him",
+              "the White House thought it best not to respond"
+            ],
+            "synonyms": [
+              "best"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "better%5:00:00:advisable:00",
+              "00067988-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "help",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.75
+      },
+      "priorityScore": 38.5,
+      "candidateSenses": [
+        {
+          "candidateId": "help#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "help%1:04:00::",
+            "synsetId": "01210099-n",
+            "definition": "the activity of contributing to the fulfillment of a need or furtherance of an effort or purpose",
+            "examples": [
+              "he gave me an assist with the housework",
+              "could not walk without assistance",
+              "rescue party went to their aid",
+              "offered his help in unloading"
+            ],
+            "synonyms": [
+              "aid",
+              "assist",
+              "assistance"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "help%1:04:00::",
+              "01210099-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "help#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "help%1:18:00::",
+            "synsetId": "09835195-n",
+            "definition": "a person who contributes to the fulfillment of a need or furtherance of an effort or purpose",
+            "examples": [
+              "my invaluable assistant",
+              "they hired additional help to finish the work"
+            ],
+            "synonyms": [
+              "assistant",
+              "helper",
+              "supporter"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "help%1:18:00::",
+              "09835195-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "help#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "help%1:07:00::",
+            "synsetId": "05162155-n",
+            "definition": "a person or thing that is a resource that helps make something easier or possible to do",
+            "examples": [
+              "visual aids in teaching",
+              "his job was to give technical assistance over the phone"
+            ],
+            "synonyms": [
+              "aid",
+              "assistance"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "help%1:07:00::",
+              "05162155-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "little",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.75
+      },
+      "priorityScore": 38.5,
+      "candidateSenses": [
+        {
+          "candidateId": "little#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "little%3:00:01::",
+            "synsetId": "01394303-a",
+            "definition": "limited or below average in number or quantity or magnitude or extent",
+            "examples": [
+              "a little dining room",
+              "a little house",
+              "a small car",
+              "a little (or small) group"
+            ],
+            "synonyms": [
+              "small"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "little%3:00:01::",
+              "01394303-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "little#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "little%3:00:03::",
+            "synsetId": "01558903-a",
+            "definition": "(quantifier used with mass nouns) small in quantity or degree; not much or almost none or (with ‘a’) at least some",
+            "examples": [
+              "little rain fell in May",
+              "gave it little thought",
+              "little time is left",
+              "we still have little money",
+              "a little hope remained",
+              "there's slight chance that it will work",
+              "there's a slight chance it will work"
+            ],
+            "synonyms": [
+              "slight"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "little%3:00:03::",
+              "01558903-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "little#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "little%5:00:00:young:00",
+            "synsetId": "01653473-s",
+            "definition": "(of children and animals) young, immature",
+            "examples": [
+              "what a big little boy you are",
+              "small children"
+            ],
+            "synonyms": [
+              "small"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "little%5:00:00:young:00",
+              "01653473-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "break",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 5.18
+      },
+      "priorityScore": 38.36,
+      "candidateSenses": [
+        {
+          "candidateId": "break#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "break%2:30:03::",
+            "synsetId": "00364717-v",
+            "definition": "terminate or end",
+            "examples": [
+              "She interrupted her pregnancy",
+              "break a lucky streak",
+              "break the cycle of poverty"
+            ],
+            "synonyms": [
+              "interrupt"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "break%2:30:03::",
+              "00364717-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "break#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "break%2:30:00::",
+            "synsetId": "00334996-v",
+            "definition": "become separated into pieces or fragments",
+            "examples": [
+              "The figurine broke",
+              "The freshly baked loaf fell apart"
+            ],
+            "synonyms": [
+              "separate",
+              "split up",
+              "fall apart",
+              "come apart"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "break%2:30:00::",
+              "00334996-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "break#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "break%2:30:06::",
+            "synsetId": "00259551-v",
+            "definition": "render inoperable or ineffective",
+            "examples": [
+              "You broke the alarm clock when you took it apart!"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "break%2:30:06::",
+              "00259551-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "big",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.67
+      },
+      "priorityScore": 38.34,
+      "candidateSenses": [
+        {
+          "candidateId": "big#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "big%3:00:01::",
+            "synsetId": "01385012-a",
+            "definition": "above average in size or number or quantity or magnitude or extent",
+            "examples": [
+              "a large city",
+              "set out for the big city",
+              "a large sum",
+              "a big (or large) barn",
+              "a large family",
+              "big businesses",
+              "a big expenditure",
+              "a large number of newspapers",
+              "a big group of scientists",
+              "large areas of the world"
+            ],
+            "synonyms": [
+              "large"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "big%3:00:01::",
+              "01385012-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "big#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "big%5:00:00:important:00",
+            "synsetId": "01279982-s",
+            "definition": "significant",
+            "examples": [
+              "graduation was a big day in his life"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "big%5:00:00:important:00",
+              "01279982-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "big#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "big%5:00:00:intense:00",
+            "synsetId": "01514159-s",
+            "definition": "serious or severe",
+            "examples": [
+              "a bad headache",
+              "in a big rage",
+              "had a big (or bad) shock",
+              "a bad earthquake",
+              "a bad storm"
+            ],
+            "synonyms": [
+              "bad"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "big%5:00:00:intense:00",
+              "01514159-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "continue",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 5.08
+      },
+      "priorityScore": 38.16,
+      "candidateSenses": [
+        {
+          "candidateId": "continue#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "continue%2:42:01::",
+            "synsetId": "02690747-v",
+            "definition": "continue a certain state, condition, or activity",
+            "examples": [
+              "Keep on working!",
+              "We continued to work into the night",
+              "Keep smiling",
+              "We went on working until well past midnight"
+            ],
+            "synonyms": [
+              "go on",
+              "proceed",
+              "go along",
+              "keep"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "continue%2:42:01::",
+              "02690747-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "continue#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "continue%2:32:00::",
+            "synsetId": "00783045-v",
+            "definition": "continue talking",
+            "examples": [
+              "‘I know it's hard,’ he continued, ‘but there is no choice’",
+              "carry on — pretend we are not in the room"
+            ],
+            "synonyms": [
+              "go on",
+              "carry on",
+              "proceed"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "continue%2:32:00::",
+              "00783045-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "continue#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "continue%2:42:00::",
+            "synsetId": "02685709-v",
+            "definition": "keep or maintain in unaltered condition; cause to remain or last",
+            "examples": [
+              "preserve the peace in the family",
+              "continue the family tradition",
+              "Carry on the old traditions"
+            ],
+            "synonyms": [
+              "uphold",
+              "carry on",
+              "bear on",
+              "preserve"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "continue%2:42:00::",
+              "02685709-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "build",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 5.04
+      },
+      "priorityScore": 38.08,
+      "candidateSenses": [
+        {
+          "candidateId": "build#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "build%2:36:00::",
+            "synsetId": "01658171-v",
+            "definition": "make by combining materials and parts",
+            "examples": [
+              "this little pig made his house out of straw",
+              "Some eccentric constructed an electric brassiere warmer"
+            ],
+            "synonyms": [
+              "construct",
+              "make"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "build%2:36:00::",
+              "01658171-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "build#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "build%2:30:00::",
+            "synsetId": "00253876-v",
+            "definition": "form or accumulate steadily",
+            "examples": [
+              "Resistance to the manager's plan built up quickly",
+              "Pressure is building up at the Indian-Pakistani border"
+            ],
+            "synonyms": [
+              "build up",
+              "work up",
+              "progress"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "build%2:30:00::",
+              "00253876-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "build#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "build%2:36:09::",
+            "synsetId": "01659048-v",
+            "definition": "build or establish something abstract",
+            "examples": [
+              "build a reputation"
+            ],
+            "synonyms": [
+              "establish"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "build%2:36:09::",
+              "01659048-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "small",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.51
+      },
+      "priorityScore": 38.02,
+      "candidateSenses": [
+        {
+          "candidateId": "small#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "small%3:00:00::",
+            "synsetId": "01394303-a",
+            "definition": "limited or below average in number or quantity or magnitude or extent",
+            "examples": [
+              "a little dining room",
+              "a little house",
+              "a small car",
+              "a little (or small) group"
+            ],
+            "synonyms": [
+              "little"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "small%3:00:00::",
+              "01394303-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "small#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "small%5:00:00:limited:00",
+            "synsetId": "01418056-s",
+            "definition": "relatively moderate, limited, or small",
+            "examples": [
+              "a small business",
+              "a newspaper with a modest circulation",
+              "small-scale plans",
+              "a pocket-size country"
+            ],
+            "synonyms": [
+              "minor",
+              "modest",
+              "small-scale",
+              "pocket-size",
+              "pocket-sized"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "small%5:00:00:limited:00",
+              "01418056-s"
+            ]
+          }
+        },
+        {
+          "candidateId": "small#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "small%5:00:00:young:00",
+            "synsetId": "01653473-s",
+            "definition": "(of children and animals) young, immature",
+            "examples": [
+              "what a big little boy you are",
+              "small children"
+            ],
+            "synonyms": [
+              "little"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "small%5:00:00:young:00",
+              "01653473-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "white",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.51
+      },
+      "priorityScore": 38.02,
+      "candidateSenses": [
+        {
+          "candidateId": "white#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "white%3:00:01::",
+            "synsetId": "00394166-a",
+            "definition": "being of the achromatic color of maximum lightness; having little or no hue owing to reflection of almost all incident light",
+            "examples": [
+              "as white as fresh snow",
+              "a bride's white dress"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "white%3:00:01::",
+              "00394166-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "white#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "white%3:00:02::",
+            "synsetId": "00244146-a",
+            "definition": "of or belonging to a racial group having light skin coloration",
+            "examples": [
+              "voting patterns within the white population"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "white%3:00:02::",
+              "00244146-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "white#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "white%5:00:00:pure:01",
+            "synsetId": "01911414-s",
+            "definition": "free from moral blemish or impurity; unsullied",
+            "examples": [
+              "in shining white armor"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "white%5:00:00:pure:01",
+              "01911414-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "consider",
+      "grade": 1,
+      "upstreamSourceGrade": 3,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 4.99
+      },
+      "priorityScore": 37.98,
+      "candidateSenses": [
+        {
+          "candidateId": "consider#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "consider%2:31:00::",
+            "synsetId": "00692380-v",
+            "definition": "deem to be",
+            "examples": [
+              "She views this quite differently from me",
+              "I consider her to be shallow",
+              "I don't see the situation quite as negatively as you do"
+            ],
+            "synonyms": [
+              "see",
+              "reckon",
+              "view",
+              "regard"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "consider%2:31:00::",
+              "00692380-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "consider#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "consider%2:39:00::",
+            "synsetId": "02170904-v",
+            "definition": "give careful consideration to",
+            "examples": [
+              "consider the possibility of moving"
+            ],
+            "synonyms": [
+              "study"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "consider%2:39:00::",
+              "02170904-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "consider#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "consider%2:31:01::",
+            "synsetId": "00736077-v",
+            "definition": "take into consideration for exemplifying purposes",
+            "examples": [
+              "Take the case of China",
+              "Consider the following case"
+            ],
+            "synonyms": [
+              "take",
+              "deal",
+              "look at"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "consider%2:31:01::",
+              "00736077-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "open",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.48
+      },
+      "priorityScore": 37.96,
+      "candidateSenses": [
+        {
+          "candidateId": "open#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "open%3:00:01::",
+            "synsetId": "01656822-a",
+            "definition": "affording unobstructed entrance and exit; not shut or closed",
+            "examples": [
+              "an open door",
+              "they left the door open"
+            ],
+            "synonyms": [
+              "unfastened"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "open%3:00:01::",
+              "01656822-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "open#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "open%3:00:02::",
+            "synsetId": "01657344-a",
+            "definition": "affording free passage or access",
+            "examples": [
+              "open drains",
+              "the road is open to traffic",
+              "open ranks"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "open%3:00:02::",
+              "01657344-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "open#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "open%5:00:00:unprotected:00",
+            "synsetId": "01892719-s",
+            "definition": "with no protection or shield",
+            "examples": [
+              "the exposed northeast frontier",
+              "open to the weather",
+              "an open wound"
+            ],
+            "synonyms": [
+              "exposed"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "open%5:00:00:unprotected:00",
+              "01892719-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "black",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "adjective",
+      "frequency": {
+        "zipf": 5.46
+      },
+      "priorityScore": 37.92,
+      "candidateSenses": [
+        {
+          "candidateId": "black#a#1",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "black%3:00:01::",
+            "synsetId": "00393873-a",
+            "definition": "being of the achromatic color of maximum darkness; having little or no hue owing to absorption of almost all incident light",
+            "examples": [
+              "black leather jackets",
+              "as black as coal",
+              "rich black soil"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "black%3:00:01::",
+              "00393873-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "black#a#2",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "black%3:00:02::",
+            "synsetId": "00243558-a",
+            "definition": "of or belonging to a racial group especially of sub-Saharan African origin",
+            "examples": [
+              "a great people — a black people — … injected new meaning and dignity into the veins of civilization"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "black%3:00:02::",
+              "00243558-a"
+            ]
+          }
+        },
+        {
+          "candidateId": "black#a#3",
+          "partOfSpeech": "a",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "black%5:00:00:angry:00",
+            "synsetId": "00115608-s",
+            "definition": "marked by anger or resentment or hostility",
+            "examples": [
+              "black looks",
+              "black words"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "black%5:00:00:angry:00",
+              "00115608-s"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "like",
+      "grade": 1,
+      "upstreamSourceGrade": 1,
+      "partOfSpeech": "verb",
+      "frequency": {
+        "zipf": 6.41
+      },
+      "priorityScore": 37.82,
+      "candidateSenses": [
+        {
+          "candidateId": "like#v#1",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "like%2:37:01::",
+            "synsetId": "01828678-v",
+            "definition": "to hope, to desire or to prefer to have something, or to do something",
+            "examples": [
+              "Do you care to try this dish?",
+              "Would you like to come along to the movies?",
+              "I wish I could go home now"
+            ],
+            "synonyms": [
+              "wish",
+              "care"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "like%2:37:01::",
+              "01828678-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "like#v#2",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "like%2:37:05::",
+            "synsetId": "01781131-v",
+            "definition": "find enjoyable or agreeable",
+            "examples": [
+              "I like jogging",
+              "She likes to read Russian novels"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "like%2:37:05::",
+              "01781131-v"
+            ]
+          }
+        },
+        {
+          "candidateId": "like#v#3",
+          "partOfSpeech": "v",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "like%2:37:04::",
+            "synsetId": "01780873-v",
+            "definition": "be fond of",
+            "examples": [
+              "I like my nephews"
+            ],
+            "synonyms": []
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "like%2:37:04::",
+              "01780873-v"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "light",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.33
+      },
+      "priorityScore": 37.66,
+      "candidateSenses": [
+        {
+          "candidateId": "light#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "light%1:16:00::",
+            "synsetId": "09207565-n",
+            "definition": "a divine presence believed by Quakers to enlighten and guide the soul",
+            "examples": [],
+            "synonyms": [
+              "Inner Light",
+              "Light Within",
+              "Christ Within"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "light%1:16:00::",
+              "09207565-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "light#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "light%1:19:00::",
+            "synsetId": "11494354-n",
+            "definition": "(physics) electromagnetic radiation that can produce a visual sensation",
+            "examples": [
+              "the light was filtered through a soft glass window"
+            ],
+            "synonyms": [
+              "visible light",
+              "visible radiation"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "light%1:19:00::",
+              "11494354-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "light#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "light%1:06:00::",
+            "synsetId": "03670692-n",
+            "definition": "any device serving as a source of illumination",
+            "examples": [
+              "he stopped the car and turned off the lights"
+            ],
+            "synonyms": [
+              "light source"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "light%1:06:00::",
+              "03670692-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    },
+    {
+      "lemma": "red",
+      "grade": 1,
+      "upstreamSourceGrade": 2,
+      "partOfSpeech": "noun",
+      "frequency": {
+        "zipf": 5.32
+      },
+      "priorityScore": 37.64,
+      "candidateSenses": [
+        {
+          "candidateId": "red#n#1",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "red%1:07:00::",
+            "synsetId": "04969961-n",
+            "definition": "red color or pigment; the chromatic color resembling the hue of blood",
+            "examples": [],
+            "synonyms": [
+              "redness"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "red%1:07:00::",
+              "04969961-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "red#n#2",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "red%1:18:00::",
+            "synsetId": "09883155-n",
+            "definition": "emotionally charged terms used to refer to extreme radicals or revolutionaries",
+            "examples": [],
+            "synonyms": [
+              "Bolshevik",
+              "Marxist",
+              "bolshie",
+              "bolshy"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "red%1:18:00::",
+              "09883155-n"
+            ]
+          }
+        },
+        {
+          "candidateId": "red#n#3",
+          "partOfSpeech": "n",
+          "referenceOnly": true,
+          "sourceSense": {
+            "senseId": "red%1:21:00::",
+            "synsetId": "13348253-n",
+            "definition": "the amount by which the cost of a business exceeds its revenue",
+            "examples": [
+              "the company operated at a loss last year",
+              "the company operated in the red last year"
+            ],
+            "synonyms": [
+              "loss",
+              "red ink"
+            ]
+          },
+          "provenance": {
+            "sourceId": "open-english-wordnet",
+            "sourceVersion": "2025",
+            "license": "CC-BY-4.0",
+            "importedFieldPolicy": "reference_candidate_only",
+            "upstreamIds": [
+              "red%1:21:00::",
+              "13348253-n"
+            ]
+          }
+        }
+      ],
+      "editorial": {
+        "status": "draft",
+        "decision": null,
+        "selectedCandidateId": null,
+        "draftChildDefinition": null,
+        "draftChildExample": null,
+        "draftOrigin": null,
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      },
+      "profilePlacement": {
+        "status": "unreviewed",
+        "approvedProfileRefs": [],
+        "notes": null,
+        "reviewAuthority": null,
+        "reviewer": null,
+        "reviewedAt": null
+      }
+    }
+  ]
+}
