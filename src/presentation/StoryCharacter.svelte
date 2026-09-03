@@ -3,12 +3,13 @@
     StoryCharacterAngle,
     StoryCharacterExpression,
     StoryCharacterId,
-    StoryCharacterMotion,
+    StoryCharacterMotion as StoryCharacterMotionContract,
     StoryCharacterPose
   } from '../story/storyTypes';
   import { getStoryCharacterPersona } from '../story/storyPersona';
 
   export type StoryCharacterMood = 'happy' | 'thinking' | 'mischievous' | 'celebrate' | 'worried' | 'ready';
+  export type StoryCharacterMotion = StoryCharacterMotionContract;
 
   let {
     character,
@@ -17,7 +18,8 @@
     pose,
     angle,
     motion,
-    label
+    label,
+    heroAvatar
   }: {
     character: StoryCharacterId;
     mood?: StoryCharacterMood;
@@ -26,6 +28,8 @@
     angle?: StoryCharacterAngle;
     motion?: StoryCharacterMotion;
     label?: string;
+    /** Legacy story-surface compatibility only. Dheu now has one canonical persona visual. */
+    heroAvatar?: string;
   } = $props();
 
   let persona = $derived(getStoryCharacterPersona(character));
@@ -83,6 +87,7 @@
   data-pose={resolvedPose}
   data-angle={resolvedAngle}
   data-motion={resolvedMotion}
+  data-legacy-hero-avatar={character === 'dheu' && heroAvatar ? 'provided' : undefined}
   viewBox="0 0 120 120"
   role={label ? 'img' : undefined}
   aria-label={label}
