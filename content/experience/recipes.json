@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "recipes": [
+    {
+      "id": "experience.cause-effect-discovery",
+      "family": "cause_effect_discovery",
+      "priority": 50,
+      "selector": {
+        "surfaces": ["story", "free_play"],
+        "interactionTypes": ["single_choice", "hotspot"],
+        "conceptAny": ["cause-effect", "cause", "effect"]
+      },
+      "choreography": {
+        "situation": "trigger_then_observe_result",
+        "leadCharacter": "scientu",
+        "audioCue": "prompt_and_reaction",
+        "worldConsequence": "progress_projection"
+      },
+      "assessmentPolicy": "suppress_pre_answer"
+    },
+    {
+      "id": "experience.guide-to-home",
+      "family": "guide_to_home",
+      "priority": 40,
+      "selector": {
+        "surfaces": ["story", "free_play"],
+        "interactionTypes": ["drag_to_target"],
+        "conceptAny": ["animal-home", "habitat-home", "home"]
+      },
+      "choreography": {
+        "situation": "guide_subject_to_destination",
+        "leadCharacter": "dheu",
+        "audioCue": "prompt_and_reaction",
+        "worldConsequence": "progress_projection"
+      },
+      "assessmentPolicy": "suppress_pre_answer"
+    },
+    {
+      "id": "experience.sequence-process",
+      "family": "sequence_process",
+      "priority": 30,
+      "selector": {
+        "surfaces": ["story", "free_play"],
+        "interactionTypes": ["sequence_order"]
+      },
+      "choreography": {
+        "situation": "arrange_steps_then_reveal_process",
+        "leadCharacter": "scientu",
+        "audioCue": "prompt_and_reaction",
+        "worldConsequence": "progress_projection"
+      },
+      "assessmentPolicy": "suppress_pre_answer"
+    },
+    {
+      "id": "experience.sort-or-match",
+      "family": "sort_or_match",
+      "priority": 20,
+      "selector": {
+        "surfaces": ["story", "free_play"],
+        "interactionTypes": ["drag_to_target", "memory_pairs"]
+      },
+      "choreography": {
+        "situation": "place_related_things_together",
+        "leadCharacter": "dheu",
+        "audioCue": "prompt_and_reaction",
+        "worldConsequence": "progress_projection"
+      },
+      "assessmentPolicy": "suppress_pre_answer"
+    },
+    {
+      "id": "experience.observe-choose",
+      "family": "observe_choose",
+      "priority": 10,
+      "selector": {
+        "surfaces": ["story", "free_play"],
+        "interactionTypes": ["single_choice", "hotspot"]
+      },
+      "choreography": {
+        "situation": "observe_world_then_choose",
+        "leadCharacter": "scientu",
+        "audioCue": "prompt_and_reaction",
+        "worldConsequence": "progress_projection"
+      },
+      "assessmentPolicy": "suppress_pre_answer"
+    }
+  ]
+}
