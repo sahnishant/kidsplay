@@ -1,0 +1,10 @@
+[
+  {
+    "id": "animals.butterfly.lifecycle.sequence.generated.001",
+    "sourceRef": "knowledge.animals.butterfly.lifecycle.001",
+    "engine": "sequence_order@1",
+    "seed": 290826,
+    "difficulty": 2,
+    "prompt": "Put the butterfly life cycle in order."
+  }
+]
