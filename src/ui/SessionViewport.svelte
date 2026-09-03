@@ -3,6 +3,15 @@
   import type { SessionLaunch, SessionSection } from '../content';
   import type { Question } from '../contracts/question';
   import type { ResponseAssistanceKind, SessionAttempt } from '../contracts/runtime';
+  import {
+    loadChildAudioPreferences,
+    playCharacterNarration,
+    playQuestionPrompt,
+    playVocabularyAudio,
+    saveChildAudioPreferences,
+    stopChildAudio,
+    type ChildAudioPlaybackResult
+  } from '../runtime/childAudio';
   import type { AvatarId } from '../runtime/localProgress';
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
@@ -215,6 +224,8 @@
 
   function handleAdvance(): void {
     clearAutoAdvance();
+    stopChildAudio();
+    audioNotice = null;
     if (question && retryAvailable && prepareRetry(sessionState, question, retryAssistance())) {
       restoredSubmitted = false;
       onCheckpoint?.(sessionState);
