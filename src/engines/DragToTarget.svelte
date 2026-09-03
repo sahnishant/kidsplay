@@ -87,7 +87,6 @@
       startY: event.clientY,
       moved: false
     };
-    selectedItemId = itemId;
     const button = event.currentTarget as HTMLButtonElement;
     button.setPointerCapture(event.pointerId);
     button.classList.add('drag-item--dragging');
