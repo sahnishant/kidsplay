@@ -77,15 +77,15 @@
     <button class="primary-button" type="button" disabled={locked} onclick={submit}>Check word</button>
   </div>
 {:else}
-  <div class="sequence-order" style={compactSequence ? 'gap:6px' : undefined}>
+  <div class="sequence-order" style={compactSequence ? 'gap:2px' : undefined}>
     <p class="sequence-order__instructions" style={compactSequence ? 'font-size:.78rem;line-height:1.15' : undefined}>Put the cards in order. Tap two to swap, or use the arrows.</p>
-    <div class="sequence-order__list" role="list" style={compactSequence ? 'gap:5px' : undefined}>
+    <div class="sequence-order__list" role="list" style={compactSequence ? 'gap:2px' : undefined}>
       {#each order as item, index (item.id)}
         {@const visual = resolveItemVisualPresentation(item, { recipeSurface: 'sequence-item' })}
         <div
           class="sequence-order__row"
           role="listitem"
-          style={compactSequence ? 'grid-template-columns:24px minmax(0,1fr) 92px;gap:4px;padding:3px' : undefined}
+          style={compactSequence ? 'grid-template-columns:24px minmax(0,1fr) 92px;gap:4px;padding:0 3px' : undefined}
         >
           <span
             class="sequence-order__position"
@@ -134,7 +134,12 @@
         </div>
       {/each}
     </div>
-    <div class="sequence-order__status" role="status" aria-live="polite">{status}</div>
+    <div
+      class="sequence-order__status"
+      role="status"
+      aria-live="polite"
+      style={compactSequence ? 'min-height:0;font-size:.75rem;line-height:1' : undefined}
+    >{status}</div>
     <button class="primary-button" type="button" disabled={locked} onclick={submit}>Check order</button>
   </div>
 {/if}
