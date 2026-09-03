@@ -45,18 +45,34 @@ const AUDIO_PREFERENCES_KEY = 'kidsplay.audio.v1';
 const DEFAULT_PREFERENCES: ChildAudioPreferences = { version: 1, enabled: true };
 
 const VOICE_PROFILES: Record<ChildAudioChannel | ChildAudioCharacter, VoiceProfile> = {
-  prompt: { rate: 0.9, pitch: 1 },
-  character: { rate: 0.9, pitch: 1 },
-  vocabulary: { rate: 0.76, pitch: 1.02 },
-  phoneme: { rate: 0.68, pitch: 1.04 },
-  dheu: { rate: 0.92, pitch: 1.12 },
-  scientu: { rate: 0.86, pitch: 0.96 },
-  shaitanu: { rate: 0.98, pitch: 0.82 }
+  prompt: { rate: 0.84, pitch: 1.16 },
+  character: { rate: 0.86, pitch: 1.15 },
+  vocabulary: { rate: 0.74, pitch: 1.08 },
+  phoneme: { rate: 0.66, pitch: 1.08 },
+  dheu: { rate: 0.88, pitch: 1.22 },
+  scientu: { rate: 0.82, pitch: 1.1 },
+  shaitanu: { rate: 0.94, pitch: 0.98 }
 };
+
+const CHILD_FRIENDLY_VOICE_HINTS = [
+  'child',
+  'young',
+  'aria',
+  'ava',
+  'samantha',
+  'susan',
+  'zira',
+  'hazel',
+  'female',
+  'natural'
+] as const;
+
+const VOICE_READY_RETRY_DELAYS_MS = [120, 360, 850] as const;
 
 let audioContext: AudioContext | null = null;
 let activeMedia: HTMLAudioElement | null = null;
 let voiceListenerCleanup: (() => void) | null = null;
+let voiceRetryTimers: Array<ReturnType<typeof setTimeout>> = [];
 let playbackGeneration = 0;
 
 function getStorage(): Storage | null {
@@ -118,10 +134,20 @@ function normalizedLanguage(language: string): string {
   return language.trim().replace('_', '-').toLowerCase();
 }
 
+function childFriendlyVoiceScore(voice: SpeechSynthesisVoice): number {
+  const name = voice.name.toLowerCase();
+  const hintScore = CHILD_FRIENDLY_VOICE_HINTS.reduce(
+    (score, hint, index) => score + (name.includes(hint) ? CHILD_FRIENDLY_VOICE_HINTS.length - index : 0),
+    0
+  );
+  return hintScore + (voice.default ? 1 : 0);
+}
+
 /**
  * Strict offline voice selection. Voices that are not explicitly marked
  * localService are never eligible, even when a browser would otherwise choose
- * them automatically.
+ * them automatically. When several local voices fit, prefer system voices
+ * whose names commonly indicate a lighter child-friendly delivery.
  */
 export function selectOfflineSpeechVoice(
   voices: readonly SpeechSynthesisVoice[],
@@ -131,9 +157,13 @@ export function selectOfflineSpeechVoice(
   if (!requested) return null;
   const base = requested.split('-')[0];
   const local = voices.filter((voice) => voice.localService === true);
-  return local.find((voice) => normalizedLanguage(voice.lang) === requested)
-    ?? local.find((voice) => normalizedLanguage(voice.lang).split('-')[0] === base)
-    ?? null;
+  const exact = local.filter((voice) => normalizedLanguage(voice.lang) === requested);
+  const sameLanguage = local.filter((voice) => normalizedLanguage(voice.lang).split('-')[0] === base);
+  const candidates = exact.length ? exact : sameLanguage;
+  return [...candidates].sort((left, right) => {
+    const scoreDelta = childFriendlyVoiceScore(right) - childFriendlyVoiceScore(left);
+    return scoreDelta || left.name.localeCompare(right.name);
+  })[0] ?? null;
 }
 
 function getAudioContext(): AudioContext | null {
@@ -194,10 +224,11 @@ function runToneSequence(
 export function playAnswerCue(correct: boolean, enabled = true): void {
   const tones: readonly Tone[] = correct
     ? [
-        [523.25, 0, 0.18],
-        [659.25, 0.08, 0.2],
-        [783.99, 0.16, 0.22],
-        [1046.5, 0.25, 0.27]
+        [523.25, 0, 0.14],
+        [659.25, 0.07, 0.15],
+        [783.99, 0.14, 0.17],
+        [1046.5, 0.23, 0.22],
+        [1318.51, 0.36, 0.18]
       ]
     : [
         [392, 0, 0.11],
@@ -207,7 +238,7 @@ export function playAnswerCue(correct: boolean, enabled = true): void {
         [293.66, 0.29, 0.14],
         [261.63, 0.38, 0.2]
       ];
-  runToneSequence(tones, correct ? 0.035 : 0.028, correct ? 'sine' : 'triangle', enabled);
+  runToneSequence(tones, correct ? 0.042 : 0.026, correct ? 'sine' : 'triangle', enabled);
 }
 
 export function playCharacterCue(character: ChildAudioCharacter, enabled = true): void {
@@ -230,9 +261,15 @@ function clearVoiceListener(): void {
   voiceListenerCleanup = null;
 }
 
+function clearVoiceRetryTimers(): void {
+  for (const timer of voiceRetryTimers) clearTimeout(timer);
+  voiceRetryTimers = [];
+}
+
 export function stopChildAudio(): void {
   playbackGeneration += 1;
   clearVoiceListener();
+  clearVoiceRetryTimers();
   if (activeMedia) {
     try {
       activeMedia.pause();
@@ -258,30 +295,18 @@ function voiceProfileFor(request: ChildAudioRequest): VoiceProfile {
 
 function speakWithOfflineVoice(
   request: ChildAudioRequest,
-  generation: number,
-  allowVoiceWait: boolean
+  generation: number
 ): ChildAudioPlaybackResult {
   if (typeof SpeechSynthesisUtterance === 'undefined') return { source: 'unavailable' };
   const synthesis = getSpeechSynthesis();
   if (!synthesis) return { source: 'unavailable' };
 
-  const voices = synthesis.getVoices();
-  const voice = selectOfflineSpeechVoice(voices, request.language);
-  if (!voice) {
-    if (allowVoiceWait && voices.length === 0 && typeof synthesis.addEventListener === 'function') {
-      const onVoicesChanged = () => {
-        clearVoiceListener();
-        if (generation !== playbackGeneration) return;
-        speakWithOfflineVoice(request, generation, false);
-      };
-      synthesis.addEventListener('voiceschanged', onVoicesChanged, { once: true });
-      voiceListenerCleanup = () => synthesis.removeEventListener('voiceschanged', onVoicesChanged);
-      return { source: 'pending_local_voice' };
-    }
-    return { source: 'unavailable' };
-  }
+  const voice = selectOfflineSpeechVoice(synthesis.getVoices(), request.language);
+  if (!voice) return { source: 'unavailable' };
 
   try {
+    if (generation !== playbackGeneration) return { source: 'unavailable' };
+    synthesis.resume();
     const utterance = new SpeechSynthesisUtterance(request.text.trim());
     const profile = voiceProfileFor(request);
     utterance.voice = voice;
@@ -296,9 +321,40 @@ function speakWithOfflineVoice(
   }
 }
 
+function waitForOfflineVoice(
+  request: ChildAudioRequest,
+  generation: number
+): ChildAudioPlaybackResult {
+  const synthesis = getSpeechSynthesis();
+  if (!synthesis) return { source: 'unavailable' };
+
+  clearVoiceListener();
+  clearVoiceRetryTimers();
+
+  const trySpeak = () => {
+    if (generation !== playbackGeneration) return;
+    const result = speakWithOfflineVoice(request, generation);
+    if (result.source === 'local_voice') {
+      clearVoiceListener();
+      clearVoiceRetryTimers();
+    }
+  };
+
+  if (typeof synthesis.addEventListener === 'function') {
+    const onVoicesChanged = () => trySpeak();
+    synthesis.addEventListener('voiceschanged', onVoicesChanged);
+    voiceListenerCleanup = () => synthesis.removeEventListener('voiceschanged', onVoicesChanged);
+  }
+
+  voiceRetryTimers = VOICE_READY_RETRY_DELAYS_MS.map((delay) => setTimeout(trySpeak, delay));
+  return { source: 'pending_local_voice' };
+}
+
 /**
- * Plays narration without any remote fallback. Bundled app audio wins; otherwise
- * a speechSynthesis voice must explicitly report localService=true.
+ * Plays narration without any remote fallback. Bundled app audio wins; the
+ * browser/device speech engine is allowed only when it explicitly exposes a
+ * matching localService voice. Android WebViews can populate that voice list
+ * late, so a short bounded retry also runs after a child presses Repeat.
  */
 export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackResult {
   if (request.enabled === false) {
@@ -318,7 +374,8 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
       void media.play().catch(() => {
         if (generation !== playbackGeneration) return;
         activeMedia = null;
-        speakWithOfflineVoice(request, generation, true);
+        const result = speakWithOfflineVoice(request, generation);
+        if (result.source === 'unavailable') waitForOfflineVoice(request, generation);
       });
       return { source: 'bundled' };
     } catch {
@@ -326,7 +383,10 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     }
   }
 
-  return speakWithOfflineVoice(request, generation, true);
+  const speechResult = speakWithOfflineVoice(request, generation);
+  return speechResult.source === 'unavailable'
+    ? waitForOfflineVoice(request, generation)
+    : speechResult;
 }
 
 export function playQuestionPrompt(

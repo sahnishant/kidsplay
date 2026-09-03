@@ -9,12 +9,16 @@
     presentation,
     class: className = '',
     itemClass = '',
-    compoundClass = ''
+    compoundClass = '',
+    style = '',
+    itemStyle = ''
   }: {
     presentation: SemanticVisualPresentation;
     class?: string;
     itemClass?: string;
     compoundClass?: string;
+    style?: string;
+    itemStyle?: string;
   } = $props();
 
   let entityClass = $derived([
@@ -27,6 +31,7 @@
   {#if presentation.hasVisuals}
     <span
       class={entityClass}
+      style={style || undefined}
       data-semantic-visual-kind="entities"
       data-visual-count={presentation.visualRefs.length}
       role={presentation.decorative ? undefined : 'img'}
@@ -34,7 +39,7 @@
       aria-hidden={presentation.decorative ? 'true' : undefined}
     >
       {#each presentation.visualRefs as visualRef (visualRef)}
-        <span class={itemClass}>
+        <span class={itemClass} style={itemStyle || undefined}>
           <VisualEntity {visualRef} context={presentation.context} />
         </span>
       {/each}

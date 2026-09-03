@@ -32,7 +32,7 @@
 
 .memory-card {
   position: relative;
-  min-height: 118px;
+  height: 118px;
   border: 0;
   border-radius: 18px;
   background: linear-gradient(145deg, #625add, #4d46bd);
@@ -238,7 +238,7 @@
   }
 
   .memory-card {
-    min-height: 102px;
+    height: 102px;
     border-radius: 15px;
   }
 

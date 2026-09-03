@@ -11,9 +11,9 @@ import {
   stopChildAudio
 } from '../src/runtime/childAudio';
 
-function voice(name: string, lang: string, localService: boolean): SpeechSynthesisVoice {
+function voice(name: string, lang: string, localService: boolean, isDefault = false): SpeechSynthesisVoice {
   return {
-    default: false,
+    default: isDefault,
     lang,
     localService,
     name,
@@ -38,6 +38,7 @@ function installSpeechSynthesis(voices: SpeechSynthesisVoice[]) {
   const spoken: MockUtterance[] = [];
   const synthesis = {
     cancel: vi.fn(),
+    resume: vi.fn(),
     speak: vi.fn((utterance: MockUtterance) => spoken.push(utterance)),
     getVoices: vi.fn(() => voices),
     addEventListener: vi.fn(),
@@ -58,6 +59,7 @@ beforeEach(() => {
 
 afterEach(() => {
   stopChildAudio();
+  vi.useRealTimers();
   vi.unstubAllGlobals();
 });
 
@@ -92,26 +94,50 @@ describe('Phase C offline child audio runtime', () => {
     expect(selectOfflineSpeechVoice([remoteExact, localWrongLanguage], 'en-IN')).toBeNull();
   });
 
-  it('refuses remote-only TTS instead of silently using an online voice', () => {
+  it('prefers a lighter child-friendly local voice when several offline voices match', () => {
+    const generic = voice('Offline English', 'en-IN', true, true);
+    const lighter = voice('Microsoft Zira Desktop', 'en-IN', true);
+
+    expect(selectOfflineSpeechVoice([generic, lighter], 'en-IN')).toBe(lighter);
+  });
+
+  it('refuses remote-only TTS instead of ever speaking through an online voice', () => {
     const { synthesis } = installSpeechSynthesis([voice('Cloud English', 'en-IN', false)]);
     const result = playQuestionPrompt('Which animal lives in a kennel?', 'en-IN');
 
-    expect(result.source).toBe('unavailable');
+    expect(result.source).toBe('pending_local_voice');
     expect(synthesis.speak).not.toHaveBeenCalled();
   });
 
-  it('speaks prompts and vocabulary through a matching offline voice', () => {
+  it('retries a briefly empty mobile voice list so Repeat can recover when voices arrive late', () => {
+    vi.useFakeTimers();
+    const voices: SpeechSynthesisVoice[] = [];
+    const { synthesis } = installSpeechSynthesis(voices);
+
+    expect(playQuestionPrompt('Take every animal to the correct home.', 'en-IN').source).toBe('pending_local_voice');
+    voices.push(voice('Microsoft Zira Desktop', 'en-IN', true));
+    vi.advanceTimersByTime(120);
+
+    expect(synthesis.speak).toHaveBeenCalledTimes(1);
+    const utterance = synthesis.speak.mock.calls.at(-1)?.[0] as MockUtterance;
+    expect(utterance.text).toBe('Take every animal to the correct home.');
+    expect(utterance.pitch).toBeGreaterThan(1);
+  });
+
+  it('speaks prompts and vocabulary through a matching offline voice with lighter child delivery', () => {
     const offline = voice('Offline English', 'en-IN', true);
-    const { spoken } = installSpeechSynthesis([offline]);
+    const { synthesis, spoken } = installSpeechSynthesis([offline]);
 
     expect(playQuestionPrompt('Choose the dog.', 'en-IN').source).toBe('local_voice');
     expect(spoken.at(-1)?.text).toBe('Choose the dog.');
     expect(spoken.at(-1)?.voice).toBe(offline);
-    expect(spoken.at(-1)?.rate).toBe(0.9);
+    expect(spoken.at(-1)?.rate).toBe(0.84);
+    expect(spoken.at(-1)?.pitch).toBe(1.16);
+    expect(synthesis.resume).toHaveBeenCalled();
 
     expect(playVocabularyAudio('dog', 'en-IN').source).toBe('local_voice');
     expect(spoken.at(-1)?.text).toBe('dog');
-    expect(spoken.at(-1)?.rate).toBeLessThan(0.9);
+    expect(spoken.at(-1)?.rate).toBeLessThan(0.84);
   });
 
   it('keeps phoneme playback authored and slower rather than deriving speech from notation', () => {
@@ -121,7 +147,7 @@ describe('Phase C offline child audio runtime', () => {
     expect(playPhonemeAudio('sh', 'en-IN').source).toBe('local_voice');
     const utterance = synthesis.speak.mock.calls.at(-1)?.[0] as MockUtterance;
     expect(utterance.text).toBe('sh');
-    expect(utterance.rate).toBe(0.68);
+    expect(utterance.rate).toBe(0.66);
   });
 
   it('provides distinct Dheu, Scientu and Shaitanu narration hooks over the same offline voice', () => {

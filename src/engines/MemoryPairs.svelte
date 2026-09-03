@@ -4,9 +4,10 @@
   import { createShuffledDeck } from '../mechanics/cards';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
+  import { playAnswerCue } from '../runtime/childAudio';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit, checkResponse }: EngineProps<MemoryPairsQuestion> = $props();
+  let { question, onSubmit, checkResponse, soundEnabled = true }: EngineProps<MemoryPairsQuestion> = $props();
 
   let deck = $derived(createShuffledDeck(question.interaction.cards, question.interaction.seed));
   let cardsById = $derived(new Map(question.interaction.cards.map((card) => [card.id, card])));
@@ -40,10 +41,13 @@
       if (!remaining) {
         locked = true;
         window.setTimeout(() => onSubmit({ matchedPairs: [...matchedPairs] }), 350);
+      } else {
+        playAnswerCue(true, soundEnabled);
       }
       return;
     }
 
+    playAnswerCue(false, soundEnabled);
     status = 'Those cards do not belong together. Remember them and try again.';
     window.setTimeout(() => {
       faceUp = [];
@@ -82,44 +86,25 @@
           {#if visual.hasVisuals}
             <SemanticVisualPresenter
               presentation={visual}
-              class="memory-card__visuals"
-              itemClass="memory-card__visual"
-              compoundClass="memory-card__visuals--compound"
+              style="display:flex;align-items:center;justify-content:center;gap:3px;width:min(72px,100%);height:50px;min-width:0;overflow:hidden;margin:auto"
+              itemStyle="display:block;width:48px;height:46px;min-width:0;min-height:0;overflow:hidden"
             />
           {:else if card.symbol}
             <span class="memory-card__symbol">{card.symbol}</span>
           {/if}
-          <span class="memory-card__label">{card.label}</span>
+          <span
+            class="memory-card__label"
+            style="display:-webkit-box;max-width:100%;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow-wrap:anywhere"
+          >{card.label}</span>
         </span>
+        {#if matchedCardIds.includes(card.id)}
+          <span
+            aria-hidden="true"
+            style="position:absolute;top:5px;right:5px;z-index:3;width:24px;height:24px;display:grid;place-items:center;border-radius:50%;background:var(--good);color:#fff;font-size:.82rem;font-weight:950;pointer-events:none"
+          >✓</span>
+        {/if}
       </button>
     {/each}
   </div>
   <div class="memory-pairs__status" role="status" aria-live="polite">{status}</div>
 </div>
-
-<style>
-  :global(.memory-card__visuals) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
-    width: 72px;
-    height: 58px;
-    margin: 0 auto 4px;
-  }
-
-  :global(.memory-card__visuals--compound) {
-    width: 94px;
-  }
-
-  :global(.memory-card__visual) {
-    width: 54px;
-    height: 50px;
-    min-width: 0;
-  }
-
-  :global(.memory-card__visuals--compound .memory-card__visual) {
-    width: 43px;
-    height: 42px;
-  }
-</style>

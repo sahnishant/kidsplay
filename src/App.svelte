@@ -69,6 +69,9 @@
   let goalReadiness = $derived(
     goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
   );
+  let forestLevelOneSession = $derived(
+    activeStoryMission?.id === 'mission.forest-explorer-trail' || activeStoryLocation?.id === 'forest'
+  );
 
   onMount(() => installAppBackNavigation());
 
@@ -234,27 +237,29 @@
 </script>
 
 {#if activeSession}
-  <Session
-    title={activeSession.title}
-    mode={activeSession.mode}
-    questions={activeSession.questions}
-    sections={activeSession.sections}
-    childName={child.name}
-    childAvatar={child.avatar}
-    initialState={initialSessionState}
-    storyCompletion={activeStoryMission
-      ? {
-        sceneId: activeStoryMission.successSceneRef,
-        text: activeStoryMission.successBeat.text,
-        rewardLabel: activeStoryMission.reward.label,
-        stars: activeStoryMission.reward.stars
-      }
-      : undefined}
-    onAttempt={handleAttempt}
-    onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
-    onComplete={handleSessionComplete}
-    onExit={requestSessionExit}
-  />
+  <div class="session-host" class:forest-session-host={forestLevelOneSession}>
+    <Session
+      title={activeSession.title}
+      mode={activeSession.mode}
+      questions={activeSession.questions}
+      sections={activeSession.sections}
+      childName={child.name}
+      childAvatar={child.avatar}
+      initialState={initialSessionState}
+      storyCompletion={activeStoryMission
+        ? {
+          sceneId: activeStoryMission.successSceneRef,
+          text: activeStoryMission.successBeat.text,
+          rewardLabel: activeStoryMission.reward.label,
+          stars: activeStoryMission.reward.stars
+        }
+        : undefined}
+      onAttempt={handleAttempt}
+      onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
+      onComplete={handleSessionComplete}
+      onExit={requestSessionExit}
+    />
+  </div>
 {:else}
   <Home
     {child}

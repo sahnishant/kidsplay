@@ -152,7 +152,7 @@ describe('viewport session presentation boundary', () => {
     expect(screen.getByRole('status').textContent).toContain('Correct.');
     const splash = document.querySelector('[data-answer-feedback="correct"]');
     expect(splash).toBeTruthy();
-    expect(splash?.textContent).toContain('Correct!');
+    expect(splash?.textContent).toContain('Great!');
     expect(screen.getByRole('button', { name: 'See result' })).toBeTruthy();
   });
 
@@ -172,7 +172,7 @@ describe('viewport session presentation boundary', () => {
     expect(screen.getByRole('status').textContent).toContain('Try another way.');
     const splash = document.querySelector('[data-answer-feedback="incorrect"]');
     expect(splash).toBeTruthy();
-    expect(splash?.textContent).toContain('Not quite!');
+    expect(splash?.textContent).toContain('Try again');
     expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
