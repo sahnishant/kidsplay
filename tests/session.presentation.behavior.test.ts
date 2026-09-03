@@ -95,7 +95,7 @@ describe('viewport session presentation boundary', () => {
       }
     });
 
-    expect(screen.getByText('Scientu: Try the clue and notice what can grow or change.')).toBeTruthy();
+    expect(screen.getByText('Scientu: Try the clue, then notice what happens.')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Which plant part can grow into a new plant?' })).toBeTruthy();
   });
 
@@ -109,7 +109,7 @@ describe('viewport session presentation boundary', () => {
       }
     });
 
-    expect(screen.queryByText('Scientu: Try the clue and notice what can grow or change.')).toBeNull();
+    expect(screen.queryByText('Scientu: Try the clue, then notice what happens.')).toBeNull();
   });
 
   it('suppresses story experience framing in assessment even if a story completion view is supplied', () => {
@@ -128,7 +128,7 @@ describe('viewport session presentation boundary', () => {
       }
     });
 
-    expect(screen.queryByText('Scientu: Try the clue and notice what can grow or change.')).toBeNull();
+    expect(screen.queryByText('Scientu: Try the clue, then notice what happens.')).toBeNull();
   });
 
   it('submits on the option tap and replaces the answer surface with a happy reaction', async () => {
