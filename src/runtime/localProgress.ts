@@ -318,7 +318,9 @@ function applyEvidence(
 function sameStoredAttempt(stored: StoredAttempt, attempt: SessionAttempt): boolean {
   return stored.sessionId === attempt.response.sessionId
     && stored.questionId === attempt.question.id
-    && stored.submittedAt === attempt.response.submittedAt;
+    && stored.submittedAt === attempt.response.submittedAt
+    && stored.attemptNumber === attempt.response.attempts
+    && stored.attemptKind === attempt.response.attemptKind;
 }
 
 function responseMasteryWeight(attempt: SessionAttempt): number {
