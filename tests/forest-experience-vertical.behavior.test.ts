@@ -4,7 +4,9 @@ import sequenceHotspotQuestions from '../content/questions/sequence-hotspot.json
 import animalLifecycleKnowledge from '../content/knowledge/animal-lifecycles.json';
 import lifecycleRecipes from '../content/recipes/animal-lifecycle-activities.json';
 import { resolveExperienceRecipe, type ExperienceRecipe } from '../src/experience/experienceRecipes';
+import type { ProgressSummary } from '../src/runtime/localProgress';
 import { createStoryMissionLaunch, getStoryMission } from '../src/story/storyDirector';
+import { deriveWorldRewardState } from '../src/story/worldRewards';
 
 const FOREST_MISSION_ID = 'mission.forest-explorer-trail';
 
@@ -45,6 +47,25 @@ describe('Forest Explorer Trail experience vertical', () => {
     expect(new Set(launch.session.questions.map((question) => question.id)).size).toBe(7);
     expect([...desired].filter((rowId) => !covered.has(rowId))).toEqual([]);
     expect(launch.session.questions.every((question) => (question.knowledgeRefs?.length ?? 0) > 0)).toBe(true);
+  });
+
+  it('projects the first Forest learning attempt into the existing persistent world state', () => {
+    const afterFirstMissionAttempt: ProgressSummary = {
+      totalAttempts: 1,
+      correctAttempts: 1,
+      accuracy: 1,
+      practicedKnowledge: 1,
+      masteredKnowledge: 0,
+      topics: [],
+      recommendedTopics: []
+    };
+
+    const forest = deriveWorldRewardState(afterFirstMissionAttempt).locations.forest;
+    expect(forest.stage).toBe(1);
+    expect(forest.changes.map((change) => change.id)).toContain('forest-trail-sign');
+    expect(forest.changes.find((change) => change.id === 'forest-trail-sign')?.childLine).toBe(
+      'The forest trail sign is standing again.'
+    );
   });
 
   it('selects all five reusable experience families without a question-id recipe registry', () => {
