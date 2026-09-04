@@ -9,11 +9,17 @@ const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
   maxTotalJsBytes: 760 * 1024,
-  // Learn About V1 is a lazily loaded product route (~8 KiB gzip). Keep the
-  // primary/single-chunk limit unchanged while accounting for that bounded route.
-  maxTotalJsGzipBytes: 164 * 1024,
-  maxTotalCssBytes: 100 * 1024
+  maxCoreJsGzipBytes: 160 * 1024,
+  maxCoreCssBytes: 100 * 1024
 };
+
+// Lazy product routes are bounded separately so adding an offline route does not
+// silently consume the core-runtime budget. The primary/single-chunk limits stay
+// unchanged and every named route must remain inside its reviewed allowance.
+const lazyRouteBudgets = [
+  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 2 * 1024 },
+  { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 }
+];
 
 function kib(bytes) {
   return `${(bytes / 1024).toFixed(1)} KiB`;
@@ -25,6 +31,10 @@ async function measure(name) {
   const bytes = info.size;
   const gzipBytes = name.endsWith('.js') ? gzipSync(await readFile(path)).byteLength : null;
   return { name, bytes, gzipBytes };
+}
+
+function routeBudgetFor(asset) {
+  return lazyRouteBudgets.find((budget) => asset.name.startsWith(budget.prefix));
 }
 
 let names;
@@ -48,8 +58,10 @@ if (!js.length) {
 
 const largestJs = [...js].sort((left, right) => right.bytes - left.bytes)[0];
 const totalJsBytes = js.reduce((sum, asset) => sum + asset.bytes, 0);
-const totalJsGzipBytes = js.reduce((sum, asset) => sum + (asset.gzipBytes ?? 0), 0);
-const totalCssBytes = css.reduce((sum, asset) => sum + asset.bytes, 0);
+const coreJs = js.filter((asset) => !routeBudgetFor(asset));
+const coreCss = css.filter((asset) => !routeBudgetFor(asset));
+const coreJsGzipBytes = coreJs.reduce((sum, asset) => sum + (asset.gzipBytes ?? 0), 0);
+const coreCssBytes = coreCss.reduce((sum, asset) => sum + asset.bytes, 0);
 const errors = [];
 
 if (largestJs.bytes > budgets.maxSingleJsBytes) {
@@ -61,22 +73,37 @@ if ((largestJs.gzipBytes ?? 0) > budgets.maxSingleJsGzipBytes) {
 if (totalJsBytes > budgets.maxTotalJsBytes) {
   errors.push(`total JS is ${kib(totalJsBytes)}; budget ${kib(budgets.maxTotalJsBytes)}`);
 }
-if (totalJsGzipBytes > budgets.maxTotalJsGzipBytes) {
-  errors.push(`total JS gzip is ${kib(totalJsGzipBytes)}; budget ${kib(budgets.maxTotalJsGzipBytes)}`);
+if (coreJsGzipBytes > budgets.maxCoreJsGzipBytes) {
+  errors.push(`core JS gzip is ${kib(coreJsGzipBytes)}; budget ${kib(budgets.maxCoreJsGzipBytes)}`);
 }
-if (totalCssBytes > budgets.maxTotalCssBytes) {
-  errors.push(`total CSS is ${kib(totalCssBytes)}; budget ${kib(budgets.maxTotalCssBytes)}`);
+if (coreCssBytes > budgets.maxCoreCssBytes) {
+  errors.push(`core CSS is ${kib(coreCssBytes)}; budget ${kib(budgets.maxCoreCssBytes)}`);
 }
 
 console.log('Production bundle budget:');
 console.log(`- JS chunks: ${js.length}; largest ${kib(largestJs.bytes)} raw / ${kib(largestJs.gzipBytes ?? 0)} gzip`);
-console.log(`- Total JS: ${kib(totalJsBytes)} raw / ${kib(totalJsGzipBytes)} gzip`);
-console.log(`- Total CSS: ${kib(totalCssBytes)}`);
+console.log(`- Total JS: ${kib(totalJsBytes)} raw; core ${kib(coreJsGzipBytes)} gzip`);
+console.log(`- Core CSS: ${kib(coreCssBytes)}`);
+
+for (const route of lazyRouteBudgets) {
+  const routeJs = js.filter((asset) => asset.name.startsWith(route.prefix));
+  const routeCss = css.filter((asset) => asset.name.startsWith(route.prefix));
+  const routeJsGzipBytes = routeJs.reduce((sum, asset) => sum + (asset.gzipBytes ?? 0), 0);
+  const routeCssBytes = routeCss.reduce((sum, asset) => sum + asset.bytes, 0);
+  if (routeJs.length === 0) errors.push(`${route.prefix} lazy route emitted no JavaScript chunk`);
+  if (routeJsGzipBytes > route.maxJsGzipBytes) {
+    errors.push(`${route.prefix} JS gzip is ${kib(routeJsGzipBytes)}; budget ${kib(route.maxJsGzipBytes)}`);
+  }
+  if (routeCssBytes > route.maxCssBytes) {
+    errors.push(`${route.prefix} CSS is ${kib(routeCssBytes)}; budget ${kib(route.maxCssBytes)}`);
+  }
+  console.log(`- ${route.prefix} route: ${kib(routeJsGzipBytes)} JS gzip / ${kib(routeCssBytes)} CSS`);
+}
 
 if (errors.length) {
   console.error('Bundle budget validation failed:');
   for (const error of errors) console.error(`- ${error}`);
-  console.error('Reduce shipped code/data or make an intentional reviewed budget change; do not silence the check by raising Vite warning limits.');
+  console.error('Reduce shipped code/data or make an intentional reviewed route-budget change; do not silence the check by raising Vite warning limits.');
   process.exit(1);
 }
 
