@@ -7,7 +7,9 @@ import { measureStoryNarration, storyNarrationUtteranceId } from '../src/experie
 import { resolveChildAudioUtterance } from '../src/runtime/childAudioManifest';
 import {
   getApprovedBundledSrc,
-  KIDSPLAY_CHILD_AUDIO_MANIFEST
+  isChildAudioHumanApprovedPackActive,
+  KIDSPLAY_CHILD_AUDIO_MANIFEST,
+  KIDSPLAY_V1_VOICE_HUMAN_APPROVAL
 } from '../src/runtime/childAudioProduction';
 import {
   listChildAudioProductionAssets,
@@ -15,7 +17,7 @@ import {
 } from '../src/runtime/childAudioProductionEvidence';
 
 describe('bundled playful voice + Stories V1 production contract', () => {
-  it('keeps all 39 physically bundled spoken candidates traceable and byte/hash exact', () => {
+  it('pins HUMAN approval to the exact candidate manifest and activates all 39 bundled clips', () => {
     const summary = summarizeChildAudioProduction();
     const assets = listChildAudioProductionAssets();
     expect(summary.utteranceCount).toBe(39);
@@ -24,8 +26,19 @@ describe('bundled playful voice + Stories V1 production contract', () => {
     expect(summary.candidateBytes).toBe(676_114);
     expect(summary.projectedPackageImpactBytes).toBe(676_114);
     expect(summary.measuredProductionTrialDurationMs).toBe(669_334);
+    // The evidence manifest remains immutable candidate provenance. Runtime
+    // promotion is represented separately by the HUMAN approval record.
     expect(summary.approvedBytes).toBe(0);
+    expect(isChildAudioHumanApprovedPackActive()).toBe(true);
     expect(new Set(assets.map((asset) => asset.id)).size).toBe(39);
+
+    const candidateManifestPath = join(process.cwd(), 'content', 'audio', 'kidsplay-v1-candidate-manifest.json');
+    const candidateManifestBytes = readFileSync(candidateManifestPath);
+    const gitBlobSha = createHash('sha1')
+      .update(Buffer.from(`blob ${candidateManifestBytes.length}\0`))
+      .update(candidateManifestBytes)
+      .digest('hex');
+    expect(gitBlobSha).toBe(KIDSPLAY_V1_VOICE_HUMAN_APPROVAL.sourceManifestGitBlobSha);
 
     for (const asset of assets) {
       const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, asset.id);
@@ -34,7 +47,7 @@ describe('bundled playful voice + Stories V1 production contract', () => {
       expect(asset.durationMs).toBeGreaterThan(0);
       expect(asset.bytes).toBeGreaterThan(0);
       expect(asset.sha256).toMatch(/^[a-f0-9]{64}$/);
-      expect(getApprovedBundledSrc(asset.id)).toBeUndefined();
+      expect(getApprovedBundledSrc(asset.id)).toBe(asset.bundledSrc);
 
       const filePath = join(process.cwd(), 'public', asset.bundledSrc.replace(/^\/+/, ''));
       expect(existsSync(filePath)).toBe(true);
@@ -44,7 +57,7 @@ describe('bundled playful voice + Stories V1 production contract', () => {
     }
   });
 
-  it('physically bundles every V1 story beat and uses measured narration rather than word-count estimates', () => {
+  it('physically bundles and approves every V1 story beat using measured narration', () => {
     for (const story of STORY_CANDIDATES_V1) {
       const metrics = measureStoryNarration(story);
       expect(metrics.durationEvidence).toBe('measured_candidate_production_trial');
@@ -61,6 +74,7 @@ describe('bundled playful voice + Stories V1 production contract', () => {
         expect(utterance?.usage).toBe('story_beat');
         expect(asset?.reviewStatus).toBe('candidate');
         expect(asset?.durationMs).toBeGreaterThan(0);
+        expect(getApprovedBundledSrc(id)).toBe(asset?.bundledSrc);
       }
     }
   });
