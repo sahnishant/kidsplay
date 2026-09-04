@@ -8,13 +8,14 @@ const source = (relativePath: string) => readFileSync(path.join(root, relativePa
 
 describe('Forest Level-1 human-review polish', () => {
   it('keeps the Forest mission inside a dedicated environmental child surface', () => {
-    const session = source('src/ui/SessionViewport.svelte');
+    const app = source('src/App.svelte');
     const css = source('src/forestSessionPolish.css');
 
-    expect(session).toContain("session-story--forest");
-    expect(session).toContain('forest-session-host');
-    expect(css).toContain('.forest-session-host .session-panel');
-    expect(css).toContain('.forest-session-host .question-progress');
+    expect(app).toContain("activeStoryMission?.id === 'mission.forest-explorer-trail'");
+    expect(app).toContain("activeStoryLocation?.id === 'forest'");
+    expect(app).toContain('class:forest-session-host={forestLevelOneSession}');
+    expect(css).toContain('.forest-session-host .session-viewport');
+    expect(css).toContain('.forest-session-host .feedback--correct');
     expect(css).toContain('.forest-session-host .next-button');
   });
 
@@ -26,12 +27,12 @@ describe('Forest Level-1 human-review polish', () => {
     expect(css).toMatch(/\.memory-card\s*\{[^}]*height:\s*118px/s);
     expect(css).toMatch(/@media \(max-width: 480px\)[\s\S]*\.memory-card\s*\{[^}]*height:\s*102px/s);
     expect(css).toMatch(/\.memory-card\s*\{[^}]*overflow:\s*hidden/s);
-    expect(engine).toContain('height:38px;min-width:0;overflow:hidden');
-    expect(engine).toContain('height:36px;min-width:0;overflow:hidden');
+    expect(engine).toMatch(/height:38px[^\"]*min-width:0[^\"]*overflow:hidden/);
+    expect(engine).toMatch(/height:36px[^\"]*min-width:0[^\"]*overflow:hidden/);
     expect(css).toMatch(/\.memory-card__label\s*\{[^}]*max-height:\s*4\.5em[^}]*overflow-y:\s*auto/s);
     expect(css).toMatch(/\.memory-card__label\s*\{[^}]*overflow-wrap:\s*anywhere/s);
     expect(css).toMatch(/\.memory-card__label\s*\{[^}]*touch-action:\s*pan-y/s);
-    expect(engine).not.toContain('-webkit-line-clamp:2');
+    expect(css).not.toContain('-webkit-line-clamp');
     expect(engine).toContain('>✓</span>');
     expect(presenter).toContain('style={style || undefined}');
     expect(presenter).toContain('style={itemStyle || undefined}');
@@ -46,24 +47,34 @@ describe('Forest Level-1 human-review polish', () => {
     expect(engine).toContain('}, 750);');
   });
 
-  it('keeps child speech offline-only while preferring a lighter voice and retrying late mobile voice readiness', () => {
+  it('keeps child speech offline-only while preferring child-friendly voices and retrying late mobile readiness', () => {
     const audio = source('src/runtime/childAudio.ts');
     const android = source('src/runtime/androidOfflineSpeech.ts');
 
-    expect(audio).toContain("rate: 1.12");
-    expect(audio).toContain("pitch: 1.42");
-    expect(audio).toContain('preferredVoiceName');
-    expect(audio).toContain('voiceschanged');
-    expect(audio).toContain('No network playback');
-    expect(android).toContain('getOfflineSupport');
+    expect(audio).toContain('CHILD_FRIENDLY_VOICE_HINTS');
+    expect(audio).toContain("'child'");
+    expect(audio).toContain("'young'");
+    expect(audio).toContain('voice.localService === true');
+    expect(audio).toContain('VOICE_READY_RETRY_DELAYS_MS = [120, 360, 850]');
+    expect(audio).toContain("synthesis.addEventListener('voiceschanged'");
+    expect(audio).toContain("path.includes('://')");
+    expect(android).toContain('READY_RETRY_DELAYS_MS = [0, 120, 360, 850]');
+    expect(android).toContain('status.hasOfflineVoice');
+    expect(android).toContain("capacitor.getPlatform?.() === 'android'");
   });
 
   it('makes correct feedback an explicit celebratory check rather than a passive result panel', () => {
+    const host = source('src/ui/EngineHost.svelte');
     const session = source('src/ui/SessionViewport.svelte');
     const visual = source('src/runtime/answerFeedbackVisual.ts');
 
-    expect(session).toContain('answer-feedback--correct');
-    expect(session).toContain('answer-feedback__mark');
-    expect(visual).toContain('celebration');
+    expect(host).toContain('showAnswerFeedbackSplash(result.correct)');
+    expect(host).toContain("feedbackMode === 'play'");
+    expect(session).toContain("feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}");
+    expect(session).toContain("mood={sessionState.lastResult?.correct ? 'celebrate' : 'thinking'}");
+    expect(visual).toContain('kidsplay-answer-splash--correct');
+    expect(visual).toContain("icon.textContent = correct ? '✓' : '↻'");
+    expect(visual).toContain("label.textContent = correct ? 'Great!' : 'Try again'");
+    expect(visual).toContain('@media (prefers-reduced-motion: reduce)');
   });
 });
