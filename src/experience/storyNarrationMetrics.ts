@@ -1,18 +1,13 @@
 import type { StoryManifest } from './storiesContract';
-import {
-  getChildAudioProductionAsset,
-  KIDSPLAY_CHILD_AUDIO_MANIFEST,
-  type ChildAudioAssetReviewStatus
-} from '../runtime/childAudioProduction';
+import { getMeasuredStoryNarration, KIDSPLAY_CHILD_AUDIO_MANIFEST } from '../runtime/childAudioProduction';
 import { resolveChildAudioUtterance } from '../runtime/childAudioManifest';
 
 export interface StoryNarrationMetrics {
   storyId: string;
   clipCount: number;
   totalDurationMs: number;
-  totalBytes: number;
-  durationEvidence: 'measured_bundled_audio';
-  reviewStatuses: ChildAudioAssetReviewStatus[];
+  projectedBytes: number;
+  durationEvidence: 'measured_candidate_production_trial';
 }
 
 export function storyNarrationUtteranceId(manifest: StoryManifest, beatId: string): string {
@@ -22,28 +17,22 @@ export function storyNarrationUtteranceId(manifest: StoryManifest, beatId: strin
 }
 
 export function measureStoryNarration(manifest: StoryManifest): StoryNarrationMetrics {
-  let totalDurationMs = 0;
-  let totalBytes = 0;
-  const reviewStatuses = new Set<ChildAudioAssetReviewStatus>();
-
   for (const beat of manifest.beats) {
     const id = storyNarrationUtteranceId(manifest, beat.beatId);
     const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, id);
-    const asset = getChildAudioProductionAsset(id);
-    if (!utterance || utterance.usage !== 'story_beat' || !asset) {
-      throw new Error(`${manifest.storyId}/${beat.beatId}: missing measured story narration ${id}`);
+    if (!utterance || utterance.usage !== 'story_beat') {
+      throw new Error(`${manifest.storyId}/${beat.beatId}: missing stable narration utterance ${id}`);
     }
-    totalDurationMs += asset.durationMs;
-    totalBytes += asset.bytes;
-    reviewStatuses.add(asset.reviewStatus);
   }
-
+  const measured = getMeasuredStoryNarration(manifest.storyId);
+  if (!measured || measured.clipCount !== manifest.beats.length) {
+    throw new Error(`${manifest.storyId}: missing complete measured narration production trial`);
+  }
   return {
     storyId: manifest.storyId,
-    clipCount: manifest.beats.length,
-    totalDurationMs,
-    totalBytes,
-    durationEvidence: 'measured_bundled_audio',
-    reviewStatuses: [...reviewStatuses].sort()
+    clipCount: measured.clipCount,
+    totalDurationMs: measured.totalDurationMs,
+    projectedBytes: measured.projectedBytes,
+    durationEvidence: measured.evidence
   };
 }
