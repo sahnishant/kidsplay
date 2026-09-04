@@ -48,27 +48,19 @@ interface ForestWorldDepthDocument {
 }
 
 function validateAdventure(adventure: ForestWorldDepthAdventure): ForestWorldDepthAdventure {
-  if (adventure.schemaVersion !== 1 || ![2, 3].includes(adventure.level)) {
+  if (adventure.schemaVersion !== 1 || (adventure.level !== 2 && adventure.level !== 3) || adventure.steps.length < 3) {
     throw new Error(`Invalid Forest world-depth adventure ${adventure.adventureRef}`);
   }
-  if (adventure.steps.length < 3) {
-    throw new Error(`Forest world-depth adventure ${adventure.adventureRef} needs at least three actions`);
+  for (const step of adventure.steps) {
+    step.worldAction = validateWorldActionDefinition(step.worldAction);
+    if (step.assembly) step.assembly = validateAssemblyDefinition(step.assembly);
   }
-  return {
-    ...adventure,
-    steps: adventure.steps.map((step) => ({
-      ...step,
-      worldAction: validateWorldActionDefinition(step.worldAction),
-      ...(step.assembly ? { assembly: validateAssemblyDefinition(step.assembly) } : {})
-    }))
-  };
+  return adventure;
 }
 
-const document = forestWorldDepthJson as unknown as ForestWorldDepthDocument;
-if (document.schemaVersion !== 1 || !Array.isArray(document.adventures)) {
-  throw new Error('Invalid Forest world-depth document');
-}
-const adventures = document.adventures.map(validateAdventure);
+const source = forestWorldDepthJson as unknown as ForestWorldDepthDocument;
+if (source.schemaVersion !== 1) throw new Error('Invalid Forest world-depth document');
+const adventures = source.adventures.map(validateAdventure);
 
 export function getForestWorldDepthAdventures(): ForestWorldDepthAdventure[] {
   return adventures;
