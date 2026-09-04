@@ -1,5 +1,6 @@
 <script lang="ts">
   import Avatar from '../../presentation/Avatar.svelte';
+  import StoryCharacter from '../../presentation/StoryCharacter.svelte';
   import type { ChildSettings } from '../../runtime/localProgress';
 
   let {
@@ -17,7 +18,7 @@
   } = $props();
 </script>
 
-<header class="child-hud" aria-label="Player and adventure progress">
+<header class="child-hud" data-has-world-changes={worldChanged} aria-label="Player, story guides and adventure progress">
   <button class="child-hud__player" type="button" onclick={onOpenPlayer} aria-label="Open player settings">
     <span class="child-hud__avatar" aria-hidden="true">
       <Avatar avatar={child.avatar} mood="happy" motion="idle" />
@@ -26,13 +27,10 @@
   </button>
 
   <div class="child-hud__progress">
-    <span
-      class="hud-pill"
-      aria-label={worldChanged ? 'Learning has changed the adventure world' : 'Adventure world ready to grow'}
-    >
-      <span aria-hidden="true">🌍</span>
-      <strong>{worldChanged ? 'World changed' : 'World ready'}</strong>
-    </span>
+    <div class="child-hud__guides" aria-label="Scientu and Shaitanu">
+      <span aria-hidden="true"><StoryCharacter character="scientu" expression="thinking" pose="inspect" angle="three-quarter-left" motion="float" /></span>
+      <span aria-hidden="true"><StoryCharacter character="shaitanu" expression="sly" pose="proud" angle="three-quarter-left" motion="wiggle" /></span>
+    </div>
     {#if currentLevel !== null}
       <span class="hud-pill hud-pill--level" aria-label={`Current adventure level ${currentLevel}`}>
         LEVEL {currentLevel}
@@ -47,7 +45,8 @@
   .child-hud__player:hover,.child-hud__player:focus-visible{background:var(--accent-soft)}
   .child-hud__avatar{width:36px;height:36px;flex:none}
   .child-hud__player strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .child-hud__progress{display:flex;gap:5px;flex:none}
-  .hud-pill{min-height:32px;display:inline-flex;align-items:center;gap:3px;padding:4px 8px;border-radius:999px;background:#fff7d7;font-size:.68rem;font-weight:850}
+  .child-hud__progress,.child-hud__guides{display:flex;align-items:center;gap:5px;flex:none}
+  .child-hud__guides{gap:1px}.child-hud__guides>span{width:30px;height:30px}
+  .hud-pill{min-height:32px;display:inline-flex;align-items:center;padding:4px 8px;border-radius:999px;font-size:.68rem;font-weight:850}
   .hud-pill--level{background:var(--accent-soft);color:var(--accent)}
 </style>

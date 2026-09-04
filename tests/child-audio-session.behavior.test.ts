@@ -80,33 +80,29 @@ afterEach(() => {
 });
 
 describe('Phase C child audio session controls', () => {
-  it('reads a fresh question automatically and repeats it on demand', async () => {
+  it('reads a fresh question automatically without adding duplicate repeat chrome', async () => {
     const synthesis = window.speechSynthesis as unknown as { speak: ReturnType<typeof vi.fn> };
     render(Session, { props: { title: 'Audio trail', questions: [choiceQuestion()] } });
 
     await waitFor(() => expect(synthesis.speak).toHaveBeenCalledTimes(1));
     const first = synthesis.speak.mock.calls[0][0] as MockUtterance;
     expect(first.text).toBe('Which animal says woof?');
-
-    await fireEvent.click(screen.getByRole('button', { name: 'Repeat question' }));
-    expect(synthesis.speak).toHaveBeenCalledTimes(2);
-    const repeated = synthesis.speak.mock.calls[1][0] as MockUtterance;
-    expect(repeated.text).toBe(first.text);
+    expect(screen.queryByRole('button', { name: 'Repeat question' })).toBeNull();
   });
 
-  it('persists sound off and restores the same state in the next session', async () => {
+  it('persists sound off and restores the same compact state in the next session', async () => {
     const first = render(Session, { props: { title: 'Audio trail', questions: [choiceQuestion()] } });
     await fireEvent.click(screen.getByRole('button', { name: 'Turn sound off' }));
 
     expect(loadChildAudioPreferences()).toEqual({ version: 1, enabled: false });
-    expect((screen.getByRole('button', { name: 'Repeat question' }) as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.queryByRole('button', { name: 'Repeat question' })).toBeNull();
     expect(screen.getByRole('button', { name: 'Turn sound on' }).getAttribute('aria-pressed')).toBe('false');
 
     first.unmount();
     render(Session, { props: { title: 'Another trail', questions: [choiceQuestion('test.audio.choice-2')] } });
 
     expect(screen.getByRole('button', { name: 'Turn sound on' })).toBeTruthy();
-    expect((screen.getByRole('button', { name: 'Repeat question' }) as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.queryByRole('button', { name: 'Repeat question' })).toBeNull();
   });
 
   it('cancels prompt narration on submit before normal answer feedback proceeds', async () => {

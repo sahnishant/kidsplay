@@ -231,7 +231,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByText('ⓘ About readiness')).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
-    expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
+    expect(screen.getByText('Saved on this device')).toBeTruthy();
     expect(screen.getByText('1 / 35')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
   });
@@ -255,7 +255,7 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('status').textContent).toContain('Yes, a dog is a common pet.');
     expect(screen.queryByRole('button', { name: 'Check answer' })).toBeNull();
 
-    await fireEvent.click(screen.getByRole('button', { name: 'See result' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
     expect(screen.getByRole('heading', { name: 'Nice work, Dheu' })).toBeTruthy();
   });
 
@@ -279,7 +279,7 @@ describe('user-facing product flow', () => {
     expect(attempts[0].result.correct).toBe(true);
     expect(attempts[0].question.knowledgeRefs).toEqual(['kr.test.animals.dog.domestic']);
 
-    await fireEvent.click(screen.getByRole('button', { name: 'See result' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Finish' }));
     expect(screen.getByRole('heading', { name: 'Nice work, Dheu' })).toBeTruthy();
   });
 
@@ -357,6 +357,6 @@ describe('user-facing product flow', () => {
       }
     });
 
-    expect(screen.getByText(/Section: Science/).textContent).toContain('1 mark each');
+    expect(screen.getByText('Science · 1 mark')).toBeTruthy();
   });
 });

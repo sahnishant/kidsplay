@@ -233,7 +233,7 @@ describe('child game-feel submission policy', () => {
     expect(assessmentSubmissions).toHaveLength(1);
   });
 
-  it('auto-continues normal play after the short correct-answer reaction window', async () => {
+  it('keeps correct play visible until the child explicitly continues', async () => {
     vi.useFakeTimers();
     render(Session, {
       props: {
@@ -249,8 +249,13 @@ describe('child game-feel submission policy', () => {
     expect(screen.getByRole('heading', { name: 'First choice.' })).toBeTruthy();
     await fireEvent.click(screen.getByRole('button', { name: 'Yes' }));
     expect(screen.getByRole('status').textContent).toContain('Correct.');
+    expect(screen.getByRole('button', { name: 'Next' })).toBeTruthy();
 
-    await vi.advanceTimersByTimeAsync(1600);
+    await vi.advanceTimersByTimeAsync(5000);
+    expect(screen.getByRole('heading', { name: 'First choice.' })).toBeTruthy();
+    expect(screen.queryByRole('heading', { name: 'Second choice.' })).toBeNull();
+
+    await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
     expect(screen.getByRole('heading', { name: 'Second choice.' })).toBeTruthy();
   });
 
@@ -280,7 +285,7 @@ describe('child game-feel submission policy', () => {
     expect(screen.queryByRole('heading', { name: 'Next choice.' })).toBeNull();
   });
 
-  it('keeps celebratory splash feedback out of assessment mode', async () => {
+  it('keeps splash feedback out of assessment mode and requires explicit finish', async () => {
     render(Session, {
       props: {
         title: 'Assessment boundary',
@@ -293,6 +298,6 @@ describe('child game-feel submission policy', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Yes' }));
     expect(document.querySelector('[data-answer-feedback]')).toBeNull();
     expect(screen.getByRole('status').textContent).toContain('Correct.');
-    expect(screen.getByRole('button', { name: 'See result' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Finish' })).toBeTruthy();
   });
 });

@@ -8,6 +8,7 @@ import './maze.css';
 import './viewport.css';
 import './touchTargets.css';
 import './forestSessionPolish.css';
+import './sessionCompact.css';
 import App from './App.svelte';
 import { installViewportFocusKeeper } from './runtime/viewportFocus';
 

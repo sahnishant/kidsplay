@@ -105,7 +105,7 @@ describe('mock resume contract integrity', () => {
     render(App);
     await openAssessment();
     await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
-    expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
+    expect(screen.getByText('Saved on this device')).toBeTruthy();
 
     await fireEvent.keyDown(window, { key: 'Escape' });
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
