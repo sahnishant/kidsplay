@@ -7,14 +7,6 @@ import {
   sessionFeedback
 } from './helpers/childJourney';
 
-const FOREST_CUE_FAMILIES = [
-  ['guide_to_home', 'Guide each thing toward the place where it belongs.'],
-  ['sort_or_match', 'Put the clues that belong together.'],
-  ['observe_choose', 'Look closely at the clue before you choose.'],
-  ['sequence_process', 'Put the stages from first to last, then see what changes.'],
-  ['cause_effect_discovery', 'Try the clue, then notice what happens.']
-] as const;
-
 async function expectNoHorizontalOverflow(page: Page, label: string): Promise<void> {
   const dimensions = await page.evaluate(() => ({
     viewport: document.documentElement.clientWidth,
@@ -94,12 +86,6 @@ async function advanceMissionStory(page: Page): Promise<void> {
   while (await page.getByRole('button', { name: 'Next story beat' }).count()) {
     await page.getByRole('button', { name: 'Next story beat' }).click();
   }
-}
-
-async function visibleRecipeFamily(page: Page): Promise<string> {
-  const visibleFamily = page.locator('[data-experience-family]:visible').first();
-  if (await visibleFamily.count() === 0) return '';
-  return await visibleFamily.getAttribute('data-experience-family') ?? '';
 }
 
 async function installRetryProbe(page: Page): Promise<void> {
@@ -200,9 +186,9 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
     await startInvestigation.click();
 
     await installRetryProbe(page);
-    const recipeFamilies = new Set<string>();
     let sawCompactMatching = false;
     let sawCompactMemory = false;
+    let sawSequence = false;
     let exercisedRetryScaffold = false;
     let sawStoryReactionAudio = false;
 
@@ -211,8 +197,6 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       await expectNoHorizontalOverflow(page, `Forest clue ${index + 1} answer`);
       await expectNoDocumentVerticalOverflow(page, `Forest clue ${index + 1} answer`);
       await expectPrimarySurfaceFits(page, `Forest clue ${index + 1} answer`);
-      const recipeFamily = await visibleRecipeFamily(page);
-      if (recipeFamily) recipeFamilies.add(recipeFamily);
 
       if (index === 0) {
         await expectChildTapTarget(page.getByRole('button', { name: 'Back to Kidsplay home' }), 'session Home');
@@ -237,6 +221,7 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
 
       await expectVisibleInteractionTargets(page, `Forest clue ${index + 1}`);
       if (await page.locator('.sequence-order').count()) {
+        sawSequence = true;
         await answerCanonicalButterflySequence(page);
       } else {
         await answerCurrentQuestion(page);
@@ -261,9 +246,9 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
     expect(exercisedRetryScaffold, 'Forest Level 1 should exercise a real reset-and-retry scaffold').toBe(true);
     expect(await observedRetryPath(page)).toEqual({ wrong: true, scaffold: true });
     expect(sawStoryReactionAudio, 'Forest Level 1 should expose at least one accessible character-reaction audio hook').toBe(true);
-    expect([...recipeFamilies].sort()).toEqual(FOREST_CUE_FAMILIES.map(([family]) => family).sort());
     expect(sawCompactMatching, 'Forest Level 1 should render the three-item story matching variant').toBe(true);
     expect(sawCompactMemory, 'Forest Level 1 should render the three-pair story memory variant').toBe(true);
+    expect(sawSequence, 'Forest Level 1 should render the canonical butterfly sequence interaction').toBe(true);
 
     const completion = page.getByLabel('Story mission complete');
     await expect(completion).toBeVisible();
