@@ -1,4 +1,4 @@
-import { createHash } from 'node:crypto';
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -41,10 +41,13 @@ describe('Stories V1 candidate pack', () => {
     const sourcePath = resolve(process.cwd(), 'content', 'stories', 'v1-candidates.json');
     const sourceBytes = readFileSync(sourcePath);
     const sourceStories = JSON.parse(sourceBytes.toString('utf8')) as Array<{ storyId: string; editorialStatus: string }>;
-    const gitBlobSha = createHash('sha1')
-      .update(Buffer.from(`blob ${sourceBytes.length}\0`))
-      .update(sourceBytes)
-      .digest('hex');
+    // The approval pins the repository object. Working-tree newlines may be
+    // converted on Windows, so use Git's committed blob identity directly.
+    const gitBlobSha = execFileSync(
+      'git',
+      ['rev-parse', 'HEAD:content/stories/v1-candidates.json'],
+      { encoding: 'utf8' }
+    ).trim();
 
     expect(storyApprovalJson.manuscriptEditorialApproved).toBe(true);
     expect(storyApprovalJson.bedtimeCxApproved).toBe(true);
