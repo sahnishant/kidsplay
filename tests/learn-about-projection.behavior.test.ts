@@ -52,17 +52,32 @@ describe('Learn About projection', () => {
     expect(admitted.find((activity) => activity.family === 'did_you_know')?.knowledgeRefs).toEqual(['knowledge.earth.shape']);
   });
 
-  it('projects Compare/Try It only when an existing supported relationship is supplied', () => {
+  it('projects Compare/Try It only when a relationship is both admitted and supported', () => {
     const unsupported = projectLearnAboutActivities(earthTopic, 'd2_early_primary', {
       admittedKnowledgeRefs: ['knowledge.earth.shape', 'relation.earth.moon']
     });
     expect(unsupported.some((activity) => activity.family === 'compare')).toBe(false);
+
+    const supportedButNotAdmitted = projectLearnAboutActivities(earthTopic, 'd2_early_primary', {
+      admittedKnowledgeRefs: ['knowledge.earth.shape'],
+      supportedRelationshipRefs: ['relation.earth.moon']
+    });
+    expect(supportedButNotAdmitted.some((activity) => activity.family === 'compare' || activity.family === 'try_it')).toBe(false);
 
     const supported = projectLearnAboutActivities(earthTopic, 'd2_early_primary', {
       admittedKnowledgeRefs: ['knowledge.earth.shape', 'relation.earth.moon'],
       supportedRelationshipRefs: ['relation.earth.moon']
     });
     expect(supported.filter((activity) => activity.sectionId === 'earth.compare').map((activity) => activity.family)).toEqual(['compare', 'try_it']);
+  });
+
+  it('rejects malformed or duplicate authority refs instead of normalizing them silently', () => {
+    expect(() => projectLearnAboutActivities(earthTopic, 'd1_preschool', {
+      admittedKnowledgeRefs: ['bad ref']
+    })).toThrow(/stable ref/);
+    expect(() => projectLearnAboutActivities(earthTopic, 'd1_preschool', {
+      admittedKnowledgeRefs: ['knowledge.earth.shape', 'knowledge.earth.shape']
+    })).toThrow(/duplicates/);
   });
 
   it('does not fork Guess or Practice evaluators into the projection layer', () => {
