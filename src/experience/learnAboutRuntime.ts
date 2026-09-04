@@ -6,11 +6,11 @@ import type { LearnAboutDepthBand, LearnAboutRecipeFamily } from './learnAboutCo
 import { indexLearnAboutKnowledge, type LearnAboutKnowledgeRow } from './learnAboutKnowledge';
 import { projectLearnAboutActivities } from './learnAboutProjection';
 import {
-  RIDDLE_TIME_V1,
   projectRiddleToSurface,
   riddleKnowledgeRefs,
   type RiddleSurfaceProjection
-} from './riddleCatalog';
+} from './riddleRuntime';
+import { LEARN_ABOUT_SHARED_RIDDLES } from './sharedRiddleRecords';
 
 export const LEARN_ABOUT_RUNTIME_ID = 'learn-about-v1' as const;
 export type LearnAboutEvidenceMode = 'none' | 'evaluated_question';
@@ -105,7 +105,7 @@ export function createLearnAboutRuntimeSession(
     if (section.recipeFamilies.includes('guess')) {
       for (const guess of sectionBinding.guesses ?? []) {
         if (!depthAtOrBelow(guess.minDepth, depthBand)) continue;
-        const item = RIDDLE_TIME_V1.find((candidate) => candidate.clue.clueSetId === guess.clueSetId);
+        const item = LEARN_ABOUT_SHARED_RIDDLES.find((candidate) => candidate.clue.clueSetId === guess.clueSetId);
         if (!item) throw new Error(`${section.sectionId}: unknown shared clue ${guess.clueSetId}`);
         const evidenceRefs = riddleKnowledgeRefs(item);
         if (evidenceRefs.some((ref) => !authoritative.has(ref))) continue;
