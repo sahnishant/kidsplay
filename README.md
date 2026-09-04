@@ -46,7 +46,7 @@ Use these durable sources rather than old chat context or intermediate checkpoin
 
 - GitHub issue **#1** — canonical live execution/orchestration tracker;
 - GitHub issue **#174** — child game-feel/product laws;
-- GitHub issue **#210** — operational **120-pass gameplay execution programme**;
+- GitHub issue **#210** — operational **132-pass gameplay execution programme**;
 - `docs/GAMEPLAY_ROADMAP.md` — repo-local gameplay sequence, ownership matrix and branch rules;
 - `docs/WORK_TARGETS.md` — repo-local current integrated checkpoint and remaining programme;
 - `docs/SOF_EVIDENCE_STATUS.md` — exact official-evidence checkpoint;
@@ -59,9 +59,11 @@ GitHub is the control plane. Repo-local roadmap/status documents are mirrors for
 Before creating or continuing a branch:
 1. fetch current `main`;
 2. inspect open PRs and surviving branches for overlapping ownership;
-3. read #1 and #174 plus #210's latest execution-checkpoint comments;
+3. read #1 and #174 plus the reconciled #210 pass body/latest execution checkpoint;
 4. if an older checkbox/status paragraph conflicts with a newer merged PR/checkpoint, reconcile it instead of reopening duplicate work.
 
 Canonical integrated development happens on `main`. Active implementation branches are temporary work surfaces controlled by #1; planning issues do not automatically authorize branches. Keep `engineering complete`, `integrated`, `HUMAN accepted`, `audio accepted` and `editorially authoritative` as separate states.
+
+As of the 2026-09-04 production reconciliation, First Play/visual-choice engineering, Learn About V1, Forest L2/L3, bundled voice V1 and Stories V1 are already merged. The next major cross-cutting engineering vertical is #235 adaptive experience routing; pending real-child/editorial gates remain explicit in #1/#210.
 
 Broad foundational learning is intended to remain free; structured goal programmes, diagnostics, adaptation and mocks are the primary paid-value layer rather than duplicated fact content.
