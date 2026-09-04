@@ -1,6 +1,13 @@
+import { resolveStoryLexicalProfile } from './storyLexicalReport';
 import { validateStoryManifest, type StoryManifest } from './storiesContract';
 
-const story = (value: StoryManifest): StoryManifest => validateStoryManifest(value);
+const story = (value: StoryManifest): StoryManifest => {
+  const manifest = validateStoryManifest(value);
+  if (!resolveStoryLexicalProfile(manifest.lexicalProfileRef)) {
+    throw new Error(`${manifest.storyId}: unknown story lexical profile ${manifest.lexicalProfileRef}`);
+  }
+  return manifest;
+};
 
 export const STORIES_V1: readonly StoryManifest[] = [
   story({
