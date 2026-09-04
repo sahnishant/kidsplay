@@ -1,81 +1,36 @@
-import type { SingleChoiceQuestion } from '../contracts/question';
-import { validateClueRecord, type ClueRecord } from './clueContract';
 import {
-  projectSemanticRiddlePlacement,
-  type RiddleSurface,
-  type SemanticRiddlePlacement
-} from './riddlePlacement';
+  validateRiddleProductionItem as productionRiddle,
+  type RiddleCandidatePresentation,
+  type RiddleProductionItem
+} from './riddleRuntime';
+import {
+  RIDDLE_COW_CALF_SHED,
+  RIDDLE_DOG_KENNEL,
+  RIDDLE_EARTH_PLANET_THIRD
+} from './sharedRiddleRecords';
 
-export interface RiddleCandidatePresentation {
-  optionId: string;
-  semanticRef: string;
-  label: string;
-  visualRefs: readonly string[];
-}
+export type {
+  RiddleCandidatePresentation,
+  RiddleProductionItem,
+  RiddleSurfaceProjection
+} from './riddleRuntime';
+export {
+  projectRiddleToSurface,
+  riddleKnowledgeRefs,
+  riddleToSingleChoiceQuestion
+} from './riddleRuntime';
 
-export interface RiddleProductionItem {
-  clue: ClueRecord;
-  conceptIds: readonly string[];
-  candidates: readonly RiddleCandidatePresentation[];
-}
-
-export interface RiddleSurfaceProjection {
-  surface: RiddleSurface;
-  clue: ClueRecord;
-  question: SingleChoiceQuestion;
-  placement: SemanticRiddlePlacement;
-}
-
-function productionRiddle(value: {
-  clue: unknown;
-  conceptIds: readonly string[];
-  candidates: readonly RiddleCandidatePresentation[];
-}): RiddleProductionItem {
-  const clue = validateClueRecord(value.clue);
-  if (!value.conceptIds.length || value.conceptIds.some((id) => !id.trim())) {
-    throw new Error(`${clue.clueSetId}: conceptIds are required`);
-  }
-  if (new Set(value.conceptIds).size !== value.conceptIds.length) {
-    throw new Error(`${clue.clueSetId}: duplicate conceptIds`);
-  }
-
-  const declared = new Set(clue.candidateSemanticRefs);
-  const presented = new Set(value.candidates.map((candidate) => candidate.semanticRef));
-  if (declared.size !== presented.size || [...declared].some((semanticRef) => !presented.has(semanticRef))) {
-    throw new Error(`${clue.clueSetId}: candidate presentation must exactly match the declared candidate universe`);
-  }
-  if (new Set(value.candidates.map((candidate) => candidate.optionId)).size !== value.candidates.length) {
-    throw new Error(`${clue.clueSetId}: duplicate option ids`);
-  }
-  for (const candidate of value.candidates) {
-    if (!candidate.optionId.trim() || !candidate.label.trim() || candidate.visualRefs.length === 0) {
-      throw new Error(`${clue.clueSetId}: every production candidate needs an option id, label and semantic visual`);
-    }
-  }
-
-  return {
-    clue,
-    conceptIds: [...value.conceptIds],
-    candidates: value.candidates.map((candidate) => ({ ...candidate, visualRefs: [...candidate.visualRefs] }))
-  };
-}
-
-const bird = { optionId: 'bird', semanticRef: 'entity.animal.bird', label: 'Bird', visualRefs: ['entity.animal.bird'] } as const;
-const fish = { optionId: 'fish', semanticRef: 'entity.animal.fish', label: 'Fish', visualRefs: ['entity.animal.fish'] } as const;
-const duck = { optionId: 'duck', semanticRef: 'entity.animal.duck', label: 'Duck', visualRefs: ['entity.animal.duck'] } as const;
-const dog = { optionId: 'dog', semanticRef: 'entity.animal.dog', label: 'Dog', visualRefs: ['entity.animal.dog'] } as const;
-const rabbit = { optionId: 'rabbit', semanticRef: 'entity.animal.rabbit', label: 'Rabbit', visualRefs: ['entity.animal.rabbit'] } as const;
-const cat = { optionId: 'cat', semanticRef: 'entity.animal.cat', label: 'Cat', visualRefs: ['entity.animal.cat'] } as const;
-const cow = { optionId: 'cow', semanticRef: 'entity.animal.cow', label: 'Cow', visualRefs: ['entity.animal.cow'] } as const;
-const earth = { optionId: 'earth', semanticRef: 'entity.universe.earth', label: 'Earth', visualRefs: ['entity.universe.earth'] } as const;
-const sun = { optionId: 'sun', semanticRef: 'entity.nature.sun', label: 'Sun', visualRefs: ['entity.nature.sun'] } as const;
+const bird = { optionId: 'bird', semanticRef: 'entity.animal.bird', label: 'Bird', visualRefs: ['entity.animal.bird'] } as const satisfies RiddleCandidatePresentation;
+const fish = { optionId: 'fish', semanticRef: 'entity.animal.fish', label: 'Fish', visualRefs: ['entity.animal.fish'] } as const satisfies RiddleCandidatePresentation;
+const duck = { optionId: 'duck', semanticRef: 'entity.animal.duck', label: 'Duck', visualRefs: ['entity.animal.duck'] } as const satisfies RiddleCandidatePresentation;
+const dog = { optionId: 'dog', semanticRef: 'entity.animal.dog', label: 'Dog', visualRefs: ['entity.animal.dog'] } as const satisfies RiddleCandidatePresentation;
+const rabbit = { optionId: 'rabbit', semanticRef: 'entity.animal.rabbit', label: 'Rabbit', visualRefs: ['entity.animal.rabbit'] } as const satisfies RiddleCandidatePresentation;
+const cat = { optionId: 'cat', semanticRef: 'entity.animal.cat', label: 'Cat', visualRefs: ['entity.animal.cat'] } as const satisfies RiddleCandidatePresentation;
 
 /**
- * Bounded production-candidate slice for #208 passes 081/085. The clue facts
- * are backed only by canonical knowledge rows already in the repository. The
- * question authoring state remains draft until a human editor explicitly
- * accepts the wording/age fit; engineering validity must not manufacture that
- * approval. R0 remains audio-first/zero-reading and exactly two-choice.
+ * Bounded production-candidate slice for #208 passes 081/085. Shared records
+ * consumed by Learn About are imported from sharedRiddleRecords.ts so both
+ * surfaces use the same clue objects rather than parallel copies.
  */
 export const RIDDLE_TIME_V1: readonly RiddleProductionItem[] = [
   productionRiddle({
@@ -126,22 +81,7 @@ export const RIDDLE_TIME_V1: readonly RiddleProductionItem[] = [
     conceptIds: ['animals.adaptations.webbed-feet'],
     candidates: [duck, dog]
   }),
-  productionRiddle({
-    clue: {
-      schemaVersion: 1,
-      clueSetId: 'riddle.r0.dog.kennel',
-      mechanism: 'concept_clues',
-      demandBand: 'r0',
-      authority: 'canonical_semantic',
-      readingRequired: false,
-      language: 'en',
-      answerSemanticRef: dog.semanticRef,
-      candidateSemanticRefs: [dog.semanticRef, rabbit.semanticRef],
-      clues: [{ clueId: 'riddle.r0.dog.kennel.1', text: 'Who lives in a kennel?', evidenceRefs: ['kr.animals.dog.home.kennel'] }]
-    },
-    conceptIds: ['animals.homes.kennel'],
-    candidates: [dog, rabbit]
-  }),
+  RIDDLE_DOG_KENNEL,
   productionRiddle({
     clue: {
       schemaVersion: 1,
@@ -161,44 +101,8 @@ export const RIDDLE_TIME_V1: readonly RiddleProductionItem[] = [
     conceptIds: ['animals.dog.domestic-classification', 'animals.homes.kennel'],
     candidates: [dog, rabbit, cat]
   }),
-  productionRiddle({
-    clue: {
-      schemaVersion: 1,
-      clueSetId: 'riddle.r2.cow.calf-shed',
-      mechanism: 'inference',
-      demandBand: 'r2',
-      authority: 'canonical_semantic',
-      readingRequired: false,
-      language: 'en',
-      answerSemanticRef: cow.semanticRef,
-      candidateSemanticRefs: [cow.semanticRef, dog.semanticRef, cat.semanticRef],
-      clues: [
-        { clueId: 'riddle.r2.cow.calf-shed.1', text: 'My baby is called a calf.', evidenceRefs: ['kr.animals.cow.young.calf'] },
-        { clueId: 'riddle.r2.cow.calf-shed.2', text: 'I live in a cowshed.', evidenceRefs: ['kr.animals.cow.home.shed'] }
-      ]
-    },
-    conceptIds: ['animals.young-ones.calf', 'animals.homes.cowshed'],
-    candidates: [cow, dog, cat]
-  }),
-  productionRiddle({
-    clue: {
-      schemaVersion: 1,
-      clueSetId: 'riddle.r2.earth.planet-third',
-      mechanism: 'inference',
-      demandBand: 'r2',
-      authority: 'canonical_semantic',
-      readingRequired: false,
-      language: 'en',
-      answerSemanticRef: earth.semanticRef,
-      candidateSemanticRefs: [earth.semanticRef, sun.semanticRef],
-      clues: [
-        { clueId: 'riddle.r2.earth.planet-third.1', text: 'I am a planet.', evidenceRefs: ['kr.universe.earth.type.planet'] },
-        { clueId: 'riddle.r2.earth.planet-third.2', text: 'I am third from the Sun.', evidenceRefs: ['kr.universe.earth.position.third'] }
-      ]
-    },
-    conceptIds: ['universe.earth.planet', 'universe.planets.earth-position'],
-    candidates: [earth, sun]
-  }),
+  RIDDLE_COW_CALF_SHED,
+  RIDDLE_EARTH_PLANET_THIRD,
   productionRiddle({
     clue: {
       schemaVersion: 1,
@@ -219,58 +123,3 @@ export const RIDDLE_TIME_V1: readonly RiddleProductionItem[] = [
     candidates: [dog, cat, rabbit]
   })
 ];
-
-export function riddleKnowledgeRefs(item: RiddleProductionItem): string[] {
-  return [...new Set(item.clue.clues.flatMap((clue) => clue.evidenceRefs ?? []))];
-}
-
-export function riddleToSingleChoiceQuestion(item: RiddleProductionItem): SingleChoiceQuestion {
-  if (!item.clue.answerSemanticRef) {
-    throw new Error(`${item.clue.clueSetId}: production semantic riddle requires answerSemanticRef`);
-  }
-  const correct = item.candidates.find((candidate) => candidate.semanticRef === item.clue.answerSemanticRef);
-  if (!correct) throw new Error(`${item.clue.clueSetId}: answer presentation is missing`);
-
-  return {
-    id: `question.${item.clue.clueSetId}`,
-    revision: 1,
-    schemaVersion: 1,
-    conceptIds: [...item.conceptIds],
-    knowledgeRefs: riddleKnowledgeRefs(item),
-    difficulty: item.clue.demandBand === 'r0' ? 1 : 3,
-    language: item.clue.language ?? 'en',
-    prompt: { text: item.clue.demandBand === 'r0' ? 'Listen and choose.' : 'Who am I?' },
-    feedback: {
-      correct: 'You got it!',
-      incorrect: 'Try again. You can use another clue.'
-    },
-    authoring: { status: 'draft', source: 'kidsplay-riddle-v1-candidate' },
-    interaction: {
-      type: 'single_choice',
-      version: 1,
-      shuffleOptions: true,
-      options: item.candidates.map((candidate) => ({
-        id: candidate.optionId,
-        label: candidate.label,
-        semanticRef: candidate.semanticRef,
-        visualRefs: [...candidate.visualRefs]
-      }))
-    },
-    solution: { type: 'exact_option', correctOptionIds: [correct.optionId] }
-  };
-}
-
-/**
- * Surface projection is navigation/presentation-only. The same ClueRecord and
- * same existing SingleChoice evaluator contract are reused in Play, Learn About
- * and Adventure. Placement authority remains owned by riddlePlacement.ts.
- */
-export function projectRiddleToSurface(item: RiddleProductionItem, surface: RiddleSurface): RiddleSurfaceProjection {
-  const question = riddleToSingleChoiceQuestion(item);
-  return {
-    surface,
-    clue: item.clue,
-    question,
-    placement: projectSemanticRiddlePlacement(item.clue, question, surface)
-  };
-}

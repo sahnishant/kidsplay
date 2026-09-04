@@ -21,6 +21,10 @@ export interface LearnAboutSection {
   sectionId: string;
   /** Child-facing navigation label only; educational truth remains in knowledgeRefs. */
   childTitle: string;
+  /**
+   * Canonical knowledge row refs. Empty is permitted only for neutral Explore / Look & Touch slots.
+   * This lets a topic keep a child-friendly spine while failing closed until reviewed authority exists.
+   */
   knowledgeRefs: readonly string[];
   depthBands: readonly LearnAboutDepthBand[];
   recipeFamilies: readonly LearnAboutRecipeFamily[];
@@ -100,8 +104,10 @@ function assertChildTitle(value: unknown, context: string): string {
   return value.trim();
 }
 
-function assertUniqueStringArray(value: unknown, context: string): string[] {
-  if (!Array.isArray(value) || value.length === 0) throw new Error(`${context} must be a non-empty array`);
+function assertUniqueStringArray(value: unknown, context: string, allowEmpty = false): string[] {
+  if (!Array.isArray(value) || (!allowEmpty && value.length === 0)) {
+    throw new Error(`${context} must be ${allowEmpty ? 'an array' : 'a non-empty array'}`);
+  }
   const refs = value.map((item, index) => assertStableRef(item, `${context}[${index}]`));
   if (new Set(refs).size !== refs.length) throw new Error(`${context} contains duplicates`);
   return refs;
@@ -125,7 +131,7 @@ function validateSection(value: unknown, index: number): LearnAboutSection {
   if (!isRecord(value)) throw new Error(`sections[${index}] must be an object`);
   const sectionId = assertStableRef(value.sectionId, `sections[${index}].sectionId`);
   const childTitle = assertChildTitle(value.childTitle, `${sectionId}.childTitle`);
-  const knowledgeRefs = assertUniqueStringArray(value.knowledgeRefs, `${sectionId}.knowledgeRefs`);
+  const knowledgeRefs = assertUniqueStringArray(value.knowledgeRefs, `${sectionId}.knowledgeRefs`, true);
 
   if (!Array.isArray(value.depthBands) || value.depthBands.length === 0) throw new Error(`${sectionId}.depthBands is required`);
   const depthBands = value.depthBands.map((band) => {
@@ -146,6 +152,10 @@ function validateSection(value: unknown, index: number): LearnAboutSection {
     return family as LearnAboutRecipeFamily;
   });
   if (new Set(recipeFamilies).size !== recipeFamilies.length) throw new Error(`${sectionId}.recipeFamilies contains duplicates`);
+
+  if (knowledgeRefs.length === 0 && recipeFamilies.some((family) => family !== 'explore')) {
+    throw new Error(`${sectionId}: authority-empty sections may only use Explore / Look & Touch`);
+  }
 
   return { sectionId, childTitle, knowledgeRefs, depthBands, recipeFamilies };
 }
