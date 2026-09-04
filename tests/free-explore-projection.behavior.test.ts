@@ -42,4 +42,16 @@ describe('Free Explore replay projection', () => {
     const duplicate = { activityRef: 'activity.same', available: true, playCount: 3, voluntaryReplayCount: 1, completionCount: 1, lastPlayedSequence: 1 };
     expect(() => projectFreeExploreReplayTiles([duplicate, duplicate])).toThrow(/duplicate activity history/);
   });
+
+  it('rejects non-boolean availability instead of treating malformed state as unavailable', () => {
+    const malformed = [{
+      activityRef: 'activity.malformed',
+      available: 'yes',
+      playCount: 3,
+      voluntaryReplayCount: 1,
+      completionCount: 1,
+      lastPlayedSequence: 1
+    }] as unknown as Parameters<typeof projectFreeExploreReplayTiles>[0];
+    expect(() => projectFreeExploreReplayTiles(malformed)).toThrow(/available must be boolean/);
+  });
 });
