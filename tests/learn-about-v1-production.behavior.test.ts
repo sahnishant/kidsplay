@@ -107,6 +107,20 @@ describe('Learn About V1 production runtime', () => {
     }
   });
 
+  it('reuses an existing reviewed quiz question for D3 practice', () => {
+    const earth = createLearnAboutRuntimeSession('learn.earth', 'd3_deeper_primary');
+    const practice = earth.sections
+      .flatMap((section) => section.cards)
+      .find((card) => card.family === 'practice');
+
+    expect(practice?.question?.id).toBe('universe.hots.sun-moon-statements.001');
+    expect(practice?.evidenceMode).toBe('evaluated_question');
+    expect(practice?.knowledgeRows.map((row) => row.rowId)).toEqual([
+      'kr.universe.sun.type.star',
+      'kr.universe.moonlight.source.sun'
+    ]);
+  });
+
   it('provides a deeper D3 path without cloning age-specific truths', () => {
     const earthD2 = createLearnAboutRuntimeSession('learn.earth', 'd2_early_primary');
     const earthD3 = createLearnAboutRuntimeSession('learn.earth', 'd3_deeper_primary');
