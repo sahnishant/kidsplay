@@ -3,6 +3,7 @@ import { resolveChildAudioUtterance } from '../runtime/childAudioManifest';
 
 export type StoryDurationBand = 'tiny_tale' | 'bedtime_story' | 'big_story';
 export type StoryReadingMode = 'read_to_me' | 'read_together' | 'i_can_read';
+export type StoryEditorialStatus = 'draft' | 'reviewed';
 
 export interface StoryWordTap {
   tokenId: string;
@@ -32,6 +33,8 @@ export interface StoryManifest {
   storyId: string;
   childTitle: string;
   seriesId?: string;
+  /** Human/editorial authority is explicit and separate from engineering validity. */
+  editorialStatus: StoryEditorialStatus;
   lexicalProfileRef: string;
   durationBand: StoryDurationBand;
   supportedModes: readonly StoryReadingMode[];
@@ -51,6 +54,7 @@ export interface StoryReadingState {
 const STABLE_REF = /^[a-z0-9]+(?:[._:#-][a-z0-9]+)*$/i;
 const VALID_DURATIONS = new Set<StoryDurationBand>(['tiny_tale', 'bedtime_story', 'big_story']);
 const VALID_MODES = new Set<StoryReadingMode>(['read_to_me', 'read_together', 'i_can_read']);
+const VALID_EDITORIAL_STATUSES = new Set<StoryEditorialStatus>(['draft', 'reviewed']);
 const FORBIDDEN_KEYS = new Set([
   'question',
   'questions',
@@ -160,6 +164,10 @@ export function validateStoryManifest(value: unknown): StoryManifest {
   const storyId = assertStableRef(value.storyId, 'storyId');
   const childTitle = assertText(value.childTitle, `${storyId}.childTitle`);
   const seriesId = value.seriesId === undefined ? undefined : assertStableRef(value.seriesId, `${storyId}.seriesId`);
+  if (typeof value.editorialStatus !== 'string' || !VALID_EDITORIAL_STATUSES.has(value.editorialStatus as StoryEditorialStatus)) {
+    throw new Error(`${storyId}: editorialStatus must be draft or reviewed`);
+  }
+  const editorialStatus = value.editorialStatus as StoryEditorialStatus;
   const lexicalProfileRef = assertStableRef(value.lexicalProfileRef, `${storyId}.lexicalProfileRef`);
   if (typeof value.durationBand !== 'string' || !VALID_DURATIONS.has(value.durationBand as StoryDurationBand)) {
     throw new Error(`${storyId}: invalid duration band`);
@@ -187,6 +195,7 @@ export function validateStoryManifest(value: unknown): StoryManifest {
     storyId,
     childTitle,
     ...(seriesId ? { seriesId } : {}),
+    editorialStatus,
     lexicalProfileRef,
     durationBand: value.durationBand as StoryDurationBand,
     supportedModes,
@@ -194,6 +203,10 @@ export function validateStoryManifest(value: unknown): StoryManifest {
     assessmentPolicy: 'none',
     masteryWritesAllowed: false
   };
+}
+
+export function isStoryPublishable(manifest: StoryManifest): boolean {
+  return validateStoryManifest(manifest).editorialStatus === 'reviewed';
 }
 
 export function validateStoryReadingState(value: unknown, manifest: StoryManifest): StoryReadingState {
