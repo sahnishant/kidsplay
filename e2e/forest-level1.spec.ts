@@ -97,7 +97,9 @@ async function advanceMissionStory(page: Page): Promise<void> {
 }
 
 async function visibleRecipeFamily(page: Page): Promise<string> {
-  return await page.locator('[data-experience-family]').first().getAttribute('data-experience-family') ?? '';
+  const visibleFamily = page.locator('[data-experience-family]:visible').first();
+  if (await visibleFamily.count() === 0) return '';
+  return await visibleFamily.getAttribute('data-experience-family') ?? '';
 }
 
 async function installRetryProbe(page: Page): Promise<void> {
@@ -204,7 +206,8 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       await expectNoHorizontalOverflow(page, `Forest clue ${index + 1} answer`);
       await expectNoDocumentVerticalOverflow(page, `Forest clue ${index + 1} answer`);
       await expectPrimarySurfaceFits(page, `Forest clue ${index + 1} answer`);
-      recipeFamilies.add(await visibleRecipeFamily(page));
+      const recipeFamily = await visibleRecipeFamily(page);
+      if (recipeFamily) recipeFamilies.add(recipeFamily);
 
       if (index === 0) {
         await expectChildTapTarget(page.getByRole('button', { name: 'Back to Kidsplay home' }), 'session Home');
