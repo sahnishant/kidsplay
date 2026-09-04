@@ -1,10 +1,11 @@
-import { validateLearnAboutTopic, type LearnAboutTopic } from './learnAboutContract';
+import type { LearnAboutTopic } from './learnAboutContract';
 
 /**
  * Navigation/projection metadata only. Every factual claim remains owned by the
- * reviewed canonical knowledge rows referenced below.
+ * reviewed canonical knowledge rows referenced below. Contract validation is
+ * exercised by tests/content gates rather than shipped into the child route.
  */
-export const EARTH_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
+export const EARTH_LEARN_ABOUT_TOPIC = {
   schemaVersion: 1,
   topicId: 'learn.earth',
   childTitle: 'Earth',
@@ -56,9 +57,9 @@ export const EARTH_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic(
       recipeFamilies: ['explore', 'did_you_know', 'practice']
     }
   ]
-});
+} as const satisfies LearnAboutTopic;
 
-export const LION_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
+export const LION_LEARN_ABOUT_TOPIC = {
   schemaVersion: 1,
   topicId: 'learn.lion',
   childTitle: 'Lion',
@@ -120,9 +121,9 @@ export const LION_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
       recipeFamilies: ['explore', 'did_you_know', 'compare', 'guess']
     }
   ]
-});
+} as const satisfies LearnAboutTopic;
 
-export const FIRE_STATION_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
+export const FIRE_STATION_LEARN_ABOUT_TOPIC = {
   schemaVersion: 1,
   topicId: 'learn.fire-station',
   childTitle: 'Fire Station',
@@ -165,7 +166,7 @@ export const FIRE_STATION_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAbou
       recipeFamilies: ['explore']
     }
   ]
-});
+} as const satisfies LearnAboutTopic;
 
 export const LEARN_ABOUT_TOPICS: readonly LearnAboutTopic[] = [
   EARTH_LEARN_ABOUT_TOPIC,
