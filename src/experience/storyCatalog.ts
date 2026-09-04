@@ -20,7 +20,7 @@ export const STORY_CANDIDATES_V1: readonly StoryManifest[] = [
     childTitle: 'The Moonlit Leaf',
     seriesId: 'stories.dheu-friends',
     editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.preschool.simple',
+    lexicalProfileRef: 'lexical.story.frequency-band-1',
     durationBand: 'bedtime_story',
     supportedModes: ['read_to_me', 'read_together'],
     beats: [
@@ -38,7 +38,7 @@ export const STORY_CANDIDATES_V1: readonly StoryManifest[] = [
     childTitle: 'The Quiet Backpack',
     seriesId: 'stories.dheu-friends',
     editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.preschool.simple',
+    lexicalProfileRef: 'lexical.story.frequency-band-1',
     durationBand: 'bedtime_story',
     supportedModes: ['read_to_me', 'read_together'],
     beats: [
@@ -56,7 +56,7 @@ export const STORY_CANDIDATES_V1: readonly StoryManifest[] = [
     childTitle: 'Shaitanu and the Wobbly Cape',
     seriesId: 'stories.shaitanu',
     editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.early-reader.simple',
+    lexicalProfileRef: 'lexical.story.frequency-band-2',
     durationBand: 'tiny_tale',
     supportedModes: ['read_to_me', 'read_together', 'i_can_read'],
     beats: [
@@ -73,7 +73,7 @@ export const STORY_CANDIDATES_V1: readonly StoryManifest[] = [
     childTitle: 'Scientu’s Tiny Question',
     seriesId: 'stories.scientu',
     editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.early-reader.simple',
+    lexicalProfileRef: 'lexical.story.frequency-band-2',
     durationBand: 'tiny_tale',
     supportedModes: ['read_to_me', 'read_together', 'i_can_read'],
     beats: [
