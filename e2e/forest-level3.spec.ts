@@ -74,7 +74,7 @@ test('Forest Explorer Level 3 restores a habitat and persists its discoveries at
   await expect(page.getByText(/replaying the mission cannot farm another reward/i)).toBeVisible();
   await expectForestSurfaceFits(page, 'Level 3 completion');
 
-  await page.getByRole('button', { name: "Back to Dheu's world" }).click();
+  await level.getByRole('button', { name: "Back to Dheu's world" }).click();
   await expect(page.getByRole('button', { name: /Forest Explorer Trail.*complete, replay.*Busy grove restored/i })).toBeVisible();
   await expect(page.getByText('📖 3 Forest finds')).toHaveCount(1);
   await expect(page.getByLabel(/Forest discoveries: animal nature, field note, vocabulary semantic/i)).toBeVisible();
