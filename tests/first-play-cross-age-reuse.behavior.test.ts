@@ -44,10 +44,9 @@ describe('First Play canonical cross-age reuse', () => {
       .filter((section) => section.depthBands.some((band) => band === 'd2_early_primary' || band === 'd3_deeper_primary'))
       .flatMap((section) => section.knowledgeRefs);
     const firstPlayRef = firstPlayQuestion.knowledgeRefs[0];
-    const canonicalTopicRefs = EARTH_LEARN_ABOUT_TOPIC.sections.flatMap((section) => section.knowledgeRefs);
 
-    expect(canonicalTopicRefs).toContain(firstPlayRef);
     expect(firstPlayRef).toBe('kr.universe.earth.type.planet');
+    expect(olderChildRefs).toContain(firstPlayRef);
     expect(new Set([...firstPlayQuestion.knowledgeRefs, ...olderChildRefs]).size).toBeGreaterThan(1);
   });
 });
