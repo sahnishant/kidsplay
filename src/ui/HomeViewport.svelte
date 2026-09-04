@@ -13,9 +13,7 @@
   import type { StoryProgressSnapshot } from '../story/storyProgress';
   import { deriveWorldRewardState } from '../story/worldRewards';
   import ChildHud from './home/ChildHud.svelte';
-  import GoalsViewport from './home/GoalsViewport.svelte';
   import HomeBottomNav from './home/HomeBottomNav.svelte';
-  import ProgressViewport from './home/ProgressViewport.svelte';
   import StoryWorldViewport from './StoryWorldViewport.svelte';
 
   type ChildPrimaryView = 'world' | 'practice';
@@ -160,9 +158,15 @@
             </aside>
           </section>
         {:else if view === 'progress'}
-          <ProgressViewport {progress} />
+          {#await import('./home/ProgressViewport.svelte') then module}
+            {@const ProgressViewport = module.default}
+            <ProgressViewport {progress} />
+          {/await}
         {:else if view === 'goals'}
-          <GoalsViewport {goalReadiness} {resumableMock} {mockTrends} {onResumeMock} onStartMock={patternMockEntryId ? startPatternMock : undefined} />
+          {#await import('./home/GoalsViewport.svelte') then module}
+            {@const GoalsViewport = module.default}
+            <GoalsViewport {goalReadiness} {resumableMock} {mockTrends} {onResumeMock} onStartMock={patternMockEntryId ? startPatternMock : undefined} />
+          {/await}
         {:else if view === 'programmes'}
           <section class="catalog-grid" aria-label="Assessment programmes and curriculum profiles">
             {#each goalProgrammeEntries as entry}
