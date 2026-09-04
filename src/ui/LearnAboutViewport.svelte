@@ -68,13 +68,19 @@
   function readableRow(row: LearnAboutKnowledgeRow): string {
     return `${row.subjectLabel} ${learnAboutRelationLabel(row.relation)} ${row.objectLabel}`;
   }
+
+  function familyLabel(family: string): string {
+    if (family === 'explore') return 'LOOK & TOUCH';
+    if (family === 'did_you_know') return 'DID YOU KNOW?';
+    return family.replaceAll('_', ' ').toUpperCase();
+  }
 </script>
 
 <main class="learn-about" data-learn-about-view={selectedTopicId ? 'topic' : 'catalog'}>
   <header class="topbar">
     <button class="back" type="button" onclick={back} aria-label={selectedTopicId ? 'Back to Learn About topics' : 'Back to play'}>←</button>
     <div><small>LEARN ABOUT</small><h1>{session?.childTitle ?? selectedTitle ?? 'Choose something to explore'}</h1></div>
-    {#if session}<b class="icon" aria-hidden="true">{session.icon}</b>{/if}
+    {#if session}<b aria-hidden="true">{session.icon}</b>{/if}
   </header>
 
   {#if !selectedTopicId}
@@ -86,7 +92,7 @@
       {/each}
     </section>
   {:else if !session}
-    <section class="loading" aria-live="polite">
+    <section aria-live="polite">
       {#if loadError}<p role="alert">{loadError}</p><button type="button" onclick={retryTopic}>Try again</button>{:else}<p>Opening {selectedTitle}…</p>{/if}
     </section>
   {:else}
@@ -102,7 +108,7 @@
           <h2 id={`${section.sectionId}-heading`}>● {section.childTitle}</h2>
           {#each section.cards as card}
             <article class="card">
-              <small class="label">{card.family === 'explore' ? 'LOOK & TOUCH' : card.family.replaceAll('_', ' ').toUpperCase()}</small>
+              <small>{familyLabel(card.family)}</small>
               {#if card.family === 'explore'}
                 {#if card.knowledgeRows.length}
                   <div class="rows">
@@ -111,10 +117,10 @@
                     {/each}
                   </div>
                   {@const touched = card.knowledgeRows.find((row) => row.rowId === touchedRowId)}
-                  {#if touched}<p class="reveal" aria-live="polite">{readableRow(touched)}.</p>{/if}
+                  {#if touched}<p aria-live="polite">{readableRow(touched)}.</p>{/if}
                 {:else}
                   <button class="wide" type="button" onclick={() => touchedRowId = card.cardId} aria-label={`Explore ${section.childTitle}`}><span aria-hidden="true">{session.icon}</span> {section.childTitle}</button>
-                  {#if touchedRowId === card.cardId}<p class="reveal" aria-live="polite">You found this part of the topic.</p>{/if}
+                  {#if touchedRowId === card.cardId}<p aria-live="polite">You found this part of the topic.</p>{/if}
                 {/if}
               {:else if card.family === 'did_you_know'}
                 {#each card.knowledgeRows as row}<p><strong>{row.subjectLabel}</strong> {learnAboutRelationLabel(row.relation)} <strong>{row.objectLabel}</strong>.</p>{/each}
@@ -125,10 +131,10 @@
                 <p>Tap the idea, then say what changes.</p>
                 {#each card.knowledgeRows as row}
                   <button type="button" onclick={() => touchedRowId = row.rowId}>{row.subjectLabel}</button>
-                  {#if touchedRowId === row.rowId}<p class="reveal" aria-live="polite">{readableRow(row)}.</p>{/if}
+                  {#if touchedRowId === row.rowId}<p aria-live="polite">{readableRow(row)}.</p>{/if}
                 {/each}
-              {:else if card.family === 'guess' && card.question && card.riddle}
-                {#each card.riddle.clue.clues as clue}<p>🧩 {clue.text}</p>{/each}
+              {:else if card.family === 'guess' && card.question && card.clue}
+                {#each card.clue.clues as clue}<p>🧩 {clue.text}</p>{/each}
                 <button class="wide action" type="button" onclick={() => onStartQuestion(card.question!, `Guess · ${session.childTitle}`)}>Choose an answer</button>
               {:else if card.family === 'practice' && card.question}
                 <button class="wide action" type="button" onclick={() => onStartQuestion(card.question!, `Practice · ${session.childTitle}`)}>Try this question</button>
@@ -142,5 +148,5 @@
 </main>
 
 <style>
-  .learn-about{width:min(760px,100%);height:calc(100dvh - 42px);margin:auto;display:flex;flex-direction:column;gap:6px;overflow:hidden}.learn-about button{min-height:46px;border:0;border-radius:10px;font:inherit;font-weight:850;cursor:pointer}.topbar{display:grid;grid-template-columns:46px 1fr auto;align-items:center;gap:6px}.back{width:46px;background:var(--accent-soft);color:var(--accent);font-size:1.2rem}.topbar small,.label{color:var(--accent);font-weight:900}.topbar h1,.section h2{margin:0}.topbar h1{font-size:1.08rem}.icon{font-size:1.7rem}.topics,.scroll{min-height:0;overflow:auto}.topics{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;align-content:start}.topic{min-height:120px;display:grid;place-items:center;background:#fff}.topic>span{font-size:3rem}.topic small{color:var(--muted)}.depths{display:grid;grid-template-columns:repeat(4,1fr);gap:4px}.depths button{font-size:.62rem;background:#fff}.active,.action{background:var(--accent)!important;color:#fff}.scroll{flex:1}.section{margin-bottom:6px;padding:8px;background:#fff}.section h2{font-size:.94rem}.card{margin-top:6px;padding:8px;background:#f7f9fb}.card p{margin:4px 0;font-size:.77rem;line-height:1.35}.label{display:block}.rows{display:flex;flex-wrap:wrap;gap:5px}.rows button,.rows span,.card>button{padding:6px;background:#fff}.rows span{font-size:.72rem}.wide{width:100%}.reveal{background:#fff}.loading{text-align:center}button:focus-visible{outline:3px solid #1b6dff;outline-offset:2px}@media(max-width:520px){.topics{grid-template-columns:1fr}.topic{min-height:100px;grid-template-columns:auto 1fr;justify-items:start}.topic>span{grid-row:1/3}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .learn-about{width:min(760px,100%);height:calc(100dvh - 42px);margin:auto;display:flex;flex-direction:column;overflow:hidden}.learn-about button{min-height:46px}.topbar{display:grid;grid-template-columns:46px 1fr auto;align-items:center}.back{width:46px}.topbar h1,.section h2{margin:0}.topics,.scroll{min-height:0;overflow:auto}.topics{flex:1;display:grid;grid-template-columns:repeat(3,1fr)}.topic{min-height:120px;display:grid;place-items:center}.topic>span{font-size:3rem}.depths{display:grid;grid-template-columns:repeat(4,1fr)}.active,.action{font-weight:800}.scroll{flex:1}.section{padding:6px}.card{margin-top:5px;padding:6px}.card p{margin:4px 0}.rows{display:flex;flex-wrap:wrap}.wide{width:100%}button:focus-visible{outline:3px solid;outline-offset:2px}@media(max-width:520px){.topics{grid-template-columns:1fr}.topic{min-height:100px}}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
