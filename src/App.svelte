@@ -8,6 +8,7 @@
   } from './content';
   import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
+  import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -61,6 +62,7 @@
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
+  let activePlaySurface = $state<FirstPlaySurfaceMode | null>(null);
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
@@ -98,9 +100,24 @@
     releaseSessionBack = null;
   }
 
-  function enterSessionBackBoundary(): void {
+  function clearActivePlaySurface(): void {
+    activePlaySurface = null;
+    startError = null;
+    releaseSessionBack = null;
+  }
+
+  function enterSessionBackBoundary(
+    layerId = 'learning-session',
+    onBack: () => void = clearActiveSession
+  ): void {
     releaseSessionBack?.();
-    releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+    releaseSessionBack = enterAppSessionLayer(layerId, onBack);
+  }
+
+  function startFirstPlay(mode: FirstPlaySurfaceMode): void {
+    enterSessionBackBoundary(`play:${mode}`, clearActivePlaySurface);
+    activePlaySurface = mode;
+    startError = null;
   }
 
   async function openLearnAbout(): Promise<void> {
@@ -128,6 +145,7 @@
   function startLearnAboutQuestion(question: Question, title: string): void {
     releaseSessionBack?.();
     releaseSessionBack = pushAppBackLayer('learn-about-question', clearActiveSession);
+    activePlaySurface = null;
     activeSession = { id: `learn-about:${question.id}`, mode: 'free_explore', title, questions: [question] };
     activeEntryId = null;
     activeStoryMission = null;
@@ -140,6 +158,7 @@
     try {
       const launch = createSessionForCatalogEntry(entryId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch;
       activeEntryId = entryId;
       activeStoryMission = null;
@@ -155,6 +174,7 @@
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch.mission.worldActionRef ? null : launch.session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
@@ -170,6 +190,7 @@
     try {
       const launch = createStoryLocationLaunch(locationId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch.session;
       activeStoryMission = null;
       activeStoryLocation = launch.location;
@@ -196,6 +217,7 @@
       }
 
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = { ...launch, questions };
       activeEntryId = resumableMock.entryId;
       activeStoryMission = null;
@@ -277,67 +299,79 @@
   function requestSessionExit(): void {
     requestAppBack(clearActiveSession);
   }
+
+  function requestFirstPlayExit(): void {
+    requestAppBack(clearActivePlaySurface);
+  }
 </script>
 
-{#if learnAboutOpen && LearnAboutView}
-  <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef)}>
-    <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
-  </div>
-{/if}
-
-{#if activeStoryMission?.worldActionRef}
-  {#await forestViewport then forestModule}
-    {@const ForestWorldDepthViewport = forestModule.default}
-    <ForestWorldDepthViewport
-      mission={activeStoryMission}
-      childName={child.name}
-      onComplete={handleForestWorldComplete}
-      onExit={requestSessionExit}
-    />
+{#if activePlaySurface}
+  {#await import('./ui/FirstPlayViewport.svelte') then module}
+    {@const FirstPlayViewport = module.default}
+    <FirstPlayViewport mode={activePlaySurface} onExit={requestFirstPlayExit} />
   {/await}
-{:else if activeSession}
-  <div class="session-host" class:forest-session-host={forestStorySession}>
-    <Session
-      title={activeSession.title}
-      mode={activeSession.mode}
-      questions={activeSession.questions}
-      sections={activeSession.sections}
-      childName={child.name}
-      childAvatar={child.avatar}
-      initialState={initialSessionState}
-      storyCompletion={activeStoryMission
-        ? {
-          sceneId: activeStoryMission.successSceneRef,
-          text: activeStoryMission.successBeat.text,
-          rewardLabel: activeStoryMission.reward.label,
-          stars: activeStoryMission.reward.stars
-        }
-        : undefined}
-      onAttempt={handleAttempt}
-      onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
-      onComplete={handleSessionComplete}
-      onExit={requestSessionExit}
-    />
-    <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
-  </div>
-{:else if !learnAboutOpen}
-  <Home
-    {child}
-    {catalog}
-    progress={progressSummary}
-    {goalReadiness}
-    {resumableMock}
-    {mockTrends}
-    {storyProgress}
-    onChildChange={handleChildChange}
-    onStart={startSession}
-    onStartMission={startStoryMission}
-    onExploreLocation={startStoryLocation}
-    onResumeMock={resumeMock}
-    onOpenLearnAbout={openLearnAbout}
-  />
+{:else}
+  {#if learnAboutOpen && LearnAboutView}
+    <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef)}>
+      <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+    </div>
+  {/if}
 
-  {#if startError}
-    <div class="app-error" role="alert">{startError}</div>
+  {#if activeStoryMission?.worldActionRef}
+    {#await forestViewport then forestModule}
+      {@const ForestWorldDepthViewport = forestModule.default}
+      <ForestWorldDepthViewport
+        mission={activeStoryMission}
+        childName={child.name}
+        onComplete={handleForestWorldComplete}
+        onExit={requestSessionExit}
+      />
+    {/await}
+  {:else if activeSession}
+    <div class="session-host" class:forest-session-host={forestStorySession}>
+      <Session
+        title={activeSession.title}
+        mode={activeSession.mode}
+        questions={activeSession.questions}
+        sections={activeSession.sections}
+        childName={child.name}
+        childAvatar={child.avatar}
+        initialState={initialSessionState}
+        storyCompletion={activeStoryMission
+          ? {
+            sceneId: activeStoryMission.successSceneRef,
+            text: activeStoryMission.successBeat.text,
+            rewardLabel: activeStoryMission.reward.label,
+            stars: activeStoryMission.reward.stars
+          }
+          : undefined}
+        onAttempt={handleAttempt}
+        onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
+        onComplete={handleSessionComplete}
+        onExit={requestSessionExit}
+      />
+      <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
+    </div>
+  {:else if !learnAboutOpen}
+    <Home
+      {child}
+      {catalog}
+      progress={progressSummary}
+      {goalReadiness}
+      {resumableMock}
+      {mockTrends}
+      {storyProgress}
+      onChildChange={handleChildChange}
+      onStart={startSession}
+      onStartMission={startStoryMission}
+      onExploreLocation={startStoryLocation}
+      onResumeMock={resumeMock}
+      onOpenLearnAbout={openLearnAbout}
+      onStartFirstPlay={startFirstPlay}
+    />
+
+    {#if startError}
+      <div class="app-error" role="alert">{startError}</div>
+    {/if}
   {/if}
 {/if}

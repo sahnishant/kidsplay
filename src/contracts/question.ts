@@ -33,9 +33,25 @@ export interface PresentableItem {
   visualRefs?: string[];
 }
 
+export type SingleChoicePresentationTier = 'first_play' | 'preschool' | 'early_primary';
+export type SingleChoiceLabelMode = 'visible' | 'secondary' | 'hidden';
+export interface SingleChoicePresentationHint {
+  /** Layout/presentation only. Correctness remains exact_option + the canonical evaluator. */
+  mode: 'visual_dominant';
+  tier: SingleChoicePresentationTier;
+  labels?: SingleChoiceLabelMode;
+}
+
 export interface ChoiceOption extends PresentableItem {}
 export interface SingleChoiceQuestion extends BaseQuestion {
-  interaction: { type: 'single_choice'; version: 1; shuffleOptions?: boolean; options: ChoiceOption[]; };
+  interaction: {
+    type: 'single_choice';
+    version: 1;
+    shuffleOptions?: boolean;
+    options: ChoiceOption[];
+    /** Optional visual-dominant child presentation; never changes answer semantics. */
+    presentation?: SingleChoicePresentationHint;
+  };
   solution: { type: 'exact_option'; correctOptionIds: string[]; };
 }
 

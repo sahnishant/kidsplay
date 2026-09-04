@@ -12,6 +12,7 @@ const questionRoot = `${normalizePath(resolve(projectRoot, 'content/questions'))
 const membershipRoot = `${normalizePath(resolve(projectRoot, 'content/profile-memberships'))}/`;
 const resolvedMembershipPath = normalizePath(resolve(projectRoot, 'content/index/__generated-profile-memberships.json'));
 const forestWorldDepthPath = normalizePath(resolve(projectRoot, 'content/forest/world-depth.json'));
+const firstPlayRuntimePath = normalizePath(resolve(projectRoot, 'content/runtime/first-play-production.json'));
 const runtimeJsonPrefix = '\0kidsplay-runtime-json:';
 
 function cleanModuleId(id: string): string {
@@ -23,7 +24,8 @@ function isRuntimeContentJson(id: string): boolean {
   return cleanId.startsWith(questionRoot)
     || cleanId.startsWith(membershipRoot)
     || cleanId === resolvedMembershipPath
-    || cleanId === forestWorldDepthPath;
+    || cleanId === forestWorldDepthPath
+    || cleanId === firstPlayRuntimePath;
 }
 
 function runtimeJsonServeCompatPlugin(): Plugin {

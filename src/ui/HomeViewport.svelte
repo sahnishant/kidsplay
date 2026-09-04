@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import type { CatalogEntry, GoalReadinessSummary } from '../content';
+  import type { FirstPlaySurfaceMode } from '../experience/firstPlayProduction';
   import { projectForestDiscoveries } from '../forest/forestDiscoveries';
   import { mergeForestWorldDepthState } from '../forest/forestWorldProjection';
   import Avatar from '../presentation/Avatar.svelte';
@@ -23,7 +24,8 @@
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
-    onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock, onOpenLearnAbout
+    onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock,
+    onOpenLearnAbout, onStartFirstPlay
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
@@ -38,6 +40,7 @@
     onExploreLocation: (locationId: string) => void;
     onResumeMock: () => void;
     onOpenLearnAbout: () => void;
+    onStartFirstPlay?: (mode: FirstPlaySurfaceMode) => void;
   } = $props();
 
   const avatars: Array<{ id: AvatarId; label: string }> = [
@@ -152,6 +155,17 @@
             {/each}
           </section>
         {:else if view === 'practice'}
+          {#if onStartFirstPlay}
+            <section class="first-play-launches" aria-label="Picture-first play">
+              <button class="first-play-launch" type="button" aria-label="Start First Play sampler" onclick={() => onStartFirstPlay?.('first_play')}>
+                <span aria-hidden="true">🐾</span><strong>First Play</strong>
+              </button>
+              <button class="first-play-launch" type="button" aria-label="Start picture play puzzles" onclick={() => onStartFirstPlay?.('visual_reasoning')}>
+                <span aria-hidden="true">🧩</span><strong>Picture Play</strong>
+              </button>
+            </section>
+          {/if}
+
           <section class="catalog-grid" aria-label="Play activities">
             <article class="catalog-card catalog-card--learn-about">
               <div class="catalog-card__topline"><span class="access-badge">LEARN ABOUT</span></div>
@@ -183,6 +197,7 @@
   .panel-topbar{min-height:50px;display:flex;align-items:center;gap:8px;padding:4px 8px;border:1px solid #24303a14;border-radius:15px;background:#fffffff2}.panel-back{width:40px;height:40px;flex:none;border:0;border-radius:12px;background:var(--accent-soft);color:var(--accent);font-size:1.1rem;font-weight:950;cursor:pointer}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.panel-topbar h1{margin:1px 0 0;font-size:clamp(1rem,3.5vw,1.25rem);line-height:1}
   .home-panel-body{min-height:0;flex:1;overflow:auto;padding:1px 2px 5px}.home-panel-body--fixed{overflow:hidden;padding:0}.panel-card,.catalog-card{border:1px solid #24303a17;border-radius:18px;background:#fffffff0}.panel-card{padding:16px}.panel-note,.catalog-card p,.profile-ref{color:var(--muted)}
   .name-field{display:grid;gap:6px}.name-field span{font-size:.76rem;font-weight:800}.name-field input{min-height:50px;padding:9px 12px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:800}.avatar-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.avatar-button{min-height:100px;display:grid;place-items:center;padding:7px;border:2px solid #e3e8eb;border-radius:18px;background:#f8fafb;color:var(--ink);cursor:pointer}.avatar-button--selected{border-color:var(--accent);background:var(--accent-soft)}.avatar-art{width:58px;height:58px}
+  .first-play-launches{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}.first-play-launch{min-height:96px;border:2px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font:inherit;font-weight:900}.first-play-launch span{display:block;font-size:2rem}
   .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card--learn-about{background:#fff8e9}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
   @media(max-width:650px){.home-viewport{gap:5px}.catalog-grid{grid-template-columns:1fr}.avatar-picker{grid-template-columns:repeat(2,1fr)}}
 </style>
