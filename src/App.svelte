@@ -47,13 +47,13 @@
     recordStoryMissionCompletion
   } from './story/storyProgress';
   import type { StoryLocation, StoryMission } from './story/storyTypes';
-  import ForestWorldDepthViewport from './ui/ForestWorldDepthViewport.svelte';
   import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
+  const forestViewport = import('./ui/ForestWorldDepthViewport.svelte');
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
@@ -240,12 +240,15 @@
 </script>
 
 {#if activeStoryMission?.worldActionRef}
-  <ForestWorldDepthViewport
-    mission={activeStoryMission}
-    childName={child.name}
-    onComplete={handleForestWorldComplete}
-    onExit={requestSessionExit}
-  />
+  {#await forestViewport then forestModule}
+    {@const ForestWorldDepthViewport = forestModule.default}
+    <ForestWorldDepthViewport
+      mission={activeStoryMission}
+      childName={child.name}
+      onComplete={handleForestWorldComplete}
+      onExit={requestSessionExit}
+    />
+  {/await}
 {:else if activeSession}
   <div class="session-host" class:forest-session-host={forestStorySession}>
     <Session
