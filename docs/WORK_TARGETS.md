@@ -1,223 +1,166 @@
 # Kidsplay — canonical work targets
 
-This is the durable project-work checkpoint for `sahnishant/kidsplay`. GitHub issue #1 is the canonical live execution tracker.
+This is the repo-local work checkpoint for `sahnishant/kidsplay`.
 
-## Product constraints
+**Durable control plane:**
+- GitHub **#1** — canonical high-level orchestration and current active checkpoint;
+- GitHub **#174** — child game-feel/product laws;
+- GitHub **#210** — operational 120-pass gameplay execution programme;
+- `docs/GAMEPLAY_ROADMAP.md` — concise repo-local roadmap/ownership/branch rules.
 
-- Android is the shipping target; ordinary development stays Node/npm + browser first.
-- Broad foundational learning stays free as much as practical.
-- Monetize structured goal paths, diagnostics, adaptation, mocks and advanced preparation rather than duplicating ordinary facts behind a paywall.
-- Keep development/content-production cost low through canonical knowledge rows, reusable formatters/engines, data-driven assessment blueprints and lightweight presentation primitives.
-- Animation should be lightweight, reusable and pedagogically meaningful. Do not introduce a heavy animation stack for effects that SVG/CSS/data-driven scenes can handle.
-- External artwork is optional presentation data, never question/evaluator truth.
+If this document conflicts with #1, GitHub issue #1 wins.
 
-## Architecture mandate — complete
+## Current integrated baseline — 2026-09-04
 
-Canonical learning flow:
+- Canonical integrated branch: `main`.
+- Current `main`: `12599cd7a5ef773130c5b1a0ccc21416097eea9c` — PR #193 merge.
+- PR #193 integrated:
+  - human-approved primary-vocabulary batch 005 outcomes with HOLD boundaries preserved;
+  - human-reviewed semantic tranche 004 outcomes;
+  - Phase G1 Trace & Discover engineering.
+- Exact certified PR #193 engineering head: `0b4072fa0d51346d71ff102acde19bbd46731bf4`.
+- Permanent checks on that exact head:
+  - Primary Vocabulary `33792324132` ✅
+  - Priority Visual Breadth `33792323836` ✅
+  - Windows `33792324023` ✅
+  - Browser/Playwright `33792324042` ✅
+  - Android packaged/offline `33792323834` ✅
+
+## Current child-product gates
+
+### #192 — G1 Trace & Discover
+Engineering is integrated/certified. Explicit HUMAN first-production visual/CX acceptance remains separate and open.
+
+### #196 / PR #204 — Character Persona System V1
+Active overlapping child-character/session-presentation vertical:
+- branch `feat/character-persona-system-v1`;
+- base `main` `12599cd7a5ef773130c5b1a0ccc21416097eea9c`;
+- exact engineering head `19d414216dc8b305b389aa2de14a3f649190fdde`;
+- Windows `33802735082` ✅;
+- Browser/Playwright `33802734845` ✅;
+- Android packaged/offline `33802734611` ✅.
+
+Human review is an acceptance gate, not a global engineering stop. Disjoint docs/control-plane/content/readiness work may continue while it is pending. Do not create a competing branch that owns the same child shell/story/session-presentation/audio/runtime files unless #1 explicitly reassigns ownership.
+
+## Integrated product foundations — do not rebuild
+
+- Canonical learning flow remains data/knowledge -> planner/profile -> formatter/question -> reusable engine -> evaluator -> local progress.
+- Story/presentation sits above learning truth and does not own answers.
+- Immediate committed-answer submission/feedback loop is integrated.
+- #173 honest retry/scaffolding preserves first-attempt evidence.
+- #175 offline-safe young-child audio runtime + Repeat + persistent sound preference is integrated.
+- Child/adult UI separation is integrated; `Continue Adventure` dominates Home.
+- Progress-derived visible world consequences are integrated.
+- #185 Forest Explorer Level 1 + reusable experience recipe is integrated and HUMAN-approved.
+- #8 is the interactive Story World / mission graph authority.
+- #76/#84/#114 provide the semantic sense/relationship/visual presentation stack.
+- Existing `single_choice@1` supports semantic visuals, shuffled options and immediate one-tap submission.
+- G1 `trace_path@1` engineering is integrated.
+- Windows, Browser/Playwright and packaged/offline Android gates are permanent.
+
+## Child product model
+
+Home keeps **Continue Adventure** dominant. Secondary child intents are:
+
+1. **Adventure** — guided missions/world progression/campaigns.
+2. **Play** — free practice, manipulation, riddles, replay and creative/rest play.
+3. **Learn About** — topic-first exploration/depth.
+4. **Stories** — calm authored listening/reading/imagination with no mandatory assessment.
+
+First Play (#206) is cross-cutting, not another Home tab. Appropriate content can lower demand through:
+
+`touch/hear -> listen/find -> match -> put/sort/build -> concrete concept -> sound/letter exposure`.
+
+## Canonical roadmap order
 
 ```text
-stored data
-→ datatype normalizer
-→ canonical knowledge units
-→ profile/index selector + planner
-→ formatter(data, engine, recipe)
-→ optional compiler
-→ generated/cache delivery questions with knowledgeRefs
-→ runtime catalog/profile selector
-→ interactive/output delivery
-→ evaluator/persisted progress
+current HUMAN gates + #196/#204
+-> #206 First Play bounded sampler
+-> #203 Visual Scene Choice / Which Doesn't Belong?
+-> #192 G2 build/assemble
+-> #197 bundled playful voice proof
+-> #207 Learn About V1: Earth / Lion / Fire Station
+-> #208 Riddle Time bounded proof
+-> #205 Stories V1: 3–5 stories
+-> #192 G3 practical-life + G4 cause/effect
+-> #198 Forest Explorer L2/L3
+-> #200 Discovery Book + #199 sound-first literacy
+-> #198 Town Square + Scientu Lab transfer
+-> #209 Across the World India proof
+-> #209 one international transfer proof
+-> #201 replay/creative rest
+-> #202 parent session controls
 ```
 
-Stable `rowId`, shared normalizers, profile-owned curriculum placement, independent knowledge/profile/activity difficulty axes, reusable engines, row-level traceability and full-reference profile isolation are in place. Do not reopen architecture without a real failing content/use case.
+Issue #210 owns the numbered 120-pass checklist and is the preferred next-work queue.
 
-Assessment remains a separate data layer:
+## Architecture authorities
 
-```text
-canonical knowledge
-→ learning profile / membership
-→ assessment blueprint
-→ reusable question bank + engines
-→ structured mock + section diagnostics
-```
+- #8 — interactive Story World/mission graph.
+- #173 — first-attempt/retry/scaffold/mastery evidence.
+- #175 — audio runtime.
+- #197 — bundled voice/audio production only.
+- #51 — reviewed child vocabulary/meaning authority.
+- #76/#84/#114 — semantic senses/relationships/visual meaning.
+- #192 — reusable toy/manipulation families.
+- #196 — Dheu/Scientu/Shaitanu persona vocabulary/renderer.
+- #206 — First Play interaction-demand tier; no toddler truth/evaluator/progress store.
+- #203 — visual-selection/odd-one-out recipes over existing evaluator.
+- #207 — topic-first projection; no encyclopedia/fact bank.
+- #208 — riddle/clue recipe/content; no second evaluator.
+- #205 — calm story manuscripts/library/read persistence; no mission/mastery runtime.
+- #200 — deterministic discovery projection; no currency/fact bank.
+- #209 — route/destination Adventure campaign; no geography game engine/vehicle simulator.
 
-Presentation remains separate from knowledge/evaluation:
+## Ongoing independent authority/content lanes
 
-```text
-canonical row / authored question
-→ semanticRef / explicit visualRef
-→ visual registry
-→ optional admitted open-source asset OR Kidsplay SVG fallback
-→ CSS motion / static reduced-motion fallback
-```
+### #51 — primary vocabulary editorial production
+The generic delivery architecture is proven. Continue bounded human/editorial production without allowing corpus grade/frequency, AI drafts or gameplay usage to impersonate human meaning/profile-placement authority.
 
-## Current validated product/content state
+### #76 — semantic visual vocabulary + intelligent animation at scale
+Continue exact-sense review, semantic depth and reusable scene/visual maturity through the existing generic control plane. Gameplay phases consume this authority; they do not create parallel semantic truth.
 
-- **57** canonical knowledge source objects.
-- **168** formatter recipes.
-- **310** stable canonical rows across **10** membership collections.
-- **313** learnables.
-- **214** runnable questions total.
-- **168** generated traced questions.
-- **32** manually-authored traced questions.
-- **12** traced HOTS questions.
-- **10** registered engines: 9 interactive + 1 output.
-- **30** learning profiles.
-- **5** assessment blueprints covering **205** question slots / **240** marks.
-- **12** reusable scenes with **36** validated scene primitives.
-- **224** registered semantic visual entities across **11** content-driven visual packs.
-- **10** pinned/admitted Microsoft Fluent Emoji assets currently bundled.
+### SOF / profile work
+Assessment/provenance remains distinct from the gameplay roadmap. Official source evidence, profile placement and product game-feel must not be conflated.
 
-For `SOF_INDIA_CLASS2`:
+## Permanent product laws
 
-- **182/182** profile rows are exercised by at least one runnable question.
-- **182/182** profile rows are represented in Free Explore.
-- **0** current profile rows are accidentally paid-only.
-- **140** profile-safe runnable questions are available to goal selection.
-- Free Explore contains **142** questions while reusing the same canonical rows.
+- Play first, assessment second.
+- The child should do things to the world, not merely answer cards.
+- A committed tap/drag/action should react immediately; avoid redundant `Check Answer`.
+- Preschool visual selection should let semantic meaning dominate the viewport.
+- Progress should change/reveal/unlock meaningful world state; avoid coin/XP grind.
+- Exploration/hearing/animation/story exposure is not mastery evidence.
+- Same canonical knowledge should generate multiple experiences; no duplicate fact/question banks.
+- Random distractors are not difficulty; use controlled semantic contrasts.
+- First Play must work without reading, with one-step intent, huge forgiving targets and gentle in-place recovery.
+- Structured assessment answer safety remains non-negotiable.
+- Published child facts/riddles/stories are deterministic/reviewable; no core runtime cloud/LLM requirement.
+- Age/profile is a routing hint only, not proof of ability or mastery.
+- Prefer lightweight SVG/CSS/semantic composition over heavy 3D/game runtimes.
+- Reduced-motion/static meaning must remain complete.
 
-Science/EVS breadth is complete at useful prototype depth across Animals, Plants, Human Body, Food, Housing/Clothing, Habits/Safety, Transport/Communication, Air/Water/Rocks, Earth/Universe and Family/Festivals. Logical reasoning and HOTS include patterns, classification, analogy, ranking, coding-decoding, measurement/unit choices, shape properties, visual search, multi-row scenarios, statement pairs, table inference, ordered processes, passage/claim reasoning and traced visual interpretation.
+## Release / acceptance law
 
-## Free Explore / goal learning / mocks
+Every new child-facing family may be engineered before human acceptance, but it must not broadly scale until its first production use has:
 
-- [x] Free Explore uses short adaptive sessions rather than whole-bank dumps.
-- [x] Weakest referenced row drives priority for multi-row activities.
-- [x] Foundational science/EVS/logical/passage/visual reasoning remains free.
-- [x] Goal pack declares `knowledgeAccessPolicy: reuse_free_knowledge`; CI rejects paid-only leakage.
-- [x] `SOF_INDIA_CLASS2` remains profile-isolated and weak/unseen adaptive.
-- [x] NEXT FOCUS/readiness require breadth, not narrow mastery.
-- [x] 20-question mixed mock.
-- [x] Data-driven **35-question / 40-mark 2026-27 pattern mock**: 5 Logical Reasoning × 1 + 25 Science × 1 + 5 Achievers × 2.
-- [x] Section/mark display and section diagnostics.
-- [x] Long mock resumes offline/local-first with exact question order, raw responses and submitted-feedback boundary preserved.
-- [x] Saved mocks fail closed against stale blueprint/profile/question contracts.
-- [x] Compact local mock history and replay with fresh session identity.
-- [x] UI states Kidsplay mocks/readiness are practice tools, not official SOF papers/scores/certification.
+1. focused contract/unit tests;
+2. representative 360x640 Browser/Playwright child journey;
+3. Windows/full check;
+4. relevant semantic/vocabulary/content gates;
+5. packaged Android offline first launch/relaunch/rotation;
+6. unchanged bundle budget unless explicitly justified;
+7. accessibility + sound-off where relevant + reduced-motion/static meaning;
+8. explicit HUMAN visual/CX review of the exact production behavior.
 
-## Learning map / evaluator integrity
+Keep `engineering complete`, `integrated`, `HUMAN accepted` and `editorially authoritative` as separate statuses.
 
-- [x] Player name/avatar persist locally.
-- [x] Attempts, row evidence and concept mastery persist locally.
-- [x] Corrupt/impossible persisted counters/attempts/checkpoints fail closed.
-- [x] 17 Class 2 topic groups are summarized with practised/strong rows and weighted accuracy.
-- [x] NEXT FOCUS is weak-first and then expands unpractised breadth.
-- [x] All 9 shipped interactive solution families are exercised end-to-end against shipped questions.
-- [x] Invalid injected answers cannot receive accidental full credit.
-- [x] Maze evaluation validates every legal wall-respecting step.
-- [x] Structured mock boundaries and weighted marks have runtime tests.
-- [x] Resume re-evaluates raw responses rather than trusting stored scores.
-- [x] Post-submit/pre-Next reload restores feedback while keeping the engine locked.
+## Current immediate work
 
-## Dheu story world — mandate complete, device acceptance pending
+While #196/PR #204 is in human review:
+- execute #210 passes 015–020 for repo/orchestrator hygiene;
+- then perform compatible readiness audits/contracts that do not compete for the active child-session presentation surfaces;
+- continue genuinely independent #51/#76 authority/content work as separately orchestrated;
+- do not start broad First Play/Stories/world-presentation implementation until #1 activates the relevant overlapping slice.
 
-The story layer sits above the question bank and does not own evaluator/mastery truth.
-
-- [x] Reusable original cast: **Dheu / Scientu / Shaitanu**.
-- [x] **9** data-driven world locations.
-- [x] **4 curated free missions** bound to canonical rows and existing free questions.
-- [x] Five other locations launch mastery-adaptive free expeditions.
-- [x] Persistent story unlocks depend on stable story mission completion rather than mutable curriculum membership, payment or mastery thresholds.
-- [x] Story validator proves the free unlock graph is reachable and cannot depend on a non-free mission.
-- [x] Curated replays preserve declared knowledge coverage while preferring weaker/unseen rows where safe.
-- [x] Story completion/rewards persist separately from learning mastery; mission stars cannot be farmed by replay.
-- [x] Adaptive Shaitanu framing changes presentation challenge only; it never changes answers/scoring.
-- [x] Selective story micro-reactions are reserved for meaningful submitted moments rather than every routine answer.
-- [x] Reduced-motion disables story animation without removing meaning.
-
-Real-device usability for these flows remains tracked in issue #33.
-
-## Presentation / semantic visuals / OSS assets
-
-- [x] Semantic refs/visual refs survive generation and are validator/test protected.
-- [x] Exact semantic mappings beat display-label inference; no fuzzy keyword matching.
-- [x] Original reusable SVGs cover the main Class 2 EVS/science domains and selected reasoning concepts.
-- [x] Inferred motion is post-answer reinforcement in normal practice and suppressed in structured mocks.
-- [x] Explicit authored visual stimuli remain visible from the start where intentionally visual.
-- [x] `prefers-reduced-motion` fails safely to static presentation.
-
-Current visual audit at the latest recorded full run:
-
-- **439/990 = 44.3%** of visual-friendly question items resolve to semantic visuals.
-- single-choice: **186/372 = 50%**;
-- memory-pairs: **231/596 = 38.8%**;
-- sequence-order: **8/8 = 100%**;
-- word-bank-fill: **12/12 = 100%**;
-- hotspot: **2/2 = 100%**;
-- matching/drag remains explicit-visual-only and is excluded from the visual-friendly denominator.
-
-CI enforces a **40% minimum visual-friendly floor**. Do not chase 100% with misleading icons for numeric answers, coded strings, person names or ambiguous predicates.
-
-### Open-source admission
-
-- **Microsoft Fluent Emoji** is approved at pinned revision `1ffb34c752ecf5d402f04cfb4b392c77f57c54bc`, MIT.
-- **Kenney assets** are approved as CC0, but each imported item still requires exact pack provenance.
-- Bundled third-party files live under `public/assets/open/` and record source revision/path/blob SHA/license/local path.
-- Normal builds remain offline/deterministic; upstream synchronization is an explicit authoring action.
-- Current bundled Fluent proof set: dog, whale, cow, camel, rabbit, bird, fish, tree, sun and bone.
-- Current Kidsplay SVG renderer/glyph remains the fallback when no `assetRef` is present.
-- Asset validation, notices and behavior tests are part of normal project checks.
-
-Further OSS expansion should be selective and reuse-driven.
-
-## Browser / platform release gates
-
-Permanent proof includes:
-
-### Windows
-
-`.github/workflows/windows-check.yml` runs clean `npm ci` + unchanged `npm run check` on `windows-latest` with Node 22.
-
-### Browser child journeys
-
-`.github/workflows/browser-smoke.yml` installs Chromium and runs normal project checks before Playwright.
-
-The suite covers:
-
-1. player setup → Free Explore → feedback → local persistence;
-2. Story World mission completion → next-location unlock;
-3. 35-question SOF pattern mock → exact submitted/unsubmitted resume boundaries;
-4. reduced-motion experience;
-5. Android-like **360×800** touch/layout pressure with 44px core target assertions, reduced-height name-entry stress and no-horizontal-overflow checks;
-6. 35-question mock portrait layout plus portrait→landscape rotation check.
-
-These browser checks are strong proxies, not a substitute for actual child/device observation.
-
-### Android
-
-Android CI validates/builds the web runtime, syncs Capacitor Android, runs Gradle `assembleDebug`, and uploads the APK.
-
-## Alignment / provenance — principal unresolved product-truth mandate
-
-Broad current Class 2 SOF scope and assessment format are backed by reviewed official sources. Exact row-level evidence intentionally uses a stricter standard.
-
-Current machine-readable state:
-
-- **27/182** profile rows/skills have reproducible exact official evidence anchors.
-- **13** are current-year direct anchors.
-- **14** are historical official Class 2 anchors with explicit current-year scope binding.
-- **155/182** remain pending exact row/skill evidence.
-- `fitBasis: editorial_retained` remains explicit; Kidsplay does not pretend SOF supplied internal fit labels.
-- `SOF_INDIA_CLASS2` correctly remains `prototype_unverified`.
-
-The public official sample set is small and substantially repetitive. The named official **2018-19** Class 2 sample is now registered and reviewed; it adds zero new exact anchors because its inspectable useful facts repeat already-evidenced rows or do not match pending canonical rows narrowly enough. Do **not** close the remaining 155 rows by counting syllabus headings, duplicate yearly questions, inaccessible paid material, near-matches, mirrors or uninspectable visual assumptions.
-
-Operational evidence queue: `node scripts/report-sof-row-review.mjs --json`.
-Contract: `docs/SOF_ROW_REVIEW.md`.
-Checkpoint: `docs/SOF_EVIDENCE_STATUS.md`.
-
-## Release / branch state
-
-- Canonical development branch: `kidsplay`.
-- Stable release branch: `main`.
-- Previous parallel lanes #18–#21 and story micro-reaction work are consolidated.
-- OSS semantic asset proof is integrated with exact provenance and fallback.
-- Windows/browser/Android automated release gates are permanent.
-
-## Remaining mandate — ordered
-
-1. **Official SOF source recovery / exact row evidence.** Continue only when genuinely new reproducible official anchors exist. Current high-value source gaps: named-year official Class 2 artifacts for 2017-18, 2020-21 and 2021-22, or an official year binding for `Class-2_7.pdf`. Evidence quality is more important than count.
-2. **Real-device child UX acceptance (#33).** Automated 360px/touch/layout pressure is now covered, but physical-device touch, packaged-offline, process-kill, safe-area, soft-keyboard and real-child comprehension observations cannot be certified by browser CI.
-3. **Fix defects found by #33.** Each blocker/major defect gets a focused issue/commit from the certified `kidsplay` base.
-4. **Selective semantic asset expansion.** Add Fluent/Kenney only for recurring concrete entities/scenes where recognition improves; preserve local fallback and bundle budget.
-5. **Performance work only from profiling evidence.** Do not introduce chunking/architecture changes merely to silence Vite's advisory.
-
-Do not add another interaction architecture, heavy animation framework, backend/router/graph database or broad runtime dependency without a demonstrated failing use case.
+Do not reopen core learning architecture, add another evaluator/progress store/audio runtime/story graph, or introduce a heavy game framework without a demonstrated failing use case and explicit #1 decision.
