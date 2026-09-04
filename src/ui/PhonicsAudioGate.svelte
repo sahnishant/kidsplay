@@ -87,7 +87,7 @@
     onclick={playTargetSound}
   >
     <span aria-hidden="true">↻</span>
-    <span>Repeat sound</span>
+    <span>Repeat</span>
   </button>
 
   {#if notice}
@@ -107,6 +107,7 @@
 </div>
 
 <style>
+  :global(.session-viewport:has([data-phonics-audio-gate]) button[aria-label="Repeat question"]){display:none}
   .phonics-audio-gate{display:grid;gap:10px;justify-items:center}.repeat-sound{min-height:48px;padding:9px 16px;border:0;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-size:.82rem;font-weight:950;cursor:pointer}.repeat-sound:disabled{background:#dfe5e8;color:#68747c;cursor:default}.audio-notice{margin:0;color:var(--try);font-size:.78rem;font-weight:800;text-align:center}.phonics-engine{width:100%}.listen-first{width:min(100%,28rem);min-height:120px;display:grid;place-content:center;gap:5px;padding:16px;border:2px dashed #24303a20;border-radius:18px;text-align:center;color:var(--muted)}.listen-first strong{color:var(--ink);font-size:1.05rem}.listen-first span{font-size:.76rem}
   @media(prefers-reduced-motion:reduce){.repeat-sound{transition:none}}
 </style>
