@@ -6,10 +6,12 @@
     getGoalReadiness,
     type SessionLaunch
   } from './content';
+  import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
+    pushAppBackLayer,
     requestAppBack
   } from './runtime/appNavigation';
   import {
@@ -51,6 +53,8 @@
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
 
+  type LearnAboutComponent = typeof import('./ui/LearnAboutViewport.svelte')['default'];
+
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
   const forestViewport = import('./ui/ForestWorldDepthViewport.svelte');
@@ -61,11 +65,14 @@
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
   let activeStoryLocation = $state<StoryLocation | null>(null);
+  let learnAboutOpen = $state(false);
+  let LearnAboutView = $state<LearnAboutComponent | null>(null);
   let initialSessionState = $state<SessionState | undefined>(undefined);
   let resumableMock = $state(loadMockCheckpoint());
   let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
   let releaseSessionBack: (() => void) | null = null;
+  let releaseLearnAboutBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
   let goalReadiness = $derived(
@@ -94,6 +101,39 @@
   function enterSessionBackBoundary(): void {
     releaseSessionBack?.();
     releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+  }
+
+  async function openLearnAbout(): Promise<void> {
+    try {
+      LearnAboutView ??= (await import('./ui/LearnAboutViewport.svelte')).default;
+      releaseLearnAboutBack?.();
+      learnAboutOpen = true;
+      startError = null;
+      releaseLearnAboutBack = enterAppSessionLayer('learn-about', () => {
+        learnAboutOpen = false;
+        releaseLearnAboutBack = null;
+      });
+    } catch (error) {
+      startError = error instanceof Error ? error.message : 'Learn About could not be opened.';
+    }
+  }
+
+  function requestLearnAboutExit(): void {
+    requestAppBack(() => {
+      learnAboutOpen = false;
+      releaseLearnAboutBack = null;
+    });
+  }
+
+  function startLearnAboutQuestion(question: Question, title: string): void {
+    releaseSessionBack?.();
+    releaseSessionBack = pushAppBackLayer('learn-about-question', clearActiveSession);
+    activeSession = { id: `learn-about:${question.id}`, mode: 'free_explore', title, questions: [question] };
+    activeEntryId = null;
+    activeStoryMission = null;
+    activeStoryLocation = null;
+    initialSessionState = undefined;
+    startError = null;
   }
 
   function startSession(entryId: string): void {
@@ -239,6 +279,12 @@
   }
 </script>
 
+{#if learnAboutOpen && LearnAboutView}
+  <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef)}>
+    <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+  </div>
+{/if}
+
 {#if activeStoryMission?.worldActionRef}
   {#await forestViewport then forestModule}
     {@const ForestWorldDepthViewport = forestModule.default}
@@ -274,7 +320,7 @@
     />
     <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
   </div>
-{:else}
+{:else if !learnAboutOpen}
   <Home
     {child}
     {catalog}
@@ -288,6 +334,7 @@
     onStartMission={startStoryMission}
     onExploreLocation={startStoryLocation}
     onResumeMock={resumeMock}
+    onOpenLearnAbout={openLearnAbout}
   />
 
   {#if startError}
