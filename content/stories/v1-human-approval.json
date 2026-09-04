@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "approvalId": "kidsplay.stories.human-approval.v1",
+  "sourceManifestGitBlobSha": "35d58d6218580ef0fb22f6231bb917a6a260551c",
+  "approvedAt": "2026-09-04T14:55:00+05:30",
+  "approvedBy": "human_owner",
+  "manuscriptEditorialApproved": true,
+  "bedtimeCxApproved": true,
+  "offlineDeviceAcceptanceApproved": true,
+  "approvedStoryIds": [
+    "story.dheu.moonlit-leaf",
+    "story.friends.quiet-backpack",
+    "story.shaitanu.cape-trouble",
+    "story.scientu.tiny-question"
+  ]
+}
