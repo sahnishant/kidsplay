@@ -7,11 +7,12 @@ const targets = [
 ];
 
 describe('forgiving drag/snap motor tolerance', () => {
-  it('keeps direct DOM hit authority when a target was actually hit', () => {
+  it('keeps a valid direct DOM hit authoritative when a target was actually hit', () => {
     expect(resolveForgivingDropTarget({ x: 140, y: 50 }, 'slot.right', targets)).toBe('slot.right');
+    expect(resolveForgivingDropTarget({ x: 140, y: 50 }, 'slot.unknown', targets)).toBeUndefined();
   });
 
-  it('snaps a small near miss to the nearest target', () => {
+  it('snaps a small near miss to the uniquely nearest target', () => {
     expect(resolveForgivingDropTarget({ x: 112, y: 50 }, undefined, targets, 24)).toBe('slot.left');
     expect(resolveForgivingDropTarget({ x: 138, y: 50 }, undefined, targets, 24)).toBe('slot.right');
   });
@@ -20,15 +21,20 @@ describe('forgiving drag/snap motor tolerance', () => {
     expect(resolveForgivingDropTarget({ x: 125, y: 160 }, undefined, targets, 24)).toBeUndefined();
   });
 
-  it('uses deterministic target ids only as a tie-break after geometric distance', () => {
+  it('leaves an ambiguous near miss unanswered instead of choosing a target by id', () => {
     const tied = [
       { targetId: 'slot.b', left: 0, top: 0, right: 100, bottom: 100 },
       { targetId: 'slot.a', left: 0, top: 0, right: 100, bottom: 100 }
     ];
-    expect(resolveForgivingDropTarget({ x: 110, y: 50 }, undefined, tied, 24)).toBe('slot.a');
+    expect(resolveForgivingDropTarget({ x: 110, y: 50 }, undefined, tied, 24)).toBeUndefined();
   });
 
-  it('rejects invalid tolerance instead of silently widening motor acceptance', () => {
+  it('rejects malformed geometry, duplicate ids, non-finite points and invalid tolerance', () => {
     expect(() => resolveForgivingDropTarget({ x: 0, y: 0 }, undefined, targets, -1)).toThrow(/non-negative/);
+    expect(() => resolveForgivingDropTarget({ x: Number.NaN, y: 0 }, undefined, targets)).toThrow(/finite/);
+    expect(() => resolveForgivingDropTarget({ x: 0, y: 0 }, undefined, [
+      { targetId: 'slot.bad', left: 10, top: 0, right: 0, bottom: 10 }
+    ])).toThrow(/bounds are invalid/);
+    expect(() => resolveForgivingDropTarget({ x: 0, y: 0 }, undefined, [targets[0], targets[0]])).toThrow(/ids must be unique/);
   });
 });
