@@ -54,5 +54,5 @@
   .home-nav__button{min-width:0;min-height:44px;display:flex;align-items:center;justify-content:flex-start;gap:8px;padding:6px 10px;border:1px solid #24303a14;border-radius:12px;background:#fff;color:var(--ink);cursor:pointer}
   .home-nav__button--active{background:var(--accent-soft);color:var(--accent)}
   .home-nav__button small{font-weight:900}
-  @media(max-width:650px){.home-nav-menu{right:5px;bottom:5px}.home-nav-menu__toggle{min-width:44px;min-height:40px;padding:5px 7px}.home-nav-menu__toggle small{display:none}.home-nav{bottom:46px;width:136px}.home-nav__button{min-height:42px}}
+  @media(max-width:650px){.home-nav-menu{right:5px;bottom:5px}.home-nav-menu__toggle{min-width:44px;min-height:44px;padding:5px 7px}.home-nav-menu__toggle small{display:none}.home-nav{bottom:50px;width:136px}.home-nav__button{min-height:44px}}
 </style>
