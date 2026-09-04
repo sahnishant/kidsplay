@@ -1,3 +1,7 @@
+import animalHomesKnowledge from '../../content/knowledge/animal-homes.json';
+import animalYoungOnesKnowledge from '../../content/knowledge/animal-young-ones.json';
+import earthUniverseKnowledge from '../../content/knowledge/class2-earth-universe.json';
+
 export interface LearnAboutKnowledgeRow {
   rowId: string;
   subjectLabel: string;
@@ -14,10 +18,16 @@ interface RawKnowledgeSet {
   authoring?: { status?: string };
 }
 
-const knowledgeModules = import.meta.glob('../../content/knowledge/*.json', {
-  eager: true,
-  import: 'default'
-}) as Record<string, unknown>;
+/**
+ * V1 deliberately ships only the reviewed canonical sources consumed by the
+ * three production topics. Adding a topic extends this bounded registry rather
+ * than eagerly bundling the whole knowledge corpus into the child shell.
+ */
+const BOUNDED_LEARN_ABOUT_KNOWLEDGE_SOURCES: readonly unknown[] = [
+  earthUniverseKnowledge,
+  animalHomesKnowledge,
+  animalYoungOnesKnowledge
+];
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -57,8 +67,8 @@ function parseRow(value: unknown, sourceSetId: string): LearnAboutKnowledgeRow |
 }
 
 const authoritativeRows = new Map<string, LearnAboutKnowledgeRow>();
-for (const moduleValue of Object.values(knowledgeModules)) {
-  for (const set of asKnowledgeSets(moduleValue)) {
+for (const source of BOUNDED_LEARN_ABOUT_KNOWLEDGE_SOURCES) {
+  for (const set of asKnowledgeSets(source)) {
     if (set.authoring?.status !== 'reviewed') continue;
     for (const rawRow of set.entries) {
       const row = parseRow(rawRow, set.id);
@@ -92,18 +102,12 @@ export function getAuthoritativeLearnAboutKnowledgeRefs(): ReadonlySet<string> {
 const RELATION_LABELS: Readonly<Record<string, string>> = {
   is_a: 'is a',
   lives_in: 'lives in',
-  has_property: 'is',
-  has_feature: 'has',
   comes_from: 'comes from',
   causes: 'causes',
   known_as: 'is known as',
   also_called: 'is also called',
-  water_source: '—',
-  need: 'need',
-  needs: 'needs',
-  characteristic: 'can',
-  function: '—',
-  role: '—'
+  has_feature: 'has',
+  has_property: 'is'
 };
 
 /** Grammar only. The subject/object labels and relationship remain owned by the canonical row. */
