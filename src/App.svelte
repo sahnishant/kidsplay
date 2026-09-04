@@ -8,6 +8,7 @@
   } from './content';
   import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
+  import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -22,7 +23,10 @@
     summarizeProgress,
     type ChildSettings
   } from './runtime/localProgress';
-  import { getPatternMockContractSignature, getQuestionContractSignature } from './runtime/mockContract';
+  import {
+    getPatternMockContractSignature,
+    getQuestionContractSignature
+  } from './runtime/mockContract';
   import {
     clearMockCheckpoint,
     loadMockCheckpoint,
@@ -55,9 +59,11 @@
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
+  const forestViewport = import('./ui/ForestWorldDepthViewport.svelte');
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
+  let activePlaySurface = $state<FirstPlaySurfaceMode | null>(null);
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
@@ -76,9 +82,11 @@
   let releaseStoriesBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
-  let goalReadiness = $derived(goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null);
-  let forestLevelOneSession = $derived(
-    activeStoryMission?.id === 'mission.forest-explorer-trail' || activeStoryLocation?.id === 'forest'
+  let goalReadiness = $derived(
+    goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
+  );
+  let forestStorySession = $derived(
+    activeStoryMission?.locationRef === 'forest' || activeStoryLocation?.id === 'forest'
   );
 
   onMount(() => installAppBackNavigation());
@@ -97,9 +105,24 @@
     releaseSessionBack = null;
   }
 
-  function enterSessionBackBoundary(): void {
+  function clearActivePlaySurface(): void {
+    activePlaySurface = null;
+    startError = null;
+    releaseSessionBack = null;
+  }
+
+  function enterSessionBackBoundary(
+    layerId = 'learning-session',
+    onBack: () => void = clearActiveSession
+  ): void {
     releaseSessionBack?.();
-    releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+    releaseSessionBack = enterAppSessionLayer(layerId, onBack);
+  }
+
+  function startFirstPlay(mode: FirstPlaySurfaceMode): void {
+    enterSessionBackBoundary(`play:${mode}`, clearActivePlaySurface);
+    activePlaySurface = mode;
+    startError = null;
   }
 
   async function openLearnAbout(): Promise<void> {
@@ -127,6 +150,7 @@
   function startLearnAboutQuestion(question: Question, title: string): void {
     releaseSessionBack?.();
     releaseSessionBack = pushAppBackLayer('learn-about-question', clearActiveSession);
+    activePlaySurface = null;
     activeSession = { id: `learn-about:${question.id}`, mode: 'free_explore', title, questions: [question] };
     activeEntryId = null;
     activeStoryMission = null;
@@ -165,6 +189,7 @@
     try {
       const launch = createSessionForCatalogEntry(entryId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch;
       activeEntryId = entryId;
       activeStoryMission = null;
@@ -180,7 +205,8 @@
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
       enterSessionBackBoundary();
-      activeSession = launch.session;
+      activePlaySurface = null;
+      activeSession = launch.mission.worldActionRef ? null : launch.session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
       activeEntryId = null;
@@ -195,6 +221,7 @@
     try {
       const launch = createStoryLocationLaunch(locationId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch.session;
       activeStoryMission = null;
       activeStoryLocation = launch.location;
@@ -219,7 +246,9 @@
       if (getQuestionContractSignature(questions) !== resumableMock.questionSignature) {
         throw new Error('One or more saved questions changed since this mock was saved');
       }
+
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = { ...launch, questions };
       activeEntryId = resumableMock.entryId;
       activeStoryMission = null;
@@ -251,17 +280,26 @@
     });
   }
 
+  function handleForestWorldComplete(sessionId: string): void {
+    if (!activeStoryMission?.worldActionRef) return;
+    storyProgress = recordStoryMissionCompletion(activeStoryMission, sessionId);
+  }
+
   function handleSessionComplete(state: SessionState): void {
     if (!activeSession) return;
+
     if (activeStoryMission) {
       storyProgress = recordStoryMissionCompletion(activeStoryMission, state.sessionId);
       return;
     }
+
     if (activeStoryLocation) {
       storyProgress = recordStoryLocationCompletion(activeStoryLocation, state.sessionId);
       return;
     }
-    if (!activeEntryId || (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock')) return;
+
+    if (!activeEntryId) return;
+    if (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock') return;
 
     const sections = summarizeSectionResults(activeSession.sections ?? [], state.results);
     const correct = state.results.filter((result) => result.correct).length;
@@ -282,6 +320,7 @@
       maxMarks,
       sections
     });
+
     if (activeSession.mode === 'goal_pattern_mock') {
       clearMockCheckpoint();
       resumableMock = null;
@@ -291,53 +330,85 @@
   function requestSessionExit(): void {
     requestAppBack(clearActiveSession);
   }
+
+  function requestFirstPlayExit(): void {
+    requestAppBack(clearActivePlaySurface);
+  }
 </script>
 
-{#if learnAboutOpen && LearnAboutView}
-  <div hidden={Boolean(activeSession) || storiesOpen}>
-    <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
-  </div>
-{/if}
+{#if activePlaySurface}
+  {#await import('./ui/FirstPlayViewport.svelte') then module}
+    {@const FirstPlayViewport = module.default}
+    <FirstPlayViewport mode={activePlaySurface} onExit={requestFirstPlayExit} />
+  {/await}
+{:else}
+  {#if learnAboutOpen && LearnAboutView}
+    <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef) || storiesOpen}>
+      <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+    </div>
+  {/if}
 
-{#if storiesOpen && Stories}
-  <Stories onExit={requestStoriesExit} />
-{:else if activeSession}
-  <div class="session-host" class:forest-session-host={forestLevelOneSession}>
-    <Session
-      title={activeSession.title}
-      mode={activeSession.mode}
-      questions={activeSession.questions}
-      sections={activeSession.sections}
-      childName={child.name}
-      childAvatar={child.avatar}
-      initialState={initialSessionState}
-      storyCompletion={activeStoryMission
-        ? { sceneId: activeStoryMission.successSceneRef, text: activeStoryMission.successBeat.text, rewardLabel: activeStoryMission.reward.label, stars: activeStoryMission.reward.stars }
-        : undefined}
-      onAttempt={handleAttempt}
-      onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
-      onComplete={handleSessionComplete}
-      onExit={requestSessionExit}
+  {#if storiesOpen && Stories}
+    <Stories onExit={requestStoriesExit} />
+  {:else if activeStoryMission?.worldActionRef}
+    {#await forestViewport then forestModule}
+      {@const ForestWorldDepthViewport = forestModule.default}
+      <ForestWorldDepthViewport
+        mission={activeStoryMission}
+        childName={child.name}
+        onComplete={handleForestWorldComplete}
+        onExit={requestSessionExit}
+      />
+    {/await}
+  {:else if activeSession}
+    <div class="session-host" class:forest-session-host={forestStorySession}>
+      <Session
+        title={activeSession.title}
+        mode={activeSession.mode}
+        questions={activeSession.questions}
+        sections={activeSession.sections}
+        childName={child.name}
+        childAvatar={child.avatar}
+        initialState={initialSessionState}
+        storyCompletion={activeStoryMission
+          ? {
+            sceneId: activeStoryMission.successSceneRef,
+            text: activeStoryMission.successBeat.text,
+            rewardLabel: activeStoryMission.reward.label,
+            stars: activeStoryMission.reward.stars
+          }
+          : undefined}
+        onAttempt={handleAttempt}
+        onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
+        onComplete={handleSessionComplete}
+        onExit={requestSessionExit}
+      />
+      <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
+    </div>
+  {:else if !learnAboutOpen}
+    <Home
+      {child}
+      {catalog}
+      progress={progressSummary}
+      {goalReadiness}
+      {resumableMock}
+      {mockTrends}
+      {storyProgress}
+      onChildChange={handleChildChange}
+      onStart={startSession}
+      onStartMission={startStoryMission}
+      onExploreLocation={startStoryLocation}
+      onResumeMock={resumeMock}
+      onOpenLearnAbout={openLearnAbout}
+      onOpenStories={openStories}
+      onStartFirstPlay={startFirstPlay}
     />
-    <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
-  </div>
-{:else if !learnAboutOpen}
-  <Home
-    {child}
-    {catalog}
-    progress={progressSummary}
-    {goalReadiness}
-    {resumableMock}
-    {mockTrends}
-    {storyProgress}
-    onChildChange={handleChildChange}
-    onStart={startSession}
-    onStartMission={startStoryMission}
-    onExploreLocation={startStoryLocation}
-    onResumeMock={resumeMock}
-    onOpenLearnAbout={openLearnAbout}
-    onOpenStories={openStories}
-  />
-  {#if storiesLoading}<div class="app-error" role="status">Opening stories…</div>{/if}
-  {#if startError}<div class="app-error" role="alert">{startError}</div>{/if}
+
+    {#if storiesLoading}
+      <div class="app-error" role="status">Opening stories…</div>
+    {/if}
+    {#if startError}
+      <div class="app-error" role="alert">{startError}</div>
+    {/if}
+  {/if}
 {/if}
