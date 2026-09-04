@@ -20,7 +20,7 @@ async function assertLarge(locator: Locator, minWidth = 88, minHeight = 88): Pro
   expect(box?.height ?? 0).toBeGreaterThan(minHeight);
 }
 
-test('First Play is a 360x640 zero-reading touch/listen/place journey with gentle recovery', async ({ page }) => {
+test('First Play is a 360x640 zero-reading touch/listen/place/letter journey with gentle recovery', async ({ page }) => {
   await resetAndOpenPlay(page);
   await page.getByRole('button', { name: 'Start First Play sampler' }).click();
 
@@ -92,6 +92,21 @@ test('First Play is a 360x640 zero-reading touch/listen/place journey with gentl
   await expect(page.locator('[data-first-play-state-choice="true"] [data-container-state="empty"]')).toHaveCount(1);
   await assertLarge(page.getByRole('button', { name: 'Full bucket', exact: true }), 130, 250);
   await page.getByRole('button', { name: 'Full bucket', exact: true }).click();
+  await next(page);
+
+  // Required FP5 bridge: the grapheme itself is the large learning object; choices remain picture-first.
+  await expect(surface).toHaveAttribute('data-activity-id', 'first-play.letter-picture.a-apple');
+  await expect(page.locator('[data-first-play-grapheme="A"]')).toBeVisible();
+  const graphemeBox = await page.locator('[data-first-play-grapheme="A"]').boundingBox();
+  expect(graphemeBox?.height ?? 0).toBeGreaterThan(50);
+  await expect(page.locator('.choice-button__label--hidden')).toHaveCount(2);
+  await expect(page.locator('.choice-grid--visual-dominant[data-choice-count="2"]')).toBeVisible();
+  await page.getByRole('button', { name: 'Orange', exact: true }).click();
+  await expect(surface).toHaveAttribute('data-feedback', 'retry_in_place');
+  await expect(page.locator('[role="dialog"]')).toHaveCount(0);
+  await page.waitForTimeout(760);
+  await page.getByRole('button', { name: 'Apple', exact: true }).click();
+  await expect(surface).toHaveAttribute('data-feedback', 'celebrate');
   await next(page);
 
   await expect(surface).toHaveAttribute('data-activity-id', 'first-play.cause-effect.fill-bucket');
