@@ -2,6 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 import { openCleanApp } from './helpers/childJourney';
 
 const COMPILED_POLICY_CLASSES = [
+  'home-button',
   'choice-button',
   'fill-blank',
   'word-chip',
@@ -41,7 +42,7 @@ async function measureCompiledTouchPolicy(
       const probe = document.createElement('button');
       probe.type = 'button';
       probe.className = className;
-      probe.textContent = className === 'sequence-order__move' ? '↑' : 'Probe';
+      probe.textContent = className === 'sequence-order__move' || className === 'home-button' ? '↑' : 'Probe';
       probe.setAttribute('aria-label', `${className} touch-target probe`);
       if (className === 'sequence-order__move') probe.disabled = true;
       host.append(probe);
@@ -54,6 +55,22 @@ async function measureCompiledTouchPolicy(
     host.remove();
     return result;
   }, [...COMPILED_POLICY_CLASSES]);
+}
+
+function expectCompiledTouchFloor(
+  compiledTargets: Record<string, { width: number; height: number }>,
+  viewportLabel: string
+): void {
+  for (const className of COMPILED_POLICY_CLASSES) {
+    expect(
+      compiledTargets[className].width,
+      `${viewportLabel} ${className}: compiled width should preserve the touch floor`
+    ).toBeGreaterThanOrEqual(44);
+    expect(
+      compiledTargets[className].height,
+      `${viewportLabel} ${className}: compiled height should preserve the touch floor`
+    ).toBeGreaterThanOrEqual(44);
+  }
 }
 
 test.describe('child touch-target ergonomics', () => {
@@ -72,18 +89,19 @@ test.describe('child touch-target ergonomics', () => {
       'catalog action'
     );
 
-    const compiledTargets = await measureCompiledTouchPolicy(page);
-    for (const className of COMPILED_POLICY_CLASSES) {
-      expect(compiledTargets[className].width, `${className}: compiled width should preserve the touch floor`)
-        .toBeGreaterThanOrEqual(44);
-      expect(compiledTargets[className].height, `${className}: compiled height should preserve the touch floor`)
-        .toBeGreaterThanOrEqual(44);
-    }
+    expectCompiledTouchFloor(await measureCompiledTouchPolicy(page), '360px viewport');
 
     await page.getByRole('button', { name: 'Play free' }).click();
     await expectMinimumChildTarget(
       page.getByRole('button', { name: 'Back to Kidsplay home' }),
       'session Home control'
     );
+  });
+
+  test('compiled child controls keep the same 44px floor outside narrow-phone overrides', async ({ page }) => {
+    await page.setViewportSize({ width: 800, height: 800 });
+    await openCleanApp(page);
+
+    expectCompiledTouchFloor(await measureCompiledTouchPolicy(page), '800px viewport');
   });
 });
