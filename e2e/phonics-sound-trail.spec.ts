@@ -1,5 +1,13 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { answerCurrentQuestion, openCleanApp } from './helpers/childJourney';
+
+async function ensureTargetSoundStarted(page: Page): Promise<void> {
+  const heard = page.locator('[data-target-sound-heard="true"]');
+  if (!await heard.isVisible()) {
+    await page.getByRole('button', { name: 'Repeat target sound' }).click();
+  }
+  await expect(heard).toBeVisible();
+}
 
 test.describe('Scientu sound-first phonics trail', () => {
   test('requires bundled sound, keeps Repeat available, and reuses choice + drag at 360x640', async ({ page }) => {
@@ -15,6 +23,11 @@ test.describe('Scientu sound-first phonics trail', () => {
     await expect(page.getByText('1 / 12', { exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Repeat target sound' })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Repeat question' })).toBeHidden();
+
+    // Browser autoplay policy is allowed to block the first attempt. A child tap
+    // on Repeat is the canonical recovery path and only real bundled playback
+    // unlocks the question.
+    await ensureTargetSoundStarted(page);
     await expect(page.locator('[data-phonics-stage="discriminate"] [data-target-sound-heard="true"]')).toBeVisible();
     await expect(page.locator('.choice-grid')).toBeVisible();
 
@@ -26,12 +39,14 @@ test.describe('Scientu sound-first phonics trail', () => {
     await expect(page.locator('.choice-grid')).toHaveCount(0);
 
     await page.getByRole('button', { name: 'Turn sound on' }).click();
+    await ensureTargetSoundStarted(page);
     await expect(page.locator('.choice-grid')).toBeVisible();
 
     const first = await answerCurrentQuestion(page);
     expect(first.engine).toBe('single_choice');
     await expect(page.getByText('2 / 12', { exact: true })).toBeVisible({ timeout: 8_000 });
     await expect(page.getByRole('button', { name: 'Repeat target sound' })).toBeVisible();
+    await ensureTargetSoundStarted(page);
     await expect(page.locator('.drag-stage')).toBeVisible();
 
     const dimensions = await page.evaluate(() => ({
