@@ -1,7 +1,13 @@
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { STORIES_V1, getStory, storyWordCount } from '../src/experience/storyCatalog';
+import {
+  PUBLISHED_STORIES_V1,
+  STORY_CANDIDATES_V1,
+  getPublishedStory,
+  getStoryCandidate,
+  storyWordCount
+} from '../src/experience/storyCatalog';
 import {
   buildStoryLexicalReport,
   resolveStoryLexicalProfile,
@@ -21,16 +27,23 @@ function primaryCorpusEntries(): StoryLexicalCorpusEntry[] {
   return corpus.entries;
 }
 
-describe('Stories V1 production pack', () => {
-  it('contains two calm bedtime stories plus Shaitanu humour and Scientu/Dheu friendship stories', () => {
-    expect(STORIES_V1.filter((story) => story.durationBand === 'bedtime_story')).toHaveLength(2);
-    expect(STORIES_V1.some((story) => story.storyId.includes('shaitanu'))).toBe(true);
-    expect(STORIES_V1.some((story) => story.storyId.includes('scientu'))).toBe(true);
-    expect(STORIES_V1.some((story) => story.beats.some((beat) => beat.characterIds.includes('dheu')))).toBe(true);
+describe('Stories V1 candidate pack', () => {
+  it('contains two calm bedtime candidates plus Shaitanu humour and Scientu/Dheu friendship candidates', () => {
+    expect(STORY_CANDIDATES_V1.filter((story) => story.durationBand === 'bedtime_story')).toHaveLength(2);
+    expect(STORY_CANDIDATES_V1.some((story) => story.storyId.includes('shaitanu'))).toBe(true);
+    expect(STORY_CANDIDATES_V1.some((story) => story.storyId.includes('scientu'))).toBe(true);
+    expect(STORY_CANDIDATES_V1.some((story) => story.beats.some((beat) => beat.characterIds.includes('dheu')))).toBe(true);
+  });
+
+  it('keeps every machine-authored candidate draft-only until explicit editorial review', () => {
+    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'draft')).toBe(true);
+    expect(PUBLISHED_STORIES_V1).toEqual([]);
+    expect(getPublishedStory('story.dheu.moonlit-leaf')).toBeUndefined();
+    expect(getStoryCandidate('story.dheu.moonlit-leaf')?.editorialStatus).toBe('draft');
   });
 
   it('spans two registered measurement-only lexical profiles and two duration bands', () => {
-    expect(new Set(STORIES_V1.map((story) => story.lexicalProfileRef))).toEqual(new Set([
+    expect(new Set(STORY_CANDIDATES_V1.map((story) => story.lexicalProfileRef))).toEqual(new Set([
       'lexical.story.preschool.simple',
       'lexical.story.early-reader.simple'
     ]));
@@ -43,15 +56,15 @@ describe('Stories V1 production pack', () => {
       corpusRef: 'lexicon.primary.english.grade-candidates.001'
     });
     expect(resolveStoryLexicalProfile('lexical.story.missing')).toBeNull();
-    expect(new Set(STORIES_V1.map((story) => story.durationBand))).toEqual(new Set(['tiny_tale', 'bedtime_story']));
-    expect(STORIES_V1.every((story) => storyWordCount(story) > 20)).toBe(true);
+    expect(new Set(STORY_CANDIDATES_V1.map((story) => story.durationBand))).toEqual(new Set(['tiny_tale', 'bedtime_story']));
+    expect(STORY_CANDIDATES_V1.every((story) => storyWordCount(story) > 20)).toBe(true);
   });
 
   it('produces conservative numeric lexical reports without claiming editorial or developmental approval', () => {
     const entries = primaryCorpusEntries();
-    const reports = STORIES_V1.map((story) => buildStoryLexicalReport(story, entries));
+    const reports = STORY_CANDIDATES_V1.map((story) => buildStoryLexicalReport(story, entries));
 
-    expect(reports).toHaveLength(STORIES_V1.length);
+    expect(reports).toHaveLength(STORY_CANDIDATES_V1.length);
     for (const report of reports) {
       expect(report.authority).toBe('measurement_only');
       expect(report.measuredTokenCount).toBeGreaterThan(0);
@@ -67,18 +80,18 @@ describe('Stories V1 production pack', () => {
 
   it('fails closed on a dangling lexical profile or malformed lexical corpus', () => {
     expect(() => buildStoryLexicalReport({
-      ...STORIES_V1[0],
+      ...STORY_CANDIDATES_V1[0],
       lexicalProfileRef: 'lexical.story.missing'
     }, [{ lemma: 'the', grade: 1 }])).toThrow(/unknown story lexical profile/);
 
-    expect(() => buildStoryLexicalReport(STORIES_V1[0], [
+    expect(() => buildStoryLexicalReport(STORY_CANDIDATES_V1[0], [
       { lemma: 'the', grade: 1 },
       { lemma: 'the', grade: 2 }
     ])).toThrow(/duplicate lemma/);
   });
 
   it('has no mid-story assessment/mastery surface', () => {
-    for (const story of STORIES_V1) {
+    for (const story of STORY_CANDIDATES_V1) {
       expect(story.assessmentPolicy).toBe('none');
       expect(story.masteryWritesAllowed).toBe(false);
       const serialized = JSON.stringify(story);
@@ -87,7 +100,7 @@ describe('Stories V1 production pack', () => {
   });
 
   it('restores exact beat and favourite state after a process-kill style JSON round trip', () => {
-    const manifest = getStory('story.dheu.moonlit-leaf');
+    const manifest = getStoryCandidate('story.dheu.moonlit-leaf');
     expect(manifest).toBeDefined();
     if (!manifest) throw new Error('fixture missing');
 
@@ -103,7 +116,7 @@ describe('Stories V1 production pack', () => {
   });
 
   it('does not allow a stale/unknown beat to resume', () => {
-    const manifest = STORIES_V1[0];
+    const manifest = STORY_CANDIDATES_V1[0];
     expect(() => validateStoryReadingState({
       schemaVersion: 1,
       storyId: manifest.storyId,
