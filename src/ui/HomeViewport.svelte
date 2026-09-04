@@ -19,7 +19,7 @@
   type ChildPrimaryView = 'world' | 'practice';
   type ChildNavView = ChildPrimaryView | 'stories';
   type GrownUpView = 'progress' | 'goals' | 'programmes';
-  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery';
+  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | 'phonics';
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
@@ -119,6 +119,13 @@
         <DiscoveryBookViewport progress={discoveryProgress} {storyProgress} childName={child.name} onExit={requestWorld} />
       {/await}
     </div>
+  {:else if view === 'phonics'}
+    <div class="phonics-host">
+      {#await import('./PhonicsAdventureViewport.svelte') then module}
+        {@const PhonicsAdventureViewport = module.default}
+        <PhonicsAdventureViewport childName={child.name} childAvatar={child.avatar} onExit={requestWorld} />
+      {/await}
+    </div>
   {:else}
     <section class="home-panel-screen" aria-label={`${view} screen`}>
       <header class="panel-topbar">
@@ -191,6 +198,12 @@
           {/if}
 
           <section class="catalog-grid" aria-label="Play activities">
+            <article class="catalog-card catalog-card--phonics">
+              <div class="catalog-card__topline"><span class="access-badge">SOUND PLAY</span></div>
+              <h2>Scientu’s Sound Trail</h2>
+              <p>Listen, sort pictures, connect sounds to letters, then find the matching word.</p>
+              <button class="primary-action" type="button" onclick={() => openView('phonics')}>Start Sound Trail</button>
+            </article>
             <article class="catalog-card catalog-card--learn-about">
               <div class="catalog-card__topline"><span class="access-badge">LEARN ABOUT</span></div>
               <h2>Explore a topic</h2>
@@ -217,12 +230,12 @@
 
 <style>
   .home-viewport{width:min(960px,100%);height:calc(100dvh - 42px);margin:auto;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:7px;overflow:hidden}
-  .home-viewport__stage,.home-panel-screen,.home-panel-body{min-height:0}.home-viewport__stage,.home-panel-screen{overflow:hidden}.home-viewport__stage{position:relative}.home-panel-screen{grid-row:1/-1;display:flex;flex-direction:column;gap:7px}.discovery-host{grid-row:1/-1;min-height:0;overflow:hidden}
+  .home-viewport__stage,.home-panel-screen,.home-panel-body{min-height:0}.home-viewport__stage,.home-panel-screen{overflow:hidden}.home-viewport__stage{position:relative}.home-panel-screen{grid-row:1/-1;display:flex;flex-direction:column;gap:7px}.discovery-host,.phonics-host{grid-row:1/-1;min-height:0;overflow:hidden}
   .discovery-book-launch{position:absolute;right:10px;bottom:10px;min-height:44px;padding:8px 14px;border:2px solid #fff;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-size:.76rem;font-weight:950;box-shadow:0 4px 14px #24303a2a;cursor:pointer}
   .panel-topbar{min-height:50px;display:flex;align-items:center;gap:8px;padding:4px 8px;border:1px solid #24303a14;border-radius:15px;background:#fffffff2}.panel-back{width:40px;height:40px;flex:none;border:0;border-radius:12px;background:var(--accent-soft);color:var(--accent);font-size:1.1rem;font-weight:950;cursor:pointer}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.panel-topbar h1{margin:1px 0 0;font-size:clamp(1rem,3.5vw,1.25rem);line-height:1}
   .home-panel-body{min-height:0;flex:1;overflow:auto;padding:1px 2px 5px}.home-panel-body--fixed{overflow:hidden;padding:0}.panel-card,.catalog-card{border:1px solid #24303a17;border-radius:18px;background:#fffffff0}.panel-card{padding:16px}.panel-note,.catalog-card p,.profile-ref{color:var(--muted)}
   .name-field{display:grid;gap:6px}.name-field span{font-size:.76rem;font-weight:800}.name-field input{min-height:50px;padding:9px 12px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:800}.avatar-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.avatar-button{min-height:100px;display:grid;place-items:center;padding:7px;border:2px solid #e3e8eb;border-radius:18px;background:#f8fafb;color:var(--ink);cursor:pointer}.avatar-button--selected{border-color:var(--accent);background:var(--accent-soft)}.avatar-art{width:58px;height:58px}
   .first-play-launches{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}.first-play-launch{min-height:96px;border:2px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font:inherit;font-weight:900}.first-play-launch span{display:block;font-size:2rem}
-  .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card--learn-about{background:#fff8e9}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
+  .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card--learn-about{background:#fff8e9}.catalog-card--phonics{background:#eefaff}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
   @media(max-width:650px){.home-viewport{gap:5px}.catalog-grid{grid-template-columns:1fr}.avatar-picker{grid-template-columns:repeat(2,1fr)}.discovery-book-launch{right:7px;bottom:7px}}
 </style>
