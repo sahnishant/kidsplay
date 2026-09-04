@@ -110,7 +110,7 @@
     <header class="topbar"><button class="icon" type="button" aria-label="Back to Kidsplay" onclick={onExit}>←</button><h1>Stories</h1></header>
     <p role="alert">{loadError}</p>
   {:else if catalog.length === 0}
-    <p class="loading" role="status">Opening stories…</p>
+    <p role="status">Opening stories…</p>
   {:else if activeStory() && readingState()}
     {@const story = activeStory()!}
     {@const state = readingState()!}
@@ -123,10 +123,10 @@
       <button class="icon" type="button" aria-label={audioEnabled ? 'Turn sound off' : 'Turn sound on'} aria-pressed={audioEnabled} onclick={toggleSound}>{audioEnabled ? '🔊' : '🔇'}</button>
     </header>
 
-    <section class="reader" data-testid="story-reader" data-story-id={story.storyId} data-editorial-status={story.editorialStatus}>
-      <p class="page-count">Page {index + 1} of {story.beats.length}</p>
+    <section class="reader" aria-label={`${story.childTitle}, page ${index + 1} of ${story.beats.length}`} data-testid="story-reader" data-story-id={story.storyId} data-editorial-status={story.editorialStatus}>
+      <p class="meta">Page {index + 1} of {story.beats.length}</p>
       <article class="story-text" data-testid="story-beat">{beat.text}</article>
-      <p class="audio-status" aria-live="polite">{audioStatus}</p>
+      <p class="meta" aria-live="polite">{audioStatus}</p>
       {#if state.completed}
         <div class="finished" role="status"><strong>Story finished.</strong><span>You can hear it again whenever you like.</span><button type="button" onclick={replay}>↻ Replay</button></div>
       {:else}
@@ -144,23 +144,23 @@
     <section class="library" aria-label="Story library">
       {#each catalog as story}
         {@const saved = store.states[story.storyId]}
-        <button class="story-card" type="button" onclick={() => openStory(story)} data-story-id={story.storyId}>
-          <span class="story-icon" aria-hidden="true">{story.durationBand === 'bedtime_story' ? '🌙' : '📖'}</span>
+        <button class="story-card" type="button" aria-label={`Open ${story.childTitle}`} onclick={() => openStory(story)} data-story-id={story.storyId}>
+          <span aria-hidden="true">{story.durationBand === 'bedtime_story' ? '🌙' : '📖'}</span>
           <span class="story-copy"><strong>{story.childTitle}</strong><small>{story.durationBand === 'bedtime_story' ? 'Bedtime story' : 'Tiny tale'} · {durationLabel(story)}</small></span>
           {#if saved?.favourite}<span aria-label="Favourite">♥</span>{/if}
-          {#if saved && !saved.completed}<span class="resume">Continue</span>{/if}
+          {#if saved && !saved.completed}<span>Continue</span>{/if}
         </button>
       {/each}
     </section>
-    <p class="calm-note">No scores. No questions. Just stories.</p>
+    <p class="meta calm-note">No scores. No questions. Just stories.</p>
   {/if}
 </main>
 
 <style>
   .stories{width:min(720px,100%);height:100dvh;margin:auto;padding:6px;display:flex;flex-direction:column;gap:7px;overflow:hidden;background:#faf7ff;color:var(--ink)}
-  .topbar{min-height:56px;display:flex;align-items:center;gap:6px;padding:5px;border:1px solid #332c4a17;border-radius:16px;background:#fff}.title{min-width:0;flex:1}.title small,.page-count,.audio-status,.calm-note,.story-copy small{color:#746b7f;font-size:.7rem}.title h1{margin:0;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon{min-width:44px}
+  .topbar{min-height:56px;display:flex;align-items:center;gap:6px;padding:5px;border:1px solid #332c4a17;border-radius:16px;background:#fff}.title{min-width:0;flex:1}.title h1{margin:0;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon{min-width:44px}
   button{min-height:44px;border:0;border-radius:13px;background:#7762a8;color:#fff;font:inherit;font-weight:900;cursor:pointer}.icon,.soft{background:#eee9fa;color:#4c416a}button:disabled{opacity:.42}
-  .reader{min-height:0;flex:1;display:flex;flex-direction:column;gap:7px;padding:11px;border-radius:18px;background:#fff;overflow:hidden}.page-count,.audio-status,.calm-note{margin:0}.story-text{min-height:0;flex:1;overflow:auto;font-family:Georgia,serif;font-size:clamp(1.08rem,5vw,1.4rem);line-height:1.62}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.finished{display:grid;gap:5px;padding:9px;border-radius:13px;background:#f2eef8}.finished span{font-size:.75rem}
-  .library{min-height:0;flex:1;display:grid;align-content:start;gap:7px;overflow:auto}.story-card{min-height:76px;display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid #332c4a18;background:#fff;color:inherit;text-align:left}.story-icon{font-size:1.6rem}.story-copy{min-width:0;flex:1;display:grid}.resume{font-size:.62rem;color:#5a477e}.calm-note{text-align:center}.loading{margin:auto}
+  .reader{min-height:0;flex:1;display:flex;flex-direction:column;gap:7px;padding:11px;border-radius:18px;background:#fff;overflow:hidden}.meta,.title small,.story-copy small{margin:0;color:#746b7f;font-size:.7rem}.story-text{min-height:0;flex:1;overflow:auto;font-family:Georgia,serif;font-size:clamp(1.08rem,5vw,1.4rem);line-height:1.62}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.finished{display:grid;gap:5px;padding:9px;border-radius:13px;background:#f2eef8}
+  .library{min-height:0;flex:1;display:grid;align-content:start;gap:7px;overflow:auto}.story-card{min-height:76px;display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid #332c4a18;background:#fff;color:inherit;text-align:left}.story-copy{min-width:0;flex:1}.calm-note{text-align:center}
   @media(prefers-reduced-motion:reduce){.stories *{transition:none!important;animation:none!important}}
 </style>
