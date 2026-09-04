@@ -3,8 +3,13 @@
   import type { EvaluationResult } from '../contracts/runtime';
   import type { Question } from '../contracts/question';
   import type { EngineComponent, EngineSubmissionMode } from '../engines/types';
-  import { resolveSoundTrailAudioCue } from '../experience/phonicsAdventureProduction';
   import { playPhonemeAudio, stopChildAudio } from '../runtime/childAudio';
+
+  interface AudioCue {
+    stage: string;
+    bundledSrc: string;
+    audioReview: 'approved_existing_pack' | 'candidate_pending_human';
+  }
 
   let {
     question,
@@ -24,7 +29,18 @@
 
   let heard = $state(false);
   let notice = $state<string | null>(null);
-  let cue = $derived(resolveSoundTrailAudioCue(question.id));
+  let cue = $derived(resolveAudioCue(question.id));
+
+  function resolveAudioCue(questionId: string): AudioCue | null {
+    const match = /^phonics\.sound-trail\.([mfs])\.(discriminate|connect_object_word|grapheme|recognition)\.001$/.exec(questionId);
+    if (!match) return null;
+    const grapheme = match[1];
+    return {
+      stage: match[2],
+      bundledSrc: `/audio/kidsplay-v1/prereader/phoneme-${grapheme}.ogg`,
+      audioReview: grapheme === 'm' ? 'approved_existing_pack' : 'candidate_pending_human'
+    };
+  }
 
   function playTargetSound(): void {
     heard = false;
@@ -34,9 +50,8 @@
       return;
     }
 
-    // The first production phonics slice requires the exact reviewed/candidate
-    // bundled phoneme recording. A generic device TTS reading is not accepted as
-    // evidence that the child actually heard the target phoneme.
+    // Only exact bundled phoneme playback unlocks the evaluator. Generic device
+    // speech is not accepted as evidence that the target phoneme was heard.
     const result = playPhonemeAudio('sound', question.language, true, cue.bundledSrc);
     if (result.source === 'bundled') {
       heard = true;
