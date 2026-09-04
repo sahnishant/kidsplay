@@ -13,6 +13,7 @@
   import { createStoryLocationLaunch } from './story/storyLocationDirector';
   import { loadStoryProgress, recordStoryLocationCompletion, recordStoryMissionCompletion } from './story/storyProgress';
   import type { StoryLocation, StoryMission } from './story/storyTypes';
+  import FirstPlayViewport from './ui/FirstPlayViewport.svelte';
   import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
@@ -109,10 +110,7 @@
 </script>
 
 {#if activePlaySurface}
-  {#await import('./ui/FirstPlayViewport.svelte') then module}
-    {@const FirstPlayViewport = module.default}
-    <FirstPlayViewport mode={activePlaySurface} onExit={requestFirstPlayExit} />
-  {/await}
+  <FirstPlayViewport mode={activePlaySurface} onExit={requestFirstPlayExit} />
 {:else if activeSession}
   <div class="session-host" class:forest-session-host={forestLevelOneSession}>
     <Session
