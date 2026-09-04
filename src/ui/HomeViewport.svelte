@@ -1,6 +1,8 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import type { CatalogEntry, GoalReadinessSummary } from '../content';
+  import { projectForestDiscoveries } from '../forest/forestDiscoveries';
+  import { mergeForestWorldDepthState } from '../forest/forestWorldProjection';
   import Avatar from '../presentation/Avatar.svelte';
   import { pushAppBackLayer, requestAppBack } from '../runtime/appNavigation';
   import type { AvatarId, ChildSettings, ProgressSummary } from '../runtime/localProgress';
@@ -47,7 +49,8 @@
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
-  let worldState = $derived(deriveWorldRewardState(progress));
+  let worldState = $derived(mergeForestWorldDepthState(deriveWorldRewardState(progress), storyProgress));
+  let forestDiscoveries = $derived(projectForestDiscoveries(storyProgress));
   let currentLevel = $derived(currentStoryLocation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)?.progression.level ?? null);
   let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
   let freeExploreEntries = $derived(catalog.filter((entry) => entry.kind === 'free_explore'));
@@ -81,7 +84,7 @@
   {#if view === 'world'}
     <ChildHud {child} {displayName} worldChanged={worldState.totalChanges > 0} {currentLevel} onOpenPlayer={() => openView('player')} />
     <div class="home-viewport__stage">
-      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState}
+      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState} {forestDiscoveries}
         recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
         {onStartMission} {onExploreLocation} />
     </div>
