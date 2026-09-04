@@ -1,8 +1,8 @@
 import type { StoryManifest } from './storiesContract';
 
 export type StoryLexicalProfileId =
-  | 'lexical.story.preschool.simple'
-  | 'lexical.story.early-reader.simple';
+  | 'lexical.story.frequency-band-1'
+  | 'lexical.story.frequency-band-2';
 
 export interface StoryLexicalProfile {
   profileId: StoryLexicalProfileId;
@@ -36,14 +36,14 @@ export interface StoryLexicalReport {
 }
 
 const PROFILES: Readonly<Record<StoryLexicalProfileId, StoryLexicalProfile>> = {
-  'lexical.story.preschool.simple': {
-    profileId: 'lexical.story.preschool.simple',
+  'lexical.story.frequency-band-1': {
+    profileId: 'lexical.story.frequency-band-1',
     language: 'en',
     maximumCorpusGrade: 1,
     corpusRef: 'lexicon.primary.english.grade-candidates.001'
   },
-  'lexical.story.early-reader.simple': {
-    profileId: 'lexical.story.early-reader.simple',
+  'lexical.story.frequency-band-2': {
+    profileId: 'lexical.story.frequency-band-2',
     language: 'en',
     maximumCorpusGrade: 2,
     corpusRef: 'lexicon.primary.english.grade-candidates.001'
