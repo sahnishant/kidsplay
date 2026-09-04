@@ -33,6 +33,9 @@ export const EARTH_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic(
       sectionId: 'earth.space-neighbours',
       childTitle: 'Space Neighbours',
       knowledgeRefs: [
+        // Deliberate cross-age reuse: the same reviewed row introduced in D0/D1
+        // remains available when Earth is revisited in a deeper system context.
+        'kr.universe.earth.type.planet',
         'kr.universe.sun.type.star',
         'kr.universe.moon.type.satellite',
         'kr.universe.earth.position.third'
