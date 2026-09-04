@@ -6,16 +6,23 @@
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
+  type DragToTargetEngineProps = EngineProps<DragToTargetQuestion> & {
+    /** Motor-accessibility affordance. Zero keeps legacy exact-target behavior. */
+    dropSnapTolerancePx?: number;
+  };
+
   let {
     question,
     onSubmit,
-    submissionMode = 'explicit'
-  }: EngineProps<DragToTargetQuestion> = $props();
+    submissionMode = 'explicit',
+    dropSnapTolerancePx = 0
+  }: DragToTargetEngineProps = $props();
 
   let assignments = $state<Record<string, string>>({});
   let selectedItemId = $state<string | null>(null);
   let locked = $state(false);
   let suppressClickFor: string | null = null;
+  let dragStageElement = $state<HTMLDivElement | null>(null);
   let dragState: {
     itemId: string;
     pointerId: number;
@@ -101,8 +108,16 @@
     (event.currentTarget as HTMLButtonElement).style.transform = `translate(${dx}px, ${dy}px) scale(1.04)`;
   }
 
+  function validatedDropSnapTolerance(): number {
+    if (!Number.isFinite(dropSnapTolerancePx) || dropSnapTolerancePx < 0) {
+      throw new Error('Drop snap tolerance must be a finite non-negative number');
+    }
+    return dropSnapTolerancePx;
+  }
+
   function dropSnapTargets(): DropSnapTarget[] {
-    return Array.from(document.querySelectorAll<HTMLElement>('[data-drop-target="true"]')).flatMap((element) => {
+    if (!dragStageElement) return [];
+    return Array.from(dragStageElement.querySelectorAll<HTMLElement>('[data-drop-target="true"]')).flatMap((element) => {
       const targetId = element.dataset.targetId;
       if (!targetId) return [];
       const rect = element.getBoundingClientRect();
@@ -123,25 +138,33 @@
     const button = event.currentTarget as HTMLButtonElement;
     button.classList.remove('drag-item--dragging');
     if (button.hasPointerCapture(event.pointerId)) button.releasePointerCapture(event.pointerId);
-    button.style.pointerEvents = 'none';
-    const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
-    button.style.pointerEvents = '';
     button.style.transform = '';
 
     if (state.moved) suppressClickFor = itemId;
     if (!state.moved || event.type === 'pointercancel') return;
 
+    button.style.pointerEvents = 'none';
+    const elementBelow = document.elementFromPoint(event.clientX, event.clientY);
+    button.style.pointerEvents = '';
+
     const directTarget = elementBelow?.closest<HTMLElement>('[data-drop-target="true"]');
-    const targetId = resolveForgivingDropTarget(
-      { x: event.clientX, y: event.clientY },
-      directTarget?.dataset.targetId,
-      dropSnapTargets()
-    );
+    const directTargetId = directTarget && dragStageElement?.contains(directTarget)
+      ? directTarget.dataset.targetId
+      : undefined;
+    const tolerancePx = validatedDropSnapTolerance();
+    const targetId = directTargetId ?? (tolerancePx > 0
+      ? resolveForgivingDropTarget(
+          { x: event.clientX, y: event.clientY },
+          undefined,
+          dropSnapTargets(),
+          tolerancePx
+        )
+      : undefined);
     if (targetId) assign(itemId, targetId);
   }
 </script>
 
-<div class="drag-stage" style={compactLayout ? 'gap:8px' : undefined}>
+<div class="drag-stage" bind:this={dragStageElement} style={compactLayout ? 'gap:8px' : undefined}>
   <div
     class="drag-items"
     aria-label="Things to move"
