@@ -1,4 +1,9 @@
-import type { Question } from '../contracts/question';
+import type {
+  BaseQuestion,
+  DragToTargetQuestion,
+  Question,
+  SingleChoiceQuestion
+} from '../contracts/question';
 import type { DiscoveryEntry } from './discoveryProjection';
 import { projectDiscoveries } from './discoveryProjection';
 import {
@@ -32,6 +37,8 @@ interface SoundDefinition {
   bundledSrc: string;
   audioReview: SoundTrailAudioCue['audioReview'];
 }
+
+type SoundTrailQuestionBase = Omit<BaseQuestion, 'prompt' | 'feedback'>;
 
 const definitions: readonly SoundDefinition[] = [
   {
@@ -105,7 +112,6 @@ const definitions: readonly SoundDefinition[] = [
   }
 ] as const;
 
-const byMappingId = new Map(definitions.map((item) => [item.mapping.mappingId, item]));
 const orderedMappingIds = definitions.map((item) => item.mapping.mappingId);
 const progression = buildPhonicsProgression(definitions.map((item) => item.mapping), orderedMappingIds, 'en-IN');
 
@@ -122,22 +128,21 @@ function visualOption(item: SoundDefinition) {
   };
 }
 
-function baseQuestion(item: SoundDefinition, stage: SoundTrailStage) {
-  const id = `phonics.sound-trail.${item.mapping.grapheme}.${stage}.001`;
+function baseQuestion(item: SoundDefinition, stage: SoundTrailStage): SoundTrailQuestionBase {
   return {
-    id,
+    id: `phonics.sound-trail.${item.mapping.grapheme}.${stage}.001`,
     revision: 1,
     schemaVersion: 1,
     conceptIds: [item.mapping.phonemeId],
     knowledgeRefs: [item.mapping.examples[0].knowledgeRef],
     gradeBands: [1],
-    difficulty: stage === 'discriminate' ? 1 : stage === 'connect_object_word' ? 1 : 2,
+    difficulty: stage === 'discriminate' || stage === 'connect_object_word' ? 1 : 2,
     language: 'en',
-    authoring: { status: 'reviewed' as const, source: 'kidsplay-phonics-v1' }
+    authoring: { status: 'reviewed', source: 'kidsplay-phonics-v1' }
   };
 }
 
-function discriminateQuestion(item: SoundDefinition): Question {
+function discriminateQuestion(item: SoundDefinition): SingleChoiceQuestion {
   const contrast = otherDefinitions(item.mapping.mappingId)[0];
   return {
     ...baseQuestion(item, 'discriminate'),
@@ -154,7 +159,7 @@ function discriminateQuestion(item: SoundDefinition): Question {
   };
 }
 
-function connectQuestion(item: SoundDefinition): Question {
+function connectQuestion(item: SoundDefinition): DragToTargetQuestion {
   const contrast = otherDefinitions(item.mapping.mappingId)[1];
   return {
     ...baseQuestion(item, 'connect_object_word'),
@@ -182,7 +187,7 @@ function connectQuestion(item: SoundDefinition): Question {
   };
 }
 
-function graphemeQuestion(item: SoundDefinition): Question {
+function graphemeQuestion(item: SoundDefinition): SingleChoiceQuestion {
   const others = otherDefinitions(item.mapping.mappingId);
   return {
     ...baseQuestion(item, 'grapheme'),
@@ -202,7 +207,7 @@ function graphemeQuestion(item: SoundDefinition): Question {
   };
 }
 
-function recognitionQuestion(item: SoundDefinition): Question {
+function recognitionQuestion(item: SoundDefinition): SingleChoiceQuestion {
   const others = otherDefinitions(item.mapping.mappingId);
   return {
     ...baseQuestion(item, 'recognition'),
@@ -276,12 +281,9 @@ export function projectSoundTrailDiscovery(progress: ProgressSnapshot): Discover
       .filter((value): value is string => Boolean(value))
   );
   const complete = definitions.every((item) => completedRecognition.has(item.mapping.phonemeId));
-  const latest = [...progress.attempts]
-    .filter((attempt) => attempt.correct && attempt.questionId.endsWith('.recognition.001'))
-    .sort((left, right) => right.submittedAt.localeCompare(left.submittedAt))[0];
 
-  return projectDiscoveries({
-    rules: [{
+  return projectDiscoveries(
+    [{
       ruleId: 'discovery.rule.phonics.sound-trail-v1',
       sourceEventRef: 'event.phonics.sound-trail-v1.complete',
       discoveryId: 'discovery.phonics.sound-trail-v1',
@@ -289,11 +291,8 @@ export function projectSoundTrailDiscovery(progress: ProgressSnapshot): Discover
       canonicalRefs: progression.map((item) => item.phonemeId),
       foundAtRef: SOUND_TRAIL_ADVENTURE_ID
     }],
-    completedEventRefs: complete ? ['event.phonics.sound-trail-v1.complete'] : [],
-    completedAtByEventRef: complete && latest
-      ? { 'event.phonics.sound-trail-v1.complete': latest.submittedAt }
-      : {}
-  });
+    complete ? ['event.phonics.sound-trail-v1.complete'] : []
+  );
 }
 
 export function soundTrailAudioReviewPending(): string[] {
