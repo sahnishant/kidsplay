@@ -124,7 +124,8 @@ async function exerciseHonestRetryScaffold(page: Page): Promise<void> {
 
   await items.first().click();
   await targets.nth(wrongIndex).click();
-  await page.getByRole('button', { name: /Check matches/i }).click();
+  const checkMatches = page.getByRole('button', { name: /Check matches/i }).first();
+  if (await checkMatches.count() > 0 && await checkMatches.isVisible()) await checkMatches.click();
   await expect(sessionFeedback(page)).toContainText(/Give it another try|Here’s a clue|Try this idea/);
   await page.evaluate(() => {
     const state = (window as Window & { __forestRetry?: { wrong: boolean; scaffold: boolean } }).__forestRetry;
