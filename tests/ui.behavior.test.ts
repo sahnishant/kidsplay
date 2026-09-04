@@ -114,7 +114,7 @@ describe('user-facing product flow', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'Open grown-up area' }));
     expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: '0 strong facts!' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: '0 strong facts!' })).toBeTruthy();
     expect(screen.getByRole('heading', { name: "Science worlds you've explored" })).toBeTruthy();
     expect(screen.getByText('Numbers for grown-ups')).toBeTruthy();
 
@@ -223,7 +223,7 @@ describe('user-facing product flow', () => {
     await openGrownUpArea();
     await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
     expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
     expect(screen.getByText('0 / 35')).toBeTruthy();
     expect(screen.getByRole('heading', { name: 'Mock medals' })).toBeTruthy();
     expect(screen.getByText(/31\/40 marks/)).toBeTruthy();
