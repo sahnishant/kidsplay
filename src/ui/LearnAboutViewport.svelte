@@ -9,9 +9,10 @@
   } from '../experience/learnAboutKnowledge';
   import { createLearnAboutRuntimeSession } from '../experience/learnAboutRuntime';
 
-  let { onExit, onStartQuestion }: {
+  let { onExit, onStartQuestion, onTopicInterest = () => {} }: {
     onExit: () => void;
     onStartQuestion: (question: Question, title: string) => void;
+    onTopicInterest?: (rootConceptRefs: readonly string[]) => void;
   } = $props();
 
   const depths: Array<{ id: LearnAboutDepthBand; label: string }> = [
@@ -35,6 +36,8 @@
     : null);
 
   async function chooseTopic(topicId: string): Promise<void> {
+    const topic = LEARN_ABOUT_TOPICS.find((item) => item.topicId === topicId);
+    if (topic) onTopicInterest(topic.rootConceptRefs);
     selectedTopicId = topicId;
     selectedDepth = 'd0_first_play';
     touchedRowId = null;
