@@ -7,8 +7,8 @@
   import {
     FIRST_PLAY_ACTIVITIES, VISUAL_REASONING_ACTIVITIES, evaluateFirstPlayQuestion,
     resolveFirstPlayMicroReaction, type ContrastActivity, type FirstPlayActivity,
-    type FirstPlayMicroReaction, type FirstPlaySurfaceMode, type ListenFindActivity,
-    type PlaceMatchActivity, type VisualReasoningActivity
+    type FirstPlayMicroReaction, type FirstPlaySurfaceMode, type LetterPictureActivity,
+    type ListenFindActivity, type PlaceMatchActivity, type VisualReasoningActivity
   } from '../experience/firstPlayProduction';
   import { shuffled } from '../mechanics/random';
   import ContainerStateVisual from '../presentation/ContainerStateVisual.svelte';
@@ -41,7 +41,7 @@
   function finish(event: Parameters<typeof resolveFirstPlayMicroReaction>[0] = 'celebrate'): void {
     clearRetry(); feedback = event === 'discover' || event === 'change' ? 'discovery' : 'celebrate'; complete = true; showReaction(event);
   }
-  function guided(activity: ListenFindActivity | PlaceMatchActivity | ContrastActivity, response: unknown): void {
+  function guided(activity: ListenFindActivity | PlaceMatchActivity | LetterPictureActivity | ContrastActivity, response: unknown): void {
     if (evaluateFirstPlayQuestion(activity, response).result.correct) finish(activity.reactionEvent); else retry();
   }
   function touch(activity: Extract<FirstPlayActivity, { kind: 'touch_discover' }>): void {
@@ -89,7 +89,11 @@
   <section style="min-height:0;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto;gap:6px;overflow:hidden">
     <div style="display:flex;align-items:center;justify-content:center;gap:8px;min-height:58px">
       <button class="choice-button" style="min-width:72px;min-height:58px;padding:8px" type="button" aria-label="Repeat" onclick={playPrompt}><span aria-hidden="true">↻ 🔊</span></button>
-      <p style="margin:0;max-width:28ch;text-align:center;font-weight:900">{current?.promptText}</p>
+      {#if current?.kind === 'letter_picture'}
+        <span data-first-play-grapheme={current.grapheme} aria-label={`Letter ${current.grapheme}`} style="min-width:82px;text-align:center;font-size:4.6rem;font-weight:950;line-height:.8">{current.grapheme}</span>
+      {:else}
+        <p style="margin:0;max-width:28ch;text-align:center;font-weight:900">{current?.promptText}</p>
+      {/if}
     </div>
 
     {#if !soundEnabled && current}
@@ -115,7 +119,7 @@
           <button class="choice-button" style="width:100%;min-height:300px;padding:12px" type="button" aria-label={activity.item.label} data-first-play-primary="true" disabled={complete} onclick={() => touch(activity)}>
             <SemanticVisualPresenter presentation={presentation} style="display:flex;min-height:210px;align-items:center;justify-content:center" itemStyle="width:min(205px,62vw);height:min(205px,32vh)" />
           </button>
-        {:else if activity.kind === 'listen_find'}
+        {:else if activity.kind === 'listen_find' || activity.kind === 'letter_picture'}
           {#key `${activity.id}:${interactionEpoch}`}<SingleChoice question={activity.question} checkResponse={(r) => evaluate(activity.question, r)} onSubmit={(r) => guided(activity, r)} />{/key}
         {:else if activity.kind === 'place_match'}
           {#key `${activity.id}:${interactionEpoch}`}<DragToTarget question={activity.question} checkResponse={(r) => evaluate(activity.question, r)} onSubmit={(r) => guided(activity, r)} submissionMode="auto_when_complete" dropSnapTolerancePx={activity.dropSnapTolerancePx} showLabels={false} oversized={true} />{/key}
