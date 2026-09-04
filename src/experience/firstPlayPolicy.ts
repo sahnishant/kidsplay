@@ -26,8 +26,8 @@ export interface FirstPlayStagePolicy {
   readingRequired: false;
   /** One child intent at a time: tap, find, match, place, etc. */
   maximumInstructionSteps: 1;
-  /** First Play V1 never begins with a conventional 3–4 option quiz grid. */
-  maximumInitialChoices: 2;
+  /** FP0 is discovery-only; later First Play V1 stages begin with at most two choices. */
+  maximumInitialChoices: 0 | 2;
   primaryTargetScale: 'oversized';
   repeatAffordance: 'required_when_audio_prompted';
   wrongActionRecovery: 'in_place';
@@ -55,7 +55,7 @@ const POLICIES: Readonly<Record<FirstPlayStage, FirstPlayStagePolicy>> = {
     stage: 'fp0_touch_discover',
     readingRequired: false,
     maximumInstructionSteps: 1,
-    maximumInitialChoices: 2,
+    maximumInitialChoices: 0,
     primaryTargetScale: 'oversized',
     repeatAffordance: 'required_when_audio_prompted',
     wrongActionRecovery: 'in_place',
