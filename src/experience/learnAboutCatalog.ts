@@ -48,6 +48,7 @@ export const EARTH_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic(
       sectionId: 'earth.go-deeper',
       childTitle: 'Go Deeper',
       knowledgeRefs: [
+        'kr.universe.sun.type.star',
         'kr.universe.moonlight.source.sun',
         'kr.universe.orbit.definition.planet-path'
       ],
