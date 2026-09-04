@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Question } from '../contracts/question';
   import type { EvaluationResult } from '../contracts/runtime';
+  import type { EngineSubmissionMode } from '../engines/types';
   import { playAnswerFeedback } from '../runtime/answerFeedbackAudio';
   import { showAnswerFeedbackSplash } from '../runtime/answerFeedbackVisual';
   import { getEngineComponent } from '../runtime/engineRegistry';
@@ -22,7 +23,7 @@
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
-  let submissionMode = $derived(feedbackMode === 'play' ? 'auto_when_complete' : 'explicit');
+  let submissionMode = $derived<EngineSubmissionMode>(feedbackMode === 'play' ? 'auto_when_complete' : 'explicit');
   let soundFirstPhonics = $derived(question.authoring.source === 'kidsplay-phonics-v1');
 
   function handleSubmit(response: unknown): void {
@@ -51,4 +52,4 @@
   {:else}
     <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
   {/if}
-{/key}
+{/key>
