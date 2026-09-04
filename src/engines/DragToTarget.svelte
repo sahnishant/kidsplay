@@ -9,13 +9,19 @@
   type DragToTargetEngineProps = EngineProps<DragToTargetQuestion> & {
     /** Motor-accessibility affordance. Zero keeps legacy exact-target behavior. */
     dropSnapTolerancePx?: number;
+    /** Presentation-only affordance for pre-reader surfaces. Accessible names remain available. */
+    showLabels?: boolean;
+    /** Presentation-only oversized motor target mode; evaluator truth is unchanged. */
+    oversized?: boolean;
   };
 
   let {
     question,
     onSubmit,
     submissionMode = 'explicit',
-    dropSnapTolerancePx = 0
+    dropSnapTolerancePx = 0,
+    showLabels = true,
+    oversized = false
   }: DragToTargetEngineProps = $props();
 
   let assignments = $state<Record<string, string>>({});
@@ -32,7 +38,7 @@
   } | null = null;
   let complete = $derived(question.interaction.items.every((item) => Boolean(assignments[item.id])));
   let compactLayout = $derived(
-    question.interaction.items.length <= 3 && question.interaction.targets.length <= 3
+    !oversized && question.interaction.items.length <= 3 && question.interaction.targets.length <= 3
   );
   let displayOrder = $derived.by(() => createMatchingDisplayOrder(
     question.interaction.items,
@@ -164,7 +170,12 @@
   }
 </script>
 
-<div class="drag-stage" bind:this={dragStageElement} style={compactLayout ? 'gap:8px' : undefined}>
+<div
+  class={`drag-stage${oversized ? ' drag-stage--oversized' : ''}`}
+  bind:this={dragStageElement}
+  style={compactLayout ? 'gap:8px' : undefined}
+  data-oversized={oversized ? 'true' : undefined}
+>
   <div
     class="drag-items"
     aria-label="Things to move"
@@ -175,6 +186,7 @@
       <button
         type="button"
         class={`drag-item${visual.hasVisuals ? ' drag-item--visual' : ''}${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
+        aria-label={item.label}
         aria-pressed={selectedItemId === item.id}
         disabled={locked}
         style={compactLayout ? `min-width:0;min-height:${visual.hasVisuals ? '72px' : '54px'};padding:7px 5px;font-size:.9rem;line-height:1.05` : undefined}
@@ -189,7 +201,7 @@
         {:else if item.symbol}
           <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
         {/if}
-        <span>{item.label}</span>
+        {#if showLabels}<span>{item.label}</span>{/if}
       </button>
     {/each}
   </div>
@@ -205,6 +217,7 @@
         class={`drop-target${visual.hasVisuals ? ' drop-target--visual' : ''}`}
         data-drop-target="true"
         data-target-id={target.id}
+        aria-label={targetDisplayLabel(target.id, target.label)}
         disabled={locked}
         style={compactLayout ? 'min-height:112px;gap:4px;padding:7px 5px;border-width:2px' : undefined}
         onclick={() => selectedItemId && assign(selectedItemId, target.id)}
@@ -214,8 +227,10 @@
         {:else if target.symbol}
           <span class="drag-symbol" aria-hidden="true">{target.symbol}</span>
         {/if}
-        <strong style={compactLayout ? 'font-size:.82rem;line-height:1.08' : undefined}>{targetDisplayLabel(target.id, target.label)}</strong>
-        <span class="drop-target__slot" style={compactLayout ? 'min-height:0;font-size:.72rem;line-height:1.05' : undefined}>{assignedLabel(target.id)}</span>
+        {#if showLabels}
+          <strong style={compactLayout ? 'font-size:.82rem;line-height:1.08' : undefined}>{targetDisplayLabel(target.id, target.label)}</strong>
+          <span class="drop-target__slot" style={compactLayout ? 'min-height:0;font-size:.72rem;line-height:1.05' : undefined}>{assignedLabel(target.id)}</span>
+        {/if}
       </button>
     {/each}
   </div>
@@ -261,5 +276,70 @@
 
   .drop-target--visual {
     min-height: 150px;
+  }
+
+  .drag-stage--oversized {
+    width: 100%;
+    gap: clamp(14px, 4vw, 24px);
+  }
+
+  .drag-stage--oversized .drag-items {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    padding: 4px;
+  }
+
+  .drag-stage--oversized .drag-item {
+    width: min(230px, 70vw);
+    min-width: 0;
+    min-height: 150px;
+    border-radius: 28px;
+    padding: 12px;
+    touch-action: none;
+  }
+
+  .drag-stage--oversized :global(.drag-visual) {
+    width: min(120px, 36vw);
+    height: 108px;
+  }
+
+  .drag-stage--oversized .target-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .drag-stage--oversized .drop-target {
+    min-width: 0;
+    min-height: 170px;
+    border-radius: 26px;
+    border-width: 3px;
+    padding: 10px 6px;
+  }
+
+  .drag-stage--oversized :global(.target-visual) {
+    width: min(112px, 34vw);
+    height: 100px;
+  }
+
+  @media (max-width: 480px) {
+    .drag-stage--oversized {
+      gap: 10px;
+    }
+
+    .drag-stage--oversized .drag-item {
+      min-height: 132px;
+    }
+
+    .drag-stage--oversized .drop-target {
+      min-height: 150px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drag-stage--oversized .drag-item {
+      transition: none !important;
+    }
   }
 </style>
