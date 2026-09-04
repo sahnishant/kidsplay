@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, type Component } from 'svelte';
   import { createSessionForCatalogEntry, getCatalogEntries, getGoalReadiness, type SessionLaunch } from './content';
   import type { SessionAttempt } from './contracts/runtime';
   import { enterAppSessionLayer, installAppBackNavigation, requestAppBack } from './runtime/appNavigation';
@@ -15,7 +15,8 @@
   import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
-  import Stories from './ui/StoriesViewport.svelte';
+
+  type StoriesComponent = Component<{ onExit: () => void }>;
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
@@ -31,6 +32,8 @@
   let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
   let storiesOpen = $state(false);
+  let storiesLoading = $state(false);
+  let Stories = $state<StoriesComponent | null>(null);
   let releaseSessionBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
@@ -68,6 +71,20 @@
       enterSessionBackBoundary(); activeSession = launch.session; activeStoryMission = null;
       activeStoryLocation = launch.location; activeEntryId = null; initialSessionState = undefined; startError = null;
     } catch (error) { startError = error instanceof Error ? error.message : 'This story-world expedition could not be started.'; }
+  }
+  async function openStories(): Promise<void> {
+    if (Stories) { storiesOpen = true; return; }
+    storiesLoading = true;
+    startError = null;
+    try {
+      const module = await import('./ui/StoriesViewport.svelte');
+      Stories = module.default;
+      storiesOpen = true;
+    } catch {
+      startError = 'Stories could not be opened from this installation.';
+    } finally {
+      storiesLoading = false;
+    }
   }
   function resumeMock(): void {
     if (!resumableMock) return;
@@ -111,7 +128,7 @@
   function requestSessionExit(): void { requestAppBack(clearActiveSession); }
 </script>
 
-{#if storiesOpen}
+{#if storiesOpen && Stories}
   <Stories onExit={() => storiesOpen = false} />
 {:else if activeSession}
   <div class="session-host" class:forest-session-host={forestLevelOneSession}>
@@ -139,7 +156,8 @@
     onStartMission={startStoryMission}
     onExploreLocation={startStoryLocation}
     onResumeMock={resumeMock}
-    onOpenStories={() => storiesOpen = true}
+    onOpenStories={openStories}
   />
+  {#if storiesLoading}<div class="app-error" role="status">Opening stories…</div>{/if}
   {#if startError}<div class="app-error" role="alert">{startError}</div>{/if}
 {/if}
