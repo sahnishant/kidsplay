@@ -77,6 +77,13 @@ function chooseMissionQuestions(
   mission: StoryMission,
   mastery: Record<string, MasteryCounter> = {}
 ): Question[] {
+  if (mission.worldActionRef) {
+    if (mission.questionCount !== 0) {
+      throw new Error(`World-action story mission ${mission.id} must not manufacture a quiz question count`);
+    }
+    return [];
+  }
+
   const desired = new Set(mission.knowledgeRefs);
   const candidates = missionQuestionPool(mission)
     .filter((question) => desiredRefsCovered(question, desired).length > 0);
@@ -172,6 +179,7 @@ export function getStoryMission(missionId: string): StoryMission {
 /** Baseline activity difficulty for story framing; this does not affect scoring or selection policy. */
 export function getStoryMissionAverageDifficulty(missionId: string): number {
   const mission = getStoryMission(missionId);
+  if (mission.worldActionRef) return mission.worldDepthLevel ?? 2;
   const questions = chooseMissionQuestions(mission);
   if (!questions.length) return 1;
   return questions.reduce((sum, question) => sum + question.difficulty, 0) / questions.length;
