@@ -3,9 +3,9 @@ export type SemanticChoicePresentationTier = 'first_play' | 'preschool' | 'early
 export interface SemanticChoiceCandidate {
   semanticRef: string;
   /**
-   * Canonical relationship / comparison evidence explaining why this candidate
-   * belongs in the declared contrast set. Presentation code must not invent
-   * distractors from image availability or string similarity.
+   * Canonical evidence explaining this candidate's position on the declared
+   * comparison dimension. This may differ per candidate, but the plan itself
+   * must name one common dimension shared by the whole visible set.
    */
   contrastBasisRef: string;
 }
@@ -14,6 +14,13 @@ export interface SemanticChoicePlan {
   schemaVersion: 1;
   presentationTier: SemanticChoicePresentationTier;
   targetSemanticRef: string;
+  /**
+   * One canonical comparison axis for the entire candidate set, such as
+   * spatial position, container fill state, animal identity, or action state.
+   * This prevents arbitrary pictures from becoming a distractor set merely
+   * because each picture can cite some unrelated semantic fact.
+   */
+  comparisonDimensionRef: string;
   candidates: readonly SemanticChoiceCandidate[];
 }
 
@@ -55,6 +62,7 @@ function assertUniqueSemanticRefs(values: readonly { semanticRef: string }[], co
 export function validateSemanticChoicePlan(plan: SemanticChoicePlan): SemanticChoicePlan {
   if (plan.schemaVersion !== 1) throw new Error('Semantic choice plan must use schemaVersion 1');
   assertStableRef(plan.targetSemanticRef, 'targetSemanticRef');
+  assertStableRef(plan.comparisonDimensionRef, 'comparisonDimensionRef');
 
   const maximumChoices = plan.presentationTier === 'first_play' ? 2 : 4;
   const minimumChoices = 2;
