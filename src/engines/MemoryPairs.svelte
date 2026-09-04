@@ -86,16 +86,13 @@
           {#if visual.hasVisuals}
             <SemanticVisualPresenter
               presentation={visual}
-              style="display:flex;align-items:center;justify-content:center;gap:3px;width:min(72px,100%);height:50px;min-width:0;overflow:hidden;margin:auto"
-              itemStyle="display:block;width:48px;height:46px;min-width:0;min-height:0;overflow:hidden"
+              style="display:flex;align-items:center;justify-content:center;gap:3px;width:min(64px,100%);height:38px;min-width:0;min-height:0;overflow:hidden;margin:auto"
+              itemStyle="display:block;width:40px;height:36px;min-width:0;min-height:0;overflow:hidden"
             />
           {:else if card.symbol}
             <span class="memory-card__symbol">{card.symbol}</span>
           {/if}
-          <span
-            class="memory-card__label"
-            style="display:-webkit-box;max-width:100%;overflow:hidden;-webkit-box-orient:vertical;-webkit-line-clamp:2;line-clamp:2;overflow-wrap:anywhere"
-          >{card.label}</span>
+          <span class="memory-card__label">{card.label}</span>
         </span>
         {#if matchedCardIds.includes(card.id)}
           <span
