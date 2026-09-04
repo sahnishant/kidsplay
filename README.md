@@ -48,10 +48,20 @@ Use these durable sources rather than old chat context or intermediate checkpoin
 - GitHub issue **#174** — child game-feel/product laws;
 - GitHub issue **#210** — operational **120-pass gameplay execution programme**;
 - `docs/GAMEPLAY_ROADMAP.md` — repo-local gameplay sequence, ownership matrix and branch rules;
-- `docs/WORK_TARGETS.md` — current integrated baseline and remaining programme;
+- `docs/WORK_TARGETS.md` — repo-local current integrated checkpoint and remaining programme;
 - `docs/SOF_EVIDENCE_STATUS.md` — exact official-evidence checkpoint;
 - GitHub issue **#33** — real-device Android beta acceptance.
 
-Canonical integrated development happens on `main`. Active implementation branches are temporary work surfaces controlled by #1; planning issues do not automatically authorize branches.
+### Freshness law
+
+GitHub is the control plane. Repo-local roadmap/status documents are mirrors for orientation, not independent authorities.
+
+Before creating or continuing a branch:
+1. fetch current `main`;
+2. inspect open PRs and surviving branches for overlapping ownership;
+3. read #1 and #174 plus #210's latest execution-checkpoint comments;
+4. if an older checkbox/status paragraph conflicts with a newer merged PR/checkpoint, reconcile it instead of reopening duplicate work.
+
+Canonical integrated development happens on `main`. Active implementation branches are temporary work surfaces controlled by #1; planning issues do not automatically authorize branches. Keep `engineering complete`, `integrated`, `HUMAN accepted`, `audio accepted` and `editorially authoritative` as separate states.
 
 Broad foundational learning is intended to remain free; structured goal programmes, diagnostics, adaptation and mocks are the primary paid-value layer rather than duplicated fact content.
