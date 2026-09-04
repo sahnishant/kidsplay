@@ -1,14 +1,13 @@
-import type { DragToTargetQuestion, PresentableItem, SingleChoiceQuestion, SingleChoicePresentationTier } from '../contracts/question';
+import type { DragToTargetQuestion, PresentableItem, SingleChoiceQuestion, SingleChoicePresentationHint } from '../contracts/question';
 import type { EvaluationResult } from '../contracts/runtime';
 import { evaluate } from '../evaluation/evaluate';
 import { getStoryCharacterPersona } from '../story/storyPersona';
 import type { StoryCharacterId } from '../story/storyTypes';
 import { applyFirstPlayEvidencePolicy, resolveFirstPlayFeedback, type FirstPlayFeedbackMode } from './firstPlayRuntime';
-import type { FirstPlayEvidenceClass, FirstPlayStage } from './firstPlayPolicy';
 
 export type FirstPlaySurfaceMode = 'first_play' | 'visual_reasoning';
 export type FirstPlayReactionEvent = 'discover' | 'mischief' | 'scaffold' | 'change' | 'celebrate';
-export type FirstPlayReactionMood = 'happy' | 'thinking' | 'mischievous' | 'celebrate' | 'ready';
+export type FirstPlayReactionMood = 'happy' | 'thinking' | 'mischievous' | 'celebrate';
 
 export interface FirstPlayMicroReaction {
   character: StoryCharacterId;
@@ -33,35 +32,37 @@ export function resolveFirstPlayMicroReaction(event: FirstPlayReactionEvent): Fi
   const grammar = reactionGrammar[event];
   const persona = getStoryCharacterPersona(grammar.character);
   const signature = persona.speech.signatures[grammar.signatureIndex] ?? persona.speech.signatures[0] ?? '';
-  return { character: grammar.character, text: `${signature}${grammar.suffix ?? ''}`.trim(), mood: grammar.mood };
+  return {
+    character: grammar.character,
+    text: `${signature}${grammar.suffix ?? ''}`.trim(),
+    mood: grammar.mood
+  };
 }
 
-interface FirstPlayActivityBase {
+export interface TouchDiscoverActivity {
   id: string;
-  stage: FirstPlayStage;
-  evidenceClass: FirstPlayEvidenceClass;
-  promptText: string;
-  reactionEvent: FirstPlayReactionEvent;
-}
-
-export interface TouchDiscoverActivity extends FirstPlayActivityBase {
   kind: 'touch_discover';
+  promptText: string;
+  reactionEvent: 'discover' | 'mischief';
   item: PresentableItem;
   spokenLabel: string;
 }
 
-export interface ListenFindActivity extends FirstPlayActivityBase {
+export interface ListenFindActivity {
+  id: string;
   kind: 'listen_find';
   question: SingleChoiceQuestion;
 }
 
-export interface PlaceMatchActivity extends FirstPlayActivityBase {
+export interface PlaceMatchActivity {
+  id: string;
   kind: 'place_match';
   question: DragToTargetQuestion;
   dropSnapTolerancePx: number;
 }
 
-export interface LetterPictureActivity extends FirstPlayActivityBase {
+export interface LetterPictureActivity {
+  id: string;
   kind: 'letter_picture';
   grapheme: string;
   question: SingleChoiceQuestion;
@@ -69,14 +70,17 @@ export interface LetterPictureActivity extends FirstPlayActivityBase {
 
 export type ContainerState = 'empty' | 'full';
 
-export interface ContrastActivity extends FirstPlayActivityBase {
+export interface ContrastActivity {
+  id: string;
   kind: 'semantic_contrast';
   question: SingleChoiceQuestion;
   states: ReadonlyArray<{ optionId: string; state: ContainerState }>;
 }
 
-export interface CauseEffectActivity extends FirstPlayActivityBase {
+export interface CauseEffectActivity {
+  id: string;
   kind: 'cause_effect';
+  promptText: string;
   beforeState: ContainerState;
   afterState: ContainerState;
 }
@@ -92,15 +96,25 @@ export type FirstPlayActivity =
 export interface VisualReasoningActivity {
   id: string;
   kind: 'visual_scene_choice' | 'odd_one_out';
-  promptText: string;
   question: SingleChoiceQuestion;
 }
 
-const reviewedAuthoring = { status: 'reviewed' as const, source: 'first-play-v1' };
+const authoring = { status: 'reviewed' as const, source: 'fp' };
+const feedback = { correct: 'Yes!', incorrect: 'Again' };
+const firstPlayPresentation: SingleChoicePresentationHint = {
+  mode: 'visual_dominant',
+  tier: 'first_play',
+  labels: 'hidden'
+};
+const preschoolPresentation: SingleChoicePresentationHint = {
+  mode: 'visual_dominant',
+  tier: 'preschool',
+  labels: 'secondary'
+};
+
 const visualItem = (id: string, label: string, visualRef: string): PresentableItem => ({
   id,
   label,
-  semanticRef: id,
   visualRefs: [visualRef]
 });
 
@@ -138,98 +152,93 @@ const visual = {
 
 function choiceQuestion(input: {
   id: string;
-  promptText: string;
+  prompt: string;
   options: PresentableItem[];
-  correctOptionId: string;
-  tier: SingleChoicePresentationTier;
-  labels?: 'visible' | 'secondary' | 'hidden';
+  answer: string;
+  firstPlay?: boolean;
   conceptIds?: string[];
   knowledgeRefs?: string[];
 }): SingleChoiceQuestion {
-  return {
+  const question: SingleChoiceQuestion = {
     id: input.id,
     revision: 1,
     schemaVersion: 1,
     conceptIds: input.conceptIds ?? [],
-    knowledgeRefs: input.knowledgeRefs ?? [],
-    difficulty: input.tier === 'first_play' ? 1 : 2,
+    difficulty: input.firstPlay ? 1 : 2,
     language: 'en-IN',
-    prompt: { text: input.promptText },
-    feedback: { correct: 'Yes!', incorrect: 'Try again.' },
-    authoring: reviewedAuthoring,
+    prompt: { text: input.prompt },
+    feedback,
+    authoring,
     interaction: {
       type: 'single_choice',
       version: 1,
       shuffleOptions: true,
-      presentation: {
-        mode: 'visual_dominant',
-        tier: input.tier,
-        labels: input.labels ?? (input.tier === 'first_play' ? 'hidden' : 'secondary')
-      },
+      presentation: input.firstPlay ? firstPlayPresentation : preschoolPresentation,
       options: input.options
     },
-    solution: { type: 'exact_option', correctOptionIds: [input.correctOptionId] }
+    solution: { type: 'exact_option', correctOptionIds: [input.answer] }
   };
+  if (input.knowledgeRefs) question.knowledgeRefs = input.knowledgeRefs;
+  return question;
 }
 
-function dragQuestion(input: {
-  id: string;
-  promptText: string;
-  item: PresentableItem;
-  targets: PresentableItem[];
-  correctTargetId: string;
-}): DragToTargetQuestion {
+function dragQuestion(
+  id: string,
+  prompt: string,
+  item: PresentableItem,
+  targets: PresentableItem[],
+  targetId: string
+): DragToTargetQuestion {
   return {
-    id: input.id,
+    id,
     revision: 1,
     schemaVersion: 1,
     conceptIds: [],
-    knowledgeRefs: [],
     difficulty: 1,
     language: 'en-IN',
-    prompt: { text: input.promptText },
-    feedback: { correct: 'Yes!', incorrect: 'Try again.' },
-    authoring: reviewedAuthoring,
-    interaction: { type: 'drag_to_target', version: 1, items: [input.item], targets: input.targets },
-    solution: { type: 'target_assignment', assignments: { [input.item.id]: input.correctTargetId } }
+    prompt: { text: prompt },
+    feedback,
+    authoring,
+    interaction: { type: 'drag_to_target', version: 1, items: [item], targets },
+    solution: { type: 'target_assignment', assignments: { [item.id]: targetId } }
   };
 }
 
 const listenDog = choiceQuestion({
   id: 'first-play.listen-find.dog',
-  promptText: 'Where is the dog?',
+  prompt: 'Where is the dog?',
   options: [visual.dog, visual.cow],
-  correctOptionId: 'dog',
-  tier: 'first_play'
+  answer: 'dog',
+  firstPlay: true
 });
 
 const listenEarth = choiceQuestion({
   id: 'first-play.listen-find.earth',
-  promptText: 'Find Earth.',
+  prompt: 'Find Earth.',
   options: [visual.earth, visual.sun],
-  correctOptionId: 'earth',
-  tier: 'first_play',
+  answer: 'earth',
+  firstPlay: true,
   conceptIds: ['universe.earth.planet'],
   knowledgeRefs: ['kr.universe.earth.type.planet']
 });
 
 const letterApple = choiceQuestion({
   id: 'first-play.letter-picture.a-apple.question',
-  promptText: 'A ... Apple',
+  prompt: 'A ... Apple',
   options: [visual.apple, visual.orange],
-  correctOptionId: 'apple',
-  tier: 'first_play'
+  answer: 'apple',
+  firstPlay: true
 });
 
 const fullEmpty = choiceQuestion({
   id: 'first-play.contrast.full-empty',
-  promptText: 'Touch the full bucket.',
+  prompt: 'Touch the full bucket.',
   options: [
-    { id: 'full', label: 'Full bucket', semanticRef: 'full' },
-    { id: 'empty', label: 'Empty bucket', semanticRef: 'empty' }
+    { id: 'full', label: 'Full bucket' },
+    { id: 'empty', label: 'Empty bucket' }
   ],
-  correctOptionId: 'full',
-  tier: 'first_play',
+  answer: 'full',
+  firstPlay: true,
   conceptIds: ['vocabulary.state.full', 'vocabulary.state.empty', 'vocabulary.container.amount'],
   knowledgeRefs: ['kr.vocab.state.full.contrasts-with-empty']
 });
@@ -238,8 +247,6 @@ export const FIRST_PLAY_ACTIVITIES: readonly FirstPlayActivity[] = [
   {
     id: 'first-play.touch.dog',
     kind: 'touch_discover',
-    stage: 'fp0_touch_discover',
-    evidenceClass: 'exploration',
     promptText: 'Touch the dog.',
     reactionEvent: 'discover',
     item: visual.dog,
@@ -248,8 +255,6 @@ export const FIRST_PLAY_ACTIVITIES: readonly FirstPlayActivity[] = [
   {
     id: 'first-play.touch.bell',
     kind: 'touch_discover',
-    stage: 'fp0_touch_discover',
-    evidenceClass: 'exploration',
     promptText: 'Touch the bell.',
     reactionEvent: 'mischief',
     item: visual.bell,
@@ -258,66 +263,46 @@ export const FIRST_PLAY_ACTIVITIES: readonly FirstPlayActivity[] = [
   {
     id: 'first-play.listen.dog',
     kind: 'listen_find',
-    stage: 'fp1_listen_find',
-    evidenceClass: 'guided_practice',
-    promptText: listenDog.prompt.text,
-    reactionEvent: 'celebrate',
     question: listenDog
   },
   {
     id: 'first-play.listen.earth',
     kind: 'listen_find',
-    stage: 'fp1_listen_find',
-    evidenceClass: 'guided_practice',
-    promptText: listenEarth.prompt.text,
-    reactionEvent: 'celebrate',
     question: listenEarth
   },
   {
     id: 'first-play.place.dog',
     kind: 'place_match',
-    stage: 'fp2_match_relation',
-    evidenceClass: 'guided_practice',
-    promptText: 'Put the dog with the dog.',
-    reactionEvent: 'celebrate',
     dropSnapTolerancePx: 40,
-    question: dragQuestion({
-      id: 'first-play.place.dog.question',
-      promptText: 'Put the dog with the dog.',
-      item: { ...visual.dog, id: 'moving-dog' },
-      targets: [
+    question: dragQuestion(
+      'first-play.place.dog.question',
+      'Put the dog with the dog.',
+      { ...visual.dog, id: 'moving-dog' },
+      [
         { ...visual.dog, id: 'dog-target', label: 'Dog match' },
-        { ...visual.cow, id: 'cow-target', label: 'Cow' }
+        { ...visual.cow, id: 'cow-target' }
       ],
-      correctTargetId: 'dog-target'
-    })
+      'dog-target'
+    )
   },
   {
     id: 'first-play.place.apple',
     kind: 'place_match',
-    stage: 'fp2_match_relation',
-    evidenceClass: 'guided_practice',
-    promptText: 'Put the apple with the apple.',
-    reactionEvent: 'celebrate',
     dropSnapTolerancePx: 40,
-    question: dragQuestion({
-      id: 'first-play.place.apple.question',
-      promptText: 'Put the apple with the apple.',
-      item: { ...visual.apple, id: 'moving-apple' },
-      targets: [
-        { ...visual.orange, id: 'orange-target', label: 'Orange' },
+    question: dragQuestion(
+      'first-play.place.apple.question',
+      'Put the apple with the apple.',
+      { ...visual.apple, id: 'moving-apple' },
+      [
+        { ...visual.orange, id: 'orange-target' },
         { ...visual.apple, id: 'apple-target', label: 'Apple match' }
       ],
-      correctTargetId: 'apple-target'
-    })
+      'apple-target'
+    )
   },
   {
     id: 'first-play.contrast.full-empty',
     kind: 'semantic_contrast',
-    stage: 'fp4_concrete_concept',
-    evidenceClass: 'guided_practice',
-    promptText: fullEmpty.prompt.text,
-    reactionEvent: 'celebrate',
     question: fullEmpty,
     states: [
       { optionId: 'full', state: 'full' },
@@ -327,20 +312,13 @@ export const FIRST_PLAY_ACTIVITIES: readonly FirstPlayActivity[] = [
   {
     id: 'first-play.letter-picture.a-apple',
     kind: 'letter_picture',
-    stage: 'fp5_sound_letter_exposure',
-    evidenceClass: 'guided_practice',
-    promptText: letterApple.prompt.text,
-    reactionEvent: 'celebrate',
     grapheme: 'A',
     question: letterApple
   },
   {
     id: 'first-play.cause-effect.fill-bucket',
     kind: 'cause_effect',
-    stage: 'fp3_put_sort_build',
-    evidenceClass: 'exploration',
     promptText: 'Touch the empty bucket.',
-    reactionEvent: 'change',
     beforeState: 'empty',
     afterState: 'full'
   }
@@ -354,64 +332,95 @@ interface RuntimeCandidate {
 function visualReasoningActivity(
   id: string,
   kind: VisualReasoningActivity['kind'],
-  promptText: string,
+  prompt: string,
   candidates: RuntimeCandidate[]
 ): VisualReasoningActivity {
   const correct = candidates.find((candidate) => candidate.correct);
-  if (!correct) throw new Error(`${id}: missing runtime answer`);
+  if (!correct) throw new Error(`${id}: missing answer`);
   return {
     id,
     kind,
-    promptText,
     question: choiceQuestion({
       id: `${id}.question`,
-      promptText,
+      prompt,
       options: candidates.map((candidate) => candidate.item),
-      correctOptionId: correct.item.id,
-      tier: 'preschool'
+      answer: correct.item.id
     })
   };
 }
 
 export const VISUAL_SCENE_CHOICE_ACTIVITIES: readonly VisualReasoningActivity[] = [
   visualReasoningActivity('visual-choice.animals.dog', 'visual_scene_choice', 'Find the dog.', [
-    { item: visual.dog, correct: true }, { item: visual.cow }, { item: visual.rabbit }
+    { item: visual.dog, correct: true },
+    { item: visual.cow },
+    { item: visual.rabbit }
   ]),
   visualReasoningActivity('visual-choice.transport.bus', 'visual_scene_choice', 'Find the bus.', [
-    { item: visual.bus, correct: true }, { item: visual.train }, { item: visual.ship }, { item: visual.aeroplane }
+    { item: visual.bus, correct: true },
+    { item: visual.train },
+    { item: visual.ship },
+    { item: visual.aeroplane }
   ]),
   visualReasoningActivity('visual-choice.body.eyes', 'visual_scene_choice', 'Find the eyes.', [
-    { item: visual.eyes, correct: true }, { item: visual.ears }, { item: visual.nose }, { item: visual.tongue }
+    { item: visual.eyes, correct: true },
+    { item: visual.ears },
+    { item: visual.nose },
+    { item: visual.tongue }
   ]),
   visualReasoningActivity('visual-choice.communication.telephone', 'visual_scene_choice', 'Find the telephone.', [
-    { item: visual.telephone, correct: true }, { item: visual.radio }, { item: visual.newspaper }, { item: visual.television }
+    { item: visual.telephone, correct: true },
+    { item: visual.radio },
+    { item: visual.newspaper },
+    { item: visual.television }
   ]),
   visualReasoningActivity('visual-choice.plants.lotus', 'visual_scene_choice', 'Find the lotus.', [
-    { item: visual.pea }, { item: visual.pumpkin }, { item: visual.lotus, correct: true }
+    { item: visual.pea },
+    { item: visual.pumpkin },
+    { item: visual.lotus, correct: true }
   ]),
   visualReasoningActivity('visual-choice.food-source.honeybee', 'visual_scene_choice', 'Find the honeybee.', [
-    { item: visual.cow }, { item: visual.honeybee, correct: true }, { item: visual.wheat }
+    { item: visual.cow },
+    { item: visual.honeybee, correct: true },
+    { item: visual.wheat }
   ])
 ] as const;
 
 export const ODD_ONE_OUT_ACTIVITIES: readonly VisualReasoningActivity[] = [
   visualReasoningActivity('odd-one-out.transport', 'odd_one_out', "Which one doesn't belong?", [
-    { item: visual.bus }, { item: visual.train }, { item: visual.ship }, { item: visual.telephone, correct: true }
+    { item: visual.bus },
+    { item: visual.train },
+    { item: visual.ship },
+    { item: visual.telephone, correct: true }
   ]),
   visualReasoningActivity('odd-one-out.communication', 'odd_one_out', "Which one doesn't belong?", [
-    { item: visual.telephone }, { item: visual.radio }, { item: visual.newspaper }, { item: visual.bus, correct: true }
+    { item: visual.telephone },
+    { item: visual.radio },
+    { item: visual.newspaper },
+    { item: visual.bus, correct: true }
   ]),
   visualReasoningActivity('odd-one-out.senses', 'odd_one_out', "Which one doesn't belong?", [
-    { item: visual.eyes }, { item: visual.ears }, { item: visual.nose }, { item: visual.teeth, correct: true }
+    { item: visual.eyes },
+    { item: visual.ears },
+    { item: visual.nose },
+    { item: visual.teeth, correct: true }
   ]),
   visualReasoningActivity('odd-one-out.plants', 'odd_one_out', "Which one doesn't belong?", [
-    { item: visual.pea }, { item: visual.pumpkin }, { item: visual.lotus }, { item: visual.bus, correct: true }
+    { item: visual.pea },
+    { item: visual.pumpkin },
+    { item: visual.lotus },
+    { item: visual.bus, correct: true }
   ]),
   visualReasoningActivity('odd-one-out.food-sources', 'odd_one_out', "Which one doesn't belong?", [
-    { item: visual.cow }, { item: visual.honeybee }, { item: visual.wheat }, { item: visual.telephone, correct: true }
+    { item: visual.cow },
+    { item: visual.honeybee },
+    { item: visual.wheat },
+    { item: visual.telephone, correct: true }
   ]),
   visualReasoningActivity('odd-one-out.animal-features', 'odd_one_out', "Which one doesn't belong?", [
-    { item: visual.fish }, { item: visual.bird }, { item: visual.duck }, { item: visual.bus, correct: true }
+    { item: visual.fish },
+    { item: visual.bird },
+    { item: visual.duck },
+    { item: visual.bus, correct: true }
   ])
 ] as const;
 
@@ -424,6 +433,9 @@ export function evaluateFirstPlayQuestion(
   activity: ListenFindActivity | PlaceMatchActivity | LetterPictureActivity | ContrastActivity,
   response: unknown
 ): { result: EvaluationResult; feedback: FirstPlayFeedbackMode } {
-  const result = applyFirstPlayEvidencePolicy(activity.evidenceClass, evaluate(activity.question, response));
-  return { result, feedback: resolveFirstPlayFeedback(activity.evidenceClass, result) };
+  const result = applyFirstPlayEvidencePolicy('guided_practice', evaluate(activity.question, response));
+  return {
+    result,
+    feedback: resolveFirstPlayFeedback('guided_practice', result)
+  };
 }
