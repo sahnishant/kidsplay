@@ -1,5 +1,9 @@
 import type { TopicProgressSummary } from '../runtime/localProgress';
-import { isStoryLocationComplete, isStoryLocationUnlocked, type StoryProgressSnapshot } from './storyProgress';
+import {
+  isStoryLocationUnlocked,
+  isStoryMissionComplete,
+  type StoryProgressSnapshot
+} from './storyProgress';
 import type { StoryLocation, StoryMission } from './storyTypes';
 
 export type StoryLocationVisualState = 'complete' | 'current' | 'available' | 'locked';
@@ -11,8 +15,28 @@ export interface StoryLocationPresentation {
   recommended: boolean;
 }
 
-function missionForLocation(missions: StoryMission[], locationId: string): StoryMission | undefined {
-  return missions.find((mission) => mission.locationRef === locationId);
+function missionsForLocation(missions: StoryMission[], locationId: string): StoryMission[] {
+  return missions.filter((mission) => mission.locationRef === locationId);
+}
+
+function nextMissionForLocation(
+  missions: StoryMission[],
+  locationId: string,
+  snapshot: StoryProgressSnapshot
+): StoryMission | undefined {
+  const locationMissions = missionsForLocation(missions, locationId);
+  return locationMissions.find((mission) => !isStoryMissionComplete(snapshot, mission.id))
+    ?? locationMissions.at(-1);
+}
+
+function locationComplete(
+  missions: StoryMission[],
+  location: StoryLocation,
+  snapshot: StoryProgressSnapshot
+): boolean {
+  if (snapshot.completedLocations[location.id]) return true;
+  const locationMissions = missionsForLocation(missions, location.id);
+  return locationMissions.length > 0 && locationMissions.every((mission) => isStoryMissionComplete(snapshot, mission.id));
 }
 
 function isRecommended(location: StoryLocation, recommendedTopics: TopicProgressSummary[]): boolean {
@@ -20,9 +44,10 @@ function isRecommended(location: StoryLocation, recommendedTopics: TopicProgress
 }
 
 /**
- * Presentation-only route resolver. Child-facing Level N is a stable authored route:
- * curriculum recommendations may decorate an already-unlocked expedition, but they
- * never skip the first incomplete level or alter story unlock semantics.
+ * Presentation-only route resolver. A location may contain an ordered chain of authored
+ * missions; the map exposes only the next incomplete one. Existing single-mission
+ * locations therefore retain identical behaviour, while Forest can deepen without
+ * creating duplicate locations or a second story engine.
  */
 export function buildStoryLocationPresentation(
   locations: StoryLocation[],
@@ -31,15 +56,14 @@ export function buildStoryLocationPresentation(
   recommendedTopics: TopicProgressSummary[] = []
 ): StoryLocationPresentation[] {
   const ordered = [...locations].sort((left, right) => left.progression.order - right.progression.order);
-  const current = ordered.find((location) => {
-    const mission = missionForLocation(missions, location.id);
-    return isStoryLocationUnlocked(snapshot, location) && !isStoryLocationComplete(snapshot, location, mission);
-  }) ?? ordered.find((location) => isStoryLocationUnlocked(snapshot, location));
+  const current = ordered.find((location) =>
+    isStoryLocationUnlocked(snapshot, location) && !locationComplete(missions, location, snapshot)
+  ) ?? ordered.find((location) => isStoryLocationUnlocked(snapshot, location));
 
   return locations.map((location) => {
-    const mission = missionForLocation(missions, location.id);
+    const mission = nextMissionForLocation(missions, location.id, snapshot);
     const unlocked = isStoryLocationUnlocked(snapshot, location);
-    const complete = isStoryLocationComplete(snapshot, location, mission);
+    const complete = locationComplete(missions, location, snapshot);
     const recommended = unlocked && isRecommended(location, recommendedTopics);
     const state: StoryLocationVisualState = !unlocked
       ? 'locked'

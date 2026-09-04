@@ -11,6 +11,8 @@ const normalizePath = (value: string): string => value.replaceAll('\\', '/');
 const questionRoot = `${normalizePath(resolve(projectRoot, 'content/questions'))}/`;
 const membershipRoot = `${normalizePath(resolve(projectRoot, 'content/profile-memberships'))}/`;
 const resolvedMembershipPath = normalizePath(resolve(projectRoot, 'content/index/__generated-profile-memberships.json'));
+const forestWorldDepthPath = normalizePath(resolve(projectRoot, 'content/forest/world-depth.json'));
+const firstPlayRuntimePath = normalizePath(resolve(projectRoot, 'content/runtime/first-play-production.json'));
 const runtimeJsonPrefix = '\0kidsplay-runtime-json:';
 
 function cleanModuleId(id: string): string {
@@ -21,7 +23,9 @@ function isRuntimeContentJson(id: string): boolean {
   const cleanId = cleanModuleId(id);
   return cleanId.startsWith(questionRoot)
     || cleanId.startsWith(membershipRoot)
-    || cleanId === resolvedMembershipPath;
+    || cleanId === resolvedMembershipPath
+    || cleanId === forestWorldDepthPath
+    || cleanId === firstPlayRuntimePath;
 }
 
 function runtimeJsonServeCompatPlugin(): Plugin {
@@ -54,7 +58,7 @@ function runtimeJsonAssetPlugin(): Plugin {
       if (!resolved || !isRuntimeContentJson(resolved.id)) return null;
       return `${runtimeJsonPrefix}${cleanModuleId(resolved.id)}`;
     },
-    async load(id: string) {
+    async load(id) {
       if (!id.startsWith(runtimeJsonPrefix)) return null;
       const cleanId = id.slice(runtimeJsonPrefix.length);
 

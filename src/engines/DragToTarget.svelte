@@ -7,15 +7,18 @@
   import type { EngineProps } from './types';
 
   type DragToTargetEngineProps = EngineProps<DragToTargetQuestion> & {
-    /** Motor-accessibility affordance. Zero keeps legacy exact-target behavior. */
     dropSnapTolerancePx?: number;
+    showLabels?: boolean;
+    oversized?: boolean;
   };
 
   let {
     question,
     onSubmit,
     submissionMode = 'explicit',
-    dropSnapTolerancePx = 0
+    dropSnapTolerancePx = 0,
+    showLabels = true,
+    oversized = false
   }: DragToTargetEngineProps = $props();
 
   let assignments = $state<Record<string, string>>({});
@@ -32,7 +35,7 @@
   } | null = null;
   let complete = $derived(question.interaction.items.every((item) => Boolean(assignments[item.id])));
   let compactLayout = $derived(
-    question.interaction.items.length <= 3 && question.interaction.targets.length <= 3
+    !oversized && question.interaction.items.length <= 3 && question.interaction.targets.length <= 3
   );
   let displayOrder = $derived.by(() => createMatchingDisplayOrder(
     question.interaction.items,
@@ -162,22 +165,53 @@
       : undefined);
     if (targetId) assign(itemId, targetId);
   }
+
+  function itemsStyle(): string | undefined {
+    if (oversized) return 'min-height:0;display:grid;place-items:center;padding:4px';
+    return compactLayout
+      ? 'min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px'
+      : undefined;
+  }
+
+  function itemStyle(hasVisuals: boolean): string | undefined {
+    if (oversized) {
+      return 'width:min(230px,70vw);min-width:0;min-height:132px;padding:8px;border-radius:24px';
+    }
+    return compactLayout
+      ? `min-width:0;min-height:${hasVisuals ? '72px' : '54px'};padding:7px 5px;font-size:.9rem;line-height:1.05`
+      : undefined;
+  }
+
+  function targetGridStyle(): string | undefined {
+    if (oversized) return 'gap:9px';
+    return compactLayout ? 'grid-template-columns:repeat(3,minmax(0,1fr));gap:6px' : undefined;
+  }
+
+  function targetStyle(): string | undefined {
+    if (oversized) return 'min-width:0;min-height:150px;padding:8px;border-radius:22px';
+    return compactLayout ? 'min-height:112px;gap:4px;padding:7px 5px;border-width:2px' : undefined;
+  }
 </script>
 
-<div class="drag-stage" bind:this={dragStageElement} style={compactLayout ? 'gap:8px' : undefined}>
-  <div
-    class="drag-items"
-    aria-label="Things to move"
-    style={compactLayout ? 'min-height:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;padding:6px' : undefined}
-  >
+<div
+  class="drag-stage"
+  bind:this={dragStageElement}
+  style={compactLayout ? 'gap:8px' : undefined}
+  data-oversized={oversized ? 'true' : undefined}
+>
+  <div class="drag-items" aria-label="Things to move" style={itemsStyle()}>
     {#each displayOrder.items as item (item.id)}
       {@const visual = resolveItemVisualPresentation(item, { allowLabelInference: false, context: 'drag-item' })}
       <button
         type="button"
-        class={`drag-item${visual.hasVisuals ? ' drag-item--visual' : ''}${selectedItemId === item.id ? ' drag-item--selected' : ''}${assignments[item.id] ? ' drag-item--assigned' : ''}`}
+        class:drag-item--visual={visual.hasVisuals}
+        class:drag-item--selected={selectedItemId === item.id}
+        class:drag-item--assigned={Boolean(assignments[item.id])}
+        class="drag-item"
+        aria-label={item.label}
         aria-pressed={selectedItemId === item.id}
         disabled={locked}
-        style={compactLayout ? `min-width:0;min-height:${visual.hasVisuals ? '72px' : '54px'};padding:7px 5px;font-size:.9rem;line-height:1.05` : undefined}
+        style={itemStyle(visual.hasVisuals)}
         onclick={() => clickItem(item.id)}
         onpointerdown={(event) => pointerDown(item.id, event)}
         onpointermove={(event) => pointerMove(item.id, event)}
@@ -185,37 +219,48 @@
         onpointercancel={(event) => pointerEnd(item.id, event)}
       >
         {#if visual.hasVisuals}
-          <SemanticVisualPresenter presentation={visual} class="drag-visuals" itemClass="drag-visual" />
+          <SemanticVisualPresenter
+            presentation={visual}
+            class="drag-visuals"
+            itemClass="drag-visual"
+            itemStyle={oversized ? 'width:min(120px,36vw);height:104px' : ''}
+          />
         {:else if item.symbol}
           <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
         {/if}
-        <span>{item.label}</span>
+        {#if showLabels}<span>{item.label}</span>{/if}
       </button>
     {/each}
   </div>
 
-  <div
-    class="target-grid"
-    style={compactLayout ? 'grid-template-columns:repeat(3,minmax(0,1fr));gap:6px' : undefined}
-  >
+  <div class="target-grid" style={targetGridStyle()}>
     {#each displayOrder.targets as target (target.id)}
       {@const visual = resolveItemVisualPresentation(target, { allowLabelInference: false, context: 'drag-target' })}
       <button
         type="button"
-        class={`drop-target${visual.hasVisuals ? ' drop-target--visual' : ''}`}
+        class:drop-target--visual={visual.hasVisuals}
+        class="drop-target"
         data-drop-target="true"
         data-target-id={target.id}
+        aria-label={targetDisplayLabel(target.id, target.label)}
         disabled={locked}
-        style={compactLayout ? 'min-height:112px;gap:4px;padding:7px 5px;border-width:2px' : undefined}
+        style={targetStyle()}
         onclick={() => selectedItemId && assign(selectedItemId, target.id)}
       >
         {#if visual.hasVisuals}
-          <SemanticVisualPresenter presentation={visual} class="target-visuals" itemClass="target-visual" />
+          <SemanticVisualPresenter
+            presentation={visual}
+            class="target-visuals"
+            itemClass="target-visual"
+            itemStyle={oversized ? 'width:min(112px,34vw);height:96px' : ''}
+          />
         {:else if target.symbol}
           <span class="drag-symbol" aria-hidden="true">{target.symbol}</span>
         {/if}
-        <strong style={compactLayout ? 'font-size:.82rem;line-height:1.08' : undefined}>{targetDisplayLabel(target.id, target.label)}</strong>
-        <span class="drop-target__slot" style={compactLayout ? 'min-height:0;font-size:.72rem;line-height:1.05' : undefined}>{assignedLabel(target.id)}</span>
+        {#if showLabels}
+          <strong style={compactLayout ? 'font-size:.82rem;line-height:1.08' : undefined}>{targetDisplayLabel(target.id, target.label)}</strong>
+          <span class="drop-target__slot" style={compactLayout ? 'min-height:0;font-size:.72rem;line-height:1.05' : undefined}>{assignedLabel(target.id)}</span>
+        {/if}
       </button>
     {/each}
   </div>

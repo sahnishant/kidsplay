@@ -170,9 +170,14 @@ export interface StoryMission {
   locationRef: string;
   status: 'prototype' | 'reviewed';
   access: 'free' | 'goal';
+  /** Zero only for a bounded authored world-action mission using worldActionRef. */
   questionCount: number;
   knowledgeRefs: string[];
   questionPackRef?: string;
+  /** Existing story shell may launch this generic world-action adventure instead of a quiz session. */
+  worldActionRef?: string;
+  /** Sub-level inside one story location; it does not alter global story-map level numbering. */
+  worldDepthLevel?: number;
   openingSceneRef?: string;
   successSceneRef?: string;
   beats: StoryBeat[];

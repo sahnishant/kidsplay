@@ -1,0 +1,301 @@
+{
+  "schemaVersion": 1,
+  "adventures": [
+    {
+      "schemaVersion": 1,
+      "adventureRef": "forest.world-depth.l2.creek-rescue",
+      "level": 2,
+      "title": "The Quiet Creek Rescue",
+      "worldProblem": "A fallen branch has broken the little crossing and blocked the creek. The young plants are dry.",
+      "characterSetup": "Shaitanu would leave it stuck. Scientu sees that water, roots and the crossing connect. Dheu repairs the place.",
+      "ending": "Water is moving again, the crossing is safe, and the creek-bank plants are watered.",
+      "nextStateLabel": "Forest Level 3 unlocked",
+      "persistentChangeId": "forest-creek-restored",
+      "sourceEventRefs": ["event.forest.l2.creek-restored", "event.forest.l2.creek-word-found"],
+      "steps": [
+        {
+          "id": "forest.l2.step.bridge-repair",
+          "interactionFamily": "assemble_repair",
+          "semanticDomain": "trail_infrastructure",
+          "icon": "🪵",
+          "title": "Repair the creek crossing",
+          "actionLabel": "Place the bridge pieces",
+          "prompt": "The crossing is missing a plank and hand rail.",
+          "instruction": "Choose a piece, then the place where it belongs.",
+          "consequence": "The bridge stands firmly above the creek.",
+          "scaffold": "Look for the shape that matches the open place. Correct pieces stay put.",
+          "worldObjectBefore": "broken-crossing",
+          "worldObjectAfter": "safe-crossing",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l2.repair-crossing",
+            "family": "practical_life",
+            "action": "help",
+            "canonicalGoalRefs": ["kr.plants.roots.function.absorb-water"],
+            "subjectSemanticRefs": ["semantic.forest.crossing.plank", "semantic.forest.crossing.rail"],
+            "evidenceClass": "evaluative",
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.forest.l2.creek-crossing",
+            "operation": "repair_restore",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.bridge-plank", "semanticRef": "semantic.forest.crossing.plank"},
+              {"partId": "part.bridge-rail", "semanticRef": "semantic.forest.crossing.rail"}
+            ],
+            "slots": [
+              {"slotId": "slot.bridge-deck", "semanticRef": "semantic.forest.crossing.deck-gap"},
+              {"slotId": "slot.bridge-side", "semanticRef": "semantic.forest.crossing.rail-gap"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.bridge-plank", "slotId": "slot.bridge-deck"},
+              {"partId": "part.bridge-rail", "slotId": "slot.bridge-side"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          }
+        },
+        {
+          "id": "forest.l2.step.channel-connect",
+          "interactionFamily": "assemble_repair",
+          "semanticDomain": "water_path",
+          "icon": "🧩",
+          "title": "Reconnect the water path",
+          "actionLabel": "Connect the water path",
+          "prompt": "Two channel pieces are loose, so water cannot reach the roots.",
+          "instruction": "Fit both pieces into their matching gaps.",
+          "consequence": "The channel makes one clear path toward the saplings.",
+          "scaffold": "Follow the water path edge into the matching gap.",
+          "worldObjectBefore": "split-water-channel",
+          "worldObjectAfter": "connected-water-channel",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l2.connect-channel",
+            "family": "practical_life",
+            "action": "place",
+            "canonicalGoalRefs": ["kr.plants.roots.function.absorb-water"],
+            "subjectSemanticRefs": ["semantic.forest.channel.left", "semantic.forest.channel.right"],
+            "targetSemanticRefs": ["semantic.forest.channel.gaps"],
+            "evidenceClass": "evaluative",
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.forest.l2.water-channel",
+            "operation": "connect_parts",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.channel-left", "semanticRef": "semantic.forest.channel.left"},
+              {"partId": "part.channel-right", "semanticRef": "semantic.forest.channel.right"}
+            ],
+            "slots": [
+              {"slotId": "slot.channel-upper", "semanticRef": "semantic.forest.channel.upper-gap"},
+              {"slotId": "slot.channel-lower", "semanticRef": "semantic.forest.channel.lower-gap"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.channel-left", "slotId": "slot.channel-upper"},
+              {"partId": "part.channel-right", "slotId": "slot.channel-lower"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          }
+        },
+        {
+          "id": "forest.l2.step.water-saplings",
+          "interactionFamily": "practical_life",
+          "semanticDomain": "plant_care",
+          "icon": "💧",
+          "title": "Water the creek-bank saplings",
+          "actionLabel": "Water it",
+          "prompt": "The young plants are drooping beside the repaired channel.",
+          "instruction": "Give the saplings water and watch their leaves lift.",
+          "consequence": "Water reaches the soil around the roots.",
+          "scaffold": "Roots take in water from soil.",
+          "worldObjectBefore": "dry-saplings",
+          "worldObjectAfter": "watered-saplings",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l2.water-saplings",
+            "family": "practical_life",
+            "action": "water",
+            "canonicalGoalRefs": ["kr.plants.roots.function.absorb-water"],
+            "subjectSemanticRefs": ["semantic.tool.watering-can"],
+            "targetSemanticRefs": ["semantic.forest.saplings"],
+            "stateTransition": {
+              "beforeStateRef": "state.forest.saplings.dry",
+              "afterStateRef": "state.forest.saplings.watered",
+              "causalKnowledgeRef": "kr.plants.roots.function.absorb-water"
+            },
+            "evidenceClass": "guided_practice",
+            "retryPolicy": "not_applicable"
+          }
+        },
+        {
+          "id": "forest.l2.step.release-creek",
+          "interactionFamily": "cause_effect",
+          "semanticDomain": "water_path",
+          "icon": "🌊",
+          "title": "Release the creek flow",
+          "actionLabel": "Make the change",
+          "prompt": "One clump of leaves is holding the shallow water back.",
+          "instruction": "Clear the blockage and watch downstream.",
+          "consequence": "Water moves through the channel and the creek is alive again.",
+          "scaffold": "Blocked water stops; clear water can follow the channel.",
+          "worldObjectBefore": "blocked-creek",
+          "worldObjectAfter": "flowing-creek",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l2.release-creek",
+            "family": "cause_effect",
+            "action": "observe_change",
+            "canonicalGoalRefs": ["kr.plants.roots.function.absorb-water"],
+            "subjectSemanticRefs": ["semantic.forest.creek-blockage"],
+            "stateTransition": {
+              "beforeStateRef": "state.forest.creek.blocked",
+              "afterStateRef": "state.forest.creek.flowing",
+              "causalKnowledgeRef": "kr.plants.roots.function.absorb-water"
+            },
+            "evidenceClass": "exploration",
+            "retryPolicy": "not_applicable"
+          }
+        }
+      ]
+    },
+    {
+      "schemaVersion": 1,
+      "adventureRef": "forest.world-depth.l3.grove-return",
+      "level": 3,
+      "title": "Bring Back the Busy Grove",
+      "worldProblem": "A windy night has knocked down a small shelter and scattered the feeding place. The grove is quiet.",
+      "characterSetup": "Shaitanu wants shiny decorations. Scientu asks what a habitat needs. Dheu restores shelter, food and plants.",
+      "ending": "The shelter is repaired, flowers grow, and butterflies return to the restored grove.",
+      "nextStateLabel": "Forest depth complete · next world available",
+      "persistentChangeId": "forest-busy-grove-restored",
+      "sourceEventRefs": ["event.forest.l3.grove-restored"],
+      "steps": [
+        {
+          "id": "forest.l3.step.shelter-repair",
+          "interactionFamily": "assemble_repair",
+          "semanticDomain": "animal_habitat",
+          "icon": "🏠",
+          "title": "Repair the little shelter",
+          "actionLabel": "Repair the shelter",
+          "prompt": "The roof and perch fell away from the shelter.",
+          "instruction": "Place each shelter piece in its matching gap.",
+          "consequence": "The shelter has a roof above and a perch at the front.",
+          "scaffold": "Think about what each piece does: the roof covers; the perch is for landing.",
+          "worldObjectBefore": "broken-grove-shelter",
+          "worldObjectAfter": "repaired-grove-shelter",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l3.repair-shelter",
+            "family": "practical_life",
+            "action": "help",
+            "canonicalGoalRefs": ["kr.animals.rabbit.home.burrow"],
+            "subjectSemanticRefs": ["semantic.forest.shelter.roof", "semantic.forest.shelter.perch"],
+            "evidenceClass": "evaluative",
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.forest.l3.grove-shelter",
+            "operation": "repair_restore",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.shelter-roof", "semanticRef": "semantic.forest.shelter.roof"},
+              {"partId": "part.shelter-perch", "semanticRef": "semantic.forest.shelter.perch"}
+            ],
+            "slots": [
+              {"slotId": "slot.shelter-top", "semanticRef": "semantic.forest.shelter.top-gap"},
+              {"slotId": "slot.shelter-front", "semanticRef": "semantic.forest.shelter.front-gap"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.shelter-roof", "slotId": "slot.shelter-top"},
+              {"partId": "part.shelter-perch", "slotId": "slot.shelter-front"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          }
+        },
+        {
+          "id": "forest.l3.step.sort-feeding-place",
+          "interactionFamily": "practical_life",
+          "semanticDomain": "animal_habitat",
+          "icon": "🧺",
+          "title": "Sort the feeding place",
+          "actionLabel": "Sort and clear it",
+          "prompt": "Leaves, seed food and a wrapper are mixed together.",
+          "instruction": "Put useful food at the feeder and clear litter away.",
+          "consequence": "The feeding corner is clean and ready for animal visitors.",
+          "scaffold": "Food belongs at the feeder; litter does not belong in the habitat.",
+          "worldObjectBefore": "messy-feeding-corner",
+          "worldObjectAfter": "sorted-feeding-corner",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l3.sort-feeding-place",
+            "family": "practical_life",
+            "action": "sort",
+            "canonicalGoalRefs": ["kr.animals.rabbit.home.burrow"],
+            "subjectSemanticRefs": ["semantic.forest.seed-food", "semantic.forest.leaf-litter", "semantic.forest.wrapper"],
+            "targetSemanticRefs": ["semantic.forest.feeder", "semantic.forest.compost-pile", "semantic.forest.litter-bag"],
+            "evidenceClass": "guided_practice",
+            "retryPolicy": "not_applicable"
+          }
+        },
+        {
+          "id": "forest.l3.step.feed-visitors",
+          "interactionFamily": "practical_life",
+          "semanticDomain": "animal_habitat",
+          "icon": "🐦",
+          "title": "Set out the animal food",
+          "actionLabel": "Place the food",
+          "prompt": "The repaired feeding corner is empty.",
+          "instruction": "Place seed food in the feeder, away from the path.",
+          "consequence": "The feeder is ready without putting food under children’s feet.",
+          "scaffold": "Use the feeding place you just sorted.",
+          "worldObjectBefore": "empty-feeder",
+          "worldObjectAfter": "filled-feeder",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l3.feed-visitors",
+            "family": "practical_life",
+            "action": "feed",
+            "canonicalGoalRefs": ["kr.animals.rabbit.home.burrow"],
+            "subjectSemanticRefs": ["semantic.forest.seed-food"],
+            "targetSemanticRefs": ["semantic.forest.feeder"],
+            "evidenceClass": "guided_practice",
+            "retryPolicy": "not_applicable"
+          }
+        },
+        {
+          "id": "forest.l3.step.grow-meadow",
+          "interactionFamily": "cause_effect",
+          "semanticDomain": "plant_care",
+          "icon": "🦋",
+          "title": "Help the flowering patch grow",
+          "actionLabel": "Water and watch it grow",
+          "prompt": "The grove needs living plants too.",
+          "instruction": "Water the planted patch and watch the grove change.",
+          "consequence": "Flowers rise and butterflies return to the restored grove.",
+          "scaffold": "Plants need water to grow; animals use living plants in a habitat.",
+          "worldObjectBefore": "quiet-dry-grove",
+          "worldObjectAfter": "flowering-busy-grove",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.forest.l3.grow-meadow",
+            "family": "cause_effect",
+            "action": "grow",
+            "canonicalGoalRefs": ["kr.plants.roots.function.absorb-water", "kr.animals.butterfly.lifecycle.egg-to-butterfly"],
+            "subjectSemanticRefs": ["semantic.forest.flowering-patch"],
+            "stateTransition": {
+              "beforeStateRef": "state.forest.grove.quiet-dry",
+              "afterStateRef": "state.forest.grove.flowering-busy",
+              "causalKnowledgeRef": "kr.plants.roots.function.absorb-water"
+            },
+            "evidenceClass": "exploration",
+            "retryPolicy": "not_applicable"
+          }
+        }
+      ]
+    }
+  ]
+}
