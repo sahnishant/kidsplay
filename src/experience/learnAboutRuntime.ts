@@ -6,7 +6,7 @@ import type { ClueRecord } from './clueContract';
 import type { LearnAboutDepthBand, LearnAboutRecipeFamily } from './learnAboutContract';
 import { indexLearnAboutKnowledge, type LearnAboutKnowledgeRow } from './learnAboutKnowledge';
 import { projectLearnAboutActivities } from './learnAboutProjection';
-import { riddleKnowledgeRefs, riddleToSingleChoiceQuestion } from './riddleRuntime';
+import { riddleKnowledgeRefs, riddleToSingleChoiceQuestion } from './riddleQuestion';
 import { LEARN_ABOUT_SHARED_RIDDLES } from './sharedRiddleRecords';
 
 export const LEARN_ABOUT_RUNTIME_ID = 'learn-about-v1' as const;
