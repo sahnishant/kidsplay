@@ -39,6 +39,10 @@ export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
           'kr.universe.earth.position.third'
         ],
         guesses: [{ clueSetId: 'riddle.r2.earth.planet-third', minDepth: 'd2_early_primary' }]
+      },
+      {
+        sectionId: 'earth.go-deeper',
+        practiceQuestionIds: ['universe.hots.sun-moon-statements.001']
       }
     ]
   },
