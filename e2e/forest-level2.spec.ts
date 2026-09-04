@@ -23,7 +23,7 @@ test('Forest Explorer Level 2 is a persistent creek-repair adventure at 360x640'
   const appOrigin = new URL(page.url()).origin;
 
   await expect(page.getByLabel('Current adventure level 2')).toBeVisible();
-  await expect(page.getByText(/FOREST DEPTH 2/)).toBeVisible();
+  await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1, Forest depth 2: play next/i })).toBeVisible();
   await expectForestSurfaceFits(page, 'Level 2 world entry');
 
   await page.getByRole('button', { name: 'Continue Adventure' }).click();
@@ -77,8 +77,7 @@ test('Forest Explorer Level 2 is a persistent creek-repair adventure at 360x640'
 
   await page.getByRole('button', { name: "Back to Dheu's world" }).click();
   await expect(page.getByLabel('Current adventure level 3')).toBeVisible();
-  await expect(page.getByText(/FOREST DEPTH 3/)).toBeVisible();
-  await expect(page.getByRole('button', { name: /Forest Explorer Trail.*Creek crossing and water path restored/i })).toBeVisible();
+  await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1, Forest depth 3: play next.*Creek crossing and water path restored/i })).toBeVisible();
   await expect(page.getByText('📖 2 Forest finds')).toBeVisible();
 
   await page.reload();
