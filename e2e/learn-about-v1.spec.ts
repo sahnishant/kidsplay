@@ -2,6 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 import { answerCurrentQuestion, openCleanApp } from './helpers/childJourney';
 
 async function openLearnAbout(page: Page): Promise<void> {
+  await page.getByLabel('Open child navigation').click();
   await page.getByRole('button', { name: 'Open practice activities' }).click();
   await page.getByRole('button', { name: 'Open Learn About' }).click();
   await expect(page.getByRole('heading', { name: 'Choose something to explore' })).toBeVisible();
