@@ -1,4 +1,4 @@
-type AdaptiveContinueHandler = () => boolean;
+type AdaptiveContinueHandler = () => Promise<boolean>;
 
 let activeHandler: AdaptiveContinueHandler | null = null;
 
@@ -18,6 +18,6 @@ export function registerAdaptiveContinueHandler(handler: AdaptiveContinueHandler
  * Returns true only when adaptive practice consumed Continue Adventure.
  * False deliberately falls through to the existing world/story continuation.
  */
-export function tryAdaptiveContinue(): boolean {
-  return activeHandler?.() ?? false;
+export async function tryAdaptiveContinue(): Promise<boolean> {
+  return activeHandler ? activeHandler() : false;
 }
