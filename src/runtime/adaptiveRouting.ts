@@ -1,6 +1,8 @@
 import type { Question } from '../contracts/question';
 import type { ProgressSnapshot, StoredAttempt } from './localProgress';
 
+export const ADAPTIVE_ROUTING_POLICY_VERSION = 1 as const;
+
 export type AdaptiveRouteKind =
   | 'continue_world'
   | 'new_frontier'
@@ -11,8 +13,28 @@ export type AdaptiveRouteKind =
   | 'variety';
 
 export type ReviewEvidenceKind = 'independent' | 'recovered' | 'assisted' | 'failed';
+export type AdaptiveInterestKind = 'voluntary_replay' | 'favourite' | 'topic_choice';
+
+export interface AdaptiveInterestSignal {
+  kind: AdaptiveInterestKind;
+  observedAt: string;
+  conceptIds?: readonly string[];
+  topicIds?: readonly string[];
+}
+
+export interface AdaptiveEligibility {
+  /** Profile/content projection. Omit only when the supplied bank is already scoped. */
+  allowedQuestionIds?: readonly string[];
+  /** Canonical/prerequisite projection. A supplied allowlist is fail-closed. */
+  allowedConceptIds?: readonly string[];
+  /** Canonical sense/knowledge authority projection. A supplied allowlist is fail-closed. */
+  allowedKnowledgeRefs?: readonly string[];
+  /** Presentation-demand compatibility, e.g. a #206-compatible interaction subset. */
+  allowedInteractionTypes?: readonly Question['interaction']['type'][];
+}
 
 export interface ConceptReviewState {
+  policyVersion: typeof ADAPTIVE_ROUTING_POLICY_VERSION;
   conceptId: string;
   evidenceKind: ReviewEvidenceKind;
   successfulRounds: number;
@@ -25,15 +47,19 @@ export interface ConceptReviewState {
 
 export interface AdaptiveRoutingContext {
   progress: ProgressSnapshot;
-  questionBank: Question[];
+  questionBank: readonly Question[];
   currentWorldId: string | null;
   currentWorldTopics: readonly string[];
   /** Whether the child has already changed/completed anything in the story world. */
   worldHasProgress: boolean;
+  eligibility?: AdaptiveEligibility;
+  /** Explicit voluntary signals only; correctness/reading exposure is never inferred as interest. */
+  interestSignals?: readonly AdaptiveInterestSignal[];
   now?: string | Date;
 }
 
 export interface AdaptiveRouteDecision {
+  policyVersion: typeof ADAPTIVE_ROUTING_POLICY_VERSION;
   kind: AdaptiveRouteKind;
   worldId: string | null;
   conceptId: string | null;
@@ -48,11 +74,9 @@ const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
 /**
- * Explicit, deterministic review policy.
- *
- * A clean independent response earns the longest spacing. A recovered response
- * returns sooner. An assisted response returns sooner still. A failed response
- * is a short recovery hand-off rather than a mastery refresh.
+ * Explicit V1 deterministic review policy. A policy-version change does not
+ * migrate a second adaptive store: all review projections are rebuilt from the
+ * canonical #173 attempt history under the current version.
  */
 export const ADAPTIVE_REVIEW_INTERVALS_MS = {
   independent: [DAY, 3 * DAY, 7 * DAY, 14 * DAY, 30 * DAY],
@@ -61,8 +85,6 @@ export const ADAPTIVE_REVIEW_INTERVALS_MS = {
   failed: [15 * MINUTE]
 } as const;
 
-export const ADAPTIVE_INTEREST_MIN_DELAY_MS = 30 * MINUTE;
-export const ADAPTIVE_INTEREST_WINDOW_MS = 6 * HOUR;
 const VARIETY_LOOKBACK = 3;
 
 interface LearningRound {
@@ -150,6 +172,7 @@ export function buildConceptReviewStates(
       const successfulRounds = conceptRounds.filter((round) => round.evidenceKind !== 'failed').length;
       const dueAtMs = Date.parse(latest.seenAt) + intervalFor(latest.evidenceKind, successfulRounds);
       return {
+        policyVersion: ADAPTIVE_ROUTING_POLICY_VERSION,
         conceptId,
         evidenceKind: latest.evidenceKind,
         successfulRounds,
@@ -181,8 +204,37 @@ function questionFitsTopics(question: Question, topics: Set<string>): boolean {
   );
 }
 
+function questionIsEligible(question: Question, eligibility?: AdaptiveEligibility): boolean {
+  if (question.authoring.status !== 'reviewed') return false;
+  if (!question.conceptIds.length || !(question.knowledgeRefs?.length)) return false;
+  if (!eligibility) return true;
+
+  const allowedQuestionIds = eligibility.allowedQuestionIds ? new Set(eligibility.allowedQuestionIds) : null;
+  const allowedConceptIds = eligibility.allowedConceptIds ? new Set(eligibility.allowedConceptIds) : null;
+  const allowedKnowledgeRefs = eligibility.allowedKnowledgeRefs ? new Set(eligibility.allowedKnowledgeRefs) : null;
+  const allowedInteractionTypes = eligibility.allowedInteractionTypes ? new Set(eligibility.allowedInteractionTypes) : null;
+
+  if (allowedQuestionIds && !allowedQuestionIds.has(question.id)) return false;
+  if (allowedConceptIds && !question.conceptIds.every((conceptId) => allowedConceptIds.has(conceptId))) return false;
+  if (allowedKnowledgeRefs && !question.knowledgeRefs.every((rowId) => allowedKnowledgeRefs.has(rowId))) return false;
+  if (allowedInteractionTypes && !allowedInteractionTypes.has(question.interaction.type)) return false;
+  return true;
+}
+
 function attemptedQuestionIds(progress: ProgressSnapshot): Set<string> {
   return new Set(progress.attempts.map((attempt) => attempt.questionId));
+}
+
+function latestRecipeForConcept(
+  conceptId: string,
+  progress: ProgressSnapshot,
+  questionBank: readonly Question[]
+): Question['interaction']['type'] | null {
+  const questionById = new Map(questionBank.map((question) => [question.id, question]));
+  const attempts = [...progress.attempts]
+    .filter((attempt) => attempt.conceptIds.includes(conceptId))
+    .sort((left, right) => Date.parse(right.submittedAt) - Date.parse(left.submittedAt));
+  return attempts.length ? questionById.get(attempts[0].questionId)?.interaction.type ?? null : null;
 }
 
 function selectQuestionForConcept(
@@ -251,6 +303,7 @@ function makePracticeDecision(
   deferredReviewConceptIds: string[]
 ): AdaptiveRouteDecision {
   return {
+    policyVersion: ADAPTIVE_ROUTING_POLICY_VERSION,
     kind,
     worldId,
     conceptId: state?.conceptId ?? question.conceptIds[0] ?? null,
@@ -293,28 +346,41 @@ function selectVarietyQuestion(
 }
 
 function selectInterestQuestion(
+  signals: readonly AdaptiveInterestSignal[],
   progress: ProgressSnapshot,
   questionBank: readonly Question[],
   topics: Set<string>,
   nowMs: number
 ): Question | null {
-  const questionById = new Map(questionBank.map((question) => [question.id, question]));
-  const attempts = recentIndependentAttempts(progress).filter((attempt) => attempt.correct).reverse();
-  for (const attempt of attempts) {
-    const age = nowMs - Date.parse(attempt.submittedAt);
-    if (age < ADAPTIVE_INTEREST_MIN_DELAY_MS) continue;
-    if (age > ADAPTIVE_INTEREST_WINDOW_MS) break;
-    const lastRecipe = questionById.get(attempt.questionId)?.interaction.type ?? null;
-    for (const conceptId of attempt.conceptIds) {
+  const orderedSignals = [...signals]
+    .filter((signal) => Number.isFinite(Date.parse(signal.observedAt)) && Date.parse(signal.observedAt) <= nowMs)
+    .sort((left, right) => Date.parse(right.observedAt) - Date.parse(left.observedAt));
+  const attempted = attemptedQuestionIds(progress);
+
+  for (const signal of orderedSignals) {
+    for (const conceptId of signal.conceptIds ?? []) {
       const alternate = selectStrictAlternateForConcept(
         conceptId,
-        lastRecipe,
+        latestRecipeForConcept(conceptId, progress, questionBank),
         progress,
         questionBank,
         topics
       );
       if (alternate) return alternate;
     }
+
+    const signalTopics = new Set(signal.topicIds ?? []);
+    if (!signalTopics.size) continue;
+    const candidates = questionBank.filter((question) =>
+      questionFitsTopics(question, topics)
+        && questionFitsTopics(question, signalTopics)
+    );
+    const unseen = candidates.filter((question) => !attempted.has(question.id));
+    const pool = unseen.length ? unseen : candidates;
+    const selected = [...pool].sort((left, right) =>
+      left.difficulty - right.difficulty || left.id.localeCompare(right.id)
+    )[0];
+    if (selected) return selected;
   }
   return null;
 }
@@ -332,6 +398,22 @@ function hasCurrentWorldLearning(
   });
 }
 
+function worldDecision(
+  kind: 'continue_world' | 'new_frontier',
+  worldId: string | null,
+  deferredReviewConceptIds: string[]
+): AdaptiveRouteDecision {
+  return {
+    policyVersion: ADAPTIVE_ROUTING_POLICY_VERSION,
+    kind,
+    worldId,
+    conceptId: null,
+    questionIds: [],
+    dueAt: null,
+    deferredReviewConceptIds
+  };
+}
+
 /**
  * Resolve the next Continue Adventure action from canonical persisted evidence.
  * No route label is intended for child-facing UI; callers receive a practice
@@ -340,7 +422,8 @@ function hasCurrentWorldLearning(
 export function decideAdaptiveExperience(context: AdaptiveRoutingContext): AdaptiveRouteDecision {
   const nowMs = timestamp(context.now);
   const topics = new Set(context.currentWorldTopics);
-  const reviewStates = buildConceptReviewStates(context.progress, context.questionBank, new Date(nowMs));
+  const questionBank = context.questionBank.filter((question) => questionIsEligible(question, context.eligibility));
+  const reviewStates = buildConceptReviewStates(context.progress, questionBank, new Date(nowMs));
   const dueStates = reviewStates
     .filter((state) => state.due)
     .sort((left, right) => {
@@ -350,7 +433,7 @@ export function decideAdaptiveExperience(context: AdaptiveRoutingContext): Adapt
 
   const deferredReviewConceptIds: string[] = [];
   for (const state of dueStates) {
-    const question = selectQuestionForConcept(state, context.progress, context.questionBank, topics);
+    const question = selectQuestionForConcept(state, context.progress, questionBank, topics);
     if (!question) {
       deferredReviewConceptIds.push(state.conceptId);
       continue;
@@ -364,36 +447,28 @@ export function decideAdaptiveExperience(context: AdaptiveRoutingContext): Adapt
     );
   }
 
-  const variety = selectVarietyQuestion(context.progress, context.questionBank, topics);
+  const variety = selectVarietyQuestion(context.progress, questionBank, topics);
   if (variety) {
     return makePracticeDecision('variety', context.currentWorldId, null, variety, deferredReviewConceptIds);
   }
 
-  const interest = selectInterestQuestion(context.progress, context.questionBank, topics, nowMs);
+  const interest = selectInterestQuestion(
+    context.interestSignals ?? [],
+    context.progress,
+    questionBank,
+    topics,
+    nowMs
+  );
   if (interest) {
     return makePracticeDecision('interest', context.currentWorldId, null, interest, deferredReviewConceptIds);
   }
 
   if (
     context.currentWorldId
-      && (!context.worldHasProgress || !hasCurrentWorldLearning(context.progress, context.questionBank, topics))
+      && (!context.worldHasProgress || !hasCurrentWorldLearning(context.progress, questionBank, topics))
   ) {
-    return {
-      kind: 'new_frontier',
-      worldId: context.currentWorldId,
-      conceptId: null,
-      questionIds: [],
-      dueAt: null,
-      deferredReviewConceptIds
-    };
+    return worldDecision('new_frontier', context.currentWorldId, deferredReviewConceptIds);
   }
 
-  return {
-    kind: 'continue_world',
-    worldId: context.currentWorldId,
-    conceptId: null,
-    questionIds: [],
-    dueAt: null,
-    deferredReviewConceptIds
-  };
+  return worldDecision('continue_world', context.currentWorldId, deferredReviewConceptIds);
 }
