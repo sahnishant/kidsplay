@@ -46,6 +46,10 @@
     }
   }
 
+  function retryTopic(): void {
+    if (selectedTopicId) void chooseTopic(selectedTopicId);
+  }
+
   function back(): void {
     if (selectedTopicId) {
       selectedTopicId = null;
@@ -83,7 +87,7 @@
     </section>
   {:else if !session}
     <section class="loading" aria-live="polite">
-      {#if loadError}<p role="alert">{loadError}</p><button type="button" onclick={() => chooseTopic(selectedTopicId)}>Try again</button>{:else}<p>Opening {selectedTitle}…</p>{/if}
+      {#if loadError}<p role="alert">{loadError}</p><button type="button" onclick={retryTopic}>Try again</button>{:else}<p>Opening {selectedTitle}…</p>{/if}
     </section>
   {:else}
     <nav class="depths" aria-label="Choose how deep to explore">
