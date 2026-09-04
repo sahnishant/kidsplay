@@ -6,6 +6,7 @@ const AUDIO_KEY = 'kidsplay.audio.v1';
 test.use({ viewport: { width: 360, height: 640 } });
 
 test('Stories resumes the exact child-facing page after a process-style reload without learning writes', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
   await page.evaluate(() => localStorage.clear());
   await page.reload();
@@ -14,8 +15,35 @@ test('Stories resumes the exact child-facing page after a process-style reload w
     Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== storyKey && key !== audioKey)), [STORY_KEY, AUDIO_KEY]);
 
   await page.getByRole('button', { name: 'Open Stories' }).click();
-  await expect(page.getByTestId('stories-surface')).toBeVisible();
-  await page.locator('[data-story-id="story.dheu.moonlit-leaf"]').click();
+  const surface = page.getByTestId('stories-surface');
+  await expect(surface).toBeVisible();
+
+  const compactProof = await surface.evaluate((root) => {
+    const buttons = [...root.querySelectorAll('button')].filter((button) => {
+      const rect = button.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0;
+    });
+    const rootRect = root.getBoundingClientRect();
+    return {
+      fitsViewport: rootRect.left >= 0 && rootRect.right <= innerWidth + 1 && rootRect.top >= 0 && rootRect.bottom <= innerHeight + 1,
+      minButtonHeight: Math.min(...buttons.map((button) => button.getBoundingClientRect().height)),
+      documentFitsWidth: document.documentElement.scrollWidth <= innerWidth
+    };
+  });
+  expect(compactProof.fitsViewport).toBe(true);
+  expect(compactProof.documentFitsWidth).toBe(true);
+  expect(compactProof.minButtonHeight).toBeGreaterThanOrEqual(44);
+
+  const firstStoryCard = page.getByRole('button', { name: 'Open The Moonlit Leaf' });
+  await expect(firstStoryCard).toBeVisible();
+  const motion = await firstStoryCard.evaluate((element) => {
+    const style = getComputedStyle(element);
+    return { animationName: style.animationName, transitionDuration: style.transitionDuration };
+  });
+  expect(motion.animationName).toBe('none');
+  expect(motion.transitionDuration).toBe('0s');
+
+  await firstStoryCard.click();
   await expect(page.getByText('Page 1 of 9')).toBeVisible();
 
   await page.getByRole('button', { name: 'Next →' }).click();
