@@ -84,6 +84,8 @@
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
   let activeStoryLocation = $state<StoryLocation | null>(null);
+  let pendingAdaptiveMissionId = $state<string | null>(null);
+  let pendingAdaptiveQuestionId = $state<string | null>(null);
   let learnAboutOpen = $state(false);
   let LearnAboutView = $state<LearnAboutComponent | null>(null);
   let storiesOpen = $state(false);
@@ -126,6 +128,11 @@
     activePlaySurface = null;
     startError = null;
     releaseSessionBack = null;
+  }
+
+  function clearPendingAdaptiveMission(): void {
+    pendingAdaptiveMissionId = null;
+    pendingAdaptiveQuestionId = null;
   }
 
   function enterSessionBackBoundary(
@@ -218,6 +225,25 @@
     }
   }
 
+  function questionFitsMission(question: Question, mission: StoryMission): boolean {
+    if (mission.worldActionRef) return false;
+    const missionRefs = new Set(mission.knowledgeRefs);
+    return (question.knowledgeRefs ?? []).some((rowId) => missionRefs.has(rowId));
+  }
+
+  function weavePendingAdaptiveQuestion(missionId: string, launch: SessionLaunch): SessionLaunch {
+    if (pendingAdaptiveMissionId !== missionId || !pendingAdaptiveQuestionId || !launch.questions.length) return launch;
+    const adaptiveQuestion = adaptiveQuestionById.get(pendingAdaptiveQuestionId);
+    clearPendingAdaptiveMission();
+    if (!adaptiveQuestion) return launch;
+
+    const questions = [
+      adaptiveQuestion,
+      ...launch.questions.filter((question) => question.id !== adaptiveQuestion.id)
+    ].slice(0, launch.questions.length);
+    return { ...launch, questions };
+  }
+
   async function tryStartAdaptiveExperience(): Promise<boolean> {
     const { decideAdaptiveExperience } = await import('./runtime/adaptiveRouting');
     const currentPresentation = buildStoryLocationPresentation(
@@ -234,12 +260,30 @@
       worldHasProgress: Boolean(storyProgress.updatedAt),
       now: new Date()
     });
-    if (!decision.questionIds.length) return false;
+    if (!decision.questionIds.length) {
+      clearPendingAdaptiveMission();
+      return false;
+    }
 
     const questions = decision.questionIds
       .map((questionId) => adaptiveQuestionById.get(questionId))
       .filter((question): question is Question => Boolean(question));
-    if (!questions.length) return false;
+    if (!questions.length) {
+      clearPendingAdaptiveMission();
+      return false;
+    }
+
+    const currentMission = currentPresentation?.mission ?? null;
+    if (currentMission) {
+      clearPendingAdaptiveMission();
+      if (questionFitsMission(questions[0], currentMission)) {
+        pendingAdaptiveMissionId = currentMission.id;
+        pendingAdaptiveQuestionId = questions[0].id;
+      }
+      // Mission coherence wins. A compatible adaptive beat is consumed when the
+      // child starts the mission; an incompatible due beat remains due for later.
+      return false;
+    }
 
     enterSessionBackBoundary('adaptive-adventure');
     activePlaySurface = null;
@@ -260,21 +304,24 @@
   function startStoryMission(missionId: string): void {
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
+      const session = weavePendingAdaptiveQuestion(missionId, launch.session);
       enterSessionBackBoundary();
       activePlaySurface = null;
-      activeSession = launch.mission.worldActionRef ? null : launch.session;
+      activeSession = launch.mission.worldActionRef ? null : session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
       activeEntryId = null;
       initialSessionState = undefined;
       startError = null;
     } catch (error) {
+      clearPendingAdaptiveMission();
       startError = error instanceof Error ? error.message : 'This story mission could not be started.';
     }
   }
 
   function startStoryLocation(locationId: string): void {
     try {
+      clearPendingAdaptiveMission();
       const launch = createStoryLocationLaunch(locationId, progress.knowledge);
       enterSessionBackBoundary();
       activePlaySurface = null;
