@@ -109,7 +109,7 @@
             </div>
           </div>
         {:else}
-          <button type="button" class="world-action" onclick={performWorldAction} disabled={stepComplete}>{currentStep.worldAction.action === 'water' ? 'Water it' : currentStep.worldAction.action === 'sort' ? 'Sort and clear it' : currentStep.worldAction.action === 'feed' ? 'Place the food' : currentStep.worldAction.action === 'grow' ? 'Water and watch it grow' : 'Make the change'}</button>
+          <button type="button" class="world-action" onclick={performWorldAction} disabled={stepComplete}>{currentStep.actionLabel}</button>
         {/if}
 
         {#if feedback}<div class:success={stepComplete} class="feedback" role="status" aria-live="polite">{feedback}</div>{/if}
