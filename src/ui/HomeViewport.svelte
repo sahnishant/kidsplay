@@ -6,7 +6,7 @@
   import { mergeForestWorldDepthState } from '../forest/forestWorldProjection';
   import Avatar from '../presentation/Avatar.svelte';
   import { pushAppBackLayer, requestAppBack } from '../runtime/appNavigation';
-  import type { AvatarId, ChildSettings, ProgressSnapshot, ProgressSummary } from '../runtime/localProgress';
+  import { loadProgress, type AvatarId, type ChildSettings, type ProgressSummary } from '../runtime/localProgress';
   import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
   import { getStoryLocations, getStoryMissions } from '../story/storyDirector';
   import { buildStoryLocationPresentation } from '../story/storyPresentation';
@@ -24,14 +24,13 @@
   type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery';
 
   let {
-    child, catalog, progress, progressSnapshot, goalReadiness, resumableMock, mockTrends, storyProgress,
+    child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
     onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock,
     onOpenLearnAbout, onOpenStories, onStartFirstPlay
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
     progress: ProgressSummary;
-    progressSnapshot: ProgressSnapshot;
     goalReadiness: GoalReadinessSummary | null;
     resumableMock: StoredMockCheckpoint | null;
     mockTrends: MockTrendSummary[];
@@ -52,6 +51,7 @@
   ];
   const storyLocations = getStoryLocations();
   const storyMissions = getStoryMissions();
+  const discoveryProgress = loadProgress();
 
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
@@ -118,7 +118,7 @@
     <div class="discovery-host">
       {#await import('./DiscoveryBookViewport.svelte') then module}
         {@const DiscoveryBookViewport = module.default}
-        <DiscoveryBookViewport progress={progressSnapshot} {storyProgress} childName={child.name} onExit={requestWorld} />
+        <DiscoveryBookViewport progress={discoveryProgress} {storyProgress} childName={child.name} onExit={requestWorld} />
       {/await}
     </div>
   {:else}
