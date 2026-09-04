@@ -1,4 +1,4 @@
-import type { RiddleCandidatePresentation, RiddleProductionItem } from './riddleRuntime';
+import type { RiddleCandidatePresentation, RiddleProductionItem } from './riddleQuestion';
 
 const dog = { optionId: 'dog', semanticRef: 'entity.animal.dog', label: 'Dog', visualRefs: ['entity.animal.dog'] } as const satisfies RiddleCandidatePresentation;
 const rabbit = { optionId: 'rabbit', semanticRef: 'entity.animal.rabbit', label: 'Rabbit', visualRefs: ['entity.animal.rabbit'] } as const satisfies RiddleCandidatePresentation;
