@@ -26,8 +26,8 @@ describe('Forest Level-1 human-review polish', () => {
     expect(css).toMatch(/\.memory-card\s*\{[^}]*height:\s*118px/s);
     expect(css).toMatch(/@media \(max-width: 480px\)[\s\S]*\.memory-card\s*\{[^}]*height:\s*102px/s);
     expect(css).toMatch(/\.memory-card\s*\{[^}]*overflow:\s*hidden/s);
-    expect(engine).toContain('height:38px;min-width:0;min-height:0;overflow:hidden');
-    expect(engine).toContain('height:36px;min-width:0;min-height:0;overflow:hidden');
+    expect(engine).toContain('height:38px;min-width:0;overflow:hidden');
+    expect(engine).toContain('height:36px;min-width:0;overflow:hidden');
     expect(css).toMatch(/\.memory-card__label\s*\{[^}]*max-height:\s*4\.5em[^}]*overflow-y:\s*auto/s);
     expect(css).toMatch(/\.memory-card__label\s*\{[^}]*overflow-wrap:\s*anywhere/s);
     expect(css).toMatch(/\.memory-card__label\s*\{[^}]*touch-action:\s*pan-y/s);
