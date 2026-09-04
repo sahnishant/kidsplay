@@ -1,4 +1,4 @@
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { STORY_CANDIDATES_V1 } from '../src/experience/storyCatalog';
@@ -27,7 +27,7 @@ const BUNDLED_CANDIDATE_IDS = [
 ] as const;
 
 describe('bundled playful voice + Stories V1 production contract', () => {
-  it('keeps a bounded, measured candidate pack without treating candidates as approved', () => {
+  it('keeps every bounded candidate asset traceable through one stable semantic utterance manifest', () => {
     const summary = summarizeChildAudioProduction();
     expect(summary.utteranceCount).toBe(39);
     expect(summary.bundledClipCount).toBe(16);
@@ -38,6 +38,8 @@ describe('bundled playful voice + Stories V1 production contract', () => {
 
     for (const id of BUNDLED_CANDIDATE_IDS) {
       const asset = getChildAudioProductionAsset(id);
+      const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, id);
+      expect(utterance?.id).toBe(id);
       expect(asset?.reviewStatus).toBe('candidate');
       expect(asset?.durationMs).toBeGreaterThan(0);
       expect(asset?.bytes).toBeGreaterThan(0);
@@ -63,5 +65,21 @@ describe('bundled playful voice + Stories V1 production contract', () => {
         expect(utterance?.usage).toBe('story_beat');
       }
     }
+  });
+
+  it('reuses the existing childAudio runtime instead of creating a second media or speech engine', () => {
+    const productionRuntime = readFileSync(join(process.cwd(), 'src/runtime/childAudioProduction.ts'), 'utf8');
+    const storiesSurface = readFileSync(join(process.cwd(), 'src/ui/StoriesViewport.svelte'), 'utf8');
+
+    expect(productionRuntime).toContain("from './childAudio'");
+    expect(productionRuntime).toContain('playChildAudio(');
+    expect(productionRuntime).toContain('stopChildAudio()');
+    expect(productionRuntime).not.toMatch(/new\s+Audio\s*\(/);
+    expect(productionRuntime).not.toContain('SpeechSynthesisUtterance');
+    expect(productionRuntime).not.toContain('speechSynthesis');
+    expect(storiesSurface).toContain("from '../runtime/childAudioProduction'");
+    expect(storiesSurface).not.toMatch(/new\s+Audio\s*\(/);
+    expect(storiesSurface).not.toContain('SpeechSynthesisUtterance');
+    expect(storiesSurface).not.toContain('speechSynthesis');
   });
 });
