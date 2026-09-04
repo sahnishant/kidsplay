@@ -156,6 +156,10 @@ tap_label "Read to me"
 # Repeat exercises the same #175/#197 interruption path under airplane mode.
 tap_label "Repeat page"
 assert_label "page 6 of 9"
+# Persist an explicit child preference so the process-relaunch proof covers the
+# audio setting as well as exact story/beat/favourite state.
+tap_label "Turn sound off"
+assert_label "Turn sound on"
 capture_screen story-page-before-process-kill
 
 first_pid="$(cat "$OUT_DIR/first-offline-launch-pid.txt")"
@@ -174,6 +178,11 @@ assert_label "Open Stories"
 tap_label "Open Stories"
 assert_label "The Moonlit Leaf, page 6 of 9"
 assert_label "Remove from favourites"
+# The off preference must survive the process restart. Restore it only after
+# proving persistence, then repeat the exact resumed beat while still offline.
+assert_label "Turn sound on"
+tap_label "Turn sound on"
+assert_label "Turn sound off"
 tap_label "Repeat page"
 assert_label "page 6 of 9"
 capture_screen story-page-after-process-relaunch
