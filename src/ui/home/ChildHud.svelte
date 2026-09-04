@@ -35,7 +35,7 @@
     </span>
     {#if currentLevel !== null}
       <span class="hud-pill hud-pill--level" aria-label={`Current adventure level ${currentLevel}`}>
-        Level <strong>{currentLevel}</strong>
+        LEVEL {currentLevel}
       </span>
     {/if}
   </div>
