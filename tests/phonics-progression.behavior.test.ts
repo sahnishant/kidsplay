@@ -56,6 +56,11 @@ describe('sound-first phonics progression', () => {
   it('fails closed on missing, duplicate, mixed-locale, or too-small mapping sets', () => {
     expect(() => buildPhonicsProgression(mappings, ['phonics.en-in.b.initial', 'phonics.en-in.m.initial'], 'en-IN')).toThrow(/3–5/);
     expect(() => buildPhonicsProgression(mappings, ['phonics.en-in.b.initial', 'phonics.en-in.b.initial', 'phonics.en-in.m.initial'], 'en-IN')).toThrow(/duplicate/);
+    expect(() => buildPhonicsProgression([...mappings, { ...mapping('b') }], [
+      'phonics.en-in.b.initial',
+      'phonics.en-in.m.initial',
+      'phonics.en-in.s.initial'
+    ], 'en-IN')).toThrow(/authority contains duplicate mapping ids/);
     expect(() => buildPhonicsProgression(mappings, ['phonics.en-in.b.initial', 'phonics.en-in.m.initial', 'phonics.en-in.x.initial'], 'en-IN')).toThrow(/Missing validated/);
     expect(() => buildPhonicsProgression(
       [...mappings, { ...mapping('x'), mappingId: 'phonics.en-us.x.initial', locale: 'en-US' }],
