@@ -29,6 +29,14 @@ export async function openForestDepth(page: Page, completed: ForestSeedMission[]
   }, { completed, rewards });
   await page.reload();
   await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
+
+  // A previously opened story overlay can survive a seeded reload in the SPA shell.
+  // Close it explicitly so the seeded journey always starts from the world map.
+  const dialog = page.getByRole('dialog');
+  if (await dialog.count()) {
+    await page.getByRole('button', { name: 'Close mission' }).click();
+    await expect(dialog).toHaveCount(0);
+  }
 }
 
 export async function advanceMissionStory(page: Page): Promise<void> {
