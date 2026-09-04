@@ -50,6 +50,7 @@ test.describe('Learn About V1 production journey', () => {
     await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Meet Earth' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Land & water' })).toBeVisible();
+    await expectTapTarget(page.getByRole('button', { name: 'Back to Learn About topics' }));
     await expectViewportContained(page);
 
     await page.getByRole('button', { name: 'Explore Earth' }).first().click();
@@ -70,6 +71,16 @@ test.describe('Learn About V1 production journey', () => {
     await answerCurrentQuestion(page);
     expect(await storageSnapshot(page)).not.toEqual(beforeDiscovery);
 
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: /D3\+\s*Go deeper/ }).click();
+    await expect(page.getByText('PRACTICE')).toBeVisible();
+    const practiceButton = page.getByRole('button', { name: 'Try this question' });
+    await expectTapTarget(practiceButton);
+    await practiceButton.click();
+    await expect(page.getByText(/1 \/ 1/)).toBeVisible();
+    await expect(page.getByText(/The Sun is a star/i)).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
   });
