@@ -48,12 +48,12 @@ export function projectLearnAboutActivities(
   return topic.sections.flatMap((section) => {
     if (!section.depthBands.some((band) => depthAtOrBelow(band, selectedDepth))) return [];
     const admittedSectionRefs = section.knowledgeRefs.filter((ref) => admitted.has(ref));
-    const admittedSupportedRelationshipRefs = admittedSectionRefs.filter((ref) => supportedRelationships.has(ref));
+    const relationshipRefs = admittedSectionRefs.filter((ref) => supportedRelationships.has(ref));
 
     return section.recipeFamilies.flatMap((family): ProjectedLearnAboutActivity[] => {
       if (family === 'guess' || family === 'practice') return [];
       if (family === 'did_you_know' && admittedSectionRefs.length === 0) return [];
-      if ((family === 'compare' || family === 'try_it') && admittedSupportedRelationshipRefs.length === 0) return [];
+      if ((family === 'compare' || family === 'try_it') && relationshipRefs.length === 0) return [];
 
       return [{
         topicId: topic.topicId,
@@ -61,7 +61,7 @@ export function projectLearnAboutActivities(
         family,
         depthBand: selectedDepth,
         rootConceptRefs: topic.rootConceptRefs,
-        knowledgeRefs: admittedSectionRefs,
+        knowledgeRefs: family === 'compare' || family === 'try_it' ? relationshipRefs : admittedSectionRefs,
         affectsMastery: false
       }];
     });
