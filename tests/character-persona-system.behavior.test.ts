@@ -147,7 +147,8 @@ describe('Character Persona System V1', () => {
 
     await fireEvent.click(screen.getByRole('button', { name: 'Next story beat' }));
     expect(persona()?.getAttribute('data-speaker')).toBe('dheu');
-    expect(persona()?.querySelector('[data-character="dheu"]')).toBeTruthy();
+    expect(persona()?.querySelector('.kid-avatar--fox')).toBeTruthy();
+    expect(persona()?.querySelector('[data-character="dheu"]')).toBeNull();
   });
 
   it('rewrites Forest Level 1 around character chemistry rather than curriculum-summary dialogue', () => {
