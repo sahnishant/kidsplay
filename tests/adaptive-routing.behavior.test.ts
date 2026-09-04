@@ -4,6 +4,7 @@ import type { ProgressSnapshot, StoredAttempt } from '../src/runtime/localProgre
 import { loadProgress } from '../src/runtime/localProgress';
 import {
   ADAPTIVE_REVIEW_INTERVALS_MS,
+  ADAPTIVE_ROUTING_POLICY_VERSION,
   buildConceptReviewStates,
   decideAdaptiveExperience
 } from '../src/runtime/adaptiveRouting';
@@ -116,7 +117,7 @@ beforeEach(() => {
 });
 
 describe('adaptive experience routing', () => {
-  it('uses explicit deterministic spacing and schedules assisted success earlier than independent mastery', () => {
+  it('uses a versioned deterministic policy and schedules assisted success earlier than independent mastery', () => {
     const conceptId = 'animals.domestic.dog';
     const question = choiceQuestion('q.dog.choice', conceptId);
     const independent = progress([
@@ -138,6 +139,8 @@ describe('adaptive experience routing', () => {
     const independentState = buildConceptReviewStates(independent, [question], at(2 * HOUR))[0];
     const assistedState = buildConceptReviewStates(assisted, [question], at(2 * HOUR))[0];
 
+    expect(ADAPTIVE_ROUTING_POLICY_VERSION).toBe(1);
+    expect(independentState.policyVersion).toBe(ADAPTIVE_ROUTING_POLICY_VERSION);
     expect(ADAPTIVE_REVIEW_INTERVALS_MS.independent[0]).toBe(DAY);
     expect(ADAPTIVE_REVIEW_INTERVALS_MS.assisted[0]).toBe(4 * HOUR);
     expect(Date.parse(assistedState.dueAt)).toBeLessThan(Date.parse(independentState.dueAt));
@@ -218,6 +221,41 @@ describe('adaptive experience routing', () => {
     expect(decision.deferredReviewConceptIds).toEqual([conceptId]);
   });
 
+  it('fails closed on draft content and caller-supplied profile/canonical/demand eligibility', () => {
+    const conceptId = 'animals.domestic.dog';
+    const choice = choiceQuestion('q.dog.choice', conceptId);
+    const drag = dragQuestion('q.dog.drag', conceptId);
+    const draftDrag = { ...drag, authoring: { ...drag.authoring, status: 'draft' as const } };
+    const snapshot = progress([storedAttempt({ questionId: choice.id, conceptId, submittedAt: T0, correct: true })]);
+
+    const draftDecision = decideAdaptiveExperience({
+      progress: snapshot,
+      questionBank: [choice, draftDrag],
+      currentWorldId: 'forest',
+      currentWorldTopics: ['animals'],
+      worldHasProgress: true,
+      now: at(25 * HOUR)
+    });
+    expect(draftDecision.questionIds).toEqual([choice.id]);
+
+    const guardedDecision = decideAdaptiveExperience({
+      progress: snapshot,
+      questionBank: [choice, drag],
+      currentWorldId: 'forest',
+      currentWorldTopics: ['animals'],
+      worldHasProgress: true,
+      eligibility: {
+        allowedQuestionIds: [choice.id, drag.id],
+        allowedConceptIds: [conceptId],
+        allowedKnowledgeRefs: [choice.knowledgeRefs![0], drag.knowledgeRefs![0]],
+        allowedInteractionTypes: ['single_choice']
+      },
+      now: at(25 * HOUR)
+    });
+    expect(guardedDecision.questionIds).toEqual([choice.id]);
+    expect(guardedDecision.questionIds).not.toContain(drag.id);
+  });
+
   it('does not let passive timestamps refresh mastery or move a deterministic review clock', () => {
     const conceptId = 'animals.domestic.dog';
     const choice = choiceQuestion('q.dog.choice', conceptId);
@@ -238,7 +276,7 @@ describe('adaptive experience routing', () => {
     expect(second.questionIds).toEqual(first.questionIds);
   });
 
-  it('recomputes the same route from offline persisted attempt evidence after a process-kill/relaunch', () => {
+  it('rebuilds current-policy review state from legacy offline attempt evidence after a process-kill/relaunch', () => {
     const conceptId = 'animals.domestic.dog';
     const choice = choiceQuestion('q.dog.choice', conceptId);
     const drag = dragQuestion('q.dog.drag', conceptId);
@@ -248,7 +286,38 @@ describe('adaptive experience routing', () => {
     const reloaded = loadProgress();
     const decision = route(reloaded, [choice, drag], at(25 * HOUR));
     expect(reloaded.attempts).toHaveLength(1);
-    expect(decision).toMatchObject({ kind: 'review_due', conceptId, questionIds: [drag.id] });
+    expect(decision).toMatchObject({
+      policyVersion: ADAPTIVE_ROUTING_POLICY_VERSION,
+      kind: 'review_due',
+      conceptId,
+      questionIds: [drag.id]
+    });
+  });
+
+  it('is deterministic across a bounded 12-concept review history', () => {
+    const questions: Question[] = [];
+    const attempts: StoredAttempt[] = [];
+    for (let index = 0; index < 12; index += 1) {
+      const conceptId = `animals.proof.concept-${index.toString().padStart(2, '0')}`;
+      const choice = choiceQuestion(`q.proof.${index}.choice`, conceptId);
+      const drag = dragQuestion(`q.proof.${index}.drag`, conceptId);
+      questions.push(choice, drag);
+      attempts.push(storedAttempt({
+        sessionId: `proof.${index}`,
+        questionId: choice.id,
+        conceptId,
+        submittedAt: at(index * 60_000),
+        correct: true
+      }));
+    }
+    const snapshot = progress(attempts);
+    const first = route(snapshot, questions, at(26 * HOUR));
+    const second = route(snapshot, [...questions].reverse(), at(26 * HOUR));
+
+    expect(buildConceptReviewStates(snapshot, questions, at(26 * HOUR))).toHaveLength(12);
+    expect(second).toEqual(first);
+    expect(first.kind).toBe('review_due');
+    expect(first.questionIds).toEqual(['q.proof.0.drag']);
   });
 
   it('uses variety when recent play has repeated one recipe and an existing alternate recipe fits the world', () => {
@@ -268,7 +337,7 @@ describe('adaptive experience routing', () => {
     expect(decision.questionIds).toEqual([drag.id]);
   });
 
-  it('can follow recent successful engagement as interest without pretending that engagement changed mastery', () => {
+  it('uses only explicit voluntary interest signals and never infers interest from successful assessment evidence', () => {
     const conceptId = 'animals.domestic.dog';
     const choice = choiceQuestion('q.dog.choice', conceptId);
     const drag = dragQuestion('q.dog.drag', conceptId);
@@ -276,9 +345,20 @@ describe('adaptive experience routing', () => {
       storedAttempt({ questionId: choice.id, conceptId, submittedAt: T0, correct: true })
     ]);
 
-    const decision = route(snapshot, [choice, drag], at(HOUR));
+    expect(route(snapshot, [choice, drag], at(HOUR)).kind).toBe('continue_world');
+    const before = JSON.stringify(snapshot);
+    const decision = decideAdaptiveExperience({
+      progress: snapshot,
+      questionBank: [choice, drag],
+      currentWorldId: 'forest',
+      currentWorldTopics: ['animals'],
+      worldHasProgress: true,
+      interestSignals: [{ kind: 'voluntary_replay', observedAt: at(HOUR), conceptIds: [conceptId] }],
+      now: at(HOUR)
+    });
     expect(decision.kind).toBe('interest');
     expect(decision.questionIds).toEqual([drag.id]);
+    expect(JSON.stringify(snapshot)).toBe(before);
   });
 
   it('uses new_frontier before any current-world learning and otherwise falls back to continue_world', () => {
