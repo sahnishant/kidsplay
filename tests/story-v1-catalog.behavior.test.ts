@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import storyApprovalJson from '../content/stories/v1-human-approval.json';
 import {
   PUBLISHED_STORIES_V1,
   STORY_CANDIDATES_V1,
@@ -9,7 +10,6 @@ import {
   getStoryCandidate,
   storyWordCount
 } from '../src/experience/storyCatalog';
-import { STORY_V1_HUMAN_APPROVAL } from '../src/experience/storyHumanApproval';
 import {
   buildStoryLexicalReport,
   resolveStoryLexicalProfile,
@@ -46,9 +46,11 @@ describe('Stories V1 candidate pack', () => {
       .update(sourceBytes)
       .digest('hex');
 
-    expect(gitBlobSha).toBe(STORY_V1_HUMAN_APPROVAL.sourceManifestGitBlobSha);
+    expect(storyApprovalJson.manuscriptEditorialApproved).toBe(true);
+    expect(storyApprovalJson.bedtimeCxApproved).toBe(true);
+    expect(gitBlobSha).toBe(storyApprovalJson.sourceManifestGitBlobSha);
     expect(sourceStories.every((story) => story.editorialStatus === 'draft')).toBe(true);
-    expect(new Set(STORY_V1_HUMAN_APPROVAL.approvedStoryIds)).toEqual(new Set(sourceStories.map((story) => story.storyId)));
+    expect(new Set(storyApprovalJson.approvedStoryIds)).toEqual(new Set(sourceStories.map((story) => story.storyId)));
     expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'reviewed')).toBe(true);
     expect(PUBLISHED_STORIES_V1).toHaveLength(4);
     expect(getPublishedStory('story.dheu.moonlit-leaf')?.editorialStatus).toBe('reviewed');
