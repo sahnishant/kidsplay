@@ -6,10 +6,12 @@
     getGoalReadiness,
     type SessionLaunch
   } from './content';
+  import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
+    pushAppBackLayer,
     requestAppBack
   } from './runtime/appNavigation';
   import {
@@ -49,6 +51,7 @@
   import type { StoryLocation, StoryMission } from './story/storyTypes';
   import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
+  import LearnAboutViewport from './ui/LearnAboutViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
 
   const catalog = getCatalogEntries();
@@ -60,11 +63,13 @@
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
   let activeStoryLocation = $state<StoryLocation | null>(null);
+  let learnAboutOpen = $state(false);
   let initialSessionState = $state<SessionState | undefined>(undefined);
   let resumableMock = $state(loadMockCheckpoint());
   let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
   let releaseSessionBack: (() => void) | null = null;
+  let releaseLearnAboutBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
   let goalReadiness = $derived(
@@ -93,6 +98,42 @@
   function enterSessionBackBoundary(): void {
     releaseSessionBack?.();
     releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+  }
+
+  function openLearnAbout(): void {
+    releaseLearnAboutBack?.();
+    learnAboutOpen = true;
+    releaseLearnAboutBack = enterAppSessionLayer('learn-about', () => {
+      learnAboutOpen = false;
+      releaseLearnAboutBack = null;
+    });
+  }
+
+  function requestLearnAboutExit(): void {
+    requestAppBack(() => {
+      learnAboutOpen = false;
+      releaseLearnAboutBack = null;
+    });
+  }
+
+  function startLearnAboutQuestion(question: Question, title: string): void {
+    try {
+      releaseSessionBack?.();
+      releaseSessionBack = pushAppBackLayer('learn-about-question', clearActiveSession);
+      activeSession = {
+        id: `learn-about:${question.id}`,
+        mode: 'free_explore',
+        title,
+        questions: [question]
+      };
+      activeEntryId = null;
+      activeStoryMission = null;
+      activeStoryLocation = null;
+      initialSessionState = undefined;
+      startError = null;
+    } catch (error) {
+      startError = error instanceof Error ? error.message : 'This Learn About question could not be started.';
+    }
   }
 
   function startSession(entryId: string): void {
@@ -262,6 +303,8 @@
     />
     <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
   </div>
+{:else if learnAboutOpen}
+  <LearnAboutViewport onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
 {:else}
   <Home
     {child}
@@ -276,6 +319,7 @@
     onStartMission={startStoryMission}
     onExploreLocation={startStoryLocation}
     onResumeMock={resumeMock}
+    onOpenLearnAbout={openLearnAbout}
   />
 
   {#if startError}
