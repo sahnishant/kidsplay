@@ -36,6 +36,21 @@
   }
 </script>
 
+{#if feedbackMode === 'assessment'}
+  <span class="assessment-save-status">Mock progress saves on this device</span>
+{/if}
 {#key question.id}
   <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
 {/key}
+
+<style>
+  .assessment-save-status {
+    display: block;
+    margin: -3px 0 3px;
+    color: var(--muted);
+    font-size: .58rem;
+    font-weight: 750;
+    line-height: 1;
+    text-align: center;
+  }
+</style>
