@@ -47,6 +47,7 @@
     recordStoryMissionCompletion
   } from './story/storyProgress';
   import type { StoryLocation, StoryMission } from './story/storyTypes';
+  import ForestWorldDepthViewport from './ui/ForestWorldDepthViewport.svelte';
   import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
@@ -70,8 +71,8 @@
   let goalReadiness = $derived(
     goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
   );
-  let forestLevelOneSession = $derived(
-    activeStoryMission?.id === 'mission.forest-explorer-trail' || activeStoryLocation?.id === 'forest'
+  let forestStorySession = $derived(
+    activeStoryMission?.locationRef === 'forest' || activeStoryLocation?.id === 'forest'
   );
 
   onMount(() => installAppBackNavigation());
@@ -114,7 +115,7 @@
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
       enterSessionBackBoundary();
-      activeSession = launch.session;
+      activeSession = launch.mission.worldActionRef ? null : launch.session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
       activeEntryId = null;
@@ -144,16 +145,12 @@
     if (!resumableMock) return;
     try {
       const launch = createSessionForCatalogEntry(resumableMock.entryId, progress.knowledge);
-      if (launch.mode !== 'goal_pattern_mock') {
-        throw new Error('Only structured long mocks can be resumed');
-      }
+      if (launch.mode !== 'goal_pattern_mock') throw new Error('Only structured long mocks can be resumed');
       if (getPatternMockContractSignature(launch.profileRef) !== resumableMock.sectionSignature) {
         throw new Error('The assessment or learning-profile contract changed since this mock was saved');
       }
       const questions = resolveQuestionIds(resumableMock.questionIds);
-      if (questions.length !== launch.questions.length) {
-        throw new Error('The saved mock no longer matches the current assessment length');
-      }
+      if (questions.length !== launch.questions.length) throw new Error('The saved mock no longer matches the current assessment length');
       if (getQuestionContractSignature(questions) !== resumableMock.questionSignature) {
         throw new Error('One or more saved questions changed since this mock was saved');
       }
@@ -188,6 +185,11 @@
       questionSignature: getQuestionContractSignature(activeSession.questions),
       state: createSessionCheckpoint(state)
     });
+  }
+
+  function handleForestWorldComplete(sessionId: string): void {
+    if (!activeStoryMission?.worldActionRef) return;
+    storyProgress = recordStoryMissionCompletion(activeStoryMission, sessionId);
   }
 
   function handleSessionComplete(state: SessionState): void {
@@ -237,8 +239,15 @@
   }
 </script>
 
-{#if activeSession}
-  <div class="session-host" class:forest-session-host={forestLevelOneSession}>
+{#if activeStoryMission?.worldActionRef}
+  <ForestWorldDepthViewport
+    mission={activeStoryMission}
+    childName={child.name}
+    onComplete={handleForestWorldComplete}
+    onExit={requestSessionExit}
+  />
+{:else if activeSession}
+  <div class="session-host" class:forest-session-host={forestStorySession}>
     <Session
       title={activeSession.title}
       mode={activeSession.mode}
