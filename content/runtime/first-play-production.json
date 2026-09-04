@@ -1,0 +1,131 @@
+{
+  "visuals": {
+    "dog": ["Dog", "entity.animal.dog"],
+    "cow": ["Cow", "entity.animal.cow"],
+    "rabbit": ["Rabbit", "entity.animal.rabbit"],
+    "bell": ["Bell", "entity.school.bell"],
+    "earth": ["Earth", "entity.universe.earth"],
+    "sun": ["Sun", "entity.nature.sun"],
+    "apple": ["Apple", "entity.food.apple"],
+    "orange": ["Orange", "entity.food.orange"],
+    "bus": ["Bus", "entity.transport.bus"],
+    "train": ["Train", "entity.transport.train"],
+    "ship": ["Ship", "entity.transport.ship"],
+    "aeroplane": ["Aeroplane", "entity.transport.aeroplane"],
+    "telephone": ["Telephone", "entity.communication.telephone"],
+    "radio": ["Radio", "entity.communication.radio"],
+    "newspaper": ["Newspaper", "entity.communication.newspaper"],
+    "television": ["Television", "entity.communication.television"],
+    "eyes": ["Eyes", "entity.body.eyes"],
+    "ears": ["Ears", "entity.body.ears"],
+    "nose": ["Nose", "entity.body.nose"],
+    "tongue": ["Tongue", "entity.body.tongue"],
+    "teeth": ["Teeth", "entity.body.teeth"],
+    "pea": ["Pea plant", "entity.plant.pea"],
+    "pumpkin": ["Pumpkin plant", "entity.plant.pumpkin"],
+    "lotus": ["Lotus", "entity.plant.lotus"],
+    "honeybee": ["Honeybee", "entity.animal.bee"],
+    "wheat": ["Wheat", "entity.food.wheat"],
+    "fish": ["Fish", "entity.animal.fish"],
+    "bird": ["Bird", "entity.animal.bird"],
+    "duck": ["Duck", "entity.animal.duck"]
+  },
+  "firstPlay": [
+    {
+      "id": "first-play.touch.dog",
+      "kind": "touch_discover",
+      "prompt": "Touch the dog.",
+      "reactionEvent": "discover",
+      "item": "dog",
+      "spokenLabel": "Dog"
+    },
+    {
+      "id": "first-play.touch.bell",
+      "kind": "touch_discover",
+      "prompt": "Touch the bell.",
+      "reactionEvent": "mischief",
+      "item": "bell",
+      "spokenLabel": "Bell"
+    },
+    {
+      "id": "first-play.listen.dog",
+      "kind": "listen_find",
+      "prompt": "Where is the dog?",
+      "options": ["dog", "cow"],
+      "answer": "dog"
+    },
+    {
+      "id": "first-play.listen.earth",
+      "kind": "listen_find",
+      "prompt": "Find Earth.",
+      "options": ["earth", "sun"],
+      "answer": "earth",
+      "conceptIds": ["universe.earth.planet"],
+      "knowledgeRefs": ["kr.universe.earth.type.planet"]
+    },
+    {
+      "id": "first-play.place.dog",
+      "kind": "place_match",
+      "prompt": "Put the dog with the dog.",
+      "item": "dog",
+      "itemId": "moving-dog",
+      "targets": [
+        { "key": "dog", "id": "dog-target", "label": "Dog match" },
+        { "key": "cow", "id": "cow-target" }
+      ],
+      "targetId": "dog-target",
+      "tolerance": 40
+    },
+    {
+      "id": "first-play.place.apple",
+      "kind": "place_match",
+      "prompt": "Put the apple with the apple.",
+      "item": "apple",
+      "itemId": "moving-apple",
+      "targets": [
+        { "key": "orange", "id": "orange-target" },
+        { "key": "apple", "id": "apple-target", "label": "Apple match" }
+      ],
+      "targetId": "apple-target",
+      "tolerance": 40
+    },
+    {
+      "id": "first-play.contrast.full-empty",
+      "kind": "semantic_contrast",
+      "prompt": "Touch the full bucket.",
+      "answer": "full",
+      "states": ["full", "empty"],
+      "conceptIds": ["vocabulary.state.full", "vocabulary.state.empty", "vocabulary.container.amount"],
+      "knowledgeRefs": ["kr.vocab.state.full.contrasts-with-empty"]
+    },
+    {
+      "id": "first-play.letter-picture.a-apple",
+      "kind": "letter_picture",
+      "prompt": "A ... Apple",
+      "grapheme": "A",
+      "options": ["apple", "orange"],
+      "answer": "apple"
+    },
+    {
+      "id": "first-play.cause-effect.fill-bucket",
+      "kind": "cause_effect",
+      "prompt": "Touch the empty bucket.",
+      "beforeState": "empty",
+      "afterState": "full"
+    }
+  ],
+  "visualReasoning": [
+    { "id": "visual-choice.animals.dog", "kind": "visual_scene_choice", "prompt": "Find the dog.", "options": ["dog", "cow", "rabbit"], "answer": "dog" },
+    { "id": "visual-choice.transport.bus", "kind": "visual_scene_choice", "prompt": "Find the bus.", "options": ["bus", "train", "ship", "aeroplane"], "answer": "bus" },
+    { "id": "visual-choice.body.eyes", "kind": "visual_scene_choice", "prompt": "Find the eyes.", "options": ["eyes", "ears", "nose", "tongue"], "answer": "eyes" },
+    { "id": "visual-choice.communication.telephone", "kind": "visual_scene_choice", "prompt": "Find the telephone.", "options": ["telephone", "radio", "newspaper", "television"], "answer": "telephone" },
+    { "id": "visual-choice.plants.lotus", "kind": "visual_scene_choice", "prompt": "Find the lotus.", "options": ["pea", "pumpkin", "lotus"], "answer": "lotus" },
+    { "id": "visual-choice.food-source.honeybee", "kind": "visual_scene_choice", "prompt": "Find the honeybee.", "options": ["cow", "honeybee", "wheat"], "answer": "honeybee" },
+    { "id": "odd-one-out.transport", "kind": "odd_one_out", "prompt": "Which one doesn't belong?", "options": ["bus", "train", "ship", "telephone"], "answer": "telephone" },
+    { "id": "odd-one-out.communication", "kind": "odd_one_out", "prompt": "Which one doesn't belong?", "options": ["telephone", "radio", "newspaper", "bus"], "answer": "bus" },
+    { "id": "odd-one-out.senses", "kind": "odd_one_out", "prompt": "Which one doesn't belong?", "options": ["eyes", "ears", "nose", "teeth"], "answer": "teeth" },
+    { "id": "odd-one-out.plants", "kind": "odd_one_out", "prompt": "Which one doesn't belong?", "options": ["pea", "pumpkin", "lotus", "bus"], "answer": "bus" },
+    { "id": "odd-one-out.food-sources", "kind": "odd_one_out", "prompt": "Which one doesn't belong?", "options": ["cow", "honeybee", "wheat", "telephone"], "answer": "telephone" },
+    { "id": "odd-one-out.animal-features", "kind": "odd_one_out", "prompt": "Which one doesn't belong?", "options": ["fish", "bird", "duck", "bus"], "answer": "bus" }
+  ]
+}
