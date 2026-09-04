@@ -2,14 +2,14 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import voiceApprovalJson from '../content/audio/kidsplay-v1-human-approval.json';
 import { STORY_CANDIDATES_V1 } from '../src/experience/storyCatalog';
 import { measureStoryNarration, storyNarrationUtteranceId } from '../src/experience/storyNarrationMetrics';
 import { resolveChildAudioUtterance } from '../src/runtime/childAudioManifest';
 import {
   getApprovedBundledSrc,
   isChildAudioHumanApprovedPackActive,
-  KIDSPLAY_CHILD_AUDIO_MANIFEST,
-  KIDSPLAY_V1_VOICE_HUMAN_APPROVAL
+  KIDSPLAY_CHILD_AUDIO_MANIFEST
 } from '../src/runtime/childAudioProduction';
 import {
   listChildAudioProductionAssets,
@@ -26,10 +26,12 @@ describe('bundled playful voice + Stories V1 production contract', () => {
     expect(summary.candidateBytes).toBe(676_114);
     expect(summary.projectedPackageImpactBytes).toBe(676_114);
     expect(summary.measuredProductionTrialDurationMs).toBe(669_334);
-    // The evidence manifest remains immutable candidate provenance. Runtime
-    // promotion is represented separately by the HUMAN approval record.
     expect(summary.approvedBytes).toBe(0);
     expect(isChildAudioHumanApprovedPackActive()).toBe(true);
+    expect(voiceApprovalJson.approvalScope.allUtterances).toBe(true);
+    expect(voiceApprovalJson.expected.utteranceCount).toBe(39);
+    expect(voiceApprovalJson.expected.bundledBytes).toBe(676_114);
+    expect(voiceApprovalJson.expected.measuredDurationMs).toBe(669_334);
     expect(new Set(assets.map((asset) => asset.id)).size).toBe(39);
 
     const candidateManifestPath = join(process.cwd(), 'content', 'audio', 'kidsplay-v1-candidate-manifest.json');
@@ -38,7 +40,7 @@ describe('bundled playful voice + Stories V1 production contract', () => {
       .update(Buffer.from(`blob ${candidateManifestBytes.length}\0`))
       .update(candidateManifestBytes)
       .digest('hex');
-    expect(gitBlobSha).toBe(KIDSPLAY_V1_VOICE_HUMAN_APPROVAL.sourceManifestGitBlobSha);
+    expect(gitBlobSha).toBe(voiceApprovalJson.sourceManifestGitBlobSha);
 
     for (const asset of assets) {
       const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, asset.id);
