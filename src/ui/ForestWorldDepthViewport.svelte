@@ -22,7 +22,6 @@
   let feedback = $state<string | null>(null);
   let stepComplete = $state(false);
   let currentStep = $derived(adventure.steps[stepIndex]);
-  let currentAssembly = $derived(currentStep?.assembly);
 
   function markStepComplete(step: ForestAdventureStep): void {
     completedCount = stepIndex + 1;
@@ -96,15 +95,15 @@
         <h2 id="forest-action-heading">{currentStep.icon} {currentStep.title}</h2>
         <p>{currentStep.prompt}</p><p><strong>{currentStep.instruction}</strong></p>
 
-        {#if currentAssembly}
+        {#if currentStep.assembly}
           <div class="assembly" data-testid="forest-assembly" data-first-attempt={assemblyState.firstAttemptCorrect ?? 'pending'}>
             <div aria-label="Pieces">
-              {#each currentAssembly.parts as part}
+              {#each currentStep.assembly.parts as part}
                 <button type="button" class:selected={selectedPartId === part.partId} class:placed={isPlaced(part.partId)} disabled={isPlaced(part.partId) || stepComplete} data-part={part.partId} onclick={() => choosePart(part.partId)}>{isPlaced(part.partId) ? '✓ ' : ''}{part.partId.replace('part.', '').replaceAll('-', ' ')}</button>
               {/each}
             </div>
             <div aria-label="Places">
-              {#each currentAssembly.slots as slot}
+              {#each currentStep.assembly.slots as slot}
                 <button type="button" disabled={!selectedPartId || stepComplete} data-slot={slot.slotId} onclick={() => chooseSlot(slot.slotId)}>{slot.slotId.replace('slot.', '').replaceAll('-', ' ')}</button>
               {/each}
             </div>
