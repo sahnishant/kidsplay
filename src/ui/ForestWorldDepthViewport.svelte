@@ -23,8 +23,8 @@
     onExit: () => void;
   } = $props();
 
-  const adventure = getForestWorldDepthAdventure(mission.worldActionRef ?? '');
-  const displayName = childName.trim() || 'Dheu';
+  let adventure = $derived(getForestWorldDepthAdventure(mission.worldActionRef ?? ''));
+  let displayName = $derived(childName.trim() || 'Dheu');
   let stepIndex = $state(0);
   let assemblyState = $state<AssemblyInteractionState>(createAssemblyInteractionState());
   let selectedPartId = $state<string | null>(null);
@@ -70,21 +70,17 @@
     });
     assemblyState = result.state;
     selectedPartId = null;
-
     if (result.feedback === 'retry_in_place') {
       feedback = currentStep.scaffold;
-      return;
-    }
-    if (result.feedback === 'complete') {
+    } else if (result.feedback === 'complete') {
       markStepComplete(currentStep);
-      return;
+    } else {
+      feedback = 'That piece fits. Keep going.';
     }
-    feedback = 'That piece fits. Keep going.';
   }
 
   function performWorldAction(): void {
-    if (!currentStep || stepComplete) return;
-    markStepComplete(currentStep);
+    if (currentStep && !stepComplete) markStepComplete(currentStep);
   }
 
   function nextStep(): void {
@@ -124,16 +120,13 @@
       </div>
       <p>{mission.successBeat.text.replaceAll('Dheu', displayName)}</p>
       <div class="unlock" role="status">{adventure.nextStateLabel}</div>
-      <p class="persistence-note">This changed Forest is derived from saved story progress, so replaying the mission cannot farm another reward.</p>
+      <p>This changed Forest comes from saved story progress, so replaying the mission cannot farm another reward.</p>
       <button type="button" class="primary" onclick={onExit}>Back to Dheu's world</button>
     </main>
   {:else if currentStep}
     <main class="forest-depth__body">
       <aside class="world-panel" aria-label={`Forest world state. ${completedStepIds.length} of ${adventure.steps.length} changes complete.`}>
-        <div class="problem">
-          <span>WORLD PROBLEM</span>
-          <p>{adventure.worldProblem}</p>
-        </div>
+        <div class="problem"><span>WORLD PROBLEM</span><p>{adventure.worldProblem}</p></div>
         <div class="world-objects">
           {#each adventure.steps as step}
             <div class:changed={objectChanged(step)} class="world-object" data-world-object={step.id}>
@@ -162,9 +155,7 @@
                   disabled={isPlaced(part.partId) || stepComplete}
                   data-part={part.partId}
                   onclick={() => choosePart(part.partId)}
-                >
-                  {isPlaced(part.partId) ? '✓ ' : ''}{part.partId.replace('part.', '').replaceAll('-', ' ')}
-                </button>
+                >{isPlaced(part.partId) ? '✓ ' : ''}{part.partId.replace('part.', '').replaceAll('-', ' ')}</button>
               {/each}
             </div>
             <div class="assembly-group" aria-label="Places">
@@ -174,9 +165,7 @@
                   disabled={!selectedPartId || stepComplete}
                   data-slot={slot.slotId}
                   onclick={() => chooseSlot(slot.slotId)}
-                >
-                  {slot.slotId.replace('slot.', '').replaceAll('-', ' ')}
-                </button>
+                >{slot.slotId.replace('slot.', '').replaceAll('-', ' ')}</button>
               {/each}
             </div>
           </div>
@@ -186,25 +175,13 @@
           </button>
         {/if}
 
-        {#if feedback}
-          <div class:success={stepComplete} class="feedback" role="status" aria-live="polite">{feedback}</div>
-        {/if}
-
-        {#if stepComplete && !missionComplete}
-          <button type="button" class="primary" onclick={nextStep}>Next forest job</button>
-        {/if}
+        {#if feedback}<div class:success={stepComplete} class="feedback" role="status" aria-live="polite">{feedback}</div>{/if}
+        {#if stepComplete && !missionComplete}<button type="button" class="primary" onclick={nextStep}>Next forest job</button>{/if}
       </section>
     </main>
   {/if}
 </section>
 
 <style>
-  .forest-depth{width:min(960px,100%);height:calc(100dvh - 42px);margin:auto;display:grid;grid-template-rows:auto minmax(0,1fr);gap:7px;overflow:hidden;border-radius:22px;background:linear-gradient(180deg,#eaf8e4,#f9f4db)}
-  .forest-depth__header{min-height:64px;display:flex;align-items:center;gap:8px;padding:7px 9px;background:#ffffffd9;border:1px solid #24303a12;border-radius:18px}.back{width:48px;height:48px;flex:none;border:0;border-radius:14px;background:#eef3ea;font-size:1.15rem;font-weight:950}.title-copy{min-width:0;flex:1}.title-copy span,.step-count,.problem span{font-size:.58rem;font-weight:950;letter-spacing:.07em;color:#426b3c}.title-copy h1{margin:2px 0 0;font-size:clamp(1rem,4vw,1.35rem);line-height:1.05}.characters{display:flex;gap:2px;flex:none}.characters>span{width:38px;height:38px;display:grid;place-items:center}
-  .forest-depth__body{min-height:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:7px;overflow:hidden}.world-panel,.action-panel,.completion{min-height:0;border-radius:18px;background:#ffffffe8;border:1px solid #24303a12}.world-panel{padding:10px;overflow:auto}.problem p,.character-line,.prompt,.instruction,.completion p{margin:4px 0;font-size:.76rem;line-height:1.35}.world-objects{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:10px 0}.world-object{min-height:66px;display:grid;place-items:center;text-align:center;padding:6px;border-radius:13px;background:#f3ead9;border:2px dashed #b8a98f}.world-object.changed{background:#e5f6dd;border-style:solid;border-color:#74a969}.world-object span{font-size:1.35rem}.world-object small{font-size:.58rem;font-weight:850}.character-line{padding:8px;border-radius:12px;background:#eef8f8}
-  .action-panel{padding:12px;display:flex;flex-direction:column;overflow:auto}.action-panel h2{margin:5px 0 3px;font-size:1.05rem}.instruction{font-weight:750}.assembly{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.assembly-group{display:grid;gap:7px}.assembly button,.world-action,.primary{min-height:48px;border:0;border-radius:13px;padding:8px 10px;font:inherit;font-weight:900;cursor:pointer}.assembly button{background:#f0f4f6;color:#24303a}.assembly button.selected{outline:3px solid #5e8dcb}.assembly button.placed{background:#e2f3df}.assembly button:disabled,.world-action:disabled{opacity:.66}.world-action{margin-top:10px;background:#dfefe0;color:#254a2a}.feedback{margin-top:8px;padding:9px;border-radius:12px;background:#fff2cf;font-size:.72rem;font-weight:800}.feedback.success{background:#e1f5df}.primary{margin-top:auto;background:#365f99;color:#fff}
-  .completion{display:grid;align-content:center;justify-items:center;gap:10px;padding:18px;text-align:center;overflow:auto}.completion__world{display:grid;gap:8px;max-width:560px;font-size:.9rem}.completion__world span{font-size:3rem}.unlock{padding:9px 13px;border-radius:999px;background:#e5f6dd;font-weight:950}.persistence-note{max-width:520px;color:#59645b}.completion .primary{margin-top:4px;min-width:min(100%,320px)}
-  @media(max-width:650px){.forest-depth{gap:5px}.characters{display:none}.forest-depth__body{grid-template-columns:1fr;grid-template-rows:minmax(0,.43fr) minmax(0,.57fr)}.world-panel{padding:7px}.problem,.character-line{display:none}.world-objects{grid-template-columns:repeat(4,1fr);gap:4px;margin:0}.world-object{min-height:54px;padding:3px}.world-object small{font-size:.5rem}.action-panel{padding:9px}.assembly{margin:7px 0}}
-  @media(max-width:420px){.title-copy h1{font-size:.98rem}.forest-depth__header{min-height:58px;padding:5px}.back{width:46px;height:46px}.action-panel h2{font-size:.98rem}.prompt,.instruction{font-size:.7rem}.world-object span{font-size:1.1rem}}
-  @media(prefers-reduced-motion:reduce){.forest-depth *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+  .forest-depth{width:min(960px,100%);height:calc(100dvh - 42px);margin:auto;display:grid;grid-template-rows:auto 1fr;gap:5px;overflow:hidden;background:#f3f8e9}.forest-depth__header{display:flex;align-items:center;gap:6px;padding:5px;background:#fff;border-radius:14px}.back,.assembly button,.world-action,.primary{min-width:44px;min-height:48px;border:0;border-radius:12px;font:inherit;font-weight:850}.back{font-size:1.1rem}.title-copy{min-width:0;flex:1}.title-copy span,.step-count,.problem span{font-size:.58rem;font-weight:900}.title-copy h1{margin:2px 0;font-size:1rem}.characters{display:flex}.characters>span{width:36px;height:36px}.forest-depth__body{min-height:0;display:grid;grid-template-columns:1fr 1.2fr;gap:5px;overflow:hidden}.world-panel,.action-panel,.completion{min-height:0;overflow:auto;padding:8px;background:#fff;border-radius:14px}.world-objects{display:grid;grid-template-columns:1fr 1fr;gap:5px}.world-object{display:grid;place-items:center;text-align:center;padding:4px;background:#f1e9d8;border-radius:10px}.world-object.changed,.assembly button.placed,.feedback.success{background:#def2dc}.world-object small{font-size:.55rem;font-weight:800}.action-panel{display:flex;flex-direction:column}.action-panel h2{margin:4px 0;font-size:1rem}.problem p,.prompt,.instruction,.character-line,.completion p{margin:3px 0;font-size:.7rem;line-height:1.3}.assembly{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:7px 0}.assembly-group{display:grid;gap:5px}.assembly button{background:#eef2f4}.assembly button.selected{outline:3px solid #5680b7}.world-action{background:#def2dc}.feedback{margin-top:6px;padding:8px;background:#fff0cc;border-radius:10px;font-size:.7rem}.primary{margin-top:auto;background:#365f99;color:#fff}.completion{display:grid;align-content:center;justify-items:center;text-align:center;gap:8px}.completion__world{display:grid;text-align:center}.completion__world span{font-size:2.5rem}.unlock{font-weight:900}@media(max-width:650px){.characters,.problem,.character-line{display:none}.forest-depth__body{grid-template-columns:1fr;grid-template-rows:.4fr .6fr}.world-objects{grid-template-columns:repeat(4,1fr)}}@media(prefers-reduced-motion:reduce){.forest-depth *{animation:none!important;transition:none!important}}
 </style>
