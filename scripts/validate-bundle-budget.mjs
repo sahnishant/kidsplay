@@ -9,7 +9,9 @@ const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
   maxTotalJsBytes: 760 * 1024,
-  maxTotalJsGzipBytes: 160 * 1024,
+  // Learn About V1 is a lazily loaded product route (~8 KiB gzip). Keep the
+  // primary/single-chunk limit unchanged while accounting for that bounded route.
+  maxTotalJsGzipBytes: 164 * 1024,
   maxTotalCssBytes: 100 * 1024
 };
 
