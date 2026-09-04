@@ -78,7 +78,7 @@ test('Forest Explorer Level 2 is a persistent creek-repair adventure at 360x640'
   await expect(page.getByText(/replaying the mission cannot farm another reward/i)).toBeVisible();
   await expectForestSurfaceFits(page, 'Level 2 completion');
 
-  await level.getByRole('button', { name: "Back to Dheu's world" }).click();
+  await level.getByRole('button', { name: "Back to Dheu's world" }).last().click();
   await expect(page.getByLabel('Current adventure level 3')).toBeVisible();
   await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1, Forest depth 3: play next.*Creek crossing and water path restored/i })).toBeVisible();
   await expect(page.getByText('📖 2 Forest finds')).toBeVisible();
