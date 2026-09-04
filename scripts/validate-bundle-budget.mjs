@@ -21,6 +21,9 @@ const lazyRouteBudgets = [
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'StoriesViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 3 * 1024 },
+  // V1 deterministic spacing + eligibility + world-fit selection. Keep this
+  // isolated from the core budget and below a deliberately small 2.5 KiB cap.
+  { prefix: 'adaptiveRouting-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 }
 ];
