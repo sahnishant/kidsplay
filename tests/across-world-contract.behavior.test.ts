@@ -146,4 +146,15 @@ describe('Across the World route/destination contract', () => {
       destinations: [{ ...indiaSlice.destinations[0], routeRefs: ['route.missing'] }]
     })).toThrow(/unknown route ref/);
   });
+
+  it('rejects parent cycles even when every referenced parent exists', () => {
+    expect(() => validateAcrossWorldCampaign({
+      ...indiaSlice,
+      geographicNodes: indiaSlice.geographicNodes.map((node) => {
+        if (node.nodeId === 'geo.city.delhi') return { ...node, parentNodeId: 'geo.city.agra' };
+        if (node.nodeId === 'geo.city.agra') return { ...node, parentNodeId: 'geo.city.delhi' };
+        return node;
+      })
+    })).toThrow(/parent cycle/);
+  });
 });
