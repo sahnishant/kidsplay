@@ -7,6 +7,7 @@
     type SessionLaunch
   } from './content';
   import type { SessionAttempt } from './contracts/runtime';
+  import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -47,6 +48,7 @@
     recordStoryMissionCompletion
   } from './story/storyProgress';
   import type { StoryLocation, StoryMission } from './story/storyTypes';
+  import FirstPlayViewport from './ui/FirstPlayViewport.svelte';
   import GrownUpAudioHelp from './ui/GrownUpAudioHelp.svelte';
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
@@ -56,6 +58,7 @@
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
+  let activePlaySurface = $state<FirstPlaySurfaceMode | null>(null);
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
@@ -90,15 +93,28 @@
     releaseSessionBack = null;
   }
 
-  function enterSessionBackBoundary(): void {
+  function clearActivePlaySurface(): void {
+    activePlaySurface = null;
+    startError = null;
+    releaseSessionBack = null;
+  }
+
+  function enterSessionBackBoundary(layerId = 'learning-session', onBack = clearActiveSession): void {
     releaseSessionBack?.();
-    releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+    releaseSessionBack = enterAppSessionLayer(layerId, onBack);
+  }
+
+  function startFirstPlay(mode: FirstPlaySurfaceMode): void {
+    enterSessionBackBoundary(`play:${mode}`, clearActivePlaySurface);
+    activePlaySurface = mode;
+    startError = null;
   }
 
   function startSession(entryId: string): void {
     try {
       const launch = createSessionForCatalogEntry(entryId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch;
       activeEntryId = entryId;
       activeStoryMission = null;
@@ -114,6 +130,7 @@
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch.session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
@@ -129,6 +146,7 @@
     try {
       const launch = createStoryLocationLaunch(locationId, progress.knowledge);
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = launch.session;
       activeStoryMission = null;
       activeStoryLocation = launch.location;
@@ -159,6 +177,7 @@
       }
 
       enterSessionBackBoundary();
+      activePlaySurface = null;
       activeSession = { ...launch, questions };
       activeEntryId = resumableMock.entryId;
       activeStoryMission = null;
@@ -235,9 +254,19 @@
   function requestSessionExit(): void {
     requestAppBack(clearActiveSession);
   }
+
+  function requestFirstPlayExit(): void {
+    requestAppBack(clearActivePlaySurface);
+  }
 </script>
 
-{#if activeSession}
+{#if activePlaySurface}
+  <FirstPlayViewport
+    mode={activePlaySurface}
+    onAttempt={activePlaySurface === 'visual_reasoning' ? handleAttempt : undefined}
+    onExit={requestFirstPlayExit}
+  />
+{:else if activeSession}
   <div class="session-host" class:forest-session-host={forestLevelOneSession}>
     <Session
       title={activeSession.title}
@@ -276,6 +305,7 @@
     onStartMission={startStoryMission}
     onExploreLocation={startStoryLocation}
     onResumeMock={resumeMock}
+    onStartFirstPlay={startFirstPlay}
   />
 
   {#if startError}
