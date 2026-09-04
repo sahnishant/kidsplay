@@ -56,7 +56,6 @@ function validateAdventure(adventure: ForestWorldDepthAdventure): ForestWorldDep
   }
   return {
     ...adventure,
-    sourceEventRefs: [...adventure.sourceEventRefs],
     steps: adventure.steps.map((step) => ({
       ...step,
       worldAction: validateWorldActionDefinition(step.worldAction),
@@ -72,15 +71,11 @@ if (document.schemaVersion !== 1 || !Array.isArray(document.adventures)) {
 const adventures = document.adventures.map(validateAdventure);
 
 export function getForestWorldDepthAdventures(): ForestWorldDepthAdventure[] {
-  return adventures.map((adventure) => ({
-    ...adventure,
-    sourceEventRefs: [...adventure.sourceEventRefs],
-    steps: adventure.steps.map((step) => ({ ...step }))
-  }));
+  return adventures;
 }
 
 export function getForestWorldDepthAdventure(adventureRef: string): ForestWorldDepthAdventure {
-  const adventure = getForestWorldDepthAdventures().find((item) => item.adventureRef === adventureRef);
+  const adventure = adventures.find((item) => item.adventureRef === adventureRef);
   if (!adventure) throw new Error(`Unknown Forest world-depth adventure ${adventureRef}`);
   return adventure;
 }
@@ -91,7 +86,7 @@ export function getForestAssemblyProof(): Array<{
   semanticDomain: ForestSemanticDomain;
   definition: AssemblyDefinition;
 }> {
-  return getForestWorldDepthAdventures().flatMap((adventure) =>
+  return adventures.flatMap((adventure) =>
     adventure.steps.flatMap((step) => step.assembly
       ? [{ adventureRef: adventure.adventureRef, stepId: step.id, semanticDomain: step.semanticDomain, definition: step.assembly }]
       : [])
