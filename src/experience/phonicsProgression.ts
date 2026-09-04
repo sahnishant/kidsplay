@@ -38,6 +38,8 @@ export function buildPhonicsProgression(
   orderedMappingIds: readonly string[],
   expectedLocale: string
 ): PhonicsProgressionItem[] {
+  if (!Array.isArray(mappings)) throw new Error('Phonics progression mappings must be an array');
+  if (!Array.isArray(orderedMappingIds)) throw new Error('Phonics progression mapping ids must be an array');
   if (orderedMappingIds.length < 3 || orderedMappingIds.length > 5) {
     throw new Error('Phonics progression proof requires 3–5 explicitly ordered sounds');
   }
@@ -45,10 +47,16 @@ export function buildPhonicsProgression(
     throw new Error('Phonics progression cannot contain duplicate mapping ids');
   }
 
+  const validatedMappings = mappings.map((mapping) => validatePhonemeGraphemeMapping(mapping));
+  const sourceMappingIds = validatedMappings.map((mapping) => mapping.mappingId);
+  if (new Set(sourceMappingIds).size !== sourceMappingIds.length) {
+    throw new Error('Phonics mapping authority contains duplicate mapping ids');
+  }
+
   const selected = orderedMappingIds.map((mappingId) => {
-    const mapping = resolveValidatedPhonemeMapping(mappings, mappingId);
+    const mapping = resolveValidatedPhonemeMapping(validatedMappings, mappingId);
     if (!mapping) throw new Error(`Missing validated phoneme mapping ${mappingId}`);
-    return validatePhonemeGraphemeMapping(mapping);
+    return mapping;
   });
 
   if (selected.some((mapping) => mapping.locale !== expectedLocale)) {
