@@ -47,7 +47,7 @@ export function validateDiscoveryProjectionRules(
     if (!Array.isArray(rule.canonicalRefs) || rule.canonicalRefs.length === 0) {
       throw new Error(`${ruleId}: canonicalRefs must be non-empty`);
     }
-    const canonicalRefs = rule.canonicalRefs.map((ref, refIndex) =>
+    const canonicalRefs = rule.canonicalRefs.map((ref: string, refIndex: number) =>
       assertStableRef(ref, `${ruleId}.canonicalRefs[${refIndex}]`)
     );
     if (new Set(canonicalRefs).size !== canonicalRefs.length) {
