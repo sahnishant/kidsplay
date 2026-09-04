@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "approvalId": "kidsplay.voice.human-approval.v1",
+  "packId": "kidsplay.voice.candidates.v1",
+  "sourceManifestGitBlobSha": "a4fd36eea03a971eb49e0e7b31598b78435c5592",
+  "approvedAt": "2026-09-04T14:55:00+05:30",
+  "approvedBy": "human_owner",
+  "expected": {
+    "utteranceCount": 39,
+    "bundledBytes": 676114,
+    "measuredDurationMs": 669334
+  },
+  "approvalScope": {
+    "allUtterances": true,
+    "preschoolVoiceQuality": true,
+    "characterVoiceIdentities": true,
+    "promptAndPrereaderVoice": true,
+    "storyNarration": true,
+    "bedtimeCx": true,
+    "offlineDeviceAcceptance": true
+  }
+}
