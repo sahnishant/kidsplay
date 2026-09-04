@@ -38,9 +38,13 @@ describe('Stories V1 production hardening', () => {
     }
   });
 
-  it('keeps machine-authored manuscripts draft-only until explicit editorial review', () => {
-    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'draft')).toBe(true);
-    expect(PUBLISHED_STORIES_V1).toEqual([]);
+  it('publishes only the four manuscripts covered by explicit HUMAN editorial approval', () => {
+    expect(STORY_CANDIDATES_V1).toHaveLength(4);
+    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'reviewed')).toBe(true);
+    expect(PUBLISHED_STORIES_V1).toHaveLength(4);
+    expect(new Set(PUBLISHED_STORIES_V1.map((story) => story.storyId))).toEqual(
+      new Set(STORY_CANDIDATES_V1.map((story) => story.storyId))
+    );
   });
 
   it('keeps Shaitanu humour, Scientu curiosity and Dheu/friends inside the bounded candidate pack', () => {
@@ -159,7 +163,7 @@ describe('Stories V1 production hardening', () => {
     expect(loadStoryResumeState(STORY_CANDIDATES_V1)).toBeNull();
   });
 
-  it('labels duration evidence honestly until #197 supplies measured narration clips', () => {
+  it('keeps authoring-duration estimates labeled as estimates even though production narration has measured clip timing', () => {
     for (const story of STORY_CANDIDATES_V1) {
       expect(analyzeStoryAuthoringMetrics(story).durationEvidence).toBe('word_count_estimate');
     }
