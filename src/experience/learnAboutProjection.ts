@@ -28,14 +28,16 @@ const DEPTH_ORDER: readonly LearnAboutDepthBand[] = [
   'd2_early_primary',
   'd3_deeper_primary'
 ];
+const STABLE_REF = /^[a-z0-9]+(?:[._:#-][a-z0-9]+)*$/i;
 
 function depthAtOrBelow(candidate: LearnAboutDepthBand, selected: LearnAboutDepthBand): boolean {
   return DEPTH_ORDER.indexOf(candidate) <= DEPTH_ORDER.indexOf(selected);
 }
 
 function authorityRefSet(refs: readonly string[], context: string): Set<string> {
+  if (!Array.isArray(refs)) throw new Error(`${context} must be an array`);
   const validated = refs.map((ref, index) => {
-    if (typeof ref !== 'string' || !ref.trim() || /\s/.test(ref)) {
+    if (typeof ref !== 'string' || !STABLE_REF.test(ref)) {
       throw new Error(`${context}[${index}] must be a stable ref`);
     }
     return ref;
