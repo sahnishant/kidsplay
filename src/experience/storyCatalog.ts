@@ -1,4 +1,5 @@
 import storyCandidatesJson from '../../content/stories/v1-candidates.json';
+import { applyStoryV1HumanApproval } from './storyHumanApproval';
 import { resolveStoryLexicalProfile } from './storyLexicalReport';
 import { isStoryPublishable, validateStoryManifest, type StoryManifest } from './storiesContract';
 
@@ -7,14 +8,15 @@ const storyCandidate = (value: unknown): StoryManifest => {
   if (!resolveStoryLexicalProfile(manifest.lexicalProfileRef)) {
     throw new Error(`${manifest.storyId}: unknown story lexical profile ${manifest.lexicalProfileRef}`);
   }
-  return manifest;
+  return applyStoryV1HumanApproval(manifest);
 };
 
 /**
- * Authored candidate manuscripts. The canonical prose lives in
+ * Authored source manuscripts. The canonical prose lives in
  * content/stories/v1-candidates.json so browser Stories can load the same
  * bundled asset without embedding every manuscript in the startup JS chunk.
- * Drafts remain non-publishable until explicit human editorial review.
+ * Human editorial promotion is an explicit, source-pinned overlay; future
+ * draft manuscripts remain non-publishable until separately approved.
  */
 export const STORY_CANDIDATES_V1: readonly StoryManifest[] = (storyCandidatesJson as unknown[]).map(storyCandidate);
 
