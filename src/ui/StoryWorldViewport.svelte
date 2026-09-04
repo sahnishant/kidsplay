@@ -168,8 +168,8 @@
     void tick().then(() => missionCloseButton?.focus());
   }
 
-  function continueAdventure(): void {
-    if (tryAdaptiveContinue()) return;
+  async function continueAdventure(): Promise<void> {
+    if (await tryAdaptiveContinue()) return;
     if (!currentPresentation) return;
     if (currentPresentation.mission) {
       openMission(currentPresentation.mission.id);
