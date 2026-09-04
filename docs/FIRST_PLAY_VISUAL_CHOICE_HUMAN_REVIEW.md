@@ -112,7 +112,25 @@ Human judgment:
 
 Mark: `APPROVE / NEEDS WORK`
 
-### 8. Cause / Effect — Empty → Full
+### 8. Letter → picture — A → Apple
+
+Expected:
+- a very large **A** dominates the cue area;
+- Repeat gives the letter-name association cue **“A ... Apple”**;
+- exactly two large fruit pictures appear: Apple and Orange;
+- visible option labels are not required;
+- positions shuffle;
+- one tap commits immediately;
+- choosing Orange gives the same gentle in-place Scientu retry, then Apple can be selected;
+- this interaction makes **no phoneme claim** and creates no phonics mastery. Explicit phonics remains owned by #199.
+
+Human judgment:
+- Does the child attend to the large letter and pictures without needing the grown-up to explain the controls?
+- Does the association feel like light exposure rather than a reading test?
+
+Mark: `APPROVE / NEEDS WORK`
+
+### 9. Cause / Effect — Empty → Full
 
 Expected:
 - one large empty bucket;
@@ -124,11 +142,12 @@ Mark: `APPROVE / NEEDS WORK`
 
 ## B. Audio-off fallback
 
-Return to a Listen & Find activity and turn sound off using the speaker icon.
+Return to a Listen & Find or letter-picture activity and turn sound off using the speaker icon.
 
 Expected:
 - the target semantic visual appears as a compact visual clue;
-- the child can still complete the interaction without reading;
+- the child can still complete the interaction without reading option labels;
+- the large A remains visible in the letter-picture activity;
 - no network/audio error is exposed as a blocking child state.
 
 Mark: `APPROVE / NEEDS WORK`
@@ -187,7 +206,7 @@ Check:
 - every primary First Play target is materially larger than 44×44 px;
 - two-choice targets are substantially larger than the 3–4 choice targets;
 - no precision drag is required for basic completion;
-- no interaction depends on reading a label;
+- no interaction depends on reading an option label;
 - screen-reader names remain available even where visual text labels are hidden.
 
 Mark: `APPROVE / NEEDS WORK`
@@ -198,6 +217,7 @@ After completing the whole First Play sampler, open grown-up progress.
 
 Expected:
 - First Play exploration/guided actions have not created mastery evidence or changed canonical knowledge state;
+- the A → Apple activity has not created phonics/reading mastery;
 - Picture Play uses the existing canonical evaluator for feedback but this bounded sampler does not introduce progress writes, a second evidence model or a separate store;
 - there is no First-Play-specific progress store or currency.
 
@@ -212,14 +232,14 @@ Use the PR Android debug APK from the green `Android Debug APK` workflow.
 3. Disable Wi-Fi/mobile data.
 4. Relaunch the packaged app.
 5. Enter Play → First Play.
-6. Complete Touch & Discover, Listen & Find, a placement, Full/Empty and Empty→Full.
+6. Complete Touch & Discover, Listen & Find, a placement, Full/Empty, A → Apple and Empty→Full.
 7. Rotate once if the test device permits rotation, then return to portrait.
 8. Kill and relaunch once more offline.
 
 Expected:
 - all visuals and interaction logic remain local;
 - First Play remains usable offline;
-- missing/disabled voice degrades to the visual clue/text accessibility path rather than a blocked activity;
+- missing/disabled voice degrades to the visual clue/accessibility path rather than a blocked activity;
 - no remote asset is required for the sampler.
 
 Mark: `APPROVE / NEEDS WORK`
@@ -244,6 +264,7 @@ Only mark Agent A human acceptance complete when all of the following are true:
 - wrong actions feel safe and recoverable;
 - character reactions help rather than distract;
 - full/empty and cause/effect meanings remain obvious without animation;
+- A → Apple is understandable as light letter-name exposure without pretending to be phonics mastery;
 - the grown-up reviewer finds no ambiguous odd-one-out set;
 - offline packaged Android behavior is acceptable.
 
