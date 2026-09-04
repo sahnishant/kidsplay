@@ -71,7 +71,7 @@ describe('Forest Level-1 human-review polish', () => {
     expect(host).not.toContain('showAnswerFeedbackSplash');
     expect(host).toContain("feedbackMode === 'play'");
     expect(session).toContain("feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}");
-    expect(session).toContain("mood={sessionState.lastResult?.correct ? 'celebrate' : 'thinking'}");
+    expect(session).toContain('<StoryCharacter character={storyReaction.character} mood={storyReaction.mood} motion={storyReaction.motion} />');
     expect(session).toContain('class="inline-reaction"');
     expect(session).toContain('class="next-button"');
   });

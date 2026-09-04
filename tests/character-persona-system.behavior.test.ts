@@ -135,7 +135,7 @@ describe('Character Persona System V1', () => {
       }
     });
 
-    await fireEvent.click(screen.getByRole('button', { name: 'Continue Adventure' }));
+    await fireEvent.click(screen.getByRole('button', { name: 'Continue Forest Explorer Trail' }));
     const persona = () => document.querySelector('.mission-persona');
 
     expect(persona()?.getAttribute('data-speaker')).toBe('shaitanu');
