@@ -38,7 +38,7 @@ describe('First Play demand and evidence contract', () => {
       expect(policy.schemaVersion).toBe(1);
       expect(policy.readingRequired).toBe(false);
       expect(policy.maximumInstructionSteps).toBe(1);
-      expect(policy.maximumInitialChoices).toBe(2);
+      expect(policy.maximumInitialChoices).toBe(stage === 'fp0_touch_discover' ? 0 : 2);
       expect(policy.primaryTargetScale).toBe('oversized');
       expect(policy.wrongActionRecovery).toBe('in_place');
       expect(policy.failureModalAllowed).toBe(false);
@@ -52,12 +52,20 @@ describe('First Play demand and evidence contract', () => {
     expect(firstPlayEvidenceMayAffectMastery('evaluative')).toBe(true);
   });
 
-  it('keeps FP0 discovery non-evaluative and FP5 sound/letter exposure below explicit phonics mastery', () => {
+  it('keeps FP0 discovery choice-free/non-evaluative and FP5 sound/letter exposure below explicit phonics mastery', () => {
+    expect(getFirstPlayStagePolicy('fp0_touch_discover').maximumInitialChoices).toBe(0);
     expect(getFirstPlayStagePolicy('fp0_touch_discover').allowedEvidenceClasses).toEqual(['exploration']);
     expect(getFirstPlayStagePolicy('fp5_sound_letter_exposure').allowedEvidenceClasses).toEqual([
       'exploration',
       'guided_practice'
     ]);
+
+    expect(() => validateFirstPlayRecipePolicy(validInput({
+      stage: 'fp0_touch_discover',
+      evidenceClass: 'exploration',
+      initialChoiceCount: 1,
+      action: 'tap'
+    }))).toThrow(/First Play limit of 0/);
 
     expect(() => validateFirstPlayRecipePolicy(validInput({
       stage: 'fp0_touch_discover',
