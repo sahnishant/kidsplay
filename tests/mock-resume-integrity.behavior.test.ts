@@ -73,7 +73,7 @@ describe('mock resume contract integrity', () => {
     expect(screen.queryByRole('heading', { name: 'Pick up where you left off' })).toBeNull();
     await openAssessment();
     expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
 
@@ -104,7 +104,7 @@ describe('mock resume contract integrity', () => {
 
     render(App);
     await openAssessment();
-    await fireEvent.click(screen.getByRole('button', { name: /Continue/ }));
+    await fireEvent.click(await screen.findByRole('button', { name: /Continue/ }));
     expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
 
     await fireEvent.keyDown(window, { key: 'Escape' });
@@ -112,6 +112,6 @@ describe('mock resume contract integrity', () => {
 
     expect(loadMockCheckpoint()?.state.sessionId).toBe('session.back-preserved');
     await openAssessment();
-    expect(screen.getByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
+    expect(await screen.findByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
   });
 });
