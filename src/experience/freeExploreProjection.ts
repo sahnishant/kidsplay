@@ -25,13 +25,19 @@ function validateHistory(row: ReplayActivityHistory): ReplayActivityHistory {
   if (!row || typeof row !== 'object' || Array.isArray(row)) throw new Error('Replay activity history must be an object');
   if (typeof row.activityRef !== 'string' || !STABLE_REF.test(row.activityRef)) throw new Error('activityRef must be a stable ref');
   if (typeof row.available !== 'boolean') throw new Error(`${row.activityRef}.available must be boolean`);
+  const playCount = assertCount(row.playCount, `${row.activityRef}.playCount`);
+  const voluntaryReplayCount = assertCount(row.voluntaryReplayCount, `${row.activityRef}.voluntaryReplayCount`);
+  const completionCount = assertCount(row.completionCount, `${row.activityRef}.completionCount`);
+  const lastPlayedSequence = assertCount(row.lastPlayedSequence, `${row.activityRef}.lastPlayedSequence`);
+  if (voluntaryReplayCount > playCount) throw new Error(`${row.activityRef}.voluntaryReplayCount may not exceed playCount`);
+  if (completionCount > playCount) throw new Error(`${row.activityRef}.completionCount may not exceed playCount`);
   return {
     activityRef: row.activityRef,
     available: row.available,
-    playCount: assertCount(row.playCount, `${row.activityRef}.playCount`),
-    voluntaryReplayCount: assertCount(row.voluntaryReplayCount, `${row.activityRef}.voluntaryReplayCount`),
-    completionCount: assertCount(row.completionCount, `${row.activityRef}.completionCount`),
-    lastPlayedSequence: assertCount(row.lastPlayedSequence, `${row.activityRef}.lastPlayedSequence`)
+    playCount,
+    voluntaryReplayCount,
+    completionCount,
+    lastPlayedSequence
   };
 }
 
