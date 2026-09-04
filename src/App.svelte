@@ -11,6 +11,7 @@
   import type { SessionAttempt } from './contracts/runtime';
   import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
   import { registerAdaptiveContinueHandler } from './runtime/adaptiveContinue';
+  import { loadAdaptiveInterestSignals, recordAdaptiveTopicInterest } from './runtime/adaptiveInterest';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -79,6 +80,7 @@
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
+  let adaptiveInterestSignals = $state(loadAdaptiveInterestSignals());
   let activePlaySurface = $state<FirstPlaySurfaceMode | null>(null);
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
@@ -112,6 +114,10 @@
 
   function handleChildChange(settings: ChildSettings): void {
     child = saveChildSettings(settings);
+  }
+
+  function handleLearnAboutTopicInterest(rootConceptRefs: readonly string[]): void {
+    adaptiveInterestSignals = recordAdaptiveTopicInterest(rootConceptRefs);
   }
 
   function clearActiveSession(): void {
@@ -262,6 +268,7 @@
       currentWorldId: currentPresentation?.location.id ?? null,
       currentWorldTopics: currentPresentation?.location.topicGroups ?? [],
       worldHasProgress: Boolean(storyProgress.updatedAt),
+      interestSignals: adaptiveInterestSignals,
       now: new Date()
     });
     if (!decision.questionIds.length) {
@@ -450,7 +457,11 @@
 {:else}
   {#if learnAboutOpen && LearnAboutView}
     <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef) || storiesOpen}>
-      <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+      <LearnAboutView
+        onExit={requestLearnAboutExit}
+        onStartQuestion={startLearnAboutQuestion}
+        onTopicInterest={handleLearnAboutTopicInterest}
+      />
     </div>
   {/if}
 
