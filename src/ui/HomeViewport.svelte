@@ -16,12 +16,13 @@
   import StoryWorldViewport from './StoryWorldViewport.svelte';
 
   type ChildPrimaryView = 'world' | 'practice';
+  type ChildNavView = ChildPrimaryView | 'stories';
   type GrownUpView = 'progress' | 'goals' | 'programmes';
   type HomeView = ChildPrimaryView | GrownUpView | 'player';
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
-    onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock
+    onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock, onOpenStories
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
@@ -35,6 +36,7 @@
     onStartMission: (missionId: string) => void;
     onExploreLocation: (locationId: string) => void;
     onResumeMock: () => void;
+    onOpenStories: () => void;
   } = $props();
 
   const avatars: Array<{ id: AvatarId; label: string }> = [
@@ -54,16 +56,16 @@
   let goalProgrammeEntries = $derived(catalog.filter((entry) => entry.kind === 'goal_learning'));
   let isGrownUpView = $derived(view === 'progress' || view === 'goals' || view === 'programmes');
 
-  function updateName(event: Event): void {
-    onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value });
-  }
+  function updateName(event: Event): void { onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value }); }
   function closeViewFromBack(): void { view = 'world'; releaseViewBack = null; }
   function openView(next: HomeView): void {
     if (next === view) return;
     if (next === 'world') { requestAppBack(closeViewFromBack); return; }
-    releaseViewBack?.();
-    view = next;
-    releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
+    releaseViewBack?.(); view = next; releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
+  }
+  function openChildArea(next: ChildNavView): void {
+    if (next === 'stories') { releaseViewBack?.(); releaseViewBack = null; onOpenStories(); return; }
+    openView(next);
   }
   function requestWorld(): void { requestAppBack(closeViewFromBack); }
   function startPatternMock(): void { if (patternMockEntryId) onStart(patternMockEntryId); }
@@ -85,15 +87,12 @@
         recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
         {onStartMission} {onExploreLocation} />
     </div>
-    <HomeBottomNav active="world" onOpen={(next: ChildPrimaryView) => openView(next)} />
+    <HomeBottomNav active="world" onOpen={openChildArea} />
   {:else}
     <section class="home-panel-screen" aria-label={`${view} screen`}>
       <header class="panel-topbar">
         <button class="panel-back" type="button" onclick={requestWorld} aria-label="Back to Dheu's world">←</button>
-        <div>
-          <span class="eyebrow">{isGrownUpView ? 'GROWN-UP AREA' : view === 'player' ? 'PLAYER' : 'PLAY'}</span>
-          <h1>{panelTitle()}</h1>
-        </div>
+        <div><span class="eyebrow">{isGrownUpView ? 'GROWN-UP AREA' : view === 'player' ? 'PLAYER' : 'PLAY'}</span><h1>{panelTitle()}</h1></div>
       </header>
 
       {#if isGrownUpView}
@@ -117,10 +116,8 @@
               {/each}
             </div>
             <p class="panel-note">Player choices are saved on this device.</p>
-
             <aside class="catalog-card" aria-label="Grown-up area entry">
-              <strong>For grown-ups</strong>
-              <p>Progress numbers, assessment mocks and curriculum/profile details live here.</p>
+              <strong>For grown-ups</strong><p>Progress numbers, assessment mocks and curriculum/profile details live here.</p>
               <button class="primary-action" type="button" onclick={() => openView('progress')} aria-label="Open grown-up area">Grown-up area</button>
             </aside>
           </section>
@@ -151,10 +148,7 @@
           </section>
         {/if}
       </div>
-
-      {#if view === 'practice'}
-        <HomeBottomNav active="practice" onOpen={(next: ChildPrimaryView) => openView(next)} />
-      {/if}
+      {#if view === 'practice'}<HomeBottomNav active="practice" onOpen={openChildArea} />{/if}
     </section>
   {/if}
 </main>
