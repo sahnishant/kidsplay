@@ -1,6 +1,6 @@
-import animalHomesKnowledge from '../../content/knowledge/animal-homes.json';
-import animalYoungOnesKnowledge from '../../content/knowledge/animal-young-ones.json';
-import earthUniverseKnowledge from '../../content/knowledge/class2-earth-universe.json';
+import animalHomesUrl from '../../content/knowledge/animal-homes.json?url';
+import animalYoungOnesUrl from '../../content/knowledge/animal-young-ones.json?url';
+import earthUniverseUrl from '../../content/knowledge/class2-earth-universe.json?url';
 
 export interface LearnAboutKnowledgeRow {
   rowId: string;
@@ -18,16 +18,7 @@ interface RawKnowledgeSet {
   authoring?: { status?: string };
 }
 
-/**
- * V1 deliberately ships only the reviewed canonical sources consumed by the
- * three production topics. Adding a topic extends this bounded registry rather
- * than eagerly bundling the whole knowledge corpus into the child shell.
- */
-const BOUNDED_LEARN_ABOUT_KNOWLEDGE_SOURCES: readonly unknown[] = [
-  earthUniverseKnowledge,
-  animalHomesKnowledge,
-  animalYoungOnesKnowledge
-];
+const BOUNDED_LEARN_ABOUT_KNOWLEDGE_URLS = [earthUniverseUrl, animalHomesUrl, animalYoungOnesUrl] as const;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
@@ -66,37 +57,35 @@ function parseRow(value: unknown, sourceSetId: string): LearnAboutKnowledgeRow |
   };
 }
 
-const authoritativeRows = new Map<string, LearnAboutKnowledgeRow>();
-for (const source of BOUNDED_LEARN_ABOUT_KNOWLEDGE_SOURCES) {
-  for (const set of asKnowledgeSets(source)) {
-    if (set.authoring?.status !== 'reviewed') continue;
-    for (const rawRow of set.entries) {
-      const row = parseRow(rawRow, set.id);
-      if (!row || authoritativeRows.has(row.rowId)) continue;
-      authoritativeRows.set(row.rowId, row);
+/** Pure extractor shared by production loading and contract tests. */
+export function extractReviewedLearnAboutKnowledge(sources: readonly unknown[]): LearnAboutKnowledgeRow[] {
+  const rows = new Map<string, LearnAboutKnowledgeRow>();
+  for (const source of sources) {
+    for (const set of asKnowledgeSets(source)) {
+      if (set.authoring?.status !== 'reviewed') continue;
+      for (const rawRow of set.entries) {
+        const row = parseRow(rawRow, set.id);
+        if (row && !rows.has(row.rowId)) rows.set(row.rowId, row);
+      }
     }
   }
+  return [...rows.values()];
 }
 
-export function isAuthoritativeLearnAboutKnowledgeRef(rowId: string): boolean {
-  return authoritativeRows.has(rowId);
+let knowledgePromise: Promise<readonly LearnAboutKnowledgeRow[]> | null = null;
+
+/** Loads the reviewed source files from packaged/local Vite assets; no network service is required. */
+export function loadReviewedLearnAboutKnowledge(): Promise<readonly LearnAboutKnowledgeRow[]> {
+  knowledgePromise ??= Promise.all(BOUNDED_LEARN_ABOUT_KNOWLEDGE_URLS.map(async (url) => {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Learn About canonical knowledge could not be loaded (${response.status})`);
+    return response.json() as Promise<unknown>;
+  })).then((sources) => extractReviewedLearnAboutKnowledge(sources));
+  return knowledgePromise;
 }
 
-export function getAuthoritativeLearnAboutKnowledgeRow(rowId: string): LearnAboutKnowledgeRow | undefined {
-  return authoritativeRows.get(rowId);
-}
-
-export function resolveAuthoritativeLearnAboutKnowledgeRows(
-  rowIds: readonly string[]
-): LearnAboutKnowledgeRow[] {
-  return rowIds.flatMap((rowId) => {
-    const row = authoritativeRows.get(rowId);
-    return row ? [row] : [];
-  });
-}
-
-export function getAuthoritativeLearnAboutKnowledgeRefs(): ReadonlySet<string> {
-  return new Set(authoritativeRows.keys());
+export function indexLearnAboutKnowledge(rows: readonly LearnAboutKnowledgeRow[]): ReadonlyMap<string, LearnAboutKnowledgeRow> {
+  return new Map(rows.map((row) => [row.rowId, row]));
 }
 
 const RELATION_LABELS: Readonly<Record<string, string>> = {
@@ -110,7 +99,6 @@ const RELATION_LABELS: Readonly<Record<string, string>> = {
   has_property: 'is'
 };
 
-/** Grammar only. The subject/object labels and relationship remain owned by the canonical row. */
 export function learnAboutRelationLabel(relation: string): string {
   return RELATION_LABELS[relation] ?? relation.replaceAll('_', ' ');
 }
