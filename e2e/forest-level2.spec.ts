@@ -34,7 +34,7 @@ test('Forest Explorer Level 2 is a persistent creek-repair adventure at 360x640'
 
   const level = page.locator('[data-forest-level="2"]');
   await expect(level).toBeVisible();
-  await expect(page.getByText(/fallen branch has broken the little crossing/i)).toBeVisible();
+  await expect(level.getByText(/fallen branch has broken the little crossing/i)).toBeVisible();
   await expect(page.getByRole('button', { name: /Check Answer/i })).toHaveCount(0);
   await expectStaticReducedMotion(page);
   await expectAllForestButtonsTouchable(page, 'Level 2 opening action');
