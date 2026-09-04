@@ -2,14 +2,11 @@ import type { Question } from '../contracts/question';
 import { resolveQuestionIds } from '../runtime/questionCatalog';
 import { getLearnAboutTopicBinding } from './learnAboutBindings';
 import { getLearnAboutTopic } from './learnAboutCatalog';
+import type { ClueRecord } from './clueContract';
 import type { LearnAboutDepthBand, LearnAboutRecipeFamily } from './learnAboutContract';
 import { indexLearnAboutKnowledge, type LearnAboutKnowledgeRow } from './learnAboutKnowledge';
 import { projectLearnAboutActivities } from './learnAboutProjection';
-import {
-  projectRiddleToSurface,
-  riddleKnowledgeRefs,
-  type RiddleSurfaceProjection
-} from './riddleRuntime';
+import { riddleKnowledgeRefs, riddleToSingleChoiceQuestion } from './riddleRuntime';
 import { LEARN_ABOUT_SHARED_RIDDLES } from './sharedRiddleRecords';
 
 export const LEARN_ABOUT_RUNTIME_ID = 'learn-about-v1' as const;
@@ -21,7 +18,7 @@ export interface LearnAboutRuntimeCard {
   knowledgeRows: readonly LearnAboutKnowledgeRow[];
   evidenceMode: LearnAboutEvidenceMode;
   question?: Question;
-  riddle?: RiddleSurfaceProjection;
+  clue?: ClueRecord;
 }
 
 export interface LearnAboutRuntimeSection {
@@ -112,14 +109,13 @@ export function createLearnAboutRuntimeSession(
         if (evidenceRefs.some((ref) => !section.knowledgeRefs.includes(ref))) {
           throw new Error(`${section.sectionId}: shared clue evidence must be declared by the topic section`);
         }
-        const riddle = projectRiddleToSurface(item, 'learn_about');
         addCard(section.sectionId, {
           cardId: `${section.sectionId}.guess.${guess.clueSetId}`,
           family: 'guess',
           knowledgeRows: resolveRows(evidenceRefs),
           evidenceMode: 'evaluated_question',
-          question: riddle.question,
-          riddle
+          question: riddleToSingleChoiceQuestion(item),
+          clue: item.clue
         });
       }
     }
