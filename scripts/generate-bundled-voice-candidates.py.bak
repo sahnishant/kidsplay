@@ -62,20 +62,14 @@ def duration_ms(path: Path) -> int:
         ["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "default=nw=1:nk=1", str(path)],
         text=True,
     ).strip()
-    if raw:
-        return round(float(raw) * 1000)
-    return 0
+    return round(float(raw) * 1000)
 
 
-def generate_clip(utterance_id: str, relative_path: str, text: str, profile_id: str) -> dict[str, str]:
+def generate_clip(utterance_id: str, relative_path: str, text: str, profile_id: str) -> dict[str, object]:
     profile = PROFILES[profile_id]
     output = OUTPUT_ROOT / relative_path
     output.parent.mkdir(parents=True, exist_ok=True)
-    
-    # Prepare the intermediate WAV file for espeak
     wav = output.with_suffix(".wav")
-    
-    # 1. Generate clean speech from text using espeak
     subprocess.run(
         [
             "espeak",
@@ -89,73 +83,85 @@ def generate_clip(utterance_id: str, relative_path: str, text: str, profile_id: 
         stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
-    
-    # 2. Compress to Opus using ffmpeg
-    # Fixes the 'missing output path' issue from the original logic
-    # Assumes 'output' is the final destination (e.g. .ogg)
     subprocess.run(
         [
             "ffmpeg", "-hide_banner", "-loglevel", "error", "-y",
-            "-i", str(wav),
-            "-ac", "1",
-            "-ar", "24000",
-            "-c:a", "libopus",
-            "-b:a", "8k",
-            "-vbr", "on",
-            "-compression_level", "10",
-            "-application", "voip",
-            str(output),
+            "-i", str(wav), "-ac", "1", "-ar", "24000",
+            "-c:a", "libopus", "-b:a", "8k", "-vbr", "on",
+            "-compression_level", "10", "-application", "voip", str(output),
         ],
         check=True,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
     )
-    
+    wav.unlink(missing_ok=True)
+    payload = output.read_bytes()
     return {
-        "utterance_id": utterance_id,
-        "path": str(output),
-        "duration_ms": duration_ms(output),
-        "profile": profile_id,
-        "text": text,
+        "id": utterance_id,
+        "bundledSrc": f"/audio/kidsplay-v1/{relative_path}",
+        "durationMs": duration_ms(output),
+        "bytes": len(payload),
+        "sha256": hashlib.sha256(payload).hexdigest(),
+        "reviewStatus": "candidate",
+        "generatorProfile": profile_id,
     }
 
 
-def build_manifest() -> None:
-    manifest_entries: list[dict[str, str]] = []
+def main() -> int:
+    for tool in ("espeak", "ffmpeg", "ffprobe"):
+        require_tool(tool)
 
-    # Process story outputs
-    for name, (folder_relative, profile) in STORY_OUTPUT.items():
-        # Ensure folder structure exists in output root
-        folder_path = OUTPUT_ROOT / folder_relative
-        folder_path.mkdir(parents=True, exist_ok=True)
-        
-        # Get text for the story based on name pattern (simplified lookup)
-        # Mapping story names to text strings is handled via external dict or logic
-        # Here we map the 'name' to the 'text' from a helper or default
-        text = f"Story: {name}" 
-        entry = generate_clip(name, folder_relative, text, profile)
-        manifest_entries.append(entry)
+    stories = json.loads(STORIES_PATH.read_text(encoding="utf-8"))
+    by_id = {story["storyId"]: story for story in stories}
+    if set(by_id) != set(STORY_OUTPUT):
+        raise RuntimeError("V1 story catalogue changed; update candidate narration production mapping explicitly")
 
-    # Process non-story (character/common) outputs
-    for name, relative, text, profile in NON_STORY:
-        entry = generate_clip(name, relative, text, profile)
-        manifest_entries.append(entry)
+    entries: list[dict[str, object]] = []
+    for utterance_id, relative_path, text, profile_id in NON_STORY:
+        entries.append(generate_clip(utterance_id, relative_path, text, profile_id))
 
-    # Write to manifest
-    with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
-        json.dump(manifest_entries, f, indent=2)
+    story_summaries: dict[str, dict[str, int]] = {}
+    for story_id, (directory, profile_id) in STORY_OUTPUT.items():
+        story = by_id[story_id]
+        generated: list[dict[str, object]] = []
+        for index, beat in enumerate(story["beats"], start=1):
+            utterance_id = f"{story_id}.beat-{index:02d}"
+            relative_path = f"{directory}/beat-{index:02d}.ogg"
+            generated.append(generate_clip(utterance_id, relative_path, beat["text"], profile_id))
+        entries.extend(generated)
+        story_summaries[story_id] = {
+            "clipCount": len(generated),
+            "durationMs": sum(int(item["durationMs"]) for item in generated),
+            "bytes": sum(int(item["bytes"]) for item in generated),
+        }
+
+    if len(entries) != 39:
+        raise RuntimeError(f"Expected exactly 39 V1 candidate utterances, generated {len(entries)}")
+
+    manifest = {
+        "schemaVersion": 1,
+        "packId": "kidsplay.voice.candidates.v1",
+        "codec": "ogg_opus",
+        "reviewStatus": "candidate",
+        "humanApprovalRequired": True,
+        "generator": {
+            "engine": "espeak",
+            "encoder": "ffmpeg-libopus",
+            "sampleRateHz": 24000,
+            "targetBitrate": "8k",
+        },
+        "summary": {
+            "utteranceCount": len(entries),
+            "bundledBytes": sum(int(item["bytes"]) for item in entries),
+            "measuredDurationMs": sum(int(item["durationMs"]) for item in entries),
+            "projectedPackageImpactBytes": sum(int(item["bytes"]) for item in entries),
+            "stories": story_summaries,
+        },
+        "entries": entries,
+    }
+    MANIFEST_PATH.parent.mkdir(parents=True, exist_ok=True)
+    MANIFEST_PATH.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(json.dumps(manifest["summary"], indent=2))
+    return 0
 
 
 if __name__ == "__main__":
-    require_tool("espeak")
-    require_tool("ffmpeg")
-    
-    # Ensure output root exists
-    OUTPUT_ROOT.mkdir(parents=True, exist_ok=True)
-    
-    build_manifest()
-    print(f"Candidate manifest generated at: {MANIFEST_PATH.resolve()}")
-    
-    # Print a checksum for the router to identify this specific batch
-    checksum = hashlib.md5(MANIFEST_PATH.read_bytes()).hexdigest()
-    print(f"Batch ID: {checksum}")
+    sys.exit(main())
