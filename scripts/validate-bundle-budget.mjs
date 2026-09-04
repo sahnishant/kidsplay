@@ -9,10 +9,13 @@ const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
   maxTotalJsBytes: 760 * 1024,
-  // Learn About V1 is a lazily loaded product route (~8 KiB gzip). Keep the
-  // primary/single-chunk limit unchanged while accounting for that bounded route.
-  maxTotalJsGzipBytes: 164 * 1024,
-  maxTotalCssBytes: 100 * 1024
+  // Learn About V1 and Stories V1 are lazily loaded child product routes.
+  // Keep the startup/single-chunk ceiling unchanged; the aggregate allowance
+  // records the reviewed package cost of those two bounded routes.
+  maxTotalJsGzipBytes: 170 * 1024,
+  // Stories owns a bounded, lazy child-reader sheet. The 102 KiB aggregate
+  // ceiling records that reviewed route cost without loosening JS startup caps.
+  maxTotalCssBytes: 102 * 1024
 };
 
 function kib(bytes) {
