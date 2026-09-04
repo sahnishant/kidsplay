@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
@@ -8,6 +9,7 @@ import {
   getStoryCandidate,
   storyWordCount
 } from '../src/experience/storyCatalog';
+import { STORY_V1_HUMAN_APPROVAL } from '../src/experience/storyHumanApproval';
 import {
   buildStoryLexicalReport,
   resolveStoryLexicalProfile,
@@ -35,11 +37,22 @@ describe('Stories V1 candidate pack', () => {
     expect(STORY_CANDIDATES_V1.some((story) => story.beats.some((beat) => beat.characterIds.includes('dheu')))).toBe(true);
   });
 
-  it('keeps every machine-authored candidate draft-only until explicit editorial review', () => {
-    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'draft')).toBe(true);
-    expect(PUBLISHED_STORIES_V1).toEqual([]);
-    expect(getPublishedStory('story.dheu.moonlit-leaf')).toBeUndefined();
-    expect(getStoryCandidate('story.dheu.moonlit-leaf')?.editorialStatus).toBe('draft');
+  it('pins HUMAN editorial approval to the exact source manuscripts and publishes all four approved stories', () => {
+    const sourcePath = resolve(process.cwd(), 'content', 'stories', 'v1-candidates.json');
+    const sourceBytes = readFileSync(sourcePath);
+    const sourceStories = JSON.parse(sourceBytes.toString('utf8')) as Array<{ storyId: string; editorialStatus: string }>;
+    const gitBlobSha = createHash('sha1')
+      .update(Buffer.from(`blob ${sourceBytes.length}\0`))
+      .update(sourceBytes)
+      .digest('hex');
+
+    expect(gitBlobSha).toBe(STORY_V1_HUMAN_APPROVAL.sourceManifestGitBlobSha);
+    expect(sourceStories.every((story) => story.editorialStatus === 'draft')).toBe(true);
+    expect(new Set(STORY_V1_HUMAN_APPROVAL.approvedStoryIds)).toEqual(new Set(sourceStories.map((story) => story.storyId)));
+    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'reviewed')).toBe(true);
+    expect(PUBLISHED_STORIES_V1).toHaveLength(4);
+    expect(getPublishedStory('story.dheu.moonlit-leaf')?.editorialStatus).toBe('reviewed');
+    expect(getStoryCandidate('story.dheu.moonlit-leaf')?.editorialStatus).toBe('reviewed');
   });
 
   it('spans two neutral measurement-only lexical frequency bands and two duration bands', () => {
@@ -60,7 +73,7 @@ describe('Stories V1 candidate pack', () => {
     expect(STORY_CANDIDATES_V1.every((story) => storyWordCount(story) > 20)).toBe(true);
   });
 
-  it('produces conservative numeric lexical reports without claiming editorial or developmental approval', () => {
+  it('produces conservative numeric lexical reports without claiming developmental authority', () => {
     const entries = primaryCorpusEntries();
     const reports = STORY_CANDIDATES_V1.map((story) => buildStoryLexicalReport(story, entries));
 
