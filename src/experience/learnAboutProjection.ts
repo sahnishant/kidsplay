@@ -33,6 +33,17 @@ function depthAtOrBelow(candidate: LearnAboutDepthBand, selected: LearnAboutDept
   return DEPTH_ORDER.indexOf(candidate) <= DEPTH_ORDER.indexOf(selected);
 }
 
+function authorityRefSet(refs: readonly string[], context: string): Set<string> {
+  const validated = refs.map((ref, index) => {
+    if (typeof ref !== 'string' || !ref.trim() || /\s/.test(ref)) {
+      throw new Error(`${context}[${index}] must be a stable ref`);
+    }
+    return ref;
+  });
+  if (new Set(validated).size !== validated.length) throw new Error(`${context} contains duplicates`);
+  return new Set(validated);
+}
+
 /**
  * Projects topic navigation into non-evaluative activities while failing closed
  * around canonical truth. It never copies fact prose or answer keys into Learn About.
@@ -44,18 +55,19 @@ export function projectLearnAboutActivities(
 ): ProjectedLearnAboutActivity[] {
   const topic = validateLearnAboutTopic(rawTopic);
   if (!DEPTH_ORDER.includes(selectedDepth)) throw new Error(`Invalid Learn About depth ${String(selectedDepth)}`);
-  const admitted = new Set(authority.admittedKnowledgeRefs);
-  const supportedRelationships = new Set(authority.supportedRelationshipRefs ?? []);
+  const admitted = authorityRefSet(authority.admittedKnowledgeRefs, 'admittedKnowledgeRefs');
+  const supportedRelationships = authorityRefSet(authority.supportedRelationshipRefs ?? [], 'supportedRelationshipRefs');
 
   return topic.sections.flatMap((section) => {
     const activeAtDepth = section.depthBands.some((band) => depthAtOrBelow(band, selectedDepth));
     if (!activeAtDepth) return [];
     const admittedSectionRefs = section.knowledgeRefs.filter((ref) => admitted.has(ref));
+    const admittedSupportedRelationshipRefs = admittedSectionRefs.filter((ref) => supportedRelationships.has(ref));
 
     return section.recipeFamilies.flatMap((family): ProjectedLearnAboutActivity[] => {
       if (family === 'guess' || family === 'practice') return [];
       if (family === 'did_you_know' && admittedSectionRefs.length === 0) return [];
-      if ((family === 'compare' || family === 'try_it') && !section.knowledgeRefs.some((ref) => supportedRelationships.has(ref))) {
+      if ((family === 'compare' || family === 'try_it') && admittedSupportedRelationshipRefs.length === 0) {
         return [];
       }
 
