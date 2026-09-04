@@ -5,214 +5,191 @@ This is the repo-local work checkpoint for `sahnishant/kidsplay`.
 **Durable control plane:**
 - GitHub **#1** — canonical high-level orchestration and current active checkpoint;
 - GitHub **#174** — child game-feel/product laws;
-- GitHub **#210** — operational 120-pass gameplay execution programme;
+- GitHub **#210** — operational **132-pass** gameplay execution programme;
 - `docs/GAMEPLAY_ROADMAP.md` — concise repo-local roadmap, ownership matrix and branch rules.
 
-If this document conflicts with GitHub, **#1 wins for high-level activation and #210 wins for the pass programme**. When the checkbox body in #210 lags behind a recently merged tranche, use the most recent explicit execution-checkpoint comment on #210 until the body is reconciled.
+If this document conflicts with GitHub, **#1 wins for high-level activation and #210 wins for the pass programme**. Do not reopen merged work merely because an older issue body or document still shows an unchecked box.
 
-## Current integrated baseline — 2026-09-04
+## Reconciled production baseline — 2026-09-04
 
-- Canonical integrated branch: `main`.
-- Current `main`: `9065690278d22bc03294de0993a1a957dc7188c2` — Stories V1 hardening PR #231 merge.
-- There are **no open pull requests** at this checkpoint.
-- Important integrated child-product sequence since the older #193 checkpoint:
-  - #204 — Character Persona System V1 merged; #196 is closed completed;
-  - #225/#227 — shared gameplay contracts and machine gameplay wave integrated;
-  - #233 — stale Forest acceptance assertions repaired against the current runtime contract;
-  - #230 — bounded Riddle Time R0/R2 production-candidate/evidence tranche merged;
-  - #231 — bounded Stories manuscript/persistence hardening merged.
-- Exact final #230 and #231 heads each passed Windows, Browser/Playwright and packaged/offline Android before merge.
+This document is reconciled from production `main` at `36b0a31ef429af905aa51fdccb1fef176bf96be6` before this documentation-only reconciliation branch. The docs merge may advance the `main` SHA without changing child runtime behavior.
 
-The SHA above is a **checkpoint**, not a long-lived branch name. Always fetch current `main` before starting implementation.
+At that production baseline:
+- there are **no open pull requests**;
+- #196 Character Persona V1 is merged/closed;
+- #227 shared gameplay-machine foundations are merged;
+- #239 Learn About V1 is merged: one generic surface runs **Earth, Lion and Fire Station**;
+- Forest Explorer **L2/L3** is merged and has recorded HUMAN CX approval;
+- #247 First Play + Visual Scene Choice / Which Doesn't Belong? production engineering is merged;
+- bundled playful voice + Stories V1 are merged on `36b0a31…`;
+- the approved bounded voice pack contains 39 stable utterances with deterministic bundled -> explicit local/offline voice -> text fallback;
+- four Stories V1 manuscripts and their narrated child surface have recorded HUMAN manuscript/bedtime/offline-device approval;
+- G1 Trace & Discover has recorded HUMAN first-production approval.
 
-## Current child-product truth
+## Current product truth
 
-### #192 — G1 Trace & Discover
-Engineering is integrated/certified. Explicit HUMAN first-production visual/CX acceptance remains separately tracked in #192; do not infer human acceptance from CI.
+### First Play / visual choice — engineering complete, HUMAN child gate still open
 
-### #196 / #204 — Character Persona System V1
-Integrated and closed. Dheu, Scientu and Shaitanu persona contracts/rendering are reusable foundations; do not reopen or fork them merely because an older roadmap paragraph still calls #204 active.
+The production sampler and visual-choice surface are merged. Passes **021–045** are engineering-complete: zero-reading presentation, explicit evidence classes, no-mastery exploration, two-choice Listen & Find, forgiving drag/snap, cause/effect, semantic contrast, canonical concept reuse, character reactions, visual-dominant 2/3/4-choice layouts, semantic distractors, odd-one-out uniqueness, shuffled positions and 360x640 browser proof.
 
-### #227 — shared machine gameplay foundations
-Integrated. It supplied/reconciled reusable contracts for areas including First Play/replay policy, G2-style assembly mechanics, Learn About projection, riddle placement, Stories contracts/catalog/lexical reporting and phonics progression. Later product slices must consume these foundations rather than rebuilding parallel systems.
+The separate review artifact still records:
+- `HUMAN FIRST PLAY ACCEPTANCE: PENDING`;
+- `HUMAN VISUAL-CHOICE ACCEPTANCE: PENDING`.
 
-### #208 — Riddle Time
-Requested machine slice is integrated through #230:
-- four R0 zero-reading/two-visual riddle candidates;
-- four R2 semantic-inference candidates;
-- canonical candidate-universe uniqueness validation;
-- first-attempt/retry evidence proof;
-- same clue contract projected into Play / Learn About / Adventure through the existing evaluator.
+Do not convert engineering/CI success into a claimed real 2–3-year-old acceptance.
 
-**Editorial boundary:** machine-authored riddle wording/age fit remains `draft`. Broader R1/R3/R4/R5 corpus work and HUMAN visual/CX/editorial acceptance remain open programme work.
+### #207 Learn About V1 — production implementation merged
 
-### #205 — Stories
-Requested machine slice is integrated through #231:
-- two real bounded calm bedtime manuscripts (>300 words each);
-- Shaitanu humour, Scientu curiosity and Dheu/friends coverage;
-- canonical lexical-profile reuse;
-- manuscript-derived duration diagnostics clearly marked `word_count_estimate`;
-- durable story/beat/completed/favourite persistence with fail-closed corruption handling;
-- no learning mastery/accuracy writes from story reading state.
+Earth, Lion and Fire Station run through one generic topic system with:
+- ordered knowledge spine;
+- D0/D1/D2/D3+ depth selection;
+- Explore / Look & Touch;
+- contextual Did You Know where canonical authority exists;
+- shared Guess;
+- Compare / Try It where supported;
+- existing practice/quiz projection;
+- non-evaluative topic exploration that does not inflate mastery;
+- 360x640/offline child proof.
 
-**Editorial/audio boundary:** all current manuscripts remain `editorialStatus: draft`; the published V1 list remains empty. #197 still owns bundled playful narration/voice production. Actual measured story narration duration and full Stories-surface packaged process-kill/resume acceptance are not complete.
+Broader topic scaling remains downstream of explicit product/content review.
 
-### #197 — bundled playful voice
-Still open/planned. Do not represent device-local speech, manuscript timing estimates or generic Android offline smoke as a completed bundled child voice pack.
+### #208 Riddle Time — architecture valid, original content rejected
 
-## Integrated product foundations — do not rebuild
+The shared `ClueRecord`/Guess architecture, semantic uniqueness validation, first-attempt evidence behavior and cross-surface reuse proof remain valid and integrated.
 
-- Canonical learning flow remains `knowledge -> planner/profile -> formatter/question -> reusable engine -> evaluator -> local progress`.
-- Story/presentation sits above learning truth and does not own answers.
-- Immediate committed-answer submission/feedback loop is integrated.
-- #173 honest retry/scaffolding preserves first-attempt evidence.
-- #175 is the only offline-safe child audio runtime + Repeat + sound preference authority.
-- Child/adult UI separation is integrated; `Continue Adventure` dominates Home.
-- Progress-derived visible world consequences are integrated.
-- #185 Forest Explorer Level 1 + reusable experience recipe is integrated and HUMAN-approved.
-- #8 is the interactive Story World / mission graph authority.
-- #76/#84/#114 provide semantic sense/relationship/visual presentation authority.
-- Existing `single_choice@1` supports semantic visuals, shuffled options and immediate one-tap submission.
-- `trace_path@1` and shared machine gameplay contracts are integrated.
-- Windows, Browser/Playwright and packaged/offline Android gates are permanent.
+However, the original eight #230 R0/R2 production candidates were **HUMAN REJECTED on 2026-09-04**. They have no publication/editorial authority and must never be promoted. Replacement Riddle production must be materially different/original while reusing the existing clue/evaluator/audio/semantic architecture. Broader R1/R3/R4/R5 work remains open.
 
-## Child product model
+### #192 / #198 — manipulation + world depth
 
-Home keeps **Continue Adventure** dominant. Secondary child intents are:
+- G1 Trace & Discover: merged and HUMAN-approved.
+- G2 assembly mechanics: merged and used by production world work.
+- G3 practical-life and G4 cause/effect contracts: merged foundations.
+- Forest Explorer L2/L3: merged, persistent, and HUMAN-approved.
 
-1. **Adventure** — guided missions/world progression/campaigns.
-2. **Play** — free practice, manipulation, riddles, replay and creative/rest play.
-3. **Learn About** — topic-first exploration/depth.
-4. **Stories** — calm authored listening/reading/imagination with no mandatory assessment.
+Next world-depth work is transfer of the same reusable recipe to **Town Square** and **Scientu Lab**, not another level-specific engine.
 
-First Play (#206) is cross-cutting, not another Home tab. Appropriate content can lower demand through:
+### #197 + #205 — bundled voice and Stories V1
 
-`touch/hear -> listen/find -> match -> put/sort/build -> concrete concept -> sound/letter exposure`.
+Merged production baseline now includes:
+- 39 stable semantic utterance IDs and physically bundled spoken clips;
+- measured bytes, durations and hashes;
+- deterministic bundled -> local/offline voice -> accessible text fallback;
+- Repeat/cancel and persistent sound preference through #175;
+- 27 measured story narration beats;
+- four approved V1 manuscripts;
+- exact beat/favourite resume after browser reload and packaged Android airplane-mode force-stop/relaunch;
+- no Story correctness/mastery writes.
 
-## Product dependency order
+Human approval records cover preschool voice quality, character identity, story narration, bedtime CX and offline-device acceptance for this bounded V1 pack.
 
-The product dependency order remains:
+### #200 Discovery Book / #199 literacy
+
+Foundational contracts exist, and Forest already emits deterministic discoveries. Remaining product work is the fuller child-facing Discovery Book/Adventure Mail surface plus a real sound-first literacy vertical:
+
+`hear -> discriminate -> object/word -> grapheme -> recognition -> spelling/reading`.
+
+### #209 Across the World
+
+Route/destination control-plane contracts already exist. Production breadth is still open:
+1. preserve the existing near/local Story World;
+2. build the India proof (Delhi / Agra / carefully reviewed Ayodhya city scope + a nature/community stop);
+3. reuse existing First Play/manipulation/riddle/Learn About/discovery systems;
+4. obtain HUMAN/content acceptance;
+5. prove one international destination through the same contracts before broad catalogue scaling.
+
+### #235 adaptive experience routing — next major engineering vertical
+
+This is now the highest-leverage unbuilt cross-cutting product layer. Build a deterministic local router over #173 evidence with bounded reasons:
+
+`continue_world | new_frontier | review_due | recovery | confidence | interest | variety`
+
+Required laws:
+- assisted success remains distinct from independent first-try success;
+- explicit versioned spaced-review intervals and deterministic fixed-clock tests;
+- due review may be deferred when it does not fit the world/mission;
+- recipe variety prevents repeated near-identical MCQs;
+- Story/Learn About/Explore exposure cannot refresh mastery/retrieval clocks;
+- same due concept can return through multiple existing recipe families;
+- no second mastery/progress/recommendation/content store;
+- child UI never exposes weak-topic/mastery-percent/overdue/streak/XP management chrome.
+
+## Effective remaining roadmap
 
 ```text
-First Play / visual-choice / reusable manipulation foundations
--> #197 bundled playful voice proof
--> Learn About production depth
--> Riddle production breadth
--> Stories published/audio-complete V1
--> G3/G4 practical-life + cause/effect
--> deeper Forest/Town/Lab worlds
--> Discovery Book + sound-first literacy
--> Across the World India proof
--> one international transfer proof
--> replay/creative rest
--> parent session controls
+reconcile control plane/docs (this tranche)
++ complete pending HUMAN First Play / visual-choice acceptance
++ replace rejected Riddle production content through the existing contract
+        ↓
+#235 adaptive experience routing bounded proof
+        ↓
+#200 Discovery Book + #199 sound-first literacy production proof
+        ↓
+#198 Town Square + Scientu Lab transfer
+        ↓
+#209 Across the World — India proof
+        ↓
+one international transfer proof
+        ↓
+#201 replay / creative rest
+        ↓
+#202 parent session controls
 ```
 
-Several **machine contracts** from later rows have already landed through #227/#230/#231. That does not waive unresolved product dependencies, human gates, editorial authority or #197 audio acceptance.
+Riddle/Learn About/story/topic breadth may scale in bounded reviewed batches in parallel when it does not collide with the active child-shell/runtime branch.
 
-Issue #210 owns the numbered pass programme. Before opening a branch, reconcile its checkbox body with its latest checkpoint comments and current `main`.
+## Architecture authorities — do not duplicate
 
-## Architecture authorities
-
-- #8 — interactive Story World/mission graph.
+- #8 — interactive Story World / mission graph.
 - #173 — first-attempt/retry/scaffold/mastery evidence.
-- #175 — audio runtime.
-- #197 — bundled voice/audio production only.
+- #175 — audio playback/runtime.
+- #197 — bundled voice/audio production.
 - #51 — reviewed child vocabulary/meaning authority.
 - #76/#84/#114 — semantic senses/relationships/visual meaning.
-- #192 — reusable toy/manipulation families.
+- #192 — reusable manipulation families.
 - #196 — Dheu/Scientu/Shaitanu persona vocabulary/renderer.
-- #206 — First Play interaction-demand tier; no toddler truth/evaluator/progress store.
-- #203 — visual-selection/odd-one-out recipes over existing evaluator.
-- #207 — topic-first projection; no encyclopedia/fact bank.
-- #208 — riddle/clue recipe/content; no second evaluator.
-- #205 — calm story manuscripts/library/read persistence; no mission/mastery runtime.
-- #200 — deterministic discovery projection; no currency/fact bank.
-- #209 — route/destination Adventure campaign; no geography game engine/vehicle simulator.
+- #206 — First Play interaction-demand tier.
+- #203 — visual selection / odd-one-out presentation and semantic rules.
+- #207 — Learn About topic projection.
+- #208 — Riddle/clue content and projection; no second evaluator.
+- #205 — calm story manuscripts/library/read state; no mission/mastery runtime.
+- #235 — deterministic adaptive selection policy over existing evidence.
+- #200 — deterministic discovery projection.
+- #209 — route/destination Adventure campaign.
 
-## File-ownership matrix
+Same canonical knowledge should generate many experiences. Do not create duplicate question banks, toddler truth banks, topic fact stores, destination evaluators, story mastery, another audio/story/progress runtime, or a separate adaptive-learning truth store.
 
-| Area | Canonical owner | Typical files | Do not duplicate with |
-| --- | --- | --- | --- |
-| Child shell / Home / session presentation | #1/#174 activation + existing UI | `src/App.svelte`, `src/ui/**`, child surface CSS | parallel product shells or dashboard forks |
-| Interactive Story World graph | #8 | story mission/world data/runtime | Stories library or Learn About mission graphs |
-| Retry/mastery evidence | #173 | session/progress/evidence runtime | per-feature score/progress stores |
-| Audio runtime | #175 | `src/runtime/childAudio*` | second story/riddle/audio player |
-| Bundled voice assets/manifest | #197 | audio manifests/assets/pipeline | component-local speech file paths |
-| Semantic meaning/visuals | #76/#84/#114 | semantic registries/presenters | per-mode fact/visual truth banks |
-| Character personas | #196 | persona registry/renderer/reactions | per-story character renderers |
-| Manipulation families | #192 | mechanics/engine contracts | level-specific bespoke evaluators |
-| Learn About | #207 | topic projection/contracts | encyclopedia/fact duplication |
-| Riddles | #208 | clue/riddle content/projection | separate answer engine |
-| Stories | #205 | story manuscripts/contracts/read state | mission graph or mastery system |
-| Geography campaign | #209 | route/destination projection | vehicle simulator/geography engine |
-| Orchestration/docs | #1/#174/#210 | `README.md`, `docs/WORK_TARGETS.md`, `docs/GAMEPLAY_ROADMAP.md` | chat-only roadmaps |
+## Branch activation / retirement
 
-If an intended change crosses two active ownership rows, stop and reconcile ownership on #1 before opening competing implementation branches.
-
-## Branch activation / retirement rules
-
-1. `main` is the only canonical integrated baseline; always branch from current `main` unless an issue explicitly names an existing branch to continue.
-2. A planning issue is not branch permission.
-3. #1 controls overlapping product activation; #174 supplies product laws; #210 supplies the pass queue.
-4. Before creating a branch, inspect open PRs and surviving branches for overlapping ownership.
-5. Prefer one branch at a time for the same child shell/session/story/presentation/audio surface.
-6. Explicitly disjoint docs, control-plane, validation and independent authority/content work may run in parallel.
-7. Reuse merged contracts. Do not create compatibility wrappers around a duplicate subsystem merely to avoid touching the canonical one.
-8. Every implementation PR records base SHA, exact final head, relevant permanent gates and remaining HUMAN/editorial boundaries.
-9. After merge, treat the branch as retired; delete/close stale refs when tooling/permissions allow. PR/issue history is the durable record.
-10. Never use a branch being HUMAN-reviewed as a dumping ground for unrelated roadmap work.
-11. Keep `engineering complete`, `integrated`, `HUMAN accepted`, `audio accepted` and `editorially authoritative` separate.
+1. `main` is the only canonical integrated baseline.
+2. Always inspect open PRs and surviving branches before creating a branch.
+3. A planning issue is not branch permission.
+4. #1 activates overlapping product work; #174 supplies product laws; #210 supplies the pass queue.
+5. Prefer one branch at a time where child shell/session/story/presentation/audio ownership overlaps.
+6. Disjoint docs/control-plane/validation and authority/content work may run in parallel.
+7. Reuse merged contracts; do not wrap a duplicate subsystem for convenience.
+8. Every production PR records base SHA, exact final head, permanent gates and unresolved HUMAN/editorial boundaries.
+9. Retire feature branches after merge; issue/PR history is the durable record.
+10. Keep `engineering complete`, `integrated`, `HUMAN accepted`, `audio accepted` and `editorially authoritative` separate.
 
 ## Ongoing independent authority/content lanes
 
 ### #51 — primary vocabulary editorial production
-Continue bounded human/editorial production without allowing corpus grade/frequency, AI drafts or gameplay usage to impersonate human meaning/profile-placement authority.
+Continue bounded human/editorial production. AI drafts, corpus grade/frequency and gameplay usage cannot impersonate human wording/sense/profile-placement authority.
 
 ### #76 — semantic visual vocabulary + intelligent animation at scale
-Continue exact-sense review, semantic depth and reusable scene/visual maturity through the existing generic control plane. Gameplay consumes this authority; it does not create parallel semantic truth.
+Continue exact-sense resolution, reusable scene grammars and V3–V6 semantic depth. Gameplay consumes this authority instead of creating parallel semantic truth.
 
 ### SOF / profile work
-Assessment/provenance remains distinct from the gameplay roadmap. Official source evidence, profile placement and product game-feel must not be conflated.
+Assessment provenance and profile placement remain separate from gameplay. Never infer official board/exam authority from gameplay, corpus placement or semantic metadata.
 
-## Permanent product laws
+## Permanent acceptance law
 
-- Play first, assessment second.
-- The child should do things to the world, not merely answer cards.
-- A committed tap/drag/action should react immediately; avoid redundant `Check Answer`.
-- Preschool visual selection should let semantic meaning dominate the viewport.
-- Progress should change/reveal/unlock meaningful world state; avoid coin/XP grind.
-- Exploration/hearing/animation/story exposure is not mastery evidence.
-- Same canonical knowledge should generate multiple experiences; no duplicate fact/question banks.
-- Random distractors are not difficulty; use controlled semantic contrasts.
-- First Play must work without reading, with one-step intent, forgiving targets and gentle in-place recovery.
-- Structured assessment answer safety remains non-negotiable.
-- Published child facts/riddles/stories are deterministic/reviewable; no core runtime cloud/LLM requirement.
-- Age/profile is a routing hint only, not proof of ability or mastery.
-- Prefer lightweight SVG/CSS/semantic composition over heavy 3D/game runtimes.
-- Reduced-motion/static meaning must remain complete.
-
-## Release / acceptance law
-
-Every new child-facing family may be engineered before human acceptance, but it must not broadly scale until its first production use has:
-
+Before broad scaling of a new child-facing family:
 1. focused contract/unit tests;
-2. representative 360x640 Browser/Playwright child journey;
+2. representative 360x640 Browser/Playwright journey;
 3. Windows/full check;
 4. relevant semantic/vocabulary/content gates;
 5. packaged Android offline first launch/relaunch/rotation;
-6. unchanged bundle budget unless explicitly justified;
+6. bundle-budget measurement;
 7. accessibility + sound-off where relevant + reduced-motion/static meaning;
-8. explicit HUMAN visual/CX review of the exact production behavior.
-
-Keep `engineering complete`, `integrated`, `HUMAN accepted`, `audio accepted` and `editorially authoritative` as separate statuses.
-
-## Current immediate work
-
-At this checkpoint there is no open implementation PR. Safe next work should be selected from the **current reconciled #210 queue**, with these constraints:
-- finish repo/orchestrator hygiene before creating more chat-only roadmap state;
-- prefer bounded readiness/control-plane work that consumes the merged #227 contracts;
-- #197 bundled voice remains a real dependency for audio-complete pre-reader/Stories production;
-- broad Riddle/Stories scaling remains behind editorial/HUMAN gates;
-- continue genuinely independent #51/#76 authority/content work only through their existing factories/queues;
-- do not reopen core learning architecture, add another evaluator/progress store/audio runtime/story graph, or introduce a heavy game framework without a demonstrated failing use case and explicit #1 decision.
+8. explicit HUMAN visual/CX review of the exact first production behavior.
