@@ -28,7 +28,7 @@ async function expectViewportContained(page: Page): Promise<void> {
 async function storageSnapshot(page: Page): Promise<Record<string, string>> {
   return page.evaluate(() => Object.fromEntries(
     Array.from({ length: localStorage.length }, (_, index) => localStorage.key(index))
-      .filter((key): key is string => Boolean(key))
+      .filter((key): key is string => Boolean(key) && key !== 'kidsplay.adaptive-interest.v1')
       .sort()
       .map((key) => [key, localStorage.getItem(key) ?? ''])
   ));
@@ -55,6 +55,9 @@ test.describe('Learn About V1 production journey', () => {
 
     await page.getByRole('button', { name: 'Explore Earth' }).first().click();
     await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /Earth is a planet/i })).toBeVisible();
+    // Explicit topic choice may write a non-mastery adaptive-interest signal. The
+    // Learn About contract is that passive exploration does not write learning/
+    // mastery evidence, so exclude that separate preference signal here.
     expect(await storageSnapshot(page)).toEqual(beforeDiscovery);
 
     await page.getByRole('button', { name: /D2\s*Connect/ }).click();

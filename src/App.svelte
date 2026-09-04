@@ -3,12 +3,15 @@
   import {
     createSessionForCatalogEntry,
     getCatalogEntries,
+    getFreePackQuestions,
     getGoalReadiness,
     type SessionLaunch
   } from './content';
   import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
   import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
+  import { registerAdaptiveContinueHandler } from './runtime/adaptiveContinue';
+  import { loadAdaptiveInterestSignals, recordAdaptiveTopicInterest } from './runtime/adaptiveInterest';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -42,8 +45,13 @@
     summarizeSectionResults,
     type SessionState
   } from './runtime/session';
-  import { createStoryMissionLaunch } from './story/storyDirector';
+  import {
+    createStoryMissionLaunch,
+    getStoryLocations,
+    getStoryMissions
+  } from './story/storyDirector';
   import { createStoryLocationLaunch } from './story/storyLocationDirector';
+  import { buildStoryLocationPresentation } from './story/storyPresentation';
   import {
     loadStoryProgress,
     recordStoryLocationCompletion,
@@ -59,15 +67,27 @@
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
+  const adaptiveQuestionBank = [...new Map(
+    catalog
+      .filter((entry) => entry.kind === 'free_explore')
+      .flatMap((entry) => getFreePackQuestions(entry.id))
+      .map((question) => [question.id, question] as const)
+  ).values()];
+  const adaptiveQuestionById = new Map(adaptiveQuestionBank.map((question) => [question.id, question]));
+  const storyLocations = getStoryLocations();
+  const storyMissions = getStoryMissions();
   const forestViewport = import('./ui/ForestWorldDepthViewport.svelte');
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
+  let adaptiveInterestSignals = $state(loadAdaptiveInterestSignals());
   let activePlaySurface = $state<FirstPlaySurfaceMode | null>(null);
   let activeSession = $state<SessionLaunch | null>(null);
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
   let activeStoryLocation = $state<StoryLocation | null>(null);
+  let pendingAdaptiveMissionId = $state<string | null>(null);
+  let pendingAdaptiveQuestionId = $state<string | null>(null);
   let learnAboutOpen = $state(false);
   let LearnAboutView = $state<LearnAboutComponent | null>(null);
   let storiesOpen = $state(false);
@@ -90,9 +110,14 @@
   );
 
   onMount(() => installAppBackNavigation());
+  onMount(() => registerAdaptiveContinueHandler(tryStartAdaptiveExperience));
 
   function handleChildChange(settings: ChildSettings): void {
     child = saveChildSettings(settings);
+  }
+
+  function handleLearnAboutTopicInterest(rootConceptRefs: readonly string[]): void {
+    adaptiveInterestSignals = recordAdaptiveTopicInterest(rootConceptRefs);
   }
 
   function clearActiveSession(): void {
@@ -109,6 +134,11 @@
     activePlaySurface = null;
     startError = null;
     releaseSessionBack = null;
+  }
+
+  function clearPendingAdaptiveMission(): void {
+    pendingAdaptiveMissionId = null;
+    pendingAdaptiveQuestionId = null;
   }
 
   function enterSessionBackBoundary(
@@ -201,24 +231,107 @@
     }
   }
 
+  function questionFitsMission(question: Question, mission: StoryMission): boolean {
+    if (mission.worldActionRef) return false;
+    const missionRefs = new Set(mission.knowledgeRefs);
+    return (question.knowledgeRefs ?? []).some((rowId) => missionRefs.has(rowId));
+  }
+
+  function weavePendingAdaptiveQuestion(missionId: string, launch: SessionLaunch): SessionLaunch {
+    if (pendingAdaptiveMissionId !== missionId || !pendingAdaptiveQuestionId || !launch.questions.length) return launch;
+    const adaptiveQuestion = adaptiveQuestionById.get(pendingAdaptiveQuestionId);
+    clearPendingAdaptiveMission();
+    if (!adaptiveQuestion) return launch;
+
+    const questions = [
+      adaptiveQuestion,
+      ...launch.questions.filter((question) => question.id !== adaptiveQuestion.id)
+    ].slice(0, launch.questions.length);
+    return { ...launch, questions };
+  }
+
+  async function tryStartAdaptiveExperience(): Promise<boolean> {
+    const { decideAdaptiveExperience } = await import('./runtime/adaptiveRouting');
+    const currentPresentation = buildStoryLocationPresentation(
+      storyLocations,
+      storyMissions,
+      storyProgress,
+      progressSummary.recommendedTopics
+    ).find((item) => item.state === 'current') ?? null;
+    const currentMission = currentPresentation?.mission ?? null;
+    const routingQuestionBank = currentMission
+      ? adaptiveQuestionBank.filter((question) => questionFitsMission(question, currentMission))
+      : adaptiveQuestionBank;
+    const decision = decideAdaptiveExperience({
+      progress,
+      questionBank: routingQuestionBank,
+      currentWorldId: currentPresentation?.location.id ?? null,
+      currentWorldTopics: currentPresentation?.location.topicGroups ?? [],
+      worldHasProgress: Boolean(storyProgress.updatedAt),
+      interestSignals: adaptiveInterestSignals,
+      now: new Date()
+    });
+    if (!decision.questionIds.length) {
+      clearPendingAdaptiveMission();
+      return false;
+    }
+
+    const questions = decision.questionIds
+      .map((questionId) => adaptiveQuestionById.get(questionId))
+      .filter((question): question is Question => Boolean(question));
+    if (!questions.length) {
+      clearPendingAdaptiveMission();
+      return false;
+    }
+
+    if (currentMission) {
+      clearPendingAdaptiveMission();
+      if (questionFitsMission(questions[0], currentMission)) {
+        pendingAdaptiveMissionId = currentMission.id;
+        pendingAdaptiveQuestionId = questions[0].id;
+      }
+      // Mission coherence wins. A compatible adaptive beat is consumed when the
+      // child starts the mission; an incompatible due beat remains due for later.
+      return false;
+    }
+
+    enterSessionBackBoundary('adaptive-adventure');
+    activePlaySurface = null;
+    activeSession = {
+      id: `adaptive.${decision.kind}.${decision.conceptId ?? currentPresentation?.location.id ?? 'world'}`,
+      mode: 'free_explore',
+      title: currentPresentation?.location.expeditionTitle ?? 'Adventure clue',
+      questions
+    };
+    activeEntryId = null;
+    activeStoryMission = null;
+    activeStoryLocation = null;
+    initialSessionState = undefined;
+    startError = null;
+    return true;
+  }
+
   function startStoryMission(missionId: string): void {
     try {
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
+      const session = weavePendingAdaptiveQuestion(missionId, launch.session);
       enterSessionBackBoundary();
       activePlaySurface = null;
-      activeSession = launch.mission.worldActionRef ? null : launch.session;
+      activeSession = launch.mission.worldActionRef ? null : session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
       activeEntryId = null;
       initialSessionState = undefined;
       startError = null;
     } catch (error) {
+      clearPendingAdaptiveMission();
       startError = error instanceof Error ? error.message : 'This story mission could not be started.';
     }
   }
 
   function startStoryLocation(locationId: string): void {
     try {
+      clearPendingAdaptiveMission();
       const launch = createStoryLocationLaunch(locationId, progress.knowledge);
       enterSessionBackBoundary();
       activePlaySurface = null;
@@ -344,7 +457,11 @@
 {:else}
   {#if learnAboutOpen && LearnAboutView}
     <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef) || storiesOpen}>
-      <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+      <LearnAboutView
+        onExit={requestLearnAboutExit}
+        onStartQuestion={startLearnAboutQuestion}
+        onTopicInterest={handleLearnAboutTopicInterest}
+      />
     </div>
   {/if}
 
