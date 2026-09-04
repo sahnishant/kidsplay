@@ -1,7 +1,8 @@
+import storyCandidatesJson from '../../content/stories/v1-candidates.json';
 import { resolveStoryLexicalProfile } from './storyLexicalReport';
 import { isStoryPublishable, validateStoryManifest, type StoryManifest } from './storiesContract';
 
-const storyCandidate = (value: StoryManifest): StoryManifest => {
+const storyCandidate = (value: unknown): StoryManifest => {
   const manifest = validateStoryManifest(value);
   if (!resolveStoryLexicalProfile(manifest.lexicalProfileRef)) {
     throw new Error(`${manifest.storyId}: unknown story lexical profile ${manifest.lexicalProfileRef}`);
@@ -10,166 +11,12 @@ const storyCandidate = (value: StoryManifest): StoryManifest => {
 };
 
 /**
- * Authored candidate manuscripts. These remain draft until explicit human
- * editorial review; engineering validity must never promote publication state.
+ * Authored candidate manuscripts. The canonical prose lives in
+ * content/stories/v1-candidates.json so browser Stories can load the same
+ * bundled asset without embedding every manuscript in the startup JS chunk.
+ * Drafts remain non-publishable until explicit human editorial review.
  */
-export const STORY_CANDIDATES_V1: readonly StoryManifest[] = [
-  storyCandidate({
-    schemaVersion: 1,
-    storyId: 'story.dheu.moonlit-leaf',
-    childTitle: 'The Moonlit Leaf',
-    seriesId: 'stories.dheu-friends',
-    editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.frequency-band-1',
-    durationBand: 'bedtime_story',
-    supportedModes: ['read_to_me', 'read_together'],
-    beats: [
-      {
-        beatId: 'moonlit-leaf.1',
-        text: 'The day had been warm, but the evening was cool. Dheu walked home along the little forest path. She was not in a hurry. The birds had stopped calling one by one, and the trees made soft sounds when the breeze moved through their leaves. Near her shoe, Dheu saw one small leaf shining in the last light.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.2',
-        text: 'The leaf was brown at the edges and gold in the middle. Dheu picked it up very gently. She turned it over in her hand and looked at the thin lines running from the stem to the tip. “You look like a tiny map,” she whispered. Then she tucked the leaf into the front pocket of her backpack so it would not bend.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.3',
-        text: 'At home, Dheu washed her hands and put away her shoes. She carried the backpack to the window and opened the pocket. The leaf was still safe. Outside, the sky had grown deep blue. A round moon had risen above the trees. Its light fell across the window sill and made a quiet silver patch beside Dheu.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.4',
-        text: 'Dheu placed the leaf in the silver patch. For a moment it looked different. The brown edges seemed soft, and the gold middle seemed almost warm. Dheu brought over her favourite smooth pebble and set it beside the leaf. She did not need them to do anything. She simply liked having two small things from happy days near her.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.5',
-        text: 'The room became quieter. A curtain moved a little. Somewhere far away, a dog barked once and then stopped. Dheu could hear the tiny sounds that busy daytime usually hid. She heard the soft tap of a branch, the slow hum of the fan, and her own backpack settling against the wall after a long day of adventures.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.6',
-        text: 'Dheu climbed into bed and pulled the blanket up to her chin. She could still see the leaf from her pillow. It did not shine by itself. It was only resting in the moonlight. Dheu liked that. Some things did not need to flash or dance to be special. Some things could simply be still and remind her of where she had been.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.7',
-        text: 'She thought about the path, the cool air, and the trees above her. Tomorrow there might be another trail to follow, another funny problem from Shaitanu, or another question that made Scientu say, “Hmm.” But none of those things had to happen now. Tomorrow could wait quietly on the other side of sleep.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.8',
-        text: 'Dheu closed her eyes for a while, then opened them once more. The moon had moved a little higher. The leaf and pebble were still there. “Good night, path,” she murmured. “Good night, leaf. Good night, moon.” She smiled because the room felt safe, familiar, and calm. Then she let her eyes close again.',
-        characterIds: ['dheu']
-      },
-      {
-        beatId: 'moonlit-leaf.9',
-        text: 'The fan kept humming. The curtain kept breathing in and out with the breeze. On the window sill, the small leaf rested beside the smooth pebble until the moonlight slowly slipped away. Dheu did not see that part. She was already asleep, carrying the quiet forest path into a gentle dream.',
-        characterIds: ['dheu']
-      }
-    ],
-    assessmentPolicy: 'none',
-    masteryWritesAllowed: false
-  }),
-  storyCandidate({
-    schemaVersion: 1,
-    storyId: 'story.friends.quiet-backpack',
-    childTitle: 'The Quiet Backpack',
-    seriesId: 'stories.dheu-friends',
-    editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.frequency-band-1',
-    durationBand: 'bedtime_story',
-    supportedModes: ['read_to_me', 'read_together'],
-    beats: [
-      {
-        beatId: 'quiet-backpack.1',
-        text: 'Dheu, Scientu, and Shaitanu had finished a long day of exploring. Their shoes were dusty, their water bottles were nearly empty, and Dheu’s backpack looked round and lumpy from all the little things they had carried. Nobody wanted one more big adventure. Even Shaitanu agreed that the evening felt like a time for slow steps.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.2',
-        text: 'They sat together on the floor and opened the backpack. First came a folded map. Dheu smoothed it with both hands. Next came Scientu’s tiny magnifying glass. He wiped one dusty spot from the handle and put it into its cloth pouch. Then came a smooth stone, two pencils, a ribbon, and one biscuit crumb that made everyone laugh.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.3',
-        text: 'Shaitanu reached deep into the bag and pulled out a sock. “Aha!” he announced. “The rare forest sock!” Dheu looked at him. Scientu looked at the sock. Shaitanu tried to keep a serious face, but his cheeks puffed up and he began to giggle. “Fine,” he said. “It is my sock. I was wondering where it went.”',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.4',
-        text: 'They put the sock with Shaitanu’s things and kept unpacking. Nothing needed to be perfect. They only made a small place for each thing. Map with maps. Pencil with pencils. Bottle by the sink. Magnifying glass in its pouch. The more they put away, the lighter the backpack became, until it could finally sit upright without falling over.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.5',
-        text: 'Scientu found one tiny feather caught near the zipper. He held it up and wondered which bird had dropped it. For a second he looked ready to begin a long investigation. Then he yawned. “That question can wait for morning,” he said. Dheu nodded. Shaitanu carefully placed the feather in a little tray so they would remember it tomorrow.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.6',
-        text: 'Dheu zipped the empty backpack halfway closed. The zipper made a soft zzzip. Shaitanu copied the sound in a whisper. “Zzzip.” Scientu copied him. Soon all three were whispering silly little backpack sounds: zzzip, plop, tap, hush. Their game became quieter and quieter until the last sound was only a breathy “hmmm.”',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.7',
-        text: 'They carried their blankets to the sleeping room. Dheu chose the bed near the window. Scientu put his pouch on the small table where he could find it tomorrow. Shaitanu checked his cape twice, then checked his sock once, just to make everyone laugh again. This time the laugh was small and sleepy.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.8',
-        text: 'Outside, the world was still awake in tiny ways. Leaves moved. A night insect chirped. Somewhere water trickled over stones. Inside, no one needed to solve anything. Dheu whispered good night. Scientu answered, “Good night.” Shaitanu said, “Good night, rare forest sock,” and Dheu had to hide one last smile under her blanket.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      },
-      {
-        beatId: 'quiet-backpack.9',
-        text: 'Soon the room was quiet. The backpack waited by the wall, light and ready for another day. The map was folded, the feather was safe, and every small thing had a place. Dheu, Scientu, and Shaitanu slept without knowing what tomorrow would bring. They did not need to know yet. Tonight, being together was enough.',
-        characterIds: ['dheu', 'scientu', 'shaitanu']
-      }
-    ],
-    assessmentPolicy: 'none',
-    masteryWritesAllowed: false
-  }),
-  storyCandidate({
-    schemaVersion: 1,
-    storyId: 'story.shaitanu.cape-trouble',
-    childTitle: 'Shaitanu and the Wobbly Cape',
-    seriesId: 'stories.shaitanu',
-    editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.frequency-band-2',
-    durationBand: 'tiny_tale',
-    supportedModes: ['read_to_me', 'read_together', 'i_can_read'],
-    beats: [
-      { beatId: 'cape-trouble.1', text: 'Shaitanu swept into the room wearing his cape sideways. He had tied one end too high and the other too low, but he announced that this was the newest heroic style.', characterIds: ['shaitanu'] },
-      { beatId: 'cape-trouble.2', text: 'He tried a grand turn. The cape wrapped around his own elbow. Shaitanu turned again to escape it, which only made the knot wobble behind him like a confused tail.', characterIds: ['shaitanu'] },
-      { beatId: 'cape-trouble.3', text: 'Dheu laughed and offered to help. Shaitanu stood very still while she loosened the knot. “I was testing whether the cape could catch me,” he explained. “The answer is yes.”', characterIds: ['dheu', 'shaitanu'] },
-      { beatId: 'cape-trouble.4', text: 'When the cape was straight again, Shaitanu bowed as if everything had gone exactly as planned. Then he walked carefully out of the room without trying another turn.', characterIds: ['dheu', 'shaitanu'] }
-    ],
-    assessmentPolicy: 'none',
-    masteryWritesAllowed: false
-  }),
-  storyCandidate({
-    schemaVersion: 1,
-    storyId: 'story.scientu.tiny-question',
-    childTitle: 'Scientu’s Tiny Question',
-    seriesId: 'stories.scientu',
-    editorialStatus: 'draft',
-    lexicalProfileRef: 'lexical.story.frequency-band-2',
-    durationBand: 'tiny_tale',
-    supportedModes: ['read_to_me', 'read_together', 'i_can_read'],
-    beats: [
-      { beatId: 'tiny-question.1', text: 'Scientu spotted a shiny button under the table. It was small, round, and blue. He picked it up and turned it over in his fingers.', characterIds: ['scientu'] },
-      { beatId: 'tiny-question.2', text: '“Hmm,” he said. “Who might this belong to?” He did not know, and that made the tiny button much more interesting.', characterIds: ['scientu'] },
-      { beatId: 'tiny-question.3', text: 'Dheu and Scientu looked at coats, bags, and pockets without rushing. They found many buttons, but none were the same bright blue.', characterIds: ['dheu', 'scientu'] },
-      { beatId: 'tiny-question.4', text: 'Shaitanu arrived with his cape flapping behind him. Dheu noticed a little empty thread near the edge. Scientu held up the blue button.', characterIds: ['dheu', 'scientu', 'shaitanu'] },
-      { beatId: 'tiny-question.5', text: '“Mystery solved,” Scientu said. Shaitanu grinned. The answer had been simple, but Scientu still liked the question. Small questions, he decided, could lead to good little adventures.', characterIds: ['dheu', 'scientu', 'shaitanu'] }
-    ],
-    assessmentPolicy: 'none',
-    masteryWritesAllowed: false
-  })
-];
+export const STORY_CANDIDATES_V1: readonly StoryManifest[] = (storyCandidatesJson as unknown[]).map(storyCandidate);
 
 export const PUBLISHED_STORIES_V1: readonly StoryManifest[] = STORY_CANDIDATES_V1.filter(isStoryPublishable);
 
@@ -182,5 +29,8 @@ export function getPublishedStory(storyId: string): StoryManifest | undefined {
 }
 
 export function storyWordCount(manifest: StoryManifest): number {
-  return manifest.beats.reduce((count, beat) => count + beat.text.trim().split(/\s+/u).filter(Boolean).length, 0);
+  return manifest.beats.reduce(
+    (count, beat) => count + beat.text.trim().split(/\s+/u).filter(Boolean).length,
+    0
+  );
 }
