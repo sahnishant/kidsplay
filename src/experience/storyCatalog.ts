@@ -1,7 +1,7 @@
 import { resolveStoryLexicalProfile } from './storyLexicalReport';
-import { validateStoryManifest, type StoryManifest } from './storiesContract';
+import { isStoryPublishable, validateStoryManifest, type StoryManifest } from './storiesContract';
 
-const story = (value: StoryManifest): StoryManifest => {
+const storyCandidate = (value: StoryManifest): StoryManifest => {
   const manifest = validateStoryManifest(value);
   if (!resolveStoryLexicalProfile(manifest.lexicalProfileRef)) {
     throw new Error(`${manifest.storyId}: unknown story lexical profile ${manifest.lexicalProfileRef}`);
@@ -9,12 +9,17 @@ const story = (value: StoryManifest): StoryManifest => {
   return manifest;
 };
 
-export const STORIES_V1: readonly StoryManifest[] = [
-  story({
+/**
+ * Authored candidate manuscripts. Drafts may be machine-tested but must not be
+ * exposed by published-story selectors until explicit editorial review occurs.
+ */
+export const STORY_CANDIDATES_V1: readonly StoryManifest[] = [
+  storyCandidate({
     schemaVersion: 1,
     storyId: 'story.dheu.moonlit-leaf',
     childTitle: 'The Moonlit Leaf',
     seriesId: 'stories.dheu-friends',
+    editorialStatus: 'draft',
     lexicalProfileRef: 'lexical.story.preschool.simple',
     durationBand: 'bedtime_story',
     supportedModes: ['read_to_me', 'read_together'],
@@ -27,11 +32,12 @@ export const STORIES_V1: readonly StoryManifest[] = [
     assessmentPolicy: 'none',
     masteryWritesAllowed: false
   }),
-  story({
+  storyCandidate({
     schemaVersion: 1,
     storyId: 'story.friends.quiet-backpack',
     childTitle: 'The Quiet Backpack',
     seriesId: 'stories.dheu-friends',
+    editorialStatus: 'draft',
     lexicalProfileRef: 'lexical.story.preschool.simple',
     durationBand: 'bedtime_story',
     supportedModes: ['read_to_me', 'read_together'],
@@ -44,11 +50,12 @@ export const STORIES_V1: readonly StoryManifest[] = [
     assessmentPolicy: 'none',
     masteryWritesAllowed: false
   }),
-  story({
+  storyCandidate({
     schemaVersion: 1,
     storyId: 'story.shaitanu.cape-trouble',
     childTitle: 'Shaitanu and the Wobbly Cape',
     seriesId: 'stories.shaitanu',
+    editorialStatus: 'draft',
     lexicalProfileRef: 'lexical.story.early-reader.simple',
     durationBand: 'tiny_tale',
     supportedModes: ['read_to_me', 'read_together', 'i_can_read'],
@@ -60,11 +67,12 @@ export const STORIES_V1: readonly StoryManifest[] = [
     assessmentPolicy: 'none',
     masteryWritesAllowed: false
   }),
-  story({
+  storyCandidate({
     schemaVersion: 1,
     storyId: 'story.scientu.tiny-question',
     childTitle: 'Scientu’s Tiny Question',
     seriesId: 'stories.scientu',
+    editorialStatus: 'draft',
     lexicalProfileRef: 'lexical.story.early-reader.simple',
     durationBand: 'tiny_tale',
     supportedModes: ['read_to_me', 'read_together', 'i_can_read'],
@@ -79,8 +87,14 @@ export const STORIES_V1: readonly StoryManifest[] = [
   })
 ];
 
-export function getStory(storyId: string): StoryManifest | undefined {
-  return STORIES_V1.find((manifest) => manifest.storyId === storyId);
+export const PUBLISHED_STORIES_V1: readonly StoryManifest[] = STORY_CANDIDATES_V1.filter(isStoryPublishable);
+
+export function getStoryCandidate(storyId: string): StoryManifest | undefined {
+  return STORY_CANDIDATES_V1.find((manifest) => manifest.storyId === storyId);
+}
+
+export function getPublishedStory(storyId: string): StoryManifest | undefined {
+  return PUBLISHED_STORIES_V1.find((manifest) => manifest.storyId === storyId);
 }
 
 export function storyWordCount(manifest: StoryManifest): number {
