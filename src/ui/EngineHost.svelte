@@ -23,6 +23,7 @@
 
   let Engine = $derived(getEngineComponent(question));
   let submissionMode = $derived(feedbackMode === 'play' ? 'auto_when_complete' : 'explicit');
+  let soundFirstPhonics = $derived(question.authoring.source === 'kidsplay-phonics-v1');
 
   function handleSubmit(response: unknown): void {
     const result = checkResponse(response);
@@ -35,5 +36,19 @@
 </script>
 
 {#key question.id}
-  <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
+  {#if soundFirstPhonics}
+    {#await import('./PhonicsAudioGate.svelte') then module}
+      {@const PhonicsAudioGate = module.default}
+      <PhonicsAudioGate
+        {question}
+        {Engine}
+        onSubmit={handleSubmit}
+        {checkResponse}
+        {submissionMode}
+        {soundEnabled}
+      />
+    {/await}
+  {:else}
+    <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
+  {/if}
 {/key}
