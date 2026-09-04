@@ -23,7 +23,10 @@
     summarizeProgress,
     type ChildSettings
   } from './runtime/localProgress';
-  import { getPatternMockContractSignature, getQuestionContractSignature } from './runtime/mockContract';
+  import {
+    getPatternMockContractSignature,
+    getQuestionContractSignature
+  } from './runtime/mockContract';
   import {
     clearMockCheckpoint,
     loadMockCheckpoint,
@@ -55,6 +58,7 @@
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
+  const forestViewport = import('./ui/ForestWorldDepthViewport.svelte');
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
   let storyProgress = $state(loadStoryProgress());
@@ -76,8 +80,8 @@
   let goalReadiness = $derived(
     goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
   );
-  let forestLevelOneSession = $derived(
-    activeStoryMission?.id === 'mission.forest-explorer-trail' || activeStoryLocation?.id === 'forest'
+  let forestStorySession = $derived(
+    activeStoryMission?.locationRef === 'forest' || activeStoryLocation?.id === 'forest'
   );
 
   onMount(() => installAppBackNavigation());
@@ -142,12 +146,7 @@
     releaseSessionBack?.();
     releaseSessionBack = pushAppBackLayer('learn-about-question', clearActiveSession);
     activePlaySurface = null;
-    activeSession = {
-      id: `learn-about:${question.id}`,
-      mode: 'free_explore',
-      title,
-      questions: [question]
-    };
+    activeSession = { id: `learn-about:${question.id}`, mode: 'free_explore', title, questions: [question] };
     activeEntryId = null;
     activeStoryMission = null;
     activeStoryLocation = null;
@@ -176,7 +175,7 @@
       const launch = createStoryMissionLaunch(missionId, progress.knowledge);
       enterSessionBackBoundary();
       activePlaySurface = null;
-      activeSession = launch.session;
+      activeSession = launch.mission.worldActionRef ? null : launch.session;
       activeStoryMission = launch.mission;
       activeStoryLocation = null;
       activeEntryId = null;
@@ -212,12 +211,11 @@
         throw new Error('The assessment or learning-profile contract changed since this mock was saved');
       }
       const questions = resolveQuestionIds(resumableMock.questionIds);
-      if (questions.length !== launch.questions.length) {
-        throw new Error('The saved mock no longer matches the current assessment length');
-      }
+      if (questions.length !== launch.questions.length) throw new Error('The saved mock no longer matches the current assessment length');
       if (getQuestionContractSignature(questions) !== resumableMock.questionSignature) {
         throw new Error('One or more saved questions changed since this mock was saved');
       }
+
       enterSessionBackBoundary();
       activePlaySurface = null;
       activeSession = { ...launch, questions };
@@ -251,19 +249,26 @@
     });
   }
 
+  function handleForestWorldComplete(sessionId: string): void {
+    if (!activeStoryMission?.worldActionRef) return;
+    storyProgress = recordStoryMissionCompletion(activeStoryMission, sessionId);
+  }
+
   function handleSessionComplete(state: SessionState): void {
     if (!activeSession) return;
+
     if (activeStoryMission) {
       storyProgress = recordStoryMissionCompletion(activeStoryMission, state.sessionId);
       return;
     }
+
     if (activeStoryLocation) {
       storyProgress = recordStoryLocationCompletion(activeStoryLocation, state.sessionId);
       return;
     }
-    if (!activeEntryId || (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock')) {
-      return;
-    }
+
+    if (!activeEntryId) return;
+    if (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock') return;
 
     const sections = summarizeSectionResults(activeSession.sections ?? [], state.results);
     const correct = state.results.filter((result) => result.correct).length;
@@ -284,6 +289,7 @@
       maxMarks,
       sections
     });
+
     if (activeSession.mode === 'goal_pattern_mock') {
       clearMockCheckpoint();
       resumableMock = null;
@@ -306,13 +312,23 @@
   {/await}
 {:else}
   {#if learnAboutOpen && LearnAboutView}
-    <div hidden={Boolean(activeSession)}>
+    <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef)}>
       <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
     </div>
   {/if}
 
-  {#if activeSession}
-    <div class="session-host" class:forest-session-host={forestLevelOneSession}>
+  {#if activeStoryMission?.worldActionRef}
+    {#await forestViewport then forestModule}
+      {@const ForestWorldDepthViewport = forestModule.default}
+      <ForestWorldDepthViewport
+        mission={activeStoryMission}
+        childName={child.name}
+        onComplete={handleForestWorldComplete}
+        onExit={requestSessionExit}
+      />
+    {/await}
+  {:else if activeSession}
+    <div class="session-host" class:forest-session-host={forestStorySession}>
       <Session
         title={activeSession.title}
         mode={activeSession.mode}
@@ -353,6 +369,9 @@
       onOpenLearnAbout={openLearnAbout}
       onStartFirstPlay={startFirstPlay}
     />
-    {#if startError}<div class="app-error" role="alert">{startError}</div>{/if}
+
+    {#if startError}
+      <div class="app-error" role="alert">{startError}</div>
+    {/if}
   {/if}
 {/if}
