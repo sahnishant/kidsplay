@@ -57,6 +57,10 @@
   function readableRow(row: LearnAboutKnowledgeRow): string {
     return `${row.subjectLabel} ${learnAboutRelationLabel(row.relation)} ${row.objectLabel}`;
   }
+
+  function startQuestion(question: Question | undefined, title: string): void {
+    if (question) onStartQuestion(question, title);
+  }
 </script>
 
 <main class="learn-about" data-learn-about-view={selectedTopicId ? 'topic' : 'catalog'}>
@@ -164,12 +168,12 @@
                   <div class="clue-list" aria-label="Riddle clues">
                     {#each card.riddle.clue.clues as clue}<p>🧩 {clue.text}</p>{/each}
                   </div>
-                  <button class="question-button" type="button" onclick={() => onStartQuestion(card.question!, `Guess · ${session.childTitle}`)}>Choose an answer</button>
+                  <button class="question-button" type="button" onclick={() => startQuestion(card.question, `Guess · ${session.childTitle}`)}>Choose an answer</button>
                 </article>
               {:else if card.family === 'practice' && card.question}
                 <article class="activity-card">
                   <span class="activity-label">PRACTICE</span>
-                  <button class="question-button" type="button" onclick={() => onStartQuestion(card.question!, `Practice · ${session.childTitle}`)}>Try this question</button>
+                  <button class="question-button" type="button" onclick={() => startQuestion(card.question, `Practice · ${session.childTitle}`)}>Try this question</button>
                 </article>
               {/if}
             {/each}
@@ -182,7 +186,7 @@
 
 <style>
   .learn-about{width:min(760px,100%);height:calc(100dvh - 42px);margin:auto;display:grid;grid-template-rows:auto auto minmax(0,1fr);gap:8px;overflow:hidden;color:var(--ink)}
-  .learn-about__topbar{min-height:54px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;padding:6px 9px;border:1px solid #24303a17;border-radius:16px;background:#fffffff2}.back-button{width:42px;height:42px;border:0;border-radius:13px;background:var(--accent-soft);color:var(--accent);font-size:1.2rem;font-weight:950;cursor:pointer}.eyebrow{color:var(--accent);font-size:.58rem;font-weight:950;letter-spacing:.08em}.learn-about h1{margin:1px 0 0;font-size:clamp(1rem,4vw,1.25rem);line-height:1.05}.topic-icon{font-size:1.75rem}
+  .learn-about__topbar{min-height:58px;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:9px;padding:6px 9px;border:1px solid #24303a17;border-radius:16px;background:#fffffff2}.back-button{width:46px;height:46px;border:0;border-radius:13px;background:var(--accent-soft);color:var(--accent);font-size:1.2rem;font-weight:950;cursor:pointer}.eyebrow{color:var(--accent);font-size:.58rem;font-weight:950;letter-spacing:.08em}.learn-about h1{margin:1px 0 0;font-size:clamp(1rem,4vw,1.25rem);line-height:1.05}.topic-icon{font-size:1.75rem}
   .topic-grid{grid-row:2/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-content:start;overflow:auto;padding:2px}.topic-card{min-height:172px;display:grid;place-items:center;align-content:center;gap:8px;padding:14px;border:2px solid #24303a16;border-radius:22px;background:#fff;box-shadow:0 8px 22px #2533430f;color:var(--ink);font:inherit;cursor:pointer}.topic-card__icon{font-size:3.5rem}.topic-card strong{font-size:1.05rem}.topic-card small{color:var(--muted);font-size:.68rem;font-weight:800}
   .depth-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.depth-button{min-height:48px;display:grid;place-items:center;align-content:center;padding:4px;border:1px solid #24303a1f;border-radius:13px;background:#fff;color:var(--ink);font:inherit;font-size:.67rem;font-weight:850;cursor:pointer}.depth-button span{font-size:.55rem;color:var(--muted)}.depth-button--active{border-color:var(--accent);background:var(--accent-soft);color:var(--accent)}
   .topic-scroll{min-height:0;overflow:auto;padding:1px 3px 18px;scrollbar-gutter:stable}.spine-section{position:relative;margin:0 0 11px;padding:12px;border:1px solid #24303a13;border-radius:19px;background:#ffffffed}.spine-section__header{display:flex;align-items:center;gap:8px}.spine-section h2{margin:0;font-size:.96rem}.spine-dot{width:10px;height:10px;border-radius:99px;background:var(--accent)}.card-stack{display:grid;gap:8px;margin-top:9px}.activity-card{padding:11px;border-radius:16px;background:#f7f9fb}.activity-card--explore{background:#fff8e9}.activity-card--fact{background:#f2f8ff}.activity-card--guess{background:#f6f2ff}.activity-label{display:block;margin-bottom:6px;color:var(--accent);font-size:.59rem;font-weight:950;letter-spacing:.07em}.card-prompt,.canonical-row,.clue-list p,.semantic-reveal{margin:5px 0;font-size:.78rem;line-height:1.35}.touch-row-list{display:flex;flex-wrap:wrap;gap:7px}.touch-row,.neutral-explore,.try-button,.question-button{min-height:48px;border:0;border-radius:14px;font:inherit;font-weight:900;cursor:pointer}.touch-row{min-width:92px;display:flex;align-items:center;justify-content:center;gap:7px;padding:7px 10px;background:#fff}.touch-row span{font-size:1.45rem}.neutral-explore{width:100%;display:grid;place-items:center;gap:2px;padding:8px;background:#fff;color:var(--ink)}.neutral-explore span{font-size:2rem}.semantic-reveal{padding:8px 10px;border-radius:12px;background:#fff;color:var(--ink)}.compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.compare-chip{display:grid;gap:2px;padding:8px;border-radius:12px;background:#fff;font-size:.72rem}.compare-chip span{color:var(--muted)}.try-button{padding:7px 12px;background:#fff;color:var(--accent)}.question-button{width:100%;margin-top:7px;padding:8px 12px;background:var(--accent);color:#fff}.clue-list{display:grid;gap:2px}
