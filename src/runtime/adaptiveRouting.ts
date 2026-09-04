@@ -287,6 +287,14 @@ function selectStrictAlternateForConcept(
   )[0] ?? null;
 }
 
+function questionMatchesConceptSignal(question: Question, conceptSignal: string): boolean {
+  return question.conceptIds.some((conceptId) =>
+    conceptId === conceptSignal
+      || conceptId.startsWith(`${conceptSignal}.`)
+      || conceptSignal.startsWith(`${conceptId}.`)
+  );
+}
+
 function duePriority(kind: ReviewEvidenceKind): number {
   if (kind === 'failed') return 0;
   if (kind === 'assisted' || kind === 'recovered') return 1;
@@ -403,6 +411,16 @@ function selectInterestQuestion(
         topics
       );
       if (alternate) return alternate;
+
+      const conceptCandidates = questionBank.filter((question) =>
+        questionMatchesConceptSignal(question, conceptId) && questionFitsTopics(question, topics)
+      );
+      const unseenConcept = conceptCandidates.filter((question) => !attempted.has(question.id));
+      const conceptPool = unseenConcept.length ? unseenConcept : conceptCandidates;
+      const conceptSelected = [...conceptPool].sort((left, right) =>
+        left.difficulty - right.difficulty || left.id.localeCompare(right.id)
+      )[0];
+      if (conceptSelected) return conceptSelected;
     }
 
     const signalTopics = new Set(signal.topicIds ?? []);
@@ -483,6 +501,11 @@ export function decideAdaptiveExperience(context: AdaptiveRoutingContext): Adapt
     );
   }
 
+  const currentWorldHasLearning = hasCurrentWorldLearning(context.progress, questionBank, topics);
+  if (context.currentWorldId && (!context.worldHasProgress || !currentWorldHasLearning)) {
+    return worldDecision('new_frontier', context.currentWorldId, deferredReviewConceptIds);
+  }
+
   const confidence = selectConfidenceQuestion(
     context.progress,
     reviewStates,
@@ -508,13 +531,6 @@ export function decideAdaptiveExperience(context: AdaptiveRoutingContext): Adapt
   );
   if (interest) {
     return makePracticeDecision('interest', context.currentWorldId, null, interest, deferredReviewConceptIds);
-  }
-
-  if (
-    context.currentWorldId
-      && (!context.worldHasProgress || !hasCurrentWorldLearning(context.progress, questionBank, topics))
-  ) {
-    return worldDecision('new_frontier', context.currentWorldId, deferredReviewConceptIds);
   }
 
   return worldDecision('continue_world', context.currentWorldId, deferredReviewConceptIds);
