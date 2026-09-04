@@ -6,10 +6,12 @@
     getGoalReadiness,
     type SessionLaunch
   } from './content';
+  import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
+    pushAppBackLayer,
     requestAppBack
   } from './runtime/appNavigation';
   import {
@@ -20,10 +22,7 @@
     summarizeProgress,
     type ChildSettings
   } from './runtime/localProgress';
-  import {
-    getPatternMockContractSignature,
-    getQuestionContractSignature
-  } from './runtime/mockContract';
+  import { getPatternMockContractSignature, getQuestionContractSignature } from './runtime/mockContract';
   import {
     clearMockCheckpoint,
     loadMockCheckpoint,
@@ -51,6 +50,8 @@
   import Home from './ui/HomeViewport.svelte';
   import Session from './ui/SessionViewport.svelte';
 
+  type LearnAboutComponent = typeof import('./ui/LearnAboutViewport.svelte')['default'];
+
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
   let child = $state(loadChildSettings());
@@ -60,16 +61,17 @@
   let activeEntryId = $state<string | null>(null);
   let activeStoryMission = $state<StoryMission | null>(null);
   let activeStoryLocation = $state<StoryLocation | null>(null);
+  let learnAboutOpen = $state(false);
+  let LearnAboutView = $state<LearnAboutComponent | null>(null);
   let initialSessionState = $state<SessionState | undefined>(undefined);
   let resumableMock = $state(loadMockCheckpoint());
   let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
   let releaseSessionBack: (() => void) | null = null;
+  let releaseLearnAboutBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
-  let goalReadiness = $derived(
-    goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null
-  );
+  let goalReadiness = $derived(goalProfileRef ? getGoalReadiness(goalProfileRef, progress.knowledge) : null);
   let forestLevelOneSession = $derived(
     activeStoryMission?.id === 'mission.forest-explorer-trail' || activeStoryLocation?.id === 'forest'
   );
@@ -93,6 +95,39 @@
   function enterSessionBackBoundary(): void {
     releaseSessionBack?.();
     releaseSessionBack = enterAppSessionLayer('learning-session', clearActiveSession);
+  }
+
+  async function openLearnAbout(): Promise<void> {
+    try {
+      LearnAboutView ??= (await import('./ui/LearnAboutViewport.svelte')).default;
+      releaseLearnAboutBack?.();
+      learnAboutOpen = true;
+      startError = null;
+      releaseLearnAboutBack = enterAppSessionLayer('learn-about', () => {
+        learnAboutOpen = false;
+        releaseLearnAboutBack = null;
+      });
+    } catch (error) {
+      startError = error instanceof Error ? error.message : 'Learn About could not be opened.';
+    }
+  }
+
+  function requestLearnAboutExit(): void {
+    requestAppBack(() => {
+      learnAboutOpen = false;
+      releaseLearnAboutBack = null;
+    });
+  }
+
+  function startLearnAboutQuestion(question: Question, title: string): void {
+    releaseSessionBack?.();
+    releaseSessionBack = pushAppBackLayer('learn-about-question', clearActiveSession);
+    activeSession = { id: `learn-about:${question.id}`, mode: 'free_explore', title, questions: [question] };
+    activeEntryId = null;
+    activeStoryMission = null;
+    activeStoryLocation = null;
+    initialSessionState = undefined;
+    startError = null;
   }
 
   function startSession(entryId: string): void {
@@ -144,20 +179,15 @@
     if (!resumableMock) return;
     try {
       const launch = createSessionForCatalogEntry(resumableMock.entryId, progress.knowledge);
-      if (launch.mode !== 'goal_pattern_mock') {
-        throw new Error('Only structured long mocks can be resumed');
-      }
+      if (launch.mode !== 'goal_pattern_mock') throw new Error('Only structured long mocks can be resumed');
       if (getPatternMockContractSignature(launch.profileRef) !== resumableMock.sectionSignature) {
         throw new Error('The assessment or learning-profile contract changed since this mock was saved');
       }
       const questions = resolveQuestionIds(resumableMock.questionIds);
-      if (questions.length !== launch.questions.length) {
-        throw new Error('The saved mock no longer matches the current assessment length');
-      }
+      if (questions.length !== launch.questions.length) throw new Error('The saved mock no longer matches the current assessment length');
       if (getQuestionContractSignature(questions) !== resumableMock.questionSignature) {
         throw new Error('One or more saved questions changed since this mock was saved');
       }
-
       enterSessionBackBoundary();
       activeSession = { ...launch, questions };
       activeEntryId = resumableMock.entryId;
@@ -192,19 +222,15 @@
 
   function handleSessionComplete(state: SessionState): void {
     if (!activeSession) return;
-
     if (activeStoryMission) {
       storyProgress = recordStoryMissionCompletion(activeStoryMission, state.sessionId);
       return;
     }
-
     if (activeStoryLocation) {
       storyProgress = recordStoryLocationCompletion(activeStoryLocation, state.sessionId);
       return;
     }
-
-    if (!activeEntryId) return;
-    if (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock') return;
+    if (!activeEntryId || (activeSession.mode !== 'goal_mock' && activeSession.mode !== 'goal_pattern_mock')) return;
 
     const sections = summarizeSectionResults(activeSession.sections ?? [], state.results);
     const correct = state.results.filter((result) => result.correct).length;
@@ -225,7 +251,6 @@
       maxMarks,
       sections
     });
-
     if (activeSession.mode === 'goal_pattern_mock') {
       clearMockCheckpoint();
       resumableMock = null;
@@ -236,6 +261,12 @@
     requestAppBack(clearActiveSession);
   }
 </script>
+
+{#if learnAboutOpen && LearnAboutView}
+  <div hidden={Boolean(activeSession)}>
+    <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+  </div>
+{/if}
 
 {#if activeSession}
   <div class="session-host" class:forest-session-host={forestLevelOneSession}>
@@ -248,12 +279,7 @@
       childAvatar={child.avatar}
       initialState={initialSessionState}
       storyCompletion={activeStoryMission
-        ? {
-          sceneId: activeStoryMission.successSceneRef,
-          text: activeStoryMission.successBeat.text,
-          rewardLabel: activeStoryMission.reward.label,
-          stars: activeStoryMission.reward.stars
-        }
+        ? { sceneId: activeStoryMission.successSceneRef, text: activeStoryMission.successBeat.text, rewardLabel: activeStoryMission.reward.label, stars: activeStoryMission.reward.stars }
         : undefined}
       onAttempt={handleAttempt}
       onCheckpoint={activeSession.mode === 'goal_pattern_mock' ? handleCheckpoint : undefined}
@@ -262,7 +288,7 @@
     />
     <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
   </div>
-{:else}
+{:else if !learnAboutOpen}
   <Home
     {child}
     {catalog}
@@ -276,9 +302,7 @@
     onStartMission={startStoryMission}
     onExploreLocation={startStoryLocation}
     onResumeMock={resumeMock}
+    onOpenLearnAbout={openLearnAbout}
   />
-
-  {#if startError}
-    <div class="app-error" role="alert">{startError}</div>
-  {/if}
+  {#if startError}<div class="app-error" role="alert">{startError}</div>{/if}
 {/if}
