@@ -1,8 +1,4 @@
-import {
-  validateRiddleProductionItem,
-  type RiddleCandidatePresentation,
-  type RiddleProductionItem
-} from './riddleRuntime';
+import type { RiddleCandidatePresentation, RiddleProductionItem } from './riddleRuntime';
 
 const dog = { optionId: 'dog', semanticRef: 'entity.animal.dog', label: 'Dog', visualRefs: ['entity.animal.dog'] } as const satisfies RiddleCandidatePresentation;
 const rabbit = { optionId: 'rabbit', semanticRef: 'entity.animal.rabbit', label: 'Rabbit', visualRefs: ['entity.animal.rabbit'] } as const satisfies RiddleCandidatePresentation;
@@ -11,7 +7,12 @@ const cow = { optionId: 'cow', semanticRef: 'entity.animal.cow', label: 'Cow', v
 const earth = { optionId: 'earth', semanticRef: 'entity.universe.earth', label: 'Earth', visualRefs: ['entity.universe.earth'] } as const satisfies RiddleCandidatePresentation;
 const sun = { optionId: 'sun', semanticRef: 'entity.nature.sun', label: 'Sun', visualRefs: ['entity.nature.sun'] } as const satisfies RiddleCandidatePresentation;
 
-export const RIDDLE_DOG_KENNEL = validateRiddleProductionItem({
+/**
+ * These are the exact shared Riddle Time source records. Their full runtime
+ * validation remains covered by riddleCatalog/tests; Learn About imports the
+ * same typed records without shipping duplicate validators in its lazy route.
+ */
+export const RIDDLE_DOG_KENNEL = {
   clue: {
     schemaVersion: 1,
     clueSetId: 'riddle.r0.dog.kennel',
@@ -26,9 +27,9 @@ export const RIDDLE_DOG_KENNEL = validateRiddleProductionItem({
   },
   conceptIds: ['animals.homes.kennel'],
   candidates: [dog, rabbit]
-});
+} as const satisfies RiddleProductionItem;
 
-export const RIDDLE_COW_CALF_SHED = validateRiddleProductionItem({
+export const RIDDLE_COW_CALF_SHED = {
   clue: {
     schemaVersion: 1,
     clueSetId: 'riddle.r2.cow.calf-shed',
@@ -46,9 +47,9 @@ export const RIDDLE_COW_CALF_SHED = validateRiddleProductionItem({
   },
   conceptIds: ['animals.young-ones.calf', 'animals.homes.cowshed'],
   candidates: [cow, dog, cat]
-});
+} as const satisfies RiddleProductionItem;
 
-export const RIDDLE_EARTH_PLANET_THIRD = validateRiddleProductionItem({
+export const RIDDLE_EARTH_PLANET_THIRD = {
   clue: {
     schemaVersion: 1,
     clueSetId: 'riddle.r2.earth.planet-third',
@@ -66,7 +67,7 @@ export const RIDDLE_EARTH_PLANET_THIRD = validateRiddleProductionItem({
   },
   conceptIds: ['universe.earth.planet', 'universe.planets.earth-position'],
   candidates: [earth, sun]
-});
+} as const satisfies RiddleProductionItem;
 
 /** The bounded existing Riddle Time records consumed by Learn About V1. */
 export const LEARN_ABOUT_SHARED_RIDDLES: readonly RiddleProductionItem[] = [
