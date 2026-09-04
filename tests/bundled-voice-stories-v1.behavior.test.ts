@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
@@ -34,12 +35,14 @@ describe('bundled playful voice + Stories V1 production contract', () => {
     expect(voiceApprovalJson.expected.measuredDurationMs).toBe(669_334);
     expect(new Set(assets.map((asset) => asset.id)).size).toBe(39);
 
-    const candidateManifestPath = join(process.cwd(), 'content', 'audio', 'kidsplay-v1-candidate-manifest.json');
-    const candidateManifestBytes = readFileSync(candidateManifestPath);
-    const gitBlobSha = createHash('sha1')
-      .update(Buffer.from(`blob ${candidateManifestBytes.length}\0`))
-      .update(candidateManifestBytes)
-      .digest('hex');
+    // Approval pins a Git object, not platform-specific checkout bytes. Asking
+    // Git for the committed blob keeps the invariant exact on Windows (CRLF)
+    // and Unix checkouts alike.
+    const gitBlobSha = execFileSync(
+      'git',
+      ['rev-parse', 'HEAD:content/audio/kidsplay-v1-candidate-manifest.json'],
+      { encoding: 'utf8' }
+    ).trim();
     expect(gitBlobSha).toBe(voiceApprovalJson.sourceManifestGitBlobSha);
 
     for (const asset of assets) {
