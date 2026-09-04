@@ -1,5 +1,5 @@
 <script lang="ts">
-  type HomePrimaryView = 'world' | 'practice';
+  type HomePrimaryView = 'world' | 'practice' | 'stories';
 
   let { active = 'world', onOpen }: {
     active?: HomePrimaryView;
@@ -8,7 +8,8 @@
 
   const items: Array<{ id: HomePrimaryView; icon: string; label: string; aria: string }> = [
     { id: 'world', icon: '🗺️', label: 'Adventure', aria: 'Open story world' },
-    { id: 'practice', icon: '🎲', label: 'Play', aria: 'Open practice activities' }
+    { id: 'practice', icon: '🎲', label: 'Play', aria: 'Open practice activities' },
+    { id: 'stories', icon: '🌙', label: 'Stories', aria: 'Open Stories' }
   ];
 </script>
 
@@ -22,9 +23,9 @@
 </nav>
 
 <style>
-  .home-nav{width:min(360px,100%);margin-inline:auto;display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
-  .home-nav__button{min-width:0;min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;padding:5px 10px;border:1px solid #24303a1a;border-radius:14px;background:#fffffff0;color:var(--ink);cursor:pointer}
+  .home-nav{width:min(420px,100%);margin-inline:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .home-nav__button{min-width:0;min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;padding:5px 8px;border:1px solid #24303a1a;border-radius:14px;background:#fffffff0;color:var(--ink);cursor:pointer}
   .home-nav__button--active{background:var(--accent-soft);color:var(--accent)}
   .home-nav__button small{font-weight:900}
-  @media(max-width:650px){.home-nav__button{gap:4px}.home-nav__button small{font-size:.68rem}}
+  @media(max-width:650px){.home-nav__button{gap:3px;padding-inline:5px}.home-nav__button small{font-size:.64rem}}
 </style>
