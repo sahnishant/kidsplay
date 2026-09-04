@@ -5,25 +5,333 @@
       "id": "dheu",
       "role": "hero",
       "displayName": "Dheu",
-      "personalization": { "useSavedChildName": true, "fallbackName": "Dheu" },
+      "personalization": {
+        "useSavedChildName": true,
+        "fallbackName": "Dheu"
+      },
       "pedagogy": "decision_maker",
-      "visualPolicy": "kidsplay_original"
+      "visualPolicy": "kidsplay_original",
+      "persona": {
+        "tagline": "The curious explorer who notices the small things first.",
+        "traits": [
+          "curious",
+          "brave",
+          "kind",
+          "playful",
+          "observant"
+        ],
+        "wants": "Help the world make sense and keep friends, animals and places safe.",
+        "notices": [
+          "tiny movement",
+          "lost or worried creatures",
+          "odd details",
+          "changes in the world"
+        ],
+        "speech": {
+          "rhythm": "Short, childlike and emotionally immediate. Questions and discoveries before explanations.",
+          "signatures": [
+            "Wait...",
+            "Look!",
+            "Can we try again?",
+            "Ooh!"
+          ],
+          "avoids": [
+            "curriculum summaries",
+            "formal classification language",
+            "teacher instructions"
+          ]
+        },
+        "visual": {
+          "palette": {
+            "primary": "#e7b63d",
+            "secondary": "#709746",
+            "accent": "#ef7d5a"
+          },
+          "signatureFeatures": [
+            "tousled dark hair",
+            "leaf hair pin",
+            "small explorer backpack",
+            "orange neckerchief",
+            "big warm eyes"
+          ],
+          "supportedAngles": [
+            "front",
+            "three-quarter-left",
+            "three-quarter-right",
+            "side-left",
+            "side-right"
+          ],
+          "supportedPoses": [
+            "neutral",
+            "inspect",
+            "help",
+            "action",
+            "proud",
+            "thinking"
+          ],
+          "supportedExpressions": [
+            "neutral",
+            "curious",
+            "confused",
+            "excited",
+            "happy-laugh",
+            "helping",
+            "proud",
+            "worried",
+            "surprised",
+            "determined",
+            "wonder",
+            "retry-confident"
+          ],
+          "supportedMotions": [
+            "idle",
+            "bob",
+            "bounce",
+            "head-tilt",
+            "lean-in",
+            "clap",
+            "jump",
+            "point",
+            "inspect",
+            "help",
+            "recoil",
+            "celebrate",
+            "float"
+          ],
+          "defaultAngle": "three-quarter-right",
+          "defaultPose": "neutral",
+          "defaultExpression": "curious",
+          "defaultMotion": "bob"
+        },
+        "relationships": {
+          "scientu": "Trusted science buddy. Dheu is allowed to notice something before Scientu does.",
+          "shaitanu": "Competitive friend and troublesome rival; Dheu pushes back without being mean."
+        }
+      }
     },
     {
       "id": "scientu",
       "role": "guide",
       "displayName": "Scientu",
-      "personalization": { "useSavedChildName": false, "fallbackName": "Scientu" },
+      "personalization": {
+        "useSavedChildName": false,
+        "fallbackName": "Scientu"
+      },
       "pedagogy": "observe_explain_hint",
-      "visualPolicy": "kidsplay_original"
+      "visualPolicy": "kidsplay_original",
+      "persona": {
+        "tagline": "The delighted science buddy who treats every clue like a tiny mystery.",
+        "traits": [
+          "inventive",
+          "curious",
+          "kind",
+          "slightly-nerdy",
+          "patient"
+        ],
+        "wants": "Understand why things happen without stealing the discovery from Dheu.",
+        "notices": [
+          "patterns",
+          "evidence",
+          "cause and effect",
+          "details worth testing"
+        ],
+        "speech": {
+          "rhythm": "Compact observations and hypotheses. Explains after discovery, not before it.",
+          "signatures": [
+            "Hmm...",
+            "Aha!",
+            "What do you notice?",
+            "That clue changes things."
+          ],
+          "avoids": [
+            "lectures",
+            "answer giveaways",
+            "adult praise scripts"
+          ]
+        },
+        "visual": {
+          "palette": {
+            "primary": "#39a9bd",
+            "secondary": "#eef9fb",
+            "accent": "#f2b84b"
+          },
+          "signatureFeatures": [
+            "round teal glasses",
+            "goggles on hair",
+            "compact lab-explorer coat",
+            "tiny gadget backpack",
+            "bright curious eyes"
+          ],
+          "supportedAngles": [
+            "front",
+            "three-quarter-left",
+            "three-quarter-right",
+            "side-left",
+            "side-right"
+          ],
+          "supportedPoses": [
+            "neutral",
+            "inspect",
+            "help",
+            "action",
+            "proud",
+            "thinking"
+          ],
+          "supportedExpressions": [
+            "neutral",
+            "curious",
+            "confused",
+            "excited",
+            "happy-laugh",
+            "helping",
+            "proud",
+            "worried",
+            "surprised",
+            "thinking",
+            "aha"
+          ],
+          "supportedMotions": [
+            "idle",
+            "bob",
+            "bounce",
+            "head-tilt",
+            "lean-in",
+            "clap",
+            "jump",
+            "point",
+            "inspect",
+            "help",
+            "recoil",
+            "celebrate",
+            "float",
+            "think"
+          ],
+          "defaultAngle": "three-quarter-left",
+          "defaultPose": "inspect",
+          "defaultExpression": "curious",
+          "defaultMotion": "float"
+        },
+        "relationships": {
+          "dheu": "Respects Dheu as a real investigator, not a pupil.",
+          "shaitanu": "Long-running comic rivalry: Scientu checks Shaitanu's shortcuts; Shaitanu keeps Scientu from over-explaining."
+        }
+      }
     },
     {
       "id": "shaitanu",
       "role": "challenger",
       "displayName": "Shaitanu",
-      "personalization": { "useSavedChildName": false, "fallbackName": "Shaitanu" },
+      "personalization": {
+        "useSavedChildName": false,
+        "fallbackName": "Shaitanu"
+      },
       "pedagogy": "misconception_and_challenge",
-      "visualPolicy": "kidsplay_original"
+      "visualPolicy": "kidsplay_original",
+      "persona": {
+        "tagline": "The theatrical trickster who makes every adventure a little harder and a lot funnier.",
+        "traits": [
+          "mischievous",
+          "clever",
+          "playful",
+          "theatrical",
+          "secretly-helpful"
+        ],
+        "wants": "Make the game interesting, protect his reputation for clever tricks, and secretly see Dheu succeed.",
+        "notices": [
+          "shortcuts",
+          "tempting wrong turns",
+          "opportunities for jokes",
+          "surprisingly clever moves"
+        ],
+        "speech": {
+          "rhythm": "Teasing, dramatic and compact. Boasts, mutters and reluctant compliments.",
+          "signatures": [
+            "Heh-heh.",
+            "Bet you can't.",
+            "Fine, fine.",
+            "That was almost too clever."
+          ],
+          "avoids": [
+            "cruel teasing",
+            "frightening threats",
+            "always being wrong",
+            "explaining the lesson"
+          ]
+        },
+        "visual": {
+          "palette": {
+            "primary": "#7550b8",
+            "secondary": "#4b315f",
+            "accent": "#f28a35"
+          },
+          "signatureFeatures": [
+            "purple hair with orange streak",
+            "pointed playful ears",
+            "expressive eyebrows",
+            "short trickster cape",
+            "one tiny fang"
+          ],
+          "supportedAngles": [
+            "front",
+            "three-quarter-left",
+            "three-quarter-right",
+            "side-left",
+            "side-right"
+          ],
+          "supportedPoses": [
+            "neutral",
+            "inspect",
+            "help",
+            "action",
+            "proud",
+            "thinking"
+          ],
+          "supportedExpressions": [
+            "neutral",
+            "curious",
+            "confused",
+            "excited",
+            "happy-laugh",
+            "wicked-laugh",
+            "helping",
+            "proud",
+            "worried",
+            "surprised",
+            "sly",
+            "fake-innocent",
+            "mock-shock",
+            "sulky",
+            "admiring"
+          ],
+          "supportedMotions": [
+            "idle",
+            "bob",
+            "bounce",
+            "head-tilt",
+            "lean-in",
+            "wiggle",
+            "chuckle",
+            "cape-swish",
+            "sneak",
+            "pop-in",
+            "clap",
+            "jump",
+            "point",
+            "help",
+            "recoil",
+            "celebrate",
+            "float"
+          ],
+          "defaultAngle": "three-quarter-left",
+          "defaultPose": "proud",
+          "defaultExpression": "sly",
+          "defaultMotion": "wiggle"
+        },
+        "relationships": {
+          "dheu": "Affectionate rival. Teases, challenges and occasionally helps when Dheu is stuck.",
+          "scientu": "Comic foil. Interrupts long explanations but is impressed by good experiments."
+        }
+      }
     }
   ]
 }

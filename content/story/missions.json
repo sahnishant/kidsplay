@@ -20,11 +20,51 @@
       "openingSceneRef": "scene.plants.air-fresh",
       "successSceneRef": "scene.plants.air-fresh",
       "beats": [
-        { "speakerRef": "shaitanu", "mood": "mischievous", "text": "I mixed up the forest trail! Homes, plant jobs and growing clues are all in the wrong places." },
-        { "speakerRef": "scientu", "mood": "thinking", "text": "Then we should investigate one clue at a time. Watch where animals belong, what plant parts do and how a butterfly changes." },
-        { "speakerRef": "dheu", "mood": "ready", "text": "I will help the forest clues find their places and put the growing stages back in order." }
+        {
+          "speakerRef": "shaitanu",
+          "mood": "mischievous",
+          "intent": "provoke",
+          "delivery": "boast",
+          "expression": "wicked-laugh",
+          "pose": "proud",
+          "angle": "three-quarter-left",
+          "motion": "chuckle",
+          "text": "Heh-heh. I moved the forest signs. Even Rabbit looks confused."
+        },
+        {
+          "speakerRef": "scientu",
+          "mood": "thinking",
+          "intent": "hypothesize",
+          "delivery": "suspicious",
+          "expression": "thinking",
+          "pose": "inspect",
+          "angle": "three-quarter-left",
+          "motion": "inspect",
+          "text": "Hmm. Then let us not trust the signs. What does the forest itself tell us?"
+        },
+        {
+          "speakerRef": "dheu",
+          "mood": "ready",
+          "intent": "invite",
+          "delivery": "excited",
+          "expression": "determined",
+          "pose": "action",
+          "angle": "three-quarter-right",
+          "motion": "jump",
+          "text": "First Rabbit. Then we put the growing stages back in order. Let’s go!"
+        }
       ],
-      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "text": "Forest trail restored. You guided, matched, observed and ordered the clues instead of treating every puzzle the same way." },
+      "successBeat": {
+        "speakerRef": "shaitanu",
+        "mood": "celebrate",
+        "intent": "callback",
+        "delivery": "reluctant",
+        "expression": "admiring",
+        "pose": "help",
+        "angle": "three-quarter-left",
+        "motion": "recoil",
+        "text": "Okay, okay. You fixed my signs. The trail may even look better now. Do not tell Scientu I said that."
+      },
       "reward": { "id": "badge.forest-trail-keeper", "label": "Forest Trail Keeper", "stars": 3 }
     },
     {

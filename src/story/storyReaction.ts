@@ -1,13 +1,34 @@
-export type StoryReactionCharacter = 'scientu' | 'shaitanu';
-export type StoryReactionMood = 'celebrate' | 'mischievous';
-export type StoryReactionMotion = 'bounce' | 'wiggle';
-export type StoryReactionTrigger = 'final-clue' | 'first-miss' | 'turnaround' | 'hard-clue';
+import type {
+  StoryBeatDelivery,
+  StoryBeatIntent,
+  StoryCharacterAngle,
+  StoryCharacterExpression,
+  StoryCharacterId,
+  StoryCharacterMotion,
+  StoryCharacterPose
+} from './storyTypes';
+
+export type StoryReactionTrigger =
+  | 'clue-found'
+  | 'first-miss'
+  | 'retry'
+  | 'recovery'
+  | 'hard-clue'
+  | 'streak'
+  | 'final-clue';
+
+export type StoryReactionMood = 'happy' | 'thinking' | 'mischievous' | 'celebrate' | 'worried' | 'ready';
 
 export interface StoryReactionView {
-  speaker: 'Scientu' | 'Shaitanu';
-  character: StoryReactionCharacter;
+  speaker: 'Dheu' | 'Scientu' | 'Shaitanu';
+  character: StoryCharacterId;
   mood: StoryReactionMood;
-  motion: StoryReactionMotion;
+  expression: StoryCharacterExpression;
+  pose: StoryCharacterPose;
+  angle: StoryCharacterAngle;
+  motion: StoryCharacterMotion;
+  intent: StoryBeatIntent;
+  delivery: StoryBeatDelivery;
   text: string;
   trigger: StoryReactionTrigger;
 }
@@ -19,50 +40,232 @@ export interface StoryReactionContext {
   isFinalQuestion: boolean;
   incorrectCount: number;
   previousCorrect: boolean | undefined;
+  questionIndex?: number;
+  attempts?: number;
+  correctCount?: number;
+}
+
+type ReactionVariant = Omit<StoryReactionView, 'trigger'>;
+
+const reactions: Record<StoryReactionTrigger, readonly ReactionVariant[]> = {
+  'clue-found': [
+    {
+      speaker: 'Dheu',
+      character: 'dheu',
+      mood: 'happy',
+      expression: 'wonder',
+      pose: 'inspect',
+      angle: 'three-quarter-right',
+      motion: 'head-tilt',
+      intent: 'wonder',
+      delivery: 'excited',
+      text: 'Ooh! That clue fits. What changed?'
+    },
+    {
+      speaker: 'Scientu',
+      character: 'scientu',
+      mood: 'celebrate',
+      expression: 'aha',
+      pose: 'inspect',
+      angle: 'three-quarter-left',
+      motion: 'bounce',
+      intent: 'observe',
+      delivery: 'excited',
+      text: 'Aha! First clue locked in. Keep watching what fits.'
+    }
+  ],
+  'first-miss': [
+    {
+      speaker: 'Dheu',
+      character: 'dheu',
+      mood: 'worried',
+      expression: 'confused',
+      pose: 'thinking',
+      angle: 'three-quarter-right',
+      motion: 'head-tilt',
+      intent: 'react',
+      delivery: 'gentle',
+      text: 'Oops. That one fooled me too. Look again?'
+    },
+    {
+      speaker: 'Shaitanu',
+      character: 'shaitanu',
+      mood: 'thinking',
+      expression: 'fake-innocent',
+      pose: 'proud',
+      angle: 'three-quarter-left',
+      motion: 'chuckle',
+      intent: 'tease',
+      delivery: 'boast',
+      text: 'Heh-heh. Tempting, wasn’t it? I did warn you I am clever.'
+    }
+  ],
+  retry: [
+    {
+      speaker: 'Scientu',
+      character: 'scientu',
+      mood: 'thinking',
+      expression: 'thinking',
+      pose: 'inspect',
+      angle: 'three-quarter-left',
+      motion: 'inspect',
+      intent: 'reassure',
+      delivery: 'gentle',
+      text: 'Tiny clue: ignore the loudest answer. Look for what actually fits.'
+    },
+    {
+      speaker: 'Dheu',
+      character: 'dheu',
+      mood: 'ready',
+      expression: 'retry-confident',
+      pose: 'inspect',
+      angle: 'three-quarter-right',
+      motion: 'lean-in',
+      intent: 'reassure',
+      delivery: 'gentle',
+      text: 'Okay. New try. This time I’m watching the clue, not the trick.'
+    }
+  ],
+  recovery: [
+    {
+      speaker: 'Dheu',
+      character: 'dheu',
+      mood: 'celebrate',
+      expression: 'excited',
+      pose: 'action',
+      angle: 'three-quarter-right',
+      motion: 'jump',
+      intent: 'celebrate',
+      delivery: 'excited',
+      text: 'Yes! That clue clicked!'
+    },
+    {
+      speaker: 'Scientu',
+      character: 'scientu',
+      mood: 'celebrate',
+      expression: 'aha',
+      pose: 'inspect',
+      angle: 'three-quarter-left',
+      motion: 'bounce',
+      intent: 'celebrate',
+      delivery: 'excited',
+      text: 'There it is. You changed your idea when the evidence changed.'
+    }
+  ],
+  'hard-clue': [
+    {
+      speaker: 'Shaitanu',
+      character: 'shaitanu',
+      mood: 'mischievous',
+      expression: 'admiring',
+      pose: 'proud',
+      angle: 'three-quarter-left',
+      motion: 'recoil',
+      intent: 'react',
+      delivery: 'reluctant',
+      text: 'Fine, fine. That was annoyingly clever.'
+    },
+    {
+      speaker: 'Scientu',
+      character: 'scientu',
+      mood: 'celebrate',
+      expression: 'aha',
+      pose: 'inspect',
+      angle: 'three-quarter-left',
+      motion: 'point',
+      intent: 'observe',
+      delivery: 'excited',
+      text: 'That was the tricky clue. You separated the important detail from the noise.'
+    }
+  ],
+  streak: [
+    {
+      speaker: 'Shaitanu',
+      character: 'shaitanu',
+      mood: 'mischievous',
+      expression: 'sly',
+      pose: 'proud',
+      angle: 'three-quarter-left',
+      motion: 'wiggle',
+      intent: 'tease',
+      delivery: 'mutter',
+      text: 'Three in a row? Hmph. I need a better trick.'
+    },
+    {
+      speaker: 'Dheu',
+      character: 'dheu',
+      mood: 'celebrate',
+      expression: 'happy-laugh',
+      pose: 'action',
+      angle: 'three-quarter-right',
+      motion: 'clap',
+      intent: 'celebrate',
+      delivery: 'excited',
+      text: 'Ha! We’re getting good at this.'
+    }
+  ],
+  'final-clue': [
+    {
+      speaker: 'Shaitanu',
+      character: 'shaitanu',
+      mood: 'mischievous',
+      expression: 'admiring',
+      pose: 'proud',
+      angle: 'three-quarter-left',
+      motion: 'cape-swish',
+      intent: 'callback',
+      delivery: 'reluctant',
+      text: 'Last clue. And yes... you may have beaten my best trick.'
+    },
+    {
+      speaker: 'Scientu',
+      character: 'scientu',
+      mood: 'thinking',
+      expression: 'thinking',
+      pose: 'help',
+      angle: 'three-quarter-left',
+      motion: 'help',
+      intent: 'reassure',
+      delivery: 'gentle',
+      text: 'One last wobble. Keep the clue in mind when we finish the trail.'
+    }
+  ]
+};
+
+function chooseVariant(trigger: StoryReactionTrigger, context: StoryReactionContext): ReactionVariant {
+  const options = reactions[trigger];
+  const seed =
+    (context.questionIndex ?? 0)
+    + context.difficulty
+    + context.knowledgeRefCount
+    + (context.correctCount ?? 0)
+    + (context.attempts ?? 1);
+  return options[Math.abs(seed) % options.length];
 }
 
 export function resolveStoryReaction(context: StoryReactionContext): StoryReactionView | null {
   const hardClue = context.difficulty >= 4 || (context.difficulty >= 3 && context.knowledgeRefCount >= 3);
-  const firstMiss = !context.correct && context.incorrectCount === 1;
-  const turnaround = context.correct && context.previousCorrect === false;
+  const firstMiss = !context.correct && context.incorrectCount === 1 && (context.attempts ?? 1) <= 1;
+  const retry = !context.correct && ((context.attempts ?? 1) >= 2 || (context.incorrectCount >= 2 && context.previousCorrect === false));
+  const recovery = context.correct && context.previousCorrect === false;
+  const clueFound = context.correct && (context.correctCount ?? 0) === 1;
+  const streak = context.correct && context.previousCorrect === true && (context.correctCount ?? 0) >= 3;
 
   let trigger: StoryReactionTrigger | null = null;
   if (context.isFinalQuestion) trigger = 'final-clue';
+  else if (retry) trigger = 'retry';
   else if (firstMiss) trigger = 'first-miss';
-  else if (turnaround) trigger = 'turnaround';
+  else if (recovery) trigger = 'recovery';
   else if (hardClue) trigger = 'hard-clue';
+  else if (streak) trigger = 'streak';
+  else if (clueFound) trigger = 'clue-found';
 
   if (!trigger) return null;
 
-  if (context.correct) {
-    const text = trigger === 'turnaround'
-      ? 'You used the last clue to sharpen this answer. That is good detective work.'
-      : trigger === 'final-clue'
-        ? 'Final clue checked. We have enough evidence to finish this case.'
-        : 'You separated the clues carefully. Shaitanu will need a cleverer trap.';
-
-    return {
-      speaker: 'Scientu',
-      character: 'scientu',
-      mood: 'celebrate',
-      motion: 'bounce',
-      text,
-      trigger
-    };
+  const variant = chooseVariant(trigger, context);
+  if (trigger === 'final-clue') {
+    const finalVariant = context.correct ? reactions['final-clue'][0] : reactions['final-clue'][1];
+    return { ...finalVariant, trigger };
   }
-
-  const text = trigger === 'final-clue'
-    ? 'One last twist! Keep the evidence in mind when you review the case.'
-    : trigger === 'first-miss'
-      ? 'That guess sounded tempting, didn’t it? Keep the evidence in mind.'
-      : 'I tangled two clues together. Untangle them on the next one!';
-
-  return {
-    speaker: 'Shaitanu',
-    character: 'shaitanu',
-    mood: 'mischievous',
-    motion: 'wiggle',
-    text,
-    trigger
-  };
+  return { ...variant, trigger };
 }
