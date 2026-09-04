@@ -1,0 +1,16 @@
+[data-session-state=reaction]{position:relative}
+[data-session-state] :is(.home-button,.sound-button,.hear-reaction),[data-first-play-mode]>:is(header,footer)>button{min-width:44px;min-height:44px}
+[data-session-state=reaction] .next-button{position:absolute;top:1px;right:108px;z-index:4;width:auto;max-width:110px;min-height:44px!important;height:44px;margin:0;padding:0 8px;font-size:.68rem;white-space:nowrap}
+[data-first-play-grapheme]{min-height:52px;display:flex;align-items:center;justify-content:center}
+
+@media (max-width:430px){
+  [data-first-play-mode="first_play"] [data-first-play-primary="true"]{min-height:252px!important}
+}
+
+@media (max-height:650px){
+  [data-session-state=reaction] .inline-reaction{gap:3px;margin-top:2px}
+  [data-session-state=reaction] .feedback{padding:4px 7px}
+  [data-session-state=reaction] .feedback span{line-height:1.15}
+  [data-session-state=reaction] .session-card__scroll{padding-bottom:2px}
+  [data-session-state=reaction] .choice-button--visual{min-height:112px!important;padding-block:6px!important}
+}

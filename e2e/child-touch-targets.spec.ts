@@ -78,6 +78,7 @@ test.describe('child touch-target ergonomics', () => {
 
   test('representative child controls keep the 44px floor at the small-phone viewport', async ({ page }) => {
     await openCleanApp(page);
+    await page.getByLabel('Open child navigation').click();
     await page.getByRole('button', { name: 'Open practice activities' }).click();
 
     await expectMinimumChildTarget(

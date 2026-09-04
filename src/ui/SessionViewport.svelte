@@ -51,11 +51,6 @@
     sequence_process: 'Put the stages from first to last, then see what changes.',
     cause_effect_discovery: 'Try the clue, then notice what happens.'
   };
-  const experienceCharacterName = {
-    dheu: 'Dheu',
-    scientu: 'Scientu',
-    shaitanu: 'Shaitanu'
-  } as const;
 
   let {
     title,
@@ -95,7 +90,7 @@
   let restoredSubmitted = $state(seededState.submitted);
   let soundEnabled = $state(loadChildAudioPreferences().enabled);
   let audioNotice = $state<string | null>(null);
-  let autoAdvanceTimer: ReturnType<typeof setTimeout> | null = null;
+  let interactionEpoch = $state(0);
   let question = $derived(questions[sessionState.index]);
   let assessmentMode = $derived(mode === 'goal_mock' || mode === 'goal_pattern_mock');
   let experienceRecipe = $derived(
@@ -103,11 +98,6 @@
   );
   let experienceCueBody = $derived(
     experienceRecipe ? experienceCueByFamily[experienceRecipe.family] : null
-  );
-  let experienceCueText = $derived(
-    experienceRecipe && experienceCueBody
-      ? `${experienceCharacterName[experienceRecipe.choreography.leadCharacter]}: ${experienceCueBody}`
-      : null
   );
   let retryPolicy = $derived(question ? resolveRetryPolicy(question, mode) : null);
   let latestResponse = $derived(question ? sessionState.responses[sessionState.index] : undefined);
@@ -150,9 +140,6 @@
   );
   let correctCount = $derived(sessionState.results.filter((result) => result.correct).length);
   let displayName = $derived(childName.trim() || 'Explorer');
-  let reasoningQuestion = $derived(
-    Boolean(question && (question.knowledgeRefs?.length ?? 0) >= 2 && question.difficulty >= 3)
-  );
   let currentSection = $derived(
     sections.find((section) => sessionState.index >= section.startIndex && sessionState.index < section.startIndex + section.count)
   );
@@ -171,12 +158,6 @@
         })
       : null
   );
-
-  function clearAutoAdvance(): void {
-    if (!autoAdvanceTimer) return;
-    clearTimeout(autoAdvanceTimer);
-    autoAdvanceTimer = null;
-  }
 
   function showAudioAvailability(result: ChildAudioPlaybackResult): void {
     audioNotice = result.source === 'unavailable'
@@ -206,17 +187,16 @@
     return playQuestionPrompt(text, question.language, forceRestart);
   }
 
-  function repeatQuestionPrompt(): void {
-    if (!question || !soundEnabled) return;
-    const result = playCurrentQuestionNarration(true);
-    if (result) showAudioAvailability(result);
-  }
-
   function toggleSound(): void {
     const next = saveChildAudioPreferences(!soundEnabled);
     soundEnabled = next.enabled;
     audioNotice = null;
-    if (!soundEnabled) stopChildAudio();
+    if (!soundEnabled) {
+      stopChildAudio();
+      return;
+    }
+    const result = playCurrentQuestionNarration(true);
+    if (result) showAudioAvailability(result);
   }
 
   function hearStoryReaction(): void {
@@ -231,24 +211,8 @@
     showAudioAvailability(playVocabularyAudio(vocabularyPresentation.lemma, question.language, true));
   }
 
-  function autoAdvanceDelay(currentQuestion: Question): number {
-    const richReinforcement = Boolean(storyCompletion)
-      || Boolean(resolveQuestionSceneId(currentQuestion))
-      || Boolean(resolveQuestionFeedbackRecipeId(currentQuestion));
-    return richReinforcement ? 2600 : 1500;
-  }
-
-  function queueAutoAdvance(currentQuestion: Question, correct: boolean): void {
-    clearAutoAdvance();
-    if (assessmentMode || restoredSubmitted || !correct) return;
-    autoAdvanceTimer = setTimeout(() => {
-      autoAdvanceTimer = null;
-      handleAdvance();
-    }, autoAdvanceDelay(currentQuestion));
-  }
-
   function handleSubmit(response: unknown): void {
-    if (!question) return;
+    if (!question || sessionState.submitted) return;
     stopChildAudio();
     audioNotice = null;
     const submittedQuestion = question;
@@ -257,7 +221,6 @@
     if (result && storedResponse) {
       onAttempt?.({ question: submittedQuestion, response: storedResponse, result });
       onCheckpoint?.(sessionState);
-      queueAutoAdvance(submittedQuestion, result.correct);
     }
   }
 
@@ -269,17 +232,18 @@
   }
 
   function handleAdvance(): void {
-    clearAutoAdvance();
     stopChildAudio();
     audioNotice = null;
     if (question && retryAvailable && prepareRetry(sessionState, question, retryAssistance())) {
       restoredSubmitted = false;
+      interactionEpoch += 1;
       onCheckpoint?.(sessionState);
       return;
     }
 
     advanceSession(sessionState);
     restoredSubmitted = false;
+    interactionEpoch += 1;
     if (sessionState.index >= questions.length) {
       onComplete?.(sessionState);
     } else {
@@ -288,16 +252,15 @@
   }
 
   function handleReplay(): void {
-    clearAutoAdvance();
     stopChildAudio();
     audioNotice = null;
     replaySession(sessionState);
     restoredSubmitted = false;
+    interactionEpoch += 1;
     onCheckpoint?.(sessionState);
   }
 
   function handleExit(): void {
-    clearAutoAdvance();
     stopChildAudio();
     audioNotice = null;
     onExit?.();
@@ -311,107 +274,77 @@
     playCurrentQuestionNarration(true);
   });
 
-  onDestroy(() => {
-    clearAutoAdvance();
-    stopChildAudio();
-  });
+  onDestroy(() => stopChildAudio());
 </script>
 
 {#if question}
   <section class="session-viewport" data-session-state={sessionState.submitted ? 'reaction' : 'answer'} data-session-mode={mode}>
     <header class="session-topbar">
-      <div class="session-topbar__identity">
-        {#if onExit}
-          <button class="home-button" type="button" onclick={handleExit} aria-label="Back to Kidsplay home">←</button>
-        {/if}
-        <span class="player-avatar" aria-hidden="true">
-          <Avatar
-            avatar={childAvatar}
-            mood={sessionState.submitted && sessionState.lastResult
-              ? (sessionState.lastResult.correct ? 'celebrate' : 'thinking')
-              : (reasoningQuestion ? 'thinking' : 'happy')}
-            motion={sessionState.submitted && sessionState.lastResult
-              ? (sessionState.lastResult.correct ? 'bounce' : 'think')
-              : (reasoningQuestion ? 'think' : 'idle')}
-          />
-        </span>
-        <div class="session-title">
-          <strong>{displayName}</strong>
-          <span>{title}</span>
-        </div>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px">
-        <button
-          type="button"
-          aria-pressed={soundEnabled}
-          aria-label={soundEnabled ? 'Turn sound off' : 'Turn sound on'}
-          title={soundEnabled ? 'Sound on' : 'Sound off'}
-          onclick={toggleSound}
-          style="width:44px;height:44px;padding:0;border:0;border-radius:13px;background:var(--accent-soft);font-size:1.05rem;cursor:pointer"
-        >
-          <span aria-hidden="true">{soundEnabled ? '🔊' : '🔇'}</span>
-        </button>
-        <div class="progress-pill">{sessionState.index + 1} / {questions.length}</div>
-      </div>
+      {#if onExit}
+        <button class="home-button" type="button" onclick={handleExit} aria-label="Back to Kidsplay home">←</button>
+      {/if}
+      <strong class="session-title" title={title}>{title}</strong>
+      <button
+        class="sound-button"
+        type="button"
+        aria-pressed={soundEnabled}
+        aria-label={soundEnabled ? 'Turn sound off' : 'Turn sound on'}
+        title={soundEnabled ? 'Sound on' : 'Sound off'}
+        onclick={toggleSound}
+      >
+        <span aria-hidden="true">{soundEnabled ? '🔊' : '🔇'}</span>
+      </button>
+      <div class="progress-pill">{sessionState.index + 1} / {questions.length}</div>
     </header>
 
-    {#if !sessionState.submitted}
-      <article class="session-card answer-state">
-        <div class="session-card__scroll answer-state__scroll">
+    <article
+      class="session-card answer-state"
+      class:answer-state--submitted={sessionState.submitted}
+      aria-label={sessionState.submitted ? 'Question with answer feedback' : 'Question'}
+    >
+      <div class="session-card__scroll answer-state__scroll">
+        {#if currentSection || (onCheckpoint && assessmentMode) || sessionState.retryState}
           <div class="question-meta">
             {#if currentSection}
-              <span class="reasoning-cue">Section: {currentSection.title} · {currentSection.marksPerQuestion} {currentSection.marksPerQuestion === 1 ? 'mark' : 'marks'} each</span>
+              <span class="reasoning-cue">{currentSection.title} · {currentSection.marksPerQuestion} {currentSection.marksPerQuestion === 1 ? 'mark' : 'marks'}</span>
             {/if}
-            {#if onCheckpoint}<span class="saved-session-note">Mock progress saves on this device</span>{/if}
-            {#if experienceCueText}<span class="reasoning-cue reasoning-cue--goal">{experienceCueText}</span>{/if}
-            {#if reasoningQuestion}<span class="reasoning-cue reasoning-cue--goal">Think it through</span>{/if}
+            {#if onCheckpoint && assessmentMode}<span class="saved-session-note">Saved on this device</span>{/if}
             {#if sessionState.retryState}<span class="reasoning-cue reasoning-cue--goal">Try again</span>{/if}
           </div>
+        {/if}
 
-          {#if sessionState.retryState?.assistanceKinds.includes('explanation')}
-            <div class="restored-answer-note" role="note" aria-label="Retry clue"><strong>Clue:</strong> {question.feedback.incorrect}</div>
-          {/if}
+        {#if sessionState.retryState?.assistanceKinds.includes('explanation')}
+          <div class="restored-answer-note" role="note" aria-label="Retry clue"><strong>Clue:</strong> {question.feedback.incorrect}</div>
+        {/if}
 
-          {#if authoredSceneId}
-            <div class="answer-scene"><Scene sceneId={authoredSceneId} /></div>
-          {/if}
+        {#if authoredSceneId}
+          <div class="answer-scene"><Scene sceneId={authoredSceneId} /></div>
+        {/if}
 
-          <h1 class="question-prompt">{question.prompt.text}</h1>
-          <div style="text-align:center;margin:-6px 0 10px">
-            <button
-              type="button"
-              disabled={!soundEnabled}
-              aria-label="Repeat question"
-              onclick={repeatQuestionPrompt}
-              style="min-height:44px;padding:7px 12px;border:0;border-radius:999px;background:var(--accent-soft);color:var(--accent);font:inherit;font-size:.78rem;font-weight:900;cursor:pointer"
-            >
-              <span aria-hidden="true">↻</span>
-              <span>Repeat</span>
-            </button>
-          </div>
-          {#if audioNotice}
-            <p class="saved-session-note" style="display:block;margin:0 auto 8px;text-align:center" aria-live="polite">{audioNotice}</p>
-          {/if}
+        <h1 class="question-prompt">{question.prompt.text}</h1>
 
+        {#if audioNotice}
+          <p class="saved-session-note audio-notice" aria-live="polite">{audioNotice}</p>
+        {/if}
+
+        {#if !restoredSubmitted}
           <div class="interaction-host">
-            <EngineHost
-              {question}
-              onSubmit={handleSubmit}
-              feedbackMode={assessmentMode ? 'assessment' : 'play'}
-              {soundEnabled}
-              checkResponse={(response) => evaluate(question, response)}
-            />
+            {#key `${question.id}:${interactionEpoch}`}
+              <EngineHost
+                {question}
+                onSubmit={handleSubmit}
+                feedbackMode={assessmentMode ? 'assessment' : 'play'}
+                {soundEnabled}
+                checkResponse={(response) => evaluate(question, response)}
+              />
+            {/key}
           </div>
-        </div>
-      </article>
-    {:else}
-      <article class="session-card reaction-state" aria-label="Answer reaction">
-        <div class="session-card__scroll reaction-state__scroll">
-          {#if restoredSubmitted}
-            <div class="restored-answer-note" role="note">Your saved answer is restored. Review the feedback, then continue.</div>
-          {/if}
+        {:else}
+          <div class="restored-answer-note" role="note">Your saved answer is restored. Review the feedback, then continue.</div>
+        {/if}
 
-          {#if sessionState.lastResult}
+        {#if sessionState.submitted && sessionState.lastResult}
+          <section class="inline-reaction" aria-live="polite" aria-label="Answer feedback">
             <div class={`feedback feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}`} role="status">
               <strong>
                 {sessionState.lastResult.correct
@@ -426,70 +359,57 @@
                   : 'That one did not work. Try another way.'}
               </span>
             </div>
-          {/if}
 
-          {#if storyReaction}
-            <div class="story-reaction" role="note" aria-label={`Story reaction from ${storyReaction.speaker}`} data-trigger={storyReaction.trigger}>
-              <span class="story-reaction__actor" aria-hidden="true">
-                <StoryCharacter character={storyReaction.character} mood={storyReaction.mood} motion={storyReaction.motion} />
-              </span>
-              <span class="story-reaction__copy">
-                <strong>{storyReaction.speaker}</strong>
-                <span>{storyReaction.text}</span>
-                <button
-                  type="button"
-                  disabled={!soundEnabled}
-                  aria-label={`Hear ${storyReaction.speaker}`}
-                  onclick={hearStoryReaction}
-                  style="justify-self:start;min-height:44px;padding:7px 10px;border:0;border-radius:999px;background:#fff;color:var(--ink);font:inherit;font-size:.72rem;font-weight:850;cursor:pointer"
-                >
-                  <span aria-hidden="true">🔊</span>
-                  <span>Hear {storyReaction.speaker}</span>
-                </button>
-              </span>
-            </div>
-          {/if}
+            {#if storyReaction}
+              <div class="story-reaction" role="note" aria-label={`Story reaction from ${storyReaction.speaker}`} data-trigger={storyReaction.trigger}>
+                <span class="story-reaction__actor" aria-hidden="true">
+                  <StoryCharacter character={storyReaction.character} mood={storyReaction.mood} motion={storyReaction.motion} />
+                </span>
+                <span class="story-reaction__copy">
+                  <strong>{storyReaction.speaker}</strong>
+                  <span>{storyReaction.text}</span>
+                  <button
+                    class="hear-reaction"
+                    type="button"
+                    disabled={!soundEnabled}
+                    aria-label={`Hear ${storyReaction.speaker}`}
+                    onclick={hearStoryReaction}
+                  >
+                    <span aria-hidden="true">🔊</span>
+                  </button>
+                </span>
+              </div>
+            {/if}
 
-          {#if audioNotice}
-            <p class="saved-session-note" style="display:block;margin:0 auto 8px;text-align:center" aria-live="polite">{audioNotice}</p>
-          {/if}
+            {#if vocabularySenseKey && vocabularyPresentation?.lemma}
+              <div class="reinforcement-meaning">
+                <VisualMeaningPresenter
+                  senseKey={vocabularySenseKey}
+                  word={vocabularyPresentation.lemma}
+                  mode="glance"
+                  phase="explanation"
+                  onSpeak={soundEnabled ? hearVocabulary : null}
+                />
+              </div>
+            {:else if reinforcementSceneId}
+              <div class="reinforcement-scene"><Scene sceneId={reinforcementSceneId} /></div>
+            {:else if feedbackRecipeId && !storyReaction}
+              <div class="reinforcement-recipe">
+                <SemanticVisualPresenter presentation={recipeVisualPresentation(feedbackRecipeId)} />
+              </div>
+            {/if}
+          </section>
+        {/if}
+      </div>
 
-          {#if vocabularySenseKey && vocabularyPresentation?.lemma}
-            <div class="reinforcement-meaning">
-              <VisualMeaningPresenter
-                senseKey={vocabularySenseKey}
-                word={vocabularyPresentation.lemma}
-                mode="glance"
-                phase="explanation"
-                onSpeak={soundEnabled ? hearVocabulary : null}
-              />
-            </div>
-          {:else if reinforcementSceneId}
-            <div class="reinforcement-scene"><Scene sceneId={reinforcementSceneId} /></div>
-          {:else if feedbackRecipeId && !storyReaction}
-            <div class="reinforcement-recipe">
-              <SemanticVisualPresenter presentation={recipeVisualPresentation(feedbackRecipeId)} />
-            </div>
-          {/if}
-
-          {#if !reinforcementSceneId && !feedbackRecipeId && !storyReaction}
-            <div class="reaction-avatar" aria-hidden="true">
-              <Avatar
-                avatar={childAvatar}
-                mood={sessionState.lastResult?.correct ? 'celebrate' : 'thinking'}
-                motion={sessionState.lastResult?.correct ? 'bounce' : 'think'}
-              />
-            </div>
-          {/if}
-        </div>
-
+      {#if sessionState.submitted}
         <button class="next-button" type="button" onclick={handleAdvance}>
           {retryAvailable
             ? (repeatedDifficulty ? 'Try with this clue' : 'Try again')
-            : (sessionState.index + 1 < questions.length ? 'Next' : 'See result')}
+            : (sessionState.index + 1 < questions.length ? 'Next' : 'Finish')}
         </button>
-      </article>
-    {/if}
+      {/if}
+    </article>
   </section>
 {:else}
   <section class="completion-viewport">
@@ -549,90 +469,117 @@
   .session-viewport {
     display: grid;
     grid-template-rows: auto minmax(0, 1fr);
-    gap: 10px;
+    gap: 6px;
   }
 
   .session-topbar {
     min-width: 0;
-    display: flex;
+    min-height: 46px;
+    display: grid;
+    grid-template-columns: auto minmax(0,1fr) auto auto;
     align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 7px 10px;
+    gap: 6px;
+    padding: 3px 6px;
     border: 1px solid rgba(36,48,58,.08);
-    border-radius: 18px;
+    border-radius: 15px;
     background: rgba(255,255,255,.9);
   }
 
-  .session-topbar__identity { min-width: 0; display: flex; align-items: center; gap: 8px; }
-  .home-button { flex: 0 0 auto; width: 42px; height: 42px; border: 0; border-radius: 13px; background: var(--accent-soft); color: var(--accent); font-size: 1.1rem; font-weight: 950; cursor: pointer; }
-  .player-avatar { flex: 0 0 auto; width: 42px; height: 42px; }
-  .session-title { min-width: 0; display: grid; }
-  .session-title strong { font-size: .85rem; }
-  .session-title span { max-width: 48vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--muted); font-size: .72rem; font-weight: 700; }
-  .progress-pill { flex: 0 0 auto; min-width: 62px; padding: 8px 10px; border-radius: 999px; background: #fff; font-size: .78rem; font-weight: 850; text-align: center; }
+  .home-button,
+  .sound-button {
+    flex: 0 0 auto;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border: 0;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 1rem;
+    font-weight: 950;
+    cursor: pointer;
+  }
+
+  .session-title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: .8rem;
+  }
+
+  .progress-pill {
+    flex: 0 0 auto;
+    min-width: 52px;
+    padding: 6px 8px;
+    border-radius: 999px;
+    background: #fff;
+    font-size: .72rem;
+    font-weight: 850;
+    text-align: center;
+  }
 
   .session-card {
     min-height: 0;
     display: grid;
+    grid-template-rows: minmax(0,1fr);
     overflow: hidden;
     border: 1px solid rgba(36,48,58,.08);
-    border-radius: 24px;
+    border-radius: 20px;
     background: #fff;
     box-shadow: var(--shadow);
   }
-
-  .answer-state { grid-template-rows: minmax(0,1fr); }
-  .reaction-state { grid-template-rows: minmax(0,1fr) auto; }
+  .answer-state--submitted { grid-template-rows: minmax(0,1fr) auto; }
 
   .session-card__scroll {
     min-height: 0;
     overflow: auto;
     overscroll-behavior: contain;
-    padding: 14px;
+    padding: 10px 12px 12px;
   }
 
-  .question-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: center; }
-  .reasoning-cue, .saved-session-note { display: inline-flex; padding: 5px 8px; border-radius: 999px; background: #f4f6f7; color: var(--muted); font-size: .66rem; font-weight: 800; }
+  .question-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; justify-content: center; }
+  .reasoning-cue, .saved-session-note { display: inline-flex; padding: 4px 7px; border-radius: 999px; background: #f4f6f7; color: var(--muted); font-size: .62rem; font-weight: 800; }
   .reasoning-cue--goal { background: var(--accent-soft); color: var(--accent); }
+  .audio-notice { display: block; width: fit-content; margin: 0 auto 6px; text-align: center; }
 
-  .answer-scene :global(.scene) { height: clamp(125px, 25vh, 190px); }
-  .question-prompt { margin: 14px 4px 12px; font-size: clamp(1.25rem, 4.5vw, 1.85rem); line-height: 1.14; text-align: center; }
-  .interaction-host { display: grid; gap: 10px; }
+  .answer-scene :global(.scene) { height: clamp(110px, 22vh, 165px); }
+  .question-prompt { margin: 7px 4px 9px; font-size: clamp(1.05rem, 3.9vw, 1.45rem); line-height: 1.12; text-align: center; }
+  .interaction-host { display: grid; gap: 8px; }
 
-  .reaction-state__scroll { display: grid; align-content: center; gap: 10px; }
-  .restored-answer-note { padding: 9px 11px; border: 1px solid var(--line); border-radius: 13px; color: var(--muted); font-size: .76rem; font-weight: 700; }
-  .feedback { display: grid; gap: 4px; padding: 14px; border-radius: 18px; }
+  .restored-answer-note { margin: 6px 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); font-size: .74rem; font-weight: 700; }
+  .inline-reaction { display: grid; gap: 7px; margin-top: 9px; }
+  .feedback { display: grid; gap: 2px; padding: 9px 11px; border-radius: 14px; }
   .feedback--correct { background: var(--good-soft); color: var(--good); }
   .feedback--incorrect { background: var(--try-soft); color: var(--try); }
-  .feedback strong { font-size: 1.05rem; }
-  .feedback span { line-height: 1.38; font-weight: 650; }
+  .feedback strong { font-size: .95rem; }
+  .feedback span { line-height: 1.28; font-size: .78rem; font-weight: 650; }
 
-  .story-reaction { display: grid; grid-template-columns: 54px minmax(0,1fr); align-items: center; gap: 10px; padding: 10px; border-radius: 16px; background: linear-gradient(135deg,#f6f7ff,#fffaf0); }
-  .story-reaction__actor { width: 50px; height: 50px; }
-  .story-reaction__copy { min-width: 0; display: grid; gap: 2px; }
-  .story-reaction__copy strong { font-size: .78rem; }
-  .story-reaction__copy > span { font-weight: 650; line-height: 1.35; }
+  .story-reaction { display: grid; grid-template-columns: 46px minmax(0,1fr); align-items: center; gap: 7px; padding: 7px 9px; border-radius: 14px; background: linear-gradient(135deg,#f6f7ff,#fffaf0); }
+  .story-reaction__actor { width: 44px; height: 44px; }
+  .story-reaction__copy { min-width: 0; display: grid; grid-template-columns:minmax(0,1fr) auto; gap: 1px 6px; align-items:center; }
+  .story-reaction__copy strong { grid-column:1; font-size: .72rem; }
+  .story-reaction__copy > span { grid-column:1; font-size:.74rem; font-weight: 650; line-height: 1.25; }
+  .hear-reaction { grid-column:2; grid-row:1/3; width:38px; height:38px; border:0; border-radius:999px; background:#fff; cursor:pointer; }
 
-  .reinforcement-scene :global(.scene) { height: clamp(160px, 34vh, 235px); }
+  .reinforcement-scene :global(.scene) { height: clamp(130px, 28vh, 190px); }
   .reinforcement-meaning,
   .reinforcement-recipe { width: min(100%, 30rem); min-height: 0; margin: 0 auto; }
   .reinforcement-meaning :global(.visual-meaning-presenter) { width: 100%; }
   .reinforcement-recipe :global(.visual-recipe) { width: 100%; }
-  .reaction-avatar { width: min(180px, 45vw); height: min(180px, 45vw); margin: 0 auto; }
 
   .next-button,
   .primary-button,
   .secondary-button {
-    min-height: 52px;
-    padding: 12px 16px;
+    min-height: 48px;
+    padding: 10px 14px;
     border: 0;
-    border-radius: 16px;
+    border-radius: 14px;
     font: inherit;
     font-weight: 900;
     cursor: pointer;
   }
-  .next-button { margin: 0 14px 14px; background: #24303a; color: #fff; }
+  .next-button { margin: 0 10px 10px; background: #24303a; color: #fff; }
 
   .completion-viewport { display: grid; place-items: center; }
   .completion-card-viewport { width: min(620px,100%); max-height: 100%; min-height: 0; display: grid; grid-template-rows: minmax(0,1fr) auto; overflow: hidden; padding: 14px; border: 1px solid rgba(36,48,58,.08); border-radius: 24px; background: #fff; box-shadow: var(--shadow); text-align: center; }
@@ -655,25 +602,25 @@
   .secondary-button { background: #f4f6f7; color: var(--ink); }
 
   @media (max-width: 430px) {
-    .session-viewport { gap: 7px; }
-    .session-topbar { padding: 5px 7px; border-radius: 15px; }
-    .home-button { width: 38px; height: 38px; }
-    .player-avatar { width: 36px; height: 36px; }
-    .progress-pill { min-width: 55px; padding: 6px 8px; }
-    .session-card { border-radius: 20px; }
-    .session-card__scroll { padding: 10px; }
-    .answer-scene :global(.scene) { height: 120px; }
-    .question-prompt { margin-top: 10px; font-size: 1.22rem; }
-    .reinforcement-scene :global(.scene) { height: 190px; }
-    .next-button { margin: 0 10px 10px; }
+    .session-viewport { gap: 4px; }
+    .session-topbar { min-height:42px; padding: 2px 4px; }
+    .home-button,.sound-button { width:36px; height:36px; }
+    .progress-pill { min-width: 48px; padding: 5px 6px; }
+    .session-card { border-radius: 17px; }
+    .session-card__scroll { padding: 8px; }
+    .answer-scene :global(.scene) { height: 105px; }
+    .question-prompt { margin: 5px 3px 7px; font-size: 1.05rem; }
+    .reinforcement-scene :global(.scene) { height: 145px; }
     .completion-card-viewport { padding: 10px; }
     .completion-actions { grid-template-columns: 1fr; }
   }
 
   @media (max-height: 650px) {
-    .answer-scene :global(.scene) { height: 105px; }
-    .question-prompt { font-size: 1.15rem; }
-    .reinforcement-scene :global(.scene) { height: 155px; }
-    .reaction-avatar { width: 110px; height: 110px; }
+    .session-topbar { min-height:40px; }
+    .home-button,.sound-button { width:34px; height:34px; }
+    .answer-scene :global(.scene) { height: 92px; }
+    .question-prompt { margin-block:4px 6px; font-size: .98rem; }
+    .reinforcement-scene :global(.scene) { height: 125px; }
+    .session-card__scroll { padding-top:7px; }
   }
 </style>

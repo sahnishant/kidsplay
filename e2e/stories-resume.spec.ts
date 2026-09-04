@@ -1,7 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
 const STORY_KEY = 'kidsplay.stories.reading.v1';
 const AUDIO_KEY = 'kidsplay.audio.v1';
+
+async function openStories(page: Page): Promise<void> {
+  await page.getByLabel('Open child navigation').click();
+  await page.getByRole('button', { name: 'Open Stories' }).click();
+}
 
 test.use({ viewport: { width: 360, height: 640 } });
 
@@ -14,7 +19,7 @@ test('Stories resumes the exact child-facing page after a process-style reload w
   const beforeLearningState = await page.evaluate(([storyKey, audioKey]) =>
     Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== storyKey && key !== audioKey)), [STORY_KEY, AUDIO_KEY]);
 
-  await page.getByRole('button', { name: 'Open Stories' }).click();
+  await openStories(page);
   const surface = page.getByTestId('stories-surface');
   await expect(surface).toBeVisible();
 
@@ -59,7 +64,7 @@ test('Stories resumes the exact child-facing page after a process-style reload w
   // Reopening Stories must restore the serialized story directly, not ask the
   // child to locate the title and page again.
   await page.reload();
-  await page.getByRole('button', { name: 'Open Stories' }).click();
+  await openStories(page);
   await expect(page.getByTestId('story-reader')).toHaveAttribute('data-story-id', 'story.dheu.moonlit-leaf');
   await expect(page.getByText('Page 3 of 9')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Remove from favourites' })).toBeVisible();

@@ -94,6 +94,7 @@ test('Trace & Discover gives honest retry and completes three pointer traces wit
   test.setTimeout(60_000);
   await openCleanApp(page);
 
+  await page.getByLabel('Open child navigation').click();
   await page.getByRole('button', { name: 'Open practice activities' }).click();
   await expect(page.getByRole('heading', { name: 'Trace & Discover' })).toBeVisible();
   await page.getByRole('button', { name: 'Trace paths' }).click();
@@ -116,6 +117,7 @@ test('Trace & Discover gives honest retry and completes three pointer traces wit
   await expect(sessionFeedback(page)).toContainText('Nice work!');
   if (first.successText) await expect(sessionFeedback(page)).toContainText(first.successText);
   completed.add(first.prompt);
+  await page.getByRole('button', { name: 'Next' }).click();
 
   while (completed.size < traceCases.length) {
     const current = await waitForTraceCase(page, completed);
@@ -124,6 +126,7 @@ test('Trace & Discover gives honest retry and completes three pointer traces wit
     await expect(sessionFeedback(page)).toContainText('Nice work!');
     if (current.successText) await expect(sessionFeedback(page)).toContainText(current.successText);
     completed.add(current.prompt);
+    await page.getByRole('button', { name: completed.size === traceCases.length ? 'Finish' : 'Next' }).click();
   }
 
   expect(completed).toEqual(new Set(traceCases.map((traceCase) => traceCase.prompt)));

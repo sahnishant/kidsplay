@@ -6,11 +6,12 @@ async function resetAndOpenPlay(page: Page): Promise<void> {
   await page.goto('/');
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
+  await page.getByLabel('Open child navigation').click();
   await page.getByRole('button', { name: 'Open practice activities' }).click();
 }
 
 async function next(page: Page): Promise<void> {
-  await page.getByRole('button', { name: /Next activity|Replay sampler/ }).click();
+  await page.getByRole('button', { name: /Next activity|Play sampler again/ }).click();
 }
 
 async function assertLarge(locator: Locator, minWidth = 88, minHeight = 88): Promise<void> {
@@ -26,9 +27,8 @@ test('First Play is a 360x640 zero-reading touch/listen/place/letter journey wit
 
   const surface = page.locator('[data-first-play-mode="first_play"]');
   await expect(surface).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Repeat' })).toBeVisible();
-  await assertLarge(page.getByRole('button', { name: 'Repeat' }), 60, 50);
-  await page.getByRole('button', { name: 'Repeat' }).click();
+  await expect(page.getByRole('button', { name: 'Repeat' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Turn sound off' })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
 
   await expect(surface).toHaveAttribute('data-activity-id', 'first-play.touch.dog');
@@ -114,7 +114,7 @@ test('First Play is a 360x640 zero-reading touch/listen/place/letter journey wit
   await assertLarge(emptyBucket, 200, 250);
   await emptyBucket.click();
   await expect(page.locator('.cause-effect-target [data-container-state="full"]')).toBeVisible();
-  await expect(page.getByRole('button', { name: 'Replay sampler' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Play sampler again' })).toBeVisible();
 
   const progress = await page.evaluate(() => {
     const raw = window.localStorage.getItem('kidsplay.progress.v1');
