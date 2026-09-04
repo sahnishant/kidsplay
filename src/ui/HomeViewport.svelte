@@ -8,7 +8,7 @@
   import type { AvatarId, ChildSettings, ProgressSummary } from '../runtime/localProgress';
   import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
   import { getStoryLocations, getStoryMissions } from '../story/storyDirector';
-  import { currentStoryLocation } from '../story/storyPresentation';
+  import { buildStoryLocationPresentation } from '../story/storyPresentation';
   import type { StoryProgressSnapshot } from '../story/storyProgress';
   import { deriveWorldRewardState } from '../story/worldRewards';
   import ChildHud from './home/ChildHud.svelte';
@@ -51,7 +51,15 @@
   let displayName = $derived(child.name.trim() || 'Dheu');
   let worldState = $derived(mergeForestWorldDepthState(deriveWorldRewardState(progress), storyProgress));
   let forestDiscoveries = $derived(projectForestDiscoveries(storyProgress));
-  let currentLevel = $derived(currentStoryLocation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)?.progression.level ?? null);
+  let currentStoryPresentation = $derived(
+    buildStoryLocationPresentation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)
+      .find((item) => item.state === 'current') ?? null
+  );
+  let currentLevel = $derived(
+    currentStoryPresentation?.mission?.worldDepthLevel
+      ?? currentStoryPresentation?.location.progression.level
+      ?? null
+  );
   let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
   let freeExploreEntries = $derived(catalog.filter((entry) => entry.kind === 'free_explore'));
   let goalProgrammeEntries = $derived(catalog.filter((entry) => entry.kind === 'goal_learning'));
