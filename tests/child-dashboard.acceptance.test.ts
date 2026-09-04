@@ -85,11 +85,11 @@ describe('child dashboard acceptance surfaces', () => {
 
     expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
     expect(screen.getByRole('navigation', { name: 'Grown-up sections' })).toBeTruthy();
-    expect(screen.getByText('Numbers for grown-ups')).toBeTruthy();
+    expect(await screen.findByText('Numbers for grown-ups')).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
     expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
-    expect(screen.getByText('OLYMPIAD CHALLENGE')).toBeTruthy();
+    expect(await screen.findByText('OLYMPIAD CHALLENGE')).toBeTruthy();
     expect(screen.getByRole('heading', { name: /% ready$/ })).toBeTruthy();
     expect(screen.getByLabelText('Learn, practise, mock journey')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Start mock ▶' })).toBeTruthy();
