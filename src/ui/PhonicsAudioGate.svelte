@@ -3,7 +3,7 @@
   import type { EvaluationResult } from '../contracts/runtime';
   import type { Question } from '../contracts/question';
   import type { EngineComponent, EngineSubmissionMode } from '../engines/types';
-  import { playPhonemeAudio, stopChildAudio } from '../runtime/childAudio';
+  import { playRequiredBundledAudio, stopChildAudio } from '../runtime/childAudio';
 
   interface AudioCue {
     stage: string;
@@ -29,6 +29,7 @@
 
   let heard = $state(false);
   let notice = $state<string | null>(null);
+  let playbackRequest = 0;
   let cue = $derived(resolveAudioCue(question.id));
 
   function resolveAudioCue(questionId: string): AudioCue | null {
@@ -42,35 +43,43 @@
     };
   }
 
-  function playTargetSound(): void {
+  async function playTargetSound(): Promise<void> {
+    const requestId = ++playbackRequest;
     heard = false;
     notice = null;
     if (!soundEnabled || !cue) {
+      stopChildAudio();
       notice = 'Turn sound on to hear this sound challenge.';
       return;
     }
 
-    // Only exact bundled phoneme playback unlocks the evaluator. Generic device
-    // speech is not accepted as evidence that the target phoneme was heard.
-    const result = playPhonemeAudio('sound', question.language, true, cue.bundledSrc);
-    if (result.source === 'bundled') {
+    // This promise resolves true only after the exact local file actually starts;
+    // TTS/local-voice fallback is intentionally forbidden for phonics evidence.
+    const started = await playRequiredBundledAudio(cue.bundledSrc, true);
+    if (requestId !== playbackRequest) return;
+    if (started && soundEnabled) {
       heard = true;
       return;
     }
-    notice = 'This sound is not ready on this device yet.';
+    notice = 'Tap Repeat to hear the sound before choosing.';
   }
 
   $effect(() => {
     const currentId = question.id;
     const enabled = soundEnabled;
     if (!currentId || !enabled) {
+      playbackRequest += 1;
+      stopChildAudio();
       heard = false;
       return;
     }
-    playTargetSound();
+    void playTargetSound();
   });
 
-  onDestroy(stopChildAudio);
+  onDestroy(() => {
+    playbackRequest += 1;
+    stopChildAudio();
+  });
 </script>
 
 <div
@@ -84,7 +93,7 @@
     type="button"
     disabled={!soundEnabled || !cue}
     aria-label="Repeat target sound"
-    onclick={playTargetSound}
+    onclick={() => void playTargetSound()}
   >
     <span aria-hidden="true">↻</span>
     <span>Repeat</span>
