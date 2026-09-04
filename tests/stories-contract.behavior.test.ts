@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { validateChildAudioUtteranceManifest } from '../src/runtime/childAudioManifest';
 import {
+  isStoryPublishable,
   validateStoryManifest,
   validateStoryNarrationCoverage,
   validateStoryReadingState
@@ -11,6 +12,7 @@ const story = {
   storyId: 'story.forest.goodnight',
   childTitle: 'Goodnight, Forest',
   seriesId: 'series.forest.tales',
+  editorialStatus: 'draft' as const,
   lexicalProfileRef: 'lexical.story.band-1',
   durationBand: 'bedtime_story',
   supportedModes: ['read_to_me', 'read_together'],
@@ -65,13 +67,22 @@ const audio = validateChildAudioUtteranceManifest({
 });
 
 describe('Stories V1 contract', () => {
-  it('accepts an authored manuscript that supports Read to me and owns no assessment/mastery fields', () => {
+  it('accepts an authored draft manuscript that supports Read to me and owns no assessment/mastery fields', () => {
     expect(validateStoryManifest(story)).toMatchObject({
       storyId: 'story.forest.goodnight',
+      editorialStatus: 'draft',
       assessmentPolicy: 'none',
       masteryWritesAllowed: false,
       supportedModes: ['read_to_me', 'read_together']
     });
+  });
+
+  it('requires explicit editorial status and exposes only reviewed manuscripts as publishable', () => {
+    expect(() => validateStoryManifest({ ...story, editorialStatus: undefined })).toThrow(/editorialStatus/);
+    const draft = validateStoryManifest(story);
+    const reviewed = validateStoryManifest({ ...story, editorialStatus: 'reviewed' });
+    expect(isStoryPublishable(draft)).toBe(false);
+    expect(isStoryPublishable(reviewed)).toBe(true);
   });
 
   it('rejects assessment, score, accuracy or currency authority anywhere inside story metadata', () => {
