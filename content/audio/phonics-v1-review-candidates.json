@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "packId": "kidsplay.phonics.sound-trail.audio.v1",
+  "status": "pending_human_audio_review",
+  "generator": {
+    "engine": "espeak",
+    "voice": "en-in",
+    "speed": 115,
+    "pitch": 60,
+    "amplitude": 160,
+    "encoder": "ffmpeg-libopus",
+    "sampleRateHz": 24000,
+    "targetBitrate": "8k"
+  },
+  "entries": [
+    {
+      "id": "prereader.phoneme.f",
+      "phonemeId": "phoneme.en.f",
+      "bundledSrc": "/audio/kidsplay-v1/prereader/phoneme-f.ogg",
+      "durationMs": 1943,
+      "bytes": 1215,
+      "sha256": "09cef03ff0fc6e21d4d5512eea33facaef25024bb0c68503eda67e9be4c33ce2",
+      "reviewStatus": "candidate"
+    },
+    {
+      "id": "prereader.phoneme.s",
+      "phonemeId": "phoneme.en.s",
+      "bundledSrc": "/audio/kidsplay-v1/prereader/phoneme-s.ogg",
+      "durationMs": 1939,
+      "bytes": 1285,
+      "sha256": "f56d5c803c646fd71ca33d8e2b00f95f02e62f423057f6dd3efa1caa9c920170",
+      "reviewStatus": "candidate"
+    }
+  ],
+  "humanReviewRequiredBeforeMerge": true,
+  "reviewChecks": [
+    "isolated sound is linguistically acceptable for en-IN",
+    "no accidental letter-name reading",
+    "no added misleading vowel/schwa",
+    "comfortable volume and pacing for preschool child",
+    "packaged Android playback is offline and clear"
+  ]
+}
