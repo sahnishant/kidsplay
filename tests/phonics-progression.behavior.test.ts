@@ -25,7 +25,7 @@ function mapping(letter: string): PhonemeGraphemeMapping {
 const mappings = [mapping('b'), mapping('m'), mapping('s'), mapping('t'), mapping('f')];
 
 describe('sound-first phonics progression', () => {
-  it('runs hear -> discriminate -> object/word -> grapheme -> trace across three explicit sounds', () => {
+  it('runs hear -> discriminate -> object/word -> grapheme -> recognition before optional trace across three sounds', () => {
     const progression = buildPhonicsProgression(
       mappings,
       ['phonics.en-in.m.initial', 'phonics.en-in.s.initial', 'phonics.en-in.b.initial'],
@@ -33,7 +33,7 @@ describe('sound-first phonics progression', () => {
     );
 
     expect(progression.map((item) => item.phonemeId)).toEqual(['phoneme.en.m', 'phoneme.en.s', 'phoneme.en.b']);
-    expect(progression.every((item) => item.stages.join('>') === 'hear>discriminate>connect_object_word>grapheme>trace_after_grapheme')).toBe(true);
+    expect(progression.every((item) => item.stages.join('>') === 'hear>discriminate>connect_object_word>grapheme>recognition>trace_after_grapheme')).toBe(true);
   });
 
   it('preserves explicit authored order instead of inventing a spelling/alphabetic curriculum', () => {
@@ -45,11 +45,12 @@ describe('sound-first phonics progression', () => {
     expect(progression.map((item) => item.grapheme)).toEqual(['t', 'b', 'f']);
   });
 
-  it('permits tracing only after sound/object/grapheme introduction', () => {
+  it('permits tracing only after recognition and the rest of sound/object/grapheme introduction', () => {
     expect(tracingMayStartAtStage('hear')).toBe(false);
     expect(tracingMayStartAtStage('discriminate')).toBe(false);
     expect(tracingMayStartAtStage('connect_object_word')).toBe(false);
     expect(tracingMayStartAtStage('grapheme')).toBe(false);
+    expect(tracingMayStartAtStage('recognition')).toBe(false);
     expect(tracingMayStartAtStage('trace_after_grapheme')).toBe(true);
   });
 
