@@ -117,11 +117,12 @@ beforeEach(() => {
 });
 
 describe('adaptive experience routing', () => {
-  it('uses a versioned deterministic policy and schedules assisted success earlier than independent mastery', () => {
+  it('uses a versioned deterministic policy and schedules assisted success earlier than repeated independent mastery', () => {
     const conceptId = 'animals.domestic.dog';
     const question = choiceQuestion('q.dog.choice', conceptId);
     const independent = progress([
-      storedAttempt({ questionId: question.id, conceptId, submittedAt: T0, correct: true })
+      storedAttempt({ sessionId: 'session.independent.1', questionId: question.id, conceptId, submittedAt: T0, correct: true }),
+      storedAttempt({ sessionId: 'session.independent.2', questionId: question.id, conceptId, submittedAt: at(60_000), correct: true })
     ]);
     const assisted = progress([
       storedAttempt({ sessionId: 'session.assisted', questionId: question.id, conceptId, submittedAt: T0, correct: false }),
@@ -141,7 +142,8 @@ describe('adaptive experience routing', () => {
 
     expect(ADAPTIVE_ROUTING_POLICY_VERSION).toBe(1);
     expect(independentState.policyVersion).toBe(ADAPTIVE_ROUTING_POLICY_VERSION);
-    expect(ADAPTIVE_REVIEW_INTERVALS_MS.independent[0]).toBe(DAY);
+    expect(independentState.independentSuccessRounds).toBe(2);
+    expect(ADAPTIVE_REVIEW_INTERVALS_MS.independent[1]).toBe(3 * DAY);
     expect(ADAPTIVE_REVIEW_INTERVALS_MS.assisted[0]).toBe(4 * HOUR);
     expect(Date.parse(assistedState.dueAt)).toBeLessThan(Date.parse(independentState.dueAt));
     expect(independentState.evidenceKind).toBe('independent');
@@ -175,7 +177,7 @@ describe('adaptive experience routing', () => {
     expect(due.questionIds).toEqual([drag.id]);
   });
 
-  it('returns recovered or assisted concepts through confidence before independent concepts are due', () => {
+  it('routes recovered or assisted evidence back through recovery when its shorter interval becomes due', () => {
     const conceptId = 'animals.domestic.dog';
     const choice = choiceQuestion('q.dog.choice', conceptId);
     const drag = dragQuestion('q.dog.drag', conceptId);
@@ -193,8 +195,32 @@ describe('adaptive experience routing', () => {
     ]);
 
     const decision = route(snapshot, [choice, drag], at(5 * HOUR));
-    expect(decision.kind).toBe('confidence');
+    expect(decision.kind).toBe('recovery');
     expect(decision.questionIds).toEqual([drag.id]);
+  });
+
+  it('uses confidence only for well-established independent material immediately after a difficult beat', () => {
+    const strongConcept = 'animals.domestic.dog';
+    const challengeConcept = 'animals.wild.lion';
+    const strongChoice = choiceQuestion('q.dog.choice.1', strongConcept);
+    const strongDrag = dragQuestion('q.dog.drag', strongConcept);
+    const strongAlternate = choiceQuestion('q.dog.choice.2', strongConcept);
+    const challenge = choiceQuestion('q.lion.choice', challengeConcept);
+    const challengeAlternate = dragQuestion('q.lion.drag', challengeConcept);
+    const snapshot = progress([
+      storedAttempt({ sessionId: 'strong.1', questionId: strongChoice.id, conceptId: strongConcept, submittedAt: T0, correct: true }),
+      storedAttempt({ sessionId: 'strong.2', questionId: strongDrag.id, conceptId: strongConcept, submittedAt: at(60_000), correct: true }),
+      storedAttempt({ sessionId: 'challenge', questionId: challenge.id, conceptId: challengeConcept, submittedAt: at(2 * 60_000), correct: false })
+    ]);
+
+    const decision = route(
+      snapshot,
+      [strongChoice, strongDrag, strongAlternate, challenge, challengeAlternate],
+      at(10 * 60_000)
+    );
+    expect(decision.kind).toBe('confidence');
+    expect(decision.conceptId).toBe(strongConcept);
+    expect(decision.questionIds).toEqual([strongAlternate.id]);
   });
 
   it('revisits the same concept through a different existing recipe instead of repeating its MCQ when an alternative exists', () => {
