@@ -20,9 +20,9 @@
     { id: 'd3_deeper_primary', label: 'Go deeper', short: 'D3+' }
   ];
   const topicIcons: Readonly<Record<string, string>> = {
-    'learn-about.earth': '🌍',
-    'learn-about.lion': '🦁',
-    'learn-about.fire-station': '🚒'
+    'learn.earth': '🌍',
+    'learn.lion': '🦁',
+    'learn.fire-station': '🚒'
   };
 
   let selectedTopicId = $state<string | null>(null);
@@ -75,7 +75,7 @@
         <button class="topic-card" type="button" onclick={() => chooseTopic(topic.topicId)} aria-label={`Learn about ${topic.childTitle}`}>
           <span class="topic-card__icon" aria-hidden="true">{topicIcons[topic.topicId] ?? '🔎'}</span>
           <strong>{topic.childTitle}</strong>
-          <small>Look · discover · guess</small>
+          <small>Look · touch · discover</small>
         </button>
       {/each}
     </section>
@@ -128,7 +128,7 @@
                       <strong>{section.childTitle}</strong>
                     </button>
                     {#if touchedRowId === card.cardId}
-                      <p class="semantic-reveal" aria-live="polite">You found this part of the topic. More reviewed facts can appear here later.</p>
+                      <p class="semantic-reveal" aria-live="polite">You found this part of the topic.</p>
                     {/if}
                   {/if}
                 </article>
