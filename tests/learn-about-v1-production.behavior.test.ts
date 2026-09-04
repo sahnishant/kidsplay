@@ -6,6 +6,9 @@ import { LEARN_ABOUT_TOPICS } from '../src/experience/learnAboutCatalog';
 import { validateLearnAboutTopic, type LearnAboutDepthBand } from '../src/experience/learnAboutContract';
 import { extractReviewedLearnAboutKnowledge } from '../src/experience/learnAboutKnowledge';
 import { createLearnAboutRuntimeSession, LEARN_ABOUT_RUNTIME_ID } from '../src/experience/learnAboutRuntime';
+import { projectSemanticRiddlePlacement } from '../src/experience/riddlePlacement';
+import { validateRiddleProductionItem } from '../src/experience/riddleRuntime';
+import { LEARN_ABOUT_SHARED_RIDDLES } from '../src/experience/sharedRiddleRecords';
 
 const topicIds = ['learn.earth', 'learn.lion', 'learn.fire-station'] as const;
 const knowledgeRows = extractReviewedLearnAboutKnowledge([earthUniverse, animalHomes, animalYoungOnes]);
@@ -20,8 +23,9 @@ function families(topicId: (typeof topicIds)[number], depth: LearnAboutDepthBand
 }
 
 describe('Learn About V1 production runtime', () => {
-  it('runs Earth, Lion and Fire Station through the same reusable runtime', () => {
+  it('runs three contract-valid topics through the same reusable runtime', () => {
     expect(LEARN_ABOUT_TOPICS.map((topic) => topic.topicId)).toEqual(topicIds);
+    for (const topic of LEARN_ABOUT_TOPICS) expect(validateLearnAboutTopic(topic).topicId).toBe(topic.topicId);
     for (const topicId of topicIds) {
       const runtime = session(topicId, 'd0_first_play');
       expect(runtime.runtimeId).toBe(LEARN_ABOUT_RUNTIME_ID);
@@ -65,20 +69,24 @@ describe('Learn About V1 production runtime', () => {
     })).toThrow(/authority-empty sections may only use Explore/);
   });
 
-  it('reuses shared Riddle/Guess records and the existing single_choice evaluator contract', () => {
+  it('reuses validated shared Riddle records and the existing single_choice placement/evaluator contract', () => {
+    for (const item of LEARN_ABOUT_SHARED_RIDDLES) expect(validateRiddleProductionItem(item).clue.clueSetId).toBe(item.clue.clueSetId);
+
     const guesses = [...session('learn.earth', 'd2_early_primary').sections, ...session('learn.lion', 'd2_early_primary').sections]
       .flatMap((section) => section.cards)
       .filter((card) => card.family === 'guess');
 
-    expect(guesses.map((card) => card.riddle?.clue.clueSetId)).toEqual(expect.arrayContaining([
+    expect(guesses.map((card) => card.clue?.clueSetId)).toEqual(expect.arrayContaining([
       'riddle.r2.earth.planet-third', 'riddle.r0.dog.kennel', 'riddle.r2.cow.calf-shed'
     ]));
     expect(guesses.length).toBeGreaterThanOrEqual(3);
     for (const card of guesses) {
       expect(card.evidenceMode).toBe('evaluated_question');
       expect(card.question?.interaction.type).toBe('single_choice');
-      expect(card.riddle?.placement.evaluatorKey).toBe('single_choice@1');
-      expect(card.riddle?.surface).toBe('learn_about');
+      if (!card.clue || !card.question || card.question.interaction.type !== 'single_choice') throw new Error('Guess must be a shared single-choice clue');
+      const placement = projectSemanticRiddlePlacement(card.clue, card.question, 'learn_about');
+      expect(placement.evaluatorKey).toBe('single_choice@1');
+      expect(placement.surface).toBe('learn_about');
     }
   });
 
