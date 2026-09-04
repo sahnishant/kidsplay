@@ -2,7 +2,7 @@ import { validateLearnAboutTopic, type LearnAboutTopic } from './learnAboutContr
 
 export const EARTH_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
   schemaVersion: 1,
-  topicId: 'learn-about.earth',
+  topicId: 'learn.earth',
   childTitle: 'Earth',
   archetype: 'celestial_system',
   rootConceptRefs: ['universe.earth'],
@@ -66,7 +66,7 @@ export const EARTH_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
 
 export const LION_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
   schemaVersion: 1,
-  topicId: 'learn-about.lion',
+  topicId: 'learn.lion',
   childTitle: 'Lion',
   archetype: 'animal',
   rootConceptRefs: ['animals.lion'],
@@ -130,7 +130,7 @@ export const LION_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
 
 export const FIRE_STATION_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
   schemaVersion: 1,
-  topicId: 'learn-about.fire-station',
+  topicId: 'learn.fire-station',
   childTitle: 'Fire Station',
   archetype: 'community_place',
   rootConceptRefs: ['community.fire-station'],
