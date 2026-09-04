@@ -22,7 +22,8 @@
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
-    onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock, onStartFirstPlay
+    onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock,
+    onOpenLearnAbout, onStartFirstPlay
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
@@ -36,12 +37,15 @@
     onStartMission: (missionId: string) => void;
     onExploreLocation: (locationId: string) => void;
     onResumeMock: () => void;
+    onOpenLearnAbout: () => void;
     onStartFirstPlay?: (mode: FirstPlaySurfaceMode) => void;
   } = $props();
 
   const avatars: Array<{ id: AvatarId; label: string }> = [
-    { id: 'fox', label: 'Fox' }, { id: 'owl', label: 'Owl' },
-    { id: 'panda', label: 'Panda' }, { id: 'tiger', label: 'Tiger' }
+    { id: 'fox', label: 'Fox' },
+    { id: 'owl', label: 'Owl' },
+    { id: 'panda', label: 'Panda' },
+    { id: 'tiger', label: 'Tiger' }
   ];
   const storyLocations = getStoryLocations();
   const storyMissions = getStoryMissions();
@@ -50,21 +54,51 @@
   let releaseViewBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
   let worldState = $derived(deriveWorldRewardState(progress));
-  let currentLevel = $derived(currentStoryLocation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)?.progression.level ?? null);
-  let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
+  let currentLevel = $derived(
+    currentStoryLocation(
+      storyLocations,
+      storyMissions,
+      storyProgress,
+      progress.recommendedTopics
+    )?.progression.level ?? null
+  );
+  let patternMockEntryId = $derived(
+    catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null
+  );
   let freeExploreEntries = $derived(catalog.filter((entry) => entry.kind === 'free_explore'));
   let goalProgrammeEntries = $derived(catalog.filter((entry) => entry.kind === 'goal_learning'));
-  let isGrownUpView = $derived(view === 'progress' || view === 'goals' || view === 'programmes');
+  let isGrownUpView = $derived(
+    view === 'progress' || view === 'goals' || view === 'programmes'
+  );
 
-  function updateName(event: Event): void { onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value }); }
-  function closeViewFromBack(): void { view = 'world'; releaseViewBack = null; }
+  function updateName(event: Event): void {
+    onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value });
+  }
+
+  function closeViewFromBack(): void {
+    view = 'world';
+    releaseViewBack = null;
+  }
+
   function openView(next: HomeView): void {
     if (next === view) return;
-    if (next === 'world') { requestAppBack(closeViewFromBack); return; }
-    releaseViewBack?.(); view = next; releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
+    if (next === 'world') {
+      requestAppBack(closeViewFromBack);
+      return;
+    }
+    releaseViewBack?.();
+    view = next;
+    releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
   }
-  function requestWorld(): void { requestAppBack(closeViewFromBack); }
-  function startPatternMock(): void { if (patternMockEntryId) onStart(patternMockEntryId); }
+
+  function requestWorld(): void {
+    requestAppBack(closeViewFromBack);
+  }
+
+  function startPatternMock(): void {
+    if (patternMockEntryId) onStart(patternMockEntryId);
+  }
+
   function panelTitle(): string {
     if (view === 'player') return 'Who is playing?';
     if (view === 'progress') return 'Learning progress';
@@ -72,19 +106,40 @@
     if (view === 'programmes') return 'Programmes & profiles';
     return 'Choose a play activity';
   }
+
   onDestroy(() => releaseViewBack?.());
 </script>
 
 <main class="home-viewport" data-home-view={view}>
   {#if view === 'world'}
-    <ChildHud {child} {displayName} worldChanged={worldState.totalChanges > 0} {currentLevel} onOpenPlayer={() => openView('player')} />
-    <div class="home-viewport__stage"><StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState} recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics} {onStartMission} {onExploreLocation} /></div>
+    <ChildHud
+      {child}
+      {displayName}
+      worldChanged={worldState.totalChanges > 0}
+      {currentLevel}
+      onOpenPlayer={() => openView('player')}
+    />
+    <div class="home-viewport__stage">
+      <StoryWorldViewport
+        childName={child.name}
+        childAvatar={child.avatar}
+        {storyProgress}
+        {worldState}
+        recommendedTopics={progress.recommendedTopics}
+        topicProgress={progress.topics}
+        {onStartMission}
+        {onExploreLocation}
+      />
+    </div>
     <HomeBottomNav active="world" onOpen={(next: ChildPrimaryView) => openView(next)} />
   {:else}
     <section class="home-panel-screen" aria-label={`${view} screen`}>
       <header class="panel-topbar">
         <button class="panel-back" type="button" onclick={requestWorld} aria-label="Back to Dheu's world">←</button>
-        <div><span class="eyebrow">{isGrownUpView ? 'GROWN-UP AREA' : view === 'player' ? 'PLAYER' : 'PLAY'}</span><h1>{panelTitle()}</h1></div>
+        <div>
+          <span class="eyebrow">{isGrownUpView ? 'GROWN-UP AREA' : view === 'player' ? 'PLAYER' : 'PLAY'}</span>
+          <h1>{panelTitle()}</h1>
+        </div>
       </header>
 
       {#if isGrownUpView}
@@ -98,27 +153,55 @@
       <div class:home-panel-body--fixed={view === 'progress' || view === 'goals'} class="home-panel-body">
         {#if view === 'player'}
           <section class="panel-card player-panel">
-            <label class="name-field"><span>Child name</span><input type="text" maxlength="24" value={child.name} placeholder="e.g. Dheu" oninput={updateName} autocomplete="off" /></label>
+            <label class="name-field">
+              <span>Child name</span>
+              <input type="text" maxlength="24" value={child.name} placeholder="e.g. Dheu" oninput={updateName} autocomplete="off" />
+            </label>
             <div class="avatar-picker" role="group" aria-label="Choose an avatar">
               {#each avatars as avatar}
-                <button type="button" class:avatar-button--selected={child.avatar === avatar.id} class="avatar-button" aria-pressed={child.avatar === avatar.id} onclick={() => onChildChange({ ...child, avatar: avatar.id })}>
-                  <span class="avatar-art" aria-hidden="true"><Avatar avatar={avatar.id} motion={child.avatar === avatar.id ? 'bounce' : 'idle'} /></span><small>{avatar.label}</small>
+                <button
+                  type="button"
+                  class:avatar-button--selected={child.avatar === avatar.id}
+                  class="avatar-button"
+                  aria-pressed={child.avatar === avatar.id}
+                  onclick={() => onChildChange({ ...child, avatar: avatar.id })}
+                >
+                  <span class="avatar-art" aria-hidden="true">
+                    <Avatar avatar={avatar.id} motion={child.avatar === avatar.id ? 'bounce' : 'idle'} />
+                  </span>
+                  <small>{avatar.label}</small>
                 </button>
               {/each}
             </div>
             <p class="panel-note">Player choices are saved on this device.</p>
-            <aside class="catalog-card" aria-label="Grown-up area entry"><strong>For grown-ups</strong><p>Progress numbers, assessment mocks and curriculum/profile details live here.</p><button class="primary-action" type="button" onclick={() => openView('progress')} aria-label="Open grown-up area">Grown-up area</button></aside>
+
+            <aside class="catalog-card" aria-label="Grown-up area entry">
+              <strong>For grown-ups</strong>
+              <p>Progress numbers, assessment mocks and curriculum/profile details live here.</p>
+              <button class="primary-action" type="button" onclick={() => openView('progress')} aria-label="Open grown-up area">Grown-up area</button>
+            </aside>
           </section>
         {:else if view === 'progress'}
           <ProgressViewport {progress} />
         {:else if view === 'goals'}
-          <GoalsViewport {goalReadiness} {resumableMock} {mockTrends} {onResumeMock} onStartMock={patternMockEntryId ? startPatternMock : undefined} />
+          <GoalsViewport
+            {goalReadiness}
+            {resumableMock}
+            {mockTrends}
+            {onResumeMock}
+            onStartMock={patternMockEntryId ? startPatternMock : undefined}
+          />
         {:else if view === 'programmes'}
           <section class="catalog-grid" aria-label="Assessment programmes and curriculum profiles">
             {#each goalProgrammeEntries as entry}
               <article class="catalog-card catalog-card--goal">
-                <div class="catalog-card__topline"><span class="access-badge">GOAL PROGRAMME</span>{#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}</div>
-                <h2>{entry.title}</h2><p>{entry.description}</p>{#if entry.profileRef}<small class="profile-ref">Curriculum profile: {entry.profileRef}</small>{/if}
+                <div class="catalog-card__topline">
+                  <span class="access-badge">GOAL PROGRAMME</span>
+                  {#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}
+                </div>
+                <h2>{entry.title}</h2>
+                <p>{entry.description}</p>
+                {#if entry.profileRef}<small class="profile-ref">Curriculum profile: {entry.profileRef}</small>{/if}
                 <button class="primary-action" type="button" onclick={() => onStart(entry.id)}>{entry.actionLabel}</button>
               </article>
             {/each}
@@ -126,19 +209,52 @@
         {:else if view === 'practice'}
           {#if onStartFirstPlay}
             <section class="first-play-launches" aria-label="Picture-first play">
-              <button class="first-play-launch" type="button" aria-label="Start First Play sampler" onclick={() => onStartFirstPlay?.('first_play')}><span aria-hidden="true">🐾</span><strong>First Play</strong></button>
-              <button class="first-play-launch" type="button" aria-label="Start picture play puzzles" onclick={() => onStartFirstPlay?.('visual_reasoning')}><span aria-hidden="true">🧩</span><strong>Picture Play</strong></button>
+              <button
+                class="first-play-launch"
+                type="button"
+                aria-label="Start First Play sampler"
+                onclick={() => onStartFirstPlay?.('first_play')}
+              >
+                <span aria-hidden="true">🐾</span>
+                <strong>First Play</strong>
+              </button>
+              <button
+                class="first-play-launch"
+                type="button"
+                aria-label="Start picture play puzzles"
+                onclick={() => onStartFirstPlay?.('visual_reasoning')}
+              >
+                <span aria-hidden="true">🧩</span>
+                <strong>Picture Play</strong>
+              </button>
             </section>
           {/if}
+
           <section class="catalog-grid" aria-label="Play activities">
+            <article class="catalog-card catalog-card--learn-about">
+              <div class="catalog-card__topline"><span class="access-badge">LEARN ABOUT</span></div>
+              <h2>Explore a topic</h2>
+              <p>Earth, Lion and Fire Station through one look · discover · guess path.</p>
+              <button class="primary-action" type="button" onclick={onOpenLearnAbout}>Open Learn About</button>
+            </article>
             {#each freeExploreEntries as entry}
-              <article class="catalog-card"><div class="catalog-card__topline"><span class="access-badge">PLAY</span>{#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}</div><h2>{entry.title}</h2><p>{entry.description}</p><button class="primary-action" type="button" onclick={() => onStart(entry.id)}>{entry.actionLabel}</button></article>
+              <article class="catalog-card">
+                <div class="catalog-card__topline">
+                  <span class="access-badge">PLAY</span>
+                  {#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}
+                </div>
+                <h2>{entry.title}</h2>
+                <p>{entry.description}</p>
+                <button class="primary-action" type="button" onclick={() => onStart(entry.id)}>{entry.actionLabel}</button>
+              </article>
             {/each}
           </section>
         {/if}
       </div>
 
-      {#if view === 'practice'}<HomeBottomNav active="practice" onOpen={(next: ChildPrimaryView) => openView(next)} />{/if}
+      {#if view === 'practice'}
+        <HomeBottomNav active="practice" onOpen={(next: ChildPrimaryView) => openView(next)} />
+      {/if}
     </section>
   {/if}
 </main>
@@ -150,6 +266,6 @@
   .home-panel-body{min-height:0;flex:1;overflow:auto;padding:1px 2px 5px}.home-panel-body--fixed{overflow:hidden;padding:0}.panel-card,.catalog-card{border:1px solid #24303a17;border-radius:18px;background:#fffffff0}.panel-card{padding:16px}.panel-note,.catalog-card p,.profile-ref{color:var(--muted)}
   .name-field{display:grid;gap:6px}.name-field span{font-size:.76rem;font-weight:800}.name-field input{min-height:50px;padding:9px 12px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:800}.avatar-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.avatar-button{min-height:100px;display:grid;place-items:center;padding:7px;border:2px solid #e3e8eb;border-radius:18px;background:#f8fafb;color:var(--ink);cursor:pointer}.avatar-button--selected{border-color:var(--accent);background:var(--accent-soft)}.avatar-art{width:58px;height:58px}
   .first-play-launches{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}.first-play-launch{min-height:96px;border:2px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font:inherit;font-weight:900}.first-play-launch span{display:block;font-size:2rem}
-  .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
+  .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card--learn-about{background:#fff8e9}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
   @media(max-width:650px){.home-viewport{gap:5px}.catalog-grid{grid-template-columns:1fr}.avatar-picker{grid-template-columns:repeat(2,1fr)}}
 </style>
