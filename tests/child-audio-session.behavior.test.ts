@@ -119,7 +119,7 @@ describe('Phase C child audio session controls', () => {
     expect(screen.getByRole('status').textContent).toContain('Correct.');
   });
 
-  it('exposes story-character narration through the same offline voice contract', async () => {
+  it('exposes whichever story persona owns the reaction through the same offline voice contract', async () => {
     const synthesis = window.speechSynthesis as unknown as { speak: ReturnType<typeof vi.fn> };
     render(Session, {
       props: {
@@ -134,15 +134,15 @@ describe('Phase C child audio session controls', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
-    const hear = screen.getByRole('button', { name: 'Hear Scientu' });
+    const hear = screen.getByRole('button', { name: 'Hear Shaitanu' });
     expect(hear).toBeTruthy();
 
     const before = synthesis.speak.mock.calls.length;
     await fireEvent.click(hear);
     expect(synthesis.speak).toHaveBeenCalledTimes(before + 1);
     const utterance = synthesis.speak.mock.calls.at(-1)?.[0] as MockUtterance;
-    expect(utterance.pitch).toBe(1.1);
-    expect(utterance.text).toContain('Final clue checked');
+    expect(utterance.pitch).toBe(0.98);
+    expect(utterance.text).toContain('Last clue');
   });
 
   it('cancels narration before retry and exit transitions', async () => {
@@ -184,7 +184,8 @@ describe('Phase C child audio session controls', () => {
     });
 
     await fireEvent.click(screen.getByRole('button', { name: 'Dog' }));
-    await fireEvent.click(screen.getByRole('button', { name: 'Hear Scientu' }));
+    const hear = screen.getByRole('button', { name: /^Hear (Dheu|Scientu|Shaitanu)$/ });
+    await fireEvent.click(hear);
     const beforeTransition = synthesis.cancel.mock.calls.length;
     await fireEvent.click(screen.getByRole('button', { name: 'Next' }));
 
