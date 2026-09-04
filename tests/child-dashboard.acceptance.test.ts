@@ -50,15 +50,11 @@ afterEach(() => {
 });
 
 describe('child dashboard acceptance surfaces', () => {
-  it('uses one compact adventure CTA and keeps adult progress and assessment navigation off the child home', () => {
+  it('makes Continue Adventure primary and keeps adult progress and assessment navigation off the child home', () => {
     render(App);
 
-    expect(screen.getByRole('button', { name: 'Continue Forest Explorer Trail' })).toBeTruthy();
-    expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy();
-    expect(screen.queryByText('CONTINUE ADVENTURE')).toBeNull();
-    expect(screen.getByLabelText('Scientu and Shaitanu')).toBeTruthy();
-    expect(screen.queryByText('World changed')).toBeNull();
-    expect(screen.queryByText('World ready')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Continue Adventure' })).toBeTruthy();
+    expect(screen.getByText('CONTINUE ADVENTURE')).toBeTruthy();
     expect(screen.getByLabelText('Current adventure level 1')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open practice activities' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Open learning progress' })).toBeNull();
@@ -89,11 +85,11 @@ describe('child dashboard acceptance surfaces', () => {
 
     expect(screen.getByRole('heading', { name: 'Learning progress' })).toBeTruthy();
     expect(screen.getByRole('navigation', { name: 'Grown-up sections' })).toBeTruthy();
-    expect(screen.getByText('Numbers for grown-ups')).toBeTruthy();
+    expect(await screen.findByText('Numbers for grown-ups')).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Assessment' }));
     expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy();
-    expect(screen.getByText('OLYMPIAD CHALLENGE')).toBeTruthy();
+    expect(await screen.findByText('OLYMPIAD CHALLENGE')).toBeTruthy();
     expect(screen.getByRole('heading', { name: /% ready$/ })).toBeTruthy();
     expect(screen.getByLabelText('Learn, practise, mock journey')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Start mock ▶' })).toBeTruthy();
