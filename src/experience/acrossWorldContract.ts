@@ -123,6 +123,13 @@ const VALID_DEPTHS = new Set<AcrossWorldDepthBand>([
   'd2_early_primary',
   'd3_deeper_primary'
 ]);
+const ALLOWED_PARENT_TYPES: Readonly<Record<Exclude<GeographicNodeType, 'world'>, ReadonlySet<GeographicNodeType>>> = {
+  region: new Set<GeographicNodeType>(['world', 'region']),
+  country: new Set<GeographicNodeType>(['world', 'region']),
+  state_province: new Set<GeographicNodeType>(['country']),
+  city: new Set<GeographicNodeType>(['country', 'state_province']),
+  destination: new Set<GeographicNodeType>(['region', 'country', 'state_province', 'city'])
+};
 const FORBIDDEN_KEYS = new Set([
   'fact',
   'facts',
@@ -201,6 +208,13 @@ function validateGeographicHierarchy(
 ): void {
   for (const node of geographicNodes) {
     if (node.nodeId === worldNodeId) continue;
+    const parent = node.parentNodeId ? nodeById.get(node.parentNodeId) : undefined;
+    if (!parent) throw new Error(`${node.nodeId}: unknown parent ${String(node.parentNodeId)}`);
+    const allowedParentTypes = ALLOWED_PARENT_TYPES[node.type as Exclude<GeographicNodeType, 'world'>];
+    if (!allowedParentTypes.has(parent.type)) {
+      throw new Error(`${node.nodeId}: ${node.type} may not have parent type ${parent.type}`);
+    }
+
     const visited = new Set<string>([node.nodeId]);
     let cursor: GeographicNode | undefined = node;
 
@@ -209,9 +223,9 @@ function validateGeographicHierarchy(
         throw new Error(`${campaignId}: geographic hierarchy contains a parent cycle at ${cursor.parentNodeId}`);
       }
       visited.add(cursor.parentNodeId);
-      const parent = nodeById.get(cursor.parentNodeId);
-      if (!parent) throw new Error(`${cursor.nodeId}: unknown parent ${cursor.parentNodeId}`);
-      cursor = parent;
+      const nextParent = nodeById.get(cursor.parentNodeId);
+      if (!nextParent) throw new Error(`${cursor.nodeId}: unknown parent ${cursor.parentNodeId}`);
+      cursor = nextParent;
     }
 
     if (cursor.nodeId !== worldNodeId) {
