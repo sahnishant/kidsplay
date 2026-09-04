@@ -4,7 +4,12 @@ import {
   type FirstPlayActivity,
   type VisualReasoningActivity
 } from './firstPlayProduction';
-import { validateFirstPlayRecipePolicy } from './firstPlayPolicy';
+import {
+  validateFirstPlayRecipePolicy,
+  type FirstPlayAction,
+  type FirstPlayEvidenceClass,
+  type FirstPlayStage
+} from './firstPlayPolicy';
 import {
   resolveOddOneOutPlan,
   validateSemanticChoicePlan,
@@ -29,15 +34,39 @@ export interface VisualReasoningProof {
   oddOneOutPlan?: ProductionOddOneOutPlan;
 }
 
-export type FirstPlayProductionProof =
+interface FirstPlayProofBase {
+  stage: FirstPlayStage;
+  evidenceClass: FirstPlayEvidenceClass;
+  action: FirstPlayAction;
+}
+
+export type FirstPlayProductionProof = FirstPlayProofBase & (
+  | { kind: 'touch_discover' }
   | { kind: 'listen_find'; semanticPlan: SemanticChoicePlan }
+  | { kind: 'place_match' }
   | { kind: 'letter_picture'; targetWord: string; associationKind: 'letter_name_to_word_initial' }
   | { kind: 'semantic_contrast'; comparisonDimensionRef: string }
-  | { kind: 'cause_effect'; action: WorldActionDefinition };
+  | { kind: 'cause_effect'; worldAction: WorldActionDefinition }
+);
 
 export const FIRST_PLAY_PROOFS: Readonly<Record<string, FirstPlayProductionProof>> = {
+  'first-play.touch.dog': {
+    kind: 'touch_discover',
+    stage: 'fp0_touch_discover',
+    evidenceClass: 'exploration',
+    action: 'tap'
+  },
+  'first-play.touch.bell': {
+    kind: 'touch_discover',
+    stage: 'fp0_touch_discover',
+    evidenceClass: 'exploration',
+    action: 'tap'
+  },
   'first-play.listen.dog': {
     kind: 'listen_find',
+    stage: 'fp1_listen_find',
+    evidenceClass: 'guided_practice',
+    action: 'find',
     semanticPlan: {
       schemaVersion: 1,
       presentationTier: 'first_play',
@@ -51,6 +80,9 @@ export const FIRST_PLAY_PROOFS: Readonly<Record<string, FirstPlayProductionProof
   },
   'first-play.listen.earth': {
     kind: 'listen_find',
+    stage: 'fp1_listen_find',
+    evidenceClass: 'guided_practice',
+    action: 'find',
     semanticPlan: {
       schemaVersion: 1,
       presentationTier: 'first_play',
@@ -62,18 +94,39 @@ export const FIRST_PLAY_PROOFS: Readonly<Record<string, FirstPlayProductionProof
       ]
     }
   },
+  'first-play.place.dog': {
+    kind: 'place_match',
+    stage: 'fp2_match_relation',
+    evidenceClass: 'guided_practice',
+    action: 'place'
+  },
+  'first-play.place.apple': {
+    kind: 'place_match',
+    stage: 'fp2_match_relation',
+    evidenceClass: 'guided_practice',
+    action: 'place'
+  },
   'first-play.contrast.full-empty': {
     kind: 'semantic_contrast',
+    stage: 'fp4_concrete_concept',
+    evidenceClass: 'guided_practice',
+    action: 'find',
     comparisonDimensionRef: 'kr.vocab.state.full.contrasts-with-empty'
   },
   'first-play.letter-picture.a-apple': {
     kind: 'letter_picture',
+    stage: 'fp5_sound_letter_exposure',
+    evidenceClass: 'guided_practice',
+    action: 'find',
     targetWord: 'Apple',
     associationKind: 'letter_name_to_word_initial'
   },
   'first-play.cause-effect.fill-bucket': {
     kind: 'cause_effect',
-    action: {
+    stage: 'fp3_put_sort_build',
+    evidenceClass: 'exploration',
+    action: 'observe_change',
+    worldAction: {
       schemaVersion: 1,
       actionId: 'first-play.fill-bucket',
       family: 'cause_effect',
@@ -260,13 +313,11 @@ function assertStableEvidenceRef(value: string, context: string): void {
 }
 
 export function validateFirstPlayProductionActivity(activity: FirstPlayActivity): void {
-  const action = activity.kind === 'touch_discover'
-    ? 'tap'
-    : activity.kind === 'place_match'
-      ? 'place'
-      : activity.kind === 'cause_effect'
-        ? 'observe_change'
-        : 'find';
+  const proof = FIRST_PLAY_PROOFS[activity.id];
+  if (!proof || proof.kind !== activity.kind) {
+    throw new Error(`${activity.id}: First Play authoring proof is missing or mismatched`);
+  }
+
   const initialChoiceCount = activity.kind === 'listen_find'
     || activity.kind === 'semantic_contrast'
     || activity.kind === 'letter_picture'
@@ -276,28 +327,25 @@ export function validateFirstPlayProductionActivity(activity: FirstPlayActivity)
       : 0;
 
   validateFirstPlayRecipePolicy({
-    stage: activity.stage,
-    evidenceClass: activity.evidenceClass,
+    stage: proof.stage,
+    evidenceClass: proof.evidenceClass,
     readingRequired: false,
     instructionSteps: 1,
     initialChoiceCount,
     primaryTargetScale: 'oversized',
     wrongActionRecovery: 'in_place',
     requiresSeparateSubmitAfterCommittedAction: false,
-    action
+    action: proof.action
   });
 
-  const proof = FIRST_PLAY_PROOFS[activity.id];
-  if (activity.kind === 'listen_find') {
-    if (!proof || proof.kind !== 'listen_find') throw new Error(`${activity.id}: semantic proof missing`);
+  if (activity.kind === 'listen_find' && proof.kind === 'listen_find') {
     validateSemanticChoicePlan(proof.semanticPlan);
     if (activity.question.interaction.presentation?.tier !== 'first_play') {
       throw new Error(`${activity.id}: Listen & Find must use first_play visual presentation`);
     }
   }
 
-  if (activity.kind === 'letter_picture') {
-    if (!proof || proof.kind !== 'letter_picture') throw new Error(`${activity.id}: letter proof missing`);
+  if (activity.kind === 'letter_picture' && proof.kind === 'letter_picture') {
     if (!/^[A-Z]$/.test(activity.grapheme) || proof.associationKind !== 'letter_name_to_word_initial') {
       throw new Error(`${activity.id}: phoneme inference is not allowed in First Play`);
     }
@@ -324,17 +372,15 @@ export function validateFirstPlayProductionActivity(activity: FirstPlayActivity)
     throw new Error(`${activity.id}: First Play placement tolerance must be materially forgiving`);
   }
 
-  if (activity.kind === 'semantic_contrast') {
-    if (!proof || proof.kind !== 'semantic_contrast') throw new Error(`${activity.id}: contrast proof missing`);
+  if (activity.kind === 'semantic_contrast' && proof.kind === 'semantic_contrast') {
     assertStableEvidenceRef(proof.comparisonDimensionRef, `${activity.id}.comparisonDimensionRef`);
     if (activity.states.length !== 2 || new Set(activity.states.map((state) => state.state)).size !== 2) {
       throw new Error(`${activity.id}: concrete contrast must show exactly two distinct semantic states`);
     }
   }
 
-  if (activity.kind === 'cause_effect') {
-    if (!proof || proof.kind !== 'cause_effect') throw new Error(`${activity.id}: cause/effect proof missing`);
-    validateWorldActionDefinition(proof.action);
+  if (activity.kind === 'cause_effect' && proof.kind === 'cause_effect') {
+    validateWorldActionDefinition(proof.worldAction);
     if (activity.beforeState === activity.afterState) {
       throw new Error(`${activity.id}: cause/effect must visibly change semantic state`);
     }
