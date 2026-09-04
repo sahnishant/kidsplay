@@ -7,8 +7,14 @@
     saveStoryReadingState,
     type StoryReadingStore
   } from '../experience/storyReadingPersistence';
+  import { applyStoryV1HumanApproval } from '../experience/storyHumanApproval';
   import { measureStoryNarration, storyNarrationUtteranceId } from '../experience/storyNarrationMetrics';
-  import { validateStoryManifest, type StoryManifest, type StoryReadingState } from '../experience/storiesContract';
+  import {
+    isStoryPublishable,
+    validateStoryManifest,
+    type StoryManifest,
+    type StoryReadingState
+  } from '../experience/storiesContract';
   import { loadChildAudioPreferences, saveChildAudioPreferences } from '../runtime/childAudio';
   import { cancelChildUtterance, playChildUtterance } from '../runtime/childAudioProduction';
 
@@ -27,7 +33,11 @@
         if (!response.ok) throw new Error(`Story library asset returned ${response.status}`);
         const raw: unknown = await response.json();
         if (!Array.isArray(raw)) throw new Error('Story library asset must be an array');
-        const loaded = raw.map(validateStoryManifest);
+        const loaded = raw
+          .map(validateStoryManifest)
+          .map(applyStoryV1HumanApproval)
+          .filter(isStoryPublishable);
+        if (loaded.length === 0) throw new Error('No HUMAN-reviewed stories are published in this installation');
         if (!alive) return;
         catalog = loaded;
         store = loadStoryReadingStore(loaded);
