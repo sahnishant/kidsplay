@@ -18,6 +18,7 @@ export interface ForestAdventureStep {
   semanticDomain: ForestSemanticDomain;
   icon: string;
   title: string;
+  actionLabel: string;
   prompt: string;
   instruction: string;
   consequence: string;
