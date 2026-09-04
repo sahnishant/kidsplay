@@ -27,33 +27,18 @@ export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
     icon: '🌍',
     sections: [
       {
-        sectionId: 'earth.in-space',
-        relationshipRefs: [
-          'kr.universe.earth.type.planet',
-          'kr.universe.earth.position.third',
-          'kr.universe.sun.type.star'
-        ],
-        guesses: [{ clueSetId: 'riddle.r2.earth.planet-third', minDepth: 'd2_early_primary' }]
-      },
-      {
-        sectionId: 'earth.moon',
-        relationshipRefs: [
-          'kr.universe.moon.type.satellite',
-          'kr.universe.moonlight.source.sun'
-        ]
-      },
-      {
-        sectionId: 'earth.day-night',
+        sectionId: 'earth.day-and-night',
         relationshipRefs: ['kr.universe.earth.rotation.day-night']
       },
       {
-        sectionId: 'earth.go-deeper',
+        sectionId: 'earth.space-neighbours',
         relationshipRefs: [
-          'kr.universe.orbit.definition.planet-path',
-          'kr.universe.mars.name.red-planet',
-          'kr.universe.jupiter.property.largest',
-          'kr.universe.saturn.feature.rings'
-        ]
+          'kr.universe.earth.type.planet',
+          'kr.universe.sun.type.star',
+          'kr.universe.moon.type.satellite',
+          'kr.universe.earth.position.third'
+        ],
+        guesses: [{ clueSetId: 'riddle.r2.earth.planet-third', minDepth: 'd2_early_primary' }]
       }
     ]
   },
