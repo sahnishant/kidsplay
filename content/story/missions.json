@@ -20,52 +20,61 @@
       "openingSceneRef": "scene.plants.air-fresh",
       "successSceneRef": "scene.plants.air-fresh",
       "beats": [
-        {
-          "speakerRef": "shaitanu",
-          "mood": "mischievous",
-          "intent": "provoke",
-          "delivery": "boast",
-          "expression": "wicked-laugh",
-          "pose": "proud",
-          "angle": "three-quarter-left",
-          "motion": "chuckle",
-          "text": "Heh-heh. I moved the forest signs. Even Rabbit looks confused."
-        },
-        {
-          "speakerRef": "scientu",
-          "mood": "thinking",
-          "intent": "hypothesize",
-          "delivery": "suspicious",
-          "expression": "thinking",
-          "pose": "inspect",
-          "angle": "three-quarter-left",
-          "motion": "inspect",
-          "text": "Hmm. Then let us not trust the signs. What does the forest itself tell us?"
-        },
-        {
-          "speakerRef": "dheu",
-          "mood": "ready",
-          "intent": "invite",
-          "delivery": "excited",
-          "expression": "determined",
-          "pose": "action",
-          "angle": "three-quarter-right",
-          "motion": "jump",
-          "text": "First Rabbit. Then we put the growing stages back in order. Let’s go!"
-        }
+        { "speakerRef": "shaitanu", "mood": "mischievous", "intent": "provoke", "delivery": "boast", "expression": "wicked-laugh", "pose": "proud", "angle": "three-quarter-left", "motion": "chuckle", "text": "Heh-heh. I moved the forest signs. Even Rabbit looks confused." },
+        { "speakerRef": "scientu", "mood": "thinking", "intent": "hypothesize", "delivery": "suspicious", "expression": "thinking", "pose": "inspect", "angle": "three-quarter-left", "motion": "inspect", "text": "Hmm. Then let us not trust the signs. What does the forest itself tell us?" },
+        { "speakerRef": "dheu", "mood": "ready", "intent": "invite", "delivery": "excited", "expression": "determined", "pose": "action", "angle": "three-quarter-right", "motion": "jump", "text": "First Rabbit. Then we put the growing stages back in order. Let’s go!" }
       ],
-      "successBeat": {
-        "speakerRef": "shaitanu",
-        "mood": "celebrate",
-        "intent": "callback",
-        "delivery": "reluctant",
-        "expression": "admiring",
-        "pose": "help",
-        "angle": "three-quarter-left",
-        "motion": "recoil",
-        "text": "Okay, okay. You fixed my signs. The trail may even look better now. Do not tell Scientu I said that."
-      },
+      "successBeat": { "speakerRef": "shaitanu", "mood": "celebrate", "intent": "callback", "delivery": "reluctant", "expression": "admiring", "pose": "help", "angle": "three-quarter-left", "motion": "recoil", "text": "Okay, okay. You fixed my signs. The trail may even look better now. Do not tell Scientu I said that." },
       "reward": { "id": "badge.forest-trail-keeper", "label": "Forest Trail Keeper", "stars": 3 }
+    },
+    {
+      "id": "mission.forest-creek-rescue",
+      "title": "The Quiet Creek Rescue",
+      "locationRef": "forest",
+      "status": "prototype",
+      "access": "free",
+      "worldActionRef": "forest.world-depth.l2.creek-rescue",
+      "worldDepthLevel": 2,
+      "questionCount": 0,
+      "knowledgeRefs": [
+        "kr.plants.roots.function.absorb-water",
+        "kr.plants.seed.function.new-plant",
+        "kr.animals.rabbit.home.burrow"
+      ],
+      "openingSceneRef": "scene.plants.air-fresh",
+      "successSceneRef": "scene.plants.air-fresh",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "intent": "provoke", "text": "The creek is stuck and the crossing is broken. We could just put up another sign and leave it." },
+        { "speakerRef": "scientu", "mood": "thinking", "intent": "observe", "text": "The water path, the roots and the crossing are connected. Repairing the place will show us what changes." },
+        { "speakerRef": "dheu", "mood": "ready", "intent": "invite", "text": "I will fix the crossing, reconnect the water path and help the creek move again." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "intent": "celebrate", "text": "You changed the forest itself. The crossing is safe, water is moving, and the creek-bank plants have been watered." },
+      "reward": { "id": "badge.forest-creek-restorer", "label": "Creek Restorer", "stars": 3 }
+    },
+    {
+      "id": "mission.forest-busy-grove",
+      "title": "Bring Back the Busy Grove",
+      "locationRef": "forest",
+      "status": "prototype",
+      "access": "free",
+      "worldActionRef": "forest.world-depth.l3.grove-return",
+      "worldDepthLevel": 3,
+      "questionCount": 0,
+      "knowledgeRefs": [
+        "kr.animals.butterfly.lifecycle.egg-to-butterfly",
+        "kr.animals.rabbit.home.burrow",
+        "kr.plants.roots.function.absorb-water",
+        "kr.plants.leaves.function.make-food"
+      ],
+      "openingSceneRef": "scene.plants.air-fresh",
+      "successSceneRef": "scene.plants.air-fresh",
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "intent": "tease", "text": "The grove is too quiet. I can hang shiny decorations everywhere and call it fixed." },
+        { "speakerRef": "scientu", "mood": "thinking", "intent": "hypothesize", "text": "A habitat is useful because living things can find what they need there, not because it is shiny." },
+        { "speakerRef": "dheu", "mood": "ready", "intent": "invite", "text": "I will repair shelter, sort the feeding place and help flowering plants grow so animal visitors can return." }
+      ],
+      "successBeat": { "speakerRef": "shaitanu", "mood": "celebrate", "intent": "callback", "text": "Fine. Your shelter, food and flowers worked better than my shiny plan. The grove is busy again." },
+      "reward": { "id": "badge.forest-habitat-helper", "label": "Habitat Helper", "stars": 3 }
     },
     {
       "id": "mission.puppy-by-pond",
@@ -74,14 +83,7 @@
       "status": "prototype",
       "access": "free",
       "questionCount": 6,
-      "knowledgeRefs": [
-        "kr.animals.dog.domestic",
-        "kr.animals.dog.home.kennel",
-        "kr.animals.dog.young.puppy",
-        "kr.animals.seahorse.water-animal",
-        "kr.water.pond.feature.small",
-        "kr.water.sea.feature.salty"
-      ],
+      "knowledgeRefs": ["kr.animals.dog.domestic", "kr.animals.dog.home.kennel", "kr.animals.dog.young.puppy", "kr.animals.seahorse.water-animal", "kr.water.pond.feature.small", "kr.water.sea.feature.salty"],
       "openingSceneRef": "scene.dog.wrong-water",
       "successSceneRef": "scene.dog.play-ball",
       "beats": [
@@ -99,14 +101,7 @@
       "status": "prototype",
       "access": "free",
       "questionCount": 5,
-      "knowledgeRefs": [
-        "kr.air.moving.name.wind",
-        "kr.air.balloon.contains.air",
-        "kr.air.candle.need.air",
-        "kr.air.windmill.turned-by.wind",
-        "kr.air.kite.moved-by.wind",
-        "kr.air.sailboat.moved-by.wind"
-      ],
+      "knowledgeRefs": ["kr.air.moving.name.wind", "kr.air.balloon.contains.air", "kr.air.candle.need.air", "kr.air.windmill.turned-by.wind", "kr.air.kite.moved-by.wind", "kr.air.sailboat.moved-by.wind"],
       "openingSceneRef": "scene.air.balloon-candle",
       "successSceneRef": "scene.air.windmill",
       "beats": [
@@ -124,15 +119,7 @@
       "status": "prototype",
       "access": "free",
       "questionCount": 6,
-      "knowledgeRefs": [
-        "kr.rocks.pebble.feature.small-smooth",
-        "kr.rocks.granite.feature.hard",
-        "kr.rocks.marble.use.decorative",
-        "kr.rocks.sandstone.feature.grains",
-        "kr.rocks.pumice.feature.light",
-        "kr.rocks.slate.feature.sheets",
-        "kr.rocks.emerald.type.gemstone"
-      ],
+      "knowledgeRefs": ["kr.rocks.pebble.feature.small-smooth", "kr.rocks.granite.feature.hard", "kr.rocks.marble.use.decorative", "kr.rocks.sandstone.feature.grains", "kr.rocks.pumice.feature.light", "kr.rocks.slate.feature.sheets", "kr.rocks.emerald.type.gemstone"],
       "openingSceneRef": "scene.rocks.pumice-water",
       "successSceneRef": "scene.rocks.pumice-water",
       "beats": [
@@ -150,14 +137,7 @@
       "status": "prototype",
       "access": "free",
       "questionCount": 6,
-      "knowledgeRefs": [
-        "kr.universe.earth.type.planet",
-        "kr.universe.sun.type.star",
-        "kr.universe.moon.type.satellite",
-        "kr.universe.earth.rotation.day-night",
-        "kr.universe.orbit.definition.planet-path",
-        "kr.universe.jupiter.property.largest"
-      ],
+      "knowledgeRefs": ["kr.universe.earth.type.planet", "kr.universe.sun.type.star", "kr.universe.moon.type.satellite", "kr.universe.earth.rotation.day-night", "kr.universe.orbit.definition.planet-path", "kr.universe.jupiter.property.largest"],
       "openingSceneRef": "scene.universe.earth-rotation",
       "successSceneRef": "scene.universe.earth-rotation",
       "beats": [
@@ -176,13 +156,7 @@
       "access": "free",
       "questionPackRef": "free.sof-class3-science-foundation.1",
       "questionCount": 5,
-      "knowledgeRefs": [
-        "kr.sof3.plants.leaves.make-food",
-        "kr.sof3.plants.seed.germination.conditions",
-        "kr.sof3.animals.feeding.herbivore",
-        "kr.sof3.animals.feeding.carnivore",
-        "kr.sof3.animals.feeding.omnivore"
-      ],
+      "knowledgeRefs": ["kr.sof3.plants.leaves.make-food", "kr.sof3.plants.seed.germination.conditions", "kr.sof3.animals.feeding.herbivore", "kr.sof3.animals.feeding.carnivore", "kr.sof3.animals.feeding.omnivore"],
       "openingSceneRef": "scene.plants.air-fresh",
       "successSceneRef": "scene.plants.air-fresh",
       "beats": [
