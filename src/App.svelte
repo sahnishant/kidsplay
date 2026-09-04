@@ -3,12 +3,15 @@
   import {
     createSessionForCatalogEntry,
     getCatalogEntries,
+    getFreePackQuestions,
     getGoalReadiness,
     type SessionLaunch
   } from './content';
   import type { Question } from './contracts/question';
   import type { SessionAttempt } from './contracts/runtime';
   import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
+  import { registerAdaptiveContinueHandler } from './runtime/adaptiveContinue';
+  import { decideAdaptiveExperience } from './runtime/adaptiveRouting';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -42,8 +45,13 @@
     summarizeSectionResults,
     type SessionState
   } from './runtime/session';
-  import { createStoryMissionLaunch } from './story/storyDirector';
+  import {
+    createStoryMissionLaunch,
+    getStoryLocations,
+    getStoryMissions
+  } from './story/storyDirector';
   import { createStoryLocationLaunch } from './story/storyLocationDirector';
+  import { buildStoryLocationPresentation } from './story/storyPresentation';
   import {
     loadStoryProgress,
     recordStoryLocationCompletion,
@@ -59,6 +67,15 @@
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
+  const adaptiveQuestionBank = [...new Map(
+    catalog
+      .filter((entry) => entry.kind === 'free_explore')
+      .flatMap((entry) => getFreePackQuestions(entry.id))
+      .map((question) => [question.id, question] as const)
+  ).values()];
+  const adaptiveQuestionById = new Map(adaptiveQuestionBank.map((question) => [question.id, question]));
+  const storyLocations = getStoryLocations();
+  const storyMissions = getStoryMissions();
   const forestViewport = import('./ui/ForestWorldDepthViewport.svelte');
   let child = $state(loadChildSettings());
   let progress = $state(loadProgress());
@@ -90,6 +107,7 @@
   );
 
   onMount(() => installAppBackNavigation());
+  onMount(() => registerAdaptiveContinueHandler(tryStartAdaptiveExperience));
 
   function handleChildChange(settings: ChildSettings): void {
     child = saveChildSettings(settings);
@@ -199,6 +217,44 @@
     } catch (error) {
       startError = error instanceof Error ? error.message : 'This learning session could not be started.';
     }
+  }
+
+  function tryStartAdaptiveExperience(): boolean {
+    const currentPresentation = buildStoryLocationPresentation(
+      storyLocations,
+      storyMissions,
+      storyProgress,
+      progressSummary.recommendedTopics
+    ).find((item) => item.state === 'current') ?? null;
+    const decision = decideAdaptiveExperience({
+      progress,
+      questionBank: adaptiveQuestionBank,
+      currentWorldId: currentPresentation?.location.id ?? null,
+      currentWorldTopics: currentPresentation?.location.topicGroups ?? [],
+      worldHasProgress: Boolean(storyProgress.updatedAt),
+      now: new Date()
+    });
+    if (!decision.questionIds.length) return false;
+
+    const questions = decision.questionIds
+      .map((questionId) => adaptiveQuestionById.get(questionId))
+      .filter((question): question is Question => Boolean(question));
+    if (!questions.length) return false;
+
+    enterSessionBackBoundary('adaptive-adventure');
+    activePlaySurface = null;
+    activeSession = {
+      id: `adaptive.${decision.kind}.${decision.conceptId ?? currentPresentation?.location.id ?? 'world'}`,
+      mode: 'free_explore',
+      title: currentPresentation?.location.expeditionTitle ?? 'Adventure clue',
+      questions
+    };
+    activeEntryId = null;
+    activeStoryMission = null;
+    activeStoryLocation = null;
+    initialSessionState = undefined;
+    startError = null;
+    return true;
   }
 
   function startStoryMission(missionId: string): void {
