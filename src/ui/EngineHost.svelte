@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Question } from '../contracts/question';
   import type { EvaluationResult } from '../contracts/runtime';
+  import type { EngineSubmissionMode } from '../engines/types';
   import { playAnswerFeedback } from '../runtime/answerFeedbackAudio';
   import { getEngineComponent } from '../runtime/engineRegistry';
 
@@ -21,15 +22,14 @@
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
-  let submissionMode = $derived(feedbackMode === 'play' ? 'auto_when_complete' : 'explicit');
+  let submissionMode = $derived<EngineSubmissionMode>(feedbackMode === 'play' ? 'auto_when_complete' : 'explicit');
+  let soundFirstPhonics = $derived(question.authoring.source === 'kidsplay-phonics-v1');
 
   function handleSubmit(response: unknown): void {
     const result = checkResponse(response);
     if (feedbackMode === 'play') {
-      // Keep the child on the question they just answered. SessionViewport owns
-      // the persistent in-place success/retry state; no transient full-screen
-      // victory splash should hide the selected answer before the child has had
-      // time to look at it again.
+      // Keep the child on the answered question. Phonics may add its strict
+      // listen-first gate, but it must not restore the transient answer splash.
       playAnswerFeedback(result.correct, soundEnabled);
     }
     onSubmit(response);
@@ -39,8 +39,23 @@
 {#if feedbackMode === 'assessment'}
   <span class="assessment-save-status">Mock progress saves on this device</span>
 {/if}
+
 {#key question.id}
-  <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
+  {#if soundFirstPhonics}
+    {#await import('./PhonicsAudioGate.svelte') then module}
+      {@const PhonicsAudioGate = module.default}
+      <PhonicsAudioGate
+        {question}
+        {Engine}
+        onSubmit={handleSubmit}
+        {checkResponse}
+        {submissionMode}
+        {soundEnabled}
+      />
+    {/await}
+  {:else}
+    <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
+  {/if}
 {/key}
 
 <style>
