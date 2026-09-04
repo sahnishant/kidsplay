@@ -38,6 +38,7 @@ export interface ConceptReviewState {
   conceptId: string;
   evidenceKind: ReviewEvidenceKind;
   successfulRounds: number;
+  independentSuccessRounds: number;
   lastSeenAt: string;
   dueAt: string;
   due: boolean;
@@ -72,6 +73,7 @@ export interface AdaptiveRouteDecision {
 const MINUTE = 60 * 1000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
+const CONFIDENCE_WINDOW_MS = 20 * MINUTE;
 
 /**
  * Explicit V1 deterministic review policy. A policy-version change does not
@@ -170,12 +172,14 @@ export function buildConceptReviewStates(
     .map(([conceptId, conceptRounds]) => {
       const latest = conceptRounds[conceptRounds.length - 1];
       const successfulRounds = conceptRounds.filter((round) => round.evidenceKind !== 'failed').length;
+      const independentSuccessRounds = conceptRounds.filter((round) => round.evidenceKind === 'independent').length;
       const dueAtMs = Date.parse(latest.seenAt) + intervalFor(latest.evidenceKind, successfulRounds);
       return {
         policyVersion: ADAPTIVE_ROUTING_POLICY_VERSION,
         conceptId,
         evidenceKind: latest.evidenceKind,
         successfulRounds,
+        independentSuccessRounds,
         lastSeenAt: latest.seenAt,
         dueAt: new Date(dueAtMs).toISOString(),
         due: nowMs >= dueAtMs,
@@ -289,10 +293,8 @@ function duePriority(kind: ReviewEvidenceKind): number {
   return 2;
 }
 
-function routeKindForEvidence(kind: ReviewEvidenceKind): AdaptiveRouteKind {
-  if (kind === 'failed') return 'recovery';
-  if (kind === 'assisted' || kind === 'recovered') return 'confidence';
-  return 'review_due';
+function routeKindForEvidence(kind: ReviewEvidenceKind): 'recovery' | 'review_due' {
+  return kind === 'independent' ? 'review_due' : 'recovery';
 }
 
 function makePracticeDecision(
@@ -317,6 +319,40 @@ function recentIndependentAttempts(progress: ProgressSnapshot): StoredAttempt[] 
   return progress.attempts
     .filter((attempt) => attempt.attemptKind === 'independent')
     .sort((left, right) => Date.parse(left.submittedAt) - Date.parse(right.submittedAt));
+}
+
+function selectConfidenceQuestion(
+  progress: ProgressSnapshot,
+  reviewStates: readonly ConceptReviewState[],
+  questionBank: readonly Question[],
+  topics: Set<string>,
+  nowMs: number
+): Question | null {
+  const rounds = collectLearningRounds(progress);
+  const latestRound = rounds.at(-1);
+  if (!latestRound || latestRound.evidenceKind === 'independent') return null;
+  const challengeAge = nowMs - Date.parse(latestRound.seenAt);
+  if (challengeAge < 0 || challengeAge > CONFIDENCE_WINDOW_MS) return null;
+
+  const challengedConcepts = new Set(latestRound.conceptIds);
+  const established = reviewStates
+    .filter((state) =>
+      !state.due
+        && state.evidenceKind === 'independent'
+        && state.independentSuccessRounds >= 2
+        && !challengedConcepts.has(state.conceptId)
+    )
+    .sort((left, right) =>
+      right.independentSuccessRounds - left.independentSuccessRounds
+        || Date.parse(right.lastSeenAt) - Date.parse(left.lastSeenAt)
+        || left.conceptId.localeCompare(right.conceptId)
+    );
+
+  for (const state of established) {
+    const question = selectQuestionForConcept(state, progress, questionBank, topics);
+    if (question) return question;
+  }
+  return null;
 }
 
 function selectVarietyQuestion(
@@ -445,6 +481,17 @@ export function decideAdaptiveExperience(context: AdaptiveRoutingContext): Adapt
       question,
       deferredReviewConceptIds
     );
+  }
+
+  const confidence = selectConfidenceQuestion(
+    context.progress,
+    reviewStates,
+    questionBank,
+    topics,
+    nowMs
+  );
+  if (confidence) {
+    return makePracticeDecision('confidence', context.currentWorldId, null, confidence, deferredReviewConceptIds);
   }
 
   const variety = selectVarietyQuestion(context.progress, questionBank, topics);
