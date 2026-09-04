@@ -18,7 +18,8 @@ const budgets = {
 // unchanged and every named route must remain inside its reviewed allowance.
 const lazyRouteBudgets = [
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 2 * 1024 },
-  { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 }
+  { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 },
+  { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 }
 ];
 
 function kib(bytes) {
