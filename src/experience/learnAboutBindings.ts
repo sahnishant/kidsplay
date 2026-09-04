@@ -23,7 +23,7 @@ export interface LearnAboutTopicBinding {
 
 export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
   {
-    topicId: 'learn-about.earth',
+    topicId: 'learn.earth',
     icon: '🌍',
     sections: [
       {
@@ -58,7 +58,7 @@ export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
     ]
   },
   {
-    topicId: 'learn-about.lion',
+    topicId: 'learn.lion',
     icon: '🦁',
     sections: [
       {
@@ -77,7 +77,7 @@ export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
     ]
   },
   {
-    topicId: 'learn-about.fire-station',
+    topicId: 'learn.fire-station',
     icon: '🚒',
     sections: []
   }
