@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { DragToTargetQuestion } from '../contracts/question';
+  import { resolveForgivingDropTarget, type DropSnapTarget } from '../mechanics/dragSnap';
   import { createMatchingDisplayOrder, matchingClueLabel } from '../mechanics/matchingPresentation';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
@@ -100,6 +101,21 @@
     (event.currentTarget as HTMLButtonElement).style.transform = `translate(${dx}px, ${dy}px) scale(1.04)`;
   }
 
+  function dropSnapTargets(): DropSnapTarget[] {
+    return Array.from(document.querySelectorAll<HTMLElement>('[data-drop-target="true"]')).flatMap((element) => {
+      const targetId = element.dataset.targetId;
+      if (!targetId) return [];
+      const rect = element.getBoundingClientRect();
+      return [{
+        targetId,
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom
+      }];
+    });
+  }
+
   function pointerEnd(itemId: string, event: PointerEvent): void {
     if (!dragState || dragState.itemId !== itemId || dragState.pointerId !== event.pointerId) return;
     const state = dragState;
@@ -112,10 +128,16 @@
     button.style.pointerEvents = '';
     button.style.transform = '';
 
-    const target = elementBelow?.closest<HTMLElement>('[data-drop-target="true"]');
-    const targetId = target?.dataset.targetId;
     if (state.moved) suppressClickFor = itemId;
-    if (state.moved && targetId) assign(itemId, targetId);
+    if (!state.moved || event.type === 'pointercancel') return;
+
+    const directTarget = elementBelow?.closest<HTMLElement>('[data-drop-target="true"]');
+    const targetId = resolveForgivingDropTarget(
+      { x: event.clientX, y: event.clientY },
+      directTarget?.dataset.targetId,
+      dropSnapTargets()
+    );
+    if (targetId) assign(itemId, targetId);
   }
 </script>
 
