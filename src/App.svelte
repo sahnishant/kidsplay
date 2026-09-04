@@ -111,7 +111,7 @@
 {#if activePlaySurface}
   {#await import('./ui/FirstPlayViewport.svelte') then module}
     {@const FirstPlayViewport = module.default}
-    <FirstPlayViewport mode={activePlaySurface} onAttempt={activePlaySurface === 'visual_reasoning' ? handleAttempt : undefined} onExit={requestFirstPlayExit} />
+    <FirstPlayViewport mode={activePlaySurface} onExit={requestFirstPlayExit} />
   {/await}
 {:else if activeSession}
   <div class="session-host" class:forest-session-host={forestLevelOneSession}>
