@@ -21,23 +21,24 @@ test('Stories resumes the exact child-facing page after a process-style reload w
   await page.getByRole('button', { name: 'Next →' }).click();
   await page.getByRole('button', { name: 'Next →' }).click();
   await expect(page.getByText('Page 3 of 9')).toBeVisible();
+  await page.getByRole('button', { name: 'Add to favourites' }).click();
 
   const persisted = await page.evaluate((key) => localStorage.getItem(key), STORY_KEY);
   expect(persisted).toContain('moonlit-leaf.3');
+  expect(persisted).toContain('"favourite":true');
 
-  // Browser reload stands in for the process-kill/relaunch boundary: component memory is gone.
+  // Reload destroys the mounted child surface and all component memory.
+  // Reopening Stories must restore the serialized story directly, not ask the
+  // child to locate the title and page again.
   await page.reload();
   await page.getByRole('button', { name: 'Open Stories' }).click();
-  await expect(page.locator('[data-story-id="story.dheu.moonlit-leaf"]')).toContainText('Continue');
-  await page.locator('[data-story-id="story.dheu.moonlit-leaf"]').click();
+  await expect(page.getByTestId('story-reader')).toHaveAttribute('data-story-id', 'story.dheu.moonlit-leaf');
   await expect(page.getByText('Page 3 of 9')).toBeVisible();
-
-  await page.getByRole('button', { name: 'Add to favourites' }).click();
-  await page.reload();
-  await page.getByRole('button', { name: 'Open Stories' }).click();
-  await page.locator('[data-story-id="story.dheu.moonlit-leaf"]').click();
   await expect(page.getByRole('button', { name: 'Remove from favourites' })).toBeVisible();
-  await expect(page.getByText('Page 3 of 9')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Read to me' }).click();
+  await expect(page.getByText(/Reading this page|story text is ready to read|Sound is off/)).toBeVisible();
+  await page.getByRole('button', { name: 'Repeat page' }).click();
 
   const afterLearningState = await page.evaluate(([storyKey, audioKey]) =>
     Object.fromEntries(Object.entries(localStorage).filter(([key]) => key !== storyKey && key !== audioKey)), [STORY_KEY, AUDIO_KEY]);
