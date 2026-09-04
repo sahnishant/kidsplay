@@ -1,18 +1,22 @@
 import { validateLearnAboutTopic, type LearnAboutTopic } from './learnAboutContract';
 
-export const EARTH_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
+/**
+ * Navigation/projection metadata only. Every factual claim remains owned by the
+ * reviewed canonical knowledge rows referenced below.
+ */
+export const EARTH_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
   schemaVersion: 1,
   topicId: 'learn.earth',
   childTitle: 'Earth',
   archetype: 'celestial_system',
-  rootConceptRefs: ['universe.earth'],
+  rootConceptRefs: ['universe.earth.planet'],
   sections: [
     {
       sectionId: 'earth.meet-earth',
       childTitle: 'Meet Earth',
       knowledgeRefs: ['kr.universe.earth.type.planet'],
-      depthBands: ['d0_first_play', 'd1_preschool', 'd2_early_primary', 'd3_deeper_primary'],
-      recipeFamilies: ['explore', 'did_you_know']
+      depthBands: ['d0_first_play', 'd1_preschool'],
+      recipeFamilies: ['explore', 'did_you_know', 'guess']
     },
     {
       sectionId: 'earth.land-water',
@@ -22,49 +26,38 @@ export const EARTH_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
       recipeFamilies: ['explore']
     },
     {
-      sectionId: 'earth.in-space',
-      childTitle: 'Earth in space',
-      knowledgeRefs: [
-        'kr.universe.earth.type.planet',
-        'kr.universe.earth.position.third',
-        'kr.universe.sun.type.star'
-      ],
-      depthBands: ['d1_preschool', 'd2_early_primary', 'd3_deeper_primary'],
-      recipeFamilies: ['explore', 'did_you_know', 'compare', 'guess']
-    },
-    {
-      sectionId: 'earth.moon',
-      childTitle: 'Earth & Moon',
-      knowledgeRefs: [
-        'kr.universe.moon.type.satellite',
-        'kr.universe.moonlight.source.sun'
-      ],
-      depthBands: ['d1_preschool', 'd2_early_primary', 'd3_deeper_primary'],
-      recipeFamilies: ['explore', 'did_you_know', 'compare']
-    },
-    {
-      sectionId: 'earth.day-night',
-      childTitle: 'Day & night',
+      sectionId: 'earth.day-and-night',
+      childTitle: 'Day and Night',
       knowledgeRefs: ['kr.universe.earth.rotation.day-night'],
-      depthBands: ['d2_early_primary', 'd3_deeper_primary'],
+      depthBands: ['d2_early_primary'],
       recipeFamilies: ['explore', 'did_you_know', 'try_it']
     },
     {
-      sectionId: 'earth.go-deeper',
-      childTitle: 'More space clues',
+      sectionId: 'earth.space-neighbours',
+      childTitle: 'Space Neighbours',
       knowledgeRefs: [
-        'kr.universe.orbit.definition.planet-path',
-        'kr.universe.mars.name.red-planet',
-        'kr.universe.jupiter.property.largest',
-        'kr.universe.saturn.feature.rings'
+        'kr.universe.earth.type.planet',
+        'kr.universe.sun.type.star',
+        'kr.universe.moon.type.satellite',
+        'kr.universe.earth.position.third'
+      ],
+      depthBands: ['d2_early_primary', 'd3_deeper_primary'],
+      recipeFamilies: ['explore', 'did_you_know', 'compare', 'guess']
+    },
+    {
+      sectionId: 'earth.go-deeper',
+      childTitle: 'Go Deeper',
+      knowledgeRefs: [
+        'kr.universe.moonlight.source.sun',
+        'kr.universe.orbit.definition.planet-path'
       ],
       depthBands: ['d3_deeper_primary'],
-      recipeFamilies: ['explore', 'did_you_know', 'compare', 'practice']
+      recipeFamilies: ['explore', 'did_you_know', 'practice']
     }
   ]
 });
 
-export const LION_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
+export const LION_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
   schemaVersion: 1,
   topicId: 'learn.lion',
   childTitle: 'Lion',
@@ -128,7 +121,7 @@ export const LION_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
   ]
 });
 
-export const FIRE_STATION_LEARN_ABOUT_TOPIC = validateLearnAboutTopic({
+export const FIRE_STATION_LEARN_ABOUT_TOPIC: LearnAboutTopic = validateLearnAboutTopic({
   schemaVersion: 1,
   topicId: 'learn.fire-station',
   childTitle: 'Fire Station',
