@@ -11,7 +11,6 @@
   import type { SessionAttempt } from './contracts/runtime';
   import type { FirstPlaySurfaceMode } from './experience/firstPlayProduction';
   import { registerAdaptiveContinueHandler } from './runtime/adaptiveContinue';
-  import { decideAdaptiveExperience } from './runtime/adaptiveRouting';
   import {
     enterAppSessionLayer,
     installAppBackNavigation,
@@ -219,7 +218,8 @@
     }
   }
 
-  function tryStartAdaptiveExperience(): boolean {
+  async function tryStartAdaptiveExperience(): Promise<boolean> {
+    const { decideAdaptiveExperience } = await import('./runtime/adaptiveRouting');
     const currentPresentation = buildStoryLocationPresentation(
       storyLocations,
       storyMissions,
