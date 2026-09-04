@@ -2,12 +2,14 @@
   import { onDestroy } from 'svelte';
   import type { CatalogEntry, GoalReadinessSummary } from '../content';
   import type { FirstPlaySurfaceMode } from '../experience/firstPlayProduction';
+  import { projectForestDiscoveries } from '../forest/forestDiscoveries';
+  import { mergeForestWorldDepthState } from '../forest/forestWorldProjection';
   import Avatar from '../presentation/Avatar.svelte';
   import { pushAppBackLayer, requestAppBack } from '../runtime/appNavigation';
   import type { AvatarId, ChildSettings, ProgressSummary } from '../runtime/localProgress';
   import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
   import { getStoryLocations, getStoryMissions } from '../story/storyDirector';
-  import { currentStoryLocation } from '../story/storyPresentation';
+  import { buildStoryLocationPresentation } from '../story/storyPresentation';
   import type { StoryProgressSnapshot } from '../story/storyProgress';
   import { deriveWorldRewardState } from '../story/worldRewards';
   import ChildHud from './home/ChildHud.svelte';
@@ -42,10 +44,8 @@
   } = $props();
 
   const avatars: Array<{ id: AvatarId; label: string }> = [
-    { id: 'fox', label: 'Fox' },
-    { id: 'owl', label: 'Owl' },
-    { id: 'panda', label: 'Panda' },
-    { id: 'tiger', label: 'Tiger' }
+    { id: 'fox', label: 'Fox' }, { id: 'owl', label: 'Owl' },
+    { id: 'panda', label: 'Panda' }, { id: 'tiger', label: 'Tiger' }
   ];
   const storyLocations = getStoryLocations();
   const storyMissions = getStoryMissions();
@@ -53,52 +53,35 @@
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
-  let worldState = $derived(deriveWorldRewardState(progress));
+  let worldState = $derived(mergeForestWorldDepthState(deriveWorldRewardState(progress), storyProgress));
+  let forestDiscoveries = $derived(projectForestDiscoveries(storyProgress));
+  let currentStoryPresentation = $derived(
+    buildStoryLocationPresentation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)
+      .find((item) => item.state === 'current') ?? null
+  );
   let currentLevel = $derived(
-    currentStoryLocation(
-      storyLocations,
-      storyMissions,
-      storyProgress,
-      progress.recommendedTopics
-    )?.progression.level ?? null
+    currentStoryPresentation?.mission?.worldDepthLevel
+      ?? currentStoryPresentation?.location.progression.level
+      ?? null
   );
-  let patternMockEntryId = $derived(
-    catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null
-  );
+  let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
   let freeExploreEntries = $derived(catalog.filter((entry) => entry.kind === 'free_explore'));
   let goalProgrammeEntries = $derived(catalog.filter((entry) => entry.kind === 'goal_learning'));
-  let isGrownUpView = $derived(
-    view === 'progress' || view === 'goals' || view === 'programmes'
-  );
+  let isGrownUpView = $derived(view === 'progress' || view === 'goals' || view === 'programmes');
 
   function updateName(event: Event): void {
     onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value });
   }
-
-  function closeViewFromBack(): void {
-    view = 'world';
-    releaseViewBack = null;
-  }
-
+  function closeViewFromBack(): void { view = 'world'; releaseViewBack = null; }
   function openView(next: HomeView): void {
     if (next === view) return;
-    if (next === 'world') {
-      requestAppBack(closeViewFromBack);
-      return;
-    }
+    if (next === 'world') { requestAppBack(closeViewFromBack); return; }
     releaseViewBack?.();
     view = next;
     releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
   }
-
-  function requestWorld(): void {
-    requestAppBack(closeViewFromBack);
-  }
-
-  function startPatternMock(): void {
-    if (patternMockEntryId) onStart(patternMockEntryId);
-  }
-
+  function requestWorld(): void { requestAppBack(closeViewFromBack); }
+  function startPatternMock(): void { if (patternMockEntryId) onStart(patternMockEntryId); }
   function panelTitle(): string {
     if (view === 'player') return 'Who is playing?';
     if (view === 'progress') return 'Learning progress';
@@ -106,30 +89,16 @@
     if (view === 'programmes') return 'Programmes & profiles';
     return 'Choose a play activity';
   }
-
   onDestroy(() => releaseViewBack?.());
 </script>
 
 <main class="home-viewport" data-home-view={view}>
   {#if view === 'world'}
-    <ChildHud
-      {child}
-      {displayName}
-      worldChanged={worldState.totalChanges > 0}
-      {currentLevel}
-      onOpenPlayer={() => openView('player')}
-    />
+    <ChildHud {child} {displayName} worldChanged={worldState.totalChanges > 0} {currentLevel} onOpenPlayer={() => openView('player')} />
     <div class="home-viewport__stage">
-      <StoryWorldViewport
-        childName={child.name}
-        childAvatar={child.avatar}
-        {storyProgress}
-        {worldState}
-        recommendedTopics={progress.recommendedTopics}
-        topicProgress={progress.topics}
-        {onStartMission}
-        {onExploreLocation}
-      />
+      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState} {forestDiscoveries}
+        recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
+        {onStartMission} {onExploreLocation} />
     </div>
     <HomeBottomNav active="world" onOpen={(next: ChildPrimaryView) => openView(next)} />
   {:else}
@@ -153,23 +122,12 @@
       <div class:home-panel-body--fixed={view === 'progress' || view === 'goals'} class="home-panel-body">
         {#if view === 'player'}
           <section class="panel-card player-panel">
-            <label class="name-field">
-              <span>Child name</span>
-              <input type="text" maxlength="24" value={child.name} placeholder="e.g. Dheu" oninput={updateName} autocomplete="off" />
-            </label>
+            <label class="name-field"><span>Child name</span><input type="text" maxlength="24" value={child.name} placeholder="e.g. Dheu" oninput={updateName} autocomplete="off" /></label>
             <div class="avatar-picker" role="group" aria-label="Choose an avatar">
               {#each avatars as avatar}
-                <button
-                  type="button"
-                  class:avatar-button--selected={child.avatar === avatar.id}
-                  class="avatar-button"
-                  aria-pressed={child.avatar === avatar.id}
-                  onclick={() => onChildChange({ ...child, avatar: avatar.id })}
-                >
-                  <span class="avatar-art" aria-hidden="true">
-                    <Avatar avatar={avatar.id} motion={child.avatar === avatar.id ? 'bounce' : 'idle'} />
-                  </span>
-                  <small>{avatar.label}</small>
+                <button type="button" class:avatar-button--selected={child.avatar === avatar.id} class="avatar-button"
+                  aria-pressed={child.avatar === avatar.id} onclick={() => onChildChange({ ...child, avatar: avatar.id })}>
+                  <span class="avatar-art" aria-hidden="true"><Avatar avatar={avatar.id} motion={child.avatar === avatar.id ? 'bounce' : 'idle'} /></span><small>{avatar.label}</small>
                 </button>
               {/each}
             </div>
@@ -184,23 +142,13 @@
         {:else if view === 'progress'}
           <ProgressViewport {progress} />
         {:else if view === 'goals'}
-          <GoalsViewport
-            {goalReadiness}
-            {resumableMock}
-            {mockTrends}
-            {onResumeMock}
-            onStartMock={patternMockEntryId ? startPatternMock : undefined}
-          />
+          <GoalsViewport {goalReadiness} {resumableMock} {mockTrends} {onResumeMock} onStartMock={patternMockEntryId ? startPatternMock : undefined} />
         {:else if view === 'programmes'}
           <section class="catalog-grid" aria-label="Assessment programmes and curriculum profiles">
             {#each goalProgrammeEntries as entry}
               <article class="catalog-card catalog-card--goal">
-                <div class="catalog-card__topline">
-                  <span class="access-badge">GOAL PROGRAMME</span>
-                  {#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}
-                </div>
-                <h2>{entry.title}</h2>
-                <p>{entry.description}</p>
+                <div class="catalog-card__topline"><span class="access-badge">GOAL PROGRAMME</span>{#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}</div>
+                <h2>{entry.title}</h2><p>{entry.description}</p>
                 {#if entry.profileRef}<small class="profile-ref">Curriculum profile: {entry.profileRef}</small>{/if}
                 <button class="primary-action" type="button" onclick={() => onStart(entry.id)}>{entry.actionLabel}</button>
               </article>
@@ -209,23 +157,11 @@
         {:else if view === 'practice'}
           {#if onStartFirstPlay}
             <section class="first-play-launches" aria-label="Picture-first play">
-              <button
-                class="first-play-launch"
-                type="button"
-                aria-label="Start First Play sampler"
-                onclick={() => onStartFirstPlay?.('first_play')}
-              >
-                <span aria-hidden="true">🐾</span>
-                <strong>First Play</strong>
+              <button class="first-play-launch" type="button" aria-label="Start First Play sampler" onclick={() => onStartFirstPlay?.('first_play')}>
+                <span aria-hidden="true">🐾</span><strong>First Play</strong>
               </button>
-              <button
-                class="first-play-launch"
-                type="button"
-                aria-label="Start picture play puzzles"
-                onclick={() => onStartFirstPlay?.('visual_reasoning')}
-              >
-                <span aria-hidden="true">🧩</span>
-                <strong>Picture Play</strong>
+              <button class="first-play-launch" type="button" aria-label="Start picture play puzzles" onclick={() => onStartFirstPlay?.('visual_reasoning')}>
+                <span aria-hidden="true">🧩</span><strong>Picture Play</strong>
               </button>
             </section>
           {/if}
@@ -239,12 +175,8 @@
             </article>
             {#each freeExploreEntries as entry}
               <article class="catalog-card">
-                <div class="catalog-card__topline">
-                  <span class="access-badge">PLAY</span>
-                  {#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}
-                </div>
-                <h2>{entry.title}</h2>
-                <p>{entry.description}</p>
+                <div class="catalog-card__topline"><span class="access-badge">PLAY</span>{#if entry.status === 'prototype'}<span class="prototype-badge">Prototype</span>{/if}</div>
+                <h2>{entry.title}</h2><p>{entry.description}</p>
                 <button class="primary-action" type="button" onclick={() => onStart(entry.id)}>{entry.actionLabel}</button>
               </article>
             {/each}
