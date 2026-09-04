@@ -52,4 +52,4 @@
   {:else}
     <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
   {/if}
-{/key>
+{/key}
