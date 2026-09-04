@@ -2,7 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { answerCurrentQuestion, openCleanApp } from './helpers/childJourney';
 
 async function openForestMissionSession(page: Page) {
-  await page.getByRole('button', { name: 'Continue Adventure' }).click();
+  await page.getByRole('button', { name: 'Continue Forest Explorer Trail' }).click();
   const mission = page.getByRole('dialog');
   await expect(mission.getByRole('heading', { name: 'The Forest Trail Mix-Up' })).toBeVisible();
 
