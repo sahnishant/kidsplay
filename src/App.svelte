@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, type Component } from 'svelte';
   import {
     createSessionForCatalogEntry,
     getCatalogEntries,
@@ -55,6 +55,7 @@
   import Session from './ui/SessionViewport.svelte';
 
   type LearnAboutComponent = typeof import('./ui/LearnAboutViewport.svelte')['default'];
+  type StoriesComponent = Component<{ onExit: () => void }>;
 
   const catalog = getCatalogEntries();
   const goalProfileRef = catalog.find((entry) => entry.kind === 'goal_learning')?.profileRef;
@@ -69,12 +70,16 @@
   let activeStoryLocation = $state<StoryLocation | null>(null);
   let learnAboutOpen = $state(false);
   let LearnAboutView = $state<LearnAboutComponent | null>(null);
+  let storiesOpen = $state(false);
+  let storiesLoading = $state(false);
+  let Stories = $state<StoriesComponent | null>(null);
   let initialSessionState = $state<SessionState | undefined>(undefined);
   let resumableMock = $state(loadMockCheckpoint());
   let mockHistory = $state(loadMockHistory());
   let startError = $state<string | null>(null);
   let releaseSessionBack: (() => void) | null = null;
   let releaseLearnAboutBack: (() => void) | null = null;
+  let releaseStoriesBack: (() => void) | null = null;
   let progressSummary = $derived(summarizeProgress(progress));
   let mockTrends = $derived(summarizeMockHistory(mockHistory));
   let goalReadiness = $derived(
@@ -152,6 +157,32 @@
     activeStoryLocation = null;
     initialSessionState = undefined;
     startError = null;
+  }
+
+  async function openStories(): Promise<void> {
+    if (storiesLoading || storiesOpen) return;
+    storiesLoading = true;
+    startError = null;
+    try {
+      Stories ??= (await import('./ui/StoriesViewport.svelte')).default;
+      releaseStoriesBack?.();
+      storiesOpen = true;
+      releaseStoriesBack = enterAppSessionLayer('stories', () => {
+        storiesOpen = false;
+        releaseStoriesBack = null;
+      });
+    } catch (error) {
+      startError = error instanceof Error ? error.message : 'Stories could not be opened from this installation.';
+    } finally {
+      storiesLoading = false;
+    }
+  }
+
+  function requestStoriesExit(): void {
+    requestAppBack(() => {
+      storiesOpen = false;
+      releaseStoriesBack = null;
+    });
   }
 
   function startSession(entryId: string): void {
@@ -312,12 +343,14 @@
   {/await}
 {:else}
   {#if learnAboutOpen && LearnAboutView}
-    <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef)}>
+    <div hidden={Boolean(activeSession || activeStoryMission?.worldActionRef) || storiesOpen}>
       <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
     </div>
   {/if}
 
-  {#if activeStoryMission?.worldActionRef}
+  {#if storiesOpen && Stories}
+    <Stories onExit={requestStoriesExit} />
+  {:else if activeStoryMission?.worldActionRef}
     {#await forestViewport then forestModule}
       {@const ForestWorldDepthViewport = forestModule.default}
       <ForestWorldDepthViewport
@@ -367,9 +400,13 @@
       onExploreLocation={startStoryLocation}
       onResumeMock={resumeMock}
       onOpenLearnAbout={openLearnAbout}
+      onOpenStories={openStories}
       onStartFirstPlay={startFirstPlay}
     />
 
+    {#if storiesLoading}
+      <div class="app-error" role="status">Opening stories…</div>
+    {/if}
     {#if startError}
       <div class="app-error" role="alert">{startError}</div>
     {/if}

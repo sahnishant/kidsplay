@@ -1,0 +1,394 @@
+{
+  "schemaVersion": 1,
+  "packId": "kidsplay.voice.candidates.v1",
+  "codec": "ogg_opus",
+  "reviewStatus": "candidate",
+  "humanApprovalRequired": true,
+  "generator": {
+    "engine": "espeak",
+    "encoder": "ffmpeg-libopus",
+    "sampleRateHz": 24000,
+    "targetBitrate": "8k"
+  },
+  "summary": {
+    "utteranceCount": 39,
+    "bundledBytes": 676114,
+    "measuredDurationMs": 669334,
+    "projectedPackageImpactBytes": 676114,
+    "stories": {
+      "story.dheu.moonlit-leaf": {
+        "clipCount": 9,
+        "durationMs": 252539,
+        "bytes": 256946
+      },
+      "story.friends.quiet-backpack": {
+        "clipCount": 9,
+        "durationMs": 278382,
+        "bytes": 279397
+      },
+      "story.shaitanu.cape-trouble": {
+        "clipCount": 4,
+        "durationMs": 45939,
+        "bytes": 45935
+      },
+      "story.scientu.tiny-question": {
+        "clipCount": 5,
+        "durationMs": 57674,
+        "bytes": 58505
+      }
+    }
+  },
+  "entries": [
+    {
+      "id": "character.dheu.success",
+      "bundledSrc": "/audio/kidsplay-v1/characters/dheu/success.ogg",
+      "durationMs": 3167,
+      "bytes": 3242,
+      "sha256": "7fa6cea41147382ff4b2851d76cfffe00d99768700665bcea8c976e1ca537a8b",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "character.dheu.retry",
+      "bundledSrc": "/audio/kidsplay-v1/characters/dheu/retry.ogg",
+      "durationMs": 3555,
+      "bytes": 3699,
+      "sha256": "ef55ce65e08c12fc5c517fa4da778291a807d9ebbf62d40219e3f7d5922e6e6d",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "character.scientu.success",
+      "bundledSrc": "/audio/kidsplay-v1/characters/scientu/success.ogg",
+      "durationMs": 4096,
+      "bytes": 4050,
+      "sha256": "392a275184dbf262a1ae09cf3a38746966451d57fde768829d13be7712e8754a",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu"
+    },
+    {
+      "id": "character.scientu.retry",
+      "bundledSrc": "/audio/kidsplay-v1/characters/scientu/retry.ogg",
+      "durationMs": 3843,
+      "bytes": 3925,
+      "sha256": "d0196490e5cfcf0252b203905907667fe2e928bdb3e60541155d1a04333e9df8",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu"
+    },
+    {
+      "id": "character.shaitanu.success",
+      "bundledSrc": "/audio/kidsplay-v1/characters/shaitanu/success.ogg",
+      "durationMs": 2950,
+      "bytes": 2667,
+      "sha256": "f3646ba964a8163c0f3697345bae7c72d90807b0ac423f1cbec268bc811682b9",
+      "reviewStatus": "candidate",
+      "generatorProfile": "shaitanu"
+    },
+    {
+      "id": "character.shaitanu.retry",
+      "bundledSrc": "/audio/kidsplay-v1/characters/shaitanu/retry.ogg",
+      "durationMs": 3405,
+      "bytes": 3095,
+      "sha256": "22ba5f528d453b6efb317d6b0e16cb875bbc115c1b74493cfc6495c7fd58c466",
+      "reviewStatus": "candidate",
+      "generatorProfile": "shaitanu"
+    },
+    {
+      "id": "common.success",
+      "bundledSrc": "/audio/kidsplay-v1/common/success.ogg",
+      "durationMs": 1031,
+      "bytes": 1116,
+      "sha256": "37cd59160e973d556ed008115f2e8b43061270b713f8f82a3d95de02c581e6f6",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "common.retry",
+      "bundledSrc": "/audio/kidsplay-v1/common/retry.ogg",
+      "durationMs": 1197,
+      "bytes": 1289,
+      "sha256": "ef0279eca618c5a9c0fc22f7ce059dc79c220d8c53bda089ad5a0a6af43f6f88",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "forest.prompt.look",
+      "bundledSrc": "/audio/kidsplay-v1/forest/look.ogg",
+      "durationMs": 3826,
+      "bytes": 4023,
+      "sha256": "81ae5638d82dd67b180fc4a86b0a67baf707ed79306eeb29d4901907704dca41",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "forest.prompt.listen",
+      "bundledSrc": "/audio/kidsplay-v1/forest/listen.ogg",
+      "durationMs": 3694,
+      "bytes": 3932,
+      "sha256": "8d0fa32508cb7be29152a52c5b93a14b14865add3bc8f472575f7ef9574b889b",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "prereader.vocabulary.sun",
+      "bundledSrc": "/audio/kidsplay-v1/prereader/word-sun.ogg",
+      "durationMs": 770,
+      "bytes": 832,
+      "sha256": "81f2166749f76a292ce4aad4a284ea7b4a3ce3b4a95da4cb03a6d2c4a3f60b31",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "prereader.phoneme.m",
+      "bundledSrc": "/audio/kidsplay-v1/prereader/phoneme-m.ogg",
+      "durationMs": 3266,
+      "bytes": 3461,
+      "sha256": "a8d9133f065cd7af1703dcfc3a5982154d87b63f6c858563d937874a7381be8d",
+      "reviewStatus": "candidate",
+      "generatorProfile": "dheu"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-01",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-01.ogg",
+      "durationMs": 26639,
+      "bytes": 27353,
+      "sha256": "b95c4c74972b9557f6a22133a82ff3e44ca739d3e793075e6715cfb919f04752",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-02",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-02.ogg",
+      "durationMs": 26386,
+      "bytes": 26781,
+      "sha256": "99b8b2506e4696d0dafc4bc65cc76ffeafadc619fa4abb70b36fa9ded05ea439",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-03",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-03.ogg",
+      "durationMs": 28970,
+      "bytes": 29566,
+      "sha256": "3d2bf7cde34a8c2001304c4f854b65680a92de9dc0732c896ad3d4b9b811e97a",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-04",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-04.ogg",
+      "durationMs": 29006,
+      "bytes": 29596,
+      "sha256": "84b9bbc3f649e6b4481adcdd08b7ba353207ffe6359ec6053a18b9f5368c4952",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-05",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-05.ogg",
+      "durationMs": 28270,
+      "bytes": 29057,
+      "sha256": "a878ef25b62d6e7c0dcf7c64b7de3d21e700a7a8cd9b6d8a72b674803784fbb7",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-06",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-06.ogg",
+      "durationMs": 28957,
+      "bytes": 29293,
+      "sha256": "91c3f30a6307c39497a6b421be4b2dc73409703f75f1c1c7536ce6dad9751765",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-07",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-07.ogg",
+      "durationMs": 26705,
+      "bytes": 27402,
+      "sha256": "0043a453dc76b72080ad0317adb491366e684ea7dceb266c58c32cca12dd9d0d",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-08",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-08.ogg",
+      "durationMs": 31904,
+      "bytes": 31581,
+      "sha256": "526978953ad387e92871016069d9c9f18726daa29efeafd6232733f5f6978556",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.dheu.moonlit-leaf.beat-09",
+      "bundledSrc": "/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-09.ogg",
+      "durationMs": 25702,
+      "bytes": 26317,
+      "sha256": "597d4ace963f02cf960e9efb813ea69a8b61c0b908beb4ff525f5b92531a4d22",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-01",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-01.ogg",
+      "durationMs": 29075,
+      "bytes": 30085,
+      "sha256": "c7d5b4f3e18bca535afce8edfbe9a9122c761f43d82e8b37b2c0f80667c7b94e",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-02",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-02.ogg",
+      "durationMs": 31202,
+      "bytes": 31706,
+      "sha256": "0498bbf84b3221661c4f1692bfb8ca429519f499fda60f591a28dae7091dfbf2",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-03",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-03.ogg",
+      "durationMs": 32880,
+      "bytes": 31534,
+      "sha256": "446b987c19b0141ebebeba2b33e65f82206029f82e4c473060a8e70f0e010228",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-04",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-04.ogg",
+      "durationMs": 31703,
+      "bytes": 31821,
+      "sha256": "627a96b628ecf6f6953f352818439835f982d4380fdf0967ef14f4d0f0f037b4",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-05",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-05.ogg",
+      "durationMs": 30057,
+      "bytes": 30352,
+      "sha256": "d9dc5a45c30a31960faf320145041e9b2eb393bcd00a6f00658281374a831182",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-06",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-06.ogg",
+      "durationMs": 33863,
+      "bytes": 33452,
+      "sha256": "a67b4e162b137e0baecbe15269f0cbb9f90285f823d29a6b6a67027007142267",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-07",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-07.ogg",
+      "durationMs": 26854,
+      "bytes": 27646,
+      "sha256": "7963d61f529ce34107f596708ac9edfe7092241427baff26598e238b4318447e",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-08",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-08.ogg",
+      "durationMs": 33566,
+      "bytes": 33175,
+      "sha256": "de7fda108799565a7d97311378dc908a77f44b0fb236a67b2c7780eae3d8b640",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.friends.quiet-backpack.beat-09",
+      "bundledSrc": "/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-09.ogg",
+      "durationMs": 29182,
+      "bytes": 29626,
+      "sha256": "046f31604b6b652acc4abb4ec034cf0c408cc50eb203ed2fb880ead27e449caf",
+      "reviewStatus": "candidate",
+      "generatorProfile": "bedtime"
+    },
+    {
+      "id": "story.shaitanu.cape-trouble.beat-01",
+      "bundledSrc": "/audio/kidsplay-v1/stories/shaitanu-cape-trouble/beat-01.ogg",
+      "durationMs": 11014,
+      "bytes": 11347,
+      "sha256": "377d93b2e653ea2e1a93c35b8332dc46cdc2a3f5e2aabf4754f1361d5e11798d",
+      "reviewStatus": "candidate",
+      "generatorProfile": "shaitanu_story"
+    },
+    {
+      "id": "story.shaitanu.cape-trouble.beat-02",
+      "bundledSrc": "/audio/kidsplay-v1/stories/shaitanu-cape-trouble/beat-02.ogg",
+      "durationMs": 11397,
+      "bytes": 11529,
+      "sha256": "84bad30799590068ff4bfa0dc7f74b046e4c7c1b49707f7e03a5ae36fda913ba",
+      "reviewStatus": "candidate",
+      "generatorProfile": "shaitanu_story"
+    },
+    {
+      "id": "story.shaitanu.cape-trouble.beat-03",
+      "bundledSrc": "/audio/kidsplay-v1/stories/shaitanu-cape-trouble/beat-03.ogg",
+      "durationMs": 12627,
+      "bytes": 11866,
+      "sha256": "9d4c35ce1e0ae7def3e8277989948dc91e278e2deb5220ad7719fb7fbcfd7d74",
+      "reviewStatus": "candidate",
+      "generatorProfile": "shaitanu_story"
+    },
+    {
+      "id": "story.shaitanu.cape-trouble.beat-04",
+      "bundledSrc": "/audio/kidsplay-v1/stories/shaitanu-cape-trouble/beat-04.ogg",
+      "durationMs": 10901,
+      "bytes": 11193,
+      "sha256": "35e02ca2d486338d8ef068cd0ff080a7fe8e33f7aa7444ee47764827689082c1",
+      "reviewStatus": "candidate",
+      "generatorProfile": "shaitanu_story"
+    },
+    {
+      "id": "story.scientu.tiny-question.beat-01",
+      "bundledSrc": "/audio/kidsplay-v1/stories/scientu-tiny-question/beat-01.ogg",
+      "durationMs": 10928,
+      "bytes": 11229,
+      "sha256": "2bc4970d441c87bc553767b1d86b250d700af18b9662e86464bce3a1e1c39029",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu_story"
+    },
+    {
+      "id": "story.scientu.tiny-question.beat-02",
+      "bundledSrc": "/audio/kidsplay-v1/stories/scientu-tiny-question/beat-02.ogg",
+      "durationMs": 9859,
+      "bytes": 9724,
+      "sha256": "37d71d260b9a5d9cc6eb511f518434931fd24b5babaeb7ad171773c736140223",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu_story"
+    },
+    {
+      "id": "story.scientu.tiny-question.beat-03",
+      "bundledSrc": "/audio/kidsplay-v1/stories/scientu-tiny-question/beat-03.ogg",
+      "durationMs": 10705,
+      "bytes": 10942,
+      "sha256": "e775b6c216ade595fbcc43af72d8851c81ee560b9b4e8c62791d6d482aa5ac96",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu_story"
+    },
+    {
+      "id": "story.scientu.tiny-question.beat-04",
+      "bundledSrc": "/audio/kidsplay-v1/stories/scientu-tiny-question/beat-04.ogg",
+      "durationMs": 10700,
+      "bytes": 11021,
+      "sha256": "cb386793d2836b00409d6715c423fdeb9b3fa390dd1ee3c323292fc89803c208",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu_story"
+    },
+    {
+      "id": "story.scientu.tiny-question.beat-05",
+      "bundledSrc": "/audio/kidsplay-v1/stories/scientu-tiny-question/beat-05.ogg",
+      "durationMs": 15482,
+      "bytes": 15589,
+      "sha256": "bef148a71d800884d1a60e80475a9d6089f5861fff3813d70ea54a4b65182879",
+      "reviewStatus": "candidate",
+      "generatorProfile": "scientu_story"
+    }
+  ]
+}

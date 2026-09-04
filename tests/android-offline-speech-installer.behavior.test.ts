@@ -75,12 +75,17 @@ describe('Android offline-speech native installation', () => {
 
   it('never falls through from native Android into WebView speech', () => {
     const source = readFileSync(resolve(repoRoot, 'src/runtime/childAudio.ts'), 'utf8');
-    const androidGate = source.indexOf('if (nativeAndroid) {', source.indexOf('export function playChildAudio'));
-    const browserFallback = source.indexOf('const speechResult = speakWithOfflineVoice', androidGate);
+    const playStart = source.indexOf('export function playChildAudio');
+    const nativeReturnGate = source.indexOf('if (nativeAndroid) {', source.indexOf("return { source: 'bundled' }", playStart));
+    const browserFallback = source.indexOf('const speechResult = speakWithOfflineVoice', nativeReturnGate);
+    const nativeSlice = source.slice(nativeReturnGate, browserFallback);
 
-    expect(androidGate).toBeGreaterThan(0);
-    expect(browserFallback).toBeGreaterThan(androidGate);
-    expect(source.slice(androidGate, browserFallback)).toContain("return { source: 'silent_fallback' }");
+    expect(nativeReturnGate).toBeGreaterThan(playStart);
+    expect(browserFallback).toBeGreaterThan(nativeReturnGate);
+    expect(nativeSlice).toContain("? { source: 'pending_local_voice' }");
+    expect(nativeSlice).toContain(": { source: 'silent_fallback' }");
+    expect(nativeSlice).not.toContain('speakWithOfflineVoice(');
+    expect(nativeSlice).not.toContain('waitForOfflineVoice(');
   });
 
   it('binds the installer to every Capacitor sync without adding a generated Android tree to source control', () => {

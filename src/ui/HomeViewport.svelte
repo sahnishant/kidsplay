@@ -19,13 +19,14 @@
   import StoryWorldViewport from './StoryWorldViewport.svelte';
 
   type ChildPrimaryView = 'world' | 'practice';
+  type ChildNavView = ChildPrimaryView | 'stories';
   type GrownUpView = 'progress' | 'goals' | 'programmes';
   type HomeView = ChildPrimaryView | GrownUpView | 'player';
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
     onChildChange, onStart, onStartMission, onExploreLocation, onResumeMock,
-    onOpenLearnAbout, onStartFirstPlay
+    onOpenLearnAbout, onOpenStories, onStartFirstPlay
   }: {
     child: ChildSettings;
     catalog: CatalogEntry[];
@@ -40,6 +41,7 @@
     onExploreLocation: (locationId: string) => void;
     onResumeMock: () => void;
     onOpenLearnAbout: () => void;
+    onOpenStories: () => void;
     onStartFirstPlay?: (mode: FirstPlaySurfaceMode) => void;
   } = $props();
 
@@ -80,6 +82,15 @@
     view = next;
     releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
   }
+  function openChildArea(next: ChildNavView): void {
+    if (next === 'stories') {
+      releaseViewBack?.();
+      releaseViewBack = null;
+      onOpenStories();
+      return;
+    }
+    openView(next);
+  }
   function requestWorld(): void { requestAppBack(closeViewFromBack); }
   function startPatternMock(): void { if (patternMockEntryId) onStart(patternMockEntryId); }
   function panelTitle(): string {
@@ -100,7 +111,7 @@
         recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
         {onStartMission} {onExploreLocation} />
     </div>
-    <HomeBottomNav active="world" onOpen={(next: ChildPrimaryView) => openView(next)} />
+    <HomeBottomNav active="world" onOpen={openChildArea} />
   {:else}
     <section class="home-panel-screen" aria-label={`${view} screen`}>
       <header class="panel-topbar">
@@ -185,7 +196,7 @@
       </div>
 
       {#if view === 'practice'}
-        <HomeBottomNav active="practice" onOpen={(next: ChildPrimaryView) => openView(next)} />
+        <HomeBottomNav active="practice" onOpen={openChildArea} />
       {/if}
     </section>
   {/if}

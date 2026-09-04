@@ -1,6 +1,8 @@
+import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import storyApprovalJson from '../content/stories/v1-human-approval.json';
 import {
   PUBLISHED_STORIES_V1,
   STORY_CANDIDATES_V1,
@@ -35,11 +37,27 @@ describe('Stories V1 candidate pack', () => {
     expect(STORY_CANDIDATES_V1.some((story) => story.beats.some((beat) => beat.characterIds.includes('dheu')))).toBe(true);
   });
 
-  it('keeps every machine-authored candidate draft-only until explicit editorial review', () => {
-    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'draft')).toBe(true);
-    expect(PUBLISHED_STORIES_V1).toEqual([]);
-    expect(getPublishedStory('story.dheu.moonlit-leaf')).toBeUndefined();
-    expect(getStoryCandidate('story.dheu.moonlit-leaf')?.editorialStatus).toBe('draft');
+  it('pins HUMAN editorial approval to the exact source manuscripts and publishes all four approved stories', () => {
+    const sourcePath = resolve(process.cwd(), 'content', 'stories', 'v1-candidates.json');
+    const sourceBytes = readFileSync(sourcePath);
+    const sourceStories = JSON.parse(sourceBytes.toString('utf8')) as Array<{ storyId: string; editorialStatus: string }>;
+    // The approval pins the repository object. Working-tree newlines may be
+    // converted on Windows, so use Git's committed blob identity directly.
+    const gitBlobSha = execFileSync(
+      'git',
+      ['rev-parse', 'HEAD:content/stories/v1-candidates.json'],
+      { encoding: 'utf8' }
+    ).trim();
+
+    expect(storyApprovalJson.manuscriptEditorialApproved).toBe(true);
+    expect(storyApprovalJson.bedtimeCxApproved).toBe(true);
+    expect(gitBlobSha).toBe(storyApprovalJson.sourceManifestGitBlobSha);
+    expect(sourceStories.every((story) => story.editorialStatus === 'draft')).toBe(true);
+    expect(new Set(storyApprovalJson.approvedStoryIds)).toEqual(new Set(sourceStories.map((story) => story.storyId)));
+    expect(STORY_CANDIDATES_V1.every((story) => story.editorialStatus === 'reviewed')).toBe(true);
+    expect(PUBLISHED_STORIES_V1).toHaveLength(4);
+    expect(getPublishedStory('story.dheu.moonlit-leaf')?.editorialStatus).toBe('reviewed');
+    expect(getStoryCandidate('story.dheu.moonlit-leaf')?.editorialStatus).toBe('reviewed');
   });
 
   it('spans two neutral measurement-only lexical frequency bands and two duration bands', () => {
@@ -60,7 +78,7 @@ describe('Stories V1 candidate pack', () => {
     expect(STORY_CANDIDATES_V1.every((story) => storyWordCount(story) > 20)).toBe(true);
   });
 
-  it('produces conservative numeric lexical reports without claiming editorial or developmental approval', () => {
+  it('produces conservative numeric lexical reports without claiming developmental authority', () => {
     const entries = primaryCorpusEntries();
     const reports = STORY_CANDIDATES_V1.map((story) => buildStoryLexicalReport(story, entries));
 

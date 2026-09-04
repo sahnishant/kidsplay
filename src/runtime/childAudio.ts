@@ -412,8 +412,9 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
   }
 
   if (nativeAndroid) {
-    startNativeAndroidVoice(request, generation);
-    return { source: 'silent_fallback' };
+    return startNativeAndroidVoice(request, generation)
+      ? { source: 'pending_local_voice' }
+      : { source: 'silent_fallback' };
   }
 
   const speechResult = speakWithOfflineVoice(request, generation);
