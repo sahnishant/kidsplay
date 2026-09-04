@@ -7,7 +7,7 @@ import {
   LEARN_ABOUT_RUNTIME_ID
 } from '../src/experience/learnAboutRuntime';
 
-const topicIds = ['learn-about.earth', 'learn-about.lion', 'learn-about.fire-station'] as const;
+const topicIds = ['learn.earth', 'learn.lion', 'learn.fire-station'] as const;
 
 function families(topicId: (typeof topicIds)[number], depth: 'd0_first_play' | 'd2_early_primary' | 'd3_deeper_primary') {
   return createLearnAboutRuntimeSession(topicId, depth).sections.flatMap((section) => section.cards.map((card) => card.family));
@@ -45,16 +45,16 @@ describe('Learn About V1 production runtime', () => {
       }
     }
 
-    expect(families('learn-about.fire-station', 'd2_early_primary')).toEqual(
+    expect(families('learn.fire-station', 'd2_early_primary')).toEqual(
       expect.arrayContaining(['explore'])
     );
-    expect(families('learn-about.fire-station', 'd2_early_primary')).not.toContain('did_you_know');
+    expect(families('learn.fire-station', 'd2_early_primary')).not.toContain('did_you_know');
   });
 
   it('fails closed when an authority-empty section tries to own a factual/evaluative recipe', () => {
     expect(() => validateLearnAboutTopic({
       schemaVersion: 1,
-      topicId: 'learn-about.invalid',
+      topicId: 'learn.invalid',
       childTitle: 'Invalid',
       archetype: 'community_place',
       rootConceptRefs: ['invalid.topic'],
@@ -69,8 +69,8 @@ describe('Learn About V1 production runtime', () => {
   });
 
   it('reuses shared Riddle/Guess records and the existing single_choice evaluator contract', () => {
-    const earth = createLearnAboutRuntimeSession('learn-about.earth', 'd2_early_primary');
-    const lion = createLearnAboutRuntimeSession('learn-about.lion', 'd2_early_primary');
+    const earth = createLearnAboutRuntimeSession('learn.earth', 'd2_early_primary');
+    const lion = createLearnAboutRuntimeSession('learn.lion', 'd2_early_primary');
     const guesses = [...earth.sections, ...lion.sections]
       .flatMap((section) => section.cards)
       .filter((card) => card.family === 'guess');
@@ -90,13 +90,13 @@ describe('Learn About V1 production runtime', () => {
   });
 
   it('projects Compare/Try It only from admitted semantic relationships', () => {
-    const earthFamilies = families('learn-about.earth', 'd2_early_primary');
-    const lionFamilies = families('learn-about.lion', 'd2_early_primary');
+    const earthFamilies = families('learn.earth', 'd2_early_primary');
+    const lionFamilies = families('learn.lion', 'd2_early_primary');
     expect(earthFamilies).toContain('compare');
     expect(earthFamilies).toContain('try_it');
     expect(lionFamilies).toContain('compare');
 
-    for (const topicId of ['learn-about.earth', 'learn-about.lion'] as const) {
+    for (const topicId of ['learn.earth', 'learn.lion'] as const) {
       const session = createLearnAboutRuntimeSession(topicId, 'd2_early_primary');
       for (const card of session.sections.flatMap((section) => section.cards)) {
         if (card.family !== 'compare' && card.family !== 'try_it') continue;
@@ -108,8 +108,8 @@ describe('Learn About V1 production runtime', () => {
   });
 
   it('provides a deeper D3 path without cloning age-specific truths', () => {
-    const earthD2 = createLearnAboutRuntimeSession('learn-about.earth', 'd2_early_primary');
-    const earthD3 = createLearnAboutRuntimeSession('learn-about.earth', 'd3_deeper_primary');
+    const earthD2 = createLearnAboutRuntimeSession('learn.earth', 'd2_early_primary');
+    const earthD3 = createLearnAboutRuntimeSession('learn.earth', 'd3_deeper_primary');
     expect(earthD3.sections.length).toBeGreaterThan(earthD2.sections.length);
 
     const allCatalogKnowledgeRefs = LEARN_ABOUT_TOPICS.flatMap((topic) =>
