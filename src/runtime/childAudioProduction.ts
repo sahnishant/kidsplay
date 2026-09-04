@@ -1,22 +1,40 @@
-import { loadChildAudioPreferences, playChildAudio, stopChildAudio, type ChildAudioPlaybackResult } from './childAudio';
-import { resolveChildAudioUtterance, validateChildAudioUtteranceManifest, type ChildAudioUtteranceEntry } from './childAudioManifest';
+import {
+  loadChildAudioPreferences,
+  playChildAudio,
+  stopChildAudio,
+  type ChildAudioCharacter,
+  type ChildAudioPlaybackResult
+} from './childAudio';
+import {
+  resolveChildAudioUtterance,
+  validateChildAudioUtteranceManifest,
+  type ChildAudioUtteranceEntry
+} from './childAudioManifest';
 
-export type ChildAudioAssetReviewStatus = 'candidate' | 'approved';
-export interface ChildAudioProductionAsset { id: string; bundledSrc: string; durationMs: number; bytes: number; sha256: string; reviewStatus: ChildAudioAssetReviewStatus; }
-export interface MeasuredStoryNarration { storyId: string; clipCount: number; totalDurationMs: number; projectedBytes: number; evidence: 'measured_candidate_production_trial'; }
-export interface ChildAudioProductionSummary { utteranceCount: number; bundledClipCount: number; bundledBytes: number; candidateBytes: number; approvedBytes: number; projectedPackageImpactBytes: number; measuredProductionTrialDurationMs: number; }
 export type ChildAudioProductionPlaybackResult = ChildAudioPlaybackResult | { source: 'text_fallback' };
 
-const storyEntries = (storyId: string, count: number, character: 'dheu' | 'scientu' | 'shaitanu'): ChildAudioUtteranceEntry[] =>
-  Array.from({ length: count }, (_, index) => ({ id: `${storyId}.beat-${String(index + 1).padStart(2, '0')}`, usage: 'story_beat', channel: 'character', language: 'en-IN', character }));
+const storyEntries = (storyId: string, count: number, character: ChildAudioCharacter): ChildAudioUtteranceEntry[] =>
+  Array.from({ length: count }, (_, index) => ({
+    id: `${storyId}.beat-${String(index + 1).padStart(2, '0')}`,
+    usage: 'story_beat',
+    channel: 'character',
+    language: 'en-IN',
+    character
+  }));
+
+const reactionEntries = (character: ChildAudioCharacter): ChildAudioUtteranceEntry[] =>
+  ['success', 'retry'].map((reaction) => ({
+    id: `character.${character}.${reaction}`,
+    usage: 'character_reaction',
+    channel: 'character',
+    language: 'en-IN',
+    character
+  }));
 
 const UTTERANCES: readonly ChildAudioUtteranceEntry[] = [
-  { id: 'character.dheu.success', usage: 'character_reaction', channel: 'character', language: 'en-IN', character: 'dheu' },
-  { id: 'character.dheu.retry', usage: 'character_reaction', channel: 'character', language: 'en-IN', character: 'dheu' },
-  { id: 'character.scientu.success', usage: 'character_reaction', channel: 'character', language: 'en-IN', character: 'scientu' },
-  { id: 'character.scientu.retry', usage: 'character_reaction', channel: 'character', language: 'en-IN', character: 'scientu' },
-  { id: 'character.shaitanu.success', usage: 'character_reaction', channel: 'character', language: 'en-IN', character: 'shaitanu' },
-  { id: 'character.shaitanu.retry', usage: 'character_reaction', channel: 'character', language: 'en-IN', character: 'shaitanu' },
+  ...reactionEntries('dheu'),
+  ...reactionEntries('scientu'),
+  ...reactionEntries('shaitanu'),
   { id: 'common.success', usage: 'core_prompt', channel: 'prompt', language: 'en-IN' },
   { id: 'common.retry', usage: 'core_prompt', channel: 'prompt', language: 'en-IN' },
   { id: 'forest.prompt.look', usage: 'core_prompt', channel: 'prompt', language: 'en-IN' },
@@ -29,58 +47,52 @@ const UTTERANCES: readonly ChildAudioUtteranceEntry[] = [
   ...storyEntries('story.scientu.tiny-question', 5, 'scientu')
 ];
 
-const ASSETS: readonly ChildAudioProductionAsset[] = [
-  { id: 'character.dheu.success', bundledSrc: '/audio/kidsplay-v1/characters/dheu/success.ogg', durationMs: 2732, bytes: 355, sha256: 'dfa6b3c39a8a4805e4c8d3dd1d2989bc3795e40fd1316661505f229fa4269921', reviewStatus: 'candidate' },
-  { id: 'character.dheu.retry', bundledSrc: '/audio/kidsplay-v1/characters/dheu/retry.ogg', durationMs: 3333, bytes: 412, sha256: 'e5d0c0d6c86e5d94aa4eeee5851b0499e7993b578a3b4ceb7dd04730b07d5aeb', reviewStatus: 'candidate' },
-  { id: 'character.scientu.success', bundledSrc: '/audio/kidsplay-v1/characters/scientu/success.ogg', durationMs: 3748, bytes: 433, sha256: 'f1ddcb75948697bcf0576b279993afdc5b1313433b9ac04303ff0d5bfb263083', reviewStatus: 'candidate' },
-  { id: 'character.scientu.retry', bundledSrc: '/audio/kidsplay-v1/characters/scientu/retry.ogg', durationMs: 3413, bytes: 415, sha256: '9f0b20da5d8ae771a4218d8b4fcc484a5bbf554d660293c684de4252e196cf50', reviewStatus: 'candidate' },
-  { id: 'character.shaitanu.success', bundledSrc: '/audio/kidsplay-v1/characters/shaitanu/success.ogg', durationMs: 2710, bytes: 355, sha256: '9f24cab6f41aeeaf5e6f7fe3fedda93ab3410e5e27fc005e349a65676e9c3f16', reviewStatus: 'candidate' },
-  { id: 'character.shaitanu.retry', bundledSrc: '/audio/kidsplay-v1/characters/shaitanu/retry.ogg', durationMs: 4232, bytes: 484, sha256: '246a9718b76bd8bdbbddbfa5703f9a860cee6b5b975e068adb5e5827c768c8f1', reviewStatus: 'candidate' },
-  { id: 'common.success', bundledSrc: '/audio/kidsplay-v1/common/success.ogg', durationMs: 1213, bytes: 253, sha256: 'fab9c96acbe8ee92896d103d7ce12a84bfb4a97ea2b502f8a6fa55c1e1f208a1', reviewStatus: 'candidate' },
-  { id: 'common.retry', bundledSrc: '/audio/kidsplay-v1/common/retry.ogg', durationMs: 1791, bytes: 280, sha256: '60f7c885d3c160b968a4564ce85b148365bfe4dd04c3de373dcf63d2bd088a8c', reviewStatus: 'candidate' },
-  { id: 'forest.prompt.look', bundledSrc: '/audio/kidsplay-v1/forest/look.ogg', durationMs: 4080, bytes: 448, sha256: 'e6749a12c74d80e5cf2ddbe83adf24b78c4466dae374841474a89acd2663895e', reviewStatus: 'candidate' },
-  { id: 'forest.prompt.listen', bundledSrc: '/audio/kidsplay-v1/forest/listen.ogg', durationMs: 4377, bytes: 490, sha256: '89675390734bdfcd3ed40e8b96695153c5ff05476c2bc9e2180d40fb87c83a50', reviewStatus: 'candidate' },
-  { id: 'prereader.vocabulary.sun', bundledSrc: '/audio/kidsplay-v1/prereader/word-sun.ogg', durationMs: 1344, bytes: 259, sha256: '47421c45fb94aa9e5eac5a74e32cf9282cbe1c32e7a77de445b5aadb803ff07b', reviewStatus: 'candidate' },
-  { id: 'prereader.phoneme.m', bundledSrc: '/audio/kidsplay-v1/prereader/phoneme-m.ogg', durationMs: 2046, bytes: 322, sha256: 'bc3146050cfac3cecc3f1b8a35f53d0e64cb589da1b83e3258ea46ffce65ae3e', reviewStatus: 'candidate' },
-  { id: 'story.dheu.moonlit-leaf.beat-01', bundledSrc: '/audio/kidsplay-v1/stories/dheu-moonlit-leaf/beat-01.ogg', durationMs: 36022, bytes: 2911, sha256: '8a02f3a52ae8dd681ddebf80c32a22003821f23d2a9330056756050579b14737', reviewStatus: 'candidate' },
-  { id: 'story.friends.quiet-backpack.beat-01', bundledSrc: '/audio/kidsplay-v1/stories/friends-quiet-backpack/beat-01.ogg', durationMs: 39181, bytes: 3151, sha256: 'e191d95ea16aae9fb962ca2390d70a3cdaf5a10536a6fa905150defe4379866f', reviewStatus: 'candidate' },
-  { id: 'story.shaitanu.cape-trouble.beat-01', bundledSrc: '/audio/kidsplay-v1/stories/shaitanu-cape-trouble/beat-01.ogg', durationMs: 15813, bytes: 1360, sha256: 'a4593c3ca3897eafd5cccb769bf5d9f2af4f4ac95f55134914141448969880cd', reviewStatus: 'candidate' },
-  { id: 'story.scientu.tiny-question.beat-01', bundledSrc: '/audio/kidsplay-v1/stories/scientu-tiny-question/beat-01.ogg', durationMs: 14482, bytes: 1267, sha256: '3127a83ef78cdeebed72ea6462a27bc0aad33da544e7a172abf796dce8adb59c', reviewStatus: 'candidate' }
-];
-
-const MEASURED_STORIES: readonly MeasuredStoryNarration[] = [
-  { storyId: 'story.dheu.moonlit-leaf', clipCount: 9, totalDurationMs: 343013, projectedBytes: 27570, evidence: 'measured_candidate_production_trial' },
-  { storyId: 'story.friends.quiet-backpack', clipCount: 9, totalDurationMs: 379404, projectedBytes: 30363, evidence: 'measured_candidate_production_trial' },
-  { storyId: 'story.shaitanu.cape-trouble', clipCount: 4, totalDurationMs: 66544, projectedBytes: 5710, evidence: 'measured_candidate_production_trial' },
-  { storyId: 'story.scientu.tiny-question', clipCount: 5, totalDurationMs: 76234, projectedBytes: 6548, evidence: 'measured_candidate_production_trial' }
-];
-const assetById = new Map(ASSETS.map((asset) => [asset.id, asset]));
-const storyMetricsById = new Map(MEASURED_STORIES.map((story) => [story.storyId, story]));
+/**
+ * HUMAN-approved clips are the only bundled recordings eligible for playback.
+ * Candidate recordings and their hashes/durations live in the separate
+ * production-evidence module and cannot become runtime audio accidentally.
+ */
+const APPROVED_BUNDLED: Readonly<Record<string, string>> = {};
 
 export const KIDSPLAY_CHILD_AUDIO_MANIFEST = validateChildAudioUtteranceManifest({
   schemaVersion: 1,
   manifestId: 'kidsplay.voice.production.v1',
-  entries: UTTERANCES.map((entry) => {
-    const asset = assetById.get(entry.id);
-    return asset ? { ...entry, bundledSrc: asset.bundledSrc, durationMs: asset.durationMs } : entry;
-  })
+  entries: UTTERANCES
 });
+
 let lastUtterance: { id: string; text: string; enabled: boolean } | null = null;
 
-export function getChildAudioProductionAsset(id: string): ChildAudioProductionAsset | null { return assetById.get(id) ?? null; }
-export function getMeasuredStoryNarration(storyId: string): MeasuredStoryNarration | null { return storyMetricsById.get(storyId) ?? null; }
-export function getApprovedBundledSrc(id: string): string | undefined { const asset = assetById.get(id); return asset?.reviewStatus === 'approved' ? asset.bundledSrc : undefined; }
-export function summarizeChildAudioProduction(): ChildAudioProductionSummary {
-  const bundledBytes = ASSETS.reduce((sum, asset) => sum + asset.bytes, 0);
-  const approvedBytes = ASSETS.filter((asset) => asset.reviewStatus === 'approved').reduce((sum, asset) => sum + asset.bytes, 0);
-  return { utteranceCount: UTTERANCES.length, bundledClipCount: ASSETS.length, bundledBytes, candidateBytes: bundledBytes - approvedBytes, approvedBytes, projectedPackageImpactBytes: 74697, measuredProductionTrialDurationMs: 900214 };
+export function getApprovedBundledSrc(id: string): string | undefined {
+  return APPROVED_BUNDLED[id];
 }
-export function playChildUtterance(id: string, text: string, enabled = loadChildAudioPreferences().enabled): ChildAudioProductionPlaybackResult {
+
+export function playChildUtterance(
+  id: string,
+  text: string,
+  enabled = loadChildAudioPreferences().enabled
+): ChildAudioProductionPlaybackResult {
   const entry = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, id);
   if (!entry || !text.trim()) return { source: 'text_fallback' };
   lastUtterance = { id, text, enabled };
-  const result = playChildAudio({ channel: entry.channel, text, language: entry.language, enabled, ...(entry.character ? { character: entry.character } : {}), bundledSrc: getApprovedBundledSrc(id) });
-  return result.source === 'silent_fallback' || result.source === 'unavailable' ? { source: 'text_fallback' } : result;
+  const result = playChildAudio({
+    channel: entry.channel,
+    text,
+    language: entry.language,
+    enabled,
+    ...(entry.character ? { character: entry.character } : {}),
+    bundledSrc: getApprovedBundledSrc(id)
+  });
+  return result.source === 'silent_fallback' || result.source === 'unavailable'
+    ? { source: 'text_fallback' }
+    : result;
 }
-export function repeatLastChildUtterance(): ChildAudioProductionPlaybackResult { return lastUtterance ? playChildUtterance(lastUtterance.id, lastUtterance.text, lastUtterance.enabled) : { source: 'text_fallback' }; }
-export function cancelChildUtterance(): void { stopChildAudio(); }
+
+export function repeatLastChildUtterance(): ChildAudioProductionPlaybackResult {
+  return lastUtterance
+    ? playChildUtterance(lastUtterance.id, lastUtterance.text, lastUtterance.enabled)
+    : { source: 'text_fallback' };
+}
+
+export function cancelChildUtterance(): void {
+  stopChildAudio();
+}
