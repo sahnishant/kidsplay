@@ -423,6 +423,35 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     : speechResult;
 }
 
+/**
+ * Audio-objective gate for phonics/listening activities. Unlike ordinary child
+ * narration, this never falls back to TTS and resolves true only after the
+ * browser/native WebView confirms the exact bundled clip has actually started.
+ */
+export async function playRequiredBundledAudio(
+  bundledSrc: string,
+  enabled = true
+): Promise<boolean> {
+  stopChildAudio();
+  if (!enabled || !isBundledChildAudioPath(bundledSrc) || typeof Audio === 'undefined') return false;
+
+  const generation = playbackGeneration;
+  try {
+    const media = new Audio(bundledSrc);
+    media.preload = 'auto';
+    activeMedia = media;
+    await media.play();
+    if (generation !== playbackGeneration || activeMedia !== media) {
+      try { media.pause(); } catch { /* no-op */ }
+      return false;
+    }
+    return true;
+  } catch {
+    if (generation === playbackGeneration) activeMedia = null;
+    return false;
+  }
+}
+
 export function playQuestionPrompt(
   text: string,
   language: string,
