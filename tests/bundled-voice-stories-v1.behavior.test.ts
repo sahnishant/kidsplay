@@ -1,4 +1,5 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { existsSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { STORY_CANDIDATES_V1 } from '../src/experience/storyCatalog';
@@ -9,47 +10,41 @@ import {
   KIDSPLAY_CHILD_AUDIO_MANIFEST
 } from '../src/runtime/childAudioProduction';
 import {
-  getChildAudioProductionAsset,
+  listChildAudioProductionAssets,
   summarizeChildAudioProduction
 } from '../src/runtime/childAudioProductionEvidence';
 
-const BUNDLED_CANDIDATE_IDS = [
-  'character.dheu.success', 'character.dheu.retry',
-  'character.scientu.success', 'character.scientu.retry',
-  'character.shaitanu.success', 'character.shaitanu.retry',
-  'common.success', 'common.retry',
-  'forest.prompt.look', 'forest.prompt.listen',
-  'prereader.vocabulary.sun', 'prereader.phoneme.m',
-  'story.dheu.moonlit-leaf.beat-01',
-  'story.friends.quiet-backpack.beat-01',
-  'story.shaitanu.cape-trouble.beat-01',
-  'story.scientu.tiny-question.beat-01'
-] as const;
-
 describe('bundled playful voice + Stories V1 production contract', () => {
-  it('keeps every bounded candidate asset traceable through one stable semantic utterance manifest', () => {
+  it('keeps all 39 physically bundled spoken candidates traceable and byte/hash exact', () => {
     const summary = summarizeChildAudioProduction();
+    const assets = listChildAudioProductionAssets();
     expect(summary.utteranceCount).toBe(39);
-    expect(summary.bundledClipCount).toBe(16);
-    expect(summary.bundledBytes).toBe(13_195);
-    expect(summary.projectedPackageImpactBytes).toBe(74_697);
-    expect(summary.measuredProductionTrialDurationMs).toBe(900_214);
+    expect(summary.bundledClipCount).toBe(39);
+    expect(summary.bundledBytes).toBe(676_114);
+    expect(summary.candidateBytes).toBe(676_114);
+    expect(summary.projectedPackageImpactBytes).toBe(676_114);
+    expect(summary.measuredProductionTrialDurationMs).toBe(669_334);
     expect(summary.approvedBytes).toBe(0);
+    expect(new Set(assets.map((asset) => asset.id)).size).toBe(39);
 
-    for (const id of BUNDLED_CANDIDATE_IDS) {
-      const asset = getChildAudioProductionAsset(id);
-      const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, id);
-      expect(utterance?.id).toBe(id);
-      expect(asset?.reviewStatus).toBe('candidate');
-      expect(asset?.durationMs).toBeGreaterThan(0);
-      expect(asset?.bytes).toBeGreaterThan(0);
-      expect(asset?.sha256).toMatch(/^[a-f0-9]{64}$/);
-      expect(getApprovedBundledSrc(id)).toBeUndefined();
-      expect(existsSync(join(process.cwd(), 'public', asset!.bundledSrc.replace(/^\/audio\//, 'audio/')))).toBe(true);
+    for (const asset of assets) {
+      const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, asset.id);
+      expect(utterance?.id).toBe(asset.id);
+      expect(asset.reviewStatus).toBe('candidate');
+      expect(asset.durationMs).toBeGreaterThan(0);
+      expect(asset.bytes).toBeGreaterThan(0);
+      expect(asset.sha256).toMatch(/^[a-f0-9]{64}$/);
+      expect(getApprovedBundledSrc(asset.id)).toBeUndefined();
+
+      const filePath = join(process.cwd(), 'public', asset.bundledSrc.replace(/^\/+/, ''));
+      expect(existsSync(filePath)).toBe(true);
+      expect(statSync(filePath).size).toBe(asset.bytes);
+      const actualSha = createHash('sha256').update(readFileSync(filePath)).digest('hex');
+      expect(actualSha).toBe(asset.sha256);
     }
   });
 
-  it('gives every story page a stable semantic utterance id while duration uses measured production evidence', () => {
+  it('physically bundles every V1 story beat and uses measured narration rather than word-count estimates', () => {
     for (const story of STORY_CANDIDATES_V1) {
       const metrics = measureStoryNarration(story);
       expect(metrics.durationEvidence).toBe('measured_candidate_production_trial');
@@ -62,7 +57,10 @@ describe('bundled playful voice + Stories V1 production contract', () => {
       for (const beat of story.beats) {
         const id = storyNarrationUtteranceId(story, beat.beatId);
         const utterance = resolveChildAudioUtterance(KIDSPLAY_CHILD_AUDIO_MANIFEST, id);
+        const asset = listChildAudioProductionAssets().find((candidate) => candidate.id === id);
         expect(utterance?.usage).toBe('story_beat');
+        expect(asset?.reviewStatus).toBe('candidate');
+        expect(asset?.durationMs).toBeGreaterThan(0);
       }
     }
   });
