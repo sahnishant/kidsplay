@@ -15,19 +15,32 @@ describe('semantic visual-choice safety', () => {
       schemaVersion: 1,
       presentationTier: 'first_play',
       targetSemanticRef: 'semantic.dog',
+      comparisonDimensionRef: 'kr.category.animal',
       candidates: [
-        { semanticRef: 'semantic.dog', contrastBasisRef: 'kr.category.animal' },
-        { semanticRef: 'semantic.cow', contrastBasisRef: 'kr.category.animal' },
-        { semanticRef: 'semantic.bus', contrastBasisRef: 'kr.category.transport' }
+        { semanticRef: 'semantic.dog', contrastBasisRef: 'kr.category.animal.dog' },
+        { semanticRef: 'semantic.cow', contrastBasisRef: 'kr.category.animal.cow' },
+        { semanticRef: 'semantic.bus', contrastBasisRef: 'kr.category.transport.bus' }
       ]
     })).toThrow(/requires 2-2 candidates/);
   });
 
-  it('requires every visible candidate to carry an explicit semantic contrast basis', () => {
+  it('requires one common comparison dimension and explicit semantic evidence per visible candidate', () => {
     expect(() => validateSemanticChoicePlan({
       schemaVersion: 1,
       presentationTier: 'preschool',
       targetSemanticRef: 'semantic.open',
+      comparisonDimensionRef: '',
+      candidates: [
+        { semanticRef: 'semantic.open', contrastBasisRef: 'kr.state.open' },
+        { semanticRef: 'semantic.closed', contrastBasisRef: 'kr.state.closed' }
+      ]
+    })).toThrow(/comparisonDimensionRef/);
+
+    expect(() => validateSemanticChoicePlan({
+      schemaVersion: 1,
+      presentationTier: 'preschool',
+      targetSemanticRef: 'semantic.open',
+      comparisonDimensionRef: 'kr.dimension.open-closed-state',
       candidates: [
         { semanticRef: 'semantic.open', contrastBasisRef: 'kr.state.open' },
         { semanticRef: 'semantic.closed', contrastBasisRef: '' }
@@ -40,9 +53,10 @@ describe('semantic visual-choice safety', () => {
       schemaVersion: 1,
       presentationTier: 'preschool',
       targetSemanticRef: 'semantic.under',
+      comparisonDimensionRef: 'kr.dimension.spatial-position',
       candidates: [
-        { semanticRef: 'semantic.on', contrastBasisRef: 'kr.spatial.position' },
-        { semanticRef: 'semantic.beside', contrastBasisRef: 'kr.spatial.position' }
+        { semanticRef: 'semantic.on', contrastBasisRef: 'kr.spatial.on' },
+        { semanticRef: 'semantic.beside', contrastBasisRef: 'kr.spatial.beside' }
       ]
     })).toThrow(/contain the target/);
 
@@ -50,9 +64,10 @@ describe('semantic visual-choice safety', () => {
       schemaVersion: 1,
       presentationTier: 'preschool',
       targetSemanticRef: 'semantic.under',
+      comparisonDimensionRef: 'kr.dimension.spatial-position',
       candidates: [
-        { semanticRef: 'semantic.under', contrastBasisRef: 'kr.spatial.position' },
-        { semanticRef: 'semantic.under', contrastBasisRef: 'kr.spatial.position' }
+        { semanticRef: 'semantic.under', contrastBasisRef: 'kr.spatial.under' },
+        { semanticRef: 'semantic.under', contrastBasisRef: 'kr.spatial.under' }
       ]
     })).toThrow(/duplicate semantic ref/);
   });
