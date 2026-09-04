@@ -2,12 +2,14 @@ import { describe, expect, it } from 'vitest';
 import { EARTH_LEARN_ABOUT_TOPIC } from '../src/experience/learnAboutCatalog';
 import {
   FIRST_PLAY_ACTIVITIES,
-  FIRST_PLAY_PROOFS,
   VISUAL_REASONING_ACTIVITIES,
   evaluateFirstPlayQuestion,
-  resolveFirstPlayMicroReaction,
-  validateFirstPlayProductionActivity
+  resolveFirstPlayMicroReaction
 } from '../src/experience/firstPlayProduction';
+import {
+  FIRST_PLAY_PROOFS,
+  validateFirstPlayProductionActivity
+} from '../src/experience/firstPlayProductionValidation';
 import { resolveVisualDefinition } from '../src/presentation/visualRegistry';
 import { getStoryCharacterPersona } from '../src/story/storyPersona';
 
