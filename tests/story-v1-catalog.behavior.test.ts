@@ -42,16 +42,16 @@ describe('Stories V1 candidate pack', () => {
     expect(getStoryCandidate('story.dheu.moonlit-leaf')?.editorialStatus).toBe('draft');
   });
 
-  it('spans two registered measurement-only lexical profiles and two duration bands', () => {
+  it('spans two neutral measurement-only lexical frequency bands and two duration bands', () => {
     expect(new Set(STORY_CANDIDATES_V1.map((story) => story.lexicalProfileRef))).toEqual(new Set([
-      'lexical.story.preschool.simple',
-      'lexical.story.early-reader.simple'
+      'lexical.story.frequency-band-1',
+      'lexical.story.frequency-band-2'
     ]));
-    expect(resolveStoryLexicalProfile('lexical.story.preschool.simple')).toMatchObject({
+    expect(resolveStoryLexicalProfile('lexical.story.frequency-band-1')).toMatchObject({
       maximumCorpusGrade: 1,
       corpusRef: 'lexicon.primary.english.grade-candidates.001'
     });
-    expect(resolveStoryLexicalProfile('lexical.story.early-reader.simple')).toMatchObject({
+    expect(resolveStoryLexicalProfile('lexical.story.frequency-band-2')).toMatchObject({
       maximumCorpusGrade: 2,
       corpusRef: 'lexicon.primary.english.grade-candidates.001'
     });
