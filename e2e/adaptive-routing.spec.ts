@@ -1,75 +1,74 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { answerCurrentQuestion, openCleanApp } from './helpers/childJourney';
 
-const FOREST_TOPICS = new Set(['animals', 'plants']);
+async function openForestMissionSession(page: Page) {
+  await page.getByRole('button', { name: 'Continue Adventure' }).click();
+  const mission = page.getByRole('dialog');
+  await expect(mission.getByRole('heading', { name: 'The Forest Trail Mix-Up' })).toBeVisible();
 
-async function hasForestEvidence(page: import('@playwright/test').Page): Promise<boolean> {
-  return page.evaluate((topics) => {
-    const raw = window.localStorage.getItem('kidsplay.progress.v1');
-    if (!raw) return false;
-    const snapshot = JSON.parse(raw) as { attempts?: Array<{ knowledgeRefs?: string[]; conceptIds?: string[] }> };
-    return (snapshot.attempts ?? []).some((attempt) => {
-      const refParts = (attempt.knowledgeRefs ?? []).flatMap((ref) => ref.split('.'));
-      const conceptParts = (attempt.conceptIds ?? []).flatMap((ref) => ref.split('.'));
-      return [...refParts, ...conceptParts].some((part) => topics.includes(part));
-    });
-  }, [...FOREST_TOPICS]);
+  const nextBeat = mission.getByRole('button', { name: 'Next story beat' });
+  for (let index = 0; index < 4 && await nextBeat.isVisible(); index += 1) {
+    await nextBeat.click();
+  }
+  await mission.getByRole('button', { name: /Start investigation/ }).click();
+
+  const session = page.locator('.session-host');
+  await expect(session).toBeVisible();
+  await expect(session.getByText('The Forest Trail Mix-Up', { exact: true })).toBeVisible();
+  await expect(session.getByText('1 / 7', { exact: true })).toBeVisible();
+  return session;
 }
 
-async function ageLearningEvidence(page: import('@playwright/test').Page): Promise<void> {
+async function ageLearningEvidence(page: Page): Promise<void> {
   await page.evaluate(() => {
     const key = 'kidsplay.progress.v1';
     const raw = window.localStorage.getItem(key);
     if (!raw) throw new Error('Expected persisted learning evidence');
     const snapshot = JSON.parse(raw) as { attempts?: Array<{ submittedAt: string }>; updatedAt?: string | null };
+    if (!(snapshot.attempts?.length)) throw new Error('Expected at least one submitted evaluative attempt');
     const old = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
-    for (const attempt of snapshot.attempts ?? []) attempt.submittedAt = old;
+    for (const attempt of snapshot.attempts) attempt.submittedAt = old;
     snapshot.updatedAt = old;
     window.localStorage.setItem(key, JSON.stringify(snapshot));
   });
 }
 
 test.describe('Adaptive Continue Adventure', () => {
-  test('silently routes due real evidence and survives process-kill/relaunch at 360x640', async ({ page }) => {
+  test('weaves due real evidence into the current story and survives process-kill/relaunch at 360x640', async ({ page }) => {
     test.setTimeout(120_000);
     await page.setViewportSize({ width: 360, height: 640 });
     await openCleanApp(page);
 
-    await page.getByRole('button', { name: 'Open practice activities' }).click();
-    await page.getByRole('button', { name: 'Play free' }).click();
+    // Establish one real evaluated concept through the actual current Forest mission.
+    const initialMissionSession = await openForestMissionSession(page);
+    const initialQuestion = await answerCurrentQuestion(page);
+    expect(initialQuestion.prompt.trim().length).toBeGreaterThan(0);
+    await initialMissionSession.getByRole('button', { name: 'Back to Kidsplay home' }).click();
 
-    let forestEvidence = false;
-    for (let index = 0; index < 8; index += 1) {
-      await answerCurrentQuestion(page);
-      forestEvidence = await hasForestEvidence(page);
-      if (forestEvidence) break;
-      await page.getByRole('button', { name: index === 7 ? 'See result' : 'Next' }).click();
-    }
-    expect(forestEvidence, 'the real free-play pack should yield at least one forest-compatible evaluated concept').toBe(true);
-
-    await page.getByRole('button', { name: 'Back to Kidsplay home' }).click();
+    // Age only canonical response evidence. No adaptive store/timer is created.
     await ageLearningEvidence(page);
     await page.reload();
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
 
-    await page.getByRole('button', { name: 'Continue Adventure' }).click();
-    const adaptiveSession = page.locator('.session-host');
-    await expect(adaptiveSession).toBeVisible();
-    const firstPrompt = await adaptiveSession.getByRole('heading', { level: 1 }).innerText();
-    expect(firstPrompt.trim().length).toBeGreaterThan(0);
-
+    // Continue Adventure remains story-first: the adaptive beat is woven into the
+    // same seven-clue Forest mission instead of opening a labelled review queue.
+    const adaptiveMissionSession = await openForestMissionSession(page);
+    const firstAdaptivePrompt = await adaptiveMissionSession.getByRole('heading', { level: 1 }).innerText();
+    expect(firstAdaptivePrompt.trim().length).toBeGreaterThan(0);
     await expect(page.getByText(/weak topic|mastery percentage|overdue review|streak|\bXP\b/i)).toHaveCount(0);
+
     const dimensions = await page.evaluate(() => ({
       width: document.documentElement.scrollWidth,
       viewport: document.documentElement.clientWidth
     }));
     expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
 
-    // Simulate a hard process kill: active route/session memory disappears, local evidence remains.
+    // Simulate a hard process kill: active mission/router memory disappears while
+    // persisted attempt evidence remains. The rebuilt decision must be identical.
     await page.reload();
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
-    await page.getByRole('button', { name: 'Continue Adventure' }).click();
-    await expect(page.locator('.session-host')).toBeVisible();
-    await expect(page.locator('.session-host').getByRole('heading', { level: 1 })).toHaveText(firstPrompt);
+    const relaunchedMissionSession = await openForestMissionSession(page);
+    await expect(relaunchedMissionSession.getByRole('heading', { level: 1 })).toHaveText(firstAdaptivePrompt);
+    await expect(relaunchedMissionSession.getByText('1 / 7', { exact: true })).toBeVisible();
   });
 });
