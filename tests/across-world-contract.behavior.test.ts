@@ -157,4 +157,24 @@ describe('Across the World route/destination contract', () => {
       })
     })).toThrow(/parent cycle/);
   });
+
+  it('rejects structurally invalid parent types even when the graph is connected', () => {
+    expect(() => validateAcrossWorldCampaign({
+      ...indiaSlice,
+      geographicNodes: indiaSlice.geographicNodes.map((node) =>
+        node.nodeId === 'geo.country.india'
+          ? { ...node, parentNodeId: 'geo.city.delhi' }
+          : node
+      )
+    })).toThrow(/country may not have parent type city/);
+
+    expect(() => validateAcrossWorldCampaign({
+      ...indiaSlice,
+      geographicNodes: indiaSlice.geographicNodes.map((node) =>
+        node.nodeId === 'geo.city.delhi'
+          ? { ...node, parentNodeId: 'geo.destination.red-fort' }
+          : node
+      )
+    })).toThrow(/city may not have parent type destination/);
+  });
 });
