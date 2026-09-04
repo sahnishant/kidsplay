@@ -150,11 +150,11 @@ describe('Across the World route/destination contract', () => {
   it('rejects parent cycles even when every referenced parent exists', () => {
     expect(() => validateAcrossWorldCampaign({
       ...indiaSlice,
-      geographicNodes: indiaSlice.geographicNodes.map((node) => {
-        if (node.nodeId === 'geo.city.delhi') return { ...node, parentNodeId: 'geo.city.agra' };
-        if (node.nodeId === 'geo.city.agra') return { ...node, parentNodeId: 'geo.city.delhi' };
-        return node;
-      })
+      geographicNodes: [
+        ...indiaSlice.geographicNodes,
+        { nodeId: 'geo.region.cycle-a', type: 'region', parentNodeId: 'geo.region.cycle-b', childName: 'Cycle A' },
+        { nodeId: 'geo.region.cycle-b', type: 'region', parentNodeId: 'geo.region.cycle-a', childName: 'Cycle B' }
+      ]
     })).toThrow(/parent cycle/);
   });
 
