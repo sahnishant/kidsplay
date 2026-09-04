@@ -54,4 +54,13 @@ describe('Free Explore replay projection', () => {
     }] as unknown as Parameters<typeof projectFreeExploreReplayTiles>[0];
     expect(() => projectFreeExploreReplayTiles(malformed)).toThrow(/available must be boolean/);
   });
+
+  it('rejects impossible completion or voluntary-replay counts', () => {
+    expect(() => projectFreeExploreReplayTiles([{
+      activityRef: 'activity.bad-replays', available: true, playCount: 1, voluntaryReplayCount: 2, completionCount: 0, lastPlayedSequence: 1
+    }])).toThrow(/voluntaryReplayCount may not exceed playCount/);
+    expect(() => projectFreeExploreReplayTiles([{
+      activityRef: 'activity.bad-completions', available: true, playCount: 1, voluntaryReplayCount: 0, completionCount: 2, lastPlayedSequence: 1
+    }])).toThrow(/completionCount may not exceed playCount/);
+  });
 });
