@@ -11,10 +11,10 @@ export interface StoryNarrationMetrics {
 }
 
 const MEASURED_STORIES: Readonly<Record<string, Omit<StoryNarrationMetrics, 'storyId'>>> = {
-  'story.dheu.moonlit-leaf': { clipCount: 9, totalDurationMs: 343_013, projectedBytes: 27_570, durationEvidence: 'measured_candidate_production_trial' },
-  'story.friends.quiet-backpack': { clipCount: 9, totalDurationMs: 379_404, projectedBytes: 30_363, durationEvidence: 'measured_candidate_production_trial' },
-  'story.shaitanu.cape-trouble': { clipCount: 4, totalDurationMs: 66_544, projectedBytes: 5_710, durationEvidence: 'measured_candidate_production_trial' },
-  'story.scientu.tiny-question': { clipCount: 5, totalDurationMs: 76_234, projectedBytes: 6_548, durationEvidence: 'measured_candidate_production_trial' }
+  'story.dheu.moonlit-leaf': { clipCount: 9, totalDurationMs: 252_539, projectedBytes: 256_946, durationEvidence: 'measured_candidate_production_trial' },
+  'story.friends.quiet-backpack': { clipCount: 9, totalDurationMs: 278_382, projectedBytes: 279_397, durationEvidence: 'measured_candidate_production_trial' },
+  'story.shaitanu.cape-trouble': { clipCount: 4, totalDurationMs: 45_939, projectedBytes: 45_935, durationEvidence: 'measured_candidate_production_trial' },
+  'story.scientu.tiny-question': { clipCount: 5, totalDurationMs: 57_674, projectedBytes: 58_505, durationEvidence: 'measured_candidate_production_trial' }
 };
 
 export function storyNarrationUtteranceId(manifest: StoryManifest, beatId: string): string {
