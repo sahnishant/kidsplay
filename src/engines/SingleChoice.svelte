@@ -1,22 +1,14 @@
 <script lang="ts">
   import type { SingleChoiceQuestion } from '../contracts/question';
+  import { shuffled } from '../mechanics/random';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
   let { question, onSubmit }: EngineProps<SingleChoiceQuestion> = $props();
 
-  const shuffled = <T,>(values: T[]): T[] => {
-    const copy = [...values];
-    for (let index = copy.length - 1; index > 0; index -= 1) {
-      const swapWith = Math.floor(Math.random() * (index + 1));
-      [copy[index], copy[swapWith]] = [copy[swapWith], copy[index]];
-    }
-    return copy;
-  };
-
   let options = $derived.by(() => question.interaction.shuffleOptions
-    ? shuffled(question.interaction.options)
+    ? shuffled(question.interaction.options, Math.random)
     : [...question.interaction.options]
   );
   let selectedOptionId = $state<string | null>(null);
