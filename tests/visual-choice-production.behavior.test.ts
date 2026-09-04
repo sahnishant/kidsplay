@@ -2,11 +2,13 @@ import { describe, expect, it } from 'vitest';
 import {
   ODD_ONE_OUT_ACTIVITIES,
   VISUAL_REASONING_ACTIVITIES,
+  VISUAL_SCENE_CHOICE_ACTIVITIES
+} from '../src/experience/firstPlayProduction';
+import {
   VISUAL_REASONING_PROOFS,
-  VISUAL_SCENE_CHOICE_ACTIVITIES,
   validateVisualReasoningActivity,
   visualCorrectPositionsAcrossSeeds
-} from '../src/experience/firstPlayProduction';
+} from '../src/experience/firstPlayProductionValidation';
 
 describe('visual scene choice + Which Does Not Belong production', () => {
   it('ships six scene choices and six odd-one-out activities across at least four semantic families', () => {
