@@ -193,6 +193,33 @@ function validateNode(value: unknown, index: number): GeographicNode {
   };
 }
 
+function validateGeographicHierarchy(
+  campaignId: string,
+  geographicNodes: readonly GeographicNode[],
+  nodeById: ReadonlyMap<string, GeographicNode>,
+  worldNodeId: string
+): void {
+  for (const node of geographicNodes) {
+    if (node.nodeId === worldNodeId) continue;
+    const visited = new Set<string>([node.nodeId]);
+    let cursor: GeographicNode | undefined = node;
+
+    while (cursor.parentNodeId) {
+      if (visited.has(cursor.parentNodeId)) {
+        throw new Error(`${campaignId}: geographic hierarchy contains a parent cycle at ${cursor.parentNodeId}`);
+      }
+      visited.add(cursor.parentNodeId);
+      const parent = nodeById.get(cursor.parentNodeId);
+      if (!parent) throw new Error(`${cursor.nodeId}: unknown parent ${cursor.parentNodeId}`);
+      cursor = parent;
+    }
+
+    if (cursor.nodeId !== worldNodeId) {
+      throw new Error(`${campaignId}: geographic node ${node.nodeId} does not resolve to world root ${worldNodeId}`);
+    }
+  }
+}
+
 function validateRoute(value: unknown, index: number): AcrossWorldRoute {
   if (!isRecord(value)) throw new Error(`routes[${index}] must be an object`);
   const routeId = assertStableRef(value.routeId, `routes[${index}].routeId`);
@@ -298,6 +325,7 @@ export function validateAcrossWorldCampaign(value: unknown): AcrossWorldCampaign
   for (const node of geographicNodes) {
     if (node.parentNodeId && !nodeById.has(node.parentNodeId)) throw new Error(`${node.nodeId}: unknown parent ${node.parentNodeId}`);
   }
+  validateGeographicHierarchy(campaignId, geographicNodes, nodeById, worldNodes[0].nodeId);
 
   if (!Array.isArray(value.routes)) throw new Error(`${campaignId}: routes[] is required`);
   const routes = value.routes.map(validateRoute);
