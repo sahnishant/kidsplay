@@ -3,12 +3,7 @@ import { resolveQuestionIds } from '../runtime/questionCatalog';
 import { getLearnAboutTopicBinding } from './learnAboutBindings';
 import { getLearnAboutTopic } from './learnAboutCatalog';
 import type { LearnAboutDepthBand, LearnAboutRecipeFamily } from './learnAboutContract';
-import {
-  getAuthoritativeLearnAboutKnowledgeRefs,
-  isAuthoritativeLearnAboutKnowledgeRef,
-  resolveAuthoritativeLearnAboutKnowledgeRows,
-  type LearnAboutKnowledgeRow
-} from './learnAboutKnowledge';
+import { indexLearnAboutKnowledge, type LearnAboutKnowledgeRow } from './learnAboutKnowledge';
 import { projectLearnAboutActivities } from './learnAboutProjection';
 import {
   RIDDLE_TIME_V1,
@@ -18,7 +13,6 @@ import {
 } from './riddleCatalog';
 
 export const LEARN_ABOUT_RUNTIME_ID = 'learn-about-v1' as const;
-
 export type LearnAboutEvidenceMode = 'none' | 'evaluated_question';
 
 export interface LearnAboutRuntimeCard {
@@ -46,10 +40,7 @@ export interface LearnAboutRuntimeSession {
 }
 
 const DEPTH_ORDER: readonly LearnAboutDepthBand[] = [
-  'd0_first_play',
-  'd1_preschool',
-  'd2_early_primary',
-  'd3_deeper_primary'
+  'd0_first_play', 'd1_preschool', 'd2_early_primary', 'd3_deeper_primary'
 ];
 
 function depthAtOrBelow(candidate: LearnAboutDepthBand, selected: LearnAboutDepthBand): boolean {
@@ -64,28 +55,28 @@ function unique<T>(values: readonly T[]): T[] {
   return [...new Set(values)];
 }
 
-/**
- * One generic Learn About composer for every topic. It only turns canonical row
- * refs into discovery cards and delegates evaluated work to existing question
- * contracts. Merely creating/opening this session cannot emit mastery evidence.
- */
+/** One generic composer; reviewed canonical rows are loaded separately from local packaged assets. */
 export function createLearnAboutRuntimeSession(
   topicId: string,
-  depthBand: LearnAboutDepthBand
+  depthBand: LearnAboutDepthBand,
+  knowledgeRows: readonly LearnAboutKnowledgeRow[]
 ): LearnAboutRuntimeSession {
   const topic = getLearnAboutTopic(topicId);
   if (!topic) throw new Error(`Unknown Learn About topic ${topicId}`);
   const binding = getLearnAboutTopicBinding(topicId);
   if (!binding) throw new Error(`Missing Learn About binding for ${topicId}`);
 
-  const authoritative = getAuthoritativeLearnAboutKnowledgeRefs();
+  const authoritative = indexLearnAboutKnowledge(knowledgeRows);
+  const resolveRows = (refs: readonly string[]): LearnAboutKnowledgeRow[] =>
+    refs.flatMap((ref) => {
+      const row = authoritative.get(ref);
+      return row ? [row] : [];
+    });
   const admittedKnowledgeRefs = unique(
     topic.sections.flatMap((section) => section.knowledgeRefs).filter((ref) => authoritative.has(ref))
   );
   const supportedRelationshipRefs = unique(
-    binding.sections
-      .flatMap((section) => section.relationshipRefs ?? [])
-      .filter((ref) => authoritative.has(ref))
+    binding.sections.flatMap((section) => section.relationshipRefs ?? []).filter((ref) => authoritative.has(ref))
   );
   const projected = projectLearnAboutActivities(topic, depthBand, {
     admittedKnowledgeRefs,
@@ -94,16 +85,14 @@ export function createLearnAboutRuntimeSession(
 
   const cardsBySection = new Map<string, LearnAboutRuntimeCard[]>();
   const addCard = (sectionId: string, card: LearnAboutRuntimeCard): void => {
-    const cards = cardsBySection.get(sectionId) ?? [];
-    cards.push(card);
-    cardsBySection.set(sectionId, cards);
+    cardsBySection.set(sectionId, [...(cardsBySection.get(sectionId) ?? []), card]);
   };
 
   for (const activity of projected) {
     addCard(activity.sectionId, {
       cardId: `${activity.sectionId}.${activity.family}`,
       family: activity.family,
-      knowledgeRows: resolveAuthoritativeLearnAboutKnowledgeRows(activity.knowledgeRefs),
+      knowledgeRows: resolveRows(activity.knowledgeRefs),
       evidenceMode: 'none'
     });
   }
@@ -119,7 +108,7 @@ export function createLearnAboutRuntimeSession(
         const item = RIDDLE_TIME_V1.find((candidate) => candidate.clue.clueSetId === guess.clueSetId);
         if (!item) throw new Error(`${section.sectionId}: unknown shared clue ${guess.clueSetId}`);
         const evidenceRefs = riddleKnowledgeRefs(item);
-        if (evidenceRefs.some((ref) => !isAuthoritativeLearnAboutKnowledgeRef(ref))) continue;
+        if (evidenceRefs.some((ref) => !authoritative.has(ref))) continue;
         if (evidenceRefs.some((ref) => !section.knowledgeRefs.includes(ref))) {
           throw new Error(`${section.sectionId}: shared clue evidence must be declared by the topic section`);
         }
@@ -127,7 +116,7 @@ export function createLearnAboutRuntimeSession(
         addCard(section.sectionId, {
           cardId: `${section.sectionId}.guess.${guess.clueSetId}`,
           family: 'guess',
-          knowledgeRows: resolveAuthoritativeLearnAboutKnowledgeRows(evidenceRefs),
+          knowledgeRows: resolveRows(evidenceRefs),
           evidenceMode: 'evaluated_question',
           question: riddle.question,
           riddle
@@ -137,14 +126,12 @@ export function createLearnAboutRuntimeSession(
 
     if (section.recipeFamilies.includes('practice') && sectionBinding.practiceQuestionIds?.length) {
       for (const question of resolveQuestionIds([...sectionBinding.practiceQuestionIds])) {
-        const questionKnowledgeRefs = question.knowledgeRefs ?? [];
-        if (questionKnowledgeRefs.length === 0) continue;
-        if (questionKnowledgeRefs.some((ref) => !isAuthoritativeLearnAboutKnowledgeRef(ref))) continue;
-        if (questionKnowledgeRefs.some((ref) => !section.knowledgeRefs.includes(ref))) continue;
+        const refs = question.knowledgeRefs ?? [];
+        if (!refs.length || refs.some((ref) => !authoritative.has(ref)) || refs.some((ref) => !section.knowledgeRefs.includes(ref))) continue;
         addCard(section.sectionId, {
           cardId: `${section.sectionId}.practice.${question.id}`,
           family: 'practice',
-          knowledgeRows: resolveAuthoritativeLearnAboutKnowledgeRows(questionKnowledgeRefs),
+          knowledgeRows: resolveRows(refs),
           evidenceMode: 'evaluated_question',
           question
         });
@@ -160,11 +147,7 @@ export function createLearnAboutRuntimeSession(
     depthBand,
     sections: topic.sections
       .filter((section) => sectionIsActive(section.depthBands, depthBand))
-      .map((section) => ({
-        sectionId: section.sectionId,
-        childTitle: section.childTitle,
-        cards: cardsBySection.get(section.sectionId) ?? []
-      }))
+      .map((section) => ({ sectionId: section.sectionId, childTitle: section.childTitle, cards: cardsBySection.get(section.sectionId) ?? [] }))
       .filter((section) => section.cards.length > 0)
   };
 }
