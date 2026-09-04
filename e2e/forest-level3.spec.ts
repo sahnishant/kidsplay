@@ -34,7 +34,7 @@ test('Forest Explorer Level 3 restores a habitat and persists its discoveries at
 
   const level = page.locator('[data-forest-level="3"]');
   await expect(level).toBeVisible();
-  await expect(page.getByText(/windy night has knocked down a small shelter/i)).toBeVisible();
+  await expect(level.getByText(/windy night has knocked down a small shelter/i)).toBeVisible();
   await expect(page.getByRole('button', { name: /Check Answer/i })).toHaveCount(0);
   await expectStaticReducedMotion(page);
   await expectAllForestButtonsTouchable(page, 'Level 3 opening action');
