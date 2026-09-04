@@ -10,7 +10,7 @@ export interface AssemblyInteractionState {
   assignments: readonly AssemblyAssignment[];
   placementOrder: readonly string[];
   committedActionCount: number;
-  /** Null until the first semantically committed placement occurs. */
+  /** Null while a clean first attempt is still in progress; false after any first-run miss; true only after clean completion. */
   firstAttemptCorrect: boolean | null;
   completed: boolean;
   evaluation?: AssemblyEvaluation;
@@ -49,7 +49,6 @@ export function commitAssemblyPlacement(
   if (!expected || !slotExists) throw new Error(`${validated.assemblyId}: placement references unknown part or slot`);
 
   const actionCorrect = expected.slotId === assignment.slotId;
-  const firstAttemptCorrect = previous.firstAttemptCorrect === null ? actionCorrect : previous.firstAttemptCorrect;
   const committedActionCount = previous.committedActionCount + 1;
 
   if (!actionCorrect) {
@@ -57,7 +56,7 @@ export function commitAssemblyPlacement(
       state: {
         ...previous,
         committedActionCount,
-        firstAttemptCorrect
+        firstAttemptCorrect: false
       },
       feedback: 'retry_in_place',
       autoSubmitted: false
@@ -78,7 +77,7 @@ export function commitAssemblyPlacement(
         assignments,
         placementOrder,
         committedActionCount,
-        firstAttemptCorrect,
+        firstAttemptCorrect: previous.firstAttemptCorrect,
         completed: false
       },
       feedback: 'placed',
@@ -111,7 +110,7 @@ export function commitAssemblyPlacement(
       assignments,
       placementOrder,
       committedActionCount,
-      firstAttemptCorrect,
+      firstAttemptCorrect: previous.firstAttemptCorrect ?? true,
       completed: true,
       evaluation
     },
