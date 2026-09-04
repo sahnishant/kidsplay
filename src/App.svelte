@@ -262,6 +262,12 @@
   }
 </script>
 
+{#if learnAboutOpen && LearnAboutView}
+  <div hidden={Boolean(activeSession)}>
+    <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
+  </div>
+{/if}
+
 {#if activeSession}
   <div class="session-host" class:forest-session-host={forestLevelOneSession}>
     <Session
@@ -282,9 +288,7 @@
     />
     <GrownUpAudioHelp language={activeSession.questions[0]?.language ?? 'en-IN'} />
   </div>
-{:else if learnAboutOpen && LearnAboutView}
-  <LearnAboutView onExit={requestLearnAboutExit} onStartQuestion={startLearnAboutQuestion} />
-{:else}
+{:else if !learnAboutOpen}
   <Home
     {child}
     {catalog}
