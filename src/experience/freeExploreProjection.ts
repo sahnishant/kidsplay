@@ -22,9 +22,12 @@ function assertCount(value: number, context: string): number {
 }
 
 function validateHistory(row: ReplayActivityHistory): ReplayActivityHistory {
-  if (!STABLE_REF.test(row.activityRef)) throw new Error('activityRef must be a stable ref');
+  if (!row || typeof row !== 'object' || Array.isArray(row)) throw new Error('Replay activity history must be an object');
+  if (typeof row.activityRef !== 'string' || !STABLE_REF.test(row.activityRef)) throw new Error('activityRef must be a stable ref');
+  if (typeof row.available !== 'boolean') throw new Error(`${row.activityRef}.available must be boolean`);
   return {
-    ...row,
+    activityRef: row.activityRef,
+    available: row.available,
     playCount: assertCount(row.playCount, `${row.activityRef}.playCount`),
     voluntaryReplayCount: assertCount(row.voluntaryReplayCount, `${row.activityRef}.voluntaryReplayCount`),
     completionCount: assertCount(row.completionCount, `${row.activityRef}.completionCount`),
@@ -47,6 +50,7 @@ export function projectFreeExploreReplayTiles(
   history: readonly ReplayActivityHistory[],
   maximumTiles = 3
 ): FreeExploreReplayTile[] {
+  if (!Array.isArray(history)) throw new Error('Replay activity history must be an array');
   if (!Number.isInteger(maximumTiles) || maximumTiles < 0) throw new Error('maximumTiles must be a non-negative integer');
 
   const validated = history.map(validateHistory);
