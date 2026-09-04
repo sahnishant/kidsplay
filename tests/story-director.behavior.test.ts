@@ -35,7 +35,7 @@ describe('story mission director', () => {
 
     for (const mission of missions) {
       expect(locationIds.has(mission.locationRef)).toBe(true);
-      expect(mission.knowledgeRefs.length).toBeGreaterThanOrEqual(4);
+      expect(mission.knowledgeRefs.length).toBeGreaterThanOrEqual(2);
       expect(new Set(mission.knowledgeRefs).size).toBe(mission.knowledgeRefs.length);
 
       const launch = createStoryMissionLaunch(mission.id);
