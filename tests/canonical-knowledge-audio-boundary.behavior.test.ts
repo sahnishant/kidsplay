@@ -1,6 +1,5 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join, resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 function collectJsonFiles(root: string): string[] {
@@ -21,7 +20,7 @@ function collectStrings(value: unknown, path = '$'): Array<{ path: string; value
 
 describe('canonical knowledge/audio ownership boundary', () => {
   it('keeps speech/audio file paths out of every canonical knowledge JSON row', () => {
-    const knowledgeRoot = fileURLToPath(new URL('../content/knowledge/', import.meta.url));
+    const knowledgeRoot = resolve(process.cwd(), 'content', 'knowledge');
     const violations = collectJsonFiles(knowledgeRoot).flatMap((file) => {
       const parsed = JSON.parse(readFileSync(file, 'utf8')) as unknown;
       return collectStrings(parsed)
