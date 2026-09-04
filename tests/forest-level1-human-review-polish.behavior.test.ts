@@ -7,13 +7,13 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const source = (relativePath: string) => readFileSync(path.join(root, relativePath), 'utf8');
 
 describe('Forest Level-1 human-review polish', () => {
-  it('keeps the Forest mission inside a dedicated environmental child surface', () => {
+  it('keeps Forest story sessions inside the dedicated environmental child surface', () => {
     const app = source('src/App.svelte');
     const css = source('src/forestSessionPolish.css');
 
-    expect(app).toContain("activeStoryMission?.id === 'mission.forest-explorer-trail'");
+    expect(app).toContain("activeStoryMission?.locationRef === 'forest'");
     expect(app).toContain("activeStoryLocation?.id === 'forest'");
-    expect(app).toContain('class:forest-session-host={forestLevelOneSession}');
+    expect(app).toContain('class:forest-session-host={forestStorySession}');
     expect(css).toContain('.forest-session-host .session-viewport');
     expect(css).toContain('.forest-session-host .feedback--correct');
     expect(css).toContain('.forest-session-host .next-button');
