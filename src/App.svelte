@@ -252,9 +252,13 @@
       storyProgress,
       progressSummary.recommendedTopics
     ).find((item) => item.state === 'current') ?? null;
+    const currentMission = currentPresentation?.mission ?? null;
+    const routingQuestionBank = currentMission
+      ? adaptiveQuestionBank.filter((question) => questionFitsMission(question, currentMission))
+      : adaptiveQuestionBank;
     const decision = decideAdaptiveExperience({
       progress,
-      questionBank: adaptiveQuestionBank,
+      questionBank: routingQuestionBank,
       currentWorldId: currentPresentation?.location.id ?? null,
       currentWorldTopics: currentPresentation?.location.topicGroups ?? [],
       worldHasProgress: Boolean(storyProgress.updatedAt),
@@ -273,7 +277,6 @@
       return false;
     }
 
-    const currentMission = currentPresentation?.mission ?? null;
     if (currentMission) {
       clearPendingAdaptiveMission();
       if (questionFitsMission(questions[0], currentMission)) {
