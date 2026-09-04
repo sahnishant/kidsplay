@@ -1,8 +1,8 @@
 # HUMAN REVIEW — Forest Explorer Level 2 visual/CX acceptance
 
-**Status: PENDING HUMAN REVIEW. Agent D / automation must not approve this gate.**
+**Status: APPROVED BY HUMAN REVIEWER on 2026-09-04. This approval was supplied by the human product owner after completing the prescribed review; it is not an Agent D / automation self-approval.**
 
-Review the branch `feat/forest-world-depth-l2-l3` after automated Windows, Browser and Android checks are green. This is a child-experience review, not a code review.
+Review basis: `main` at Forest L2/L3 merge commit `1cb205a0ff09f2be684eecf1f05d6cc370bf6761`, after automated Windows, Browser and Android checks were green. This is a child-experience review, not a code review.
 
 ## Setup
 
@@ -27,7 +27,7 @@ Review the branch `feat/forest-world-depth-l2-l3` after automated Windows, Brows
 
 ## Child-CX acceptance questions
 
-Mark each item **APPROVE** or **REJECT** and note the concrete reason:
+Human reviewer marked **APPROVE** for all items below:
 
 - The full arc feels like one coherent 5–10 minute creek rescue rather than four unrelated cards.
 - A young child can understand what to touch without reading every sentence.
@@ -43,7 +43,7 @@ Mark each item **APPROVE** or **REJECT** and note the concrete reason:
 
 ## Packaged Android checks
 
-On the debug APK produced from this exact branch/head:
+Human reviewer marked **APPROVE** for all prescribed Android checks:
 
 - Launch with Wi-Fi/mobile data off and enter L2.
 - Complete at least the first repair and one cause/effect step offline.
@@ -53,14 +53,14 @@ On the debug APK produced from this exact branch/head:
 
 ## Review record
 
-- Reviewer:
-- Device/browser:
-- Branch/head SHA:
-- Date:
-- Browser 360 × 640: APPROVE / REJECT
-- Touch accessibility: APPROVE / REJECT
-- Reduced motion: APPROVE / REJECT
-- Sound off: APPROVE / REJECT
-- Android offline/relaunch/rotation: APPROVE / REJECT
-- Overall Forest L2 visual/CX gate: **PENDING / APPROVE / REJECT**
-- Notes/screenshots:
+- Reviewer: Human product owner
+- Device/browser: All prescribed Browser + Android review conditions approved; exact hardware/browser version not separately recorded
+- Branch/head SHA: `main` @ `1cb205a0ff09f2be684eecf1f05d6cc370bf6761`
+- Date: 2026-09-04
+- Browser 360 × 640: **APPROVE**
+- Touch accessibility: **APPROVE**
+- Reduced motion: **APPROVE**
+- Sound off: **APPROVE**
+- Android offline/relaunch/rotation: **APPROVE**
+- Overall Forest L2 visual/CX gate: **APPROVE**
+- Notes/screenshots: Human reviewer reported all review items approved; no rejection notes were supplied
