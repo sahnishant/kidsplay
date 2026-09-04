@@ -1,12 +1,14 @@
 <script lang="ts">
   import { onDestroy } from 'svelte';
   import type { CatalogEntry, GoalReadinessSummary } from '../content';
+  import { projectForestDiscoveries } from '../forest/forestDiscoveries';
+  import { mergeForestWorldDepthState } from '../forest/forestWorldProjection';
   import Avatar from '../presentation/Avatar.svelte';
   import { pushAppBackLayer, requestAppBack } from '../runtime/appNavigation';
   import type { AvatarId, ChildSettings, ProgressSummary } from '../runtime/localProgress';
   import type { MockTrendSummary, StoredMockCheckpoint } from '../runtime/mockPersistence';
   import { getStoryLocations, getStoryMissions } from '../story/storyDirector';
-  import { currentStoryLocation } from '../story/storyPresentation';
+  import { buildStoryLocationPresentation } from '../story/storyPresentation';
   import type { StoryProgressSnapshot } from '../story/storyProgress';
   import { deriveWorldRewardState } from '../story/worldRewards';
   import ChildHud from './home/ChildHud.svelte';
@@ -48,8 +50,17 @@
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
-  let worldState = $derived(deriveWorldRewardState(progress));
-  let currentLevel = $derived(currentStoryLocation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)?.progression.level ?? null);
+  let worldState = $derived(mergeForestWorldDepthState(deriveWorldRewardState(progress), storyProgress));
+  let forestDiscoveries = $derived(projectForestDiscoveries(storyProgress));
+  let currentStoryPresentation = $derived(
+    buildStoryLocationPresentation(storyLocations, storyMissions, storyProgress, progress.recommendedTopics)
+      .find((item) => item.state === 'current') ?? null
+  );
+  let currentLevel = $derived(
+    currentStoryPresentation?.mission?.worldDepthLevel
+      ?? currentStoryPresentation?.location.progression.level
+      ?? null
+  );
   let patternMockEntryId = $derived(catalog.find((entry) => entry.actionLabel === 'Try 35-question mock')?.id ?? null);
   let freeExploreEntries = $derived(catalog.filter((entry) => entry.kind === 'free_explore'));
   let goalProgrammeEntries = $derived(catalog.filter((entry) => entry.kind === 'goal_learning'));
@@ -82,7 +93,7 @@
   {#if view === 'world'}
     <ChildHud {child} {displayName} worldChanged={worldState.totalChanges > 0} {currentLevel} onOpenPlayer={() => openView('player')} />
     <div class="home-viewport__stage">
-      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState}
+      <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState} {forestDiscoveries}
         recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
         {onStartMission} {onExploreLocation} />
     </div>

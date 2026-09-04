@@ -111,23 +111,33 @@ for (const path of await jsonFiles('content/packs')) {
 }
 
 const rewardIds = new Set();
-const freeMissionLocations = new Set();
+const worldDepthKeys = new Set();
 let freeMissionCount = 0;
 
 for (const mission of missionsDoc.missions) {
   requireCondition(locationIds.has(mission.locationRef), `mission ${mission.id} has unknown location ${mission.locationRef}`);
   requireCondition(mission.access === 'free' || mission.access === 'goal', `mission ${mission.id} has invalid access`);
-  if (mission.access === 'free') {
-    freeMissionCount += 1;
-    requireCondition(!freeMissionLocations.has(mission.locationRef), `free story map has multiple missions at location ${mission.locationRef}`);
-    freeMissionLocations.add(mission.locationRef);
-  }
+  if (mission.access === 'free') freeMissionCount += 1;
+
   if (mission.questionPackRef) {
     const pack = learningPacks.get(mission.questionPackRef);
     requireCondition(pack, `mission ${mission.id} has unknown questionPackRef ${mission.questionPackRef}`);
     requireCondition(pack.access?.type === 'free', `mission ${mission.id} questionPackRef ${mission.questionPackRef} must be free`);
   }
-  requireCondition(Number.isInteger(mission.questionCount) && mission.questionCount >= 4 && mission.questionCount <= 12, `mission ${mission.id} questionCount must be 4..12`);
+
+  if (mission.worldActionRef) {
+    requireCondition(typeof mission.worldActionRef === 'string' && mission.worldActionRef.length > 0, `mission ${mission.id} needs worldActionRef`);
+    requireCondition(!mission.questionPackRef, `world-action mission ${mission.id} may not also own a question pack`);
+    requireCondition(mission.questionCount === 0, `world-action mission ${mission.id} questionCount must be 0`);
+    requireCondition(Number.isInteger(mission.worldDepthLevel) && mission.worldDepthLevel >= 2, `world-action mission ${mission.id} needs worldDepthLevel >= 2`);
+    const key = `${mission.locationRef}:${mission.worldDepthLevel}`;
+    requireCondition(!worldDepthKeys.has(key), `duplicate world-depth level ${key}`);
+    worldDepthKeys.add(key);
+  } else {
+    requireCondition(Number.isInteger(mission.questionCount) && mission.questionCount >= 4 && mission.questionCount <= 12, `mission ${mission.id} questionCount must be 4..12`);
+    requireCondition(mission.worldDepthLevel === undefined, `question mission ${mission.id} may not carry worldDepthLevel`);
+  }
+
   requireCondition(Array.isArray(mission.knowledgeRefs) && mission.knowledgeRefs.length >= 2, `mission ${mission.id} needs multiple knowledgeRefs`);
   requireCondition(new Set(mission.knowledgeRefs).size === mission.knowledgeRefs.length, `mission ${mission.id} has duplicate knowledgeRefs`);
   for (const rowId of mission.knowledgeRefs) {
@@ -184,4 +194,4 @@ for (const mission of missionsDoc.missions.filter((mission) => mission.access ==
   requireCondition(completableMissions.has(mission.id), `free mission ${mission.id} is unreachable in the story unlock graph`);
 }
 
-console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free map missions; explicit levels 1-${locationsDoc.locations.length}; story unlock graph reachable; mission pack refs validated)`);
+console.log(`Story validation passed: ${charactersDoc.characters.length} characters / ${locationsDoc.locations.length} locations / ${missionsDoc.missions.length} missions (${freeMissionCount} free missions; explicit map levels 1-${locationsDoc.locations.length}; chained world-depth missions allowed; story unlock graph reachable)`);

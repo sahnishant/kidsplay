@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onDestroy, tick } from 'svelte';
+  import type { DiscoveryEntry } from '../experience/discoveryProjection';
   import Scene from '../presentation/Scene.svelte';
   import StoryCharacter from '../presentation/StoryCharacter.svelte';
   import { pushAppBackLayer, requestAppBack } from '../runtime/appNavigation';
@@ -22,6 +23,7 @@
     childAvatar,
     storyProgress,
     worldState,
+    forestDiscoveries = [],
     recommendedTopics = [],
     topicProgress = [],
     onStartMission,
@@ -31,6 +33,7 @@
     childAvatar: AvatarId;
     storyProgress: StoryProgressSnapshot;
     worldState?: WorldRewardState;
+    forestDiscoveries?: DiscoveryEntry[];
     recommendedTopics?: TopicProgressSummary[];
     topicProgress?: TopicProgressSummary[];
     onStartMission: (missionId: string) => void;
@@ -79,6 +82,7 @@
   }
 
   function challengeLabel(mission: StoryMission): string {
+    if (mission.worldActionRef) return `Forest Level ${mission.worldDepthLevel ?? 2}`;
     const difficulty = getStoryMissionAverageDifficulty(mission.id);
     const relevant = topicProgress.filter((topic) => {
       const location = locations.find((item) => item.id === mission.locationRef);
@@ -90,6 +94,19 @@
     return 'Warm-up tease';
   }
 
+  function missionStartLabel(mission: StoryMission): string {
+    return mission.worldActionRef
+      ? `Start Forest Level ${mission.worldDepthLevel ?? 2}`
+      : `Start investigation · ${mission.questionCount} clues`;
+  }
+
+  function currentLevelLine(): string {
+    const mission = currentPresentation?.mission;
+    return mission?.worldActionRef
+      ? `FOREST DEPTH ${mission.worldDepthLevel ?? 2} · Change the world to continue.`
+      : `LEVEL ${currentPresentation?.location.progression.level ?? 1} · Follow the glowing path to the next story.`;
+  }
+
   function speakerName(value: string): string {
     if (value === 'dheu') return heroName;
     if (value === 'scientu') return 'Scientu';
@@ -97,9 +114,7 @@
   }
 
   function beatMood(beat: StoryBeat): 'happy' | 'thinking' | 'mischievous' | 'celebrate' | 'worried' | 'ready' {
-    if (beat.mood === 'thinking' || beat.mood === 'mischievous' || beat.mood === 'celebrate' || beat.mood === 'worried' || beat.mood === 'ready') {
-      return beat.mood;
-    }
+    if (beat.mood === 'thinking' || beat.mood === 'mischievous' || beat.mood === 'celebrate' || beat.mood === 'worried' || beat.mood === 'ready') return beat.mood;
     return 'happy';
   }
 
@@ -119,6 +134,10 @@
 
   function changeIcons(changes: WorldChange[]): string {
     return changes.slice(-2).map((change) => change.icon).join('');
+  }
+
+  function forestDiscoveryLabel(): string {
+    return forestDiscoveries.map((entry) => entry.kind.replaceAll('_', ' ')).join(', ');
   }
 
   function restoreMissionFocus(target: HTMLElement | null): void {
@@ -205,8 +224,9 @@
     if (state === 'locked') {
       return `${location.expeditionTitle}, Level ${location.progression.level}: locked until ${unlockMissionTitle(location) ?? 'the previous story mission'}`;
     }
+    const depth = mission?.worldActionRef ? `, Forest depth ${mission.worldDepthLevel}` : '';
     const action = state === 'complete' ? 'complete, replay' : state === 'current' ? 'play next' : mission ? mission.title : 'explore';
-    return `${location.expeditionTitle}, Level ${location.progression.level}: ${action}`;
+    return `${location.expeditionTitle}, Level ${location.progression.level}${depth}: ${action}`;
   }
 
   onDestroy(() => releaseMissionBack?.());
@@ -218,7 +238,7 @@
       <span class="eyebrow">CONTINUE ADVENTURE</span>
       {#if currentPresentation}
         <h2 id="story-world-heading">{currentPresentation.location.expeditionTitle}</h2>
-        <p><strong>LEVEL {currentPresentation.location.progression.level}</strong> · Follow the glowing path to the next story.</p>
+        <p><strong>{currentLevelLine()}</strong></p>
       {:else}
         <h2 id="story-world-heading">Explore {heroName}'s science world</h2>
         <p>Your worlds stay open for another adventure.</p>
@@ -249,15 +269,15 @@
 
       {#if worldCollectibles.length > 0 || worldDiscoveries.length > 0 || worldTrophies.length > 0}
         <div class="world-progress" style="left:7px" aria-label="Persistent learning keepsakes">
-          {#if worldCollectibles.length > 0}
-            <span role="group" aria-label={`Backpack collectibles: ${changeNames(worldCollectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldCollectibles)}</strong></span>
-          {/if}
-          {#if worldDiscoveries.length > 0}
-            <span role="group" aria-label={`Lab and science discoveries: ${changeNames(worldDiscoveries)}`}><strong aria-hidden="true">🔬{changeIcons(worldDiscoveries)}</strong></span>
-          {/if}
-          {#if worldTrophies.length > 0}
-            <span role="group" aria-label={`Puzzle trophies: ${changeNames(worldTrophies)}`}><strong aria-hidden="true">🏆{changeIcons(worldTrophies)}</strong></span>
-          {/if}
+          {#if worldCollectibles.length > 0}<span role="group" aria-label={`Backpack collectibles: ${changeNames(worldCollectibles)}`}><strong aria-hidden="true">🎒{changeIcons(worldCollectibles)}</strong></span>{/if}
+          {#if worldDiscoveries.length > 0}<span role="group" aria-label={`Lab and science discoveries: ${changeNames(worldDiscoveries)}`}><strong aria-hidden="true">🔬{changeIcons(worldDiscoveries)}</strong></span>{/if}
+          {#if worldTrophies.length > 0}<span role="group" aria-label={`Puzzle trophies: ${changeNames(worldTrophies)}`}><strong aria-hidden="true">🏆{changeIcons(worldTrophies)}</strong></span>{/if}
+        </div>
+      {/if}
+
+      {#if forestDiscoveries.length > 0}
+        <div class="world-progress" style="left:7px;top:auto;bottom:7px" aria-label={`Forest discoveries: ${forestDiscoveryLabel()}`}>
+          <span><strong>📖 {forestDiscoveries.length} Forest finds</strong></span>
         </div>
       {/if}
 
@@ -304,25 +324,11 @@
           {#if selectedMission.openingSceneRef}
             <div class="mission-scene"><Scene sceneId={selectedMission.openingSceneRef} /></div>
           {/if}
-          <div
-            class={`mission-persona mission-persona--${selectedBeat.speakerRef}`}
-            data-speaker={selectedBeat.speakerRef}
-            data-intent={selectedBeat.intent ?? 'story'}
-          >
+          <div class={`mission-persona mission-persona--${selectedBeat.speakerRef}`} data-speaker={selectedBeat.speakerRef} data-intent={selectedBeat.intent ?? 'story'}>
             <span class="mission-character" aria-hidden="true">
-              <StoryCharacter
-                character={selectedBeat.speakerRef}
-                mood={beatMood(selectedBeat)}
-                expression={selectedBeat.expression}
-                pose={selectedBeat.pose}
-                angle={selectedBeat.angle}
-                motion={selectedBeat.motion}
-              />
+              <StoryCharacter character={selectedBeat.speakerRef} mood={beatMood(selectedBeat)} expression={selectedBeat.expression} pose={selectedBeat.pose} angle={selectedBeat.angle} motion={selectedBeat.motion} />
             </span>
-            <div>
-              <strong>{speakerName(selectedBeat.speakerRef)}</strong>
-              <span>{speakerPrompt(selectedBeat)}</span>
-            </div>
+            <div><strong>{speakerName(selectedBeat.speakerRef)}</strong><span>{speakerPrompt(selectedBeat)}</span></div>
           </div>
           <div class="mission-dialogue" aria-live="polite" aria-label="Mission dialogue">
             <p data-speaker={selectedBeat.speakerRef} data-delivery={selectedBeat.delivery ?? 'plain'}>
@@ -336,7 +342,7 @@
           {#if hasMoreMissionBeats}
             <button class="mission-start" type="button" onclick={advanceMissionBeat}>Next story beat</button>
           {:else}
-            <button class="mission-start" type="button" onclick={() => onStartMission(selectedMission!.id)}>Start investigation · {selectedMission.questionCount} clues</button>
+            <button class="mission-start" type="button" onclick={() => onStartMission(selectedMission!.id)}>{missionStartLabel(selectedMission)}</button>
           {/if}
           <button class="mission-later" type="button" onclick={requestCloseMission}>Not now</button>
         </footer>
