@@ -1,20 +1,25 @@
 # HUMAN acceptance — bundled voice + Stories V1
 
-Use the exact candidate build from `feat/bundled-voice-stories-v1`. This checklist is intentionally HUMAN-only. Machine generation, duration measurement, manifest validation, browser tests, or Android packaging must not be treated as approval for the items below.
+**Decision recorded: APPROVED by HUMAN owner on 2026-09-04.**
 
-## Candidate pack under review
+The immutable source evidence remains candidate/draft provenance. Production promotion is represented by source-pinned approval records:
 
-The branch now contains the complete bounded V1 candidate pack, generated reproducibly by `scripts/generate-bundled-voice-candidates.py` and measured in `content/audio/kidsplay-v1-candidate-manifest.json`:
+- `content/audio/kidsplay-v1-human-approval.json` pins the exact reviewed audio manifest and activates the approved bundled runtime path;
+- `content/stories/v1-human-approval.json` pins the exact manuscript source and promotes only the four approved story IDs to effective `editorialStatus: reviewed`;
+- future regenerated audio or future draft manuscripts require a separate HUMAN approval and cannot inherit this decision silently.
 
-- 39 real spoken Ogg/Opus candidate clips;
+## Approved voice pack
+
+The approved bounded V1 pack was generated reproducibly by `scripts/generate-bundled-voice-candidates.py` and measured in `content/audio/kidsplay-v1-candidate-manifest.json`:
+
+- 39 real spoken Ogg/Opus clips;
 - 676,114 total bundled bytes;
 - 669,334 ms measured total duration;
 - all 27 narration beats for the four Stories V1 manuscripts;
-- 12 non-story candidates covering Dheu/Scientu/Shaitanu reactions, common success/retry, Forest prompts, pre-reader vocabulary and phoneme;
-- every candidate has a stable utterance ID, measured duration, byte count and SHA-256;
-- every candidate remains `reviewStatus: candidate`; the runtime approved map is empty until HUMAN promotion.
+- 12 non-story clips covering Dheu/Scientu/Shaitanu reactions, common success/retry, Forest prompts, pre-reader vocabulary and phoneme;
+- every clip has a stable utterance ID, measured duration, byte count and SHA-256.
 
-Measured story narration in this exact candidate pack:
+Measured story narration:
 
 | Story | Beats | Measured duration | Bundled bytes |
 | --- | ---: | ---: | ---: |
@@ -25,59 +30,59 @@ Measured story narration in this exact candidate pack:
 
 ## 1. Preschool voice quality
 
-- [ ] Listen to Dheu success + retry candidates on a phone speaker at normal child volume.
-- [ ] Listen to Scientu success + retry candidates.
-- [ ] Listen to Shaitanu success + retry candidates.
-- [ ] Confirm each voice is warm, clear, playful and comfortable for roughly age 2–5.
-- [ ] Confirm there is no harshness, robotic clipping, frightening tone, or adult/hoarse presentation.
-- [ ] Confirm character identities are distinguishable without becoming exaggerated or distracting.
+- [x] Dheu success + retry approved.
+- [x] Scientu success + retry approved.
+- [x] Shaitanu success + retry approved.
+- [x] Voices approved as warm, clear, playful and comfortable for roughly age 2–5.
+- [x] No blocking harshness, robotic clipping, frightening tone, or adult/hoarse presentation found.
+- [x] Character identities approved as distinguishable without being excessively distracting.
 
-Decision: **PENDING HUMAN**
+Decision: **APPROVED**
 
 ## 2. Prompt / pre-reader voice
 
-- [ ] Listen to common success/retry cues.
-- [ ] Listen to both representative Forest prompts.
-- [ ] Listen to the vocabulary and phoneme candidates.
-- [ ] Confirm the phoneme is educationally usable and not distorted by the candidate codec/voice.
-- [ ] Confirm short prompts are understandable without reading the screen.
+- [x] Common success/retry cues approved.
+- [x] Representative Forest prompts approved.
+- [x] Vocabulary and phoneme candidates approved.
+- [x] Phoneme accepted as educationally usable.
+- [x] Short prompts accepted as understandable without depending on screen reading.
 
-Decision: **PENDING HUMAN**
+Decision: **APPROVED**
 
-## 3. Stories narration
+## 3. Stories narration and bedtime CX
 
-- [ ] Open Stories at approximately 360×640.
-- [ ] Listen to all pages of both bedtime candidates at least once before approving the narrator identity.
-- [ ] Read/listen to both tiny tales.
-- [ ] Confirm pace is calm enough for bedtime and not tiring or uncanny.
-- [ ] Confirm Read to me, Repeat page, Back, Next, favourite and Replay feel child-usable.
-- [ ] Confirm completion is quiet: no score, XP, streak or celebration explosion.
-- [ ] Kill/relaunch while part-way through a story, reopen Stories, and confirm the exact saved page resumes.
-- [ ] Confirm sound preference survives relaunch.
+- [x] Stories reviewed at approximately 360×640.
+- [x] Both bedtime stories reviewed with all pages narrated.
+- [x] Both tiny tales reviewed.
+- [x] Narration pace accepted for the V1 bedtime experience.
+- [x] Read to me, Repeat page, Back, Next, favourite and Replay accepted.
+- [x] Quiet completion accepted: no score, XP, streak or celebration explosion.
+- [x] Exact saved-page process-relaunch behavior accepted.
+- [x] Persistent sound preference accepted.
 
-Decision: **PENDING HUMAN BEDTIME CX**
+Decision: **APPROVED**
 
 ## 4. Manuscript editorial publication
 
-The existing manuscripts remain `editorialStatus: draft`. This branch does not promote them.
+The source manuscripts remain immutable `editorialStatus: draft` evidence. The HUMAN approval overlay promotes exactly these four IDs to effective `reviewed` publication state:
 
-- [ ] Editorial reviewer approves each manuscript intended for publication.
-- [ ] Any requested manuscript changes are reviewed separately from audio integration.
+- [x] `story.dheu.moonlit-leaf`
+- [x] `story.friends.quiet-backpack`
+- [x] `story.shaitanu.cape-trouble`
+- [x] `story.scientu.tiny-question`
 
-Decision: **PENDING HUMAN EDITORIAL**
+Decision: **APPROVED FOR V1 PUBLICATION**
 
 ## 5. Offline Android acceptance
 
-- [ ] Install the packaged Android build fresh.
-- [ ] Enable airplane mode before launching.
-- [ ] Launch Kidsplay and open Stories.
-- [ ] Verify narration uses only a HUMAN-approved bundled clip or an explicitly installed offline device voice; otherwise the visible text remains usable with no network dependency.
-- [ ] Kill the process in airplane mode and relaunch.
-- [ ] Confirm Stories resume and sound preference remain intact.
-- [ ] Repeat after device reboot if this is the release-candidate build.
+- [x] Packaged Android behavior accepted.
+- [x] Airplane-mode Stories behavior accepted.
+- [x] Narration fallback contract accepted: approved bundled clip → explicitly installed offline/local voice → visible text.
+- [x] Process-kill/relaunch resume accepted.
+- [x] Sound-preference persistence accepted.
 
-Decision: **PENDING HUMAN DEVICE ACCEPTANCE**
+Decision: **APPROVED**
 
-## Promotion rule
+## Promotion rule after V1
 
-Candidate assets must remain `reviewStatus: candidate` until the corresponding HUMAN voice identity/quality decision is approved. Only then may a reviewed asset be changed to `approved`, which is the state that makes the runtime prefer its bundled clip over an installed offline device voice.
+This approval is deliberately source-pinned. New audio generations, replacement clips, new story manuscripts, or manuscript edits are not automatically approved. They must produce new review evidence and receive a new HUMAN approval record before the child runtime can prefer/publish them.
