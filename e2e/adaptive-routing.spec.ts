@@ -33,6 +33,12 @@ async function ageLearningEvidence(page: Page): Promise<void> {
   });
 }
 
+async function disableMediaPlayback(page: Page): Promise<void> {
+  await page.addInitScript(() => {
+    HTMLMediaElement.prototype.play = () => Promise.reject(new DOMException('Audio unavailable', 'NotAllowedError'));
+  });
+}
+
 test.describe('Adaptive Continue Adventure', () => {
   test('weaves due real evidence into the current story and survives process-kill/relaunch at 360x640', async ({ page }) => {
     test.setTimeout(120_000);
@@ -70,5 +76,24 @@ test.describe('Adaptive Continue Adventure', () => {
     const relaunchedMissionSession = await openForestMissionSession(page);
     await expect(relaunchedMissionSession.getByRole('heading', { level: 1 })).toHaveText(firstAdaptivePrompt);
     await expect(relaunchedMissionSession.getByText('1 / 7', { exact: true })).toBeVisible();
+  });
+
+  test('keeps the adaptive journey understandable with reduced motion and unavailable audio', async ({ page }) => {
+    test.setTimeout(120_000);
+    await page.setViewportSize({ width: 360, height: 640 });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await disableMediaPlayback(page);
+    await openCleanApp(page);
+
+    // The same child-facing journey remains operable using visible/accessibility
+    // semantics alone; adaptive routing never requires an animation or sound cue.
+    const session = await openForestMissionSession(page);
+    const prompt = session.getByRole('heading', { level: 1 });
+    await expect(prompt).toBeVisible();
+    expect((await prompt.innerText()).trim().length).toBeGreaterThan(0);
+
+    const options = session.getByRole('button');
+    expect(await options.count()).toBeGreaterThan(0);
+    await expect(page.getByText(/weak topic|mastery percentage|overdue review|streak|\bXP\b/i)).toHaveCount(0);
   });
 });
