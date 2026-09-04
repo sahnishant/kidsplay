@@ -15,7 +15,7 @@ The branch adds two bounded launches inside the existing **Play** surface:
 - **First Play** — nine picture/audio/direct-manipulation activities;
 - **Picture Play** — six visual scene choices followed by six explicit odd-one-out sets.
 
-Neither launch becomes a new Home pillar. Both use existing child navigation/back handling and local assets.
+Neither launch becomes a new Home pillar. Both use existing child navigation/back handling and local assets. The branch is synchronized with current `main` and preserves the independently merged Learn About entry/flow.
 
 The First Play sampler is:
 
@@ -68,7 +68,9 @@ The A → Apple activity is deliberately **letter-name-to-word-initial exposure*
 
 ## Runtime / evidence boundary
 
-The child runtime in `firstPlayProduction.ts` contains only what the child surface needs: visual items, existing question contracts, direct state records and the guided-practice evaluator wrapper.
+The child-facing activity catalogue is stored in **`content/runtime/first-play-production.json`** and emitted by the existing Vite runtime-JSON asset mechanism as a packaged local asset. `firstPlayProduction.ts` compiles that bounded catalogue into the existing `SingleChoiceQuestion` / `DragToTargetQuestion` contracts at runtime; the child receives no remote content dependency and the production catalogue does not inflate the main JavaScript chunk.
+
+`vite.config.ts` recognizes this one additional runtime JSON asset, and `vite-env.d.ts` declares the `*.json?runtime` module shape for typecheck. The generated runtime fetch is relative to the packaged build, so Capacitor/offline delivery remains local.
 
 Authoring-only semantic evidence, policy stage/evidence assignments, world-action proof, odd-one-out dimensions and deterministic position validation live in `firstPlayProductionValidation.ts`. This keeps semantic safeguards explicit while avoiding shipping review metadata to the child bundle.
 
