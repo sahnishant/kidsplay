@@ -198,7 +198,7 @@ After completing the whole First Play sampler, open grown-up progress.
 
 Expected:
 - First Play exploration/guided actions have not created mastery evidence or changed canonical knowledge state;
-- Picture Play evaluative responses may appear as normal existing attempts, using the existing progress/evaluator path only;
+- Picture Play uses the existing canonical evaluator for feedback but this bounded sampler does not introduce progress writes, a second evidence model or a separate store;
 - there is no First-Play-specific progress store or currency.
 
 Mark: `APPROVE / NEEDS WORK`
