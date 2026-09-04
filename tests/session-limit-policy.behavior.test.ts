@@ -48,7 +48,21 @@ describe('parent session limit policy', () => {
     expect(decideSessionLaunch(unlimited, { currentInteractionActive: false, estimatedNextActivityMs: 99_000_000 })).toBe('allow');
   });
 
-  it('fails closed on corrupt negative persisted time', () => {
-    expect(() => validateSessionLimitState({ schemaVersion: 1, limitMinutes: 10, activeElapsedMs: -1 })).toThrow(/non-negative/);
+  it('fails closed on corrupt persisted state before any transition or launch decision', () => {
+    const corrupt = { schemaVersion: 1, limitMinutes: 10, activeElapsedMs: -1 } as const;
+    expect(() => validateSessionLimitState(corrupt)).toThrow(/non-negative/);
+    expect(() => advanceActiveSessionTime(corrupt, 1)).toThrow(/non-negative/);
+    expect(() => changeSessionLimit(corrupt, 20)).toThrow(/non-negative/);
+    expect(() => decideSessionLaunch(corrupt, { currentInteractionActive: false })).toThrow(/non-negative/);
+  });
+
+  it('rejects non-boolean activity state and finite-counter overflow', () => {
+    const malformedInput = { currentInteractionActive: 'yes' } as unknown as Parameters<typeof decideSessionLaunch>[1];
+    expect(() => decideSessionLaunch(createSessionLimitState(10), malformedInput)).toThrow(/must be boolean/);
+    expect(() => advanceActiveSessionTime({
+      schemaVersion: 1,
+      limitMinutes: 10,
+      activeElapsedMs: Number.MAX_VALUE
+    }, Number.MAX_VALUE)).toThrow(/overflowed/);
   });
 });
