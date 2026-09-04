@@ -3,6 +3,7 @@
   import type { DiscoveryEntry } from '../experience/discoveryProjection';
   import Scene from '../presentation/Scene.svelte';
   import StoryCharacter from '../presentation/StoryCharacter.svelte';
+  import { tryAdaptiveContinue } from '../runtime/adaptiveContinue';
   import { pushAppBackLayer, requestAppBack } from '../runtime/appNavigation';
   import type { AvatarId, TopicProgressSummary } from '../runtime/localProgress';
   import {
@@ -168,6 +169,7 @@
   }
 
   function continueAdventure(): void {
+    if (tryAdaptiveContinue()) return;
     if (!currentPresentation) return;
     if (currentPresentation.mission) {
       openMission(currentPresentation.mission.id);
