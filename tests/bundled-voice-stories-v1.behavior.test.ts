@@ -6,10 +6,12 @@ import { measureStoryNarration, storyNarrationUtteranceId } from '../src/experie
 import { resolveChildAudioUtterance } from '../src/runtime/childAudioManifest';
 import {
   getApprovedBundledSrc,
-  getChildAudioProductionAsset,
-  KIDSPLAY_CHILD_AUDIO_MANIFEST,
-  summarizeChildAudioProduction
+  KIDSPLAY_CHILD_AUDIO_MANIFEST
 } from '../src/runtime/childAudioProduction';
+import {
+  getChildAudioProductionAsset,
+  summarizeChildAudioProduction
+} from '../src/runtime/childAudioProductionEvidence';
 
 const BUNDLED_CANDIDATE_IDS = [
   'character.dheu.success', 'character.dheu.retry',
