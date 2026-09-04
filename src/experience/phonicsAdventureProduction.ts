@@ -288,7 +288,7 @@ export function projectSoundTrailDiscovery(progress: ProgressSnapshot): Discover
       sourceEventRef: 'event.phonics.sound-trail-v1.complete',
       discoveryId: 'discovery.phonics.sound-trail-v1',
       kind: 'vocabulary_semantic',
-      canonicalRefs: progression.map((item) => item.phonemeId),
+      canonicalRefs: progression.map((item) => item.phonemeId).sort((left, right) => left.localeCompare(right)),
       foundAtRef: SOUND_TRAIL_ADVENTURE_ID
     }],
     complete ? ['event.phonics.sound-trail-v1.complete'] : []
