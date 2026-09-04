@@ -148,7 +148,7 @@
     <article class="question-card">
       {#if currentSection}
         <div class="reasoning-cue access-badge">
-          Section: {currentSection.title} · {currentSection.marksPerQuestion} {currentSection.marksPerQuestion === 1 ? 'mark' : 'marks'} each
+          {currentSection.title} · {currentSection.marksPerQuestion} {currentSection.marksPerQuestion === 1 ? 'mark' : 'marks'}
         </div>
       {/if}
 
@@ -214,7 +214,7 @@
           </div>
         {/if}
         <button class="next-button" type="button" onclick={handleAdvance}>
-          {sessionState.index + 1 < questions.length ? 'Next' : 'See result'}
+          {sessionState.index + 1 < questions.length ? 'Next' : 'Finish'}
         </button>
       {/if}
     </article>

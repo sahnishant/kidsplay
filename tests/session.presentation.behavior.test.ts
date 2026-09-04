@@ -77,10 +77,10 @@ describe('viewport session presentation boundary', () => {
         name: 'A worried dog near water, showing that this is not its normal habitat.'
       })
     ).toBeTruthy();
-    expect(screen.getByText(/Section: Science/)).toBeTruthy();
+    expect(screen.getByText('Science · 1 mark')).toBeTruthy();
   });
 
-  it('shows experience framing only inside a story mission', () => {
+  it('keeps story guidance in narration instead of duplicating it above the question', () => {
     render(Session, {
       props: {
         title: 'The Forest Trail Mix-Up',
@@ -95,7 +95,7 @@ describe('viewport session presentation boundary', () => {
       }
     });
 
-    expect(screen.getByText('Scientu: Try the clue, then notice what happens.')).toBeTruthy();
+    expect(screen.queryByText('Scientu: Try the clue, then notice what happens.')).toBeNull();
     expect(screen.getByRole('heading', { name: 'Which plant part can grow into a new plant?' })).toBeTruthy();
   });
 
@@ -131,7 +131,7 @@ describe('viewport session presentation boundary', () => {
     expect(screen.queryByText('Scientu: Try the clue, then notice what happens.')).toBeNull();
   });
 
-  it('submits on the option tap and replaces the answer surface with a happy reaction', async () => {
+  it('submits on the option tap and keeps the answered surface visible with success in place', async () => {
     const { container } = render(Session, {
       props: {
         title: 'Visual Practice',
@@ -148,15 +148,14 @@ describe('viewport session presentation boundary', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Land' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
-    expect(screen.queryByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeNull();
+    expect(screen.getByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Land' }).getAttribute('aria-pressed')).toBe('true');
     expect(screen.getByRole('status').textContent).toContain('Correct.');
-    const splash = document.querySelector('[data-answer-feedback="correct"]');
-    expect(splash).toBeTruthy();
-    expect(splash?.textContent).toContain('Great!');
-    expect(screen.getByRole('button', { name: 'See result' })).toBeTruthy();
+    expect(document.querySelector('[data-answer-feedback="correct"]')).toBeNull();
+    expect(screen.getByRole('button', { name: 'Finish' })).toBeTruthy();
   });
 
-  it('shows a clear lost-state reaction and returns to the same item for retry', async () => {
+  it('shows a clear in-place lost state and returns to the same item for retry', async () => {
     const { container } = render(Session, {
       props: {
         title: 'Visual Practice',
@@ -169,10 +168,10 @@ describe('viewport session presentation boundary', () => {
     await fireEvent.click(screen.getByRole('button', { name: 'Ocean' }));
 
     expect(container.querySelector('[data-session-state="reaction"]')).toBeTruthy();
+    expect(screen.getByRole('heading', { name: 'Look at the scene and choose the best answer.' })).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Ocean' }).getAttribute('aria-pressed')).toBe('true');
     expect(screen.getByRole('status').textContent).toContain('Try another way.');
-    const splash = document.querySelector('[data-answer-feedback="incorrect"]');
-    expect(splash).toBeTruthy();
-    expect(splash?.textContent).toContain('Try again');
+    expect(document.querySelector('[data-answer-feedback="incorrect"]')).toBeNull();
     expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Try again' }));

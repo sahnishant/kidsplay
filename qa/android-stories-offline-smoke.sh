@@ -111,6 +111,16 @@ PY
   return 1
 }
 
+open_stories_from_home() {
+  # #251 deliberately keeps child areas behind a compact expandable menu on
+  # phone screens. Exercise that real navigation instead of assuming Stories
+  # is permanently visible in the home chrome.
+  assert_label "Open child navigation"
+  tap_label "Open child navigation"
+  assert_label "Open Stories"
+  tap_label "Open Stories"
+}
+
 resolve_launcher_component() {
   for _ in $(seq 1 15); do
     component="$(adb shell cmd package resolve-activity --brief -a android.intent.action.MAIN -c android.intent.category.LAUNCHER "$PACKAGE" 2>/dev/null | tr -d '\r' | tail -n 1)"
@@ -142,8 +152,7 @@ capture_screen() {
 
 adb shell am force-stop "$PACKAGE"
 launch_app first-offline-launch
-assert_label "Open Stories"
-tap_label "Open Stories"
+open_stories_from_home
 assert_label "Open The Moonlit Leaf"
 tap_label "Open The Moonlit Leaf"
 assert_label "page 1 of 9"
@@ -174,8 +183,7 @@ second_pid="$(cat "$OUT_DIR/offline-process-relaunch-pid.txt")"
 
 # App relaunch returns to Home; opening Stories must consume the serialized
 # story-reading store and restore the exact child-facing beat automatically.
-assert_label "Open Stories"
-tap_label "Open Stories"
+open_stories_from_home
 assert_label "The Moonlit Leaf, page 6 of 9"
 assert_label "Remove from favourites"
 # The off preference must survive the process restart. Restore it only after

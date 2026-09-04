@@ -26,7 +26,7 @@ test('Forest Explorer Level 3 restores a habitat and persists its discoveries at
   await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1, Forest depth 3: play next/i })).toBeVisible();
   await expect(page.getByText('📖 2 Forest finds')).toBeVisible();
 
-  await page.getByRole('button', { name: 'Continue Adventure' }).click();
+  await page.getByRole('button', { name: 'Continue Forest Explorer Trail' }).click();
   await expect(page.getByRole('heading', { name: 'Bring Back the Busy Grove' })).toBeVisible();
   await expect(page.getByText(/shiny decorations/i)).toBeVisible();
   await advanceMissionStory(page);

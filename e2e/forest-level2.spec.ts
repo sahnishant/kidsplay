@@ -26,7 +26,7 @@ test('Forest Explorer Level 2 is a persistent creek-repair adventure at 360x640'
   await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1, Forest depth 2: play next/i })).toBeVisible();
   await expectForestSurfaceFits(page, 'Level 2 world entry');
 
-  await page.getByRole('button', { name: 'Continue Adventure' }).click();
+  await page.getByRole('button', { name: 'Continue Forest Explorer Trail' }).click();
   await expect(page.getByRole('heading', { name: 'The Quiet Creek Rescue' })).toBeVisible();
   await expect(page.getByText(/creek is stuck and the crossing is broken/i)).toBeVisible();
   await advanceMissionStory(page);

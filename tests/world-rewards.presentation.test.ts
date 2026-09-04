@@ -76,7 +76,7 @@ describe('Phase E world consequences', () => {
     });
     expect(forest.textContent).toContain('🪧🦌🌱');
 
-    expect(screen.getByLabelText('Learning has changed the world')).toBeTruthy();
+    expect(screen.queryByLabelText('Learning has changed the world')).toBeNull();
     expect(screen.getByLabelText('Persistent learning keepsakes')).toBeTruthy();
     expect(screen.getByLabelText(/Backpack collectibles:/)).toBeTruthy();
     expect(screen.getByLabelText(/Lab and science discoveries:/)).toBeTruthy();

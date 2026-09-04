@@ -63,18 +63,16 @@ describe('Forest Level-1 human-review polish', () => {
     expect(android).toContain("capacitor.getPlatform?.() === 'android'");
   });
 
-  it('makes correct feedback an explicit celebratory check rather than a passive result panel', () => {
+  it('keeps correct feedback on the answered page until the child explicitly continues', () => {
     const host = source('src/ui/EngineHost.svelte');
     const session = source('src/ui/SessionViewport.svelte');
-    const visual = source('src/runtime/answerFeedbackVisual.ts');
 
-    expect(host).toContain('showAnswerFeedbackSplash(result.correct)');
+    expect(host).toContain('playAnswerFeedback(result.correct, soundEnabled)');
+    expect(host).not.toContain('showAnswerFeedbackSplash');
     expect(host).toContain("feedbackMode === 'play'");
     expect(session).toContain("feedback--${sessionState.lastResult.correct ? 'correct' : 'incorrect'}");
-    expect(session).toContain("mood={sessionState.lastResult?.correct ? 'celebrate' : 'thinking'}");
-    expect(visual).toContain('kidsplay-answer-splash--correct');
-    expect(visual).toContain("icon.textContent = correct ? '✓' : '↻'");
-    expect(visual).toContain("label.textContent = correct ? 'Great!' : 'Try again'");
-    expect(visual).toContain('@media (prefers-reduced-motion: reduce)');
+    expect(session).toContain('<StoryCharacter character={storyReaction.character} mood={storyReaction.mood} motion={storyReaction.motion} />');
+    expect(session).toContain('class="inline-reaction"');
+    expect(session).toContain('class="next-button"');
   });
 });

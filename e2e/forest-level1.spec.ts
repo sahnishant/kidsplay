@@ -157,8 +157,8 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
     const reducedMotionDuration = await currentHero.evaluate((element) => window.getComputedStyle(element).animationDuration);
     expect(await cssTimeToMilliseconds(reducedMotionDuration)).toBeLessThanOrEqual(1);
 
-    const continueAdventure = page.getByRole('button', { name: 'Continue Adventure' });
-    await expectChildTapTarget(continueAdventure, 'Continue Adventure');
+    const continueAdventure = page.getByRole('button', { name: 'Continue Forest Explorer Trail' });
+    await expectChildTapTarget(continueAdventure, 'Continue Forest Explorer Trail');
     await continueAdventure.click();
 
     const missionDialog = page.getByRole('dialog');
@@ -201,7 +201,7 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
       if (index === 0) {
         await expectChildTapTarget(page.getByRole('button', { name: 'Back to Kidsplay home' }), 'session Home');
         await expectChildTapTarget(page.getByRole('button', { name: 'Turn sound off' }), 'session Sound');
-        await expectChildTapTarget(page.getByRole('button', { name: 'Repeat question' }), 'session Repeat');
+        await expect(page.getByRole('button', { name: 'Repeat question' })).toHaveCount(0);
       }
 
       const matchingItems = page.locator('.drag-items .drag-item');
@@ -238,7 +238,7 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
         sawStoryReactionAudio = true;
       }
 
-      const continuation = page.getByRole('button', { name: index === 6 ? 'See result' : 'Next' });
+      const continuation = page.getByRole('button', { name: index === 6 ? 'Finish' : 'Next' });
       await expectChildTapTarget(continuation, `Forest clue ${index + 1} continuation`);
       await continuation.click();
     }
@@ -260,14 +260,18 @@ test.describe('Phase F3 Forest Explorer Level-1 child journey', () => {
     await expectChildTapTarget(backToWorld, 'Back to Adventure world');
     await backToWorld.click();
 
-    await expect(page.getByLabel('Learning has changed the world')).toBeVisible();
+    await expect(page.getByLabel('Learning has changed the world')).toHaveCount(0);
+    await expect(page.getByLabel('Persistent learning keepsakes')).toBeVisible();
     const changedForest = page.getByRole('button', { name: /Forest Explorer Trail, Level 1.*Trail sign repaired/ });
     await expect(changedForest).toBeVisible();
+    await page.getByLabel('Open child navigation').click();
     await expect(page.getByRole('button', { name: 'Open story world' })).toHaveAttribute('aria-current', 'page');
+    await page.getByLabel('Close child navigation').click();
     await expectNoDocumentVerticalOverflow(page, 'Forest world after mission');
 
     await page.reload();
-    await expect(page.getByLabel('Learning has changed the world')).toBeVisible();
+    await expect(page.getByLabel('Learning has changed the world')).toHaveCount(0);
+    await expect(page.getByLabel('Persistent learning keepsakes')).toBeVisible();
     await expect(page.getByRole('button', { name: /Forest Explorer Trail, Level 1.*Trail sign repaired/ })).toBeVisible();
     await expect(page.getByLabel('Current adventure level 2')).toBeVisible();
     await expectNoHorizontalOverflow(page, 'reloaded Forest world at 360px');
