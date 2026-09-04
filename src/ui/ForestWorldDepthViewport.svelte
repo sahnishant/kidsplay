@@ -15,14 +15,12 @@
   } = $props();
 
   let adventure = $derived(getForestWorldDepthAdventure(mission.worldActionRef ?? ''));
-  let displayName = $derived(childName.trim() || 'Dheu');
   let stepIndex = $state(0);
   let completedCount = $state(0);
   let assemblyState = $state<AssemblyInteractionState>(createAssemblyInteractionState());
   let selectedPartId = $state<string | null>(null);
   let feedback = $state<string | null>(null);
   let stepComplete = $state(false);
-  let missionComplete = $derived(stepIndex >= adventure.steps.length);
   let currentStep = $derived(adventure.steps[stepIndex]);
   let currentAssembly = $derived(currentStep?.assembly);
 
@@ -71,10 +69,10 @@
     <div><small>FOREST LEVEL {adventure.level} · WORLD MISSION</small><h1 id="forest-depth-heading">{adventure.title}</h1></div>
   </header>
 
-  {#if missionComplete}
+  {#if stepIndex >= adventure.steps.length}
     <main class="completion" aria-live="polite">
       <div aria-label="Persistent Forest consequence"><span aria-hidden="true">🌳✨</span><strong>{adventure.ending}</strong></div>
-      <p>{mission.successBeat.text.replaceAll('Dheu', displayName)}</p>
+      <p>{mission.successBeat.text.replaceAll('Dheu', childName.trim() || 'Dheu')}</p>
       <div role="status"><strong>{adventure.nextStateLabel}</strong></div>
       <p>This changed Forest comes from saved story progress, so replaying the mission cannot farm another reward.</p>
       <button type="button" class="primary" onclick={onExit}>Back to Dheu's world</button>
