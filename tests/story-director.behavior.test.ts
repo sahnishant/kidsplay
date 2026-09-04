@@ -20,15 +20,17 @@ function masteredCounter(): MasteryCounter {
 }
 
 describe('story mission director', () => {
-  it('keeps the free story world broad, location-distinct and buildable from shipped questions', () => {
+  it('keeps the free story world broad, mission-distinct and buildable from shipped questions or world actions', () => {
     const missions = getStoryMissions();
     const locationIds = new Set(getStoryLocations().map((location) => location.id));
+    const locationCounts = new Map<string, number>();
+    for (const mission of missions) locationCounts.set(mission.locationRef, (locationCounts.get(mission.locationRef) ?? 0) + 1);
 
     expect(missions.length).toBeGreaterThanOrEqual(4);
     expect(missions.every((mission) => mission.access === 'free')).toBe(true);
     expect(getAllStoryMissions().length).toBeGreaterThanOrEqual(missions.length);
     expect(new Set(missions.map((mission) => mission.id)).size).toBe(missions.length);
-    expect(new Set(missions.map((mission) => mission.locationRef)).size).toBe(missions.length);
+    expect([...locationCounts.entries()].filter(([, count]) => count > 1)).toEqual([['forest', 3]]);
     expect(new Set(missions.map((mission) => mission.reward.id)).size).toBe(missions.length);
 
     for (const mission of missions) {
@@ -39,6 +41,14 @@ describe('story mission director', () => {
       const launch = createStoryMissionLaunch(mission.id);
       expect(launch.mission.id).toBe(mission.id);
       expect(launch.session.mode).toBe('free_explore');
+
+      if (mission.worldActionRef) {
+        expect(mission.locationRef).toBe('forest');
+        expect(mission.questionCount).toBe(0);
+        expect(launch.session.questions).toHaveLength(0);
+        continue;
+      }
+
       expect(launch.session.questions).toHaveLength(mission.questionCount);
       expect(new Set(launch.session.questions.map((question) => question.id)).size).toBe(mission.questionCount);
 
@@ -69,16 +79,22 @@ describe('story mission director', () => {
     }
   });
 
-  it('accepts prior mastery on replay without sacrificing any declared mission coverage', () => {
+  it('accepts prior mastery on quiz replay while keeping world-action missions quiz-free', () => {
     for (const mission of getStoryMissions()) {
       const mastery = Object.fromEntries(
         mission.knowledgeRefs.slice(1).map((rowId) => [rowId, masteredCounter()])
       );
       const launch = createStoryMissionLaunch(mission.id, mastery);
+
+      if (mission.worldActionRef) {
+        expect(launch.mission.worldActionRef).toBe(mission.worldActionRef);
+        expect(launch.session.questions).toHaveLength(0);
+        continue;
+      }
+
       const coveredRefs = new Set(
         launch.session.questions.flatMap((question) => question.knowledgeRefs ?? [])
       );
-
       expect(launch.session.questions).toHaveLength(mission.questionCount);
       for (const rowId of mission.knowledgeRefs) expect(coveredRefs.has(rowId)).toBe(true);
     }
