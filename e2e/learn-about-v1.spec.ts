@@ -54,7 +54,7 @@ test.describe('Learn About V1 production journey', () => {
     await expectViewportContained(page);
 
     await page.getByRole('button', { name: 'Explore Earth' }).first().click();
-    await expect(page.getByText(/Earth is a planet/i)).toBeVisible();
+    await expect(page.locator('p[aria-live="polite"]').filter({ hasText: /Earth is a planet/i })).toBeVisible();
     expect(await storageSnapshot(page)).toEqual(beforeDiscovery);
 
     await page.getByRole('button', { name: /D2\s*Connect/ }).click();
