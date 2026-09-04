@@ -1,22 +1,43 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte';
-  import { STORY_CANDIDATES_V1 } from '../experience/storyCatalog';
+  import { onDestroy, onMount } from 'svelte';
+  import storyCandidatesUrl from '../../content/stories/v1-candidates.json?url';
   import {
     createInitialStoryReadingState,
     loadStoryReadingStore,
-    saveStoryReadingState
+    saveStoryReadingState,
+    type StoryReadingStore
   } from '../experience/storyReadingPersistence';
   import { measureStoryNarration, storyNarrationUtteranceId } from '../experience/storyNarrationMetrics';
-  import type { StoryManifest, StoryReadingState } from '../experience/storiesContract';
+  import { validateStoryManifest, type StoryManifest, type StoryReadingState } from '../experience/storiesContract';
   import { loadChildAudioPreferences, saveChildAudioPreferences } from '../runtime/childAudio';
   import { cancelChildUtterance, playChildUtterance } from '../runtime/childAudioProduction';
 
   let { onExit }: { onExit: () => void } = $props();
-  const catalog = STORY_CANDIDATES_V1;
-  let store = $state(loadStoryReadingStore(catalog));
-  let activeStoryId = $state<string | null>(store.currentStoryId);
+  let catalog = $state<StoryManifest[]>([]);
+  let store = $state<StoryReadingStore>({ version: 1, currentStoryId: null, states: {} });
+  let activeStoryId = $state<string | null>(null);
   let audioEnabled = $state(loadChildAudioPreferences().enabled);
   let audioStatus = $state('');
+  let loadError = $state('');
+
+  onMount(() => {
+    let alive = true;
+    void fetch(storyCandidatesUrl)
+      .then(async (response) => {
+        if (!response.ok) throw new Error(`Story library asset returned ${response.status}`);
+        const raw: unknown = await response.json();
+        if (!Array.isArray(raw)) throw new Error('Story library asset must be an array');
+        const loaded = raw.map(validateStoryManifest);
+        if (!alive) return;
+        catalog = loaded;
+        store = loadStoryReadingStore(loaded);
+        activeStoryId = store.currentStoryId;
+      })
+      .catch(() => {
+        if (alive) loadError = 'Stories could not be opened from this installation.';
+      });
+    return () => { alive = false; };
+  });
 
   function activeStory(): StoryManifest | null {
     return catalog.find((story) => story.storyId === activeStoryId) ?? null;
@@ -38,15 +59,10 @@
     activeStoryId = story.storyId;
   }
   function openStory(story: StoryManifest): void {
-    cancelChildUtterance();
-    audioStatus = '';
+    cancelChildUtterance(); audioStatus = '';
     persist(story, store.states[story.storyId] ?? createInitialStoryReadingState(story));
   }
-  function closeStory(): void {
-    cancelChildUtterance();
-    audioStatus = '';
-    activeStoryId = null;
-  }
+  function closeStory(): void { cancelChildUtterance(); audioStatus = ''; activeStoryId = null; }
   function move(delta: -1 | 1): void {
     const story = activeStory(); const state = readingState();
     if (!story || !state) return;
@@ -90,45 +106,40 @@
 </script>
 
 <main class="stories" data-testid="stories-surface">
-  {#if activeStory() && readingState()}
+  {#if loadError}
+    <header class="topbar"><button class="icon" type="button" aria-label="Back to Kidsplay" onclick={onExit}>←</button><h1>Stories</h1></header>
+    <p role="alert">{loadError}</p>
+  {:else if catalog.length === 0}
+    <p class="loading" role="status">Opening stories…</p>
+  {:else if activeStory() && readingState()}
     {@const story = activeStory()!}
     {@const state = readingState()!}
     {@const index = beatIndex()}
     {@const beat = story.beats[index]}
     <header class="topbar">
-      <button type="button" class="icon" aria-label="Back to stories" onclick={closeStory}>←</button>
+      <button class="icon" type="button" aria-label="Back to stories" onclick={closeStory}>←</button>
       <div class="title"><small>STORY TIME</small><h1>{story.childTitle}</h1></div>
-      <button type="button" class="icon" aria-label={state.favourite ? 'Remove from favourites' : 'Add to favourites'} aria-pressed={state.favourite} onclick={toggleFavourite}>{state.favourite ? '♥' : '♡'}</button>
-      <button type="button" class="icon" aria-label={audioEnabled ? 'Turn sound off' : 'Turn sound on'} aria-pressed={audioEnabled} onclick={toggleSound}>{audioEnabled ? '🔊' : '🔇'}</button>
+      <button class="icon" type="button" aria-label={state.favourite ? 'Remove from favourites' : 'Add to favourites'} aria-pressed={state.favourite} onclick={toggleFavourite}>{state.favourite ? '♥' : '♡'}</button>
+      <button class="icon" type="button" aria-label={audioEnabled ? 'Turn sound off' : 'Turn sound on'} aria-pressed={audioEnabled} onclick={toggleSound}>{audioEnabled ? '🔊' : '🔇'}</button>
     </header>
 
     <section class="reader" data-testid="story-reader" data-story-id={story.storyId} data-editorial-status={story.editorialStatus}>
       <p class="page-count">Page {index + 1} of {story.beats.length}</p>
-      <article class="story-text" tabindex="0" data-testid="story-beat">{beat.text}</article>
+      <article class="story-text" data-testid="story-beat">{beat.text}</article>
       <p class="audio-status" aria-live="polite">{audioStatus}</p>
       {#if state.completed}
-        <div class="finished" role="status">
-          <strong>Story finished.</strong>
-          <span>You can hear it again whenever you like.</span>
-          <button type="button" onclick={replay}>↻ Replay</button>
-        </div>
+        <div class="finished" role="status"><strong>Story finished.</strong><span>You can hear it again whenever you like.</span><button type="button" onclick={replay}>↻ Replay</button></div>
       {:else}
-        <div class="listen-row">
-          <button type="button" onclick={readCurrentBeat}>▶ Read to me</button>
-          <button type="button" onclick={readCurrentBeat}>↻ Repeat page</button>
-        </div>
+        <div class="actions"><button type="button" onclick={readCurrentBeat}>▶ Read to me</button><button class="soft" type="button" onclick={readCurrentBeat}>↻ Repeat page</button></div>
       {/if}
     </section>
 
-    <nav class="page-nav" aria-label="Story pages">
-      <button type="button" disabled={index === 0} onclick={() => move(-1)}>← Back</button>
-      <button type="button" onclick={() => move(1)}>{index === story.beats.length - 1 ? 'Done' : 'Next →'}</button>
-    </nav>
+    <nav class="actions" aria-label="Story pages"><button class="soft" type="button" disabled={index === 0} onclick={() => move(-1)}>← Back</button><button type="button" onclick={() => move(1)}>{index === story.beats.length - 1 ? 'Done' : 'Next →'}</button></nav>
   {:else}
-    <header class="topbar library-topbar">
-      <button type="button" class="icon" aria-label="Back to Kidsplay" onclick={onExit}>←</button>
+    <header class="topbar">
+      <button class="icon" type="button" aria-label="Back to Kidsplay" onclick={onExit}>←</button>
       <div class="title"><small>QUIET TIME</small><h1>Stories</h1></div>
-      <button type="button" class="icon" aria-label={audioEnabled ? 'Turn sound off' : 'Turn sound on'} aria-pressed={audioEnabled} onclick={toggleSound}>{audioEnabled ? '🔊' : '🔇'}</button>
+      <button class="icon" type="button" aria-label={audioEnabled ? 'Turn sound off' : 'Turn sound on'} aria-pressed={audioEnabled} onclick={toggleSound}>{audioEnabled ? '🔊' : '🔇'}</button>
     </header>
     <section class="library" aria-label="Story library">
       {#each catalog as story}
@@ -146,10 +157,10 @@
 </main>
 
 <style>
-  .stories{width:min(720px,100%);height:100dvh;margin:auto;padding:8px;display:flex;flex-direction:column;gap:8px;overflow:hidden;background:linear-gradient(180deg,#f5f1ff,#fffaf2);color:var(--ink)}
-  .topbar{min-height:58px;display:flex;align-items:center;gap:7px;padding:5px 7px;border:1px solid #332c4a17;border-radius:18px;background:#fffffff0}.title{min-width:0;flex:1}.title small{color:#695b8d;font-size:.58rem;font-weight:900;letter-spacing:.08em}.title h1{margin:1px 0 0;font-size:clamp(1rem,4vw,1.3rem);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon{min-width:46px;min-height:46px;border:0;border-radius:14px;background:#eee9fa;font:inherit;font-size:1.05rem;cursor:pointer}
-  .reader{min-height:0;flex:1;display:flex;flex-direction:column;gap:8px;padding:14px;border:1px solid #332c4a12;border-radius:22px;background:#fffdf9;overflow:hidden}.page-count{margin:0;color:#786f85;font-size:.7rem;font-weight:800}.story-text{min-height:0;flex:1;overflow:auto;padding:4px 3px;font-family:Georgia,'Times New Roman',serif;font-size:clamp(1.08rem,5vw,1.45rem);line-height:1.65;outline-offset:4px}.audio-status{min-height:1.2em;margin:0;color:#625b6a;font-size:.72rem}.listen-row,.page-nav{display:grid;grid-template-columns:1fr 1fr;gap:8px}.listen-row button,.page-nav button,.finished button{min-height:48px;border:0;border-radius:15px;background:#7762a8;color:#fff;font:inherit;font-weight:900;cursor:pointer}.listen-row button+button,.page-nav button:first-child{background:#eee9fa;color:#4c416a}.page-nav button:disabled{opacity:.42;cursor:default}.finished{display:grid;gap:5px;padding:10px;border-radius:15px;background:#f4f0fa}.finished span{font-size:.75rem;color:#625b6a}.finished button{margin-top:4px}
-  .library{min-height:0;flex:1;display:grid;align-content:start;gap:9px;overflow:auto;padding:1px}.story-card{min-height:86px;display:flex;align-items:center;gap:11px;padding:11px 12px;border:1px solid #332c4a18;border-radius:20px;background:#fffdf9;color:inherit;text-align:left;cursor:pointer}.story-icon{font-size:1.7rem}.story-copy{min-width:0;flex:1;display:grid;gap:4px}.story-copy strong{font-size:.96rem}.story-copy small{color:#746b7f;font-size:.7rem}.resume{padding:4px 7px;border-radius:999px;background:#eee9fa;color:#5a477e;font-size:.62rem;font-weight:900}.calm-note{margin:0;text-align:center;color:#746b7f;font-size:.68rem}
-  @media(max-width:420px){.stories{padding:6px}.reader{padding:11px}.listen-row button,.page-nav button{font-size:.82rem}.library{gap:7px}.story-card{min-height:78px}.icon{min-width:44px;min-height:44px}}
-  @media(prefers-reduced-motion:reduce){.stories *{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+  .stories{width:min(720px,100%);height:100dvh;margin:auto;padding:6px;display:flex;flex-direction:column;gap:7px;overflow:hidden;background:#faf7ff;color:var(--ink)}
+  .topbar{min-height:56px;display:flex;align-items:center;gap:6px;padding:5px;border:1px solid #332c4a17;border-radius:16px;background:#fff}.title{min-width:0;flex:1}.title small,.page-count,.audio-status,.calm-note,.story-copy small{color:#746b7f;font-size:.7rem}.title h1{margin:0;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon{min-width:44px}
+  button{min-height:44px;border:0;border-radius:13px;background:#7762a8;color:#fff;font:inherit;font-weight:900;cursor:pointer}.icon,.soft{background:#eee9fa;color:#4c416a}button:disabled{opacity:.42}
+  .reader{min-height:0;flex:1;display:flex;flex-direction:column;gap:7px;padding:11px;border-radius:18px;background:#fff;overflow:hidden}.page-count,.audio-status,.calm-note{margin:0}.story-text{min-height:0;flex:1;overflow:auto;font-family:Georgia,serif;font-size:clamp(1.08rem,5vw,1.4rem);line-height:1.62}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.finished{display:grid;gap:5px;padding:9px;border-radius:13px;background:#f2eef8}.finished span{font-size:.75rem}
+  .library{min-height:0;flex:1;display:grid;align-content:start;gap:7px;overflow:auto}.story-card{min-height:76px;display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid #332c4a18;background:#fff;color:inherit;text-align:left}.story-icon{font-size:1.6rem}.story-copy{min-width:0;flex:1;display:grid}.resume{font-size:.62rem;color:#5a477e}.calm-note{text-align:center}.loading{margin:auto}
+  @media(prefers-reduced-motion:reduce){.stories *{transition:none!important;animation:none!important}}
 </style>
