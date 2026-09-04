@@ -157,7 +157,7 @@
 </main>
 
 <style>
-  .stories{width:min(720px,100%);height:100dvh;margin:auto;padding:6px;display:flex;flex-direction:column;gap:7px;overflow:hidden;background:#faf7ff;color:var(--ink)}
+  .stories{width:min(720px,100%);height:100%;min-height:0;margin:auto;padding:6px;display:flex;flex-direction:column;gap:7px;overflow:hidden;background:#faf7ff;color:var(--ink)}
   .topbar{min-height:56px;display:flex;align-items:center;gap:6px;padding:5px;border:1px solid #332c4a17;border-radius:16px;background:#fff}.title{min-width:0;flex:1}.title h1{margin:0;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.icon{min-width:44px}
   button{min-height:44px;border:0;border-radius:13px;background:#7762a8;color:#fff;font:inherit;font-weight:900;cursor:pointer}.icon,.soft{background:#eee9fa;color:#4c416a}button:disabled{opacity:.42}
   .reader{min-height:0;flex:1;display:flex;flex-direction:column;gap:7px;padding:11px;border-radius:18px;background:#fff;overflow:hidden}.meta,.title small,.story-copy small{margin:0;color:#746b7f;font-size:.7rem}.story-text{min-height:0;flex:1;overflow:auto;font-family:Georgia,serif;font-size:clamp(1.08rem,5vw,1.4rem);line-height:1.62}.actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}.finished{display:grid;gap:5px;padding:9px;border-radius:13px;background:#f2eef8}
