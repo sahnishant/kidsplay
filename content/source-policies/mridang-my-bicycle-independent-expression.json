@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "policyId": "source-policy.mridang.my-bicycle.independent-expression.v1",
+  "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+  "sourceModuleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle",
+  "runtimeCompanionRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "legalPosture": {
+    "basis": "independent_expression_not_fair_dealing",
+    "fairDealingReliedUponForCommercialRuntime": false,
+    "sourceRole": "curriculum_and_editorial_reference_only",
+    "legalReviewRequiredBeforeClaimingTextbookReproductionRights": true,
+    "notes": "The runtime companion teaches independently authored concepts and skills. It does not reproduce or adapt the chapter's protected expression."
+  },
+  "textPolicy": {
+    "factsIdeasMethodsAndCommonTermsMayInformIndependentAuthoring": true,
+    "commonFunctionalTermsAllowed": true,
+    "shortFunctionalInstructionsMustBeIndependentlyWritten": true,
+    "verbatimCreativeTextAllowed": false,
+    "poemLinesAllowed": false,
+    "exerciseWordingAllowed": false,
+    "sourceDefinitionsAllowed": false,
+    "sourceHeadingSequenceAsRuntimeLayoutAllowed": false,
+    "distinctiveSelectionOrArrangementAllowed": false,
+    "independentWordingRequired": true,
+    "humanSimilarityReviewRequired": true
+  },
+  "visualPolicy": {
+    "sourceImagesMayInformTopicInventoryOnly": true,
+    "sourceImageInputToGeneratorAllowed": false,
+    "sourcePageInputToGeneratorAllowed": false,
+    "sourceTextInputToImageGeneratorAllowed": false,
+    "imageToImageAllowed": false,
+    "tracingAllowed": false,
+    "poseMatchAllowed": false,
+    "compositionMatchAllowed": false,
+    "layoutMatchAllowed": false,
+    "paletteMatchAllowed": false,
+    "styleImitationAllowed": false,
+    "sourceCharactersOrBrandingAllowed": false,
+    "originalCompositionRequired": true,
+    "graphOnlyPromptRequired": true,
+    "generationProvenanceRequired": true,
+    "humanVisualSimilarityReviewRequired": true
+  },
+  "audioPolicy": {
+    "verbatimPoemNarrationAllowed": false,
+    "sourceRecordingUseAllowed": false,
+    "independentlyWrittenPromptsAllowed": true,
+    "originalOrLicensedSoundEffectsRequired": true
+  },
+  "releaseGate": {
+    "sourceBinaryBundled": false,
+    "sourceArtworkBundled": false,
+    "sourceCreativeTextBundled": false,
+    "runtimeCompanionMayShipOnlyWithIndependentExpressionChecks": true
+  }
+}
