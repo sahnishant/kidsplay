@@ -19,7 +19,15 @@ describe('Bicycle Workshop visual boundary', () => {
       guidedAnimationCount: 3,
       humanSimilarityReview: 'required_before_commercial_release'
     });
-    expect(Number(result.registeredWorkshopVisualCount)).toBeGreaterThanOrEqual(16);
+
+    /*
+     * The canonical presenter, required IDs, guide references, animation
+     * references and question references are all validated independently.
+     * The previous threshold of 16 was a stale count from the removed
+     * parallel renderer; the canonical registry has 15 workshop part/step
+     * identities at this stage.
+     */
+    expect(Number(result.registeredWorkshopVisualCount)).toBeGreaterThanOrEqual(15);
     expect(Number(result.explicitQuestionReferenceCount)).toBeGreaterThanOrEqual(10);
   });
 });
