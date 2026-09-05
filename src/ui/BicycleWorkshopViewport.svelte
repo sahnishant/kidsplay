@@ -9,7 +9,10 @@
 
   interface GuideBeat {
     id: string;
+    label: string;
     text: string;
+    examples?: string[];
+    sequence?: string[];
     claimRefs?: string[];
     capabilityRefs?: string[];
   }
@@ -22,7 +25,9 @@
     animationRef?: string;
     visualRef?: string;
     visualLabel: string;
+    lookPrompt: string;
     beats: GuideBeat[];
+    remember: string;
     childPrompt: string;
   }
 
@@ -44,9 +49,13 @@
 
   const guide = guideJson as GuidedExperience;
   let activeIndex = $state(0);
+  let activeBeatIndex = $state(0);
   let section = $derived(guide.sections[activeIndex]);
-  let isFirst = $derived(activeIndex === 0);
-  let isLast = $derived(activeIndex === guide.sections.length - 1);
+  let beat = $derived(section.beats[activeBeatIndex]);
+  let isFirstMoment = $derived(activeIndex === 0 && activeBeatIndex === 0);
+  let isLastBeat = $derived(activeBeatIndex === section.beats.length - 1);
+  let isLastSection = $derived(activeIndex === guide.sections.length - 1);
+  let isFinished = $derived(isLastSection && isLastBeat);
   let visualPresentation = $derived<SemanticVisualPresentation | null>(
     section.animationRef
       ? animationVisualPresentation(section.animationRef, { embedded: true, decorative: false })
@@ -59,28 +68,54 @@
   );
 
   function previous(): void {
-    activeIndex = Math.max(0, activeIndex - 1);
+    if (activeBeatIndex > 0) {
+      activeBeatIndex -= 1;
+      return;
+    }
+
+    if (activeIndex > 0) {
+      const previousIndex = activeIndex - 1;
+      activeIndex = previousIndex;
+      activeBeatIndex = guide.sections[previousIndex].beats.length - 1;
+    }
   }
 
   function next(): void {
-    activeIndex = Math.min(guide.sections.length - 1, activeIndex + 1);
+    if (activeBeatIndex < section.beats.length - 1) {
+      activeBeatIndex += 1;
+      return;
+    }
+
+    if (activeIndex < guide.sections.length - 1) {
+      activeIndex += 1;
+      activeBeatIndex = 0;
+    }
   }
 
   function chooseSection(index: number): void {
     activeIndex = Math.max(0, Math.min(guide.sections.length - 1, index));
+    activeBeatIndex = 0;
+  }
+
+  function chooseIdea(index: number): void {
+    activeBeatIndex = Math.max(0, Math.min(section.beats.length - 1, index));
   }
 </script>
 
-<main class="workshop" data-workshop-section={section.id}>
+<main class="workshop" data-workshop-section={section.id} data-workshop-idea={beat.id}>
   <header class="workshop__topbar">
     <button class="workshop__back" type="button" onclick={onExit} aria-label="Back to play">←</button>
     <div class="workshop__heading">
-      <small>CLASS 2 ENGLISH · CHAPTER COMPANION</small>
+      <small>CLASS 2 ENGLISH · GUIDED WORKSHOP</small>
       <h1>{guide.childTitle}</h1>
       <p>{guide.subtitle}</p>
     </div>
-    <span class="workshop__count" aria-label={`Step ${activeIndex + 1} of ${guide.sections.length}`}>
-      {activeIndex + 1}/{guide.sections.length}
+    <span
+      class="workshop__count"
+      aria-label={`Part ${activeIndex + 1} of ${guide.sections.length}, idea ${activeBeatIndex + 1} of ${section.beats.length}`}
+    >
+      <b>{activeIndex + 1}/{guide.sections.length}</b>
+      <small>idea {activeBeatIndex + 1}/{section.beats.length}</small>
     </span>
   </header>
 
@@ -91,7 +126,7 @@
         type="button"
         class:workshop__step--active={index === activeIndex}
         aria-current={index === activeIndex ? 'step' : undefined}
-        aria-label={`Open step ${index + 1}: ${item.title}`}
+        aria-label={`Open part ${index + 1}: ${item.title}`}
         onclick={() => chooseSection(index)}
       >
         <span>{index + 1}</span>
@@ -107,6 +142,14 @@
         <h2 id="workshop-section-title">{section.title}</h2>
       </div>
 
+      <div class="workshop__look">
+        <span aria-hidden="true">1</span>
+        <div>
+          <strong>LOOK</strong>
+          <p>{section.lookPrompt}</p>
+        </div>
+      </div>
+
       <div class="workshop__visual">
         {#if visualPresentation}
           <SemanticVisualPresenter presentation={visualPresentation} class="workshop__visual-presentation" />
@@ -118,31 +161,87 @@
         {/if}
       </div>
 
-      <div class="workshop__beats">
-        {#each section.beats as beat, beatIndex}
-          <div
-            class="workshop__beat"
-            data-claim-count={beat.claimRefs?.length ?? 0}
-            data-capability-count={beat.capabilityRefs?.length ?? 0}
-          >
-            <span aria-hidden="true">{beatIndex + 1}</span>
-            <p>{beat.text}</p>
-          </div>
-        {/each}
+      <div class="workshop__learn">
+        <div class="workshop__idea-tabs" aria-label={`Ideas in ${section.title}`}>
+          {#each section.beats as item, index}
+            <button
+              type="button"
+              class:workshop__idea-tab--active={index === activeBeatIndex}
+              class:workshop__idea-tab--visited={index < activeBeatIndex}
+              aria-current={index === activeBeatIndex ? 'step' : undefined}
+              aria-label={`Open idea ${index + 1}: ${item.label}`}
+              onclick={() => chooseIdea(index)}
+            >
+              {index + 1}
+            </button>
+          {/each}
+        </div>
+
+        <section
+          class="workshop__beat"
+          data-claim-count={beat.claimRefs?.length ?? 0}
+          data-capability-count={beat.capabilityRefs?.length ?? 0}
+          aria-live="polite"
+        >
+          <header class="workshop__beat-heading">
+            <span aria-hidden="true">2</span>
+            <div>
+              <small>LEARN · IDEA {activeBeatIndex + 1}</small>
+              <strong>{beat.label}</strong>
+            </div>
+          </header>
+
+          <p>{beat.text}</p>
+
+          {#if beat.sequence?.length}
+            <div class="workshop__sequence" aria-label={`${beat.label} sequence`}>
+              {#each beat.sequence as step, stepIndex}
+                <span class="workshop__sequence-step">{step}</span>
+                {#if stepIndex < beat.sequence.length - 1}
+                  <span class="workshop__sequence-arrow" aria-hidden="true">→</span>
+                {/if}
+              {/each}
+            </div>
+          {/if}
+
+          {#if beat.examples?.length}
+            <div class="workshop__examples" aria-label={`${beat.label} examples`}>
+              {#each beat.examples as example}
+                <span>{example}</span>
+              {/each}
+            </div>
+          {/if}
+        </section>
+
+        {#if isLastBeat}
+          <aside class="workshop__remember" aria-label="Remember this">
+            <strong>REMEMBER</strong>
+            <p>{section.remember}</p>
+          </aside>
+        {:else}
+          <p class="workshop__nudge">One idea at a time. Tap <b>Next idea</b> when you are ready.</p>
+        {/if}
       </div>
 
-      <aside class="workshop__try" aria-label="Try it without scoring">
-        <strong>TRY IT</strong>
-        <p>{section.childPrompt}</p>
-        <small>Exploring this page does not change your score.</small>
-      </aside>
+      {#if isLastBeat}
+        <aside class="workshop__try" aria-label="Your turn without scoring">
+          <span aria-hidden="true">3</span>
+          <div>
+            <strong>YOUR TURN</strong>
+            <p>{section.childPrompt}</p>
+            <small>No score here — just explore.</small>
+          </div>
+        </aside>
+      {/if}
     </article>
   </section>
 
   <footer class="workshop__footer">
-    <button class="workshop__secondary" type="button" onclick={previous} disabled={isFirst}>Previous</button>
-    {#if !isLast}
-      <button class="workshop__primary" type="button" onclick={next}>Next part</button>
+    <button class="workshop__secondary" type="button" onclick={previous} disabled={isFirstMoment}>Previous</button>
+    {#if !isFinished}
+      <button class="workshop__primary" type="button" onclick={next}>
+        {isLastBeat ? 'Next part' : 'Next idea'}
+      </button>
     {:else}
       <div class="workshop__finish-actions">
         <button class="workshop__secondary workshop__secondary--strong" type="button" onclick={onPractice}>Practice</button>
@@ -162,7 +261,7 @@
   }
 
   .workshop {
-    width: min(820px, 100%);
+    width: min(920px, 100%);
     height: 100%;
     min-height: 0;
     margin: auto;
@@ -199,8 +298,11 @@
   }
 
   .workshop__heading { min-width: 0; }
-  .workshop__heading small,
+  .workshop__heading > small,
   .workshop__lesson-heading small,
+  .workshop__look strong,
+  .workshop__beat-heading small,
+  .workshop__remember strong,
   .workshop__try strong {
     color: var(--accent);
     font-size: .57rem;
@@ -225,14 +327,25 @@
   }
 
   .workshop__count {
-    min-width: 42px;
-    padding: 7px 8px;
-    border-radius: 999px;
+    min-width: 58px;
+    display: grid;
+    gap: 1px;
+    padding: 6px 8px;
+    border-radius: 12px;
     background: #eef6ff;
     color: var(--accent);
+    text-align: center;
+  }
+
+  .workshop__count b {
     font-size: .72rem;
     font-weight: 950;
-    text-align: center;
+  }
+
+  .workshop__count small {
+    font-size: .5rem;
+    font-weight: 850;
+    white-space: nowrap;
   }
 
   .workshop__steps {
@@ -296,8 +409,8 @@
   .workshop__lesson {
     min-height: 100%;
     display: grid;
-    grid-template-columns: minmax(210px, .86fr) minmax(240px, 1.14fr);
-    grid-template-rows: auto minmax(0, 1fr) auto;
+    grid-template-columns: minmax(230px, .9fr) minmax(270px, 1.1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
     gap: 9px 12px;
     padding: 12px;
     border: 1px solid #24303a18;
@@ -305,15 +418,57 @@
     background: #fffffff2;
   }
 
-  .workshop__lesson-heading { grid-column: 1 / -1; }
+  .workshop__lesson-heading,
+  .workshop__look,
+  .workshop__try {
+    grid-column: 1 / -1;
+  }
+
   .workshop__lesson-heading h2 {
     margin: 2px 0 0;
     font-size: clamp(1.08rem, 4.5vw, 1.5rem);
     line-height: 1.05;
   }
 
+  .workshop__look {
+    min-height: 48px;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
+    padding: 7px 10px;
+    border-radius: 14px;
+    background: #f3f0ff;
+  }
+
+  .workshop__look > span,
+  .workshop__try > span,
+  .workshop__beat-heading > span {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 950;
+  }
+
+  .workshop__look p,
+  .workshop__try p,
+  .workshop__remember p,
+  .workshop__beat p {
+    margin: 0;
+    font-size: clamp(.82rem, 2.5vw, .95rem);
+    font-weight: 760;
+    line-height: 1.32;
+  }
+
+  .workshop__look p { margin-top: 2px; }
+
   .workshop__visual {
-    min-height: 190px;
+    min-height: 235px;
     display: grid;
     place-items: center;
     overflow: hidden;
@@ -339,11 +494,11 @@
   .workshop__visual :global(svg) {
     width: 100%;
     height: 100%;
-    max-height: 220px;
+    max-height: 270px;
   }
 
   .workshop__visual-fallback {
-    min-height: 180px;
+    min-height: 210px;
     display: grid;
     place-items: center;
     align-content: center;
@@ -355,58 +510,138 @@
   .workshop__visual-fallback span { font-size: 4rem; }
   .workshop__visual-fallback strong { font-size: .8rem; }
 
-  .workshop__beats {
+  .workshop__learn {
+    min-width: 0;
     display: grid;
     align-content: center;
     gap: 8px;
   }
 
+  .workshop__idea-tabs {
+    display: flex;
+    gap: 6px;
+  }
+
+  .workshop__idea-tabs button {
+    width: 34px;
+    height: 30px;
+    border: 1px solid #24303a20;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--muted);
+    font: inherit;
+    font-size: .66rem;
+    font-weight: 950;
+    cursor: pointer;
+  }
+
+  .workshop__idea-tabs .workshop__idea-tab--visited {
+    border-color: #24303a12;
+    background: #eef1f3;
+    color: var(--ink);
+  }
+
+  .workshop__idea-tabs .workshop__idea-tab--active {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
   .workshop__beat {
-    min-height: 58px;
+    min-height: 150px;
+    display: grid;
+    align-content: center;
+    gap: 10px;
+    padding: 12px;
+    border: 1px solid #24303a12;
+    border-radius: 16px;
+    background: #f7f9fa;
+  }
+
+  .workshop__beat-heading {
     display: grid;
     grid-template-columns: 30px minmax(0, 1fr);
     align-items: center;
     gap: 8px;
-    padding: 8px 10px;
-    border-radius: 14px;
-    background: #f7f9fa;
   }
 
-  .workshop__beat > span {
-    width: 28px;
-    height: 28px;
+  .workshop__beat-heading div {
+    min-width: 0;
     display: grid;
-    place-items: center;
-    border-radius: 50%;
-    background: #fff;
-    color: var(--accent);
-    font-size: .7rem;
-    font-weight: 950;
-    box-shadow: 0 2px 8px #24303a12;
+    gap: 1px;
   }
 
-  .workshop__beat p,
-  .workshop__try p {
+  .workshop__beat-heading strong {
+    font-size: .86rem;
+    font-weight: 950;
+  }
+
+  .workshop__examples,
+  .workshop__sequence {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .workshop__examples span,
+  .workshop__sequence-step {
+    padding: 6px 8px;
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+    font-size: .7rem;
+    font-weight: 850;
+    box-shadow: 0 2px 7px #24303a0d;
+  }
+
+  .workshop__sequence-step {
+    border: 1px solid #6358dc22;
+    background: #f3f0ff;
+    color: #3f36a8;
+  }
+
+  .workshop__sequence-arrow {
+    color: var(--accent);
+    font-size: .86rem;
+    font-weight: 950;
+  }
+
+  .workshop__remember {
+    display: grid;
+    gap: 3px;
+    padding: 9px 10px;
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+    background: #f3f0ff;
+  }
+
+  .workshop__nudge {
     margin: 0;
-    font-size: clamp(.82rem, 2.6vw, .96rem);
-    font-weight: 760;
-    line-height: 1.32;
+    color: var(--muted);
+    font-size: .66rem;
+    font-weight: 750;
   }
 
   .workshop__try {
-    grid-column: 1 / -1;
-    padding: 9px 11px;
+    min-height: 54px;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
+    padding: 8px 10px;
     border: 1px dashed #e2a93d;
     border-radius: 14px;
     background: #fff9e9;
   }
 
-  .workshop__try p { margin-top: 3px; }
+  .workshop__try > span { background: #d89220; }
+  .workshop__try p { margin-top: 2px; }
   .workshop__try small {
     display: block;
-    margin-top: 4px;
+    margin-top: 3px;
     color: var(--muted);
-    font-size: .62rem;
+    font-size: .61rem;
     font-weight: 750;
   }
 
@@ -463,18 +698,24 @@
     .workshop { gap: 5px; }
     .workshop__steps { overflow-x: auto; grid-template-columns: repeat(7, minmax(54px, 1fr)); }
     .workshop__step { grid-template-columns: 1fr; place-items: center; gap: 1px; }
-    .workshop__lesson { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto; padding: 9px; }
+    .workshop__lesson { grid-template-columns: 1fr; grid-template-rows: auto auto auto auto auto; padding: 9px; }
     .workshop__lesson-heading,
+    .workshop__look,
     .workshop__try { grid-column: 1; }
-    .workshop__visual { min-height: 155px; max-height: 30dvh; }
-    .workshop__beat { min-height: 52px; }
+    .workshop__visual { min-height: 165px; max-height: 28dvh; }
+    .workshop__beat { min-height: 132px; }
     .workshop__footer { grid-template-columns: 92px minmax(0, 1fr); }
   }
 
   @media (max-width: 430px) {
     .workshop__heading p { display: none; }
+    .workshop__heading > small { font-size: .5rem; }
+    .workshop__count { min-width: 52px; }
+    .workshop__look { min-height: 44px; }
     .workshop__finish-actions { grid-template-columns: 1fr 1fr; }
     .workshop__primary,
     .workshop__secondary { min-height: 46px; font-size: .76rem; }
+    .workshop__examples span,
+    .workshop__sequence-step { font-size: .65rem; }
   }
 </style>
