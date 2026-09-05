@@ -1,5 +1,6 @@
 import type { StoryProgressSnapshot } from '../story/storyProgress';
 import type { WorldChange, WorldRewardState } from '../story/worldRewards';
+import { mergeTownWorldDepthState } from '../town/townWorldProjection';
 
 function forestMissionChanges(snapshot: StoryProgressSnapshot): WorldChange[] {
   const changes: WorldChange[] = [];
@@ -28,29 +29,37 @@ function forestMissionChanges(snapshot: StoryProgressSnapshot): WorldChange[] {
   return changes;
 }
 
-/** Merge Forest mission consequences into the existing world-reward projection without a new store or currency. */
+/**
+ * Backwards-compatible world-depth projection seam used by Home. Forest remains the
+ * original producer; Town composes through the same story-progress authority instead
+ * of creating another store or reward system.
+ */
 export function mergeForestWorldDepthState(
   base: WorldRewardState,
   storyProgress: StoryProgressSnapshot
 ): WorldRewardState {
   const existingIds = new Set(base.locations.forest.changes.map((change) => change.id));
   const additions = forestMissionChanges(storyProgress).filter((change) => !existingIds.has(change.id));
-  if (!additions.length) return base;
+  let projected = base;
 
-  const forestChanges = [...base.locations.forest.changes, ...additions];
-  const forestStage = Math.max(base.locations.forest.stage, ...additions.map((change) => change.stage)) as 0 | 1 | 2 | 3;
-  return {
-    ...base,
-    totalChanges: base.totalChanges + additions.length,
-    locations: {
-      ...base.locations,
-      forest: {
-        locationId: 'forest',
-        stage: forestStage,
-        changes: forestChanges
-      }
-    },
-    repairs: [...base.repairs, ...additions.filter((change) => change.kind === 'repair')],
-    nature: [...base.nature, ...additions.filter((change) => change.kind === 'nature')]
-  };
+  if (additions.length) {
+    const forestChanges = [...base.locations.forest.changes, ...additions];
+    const forestStage = Math.max(base.locations.forest.stage, ...additions.map((change) => change.stage)) as 0 | 1 | 2 | 3;
+    projected = {
+      ...base,
+      totalChanges: base.totalChanges + additions.length,
+      locations: {
+        ...base.locations,
+        forest: {
+          locationId: 'forest',
+          stage: forestStage,
+          changes: forestChanges
+        }
+      },
+      repairs: [...base.repairs, ...additions.filter((change) => change.kind === 'repair')],
+      nature: [...base.nature, ...additions.filter((change) => change.kind === 'nature')]
+    };
+  }
+
+  return mergeTownWorldDepthState(projected, storyProgress);
 }

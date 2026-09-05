@@ -1,6 +1,7 @@
 import { projectForestDiscoveries } from '../forest/forestDiscoveries';
 import type { ProgressSnapshot, StoredAttempt } from '../runtime/localProgress';
 import type { StoryProgressSnapshot } from '../story/storyProgress';
+import { projectTownDiscoveries } from '../town/townDiscoveries';
 
 export const DISCOVERY_BOOK_COLLECTIONS = [
   { id: 'animals', label: 'Animals' },
@@ -68,6 +69,7 @@ const PRACTICE_PRESENTATION_RULES: readonly PresentationRule[] = [
 
 const FOREST_L2 = 'mission.forest-creek-rescue';
 const FOREST_L3 = 'mission.forest-busy-grove';
+const TOWN_MISSION = 'mission.town-square-helper';
 
 function stableRefs(refs: readonly string[]): string[] {
   return [...new Set(refs.map((ref) => String(ref ?? '').trim()).filter(Boolean))]
@@ -190,6 +192,33 @@ function forestStoryDiscoveries(snapshot: StoryProgressSnapshot): DiscoveryBookI
   return items;
 }
 
+function townStoryDiscoveries(snapshot: StoryProgressSnapshot): DiscoveryBookItem[] {
+  const completedAt = missionTime(snapshot, TOWN_MISSION);
+  if (!completedAt) return [];
+  const items: DiscoveryBookItem[] = [];
+
+  for (const entry of projectTownDiscoveries(snapshot)) {
+    if (entry.discoveryId === 'discovery.town.square-place') {
+      items.push(storyItem(TOWN_MISSION, completedAt, {
+        id: entry.discoveryId,
+        collection: 'places',
+        title: 'Town Square',
+        canonicalRefs: entry.canonicalRefs,
+        pronunciationText: 'town square'
+      }));
+    } else if (entry.discoveryId === 'discovery.town.square-adventure-mail') {
+      items.push(storyItem(TOWN_MISSION, completedAt, {
+        id: entry.discoveryId,
+        collection: 'mail',
+        title: 'Town helper mail',
+        canonicalRefs: entry.canonicalRefs,
+        fieldNote: 'Scientu saved this note from the crossing, recycling corner and help station you restored.'
+      }));
+    }
+  }
+  return items;
+}
+
 /**
  * Child-facing Discovery Book is a deterministic projection only. It never writes
  * progress, mints currency, or increments an inventory counter. Replays simply
@@ -199,7 +228,11 @@ export function projectDheuDiscoveryBook(
   progress: ProgressSnapshot,
   storyProgress: StoryProgressSnapshot
 ): DheuDiscoveryBook {
-  const projected = [...progressDiscoveries(progress), ...forestStoryDiscoveries(storyProgress)];
+  const projected = [
+    ...progressDiscoveries(progress),
+    ...forestStoryDiscoveries(storyProgress),
+    ...townStoryDiscoveries(storyProgress)
+  ];
   const bySemanticKey = new Map<string, DiscoveryBookItem>();
 
   for (const candidate of projected) {

@@ -43,7 +43,7 @@ describe('story mission director', () => {
       expect(launch.session.mode).toBe('free_explore');
 
       if (mission.worldActionRef) {
-        expect(mission.locationRef).toBe('forest');
+        expect(mission.worldDepthLevel ?? 0).toBeGreaterThanOrEqual(2);
         expect(mission.questionCount).toBe(0);
         expect(launch.session.questions).toHaveLength(0);
         continue;
@@ -100,10 +100,15 @@ describe('story mission director', () => {
     }
   });
 
-  it('uses story scenes only as presentation references, never as answer contracts', () => {
+  it('uses story scenes only as presentation references while world-action missions may use dedicated presentation', () => {
     for (const mission of getAllStoryMissions()) {
-      expect(mission.openingSceneRef?.startsWith('scene.')).toBe(true);
-      expect(mission.successSceneRef?.startsWith('scene.')).toBe(true);
+      if (!mission.worldActionRef) {
+        expect(mission.openingSceneRef?.startsWith('scene.')).toBe(true);
+        expect(mission.successSceneRef?.startsWith('scene.')).toBe(true);
+      } else {
+        if (mission.openingSceneRef) expect(mission.openingSceneRef.startsWith('scene.')).toBe(true);
+        if (mission.successSceneRef) expect(mission.successSceneRef.startsWith('scene.')).toBe(true);
+      }
       expect(mission.reward.stars).toBeGreaterThan(0);
     }
   });
