@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "capabilitySetId": "capabilities.english.class2.my-bicycle.v1",
+  "capabilities": [
+    {
+      "id": "capability.english.reading.literal-retrieval",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "reading_comprehension",
+      "cognitiveOperation": "retrieve",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.reading.statement-verification",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "reading_comprehension",
+      "cognitiveOperation": "verify",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.listening.sound-source-identification",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "listening",
+      "cognitiveOperation": "discriminate",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.speaking.familiar-object-description",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "speaking",
+      "cognitiveOperation": "describe",
+      "defaultEvidence": {
+        "evaluative": "none",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "notes": "Open spoken response; do not automatically score accent, fluency or correctness."
+    },
+    {
+      "id": "capability.english.vocabulary.sense-recognition",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "vocabulary",
+      "cognitiveOperation": "recognise",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.phonics.short-a-recognition",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "phonics",
+      "cognitiveOperation": "discriminate",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.grammar.indefinite-article-selection",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "grammar",
+      "cognitiveOperation": "apply",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.semantic-part-labelling",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "vocabulary",
+      "cognitiveOperation": "label",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "capability.english.creative.imagine-draw-speak",
+      "domain": "english",
+      "stage": "class2",
+      "kind": "creative_expression",
+      "cognitiveOperation": "create",
+      "defaultEvidence": {
+        "evaluative": "none",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "notes": "Participation may be recorded, but not correctness or mastery."
+    }
+  ]
+}
