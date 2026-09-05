@@ -4,7 +4,7 @@
   "kind": "learning_pack",
   "status": "reviewed",
   "title": "Bicycle Workshop — Class 2 English",
-  "description": "Explore a bicycle, connect parts to their jobs, follow movement chains, play with word meanings and vowel sounds, and finish with a safety check. Independently authored curriculum companion.",
+  "description": "Explore a bicycle, read short original situations, connect parts to their jobs, follow movement chains, play with word meanings and vowel sounds, and finish with a safety check. Independently authored curriculum companion.",
   "actionLabel": "Enter workshop",
   "catalogVisible": true,
   "access": { "type": "free" },
@@ -37,6 +37,9 @@
     "bicycle.workshop.memory.parts.001",
     "bicycle.workshop.word-search.parts.001",
     "bicycle.workshop.safety.pre-ride.001"
+  ],
+  "includePackRefs": [
+    "free.english.bicycle-workshop.reading.1"
   ],
   "authoring": {
     "source": "kidsplay-independent-curriculum-companion",
