@@ -23,6 +23,10 @@ const lazyRouteBudgets = [
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 4 * 1024 },
+  // Rollup extracts this only because both lazy world-depth children reuse the same
+  // assembly contract. It remains off the startup path, so budget it as lazy support
+  // instead of misclassifying it as core.
+  { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'StoriesViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 3 * 1024 },
   // Grown-up progress/assessment views are not part of the child startup path.
