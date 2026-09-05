@@ -73,7 +73,7 @@
         },
         {
           "id": "town.l2.step.safe-crossing",
-          "interactionFamily": "practical_life",
+          "interactionFamily": "guided_sequence",
           "semanticDomain": "crossing_safety",
           "icon": "🚸",
           "title": "Help everyone cross safely",
@@ -84,6 +84,11 @@
           "scaffold": "Slow down. Safe crossing starts before anyone steps into the road.",
           "worldObjectBefore": "busy-unsafe-crossing",
           "worldObjectAfter": "calm-safe-crossing",
+          "guidedStages": [
+            "Stop at the edge",
+            "Look and check the road",
+            "Cross at the zebra crossing"
+          ],
           "worldAction": {
             "schemaVersion": 1,
             "actionId": "action.town.l2.safe-crossing",
@@ -119,6 +124,28 @@
             "targetSemanticRefs": ["semantic.town.bin.paper", "semantic.town.bin.recycling", "semantic.town.bin.compost"],
             "evidenceClass": "guided_practice",
             "retryPolicy": "not_applicable"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.town.l2.recycling-sort",
+            "operation": "place_part_in_slot",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.town.paper", "semanticRef": "semantic.town.recycling.paper"},
+              {"partId": "part.town.bottle", "semanticRef": "semantic.town.recycling.bottle"},
+              {"partId": "part.town.food-scrap", "semanticRef": "semantic.town.recycling.food-scrap"}
+            ],
+            "slots": [
+              {"slotId": "slot.town.paper-bin", "semanticRef": "semantic.town.bin.paper"},
+              {"slotId": "slot.town.recycling-bin", "semanticRef": "semantic.town.bin.recycling"},
+              {"slotId": "slot.town.compost-bin", "semanticRef": "semantic.town.bin.compost"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.town.paper", "slotId": "slot.town.paper-bin"},
+              {"partId": "part.town.bottle", "slotId": "slot.town.recycling-bin"},
+              {"partId": "part.town.food-scrap", "slotId": "slot.town.compost-bin"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
           }
         },
         {
@@ -134,6 +161,10 @@
           "scaffold": "Keep walking space clear and place helpful things at their proper station.",
           "worldObjectBefore": "parcel-on-path",
           "worldObjectAfter": "parcel-at-help-table",
+          "guidedStages": [
+            "Pick up the help parcel",
+            "Place it at the help table"
+          ],
           "worldAction": {
             "schemaVersion": 1,
             "actionId": "action.town.l2.place-help-parcel",
@@ -152,7 +183,7 @@
           "semanticDomain": "town_infrastructure",
           "icon": "💧",
           "title": "Clear the rainwater path",
-          "actionLabel": "Clear it and watch",
+          "actionLabel": "Clear the blockage",
           "prompt": "Leaves are blocking the shallow rain channel at the edge of the square.",
           "instruction": "Clear the blockage and watch what changes downstream.",
           "consequence": "Rainwater moves away from the walking area and the square is ready again.",

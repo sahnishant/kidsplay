@@ -10,7 +10,7 @@ import {
 import type { ProgressSnapshot, StoredAttempt } from '../runtime/localProgress';
 
 export type TownWorldDepthLevel = 2;
-export type TownInteractionFamily = 'assemble_repair' | 'practical_life' | 'cause_effect';
+export type TownInteractionFamily = 'assemble_repair' | 'guided_sequence' | 'practical_life' | 'cause_effect';
 export type TownSemanticDomain = 'crossing_safety' | 'community_sorting' | 'community_help' | 'town_infrastructure';
 
 export interface TownAdventureStep {
@@ -26,6 +26,7 @@ export interface TownAdventureStep {
   scaffold: string;
   worldObjectBefore: string;
   worldObjectAfter: string;
+  guidedStages?: readonly string[];
   worldAction: WorldActionDefinition;
   assembly?: AssemblyDefinition;
 }
@@ -82,6 +83,12 @@ function validateAdventure(adventure: TownWorldDepthAdventure): TownWorldDepthAd
   }
   for (const step of adventure.steps) {
     step.worldAction = validateWorldActionDefinition(step.worldAction);
+    if (step.interactionFamily === 'guided_sequence' && (!step.guidedStages || step.guidedStages.length < 2)) {
+      throw new Error(`${step.id}: guided sequence requires at least two child actions`);
+    }
+    if (step.guidedStages && step.guidedStages.some((stage) => !stage.trim())) {
+      throw new Error(`${step.id}: guided action labels must be non-empty`);
+    }
     if (step.assembly) step.assembly = validateAssemblyDefinition(step.assembly);
   }
   return adventure;

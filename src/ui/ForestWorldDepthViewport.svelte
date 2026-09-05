@@ -21,10 +21,21 @@
   let completedCount = $state(0);
   let assemblyState = $state<AssemblyInteractionState>(createAssemblyInteractionState());
   let selectedPartId = $state<string | null>(null);
+  let guidedStageIndex = $state(0);
+  let causeEffectPhase = $state<'act' | 'observe'>('act');
   let feedback = $state<string | null>(null);
   let stepComplete = $state(false);
   let currentStep = $derived(adventure.steps[stepIndex]);
 
+  function guidedStages(step: WorldDepthAdventureStep): readonly string[] {
+    return (step as WorldDepthAdventureStep & { guidedStages?: readonly string[] }).guidedStages ?? [];
+  }
+  function displayRef(ref: string): string {
+    return ref.split('.').at(-1)?.replaceAll('-', ' ').replaceAll('_', ' ') ?? ref;
+  }
+  function isPlacementAssembly(step: WorldDepthAdventureStep): boolean {
+    return step.assembly?.operation === 'place_part_in_slot';
+  }
   function markStepComplete(step: WorldDepthAdventureStep): void {
     completedCount = stepIndex + 1;
     stepComplete = true;
@@ -37,7 +48,7 @@
   function choosePart(partId: string): void {
     if (stepComplete) return;
     selectedPartId = partId;
-    feedback = 'Now choose the matching place.';
+    feedback = isPlacementAssembly(currentStep) ? 'Now choose where it belongs.' : 'Now choose the matching place.';
   }
   function chooseSlot(slotId: string): void {
     if (!currentStep?.assembly || !selectedPartId || stepComplete) return;
@@ -46,7 +57,27 @@
     selectedPartId = null;
     if (result.feedback === 'retry_in_place') feedback = currentStep.scaffold;
     else if (result.feedback === 'complete') markStepComplete(currentStep);
-    else feedback = 'That piece fits. Keep going.';
+    else feedback = isPlacementAssembly(currentStep) ? 'That belongs there. Keep sorting.' : 'That piece fits. Keep going.';
+  }
+  function advanceGuidedAction(): void {
+    if (!currentStep || stepComplete) return;
+    const stages = guidedStages(currentStep);
+    if (!stages.length) return;
+    if (guidedStageIndex >= stages.length - 1) {
+      markStepComplete(currentStep);
+      return;
+    }
+    guidedStageIndex += 1;
+    feedback = `Good. Next: ${stages[guidedStageIndex]}`;
+  }
+  function performCauseEffectAction(): void {
+    if (!currentStep || stepComplete) return;
+    if (causeEffectPhase === 'act') {
+      causeEffectPhase = 'observe';
+      feedback = 'The blockage moved. Now watch what changes.';
+      return;
+    }
+    markStepComplete(currentStep);
   }
   function performWorldAction(): void {
     if (currentStep && !stepComplete) markStepComplete(currentStep);
@@ -56,6 +87,8 @@
     stepIndex += 1;
     assemblyState = createAssemblyInteractionState();
     selectedPartId = null;
+    guidedStageIndex = 0;
+    causeEffectPhase = 'act';
     feedback = null;
     stepComplete = false;
   }
@@ -91,7 +124,7 @@
         <div class="objects">
           {#each adventure.steps as step, index}
             <div class:changed={index < completedCount} class="object" data-world-object={step.id}>
-              <span aria-hidden="true">{step.icon}</span><small>{index < completedCount ? step.worldObjectAfter : step.worldObjectBefore}</small>
+              <span aria-hidden="true">{step.icon}</span><small>{displayRef(index < completedCount ? step.worldObjectAfter : step.worldObjectBefore)}</small>
             </div>
           {/each}
         </div>
@@ -113,17 +146,36 @@
         <p><strong>{currentStep.instruction}</strong></p>
 
         {#if currentStep.assembly}
-          <div class="assembly" data-testid="world-depth-assembly" data-first-attempt={assemblyState.firstAttemptCorrect ?? 'pending'}>
-            <div aria-label="Pieces">
+          <div class:placement={isPlacementAssembly(currentStep)} class="assembly" data-testid="world-depth-assembly" data-first-attempt={assemblyState.firstAttemptCorrect ?? 'pending'}>
+            <div aria-label={isPlacementAssembly(currentStep) ? 'Things to sort' : 'Pieces'}>
               {#each currentStep.assembly.parts as part}
-                <button type="button" class:selected={selectedPartId === part.partId} class:placed={isPlaced(part.partId)} disabled={isPlaced(part.partId) || stepComplete} data-part={part.partId} onclick={() => choosePart(part.partId)}>{isPlaced(part.partId) ? '✓ ' : ''}{part.partId.replace('part.', '').replaceAll('-', ' ')}</button>
+                <button type="button" class:selected={selectedPartId === part.partId} class:placed={isPlaced(part.partId)} disabled={isPlaced(part.partId) || stepComplete} data-part={part.partId} onclick={() => choosePart(part.partId)}>{isPlaced(part.partId) ? '✓ ' : ''}{displayRef(part.partId)}</button>
               {/each}
             </div>
-            <div aria-label="Places">
+            <div aria-label={isPlacementAssembly(currentStep) ? 'Destinations' : 'Places'}>
               {#each currentStep.assembly.slots as slot}
-                <button type="button" disabled={!selectedPartId || stepComplete} data-slot={slot.slotId} onclick={() => chooseSlot(slot.slotId)}>{slot.slotId.replace('slot.', '').replaceAll('-', ' ')}</button>
+                <button type="button" disabled={!selectedPartId || stepComplete} data-slot={slot.slotId} onclick={() => chooseSlot(slot.slotId)}>{displayRef(slot.slotId)}</button>
               {/each}
             </div>
+          </div>
+        {:else if guidedStages(currentStep).length > 0}
+          <div class="guided-actions" data-testid="world-depth-guided-sequence" aria-label="Action sequence">
+            {#each guidedStages(currentStep) as stage, index}
+              <button
+                type="button"
+                class:done={index < guidedStageIndex || stepComplete}
+                class:current={index === guidedStageIndex && !stepComplete}
+                disabled={index !== guidedStageIndex || stepComplete}
+                onclick={advanceGuidedAction}
+              >{index < guidedStageIndex || stepComplete ? '✓ ' : ''}{stage}</button>
+            {/each}
+          </div>
+        {:else if currentStep.worldAction.family === 'cause_effect' && currentStep.worldAction.stateTransition}
+          <div class="cause-effect" data-testid="world-depth-cause-effect" data-phase={causeEffectPhase}>
+            <button type="button" onclick={performCauseEffectAction} disabled={stepComplete}>
+              {causeEffectPhase === 'act' ? currentStep.actionLabel : 'Watch what changes'}
+            </button>
+            <small>{causeEffectPhase === 'act' ? displayRef(currentStep.worldAction.stateTransition.beforeStateRef) : displayRef(currentStep.worldAction.stateTransition.afterStateRef)}</small>
           </div>
         {:else}
           <button type="button" class="world-action" onclick={performWorldAction} disabled={stepComplete}>{currentStep.actionLabel}</button>
@@ -137,5 +189,5 @@
 </section>
 
 <style>
-  .world-depth{height:calc(100dvh - 42px);display:grid;grid-template-rows:auto 1fr;gap:5px;overflow:hidden}.world-depth>header{display:flex;align-items:center;gap:6px;padding:5px}.world-depth h1,.action h2{margin:2px 0;font-size:1rem}.world-depth small{font-size:.58rem}.back,.assembly button,.world-action,.primary{min-width:44px;min-height:48px;border:0;font:inherit}.body{min-height:0;display:grid;grid-template-columns:1fr 1.2fr;gap:5px;overflow:hidden}.world,.action,.completion{min-height:0;overflow:auto;padding:8px}.objects{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.object{display:grid;place-items:center;text-align:center;padding:4px;background:#f1e9d8}.object.changed,.placed,.feedback.success{background:#def2dc}.action{display:flex;flex-direction:column}.world-depth p{margin:3px 0;font-size:.7rem;line-height:1.3}.assembly{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:7px 0}.assembly>div{display:grid;gap:5px}.selected{outline:3px solid #5680b7}.feedback,.adaptive-review{margin-top:6px;padding:8px;font-size:.7rem}.adaptive-review{border:1px solid #24303a1f;border-radius:10px;background:#eef8ff}.adaptive-review p{font-weight:800}.completion{display:grid;align-content:center;justify-items:center;text-align:center;gap:8px}@media(max-width:650px){.problem,.character-line{display:none}.body{grid-template-columns:1fr;grid-template-rows:.38fr .62fr}.objects{grid-template-columns:repeat(5,minmax(0,1fr))}}@media(max-width:400px) and (max-height:700px){.world-depth>header{padding:3px 4px}.world-depth h1{font-size:.88rem}.body{grid-template-rows:.32fr .68fr}.world,.action{padding:5px}.objects{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}.object{padding:2px}.object small{font-size:.5rem}.action h2{font-size:.92rem}.world-depth p{font-size:.66rem}.back,.assembly button,.world-action,.primary{min-height:44px}.adaptive-review{padding:5px;margin-top:3px}.assembly{margin:4px 0;gap:4px}.assembly>div{gap:3px}}@media(prefers-reduced-motion:reduce){.world-depth *{animation:none!important;transition:none!important}}
+  .world-depth{height:calc(100dvh - 42px);display:grid;grid-template-rows:auto 1fr;gap:5px;overflow:hidden}.world-depth>header{display:flex;align-items:center;gap:6px;padding:5px}.world-depth h1,.action h2{margin:2px 0;font-size:1rem}.world-depth small{font-size:.58rem}.back,.assembly button,.guided-actions button,.cause-effect button,.world-action,.primary{min-width:44px;min-height:48px;border:0;font:inherit}.body{min-height:0;display:grid;grid-template-columns:1fr 1.2fr;gap:5px;overflow:hidden}.world,.action,.completion{min-height:0;overflow:auto;padding:8px}.objects{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}.object{display:grid;place-items:center;text-align:center;padding:4px;background:#f1e9d8}.object.changed,.placed,.guided-actions .done,.feedback.success{background:#def2dc}.action{display:flex;flex-direction:column}.world-depth p{margin:3px 0;font-size:.7rem;line-height:1.3}.assembly{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:7px 0}.assembly>div,.guided-actions{display:grid;gap:5px}.placement button{text-align:left}.selected,.guided-actions .current{outline:3px solid #5680b7}.guided-actions{margin:7px 0}.cause-effect{display:grid;grid-template-columns:1fr auto;align-items:center;gap:7px;margin:7px 0}.cause-effect small{padding:6px;border-radius:8px;background:#f1e9d8}.feedback,.adaptive-review{margin-top:6px;padding:8px;font-size:.7rem}.adaptive-review{border:1px solid #24303a1f;border-radius:10px;background:#eef8ff}.adaptive-review p{font-weight:800}.completion{display:grid;align-content:center;justify-items:center;text-align:center;gap:8px}@media(max-width:650px){.problem,.character-line{display:none}.body{grid-template-columns:1fr;grid-template-rows:.38fr .62fr}.objects{grid-template-columns:repeat(5,minmax(0,1fr))}}@media(max-width:400px) and (max-height:700px){.world-depth>header{padding:3px 4px}.world-depth h1{font-size:.88rem}.body{grid-template-rows:.32fr .68fr}.world,.action{padding:5px}.objects{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}.object{padding:2px}.object small{font-size:.5rem}.action h2{font-size:.92rem}.world-depth p{font-size:.66rem}.back,.assembly button,.guided-actions button,.cause-effect button,.world-action,.primary{min-height:44px}.adaptive-review{padding:5px;margin-top:3px}.assembly,.guided-actions,.cause-effect{margin:4px 0;gap:4px}.assembly>div,.guided-actions{gap:3px}}@media(prefers-reduced-motion:reduce){.world-depth *{animation:none!important;transition:none!important}}
 </style>

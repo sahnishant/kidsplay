@@ -64,27 +64,51 @@ function attempt(
 }
 
 describe('Town Square world-depth transfer', () => {
-  it('authors one coherent five-action Town arc with three reusable interaction families', () => {
+  it('authors one coherent five-action Town arc with distinct reusable interaction families', () => {
     const [adventure] = getTownWorldDepthAdventures();
     expect(adventure.adventureRef).toBe('town.world-depth.l2.safe-square');
     expect(adventure.level).toBe(2);
     expect(adventure.steps).toHaveLength(5);
-    expect(new Set(adventure.steps.map((step) => step.interactionFamily)).size).toBeGreaterThanOrEqual(3);
+    expect(new Set(adventure.steps.map((step) => step.interactionFamily)).size).toBeGreaterThanOrEqual(4);
     expect(adventure.worldProblem.length).toBeGreaterThan(30);
     expect(adventure.characterSetup).toMatch(/Shaitanu|Scientu|Dheu/);
     expect(adventure.steps.map((step) => step.worldAction.action)).toEqual(expect.arrayContaining([
       'help', 'safety_choice', 'sort', 'pack', 'empty'
     ]));
+
+    const crossing = adventure.steps.find((step) => step.id === 'town.l2.step.safe-crossing')!;
+    expect(crossing.interactionFamily).toBe('guided_sequence');
+    expect(crossing.guidedStages).toEqual([
+      'Stop at the edge',
+      'Look and check the road',
+      'Cross at the zebra crossing'
+    ]);
+
+    const rain = adventure.steps.find((step) => step.id === 'town.l2.step.clear-rain-channel')!;
+    expect(rain.worldAction.stateTransition).toEqual({
+      beforeStateRef: 'state.town.rain-channel.blocked',
+      afterStateRef: 'state.town.rain-channel.flowing',
+      causalKnowledgeRef: 'goal.town.cleanup.keep-path-clear'
+    });
   });
 
-  it('reuses G2 assembly and preserves first-attempt evidence on a wrong repair placement', () => {
-    const definition = getTownAssemblyProof()[0].definition;
-    const firstPart = definition.parts[0].partId;
-    const expectedSlot = definition.requiredAssignments.find((item) => item.partId === firstPart)!.slotId;
-    const wrongSlot = definition.slots.find((slot) => slot.slotId !== expectedSlot)!.slotId;
-    const miss = commitAssemblyPlacement(definition, createAssemblyInteractionState(), { partId: firstPart, slotId: wrongSlot });
-    expect(miss.feedback).toBe('retry_in_place');
-    expect(miss.state.firstAttemptCorrect).toBe(false);
+  it('reuses G2 assembly for both repair and semantic sorting with honest retry state', () => {
+    const proofs = getTownAssemblyProof();
+    expect(proofs).toHaveLength(2);
+    expect(proofs.map((proof) => proof.definition.operation)).toEqual(expect.arrayContaining(['repair_restore', 'place_part_in_slot']));
+
+    for (const { definition } of proofs) {
+      const firstPart = definition.parts[0].partId;
+      const expectedSlot = definition.requiredAssignments.find((item) => item.partId === firstPart)!.slotId;
+      const wrongSlot = definition.slots.find((slot) => slot.slotId !== expectedSlot)!.slotId;
+      const miss = commitAssemblyPlacement(definition, createAssemblyInteractionState(), { partId: firstPart, slotId: wrongSlot });
+      expect(miss.feedback).toBe('retry_in_place');
+      expect(miss.state.firstAttemptCorrect).toBe(false);
+    }
+
+    const sorting = proofs.find((proof) => proof.definition.operation === 'place_part_in_slot')!.definition;
+    expect(sorting.parts).toHaveLength(3);
+    expect(sorting.requiredAssignments).toHaveLength(3);
   });
 
   it('weaves the weaker assisted safety clue into the Town mission without another progress store', () => {
