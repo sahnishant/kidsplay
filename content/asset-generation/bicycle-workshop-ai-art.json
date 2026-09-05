@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "generationRecordId": "ai-art.bicycle-workshop.v1",
+  "runtimeCompanionRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "method": "original_semantic_vector_composition",
+  "generatorRole": "AI-assisted original vector and composition authoring",
+  "promptBasis": "Kidsplay Learning Graph nodes, claims, functional affordances, accessibility requirements, and existing Kidsplay visual grammar only",
+  "inputs": {
+    "sourceTextProvidedToGenerator": false,
+    "sourcePageProvidedToGenerator": false,
+    "sourceIllustrationProvidedToGenerator": false,
+    "sourceScreenshotProvidedToGenerator": false,
+    "styleReferenceProvided": false,
+    "poseOrLayoutReferenceProvided": false
+  },
+  "prohibited": [
+    "tracing",
+    "image-to-image transformation of textbook art",
+    "matching textbook pose, composition, layout, palette or ornamental treatment",
+    "imitating an identifiable illustrator or textbook house style",
+    "including NCERT marks, page furniture or textbook characters"
+  ],
+  "visualAuthorities": [
+    {
+      "visualRef": "entity.transport.bicycle",
+      "origin": "existing_original_kidsplay_vector_renderer",
+      "sourceImageUsed": false
+    },
+    {
+      "visualRef": "entity.safety.helmet",
+      "origin": "existing_original_kidsplay_vector_renderer",
+      "sourceImageUsed": false
+    },
+    {
+      "visualRef": "animation.variant.bicycle-workshop-neutral",
+      "origin": "new_original_kidsplay_composition",
+      "sourceImageUsed": false
+    }
+  ],
+  "review": {
+    "automatedPolicyCheck": "required",
+    "humanSimilarityReview": "required_before_commercial_release",
+    "status": "engineering_ready_pending_human_visual_review"
+  }
+}
