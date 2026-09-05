@@ -30,7 +30,11 @@ const lazyRouteBudgets = [
   { prefix: 'adaptiveRouting-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'DiscoveryBookViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 4 * 1024 },
   { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
-  { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 }
+  { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 },
+  // Curriculum chapters must scale without consuming child startup budget.
+  // The teaching viewport and assessed question bank have independent caps.
+  { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
+  { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 14 * 1024, maxCssBytes: 0 }
 ];
 
 function kib(bytes) {
