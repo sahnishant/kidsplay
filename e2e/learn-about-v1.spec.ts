@@ -109,10 +109,14 @@ test.describe('Learn About V1 production journey', () => {
     await expect(page.getByRole('heading', { name: 'Fire engine' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Hose' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Helmet & equipment' })).toBeVisible();
-    await expect(page.getByText('DID YOU KNOW?')).toHaveCount(0);
-    await expect(page.getByText('GUESS')).toHaveCount(0);
-    await expect(page.getByText('COMPARE')).toHaveCount(0);
-    await expect(page.getByText('TRY IT')).toHaveCount(0);
+    // Inspect actual factual-card labels, not launcher copy containing "try it".
+    // Positive coverage prevents an empty/broken selector making this pass.
+    const factualCardLabels = await page.locator('.card > small').allTextContents();
+    expect(factualCardLabels).toContain('LOOK & TOUCH');
+    for (const label of ['DID YOU KNOW?', 'GUESS', 'COMPARE', 'TRY IT']) {
+      expect(factualCardLabels).not.toContain(label);
+    }
+    await expect(page.getByRole('button', { name: /^Dheu visits the fire station/ })).toBeVisible();
     await expectViewportContained(page);
   });
 

@@ -164,6 +164,12 @@
       <button type="button" aria-pressed={mode === 'watch'} onclick={() => changeMode('watch')}>Show me</button>
       <button type="button" aria-pressed={mode === 'practice'} onclick={() => changeMode('practice')}>Try it</button>
     </nav>
+    {#if checked}
+      <div class="studio__feedback" style="flex:none;max-height:32dvh;overflow:auto">
+        <p role="status" aria-live="polite" style="margin:3px 0">{feedback}</p>
+        <button type="button" onclick={retry}>Change my answer</button>
+      </div>
+    {/if}
     <div class="studio__body">
       {#if restoreNotice}<p role="alert">{restoreNotice}</p>{/if}
       {#if sequenceQuestion || mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
@@ -181,7 +187,11 @@
         <p>{storySequence ? 'Read this story at your own pace. You do not need to answer to reach the ending.' : 'Follow this sequence one step at a time.'}</p>
         <article class="studio__step" aria-live="polite">
           <small>{storySequence ? 'Page' : 'Step'} {stepIndex + 1} of {ids.length}</small>
-          {#if visual.hasVisuals}<SemanticVisualPresenter presentation={visual} class="studio__visual" />{/if}
+          {#if visual.hasVisuals}
+            <div class="studio__illustration" style="width:min(180px,100%);height:130px;overflow:hidden">
+              <SemanticVisualPresenter presentation={visual} class="studio__visual" style="display:block;width:100%;height:100%" itemStyle="display:block;width:100%;height:100%" />
+            </div>
+          {/if}
           <strong>{item.label}</strong>
         </article>
         <div class="studio__controls">
@@ -208,8 +218,7 @@
           </div>
         {/if}
       {/if}
-      <p role="status" aria-live="polite">{feedback}</p>
-      {#if checked}<button type="button" onclick={retry}>Change my answer</button>{/if}
+      <p role="status" aria-live="polite">{checked ? '' : feedback}</p>
       {#if confirmReset}
         <div class="studio__reset" role="group" aria-label="Confirm start over">
           <p>Clear this activity's work? Your other activities stay saved.</p>
@@ -222,6 +231,6 @@
 </section>
 
 <style>
-  .studio{width:100%;height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--paper,#fff);color:var(--ink,#24303a);box-sizing:border-box}.studio__header{display:flex;align-items:center;gap:8px;flex:none}.studio h2{margin:0;font-size:1.05rem;overflow-wrap:anywhere}.studio small{font-size:.72rem}.studio button{font:inherit;min-height:48px;padding:7px 10px;border:1px solid var(--line,#ccd4db);border-radius:10px;background:var(--paper,#fff);color:var(--ink,#24303a)}.studio button[aria-pressed=true]{outline:2px solid var(--accent,#5042a8);font-weight:800}.studio button:focus-visible{outline:3px solid var(--accent,#5042a8);outline-offset:2px}.studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:750}.studio__step{display:grid;gap:8px;padding:10px;border:1px solid var(--line,#ccd4db);border-radius:12px;margin:8px 0}.studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid var(--line,#ccd4db);border-radius:10px}:global(.studio__visual){max-width:180px;height:110px}@media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
+  .studio{width:100%;height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--paper,#fff);color:var(--ink,#24303a);box-sizing:border-box}.studio__header{display:flex;align-items:center;gap:8px;flex:none}.studio h2{margin:0;font-size:1.05rem;overflow-wrap:anywhere}.studio small{font-size:.72rem}.studio button{font:inherit;min-height:48px;padding:7px 10px;border:1px solid var(--line,#ccd4db);border-radius:10px;background:var(--paper,#fff);color:var(--ink,#24303a)}.studio button[aria-pressed=true]{outline:2px solid var(--accent,#5042a8);font-weight:800}.studio button:focus-visible{outline:3px solid var(--accent,#5042a8);outline-offset:2px}.studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:750}.studio__step{display:grid;gap:8px;padding:10px;border:1px solid var(--line,#ccd4db);border-radius:12px;margin:8px 0}.studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid var(--line,#ccd4db);border-radius:10px}@media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
   :global(.studio [inert] :is(.letter-order__tile,.parts button,.categories button)){opacity:1;color:var(--ink,#24303a)}
 </style>
