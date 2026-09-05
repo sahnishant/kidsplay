@@ -68,15 +68,35 @@
       <path class="tail" d="M20 62Q6 54 8 72" />
     </g>
   {:else if icon === 'horse' || icon === 'foal'}
-    <g class="horse">
-      <ellipse class="horse-fill" cx="58" cy="68" rx={icon === 'foal' ? 31 : 37} ry={icon === 'foal' ? 19 : 23} />
-      <path class="horse-fill" d="M75 61q5-32 20-37 16 5 12 21-7 10-18 7l-2 24Z" />
-      <path class="mane" d="M83 32q-12 16-9 34l9-4q-4-15 6-27Z" />
-      <circle class="eye" cx="99" cy="36" r="2.5" />
-      <path class="ear" d="M91 26 91 10l10 15Z" />
-      <path class="leg" d="M36 81v17m23-17v17m26-16v16" />
-      <path class="tail" d="M23 63q-18 8-12 27" />
-    </g>
+    {#if icon === 'foal'}
+      <g class="horse horse--foal">
+        <ellipse class="horse-fill" cx="55" cy="67" rx="29" ry="17" />
+        <path class="horse-fill" d="M73 63c4-12 4-24 12-32l10 4c-4 9-5 19-6 31Z" />
+        <path class="horse-fill" d="M84 31c4-8 13-11 21-7l11 7c5 3 4 9-1 11l-13 5c-7 3-14-1-17-7Z" />
+        <path class="horse-muzzle" d="M104 28l12 5c4 2 4 6 0 8l-12 3c2-5 2-11 0-16Z" />
+        <path class="horse-mane" d="M88 29 80 34l5 4-7 6 5 3-6 7 6 2-5 7 9-2 5-27Z" />
+        <path class="horse-ear" d="m91 26-1-13 8 11Zm8-2 3-11 5 13Z" />
+        <circle class="eye" cx="101" cy="31" r="2.3" />
+        <circle class="horse-nostril" cx="113" cy="37" r="1.8" />
+        <path class="leg" d="M34 79v18m16-18-1 18m21-18 1 18m14-19 2 19" />
+        <path class="horse-hoof" d="M30 97h9m6 0h9m12 0h10m7 0h9" />
+        <path class="horse-tail" d="M27 62C15 58 13 48 8 44M27 67C15 69 13 79 7 84" />
+      </g>
+    {:else}
+      <g class="horse horse--adult">
+        <ellipse class="horse-fill" cx="54" cy="66" rx="36" ry="21" />
+        <path class="horse-fill" d="M73 61c5-15 5-29 14-38l12 5c-5 11-6 23-8 38Z" />
+        <path class="horse-fill" d="M85 25c5-9 16-12 24-7l10 7c5 4 4 10-2 13l-14 6c-8 3-16-1-19-9Z" />
+        <path class="horse-muzzle" d="M107 22l11 5c5 2 5 7 0 10l-13 5c3-7 3-14 2-20Z" />
+        <path class="horse-mane" d="M91 22 81 29l6 4-8 7 6 3-8 8 7 3-7 8 11-3 7-31Z" />
+        <path class="horse-ear" d="m94 21-2-15 9 13Zm9-2 3-13 6 15Z" />
+        <circle class="eye" cx="105" cy="26" r="2.5" />
+        <circle class="horse-nostril" cx="116" cy="32" r="1.9" />
+        <path class="leg" d="M31 81v16m18-16-1 16m25-16 1 16m16-18 2 18" />
+        <path class="horse-hoof" d="M27 97h9m16 0h-9m26 0h10m9 0h9" />
+        <path class="horse-tail" d="M20 59C8 55 8 43 3 38M21 64C8 66 8 79 3 87" />
+      </g>
+    {/if}
   {:else if icon === 'hen'}
     <g class="hen">
       <ellipse class="hen-fill" cx="58" cy="62" rx="34" ry="26" />
@@ -158,7 +178,14 @@
   .shell { fill: #6fa34e; stroke: #426d32; stroke-width: 3; }.shell-line { fill: none; stroke: #4f7d3b; stroke-width: 2; }.tortoise-skin { fill: #83af62; }.tail { fill: #83af62; stroke: #426d32; stroke-width: 2; }
   .polar { fill: #f4f4ee; stroke: #9aa4a8; stroke-width: 2.5; }.muzzle { fill: #deded8; }.eye, .nose { fill: #30363a; }
   .rhino-fill { fill: #8b9ca2; stroke: #596a70; stroke-width: 3; }.horn { fill: #e9e2cf; stroke: #9d9480; stroke-width: 2; }
-  .horse-fill { fill: #b47b4d; stroke: #71492f; stroke-width: 3; }.mane { fill: #64422e; }.ear { fill: #9a6845; }
+  .horse-fill { fill: #b47b4d; stroke: #71492f; stroke-width: 3; }
+  .horse-mane, .horse-tail { fill: #64422e; }
+  .horse-mane { stroke: #563824; stroke-width: 1.2; stroke-linejoin: round; }
+  .horse-tail { fill: none; stroke: #64422e; stroke-width: 6; stroke-linecap: round; }
+  .horse-ear { fill: #9a6845; stroke: #71492f; stroke-width: 1.5; stroke-linejoin: round; }
+  .horse-muzzle { fill: #c88d60; }
+  .horse-nostril { fill: #4a3024; }
+  .horse-hoof { fill: none; stroke: #3f3029; stroke-width: 4; stroke-linecap: round; }
   .hen-fill { fill: #d29a59; stroke: #825b35; stroke-width: 2.5; }.comb { fill: #d84f4f; }.tail-feather { fill: #91653b; }.lion-body, .lion-face { fill: #d8a24e; stroke: #8b642d; stroke-width: 2.5; }.mane { fill: #9b6633; }.calf-body, .calf-head { fill: #f0eee3; stroke: #8b8173; stroke-width: 2.5; }.spot { fill: #6f5b4d; }
   .line { fill: none; stroke: #345268; stroke-width: 2.5; stroke-linecap: round; }
   .home-fill { fill: #d9a46c; stroke: #8c6039; stroke-width: 2.5; }.roof { fill: #a85543; stroke: #71382d; stroke-width: 2.5; }.home-door, .stable-door, .shed-door { fill: #604535; }.bone-mark { fill: #f2e3c5; }.stable-fill, .shed-fill { fill: #c99763; stroke: #805936; stroke-width: 2.5; }.stable-cross { stroke: #bd8e61; stroke-width: 4; }
