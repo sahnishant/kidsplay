@@ -9,6 +9,11 @@ async function ensureTargetSoundStarted(page: Page): Promise<void> {
   await expect(heard).toBeVisible();
 }
 
+async function openPractice(page: Page): Promise<void> {
+  await page.getByLabel('Open child navigation').click();
+  await page.getByRole('button', { name: 'Open practice activities' }).click();
+}
+
 test.describe('Scientu sound-first phonics trail', () => {
   test('requires bundled sound, keeps Repeat available, and reuses choice + drag at 360x640', async ({ page }) => {
     test.setTimeout(120_000);
@@ -16,7 +21,7 @@ test.describe('Scientu sound-first phonics trail', () => {
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await openCleanApp(page);
 
-    await page.getByRole('button', { name: 'Open practice activities' }).click();
+    await openPractice(page);
     await page.getByRole('button', { name: 'Start Sound Trail' }).click();
 
     await expect(page.getByText('Scientu’s Sound Trail', { exact: true })).toBeVisible();
