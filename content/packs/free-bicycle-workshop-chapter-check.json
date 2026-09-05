@@ -20,6 +20,7 @@
   ],
   "assessmentScope": {
     "kind": "chapter_companion_check",
+    "blueprintRef": "assessment.bicycle-workshop.chapter-check.v1",
     "fixedPoolSize": 8,
     "strands": [
       "reading_comprehension",
