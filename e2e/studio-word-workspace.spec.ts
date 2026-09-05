@@ -46,6 +46,10 @@ test.describe('source-derived sequence studio workspace', () => {
     }
     await restored.getByRole('button', { name: 'Check word', exact: true }).click();
     await expect(restored.getByText('The letters spell BELL.', { exact: true })).toBeVisible();
+    await expect(restored.getByRole('group', { name: 'Your submitted work: B → E → L → L.', exact: true })).toBeVisible();
+    await expect(tiles.first()).toHaveCSS('opacity', '1');
+    const colours = await tiles.first().evaluate((tile) => ({ tile: getComputedStyle(tile).color, studio: getComputedStyle(tile.closest('.studio')!).color }));
+    expect(colours.tile).toBe(colours.studio);
     const saved = await page.evaluate((name) => JSON.parse(localStorage.getItem(name)!), key);
     expect(saved.workspace.learning.checkCount).toBe(1);
     expect(saved.workspace.learning.demonstrationSeen).toBe(true);
