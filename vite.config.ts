@@ -15,6 +15,7 @@ const resolvedMembershipPath = normalizePath(resolve(projectRoot, 'content/index
 const forestWorldDepthPath = normalizePath(resolve(projectRoot, 'content/forest/world-depth.json'));
 const firstPlayRuntimePath = normalizePath(resolve(projectRoot, 'content/runtime/first-play-production.json'));
 const runtimeJsonPrefix = '\0kidsplay-runtime-json:';
+const vitestPool: 'threads' | 'forks' = process.platform === 'win32' ? 'threads' : 'forks';
 
 function cleanModuleId(id: string): string {
   return normalizePath(id.split('?')[0]);
@@ -109,7 +110,11 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     include: ['tests/**/*.test.ts'],
-    pool: 'forks',
+    // Windows machines can block or significantly delay child-process startup,
+    // which previously made the single forks worker time out before any test ran.
+    // A single worker thread preserves serial execution without spawning a child
+    // process; Linux CI retains the established forks pool.
+    pool: vitestPool,
     maxWorkers: 1,
     fileParallelism: false,
     isolate: false,
