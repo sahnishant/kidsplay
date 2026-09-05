@@ -39,7 +39,7 @@ export function isStudioResponse(question, state) {
 
 export const INITIAL_STUDIO_LEARNING = Object.freeze({ mode: 'explore', demonstrationSeen: false, checkCount: 0, stepIndex: 0, checked: false });
 function validLearning(value, question) {
-  const length = question.interaction.type === 'sequence_order' ? question.interaction.items.length : question.interaction.partCount;
+  const length = question.interaction.type === 'sequence_order' ? question.interaction.items.length : question.interaction.categories.length;
   return ownKeys(value, Object.keys(INITIAL_STUDIO_LEARNING))
     && ['explore', 'watch', 'practice'].includes(value.mode)
     && typeof value.demonstrationSeen === 'boolean'

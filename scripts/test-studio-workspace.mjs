@@ -29,7 +29,7 @@ check('same revision changed solution refused', () => { const other=structuredCl
 check('same revision changed labels refused', () => { const other=structuredClone(q); other.interaction.categories[0].label='New meaning'; assert.equal(readStudioWorkspace(activity,other,workspace),null); });
 check('property insertion order is irrelevant', () => assert.equal(studioQuestionSignature(q),studioQuestionSignature({solution:q.solution,interaction:q.interaction,revision:1,id:q.id})));
 check('empty workspace is not a response', () => assert.equal(restoreStudioWorkspace(activity,q,createStudioWorkspace(activity,q,undefined)),undefined));
-check('teaching mode and assistance survive', () => { const learning={...INITIAL_STUDIO_LEARNING,mode:'watch',demonstrationSeen:true,stepIndex:2}; assert.deepEqual(readStudioWorkspace(activity,q,createStudioWorkspace(activity,q,response,learning)).learning,learning); });
+check('teaching mode and assistance survive', () => { const learning={...INITIAL_STUDIO_LEARNING,mode:'watch',demonstrationSeen:true,stepIndex:1}; assert.deepEqual(readStudioWorkspace(activity,q,createStudioWorkspace(activity,q,response,learning)).learning,learning); });
 for (const bad of [{mode:'exam'},{checkCount:-1},{checkCount:Infinity},{stepIndex:4},{checked:true},{mode:'watch'},{demonstrationSeen:'yes'}]) check('reject malformed teaching metadata',()=>assert.throws(()=>createStudioWorkspace(activity,q,response,{...INITIAL_STUDIO_LEARNING,...bad})));
 check('checked metadata requires response',()=>assert.throws(()=>createStudioWorkspace(activity,q,null,{...INITIAL_STUDIO_LEARNING,mode:'practice',checked:true,checkCount:1})));
 check('future workspace is refused',()=>assert.equal(readStudioWorkspace(activity,q,{...workspace,schemaVersion:99}),null));
