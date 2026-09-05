@@ -57,7 +57,7 @@
     const items = question.interaction.items.filter((item) => assignments[item.id] === targetId);
     return items.length
       ? items.map((item) => `${item.symbol ?? ''} ${item.label}`.trim()).join(', ')
-      : 'Match here';
+      : 'Drop here';
   }
 
   function commit(nextAssignments: Record<string, string>): void {
