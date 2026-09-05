@@ -24,11 +24,13 @@ export function validateBicycleWorkshopPresentation() {
   invariant(guide.evidencePolicy.navigationWritesMastery === false, 'Navigating chapter pages must not write mastery');
   invariant(guide.sections.some((section) => section.id === 'reading'), 'Guided chapter is missing its reading section');
   invariant(guide.sections.every((section) => section.animationRef || section.visualRef), 'Every guided section needs a visible semantic presentation');
+  invariant(guide.sections.every((section) => section.lookPrompt && section.remember && section.childPrompt), 'Every guided section needs look, remember and try scaffolds');
 
   invariant(viewport.includes('SemanticVisualPresenter'), 'Guided chapter is not using the canonical visual presenter');
-  invariant(viewport.includes('Previous') && viewport.includes('Next part'), 'Guided chapter navigation is incomplete');
+  invariant(viewport.includes('Previous') && viewport.includes('Next idea') && viewport.includes('Next part'), 'Guided chapter navigation is incomplete');
+  invariant(viewport.includes('LOOK') && viewport.includes('LEARN') && viewport.includes('YOUR TURN'), 'Guided chapter pacing cues are incomplete');
   invariant(viewport.includes('Practice') && viewport.includes('Chapter check'), 'Guided chapter completion actions are incomplete');
-  invariant(viewport.includes('Exploring this page does not change your score.'), 'Non-mastery wording is missing');
+  invariant(viewport.includes('No score here — just explore.'), 'Non-mastery wording is missing');
   invariant(home.includes("openView('bicycle-workshop')"), 'Practice catalogue does not open the guided chapter');
   invariant(home.includes("onStart('free.english.bicycle-workshop.1')"), 'Guided chapter does not launch the lazy practice pack');
   invariant(home.includes("onStart('free.english.bicycle-workshop.chapter-check.1')"), 'Guided chapter does not launch the lazy chapter check');
