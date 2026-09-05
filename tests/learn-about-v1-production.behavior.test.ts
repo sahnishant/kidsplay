@@ -23,9 +23,22 @@ function families(topicId: (typeof topicIds)[number], depth: LearnAboutDepthBand
 }
 
 describe('Learn About V1 production runtime', () => {
-  it('runs three contract-valid topics through the same reusable runtime', () => {
-    expect(LEARN_ABOUT_TOPICS.map((topic) => topic.topicId)).toEqual(topicIds);
-    for (const topic of LEARN_ABOUT_TOPICS) expect(validateLearnAboutTopic(topic).topicId).toBe(topic.topicId);
+  it('preserves the original topics and validates every catalogue topic at its declared depths', () => {
+    const registeredIds = LEARN_ABOUT_TOPICS.map((topic) => topic.topicId);
+    expect(registeredIds).toEqual(expect.arrayContaining([...topicIds, 'learn.fractions']));
+    expect(new Set(registeredIds).size).toBe(registeredIds.length);
+    for (const topic of LEARN_ABOUT_TOPICS) {
+      expect(validateLearnAboutTopic(topic).topicId).toBe(topic.topicId);
+      const depths = new Set(topic.sections.flatMap((section) => section.depthBands));
+      expect(depths.size).toBeGreaterThan(0);
+      for (const depth of depths) {
+        const runtime = createLearnAboutRuntimeSession(topic.topicId, depth, knowledgeRows);
+        expect(runtime.runtimeId).toBe(LEARN_ABOUT_RUNTIME_ID);
+        expect(runtime.topicId).toBe(topic.topicId);
+        expect(runtime.sections.length).toBeGreaterThan(0);
+      }
+    }
+    // The original production vertical promises D0 entry; new topics need not.
     for (const topicId of topicIds) {
       const runtime = session(topicId, 'd0_first_play');
       expect(runtime.runtimeId).toBe(LEARN_ABOUT_RUNTIME_ID);
