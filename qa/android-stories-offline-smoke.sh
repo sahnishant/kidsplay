@@ -201,3 +201,7 @@ adb shell dumpsys package "$PACKAGE" > "$OUT_DIR/package.txt"
 adb shell dumpsys activity activities > "$OUT_DIR/activities.txt"
 grep -q "$PACKAGE" "$OUT_DIR/activities.txt"
 echo "Packaged Stories airplane-mode process-relaunch proof passed."
+
+# Continue on the same installed APK/emulator. Studio acceptance is separately
+# recorded and cannot be inferred from the preceding Stories result.
+source "$(dirname "${BASH_SOURCE[0]}")/android-studios-offline-smoke.sh"
