@@ -1,0 +1,374 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle",
+  "moduleType": "curriculum_chapter",
+  "status": "editorial_pilot",
+  "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+  "curriculumIdentity": {
+    "authority": "NCERT",
+    "country": "India",
+    "classLevel": 2,
+    "subject": "English",
+    "bookRef": "curriculum.ncert.2026-27.class2.english.mridang",
+    "unitNumber": 1,
+    "chapterNumber": 1,
+    "chapterTitle": "My Bicycle",
+    "edition": "2026-27",
+    "boardMappings": []
+  },
+  "sourceLocations": [
+    {
+      "blockId": "poem-context",
+      "pdfPages": [
+        1,
+        2
+      ]
+    },
+    {
+      "blockId": "oral-description",
+      "pdfPages": [
+        3
+      ]
+    },
+    {
+      "blockId": "bell-listening",
+      "pdfPages": [
+        3
+      ]
+    },
+    {
+      "blockId": "short-a-and-articles",
+      "pdfPages": [
+        4
+      ]
+    },
+    {
+      "blockId": "bicycle-part-labelling",
+      "pdfPages": [
+        5
+      ]
+    },
+    {
+      "blockId": "creative-extension",
+      "pdfPages": [
+        6
+      ]
+    },
+    {
+      "blockId": "chapter-comprehension",
+      "pdfPages": [
+        7
+      ]
+    }
+  ],
+  "publication": {
+    "runtimeEligible": false,
+    "sourceTextStored": false,
+    "sourceArtworkStored": false,
+    "reason": "Control-plane pilot only; rights and human editorial review are not complete."
+  },
+  "rootNodeRefs": [
+    "entity.vehicle.bicycle",
+    "chapter.mridang.my-bicycle.bicycle"
+  ],
+  "sharedClaimRefs": [
+    "claim.bicycle.is-a.wheeled-vehicle",
+    "claim.tricycle.is-a.wheeled-vehicle",
+    "claim.wheelchair.is-a.wheeled-mobility-device",
+    "claim.bicycle.typically-has-part.wheel",
+    "claim.bicycle.typically-has-part.tyre",
+    "claim.bicycle.typically-has-part.pedal",
+    "claim.bicycle.typically-has-part.seat",
+    "claim.bicycle.typically-has-part.handlebar",
+    "claim.bicycle.typically-has-part.brake",
+    "claim.bicycle.may-have-part.bell",
+    "claim.bicycle.may-have-part.carrier",
+    "claim.bicycle-bell.produces.ring",
+    "claim.pedalling.contributes-to.bicycle-movement",
+    "claim.cycling-helmet.protects.head",
+    "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+    "claim.lexeme.pedal-verb.denotes.pedalling",
+    "claim.lexeme.handle.denotes.bicycle-handlebar",
+    "claim.lexeme.aside.denotes.to-one-side",
+    "claim.lexeme.sometimes.denotes.occasionally",
+    "claim.lexeme.helmet.denotes.cycling-helmet",
+    "claim.lexeme.everywhere.denotes.all-places"
+  ],
+  "localClaimRefs": [
+    "claim.chapter.my-bicycle.instance-of.bicycle",
+    "claim.chapter.my-bicycle.speaker-owns-bicycle",
+    "claim.chapter.my-bicycle.bicycle-colour-red",
+    "claim.chapter.my-bicycle.seat-colour-blue",
+    "claim.chapter.my-bicycle.tyre-colour-black",
+    "claim.chapter.my-bicycle.pedal-colour-black",
+    "claim.chapter.my-bicycle.bicycle-has-bell",
+    "claim.chapter.my-bicycle.bicycle-may-move-fast",
+    "claim.chapter.my-bicycle.bicycle-may-move-slow",
+    "claim.chapter.my-bicycle.bicycle-requires-air",
+    "claim.chapter.my-bicycle.speaker-uses-helmet"
+  ],
+  "capabilityRefs": [
+    "capability.english.reading.literal-retrieval",
+    "capability.english.reading.statement-verification",
+    "capability.english.listening.sound-source-identification",
+    "capability.english.speaking.familiar-object-description",
+    "capability.english.vocabulary.sense-recognition",
+    "capability.english.phonics.short-a-recognition",
+    "capability.english.grammar.indefinite-article-selection",
+    "capability.english.semantic-part-labelling",
+    "capability.english.creative.imagine-draw-speak"
+  ],
+  "lexicalTargets": [
+    {
+      "form": "pedal",
+      "senseRefs": [
+        "lexeme.en.pedal.noun.bicycle-part",
+        "lexeme.en.pedal.verb.operate-cycle"
+      ],
+      "status": "sense_split_required",
+      "runtimeEligible": false
+    },
+    {
+      "form": "handle",
+      "senseRefs": [
+        "lexeme.en.handle.noun.bicycle-control"
+      ],
+      "status": "curriculum_term_mapping_review_required",
+      "runtimeEligible": false
+    },
+    {
+      "form": "aside",
+      "senseRefs": [
+        "lexeme.en.aside.adverb.to-one-side"
+      ],
+      "status": "editorial_candidate",
+      "runtimeEligible": false
+    },
+    {
+      "form": "sometimes",
+      "senseRefs": [
+        "lexeme.en.sometimes.adverb.occasionally"
+      ],
+      "status": "editorial_candidate",
+      "runtimeEligible": false
+    },
+    {
+      "form": "track",
+      "formNodeRef": "lexical.form.en.track",
+      "senseRefs": [],
+      "status": "blocked_pending_sense_review",
+      "runtimeEligible": false
+    },
+    {
+      "form": "helmet",
+      "senseRefs": [
+        "lexeme.en.helmet.noun.protective-headgear"
+      ],
+      "status": "editorial_candidate",
+      "runtimeEligible": false
+    },
+    {
+      "form": "everywhere",
+      "senseRefs": [
+        "lexeme.en.everywhere.adverb.all-places"
+      ],
+      "status": "editorial_candidate",
+      "runtimeEligible": false
+    }
+  ],
+  "highFrequencyFormTargets": [
+    "I",
+    "and",
+    "is",
+    "in",
+    "my"
+  ],
+  "languageTargets": [
+    {
+      "id": "language-target.my-bicycle.short-a",
+      "kind": "phonics_pattern",
+      "conceptRef": "phonology.en.short-a",
+      "exampleForms": [
+        "ant",
+        "axe",
+        "apple",
+        "rat",
+        "cat",
+        "mat",
+        "pan",
+        "man",
+        "cap"
+      ],
+      "sourcePdfPages": [
+        4
+      ],
+      "reviewStatus": "editorial_candidate",
+      "runtimeAudioEligible": false,
+      "capabilityRef": "capability.english.phonics.short-a-recognition"
+    },
+    {
+      "id": "language-target.my-bicycle.a-an",
+      "kind": "grammar_observation",
+      "conceptRef": "grammar.en.indefinite-article-a-an",
+      "examplePairs": [
+        {
+          "article": "an",
+          "headword": "ant"
+        },
+        {
+          "article": "an",
+          "headword": "axe"
+        },
+        {
+          "article": "an",
+          "headword": "apple"
+        },
+        {
+          "article": "a",
+          "headword": "rat"
+        },
+        {
+          "article": "a",
+          "headword": "cat"
+        },
+        {
+          "article": "a",
+          "headword": "mat"
+        },
+        {
+          "article": "a",
+          "headword": "pan"
+        },
+        {
+          "article": "a",
+          "headword": "man"
+        },
+        {
+          "article": "a",
+          "headword": "cap"
+        }
+      ],
+      "ruleScope": "introductory_chapter_observation_not_complete_grammar_rule",
+      "sourcePdfPages": [
+        4
+      ],
+      "reviewStatus": "editorial_candidate",
+      "capabilityRef": "capability.english.grammar.indefinite-article-selection"
+    }
+  ],
+  "sectionSpine": [
+    {
+      "id": "section.poem-context",
+      "order": 1,
+      "role": "chapter_context",
+      "claimRefs": [
+        "claim.chapter.my-bicycle.speaker-owns-bicycle",
+        "claim.chapter.my-bicycle.bicycle-colour-red"
+      ],
+      "capabilityRefs": [
+        "capability.english.reading.literal-retrieval"
+      ]
+    },
+    {
+      "id": "section.words-and-description",
+      "order": 2,
+      "role": "vocabulary_and_speaking",
+      "claimRefs": [
+        "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+        "claim.lexeme.pedal-verb.denotes.pedalling"
+      ],
+      "capabilityRefs": [
+        "capability.english.vocabulary.sense-recognition",
+        "capability.english.speaking.familiar-object-description"
+      ]
+    },
+    {
+      "id": "section.listening",
+      "order": 3,
+      "role": "auditory_discrimination",
+      "claimRefs": [
+        "claim.bicycle-bell.produces.ring"
+      ],
+      "capabilityRefs": [
+        "capability.english.listening.sound-source-identification"
+      ]
+    },
+    {
+      "id": "section.language-patterns",
+      "order": 4,
+      "role": "phonics_and_grammar",
+      "claimRefs": [],
+      "capabilityRefs": [
+        "capability.english.phonics.short-a-recognition",
+        "capability.english.grammar.indefinite-article-selection"
+      ]
+    },
+    {
+      "id": "section.parts",
+      "order": 5,
+      "role": "semantic_labelling",
+      "claimRefs": [
+        "claim.bicycle.typically-has-part.wheel",
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.typically-has-part.seat",
+        "claim.bicycle.typically-has-part.handlebar",
+        "claim.bicycle.may-have-part.bell",
+        "claim.bicycle.may-have-part.carrier",
+        "claim.bicycle.typically-has-part.brake"
+      ],
+      "capabilityRefs": [
+        "capability.english.semantic-part-labelling"
+      ]
+    },
+    {
+      "id": "section.creative-extension",
+      "order": 6,
+      "role": "non_evaluative_creative_expression",
+      "claimRefs": [],
+      "capabilityRefs": [
+        "capability.english.creative.imagine-draw-speak"
+      ]
+    },
+    {
+      "id": "section.comprehension",
+      "order": 7,
+      "role": "chapter_comprehension",
+      "claimRefs": [
+        "claim.chapter.my-bicycle.bicycle-colour-red",
+        "claim.chapter.my-bicycle.bicycle-may-move-fast",
+        "claim.chapter.my-bicycle.bicycle-may-move-slow",
+        "claim.chapter.my-bicycle.speaker-uses-helmet"
+      ],
+      "capabilityRefs": [
+        "capability.english.reading.literal-retrieval",
+        "capability.english.reading.statement-verification"
+      ]
+    }
+  ],
+  "mediaBindingRefs": [
+    "media.binding.my-bicycle.entity-neutral",
+    "media.binding.my-bicycle.parts-instructional",
+    "media.binding.my-bicycle.parts-assessment",
+    "media.binding.my-bicycle.pedal-motion-explanation",
+    "media.binding.my-bicycle.bell-sound-assessment",
+    "media.binding.my-bicycle.creative-canvas"
+  ],
+  "assessmentBlueprintRef": "assessment.ncert.2026-27.class2.english.mridang.my-bicycle.v1",
+  "evidenceDefaults": {
+    "readingOrListeningExposure": "none",
+    "animationExposure": "none",
+    "openEndedSpeaking": "none",
+    "creativeDrawing": "none",
+    "guidedPractice": "practice_only",
+    "evaluativeResponse": "explicit_blueprint_policy"
+  },
+  "outOfScope": [
+    "verbatim poem or exercise reproduction",
+    "source textbook artwork or page images",
+    "verbatim recorded narration",
+    "CBSE official-alignment claim",
+    "runtime-generated child questions",
+    "automatic speech scoring",
+    "human publication approval"
+  ]
+}
