@@ -9,11 +9,48 @@
   "sourceArtworkRequiredInRuntime": false,
   "purpose": "Balanced Class II English chapter-companion practice after the child studies the prescribed school chapter.",
   "scopePolicy": {
-    "allowed": ["chapter_core", "chapter_supporting"],
-    "excluded": ["enrichment", "chapter_contextual"],
+    "allowed": [
+      "chapter_core",
+      "chapter_supporting"
+    ],
+    "excluded": [
+      "enrichment",
+      "chapter_contextual"
+    ],
+    "claimScopes": {
+      "claim.bicycle.is-a.wheeled-vehicle": "chapter_core",
+      "claim.bicycle.is-a.human-powered-vehicle": "chapter_core",
+      "claim.bicycle.typically-has-part.wheel": "chapter_core",
+      "claim.bicycle.typically-has-part.pedal": "chapter_core",
+      "claim.bicycle.typically-has-part.handlebar": "chapter_core",
+      "claim.bicycle.typically-has-part.brake": "chapter_core",
+      "claim.bicycle.may-have-part.bell": "chapter_core",
+      "claim.bicycle.may-have-part.carrier": "chapter_supporting",
+      "claim.bicycle-bell.produces.ring": "chapter_core",
+      "claim.pedalling.contributes-to.bicycle-movement": "chapter_core",
+      "claim.cycling-helmet.protects.head": "chapter_core",
+      "claim.lexeme.pedal-noun.denotes.bicycle-pedal": "chapter_core",
+      "claim.lexeme.pedal-verb.denotes.pedalling": "chapter_core",
+      "claim.push-pedals.contributes-to.crank-turns": "chapter_supporting",
+      "claim.crank-turns.contributes-to.chain-moves": "chapter_supporting",
+      "claim.chain-moves.contributes-to.rear-wheel-turns": "chapter_supporting",
+      "claim.rear-wheel-turns.contributes-to.bicycle-movement": "chapter_supporting",
+      "claim.squeeze-brake-lever.contributes-to.brake-engages": "chapter_supporting",
+      "claim.brake-engages.contributes-to.bicycle-slowing": "chapter_core",
+      "claim.turn-handlebar.contributes-to.direction-change": "chapter_core",
+      "claim.ring-bell.contributes-to.signal-presence": "chapter_core",
+      "claim.check-helmet.contributes-to.safer-ride": "chapter_core",
+      "claim.check-brakes.contributes-to.safer-ride": "chapter_core",
+      "claim.check-tyres.contributes-to.safer-ride": "chapter_core",
+      "claim.lexeme.brake-noun.denotes.bicycle-brake": "chapter_core",
+      "claim.lexeme.brake-verb.denotes.bicycle-slowing": "chapter_core",
+      "claim.lexeme.handlebar.denotes.bicycle-handlebar": "chapter_core",
+      "claim.lexeme.tyre.denotes.bicycle-tyre": "chapter_core",
+      "claim.lexeme.bell.denotes.bicycle-bell": "chapter_core"
+    },
     "chapterContextOverlayRef": "assessment.ncert.2026-27.class2.english.mridang.my-bicycle.v1",
     "chapterContextOverlayRuntimeEnabled": false,
-    "reason": "Exact source-dependent comprehension remains rights/editorial gated; the live companion uses independent expression only."
+    "reason": "Exam scope is module-specific, so it is declared by this blueprint rather than embedded in shared canonical knowledge rows. Exact source-dependent comprehension remains rights/editorial gated."
   },
   "sections": [
     {
@@ -21,28 +58,40 @@
       "title": "Parts and jobs",
       "count": 2,
       "marksPerQuestion": 1,
-      "requiredConceptGroups": ["bicycle.parts", "bicycle.function"]
+      "requiredConceptGroups": [
+        "bicycle.parts",
+        "bicycle.function"
+      ]
     },
     {
       "id": "words",
       "title": "Words and meanings",
       "count": 2,
       "marksPerQuestion": 1,
-      "requiredConceptGroups": ["english.vocabulary.pedal", "english.vocabulary.brake"]
+      "requiredConceptGroups": [
+        "english.vocabulary.pedal",
+        "english.vocabulary.brake"
+      ]
     },
     {
       "id": "sounds_and_sentences",
       "title": "Sounds and sentences",
       "count": 2,
       "marksPerQuestion": 1,
-      "requiredConceptGroups": ["english.phonics.short-a", "english.grammar.a-an"]
+      "requiredConceptGroups": [
+        "english.phonics.short-a",
+        "english.grammar.a-an"
+      ]
     },
     {
       "id": "apply_and_stay_safe",
       "title": "Apply and stay safe",
       "count": 2,
       "marksPerQuestion": 1,
-      "requiredConceptGroups": ["bicycle.reasoning", "bicycle.safety"]
+      "requiredConceptGroups": [
+        "bicycle.reasoning",
+        "bicycle.safety"
+      ]
     }
   ],
   "totalQuestions": 8,
