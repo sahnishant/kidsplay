@@ -8,14 +8,23 @@ async function openWorkshop(page: Page): Promise<void> {
   await expect(page.getByRole('heading', { name: 'Bicycle Workshop', exact: true })).toBeVisible();
 }
 
+async function revealLastIdea(page: Page): Promise<void> {
+  const nextIdea = page.getByRole('button', { name: 'Next idea', exact: true });
+  while (await nextIdea.isVisible().catch(() => false)) {
+    await nextIdea.click();
+  }
+}
+
 async function openFinalSection(page: Page): Promise<void> {
-  await page.getByRole('button', { name: 'Open step 7: Check the rider and the bicycle' }).click();
+  await page.getByRole('button', { name: 'Open part 7: Three checks before you ride' }).click();
   await expect(page.getByText('7/7', { exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Check the rider and the bicycle' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Three checks before you ride' })).toBeVisible();
+  await revealLastIdea(page);
+  await expect(page.getByText('Helmet. Brakes. Tyres. Then ride.', { exact: true })).toBeVisible();
 }
 
 test.describe('Bicycle Workshop chapter vertical', () => {
-  test('runs the seven-section graph-driven Learn journey at 360x640', async ({ page }) => {
+  test('runs the paced seven-section graph-driven Learn journey at 360x640', async ({ page }) => {
     test.setTimeout(120_000);
     await page.setViewportSize({ width: 360, height: 640 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -23,23 +32,39 @@ test.describe('Bicycle Workshop chapter vertical', () => {
     await openWorkshop(page);
 
     await expect(page.getByText('1/7', { exact: true })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'A rider-powered machine' })).toBeVisible();
-    await expect(page.getByText('Exploring this page does not change your score.')).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Meet the bicycle' })).toBeVisible();
+    await expect(page.getByText('Can you spot the wheels and the pedals?', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Next idea', exact: true })).toBeVisible();
     await expect(page.getByRole('navigation', { name: 'Bicycle Workshop learning sections' }).getByRole('button')).toHaveCount(7);
     await expect(page.getByText(/My Bicycle|Mridang|NCERT|CBSE/i)).toHaveCount(0);
 
-    await page.getByRole('button', { name: 'Next part' }).click();
-    await expect(page.getByRole('heading', { name: 'Every part helps in a different way' })).toBeVisible();
-    await page.getByRole('button', { name: 'Next part' }).click();
-    await expect(page.getByRole('heading', { name: 'One action starts a chain' })).toBeVisible();
-    await page.getByRole('button', { name: 'Next part' }).click();
-    await expect(page.getByRole('heading', { name: 'The same word can do two jobs' })).toBeVisible();
-    await page.getByRole('button', { name: 'Next part' }).click();
-    await expect(page.getByRole('heading', { name: 'Listen to the beginning and middle sounds' })).toBeVisible();
-    await page.getByRole('button', { name: 'Next part' }).click();
-    await expect(page.getByRole('heading', { name: 'Use small clues from a sentence' })).toBeVisible();
-    await page.getByRole('button', { name: 'Next part' }).click();
-    await expect(page.getByRole('heading', { name: 'Check the rider and the bicycle' })).toBeVisible();
+    await revealLastIdea(page);
+    await expect(page.getByText('The rider gives the bicycle its power.', { exact: true })).toBeVisible();
+    await expect(page.getByText('No score here — just explore.', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Next part', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Each part has a job' })).toBeVisible();
+
+    await revealLastIdea(page);
+    await page.getByRole('button', { name: 'Next part', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Follow what happens next' })).toBeVisible();
+    await expect(page.getByText('Push pedals', { exact: true })).toBeVisible();
+
+    await revealLastIdea(page);
+    await page.getByRole('button', { name: 'Next part', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'One word can do two jobs' })).toBeVisible();
+
+    await revealLastIdea(page);
+    await page.getByRole('button', { name: 'Next part', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Hear the sound pattern' })).toBeVisible();
+
+    await revealLastIdea(page);
+    await page.getByRole('button', { name: 'Next part', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Put the clues in order' })).toBeVisible();
+
+    await revealLastIdea(page);
+    await page.getByRole('button', { name: 'Next part', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Three checks before you ride' })).toBeVisible();
+    await revealLastIdea(page);
     await expect(page.getByRole('button', { name: 'Practice', exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Chapter check', exact: true })).toBeVisible();
 
