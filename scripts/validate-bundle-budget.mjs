@@ -45,7 +45,10 @@ const lazyRouteBudgets = [
 const contentAssetBudgets = [
   { prefix: 'runtime-bicycle-workshop-', expectedCount: 6, maxRawBytes: 48 * 1024, maxGzipBytes: 12 * 1024 },
   { prefix: 'runtime-fraction-studio-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 },
-  { prefix: 'runtime-studio-reuse-', expectedCount: 1, maxRawBytes: 6 * 1024, maxGzipBytes: 2 * 1024 }
+  { prefix: 'runtime-studio-reuse-', expectedCount: 1, maxRawBytes: 6 * 1024, maxGzipBytes: 2 * 1024 },
+  // #264: original story-local pilot, separate from factual knowledge delivery.
+  // Existing installed/core/renderer/CSS limits are not raised for topic reuse.
+  { prefix: 'runtime-__generated-story-studios-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 }
 ];
 
 function kib(bytes) { return `${(bytes / 1024).toFixed(1)} KiB`; }

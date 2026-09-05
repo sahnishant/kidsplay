@@ -7,6 +7,16 @@ export function projectStoryStudio(story, binding) {
   if (!ref(binding.questionId) || !ref(binding.storyId) || !ref(binding.conceptRef) || !Number.isSafeInteger(binding.revision) || binding.revision < 1 || !Number.isSafeInteger(binding.seed) || typeof binding.language !== 'string' || !/^[a-z]{2}(?:-[A-Z]{2})?$/.test(binding.language)) fail('invalid binding identity or version');
   if (!object(story) || story.schemaVersion !== 1 || story.storyId !== binding.storyId || !['draft','reviewed'].includes(story.editorialStatus) || story.assessmentPolicy !== 'none' || story.masteryWritesAllowed !== false) fail('requires a non-assessing story manifest');
   if (typeof story.childTitle !== 'string' || !story.childTitle.trim() || story.childTitle.length > 100 || !Array.isArray(story.beats) || story.beats.length < 2 || story.beats.length > 8) fail('requires a title and 2–8 short beats');
+  // Enforce the existing story/no-quiz boundary in the build path as well as CI.
+  const forbidden = new Set(['questions','question','answer','answers','correctOption','correctOptionId','score','accuracy','streak','mastery','rewardCurrency','xp']);
+  function nonAssessing(value) {
+    if (Array.isArray(value)) { for (const item of value) nonAssessing(item); }
+    else if (object(value)) for (const [key,item] of Object.entries(value)) {
+      if (forbidden.has(key)) fail(`story contains assessment field ${key}`);
+      nonAssessing(item);
+    }
+  }
+  nonAssessing(story);
   const ids = new Set();
   const texts = new Set();
   for (const beat of story.beats) {
