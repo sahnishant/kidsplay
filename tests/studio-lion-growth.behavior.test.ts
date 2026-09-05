@@ -1,14 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { formatDataForEngine } from '../scripts/formatters/registry.mjs';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
 import source from '../content/knowledge/studio-lion-growth.json';
 import recipes from '../content/recipes/studio-lion-growth.json';
 import { evaluate } from '../src/evaluation/evaluate';
 import type { SequenceOrderQuestion } from '../src/contracts/question';
 
+const compiled = JSON.parse(readFileSync(resolve(process.cwd(), 'content/questions/__generated-from-knowledge.json'), 'utf8')) as SequenceOrderQuestion[];
 describe('Lion growth scope', () => {
   it('derives the one source order and checks all six alternatives without mastery', () => {
-    const recipe = recipes[0];
-    const question = formatDataForEngine(source, recipe.engine, recipe).questions[0] as SequenceOrderQuestion;
+    const question = compiled.find((item) => item.id === recipes[0].id)!;
+    expect(question).toBeDefined();
     const [a,b,c] = question.solution.orderedItemIds;
     const orders = [[a,b,c],[a,c,b],[b,a,c],[b,c,a],[c,a,b],[c,b,a]];
     const results = orders.map((orderedItemIds) => evaluate(question,{orderedItemIds}));
