@@ -11,6 +11,7 @@ const sameStringSet = (actual: string[], expected: string[]): boolean => {
 const boundedScore = (correctParts: number, totalParts: number): number => totalParts <= 0 ? 0 : Math.max(0, Math.min(1, correctParts / totalParts));
 const pairKey = (first: string, second: string): string => first < second ? `${first}\u0000${second}` : `${second}\u0000${first}`;
 const normalizeTextAnswer = (value: unknown): string => typeof value === 'string' ? value.toUpperCase().replace(/[^A-Z0-9]/g, '') : '';
+const normalizeVisibleDragValue = (value: unknown): string => typeof value === 'string' ? value.trim().toLocaleLowerCase().replace(/\s+/g, ' ') : '';
 
 type MazeInteraction = MazePathQuestion['interaction'];
 
@@ -31,6 +32,57 @@ function recordAnswerScore(
   const correctParts = expectedEntries.filter(([key, expectedValue]) =>
     isCorrect(key, expectedValue, actual?.[key])
   ).length;
+  return boundedScore(correctParts, totalParts);
+}
+
+function targetAssignmentScore(question: Question, actual: Record<string, unknown> | undefined): number {
+  if (question.solution.type !== 'target_assignment') return 0;
+
+  const expectedEntries = Object.entries(question.solution.assignments);
+  const actualEntries = Object.entries(actual ?? {}).filter((entry): entry is [string, string] => typeof entry[1] === 'string');
+  const totalParts = new Set([
+    ...expectedEntries.map(([itemId]) => itemId),
+    ...actualEntries.map(([itemId]) => itemId)
+  ]).size;
+
+  if (question.interaction.type !== 'drag_to_target') {
+    return recordAnswerScore(
+      question.solution.assignments,
+      actual,
+      (_itemId, targetId, actualTargetId) => actualTargetId === targetId
+    );
+  }
+
+  const itemById = new Map(question.interaction.items.map((item) => [item.id, item]));
+  const visibleKey = (itemId: string): string => {
+    const item = itemById.get(itemId);
+    if (!item) return '';
+    return `${normalizeVisibleDragValue(item.label)}\u0000${normalizeVisibleDragValue(item.symbol)}`;
+  };
+
+  const actualItemsByTarget = new Map<string, string[]>();
+  for (const [itemId, targetId] of actualEntries) {
+    const items = actualItemsByTarget.get(targetId) ?? [];
+    items.push(itemId);
+    actualItemsByTarget.set(targetId, items);
+  }
+
+  let correctParts = 0;
+  for (const [expectedItemId, targetId] of expectedEntries) {
+    const actualItems = actualItemsByTarget.get(targetId);
+    if (!actualItems || actualItems.length !== 1) continue;
+
+    const actualItemId = actualItems[0];
+    if (actualItemId === expectedItemId) {
+      correctParts += 1;
+      continue;
+    }
+
+    const expectedKey = visibleKey(expectedItemId);
+    const actualKey = visibleKey(actualItemId);
+    if (expectedKey && expectedKey === actualKey) correctParts += 1;
+  }
+
   return boundedScore(correctParts, totalParts);
 }
 
@@ -90,11 +142,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
   }
   if (question.solution.type === 'target_assignment') {
     const payload = response as { assignments?: Record<string, unknown> };
-    score = recordAnswerScore(
-      question.solution.assignments,
-      payload?.assignments,
-      (_itemId, targetId, actual) => actual === targetId
-    );
+    score = targetAssignmentScore(question, payload?.assignments);
   }
   if (question.solution.type === 'found_terms') {
     const payload = response as { foundTermIds?: unknown };
