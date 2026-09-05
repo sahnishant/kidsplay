@@ -8,7 +8,7 @@ const readJson = <T>(path: string): T => JSON.parse(
 
 describe('Bicycle Workshop chapter-check blueprint', () => {
   const blueprint = readJson<any>('content/module-assessments/bicycle-workshop-chapter-check.json');
-  const pack = readJson<any>('content/packs/free-bicycle-workshop-chapter-check.json');
+  const pack = readJson<any>('content/curriculum-runtime/bicycle-workshop/packs/chapter-check.json');
 
   it('defines a contiguous eight-mark formative check without an official-paper claim', () => {
     expect(blueprint).toMatchObject({
