@@ -149,6 +149,24 @@
       "reward": { "id": "badge.sky-solver", "label": "Sky Solver", "stars": 3 }
     },
     {
+      "id": "mission.town-square-helper",
+      "title": "Make Town Square Safe Again",
+      "locationRef": "town-square",
+      "status": "prototype",
+      "access": "free",
+      "worldActionRef": "town.world-depth.l1.safe-square",
+      "worldDepthLevel": 1,
+      "questionCount": 0,
+      "knowledgeRefs": ["kr.safety.road.crossing.zebra", "kr.safety.traffic.red.stop"],
+      "beats": [
+        { "speakerRef": "shaitanu", "mood": "mischievous", "intent": "provoke", "text": "The square is messy, the crossing sign is down, and everyone is waiting. We can just rush around it!" },
+        { "speakerRef": "scientu", "mood": "thinking", "intent": "observe", "text": "A good town works when people can move safely, sort things clearly and help one another. Let us fix the causes, not hide the mess." },
+        { "speakerRef": "dheu", "mood": "ready", "intent": "invite", "text": "I will repair the crossing, use a safety clue, sort the corner, deliver the help parcel and clear the rainwater path." }
+      ],
+      "successBeat": { "speakerRef": "scientu", "mood": "celebrate", "intent": "celebrate", "text": "You changed Town Square itself. The crossing is safe, the community corner is ready, and your Adventure Mail is waiting." },
+      "reward": { "id": "badge.town-square-helper", "label": "Town Square Helper", "stars": 3 }
+    },
+    {
       "id": "mission.class3-farm-food-chain",
       "title": "The Garden Food Clue Mix-Up",
       "locationRef": "home-garden",
