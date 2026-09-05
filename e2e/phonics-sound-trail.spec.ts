@@ -49,6 +49,8 @@ test.describe('Scientu sound-first phonics trail', () => {
 
     const first = await answerCurrentQuestion(page);
     expect(first.engine).toBe('single_choice');
+    await expect(page.getByRole('button', { name: 'Next' })).toBeVisible();
+    await page.getByRole('button', { name: 'Next' }).click();
     await expect(page.getByText('2 / 12', { exact: true })).toBeVisible({ timeout: 8_000 });
     await expect(page.getByRole('button', { name: 'Repeat target sound' })).toBeVisible();
     await ensureTargetSoundStarted(page);
