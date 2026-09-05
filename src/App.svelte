@@ -217,9 +217,9 @@
 
   async function startSession(entryId: string): Promise<void> {
     try {
-      const bicycleWorkshopMode = entryId === 'bicycle-workshop:practice'
+      const bicycleWorkshopMode = entryId === 'free.english.bicycle-workshop.1'
         ? 'practice'
-        : entryId === 'bicycle-workshop:chapter-check'
+        : entryId === 'free.english.bicycle-workshop.chapter-check.1'
           ? 'chapter_check'
           : null;
       const launch = bicycleWorkshopMode
