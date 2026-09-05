@@ -35,16 +35,25 @@ const walk = (value, callback, path = '$') => {
     walk(child, callback, `${path}.${key}`);
   }
 };
+const unique = (values, label) => {
+  const result = new Set(values);
+  invariant(result.size === values.length, `${label} contains duplicates`);
+  return result;
+};
 
 export function validateBicycleWorkshopProduction() {
   const policy = read('content/source-policies/mridang-my-bicycle-independent-expression.json');
   const art = read('content/asset-generation/bicycle-workshop-ai-art.json');
+  const prompts = read('content/asset-generation/bicycle-workshop-ai-prompts.json');
   const module = read('content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json');
   const graph = read('content/learning-graph/modules/bicycle-workshop.json');
   const projection = read('content/knowledge/bicycle-workshop-runtime-projection.json');
-  const pack = read('content/packs/free-bicycle-workshop.json');
+  const practicePack = read('content/packs/free-bicycle-workshop.json');
+  const readingPack = read('content/packs/free-bicycle-workshop-reading.json');
+  const chapterCheckPack = read('content/packs/free-bicycle-workshop-chapter-check.json');
+  const chapterCheckBlueprint = read('content/module-assessments/bicycle-workshop-chapter-check.json');
   const questions = listJson('content/questions')
-    .filter((path) => /bicycle-workshop-(?:core|play)\.json$/.test(path))
+    .filter((path) => /bicycle-workshop-(?:core|play|reading)\.json$/.test(path))
     .flatMap((path) => JSON.parse(readFileSync(path, 'utf8')));
 
   invariant(policy.legalPosture.basis === 'independent_expression_not_fair_dealing', 'Commercial runtime must use independent expression');
@@ -57,14 +66,30 @@ export function validateBicycleWorkshopProduction() {
   }
   invariant(policy.visualPolicy.originalCompositionRequired && policy.visualPolicy.graphOnlyPromptRequired, 'Graph-only original visual composition is required');
   invariant(Object.values(art.inputs).every((value) => value === false), 'Source material or style reference was supplied to the visual generator');
+  invariant(art.generationStatus === 'prompt_specification_ready_final_assets_not_yet_generated', 'Final AI-art status must remain explicit');
+  invariant(art.currentPreview?.usesTextbookPixels === false && art.currentPreview?.isFinalAIAssetPack === false, 'Functional preview must not masquerade as final AI art');
+  invariant(prompts.generationMode === 'text_to_image_from_learning_graph_only', 'AI-art prompts must be graph-only');
+  invariant(prompts.globalDirection?.sourceReference === 'none', 'AI-art prompt set must not use a source reference');
+  invariant(Array.isArray(prompts.assets) && prompts.assets.length === 6, 'Expected six final AI-art briefs');
+  for (const asset of prompts.assets) {
+    invariant(!/my bicycle|mridang|bemr101|ncert|cbse/i.test(asset.prompt), `${asset.assetId}: source identity leaked into generation prompt`);
+    invariant(Array.isArray(asset.semanticRefs) && asset.semanticRefs.length > 0, `${asset.assetId}: semanticRefs required`);
+  }
 
   invariant(module.moduleType === 'independently_authored_curriculum_companion', 'Wrong module type');
   invariant(module.childTitle === 'Bicycle Workshop', 'Independent child title is required');
-  invariant(module.sections.length === 6 && module.sections.every((section, index) => section.order === index + 1), 'Six ordered learning sections are required');
+  invariant(module.sections.length === 7 && module.sections.every((section, index) => section.order === index + 1), 'Seven ordered learning sections are required');
+  invariant(module.sections.some((section) => section.id === 'reading'), 'Reading-comprehension section is missing');
   invariant(module.delivery.catalogVisible && module.delivery.offline, 'Companion must be visible and offline');
   invariant(module.delivery.usesCanonicalEvaluator && module.delivery.usesCanonicalProgressStore, 'Canonical evaluator/progress are required');
   invariant(!module.delivery.newEvaluator && !module.delivery.newProgressStore, 'Duplicate evaluator/progress store is forbidden');
   invariant(!module.rightsAndExpression.sourceTextIncluded && !module.rightsAndExpression.sourceArtworkIncluded && !module.rightsAndExpression.sourceLayoutIncluded && !module.rightsAndExpression.sourceNarrationIncluded, 'Protected source expression leaked into runtime module');
+  invariant(module.deliveryRefs.practicePackRef === practicePack.id, 'Practice pack is not linked from the module');
+  invariant(module.deliveryRefs.readingPackRef === readingPack.id, 'Reading pack is not linked from the module');
+  invariant(module.deliveryRefs.chapterCheckPackRef === chapterCheckPack.id, 'Chapter-check pack is not linked from the module');
+  invariant(module.deliveryRefs.chapterCheckBlueprintRef === chapterCheckBlueprint.blueprintId, 'Chapter-check blueprint is not linked from the module');
+  invariant(module.deliveryRefs.visualGenerationRecordRef === art.generationRecordId, 'Visual-generation record is not linked from the module');
+  invariant(module.deliveryRefs.visualPromptSetRef === prompts.promptSetId, 'Visual prompt set is not linked from the module');
 
   const importedNodes = graph.imports.nodeFiles.flatMap((path) => read(path).nodes ?? []);
   const importedClaims = graph.imports.claimFiles.flatMap((path) => read(path).claims ?? []);
@@ -96,8 +121,9 @@ export function validateBicycleWorkshopProduction() {
     invariant(row.meta?.runtimeProjection === true && row.meta?.canonicalAuthority === 'learning_graph', `${row.rowId}: projection authority missing`);
   }
 
-  invariant(questions.length === 28, `Expected 28 questions, found ${questions.length}`);
+  invariant(questions.length === 32, `Expected 32 questions, found ${questions.length}`);
   const questionById = new Map(questions.map((question) => [question.id, question]));
+  invariant(questionById.size === questions.length, 'Bicycle Workshop question IDs must be unique');
   const families = new Set(questions.map((question) => question.interaction.type));
   for (const family of ['single_choice','word_bank_fill','drag_to_target','sequence_order','memory_pairs','word_search']) invariant(families.has(family), `Missing activity family ${family}`);
   for (const question of questions) {
@@ -106,6 +132,9 @@ export function validateBicycleWorkshopProduction() {
     for (const ref of question.knowledgeRefs ?? []) {
       invariant(projectionById.has(ref), `${question.id}: unknown runtime knowledge ref ${ref}`);
       invariant(!ref.startsWith('claim.chapter.'), `${question.id}: chapter-context claim used as mastery`);
+    }
+    if (question.id.startsWith('bicycle.workshop.reading.')) {
+      invariant(!question.knowledgeRefs?.length, `${question.id}: reading comprehension must not grant supporting bicycle knowledge`);
     }
     for (const item of questionItems(question)) for (const visualRef of item.visualRefs ?? []) invariant(typeof visualRef === 'string' && visualRef.length > 0, `${question.id}/${item.id}: invalid visualRef`);
     walk(question, (key, value, path) => {
@@ -117,11 +146,23 @@ export function validateBicycleWorkshopProduction() {
     });
   }
 
-  invariant(pack.id === module.questionPackRef && pack.kind === 'learning_pack', 'Module/pack mismatch');
-  invariant(pack.status === 'reviewed' && pack.catalogVisible && pack.access?.type === 'free', 'Pack must be reviewed, visible and free');
-  invariant(pack.questionRefs.length === 28 && new Set(pack.questionRefs).size === 28, 'Pack must contain 28 unique questions');
-  for (const ref of pack.questionRefs) invariant(questionById.has(ref), `Pack has unknown question ${ref}`);
-  invariant(pack.authoring.sourceTextCopied === false && pack.authoring.sourceArtworkCopied === false, 'Pack copy boundary weakened');
+  invariant(practicePack.id === module.questionPackRef && practicePack.kind === 'learning_pack', 'Module/practice-pack mismatch');
+  invariant(practicePack.status === 'reviewed' && practicePack.catalogVisible && practicePack.access?.type === 'free', 'Practice pack must be reviewed, visible and free');
+  invariant(practicePack.questionRefs.length === 28 && unique(practicePack.questionRefs, 'Practice pack').size === 28, 'Practice pack must contain 28 direct questions');
+  invariant(JSON.stringify(practicePack.includePackRefs) === JSON.stringify([readingPack.id]), 'Practice pack must compose exactly the reading slice');
+  invariant(readingPack.catalogVisible === false && readingPack.questionRefs.length === 4, 'Reading slice must be hidden and contain four questions');
+  for (const ref of [...practicePack.questionRefs, ...readingPack.questionRefs]) invariant(questionById.has(ref), `Practice composition has unknown question ${ref}`);
+  invariant(new Set([...practicePack.questionRefs, ...readingPack.questionRefs]).size === 32, 'Practice composition must expose 32 unique questions');
+  invariant(practicePack.authoring.sourceTextCopied === false && practicePack.authoring.sourceArtworkCopied === false, 'Practice-pack copy boundary weakened');
+
+  invariant(chapterCheckPack.questionRefs.length === 8 && unique(chapterCheckPack.questionRefs, 'Chapter-check pack').size === 8, 'Chapter check must contain eight unique questions');
+  for (const ref of chapterCheckPack.questionRefs) invariant(questionById.has(ref), `Chapter check has unknown question ${ref}`);
+  invariant(chapterCheckPack.assessmentScope?.blueprintRef === chapterCheckBlueprint.blueprintId, 'Chapter check does not name its blueprint');
+  invariant(chapterCheckBlueprint.packRef === chapterCheckPack.id, 'Chapter-check blueprint/pack mismatch');
+  invariant(chapterCheckBlueprint.totalQuestions === 8 && chapterCheckBlueprint.totalMarks === 8, 'Chapter check must be an eight-question, eight-mark blueprint');
+  const blueprintQuestionRefs = chapterCheckBlueprint.sections.flatMap((section) => section.questionRefs);
+  invariant(JSON.stringify(blueprintQuestionRefs) === JSON.stringify(chapterCheckPack.questionRefs), 'Chapter-check section order must equal the fixed pack order');
+  invariant(chapterCheckBlueprint.officialPaperClaimed === false && chapterCheckBlueprint.sourcePassageReproduced === false && chapterCheckBlueprint.sourceExerciseWordingReproduced === false, 'Chapter-check rights boundary weakened');
 
   const visualIds = new Set(collectArrays('content/visuals').map((visual) => visual.id));
   const animations = collectArrays('content/animations');
@@ -137,14 +178,19 @@ export function validateBicycleWorkshopProduction() {
 
   return {
     moduleId: module.moduleId,
+    sectionCount: module.sections.length,
     graphNodeCount: nodeIds.size,
     graphClaimCount: claimIds.size,
     admittedClaimCount: module.graphClaimRefs.length,
     projectionRowCount: projection.entries.length,
     questionCount: questions.length,
+    practiceQuestionCount: new Set([...practicePack.questionRefs, ...readingPack.questionRefs]).size,
+    chapterCheckQuestionCount: chapterCheckPack.questionRefs.length,
     activityFamilies: [...families].sort(),
     sceneCount: module.sceneRefs.length,
-    sourceImagesUsedForGeneration: art.inputs.sourceIllustrationProvidedToGenerator
+    aiArtBriefCount: prompts.assets.length,
+    sourceImagesUsedForGeneration: art.inputs.sourceIllustrationProvidedToGenerator,
+    finalAiArtStatus: art.generationStatus
   };
 }
 
@@ -152,7 +198,7 @@ const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(imp
 if (isMain) {
   try {
     const result = validateBicycleWorkshopProduction();
-    console.log(process.argv.includes('--json') ? JSON.stringify(result) : `Validated ${result.moduleId}: ${result.questionCount} questions across ${result.activityFamilies.length} families.`);
+    console.log(process.argv.includes('--json') ? JSON.stringify(result) : `Validated ${result.moduleId}: ${result.questionCount} questions, ${result.chapterCheckQuestionCount}-question chapter check, ${result.activityFamilies.length} activity families.`);
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
