@@ -19,6 +19,7 @@
   let question = $state<StudioQuestion | null>(null);
   let fractionQuestion = $derived(question?.interaction.type === 'equal_parts' ? question as EqualPartsQuestion : null);
   let sequenceQuestion = $derived(question?.interaction.type === 'sequence_order' ? question as SequenceOrderQuestion : null);
+  let storySequence = $derived(question?.authoring.compiledBy === 'story-manifest->sequence_order@1');
   let loadError = $state('');
   let mode = $state<StudioLearningState['mode']>('explore');
   let demonstrationSeen = $state(false);
@@ -121,7 +122,7 @@
     persist();
   }
   function describeResponse(source: StudioQuestion, response: unknown): string {
-    if (source.interaction.type !== 'equal_parts') return evaluate(source, response).correct ? source.feedback.correct : 'Keep your cards. Think about what comes before and after each step.';
+    if (source.interaction.type !== 'equal_parts') return evaluate(source, response).correct ? source.feedback.correct : source.feedback.incorrect;
     const diagnostic = evaluateEqualParts(source as EqualPartsQuestion, response);
     if (diagnostic.correct) return 'Your amounts match. A different arrangement can work too.';
     if (diagnostic.status === 'incomplete') return `${diagnostic.unassigned} parts are still empty. Keep your design and fill them.`;
@@ -165,6 +166,7 @@
     </nav>
     <div class="studio__body">
       {#if restoreNotice}<p role="alert">{restoreNotice}</p>{/if}
+      {#if sequenceQuestion || mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
       {#if mode === 'watch' && fractionQuestion}
         <FractionDemonstration question={fractionQuestion} step={stepIndex} />
         <div class="studio__controls">
@@ -176,9 +178,9 @@
         {@const ids = sequenceQuestion.solution.orderedItemIds}
         {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === ids[stepIndex])!}
         {@const visual = resolveItemVisualPresentation(item, { recipeSurface: 'sequence-item' })}
-        <p>Follow this sequence one step at a time.</p>
+        <p>{storySequence ? 'Read this story at your own pace. You do not need to answer to reach the ending.' : 'Follow this sequence one step at a time.'}</p>
         <article class="studio__step" aria-live="polite">
-          <small>Step {stepIndex + 1} of {ids.length}</small>
+          <small>{storySequence ? 'Page' : 'Step'} {stepIndex + 1} of {ids.length}</small>
           {#if visual.hasVisuals}<SemanticVisualPresenter presentation={visual} class="studio__visual" />{/if}
           <strong>{item.label}</strong>
         </article>
@@ -187,7 +189,6 @@
           <button type="button" disabled={stepIndex === ids.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next step</button>
         </div>
       {:else}
-        {#if mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
         {#key `${activityId}:${mode}:${resetKey}`}
           {@const generation = resetKey}
           <div role="group" aria-label={checked ? describeStudioWork(question, engineState) : undefined}>
@@ -221,6 +222,6 @@
 </section>
 
 <style>
-  .studio{width:100%;height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--paper,#fff);color:var(--ink,#24303a);box-sizing:border-box}.studio__header{display:flex;align-items:center;gap:8px;flex:none}.studio h2{margin:0;font-size:1.05rem;overflow-wrap:anywhere}.studio small{font-size:.72rem}.studio button{font:inherit;min-height:48px;padding:7px 10px;border:1px solid var(--line,#ccd4db);border-radius:10px;background:var(--paper,#fff);color:inherit}.studio button[aria-pressed=true]{outline:2px solid var(--accent,#5042a8);font-weight:800}.studio button:focus-visible{outline:3px solid var(--accent,#5042a8);outline-offset:2px}.studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:750}.studio__step{display:grid;gap:8px;padding:10px;border:1px solid var(--line,#ccd4db);border-radius:12px;margin:8px 0}.studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid var(--line,#ccd4db);border-radius:10px}:global(.studio__visual){max-width:180px;height:110px}@media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
+  .studio{width:100%;height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--paper,#fff);color:var(--ink,#24303a);box-sizing:border-box}.studio__header{display:flex;align-items:center;gap:8px;flex:none}.studio h2{margin:0;font-size:1.05rem;overflow-wrap:anywhere}.studio small{font-size:.72rem}.studio button{font:inherit;min-height:48px;padding:7px 10px;border:1px solid var(--line,#ccd4db);border-radius:10px;background:var(--paper,#fff);color:var(--ink,#24303a)}.studio button[aria-pressed=true]{outline:2px solid var(--accent,#5042a8);font-weight:800}.studio button:focus-visible{outline:3px solid var(--accent,#5042a8);outline-offset:2px}.studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:750}.studio__step{display:grid;gap:8px;padding:10px;border:1px solid var(--line,#ccd4db);border-radius:12px;margin:8px 0}.studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid var(--line,#ccd4db);border-radius:10px}:global(.studio__visual){max-width:180px;height:110px}@media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
   :global(.studio [inert] :is(.letter-order__tile,.parts button,.categories button)){opacity:1;color:var(--ink,#24303a)}
 </style>

@@ -27,6 +27,11 @@ describe('process teaching evidence boundary', () => {
   it('preserves existing process recipes with no policy', () => {
     expect(formatProcess(source, recipe).questions[0]).not.toHaveProperty('evidencePolicy');
   });
+  it('does not inherit adaptation approval from a reviewed source', () => {
+    const reviewed = {...source,authoring:{status:'reviewed'}};
+    expect(formatProcess(reviewed,{...recipe,evidencePolicy:'practice_only'}).questions[0].authoring.status).toBe('draft');
+    expect(formatProcess(reviewed,recipe).questions[0].authoring.status).toBe('reviewed');
+  });
   it.each(['independent', 'mastered', false, null, {}])('rejects an unsupported policy %j', (policy) => {
     expect(() => formatProcess(source, { ...recipe, evidencePolicy: policy })).toThrow(/evidence policy/);
   });

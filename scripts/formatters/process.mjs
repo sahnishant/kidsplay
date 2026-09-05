@@ -38,7 +38,8 @@ export function formatProcess(data, recipe) {
       prompt: { text: recipe.prompt ?? `Put the stages of ${unit.prompt} in order.` },
       feedback: recipe.feedback ?? defaultFeedback,
       authoring: {
-        status: data.authoring?.status ?? 'reviewed',
+        // Approval of source knowledge does not approve a new studio adaptation.
+        status: recipe.evidencePolicy === 'practice_only' ? 'draft' : data.authoring?.status ?? 'reviewed',
         source: `knowledge:${data.sourceRef}`,
         compiledBy: `${data.datatype}->sequence_order@1`
       },
