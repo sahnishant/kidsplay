@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "moduleType": "independently_authored_curriculum_companion",
+  "childTitle": "Bicycle Workshop",
+  "status": "engineering_ready_pending_human_release_review",
+  "curriculumReference": {
+    "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+    "sourceModuleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle",
+    "use": "topic_and_skill_inventory_only",
+    "officialBoardAlignmentClaimed": false
+  },
+  "rightsAndExpression": {
+    "policyRef": "source-policy.mridang.my-bicycle.independent-expression.v1",
+    "sourceTextIncluded": false,
+    "sourceArtworkIncluded": false,
+    "sourceLayoutIncluded": false,
+    "sourceNarrationIncluded": false,
+    "runtimeBasis": "independently_authored_explanations_questions_and_visual_compositions"
+  },
+  "depth": "class2_early_primary",
+  "knowledgeProjectionRef": "knowledge.runtime-projection.bicycle-workshop.001",
+  "sections": [
+    { "id": "meet", "order": 1, "title": "Meet the bicycle", "focus": ["bicycle.identity"], "experience": "visual_recognition" },
+    { "id": "parts", "order": 2, "title": "Parts and jobs", "focus": ["bicycle.parts.wheel", "bicycle.parts.pedal", "bicycle.parts.handlebar", "bicycle.parts.brake", "bicycle.parts.bell"], "experience": "label_match_compare" },
+    { "id": "movement", "order": 3, "title": "How movement travels", "focus": ["bicycle.motion.chain", "bicycle.braking.chain", "bicycle.control.steering"], "experience": "causal_sequence" },
+    { "id": "words", "order": 4, "title": "Words can change jobs", "focus": ["english.vocabulary.pedal", "english.vocabulary.brake"], "experience": "sense_discrimination" },
+    { "id": "sounds", "order": 5, "title": "Sound and sentence play", "focus": ["capability.english.phonics.short-a-recognition", "capability.english.grammar.indefinite-article-selection"], "experience": "phonics_and_grammar" },
+    { "id": "safety", "order": 6, "title": "Ready to ride", "focus": ["bicycle.safety.helmet", "bicycle.safety.signal", "bicycle.safety.pre-ride"], "experience": "scenario_reasoning" }
+  ],
+  "graphClaimRefs": [
+    "claim.bicycle.is-a.wheeled-vehicle",
+    "claim.bicycle.is-a.human-powered-vehicle",
+    "claim.bicycle.typically-has-part.wheel",
+    "claim.bicycle.typically-has-part.pedal",
+    "claim.bicycle.typically-has-part.handlebar",
+    "claim.bicycle.typically-has-part.brake",
+    "claim.bicycle.may-have-part.bell",
+    "claim.bicycle.may-have-part.carrier",
+    "claim.bicycle-bell.produces.ring",
+    "claim.pedalling.contributes-to.bicycle-movement",
+    "claim.cycling-helmet.protects.head",
+    "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+    "claim.lexeme.pedal-verb.denotes.pedalling",
+    "claim.push-pedals.contributes-to.crank-turns",
+    "claim.crank-turns.contributes-to.chain-moves",
+    "claim.chain-moves.contributes-to.rear-wheel-turns",
+    "claim.rear-wheel-turns.contributes-to.bicycle-movement",
+    "claim.squeeze-brake-lever.contributes-to.brake-engages",
+    "claim.brake-engages.contributes-to.bicycle-slowing",
+    "claim.turn-handlebar.contributes-to.direction-change",
+    "claim.ring-bell.contributes-to.signal-presence",
+    "claim.check-helmet.contributes-to.safer-ride",
+    "claim.check-brakes.contributes-to.safer-ride",
+    "claim.check-tyres.contributes-to.safer-ride",
+    "claim.lexeme.brake-noun.denotes.bicycle-brake",
+    "claim.lexeme.brake-verb.denotes.bicycle-slowing",
+    "claim.lexeme.handlebar.denotes.bicycle-handlebar",
+    "claim.lexeme.tyre.denotes.bicycle-tyre",
+    "claim.lexeme.bell.denotes.bicycle-bell"
+  ],
+  "capabilityRefs": [
+    "capability.english.vocabulary.sense-recognition",
+    "capability.english.phonics.short-a-recognition",
+    "capability.english.grammar.indefinite-article-selection",
+    "capability.english.semantic-part-labelling"
+  ],
+  "questionPackRef": "free.english.bicycle-workshop.1",
+  "sceneRefs": ["scene.bicycle-workshop.neutral", "scene.bicycle-workshop.motion", "scene.bicycle-workshop.safety"],
+  "delivery": {
+    "catalogVisible": true,
+    "offline": true,
+    "usesCanonicalEvaluator": true,
+    "usesCanonicalProgressStore": true,
+    "runtimeCloudGeneration": false,
+    "newEvaluator": false,
+    "newProgressStore": false
+  },
+  "releaseGates": {
+    "engineering": "ready",
+    "automatedValidation": "required",
+    "humanEditorial": "required",
+    "humanVisualSimilarity": "required",
+    "legalCounselForTextbookReproduction": "required_only_if_scope_expands_beyond_independent_companion"
+  }
+}
