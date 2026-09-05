@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "bindingSetId": "media-bindings.mridang.my-bicycle.v1",
+  "bindings": [
+    {
+      "id": "media.binding.my-bicycle.entity-neutral",
+      "moduleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ],
+      "semanticRefs": [
+        "entity.vehicle.bicycle"
+      ],
+      "representationFamily": "asset",
+      "purpose": "neutral_assessment_stimulus",
+      "answerDisclosure": "none",
+      "modalities": [
+        "visual"
+      ],
+      "assetPolicy": "original_kidsplay_or_admitted_commercially_compatible_asset",
+      "sourceArtworkAllowed": false,
+      "motion": {
+        "mode": "none"
+      },
+      "assessmentUse": {
+        "preAnswerAllowed": true
+      },
+      "accessibility": {
+        "meaning": "An unlabelled bicycle representation whose parts remain visually distinguishable."
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "media.binding.my-bicycle.parts-instructional",
+      "moduleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ],
+      "semanticRefs": [
+        "entity.vehicle.bicycle",
+        "claim.bicycle.typically-has-part.wheel",
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.typically-has-part.seat",
+        "claim.bicycle.typically-has-part.handlebar",
+        "claim.bicycle.may-have-part.bell",
+        "claim.bicycle.may-have-part.carrier",
+        "claim.bicycle.typically-has-part.brake"
+      ],
+      "representationFamily": "part_focus",
+      "purpose": "instructional",
+      "answerDisclosure": "complete",
+      "modalities": [
+        "visual"
+      ],
+      "assetPolicy": "original_kidsplay_semantic_diagram",
+      "sourceArtworkAllowed": false,
+      "motion": {
+        "mode": "meaningful",
+        "beats": [
+          "establish",
+          "focus",
+          "highlight"
+        ],
+        "staticEquivalent": "Show the same bicycle with one part highlighted at a time.",
+        "reducedMotionEquivalent": "Replace movement with ordered focus states and persistent labels."
+      },
+      "assessmentUse": {
+        "preAnswerAllowed": false
+      },
+      "accessibility": {
+        "meaning": "A labelled instructional diagram connecting bicycle parts to their names."
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "media.binding.my-bicycle.parts-assessment",
+      "moduleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ],
+      "semanticRefs": [
+        "entity.vehicle.bicycle"
+      ],
+      "representationFamily": "part_focus",
+      "purpose": "neutral_assessment_stimulus",
+      "answerDisclosure": "none",
+      "modalities": [
+        "visual"
+      ],
+      "assetPolicy": "original_kidsplay_semantic_diagram",
+      "sourceArtworkAllowed": false,
+      "motion": {
+        "mode": "none"
+      },
+      "assessmentUse": {
+        "preAnswerAllowed": true
+      },
+      "accessibility": {
+        "meaning": "An unlabelled bicycle with a neutral focus marker that does not name the target part."
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "media.binding.my-bicycle.pedal-motion-explanation",
+      "moduleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ],
+      "semanticRefs": [
+        "claim.pedalling.contributes-to.bicycle-movement"
+      ],
+      "representationFamily": "transition",
+      "purpose": "answer_revealing",
+      "answerDisclosure": "complete",
+      "modalities": [
+        "visual"
+      ],
+      "assetPolicy": "original_kidsplay_semantic_composition",
+      "sourceArtworkAllowed": false,
+      "motion": {
+        "mode": "meaningful",
+        "beats": [
+          "establish",
+          "act",
+          "move",
+          "result"
+        ],
+        "staticEquivalent": "Use ordered frames showing pedal action, wheel movement and bicycle movement.",
+        "reducedMotionEquivalent": "Use three static frames with arrows and concise labels."
+      },
+      "assessmentUse": {
+        "preAnswerAllowed": false
+      },
+      "accessibility": {
+        "meaning": "A causal demonstration that pedalling contributes to bicycle movement."
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "media.binding.my-bicycle.bell-sound-assessment",
+      "moduleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ],
+      "semanticRefs": [
+        "claim.bicycle-bell.produces.ring"
+      ],
+      "representationFamily": "sound_set",
+      "purpose": "neutral_assessment_stimulus",
+      "answerDisclosure": "none",
+      "modalities": [
+        "audio"
+      ],
+      "assetPolicy": "original_or_explicitly_licensed_offline_recording_required",
+      "sourceArtworkAllowed": false,
+      "motion": {
+        "mode": "none"
+      },
+      "assessmentUse": {
+        "preAnswerAllowed": true
+      },
+      "accessibility": {
+        "meaning": "A controlled offline bell-sound set with a non-audio alternative supplied by the activity."
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "media.binding.my-bicycle.creative-canvas",
+      "moduleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ],
+      "semanticRefs": [
+        "entity.vehicle.bicycle"
+      ],
+      "representationFamily": "manipulative",
+      "purpose": "decorative",
+      "answerDisclosure": "none",
+      "modalities": [
+        "visual",
+        "touch"
+      ],
+      "assetPolicy": "original_kidsplay_blank_canvas_and_shape_primitives",
+      "sourceArtworkAllowed": false,
+      "motion": {
+        "mode": "none"
+      },
+      "assessmentUse": {
+        "preAnswerAllowed": false
+      },
+      "accessibility": {
+        "meaning": "A blank creative surface for arranging or drawing an imagined bicycle without correctness scoring."
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    }
+  ]
+}
