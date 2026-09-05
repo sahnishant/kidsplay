@@ -7,6 +7,7 @@
     { "key": "word_search@1", "id": "word_search", "version": 1, "category": "interactive", "runtime": true, "interactionType": "word_search", "solutionType": "found_terms" },
     { "key": "memory_pairs@1", "id": "memory_pairs", "version": 1, "category": "interactive", "runtime": true, "interactionType": "memory_pairs", "solutionType": "pair_matches" },
     { "key": "sequence_order@1", "id": "sequence_order", "version": 1, "category": "interactive", "runtime": true, "interactionType": "sequence_order", "solutionType": "ordered_items" },
+    { "key": "equal_parts@1", "id": "equal_parts", "version": 1, "category": "interactive", "runtime": true, "interactionType": "equal_parts", "solutionType": "fraction_allocation" },
     { "key": "hotspot@1", "id": "hotspot", "version": 1, "category": "interactive", "runtime": true, "interactionType": "hotspot", "solutionType": "selected_regions" },
     { "key": "trace_path@1", "id": "trace_path", "version": 1, "category": "interactive", "runtime": true, "interactionType": "trace_path", "solutionType": "trace_corridor" },
     { "key": "crossword@1", "id": "crossword", "version": 1, "category": "interactive", "runtime": true, "interactionType": "crossword", "solutionType": "crossword_answers", "compiler": "crossword" },
