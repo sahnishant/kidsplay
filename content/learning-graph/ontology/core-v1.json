@@ -35,6 +35,7 @@
     "hint",
     "scaffold",
     "answer_revealing",
+    "non_evaluative_activity",
     "decorative"
   ],
   "predicateDefinitions": [
@@ -221,7 +222,8 @@
         "common",
         "possible",
         "sometimes",
-        "chapter_specific"
+        "chapter_specific",
+        "always"
       ]
     },
     {

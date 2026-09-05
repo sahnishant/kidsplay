@@ -118,7 +118,7 @@
         "claim.pedalling.contributes-to.bicycle-movement"
       ],
       "representationFamily": "transition",
-      "purpose": "answer_revealing",
+      "purpose": "instructional",
       "answerDisclosure": "complete",
       "modalities": [
         "visual"
@@ -188,7 +188,7 @@
         "entity.vehicle.bicycle"
       ],
       "representationFamily": "manipulative",
-      "purpose": "decorative",
+      "purpose": "non_evaluative_activity",
       "answerDisclosure": "none",
       "modalities": [
         "visual",
