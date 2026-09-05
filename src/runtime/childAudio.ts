@@ -423,6 +423,23 @@ export function playChildAudio(request: ChildAudioRequest): ChildAudioPlaybackRe
     : speechResult;
 }
 
+/**
+ * Strict gate for listening objectives: exact local media only, no TTS fallback.
+ */
+export async function playRequiredBundledAudio(bundledSrc: string, enabled = true): Promise<boolean> {
+  stopChildAudio();
+  if (!enabled || !isBundledChildAudioPath(bundledSrc) || typeof Audio === 'undefined') return false;
+  try {
+    const media = new Audio(bundledSrc);
+    activeMedia = media;
+    await media.play();
+    return activeMedia === media;
+  } catch {
+    activeMedia = null;
+    return false;
+  }
+}
+
 export function playQuestionPrompt(
   text: string,
   language: string,

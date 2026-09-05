@@ -9,6 +9,7 @@ export type PhonicsProgressionStage =
   | 'discriminate'
   | 'connect_object_word'
   | 'grapheme'
+  | 'recognition'
   | 'trace_after_grapheme';
 
 export interface PhonicsProgressionItem {
@@ -25,6 +26,7 @@ const STAGES: readonly PhonicsProgressionStage[] = [
   'discriminate',
   'connect_object_word',
   'grapheme',
+  'recognition',
   'trace_after_grapheme'
 ];
 
