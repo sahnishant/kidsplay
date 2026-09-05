@@ -15,26 +15,39 @@ async function next(page: Page): Promise<void> {
   await page.getByRole('button', { name: 'Next activity' }).click();
 }
 
+async function expectLabelsVisuallyHidden(page: Page, count: number): Promise<void> {
+  const labels = page.locator('.choice-button__label');
+  await expect(labels).toHaveCount(count);
+  await expect(page.locator('.choice-button__label--hidden')).toHaveCount(count);
+
+  for (let index = 0; index < count; index += 1) {
+    const label = labels.nth(index);
+    await expect(label).toHaveCSS('position', 'absolute');
+    await expect(label).toHaveCSS('width', '1px');
+    await expect(label).toHaveCSS('height', '1px');
+    await expect(label).toHaveCSS('overflow', 'hidden');
+    await expect(label).toHaveCSS('white-space', 'nowrap');
+  }
+}
+
 test('visual recognition choices never print the answer labels', async ({ page }) => {
   await openPicturePlay(page);
 
   const surface = page.locator('[data-first-play-mode="visual_reasoning"]');
   await expect(surface).toHaveAttribute('data-activity-id', 'visual-choice.animals.dog');
-  await expect(page.locator('.choice-button__label--hidden')).toHaveCount(3);
-  await expect(page.locator('.choice-button__label:visible')).toHaveCount(0);
+  await expectLabelsVisuallyHidden(page, 3);
 
   await page.getByRole('button', { name: 'Dog', exact: true }).click();
   await next(page);
   await expect(surface).toHaveAttribute('data-activity-id', 'visual-choice.transport.bus');
-  await expect(page.locator('.choice-button__label--hidden')).toHaveCount(4);
+  await expectLabelsVisuallyHidden(page, 4);
 
   await page.getByRole('button', { name: 'Bus', exact: true }).click();
   await next(page);
   await expect(surface).toHaveAttribute('data-activity-id', 'visual-choice.body.eyes');
   await expect(page.getByText('Find the eyes.', { exact: true })).toBeVisible();
-  await expect(page.locator('.choice-button__label--hidden')).toHaveCount(4);
-  await expect(page.locator('.choice-button__label:visible')).toHaveCount(0);
-  await expect(page.locator('.choice-button__label', { hasText: 'Eyes' })).not.toBeVisible();
+  await expectLabelsVisuallyHidden(page, 4);
+  await expect(page.locator('.choice-button__label', { hasText: 'Eyes' })).toHaveCSS('width', '1px');
 
   // The semantic name remains available to accessibility and input handling.
   await expect(page.getByRole('button', { name: 'Eyes', exact: true })).toBeVisible();
