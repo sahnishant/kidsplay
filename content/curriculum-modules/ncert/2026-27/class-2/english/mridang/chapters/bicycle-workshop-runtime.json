@@ -26,7 +26,8 @@
     { "id": "movement", "order": 3, "title": "How movement travels", "focus": ["bicycle.motion.chain", "bicycle.braking.chain", "bicycle.control.steering"], "experience": "causal_sequence" },
     { "id": "words", "order": 4, "title": "Words can change jobs", "focus": ["english.vocabulary.pedal", "english.vocabulary.brake"], "experience": "sense_discrimination" },
     { "id": "sounds", "order": 5, "title": "Sound and sentence play", "focus": ["capability.english.phonics.short-a-recognition", "capability.english.grammar.indefinite-article-selection"], "experience": "phonics_and_grammar" },
-    { "id": "safety", "order": 6, "title": "Ready to ride", "focus": ["bicycle.safety.helmet", "bicycle.safety.signal", "bicycle.safety.pre-ride"], "experience": "scenario_reasoning" }
+    { "id": "reading", "order": 6, "title": "Read and understand", "focus": ["capability.english.reading.literal-retrieval", "capability.english.reading.sequence-retrieval", "capability.english.reading.statement-verification", "capability.english.reading.simple-inference"], "experience": "original_micro_passages" },
+    { "id": "safety", "order": 7, "title": "Ready to ride", "focus": ["bicycle.safety.helmet", "bicycle.safety.signal", "bicycle.safety.pre-ride"], "experience": "scenario_reasoning" }
   ],
   "graphClaimRefs": [
     "claim.bicycle.is-a.wheeled-vehicle",
@@ -63,8 +64,20 @@
     "capability.english.vocabulary.sense-recognition",
     "capability.english.phonics.short-a-recognition",
     "capability.english.grammar.indefinite-article-selection",
-    "capability.english.semantic-part-labelling"
+    "capability.english.semantic-part-labelling",
+    "capability.english.reading.literal-retrieval",
+    "capability.english.reading.sequence-retrieval",
+    "capability.english.reading.statement-verification",
+    "capability.english.reading.simple-inference"
   ],
+  "deliveryRefs": {
+    "practicePackRef": "free.english.bicycle-workshop.1",
+    "readingPackRef": "free.english.bicycle-workshop.reading.1",
+    "chapterCheckPackRef": "free.english.bicycle-workshop.chapter-check.1",
+    "chapterCheckBlueprintRef": "assessment.bicycle-workshop.chapter-check.v1",
+    "visualGenerationRecordRef": "ai-art.bicycle-workshop.v1",
+    "visualPromptSetRef": "ai-prompts.bicycle-workshop.v1"
+  },
   "questionPackRef": "free.english.bicycle-workshop.1",
   "sceneRefs": ["scene.bicycle-workshop.neutral", "scene.bicycle-workshop.motion", "scene.bicycle-workshop.safety"],
   "delivery": {
@@ -79,8 +92,11 @@
   "releaseGates": {
     "engineering": "ready",
     "automatedValidation": "required",
+    "functionalOriginalVectorPreview": "ready",
+    "finalAiIllustrationPack": "pending_generation_and_review",
     "humanEditorial": "required",
     "humanVisualSimilarity": "required",
+    "humanChildCx": "required",
     "legalCounselForTextbookReproduction": "required_only_if_scope_expands_beyond_independent_companion"
   }
 }
