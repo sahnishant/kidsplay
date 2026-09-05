@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const read = (path) => JSON.parse(readFileSync(resolve(ROOT, path), 'utf8'));
+const readText = (path) => readFileSync(resolve(ROOT, path), 'utf8');
 const invariant = (condition, message) => { if (!condition) throw new Error(message); };
 const listJson = (directory) => {
   const root = resolve(ROOT, directory);
@@ -48,13 +49,15 @@ export function validateBicycleWorkshopProduction() {
   const module = read('content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json');
   const graph = read('content/learning-graph/modules/bicycle-workshop.json');
   const projection = read('content/knowledge/bicycle-workshop-runtime-projection.json');
-  const practicePack = read('content/packs/free-bicycle-workshop.json');
-  const readingPack = read('content/packs/free-bicycle-workshop-reading.json');
-  const chapterCheckPack = read('content/packs/free-bicycle-workshop-chapter-check.json');
+  const practicePack = read('content/curriculum-runtime/bicycle-workshop/packs/practice.json');
+  const readingPack = read('content/curriculum-runtime/bicycle-workshop/packs/reading.json');
+  const chapterCheckPack = read('content/curriculum-runtime/bicycle-workshop/packs/chapter-check.json');
   const chapterCheckBlueprint = read('content/module-assessments/bicycle-workshop-chapter-check.json');
-  const questions = listJson('content/questions')
-    .filter((path) => /bicycle-workshop-(?:core|play|reading)\.json$/.test(path))
-    .flatMap((path) => JSON.parse(readFileSync(path, 'utf8')));
+  const questions = collectArrays('content/curriculum-runtime/bicycle-workshop/questions');
+  const eagerGlobalQuestionFiles = listJson('content/questions').filter((path) => path.includes('bicycle-workshop'));
+  const eagerGlobalPackFiles = listJson('content/packs').filter((path) => path.includes('bicycle-workshop'));
+  const runtimeSource = readText('src/experience/bicycleWorkshopRuntime.ts');
+  const appSource = readText('src/App.svelte');
 
   invariant(policy.legalPosture.basis === 'independent_expression_not_fair_dealing', 'Commercial runtime must use independent expression');
   invariant(policy.legalPosture.fairDealingReliedUponForCommercialRuntime === false, 'Fair-dealing reliance must remain false');
@@ -164,6 +167,14 @@ export function validateBicycleWorkshopProduction() {
   invariant(JSON.stringify(blueprintQuestionRefs) === JSON.stringify(chapterCheckPack.questionRefs), 'Chapter-check section order must equal the fixed pack order');
   invariant(chapterCheckBlueprint.officialPaperClaimed === false && chapterCheckBlueprint.sourcePassageReproduced === false && chapterCheckBlueprint.sourceExerciseWordingReproduced === false, 'Chapter-check rights boundary weakened');
 
+  invariant(eagerGlobalQuestionFiles.length === 0, `Chapter questions leaked into eager global bank: ${eagerGlobalQuestionFiles.join(', ')}`);
+  invariant(eagerGlobalPackFiles.length === 0, `Chapter packs leaked into eager global catalogue: ${eagerGlobalPackFiles.join(', ')}`);
+  invariant(runtimeSource.includes("../../content/curriculum-runtime/bicycle-workshop/questions/core.json"), 'Lazy runtime does not own the chapter question bank');
+  invariant(runtimeSource.includes('createBicycleWorkshopSession'), 'Lazy runtime has no session factory');
+  invariant(!runtimeSource.includes("from '../content'\n") && !runtimeSource.includes("from '../content';\n"), 'Lazy runtime must not import global content at runtime');
+  invariant(appSource.includes("import('./experience/bicycleWorkshopRuntime')"), 'Application does not dynamically import the chapter runtime');
+  invariant(!appSource.includes("import { createBicycleWorkshopSession"), 'Application statically imports the chapter runtime');
+
   const visualIds = new Set(collectArrays('content/visuals').map((visual) => visual.id));
   const animations = collectArrays('content/animations');
   const animationIds = new Set(animations.map((animation) => animation.id));
@@ -174,6 +185,11 @@ export function validateBicycleWorkshopProduction() {
   for (const animation of animations.filter((item) => item.id.startsWith('animation.bicycle-workshop.'))) {
     invariant(visualIds.has(animation.subject.variantRef), `${animation.id}: unknown subject visual`);
     for (const part of animation.parts ?? []) if (part.visualRef) invariant(visualIds.has(part.visualRef), `${animation.id}/${part.id}: unknown visual`);
+  }
+  for (const question of questions) {
+    for (const item of questionItems(question)) {
+      for (const visualRef of item.visualRefs ?? []) invariant(visualIds.has(visualRef), `${question.id}/${item.id}: unknown visual ${visualRef}`);
+    }
   }
 
   return {
@@ -190,7 +206,9 @@ export function validateBicycleWorkshopProduction() {
     sceneCount: module.sceneRefs.length,
     aiArtBriefCount: prompts.assets.length,
     sourceImagesUsedForGeneration: art.inputs.sourceIllustrationProvidedToGenerator,
-    finalAiArtStatus: art.generationStatus
+    finalAiArtStatus: art.generationStatus,
+    eagerGlobalQuestionCount: eagerGlobalQuestionFiles.length,
+    eagerGlobalPackCount: eagerGlobalPackFiles.length
   };
 }
 
@@ -198,7 +216,7 @@ const isMain = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(imp
 if (isMain) {
   try {
     const result = validateBicycleWorkshopProduction();
-    console.log(process.argv.includes('--json') ? JSON.stringify(result) : `Validated ${result.moduleId}: ${result.questionCount} questions, ${result.chapterCheckQuestionCount}-question chapter check, ${result.activityFamilies.length} activity families.`);
+    console.log(process.argv.includes('--json') ? JSON.stringify(result) : `Validated ${result.moduleId}: ${result.questionCount} lazy questions, ${result.chapterCheckQuestionCount}-question chapter check, ${result.activityFamilies.length} activity families.`);
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
