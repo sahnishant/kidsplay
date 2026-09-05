@@ -215,13 +215,24 @@
     });
   }
 
-  function startSession(entryId: string): void {
+  async function startSession(entryId: string): Promise<void> {
     try {
-      const launch = createSessionForCatalogEntry(entryId, progress.knowledge);
+      const bicycleWorkshopMode = entryId === 'bicycle-workshop:practice'
+        ? 'practice'
+        : entryId === 'bicycle-workshop:chapter-check'
+          ? 'chapter_check'
+          : null;
+      const launch = bicycleWorkshopMode
+        ? (await import('./experience/bicycleWorkshopRuntime')).createBicycleWorkshopSession(
+          bicycleWorkshopMode,
+          progress.knowledge
+        )
+        : createSessionForCatalogEntry(entryId, progress.knowledge);
+
       enterSessionBackBoundary();
       activePlaySurface = null;
       activeSession = launch;
-      activeEntryId = entryId;
+      activeEntryId = bicycleWorkshopMode ? null : entryId;
       activeStoryMission = null;
       activeStoryLocation = null;
       initialSessionState = undefined;
