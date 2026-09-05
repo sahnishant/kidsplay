@@ -42,21 +42,21 @@ PY
 }
 
 open_fraction_studio_from_home() {
-  tap_label "Open child navigation"
-  tap_label "Open practice activities"
-  tap_label "Open Learn About"
-  tap_label "Learn about Fractions"
-  tap_label "Make equal shares"
+  tap_label "Open child navigation" 1
+  tap_label "Open practice activities" 1
+  tap_label "Open Learn About" 1
+  tap_label "Learn about Fractions" 1
+  tap_label "Make equal shares" 1
 }
 
 adb shell am force-stop "$PACKAGE"
 launch_app studio-first-offline-launch
 open_fraction_studio_from_home
 assert_label "Part 1: empty"
-tap_label "Part 1: empty"
+tap_label "Part 1: empty" 1
 assert_label "Part 1: Gold"
-tap_label "Show me"
-tap_label "Next step"
+tap_label "Show me" 1
+tap_label "Next step" 1
 assert_disabled_studio_control "Next step"
 assert_label "Make my own version"
 capture_studio_screen studio-before-process-kill
@@ -64,7 +64,7 @@ capture_studio_screen studio-before-process-kill
 # Native Back must close the studio, not discard work or leave a hidden modal.
 adb shell input keyevent 4
 assert_label "Back to Learn About topics"
-tap_label "Make equal shares"
+tap_label "Make equal shares" 1
 assert_label "Make my own version"
 
 studio_first_pid="$(cat "$OUT_DIR/studio-first-offline-launch-pid.txt")"
@@ -82,7 +82,7 @@ assert_label "Teal"
 assert_disabled_studio_control "Next step"
 capture_studio_screen studio-after-process-relaunch
 
-tap_label "Explore"
+tap_label "Explore" 1
 assert_label "Part 1: Gold"
 assert_label "Part 2: empty"
 capture_studio_screen studio-restored-design
