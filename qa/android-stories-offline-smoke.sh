@@ -50,6 +50,7 @@ test "$(adb shell settings get global airplane_mode_on | tr -d '\r')" = "1"
 
 tap_label() {
   local needle="$1"
+  local allow_scroll="${2:-0}"
   local xml="$OUT_DIR/ui.xml"
   local remote="/sdcard/kidsplay-ui.xml"
   for _ in $(seq 1 20); do
@@ -61,12 +62,16 @@ root = ET.parse(os.environ['XML_PATH']).getroot()
 needle = os.environ['NEEDLE'].casefold()
 for node in root.iter('node'):
     hay = ' '.join((node.attrib.get('text',''), node.attrib.get('content-desc',''))).casefold()
-    if needle not in hay:
+    if needle not in hay or node.attrib.get('enabled') == 'false':
         continue
     m = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.attrib.get('bounds',''))
     if not m:
         continue
     x1,y1,x2,y2 = map(int, m.groups())
+    # WebView accessibility can expose off-screen nodes at [0,0][0,0].
+    # Never count a tap there as interaction with the named control.
+    if x2-x1 < 24 or y2-y1 < 24:
+        continue
     print((x1+x2)//2, (y1+y2)//2)
     break
 PY
@@ -77,6 +82,10 @@ PY
         sleep 1
         return 0
       fi
+    fi
+    if [ "$allow_scroll" = "1" ]; then
+      # Bounded normal portrait scrolling; no DOM force-click or state injection.
+      adb shell input swipe 180 500 180 210 300
     fi
     sleep 1
   done
@@ -201,3 +210,7 @@ adb shell dumpsys package "$PACKAGE" > "$OUT_DIR/package.txt"
 adb shell dumpsys activity activities > "$OUT_DIR/activities.txt"
 grep -q "$PACKAGE" "$OUT_DIR/activities.txt"
 echo "Packaged Stories airplane-mode process-relaunch proof passed."
+
+# Continue on the same installed APK/emulator. Studio acceptance is separately
+# recorded and cannot be inferred from the preceding Stories result.
+source "$(dirname "${BASH_SOURCE[0]}")/android-studios-offline-smoke.sh"

@@ -5,20 +5,24 @@
   import { playAnswerFeedback } from '../runtime/answerFeedbackAudio';
   import { getEngineComponent } from '../runtime/engineRegistry';
 
-  export type AnswerFeedbackMode = 'play' | 'assessment';
+  export type AnswerFeedbackMode = 'play' | 'assessment' | 'explore';
 
   let {
     question,
     onSubmit,
     checkResponse,
     feedbackMode = 'play',
-    soundEnabled = true
+    soundEnabled = true,
+    initialState,
+    onStateChange
   }: {
     question: Question;
     onSubmit: (response: unknown) => void;
     checkResponse: (response: unknown) => EvaluationResult;
     feedbackMode?: AnswerFeedbackMode;
     soundEnabled?: boolean;
+    initialState?: unknown;
+    onStateChange?: (state: unknown) => void;
   } = $props();
 
   let Engine = $derived(getEngineComponent(question));
@@ -26,11 +30,12 @@
   let soundFirstPhonics = $derived(question.authoring.source === 'kidsplay-phonics-v1');
 
   function handleSubmit(response: unknown): void {
-    const result = checkResponse(response);
-    if (feedbackMode === 'play') {
-      // Keep the child on the answered question. Phonics may add its strict
-      // listen-first gate, but it must not restore the transient answer splash.
-      playAnswerFeedback(result.correct, soundEnabled);
+    if (feedbackMode !== 'explore') {
+      const result = checkResponse(response);
+      if (feedbackMode === 'play') {
+        // Feedback remains on the answered question; the host owns shared audio.
+        playAnswerFeedback(result.correct, soundEnabled);
+      }
     }
     onSubmit(response);
   }
@@ -44,28 +49,14 @@
   {#if soundFirstPhonics}
     {#await import('./PhonicsAudioGate.svelte') then module}
       {@const PhonicsAudioGate = module.default}
-      <PhonicsAudioGate
-        {question}
-        {Engine}
-        onSubmit={handleSubmit}
-        {checkResponse}
-        {submissionMode}
-        {soundEnabled}
-      />
+      <PhonicsAudioGate {question} {Engine} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
     {/await}
   {:else}
-    <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled} />
+    <Engine {question} onSubmit={handleSubmit} {checkResponse} {submissionMode} {soundEnabled}
+      {initialState} {onStateChange} mode={feedbackMode === 'explore' ? 'explore' : 'question'} />
   {/if}
 {/key}
 
 <style>
-  .assessment-save-status {
-    display: block;
-    margin: -3px 0 3px;
-    color: var(--muted);
-    font-size: .58rem;
-    font-weight: 750;
-    line-height: 1;
-    text-align: center;
-  }
+  .assessment-save-status {display:block;margin:-3px 0 3px;color:var(--muted);font-size:.58rem;font-weight:750;line-height:1;text-align:center}
 </style>
