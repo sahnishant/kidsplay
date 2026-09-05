@@ -73,6 +73,7 @@
   <nav class="workshop__steps" aria-label="Bicycle Workshop learning sections">
     {#each guide.sections as item, index}
       <button
+        class="workshop__step"
         type="button"
         class:workshop__step--active={index === activeIndex}
         aria-current={index === activeIndex ? 'step' : undefined}
