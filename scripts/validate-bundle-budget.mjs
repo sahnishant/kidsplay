@@ -8,8 +8,13 @@ const assetsDir = join(root, 'dist', 'assets');
 const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
-  maxTotalJsBytes: 760 * 1024,
-  maxCoreJsGzipBytes: 160 * 1024,
+  // The first independently lazy curriculum chapter adds two reviewed JS
+  // chunks (teaching viewport + chapter runtime). Keep the installed-code
+  // increase explicit and bounded instead of hiding it inside Vite warnings.
+  maxTotalJsBytes: 784 * 1024,
+  // Registering the chapter launcher adds a small amount to startup code; the
+  // substantive chapter implementation remains under the lazy route budgets.
+  maxCoreJsGzipBytes: 162 * 1024,
   maxCoreCssBytes: 100 * 1024
 };
 
