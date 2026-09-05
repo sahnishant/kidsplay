@@ -16,6 +16,7 @@
   import type { AvatarId } from '../runtime/localProgress';
   import { evaluate } from '../evaluation/evaluate';
   import Avatar from '../presentation/Avatar.svelte';
+  import { childPromptParts, childPromptSpeechText } from '../presentation/childPrompt';
   import Scene from '../presentation/Scene.svelte';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import StoryCharacter from '../presentation/StoryCharacter.svelte';
@@ -169,8 +170,9 @@
 
   function narratedQuestionText(): string {
     if (!question) return '';
-    if (!experienceCueBody || experienceRecipe?.choreography.audioCue !== 'prompt_and_reaction') return question.prompt.text;
-    return `${experienceCueBody} ${question.prompt.text}`;
+    const promptText = childPromptSpeechText(question.prompt.text);
+    if (!experienceCueBody || experienceRecipe?.choreography.audioCue !== 'prompt_and_reaction') return promptText;
+    return `${experienceCueBody} ${promptText}`;
   }
 
   function playCurrentQuestionNarration(forceRestart: boolean): ChildAudioPlaybackResult | null {
@@ -321,7 +323,11 @@
           <div class="answer-scene"><Scene sceneId={authoredSceneId} /></div>
         {/if}
 
-        <h1 class="question-prompt">{question.prompt.text}</h1>
+        <h1 class="question-prompt" aria-label={childPromptSpeechText(question.prompt.text)}>
+          {#each childPromptParts(question.prompt.text) as part}
+            {#if part.kind === 'blank'}<span class="question-blank" aria-hidden="true"></span>{:else}{part.text}{/if}
+          {/each}
+        </h1>
 
         {#if audioNotice}
           <p class="saved-session-note audio-notice" aria-live="polite">{audioNotice}</p>
@@ -537,7 +543,6 @@
     overscroll-behavior: contain;
     padding: 10px 12px 12px;
   }
-
   .question-meta { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; justify-content: center; }
   .reasoning-cue, .saved-session-note { display: inline-flex; padding: 4px 7px; border-radius: 999px; background: #f4f6f7; color: var(--muted); font-size: .62rem; font-weight: 800; }
   .reasoning-cue--goal { background: var(--accent-soft); color: var(--accent); }
@@ -545,6 +550,14 @@
 
   .answer-scene :global(.scene) { height: clamp(110px, 22vh, 165px); }
   .question-prompt { margin: 7px 4px 9px; font-size: clamp(1.05rem, 3.9vw, 1.45rem); line-height: 1.12; text-align: center; }
+  .question-blank {
+    display: inline-block;
+    width: 4.25em;
+    max-width: 34vw;
+    margin-inline: .12em;
+    border-bottom: .12em solid currentColor;
+    transform: translateY(-.08em);
+  }
   .interaction-host { display: grid; gap: 8px; }
 
   .restored-answer-note { margin: 6px 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: 12px; color: var(--muted); font-size: .74rem; font-weight: 700; }

@@ -7,7 +7,9 @@
 
   interface AudioCue {
     stage: string;
+    grapheme: 'm' | 'f' | 's';
     bundledSrc: string;
+    maxPlaybackMs?: number;
     audioReview: 'approved_existing_pack' | 'candidate_pending_human';
   }
 
@@ -35,10 +37,14 @@
   function resolveAudioCue(questionId: string): AudioCue | null {
     const match = /^phonics\.sound-trail\.([mfs])\.(discriminate|connect_object_word|grapheme|recognition)\.001$/.exec(questionId);
     if (!match) return null;
-    const grapheme = match[1];
+    const grapheme = match[1] as AudioCue['grapheme'];
     return {
       stage: match[2],
+      grapheme,
       bundledSrc: `/audio/kidsplay-v1/prereader/phoneme-${grapheme}.ogg`,
+      // /m/ is a continuous sound, but the legacy clip holds it for far too long.
+      // Play one short, natural "mmm" once rather than a repeated/extended hum.
+      maxPlaybackMs: grapheme === 'm' ? 500 : undefined,
       audioReview: grapheme === 'm' ? 'approved_existing_pack' : 'candidate_pending_human'
     };
   }
@@ -59,6 +65,12 @@
     if (requestId !== playbackRequest) return;
     if (started && soundEnabled) {
       heard = true;
+      if (cue.maxPlaybackMs) {
+        const maxPlaybackMs = cue.maxPlaybackMs;
+        window.setTimeout(() => {
+          if (requestId === playbackRequest && soundEnabled) stopChildAudio();
+        }, maxPlaybackMs);
+      }
       return;
     }
     notice = 'Tap Repeat to hear the sound before choosing.';

@@ -105,12 +105,34 @@ interface ProductionCatalogue {
 
 const catalogue = production as unknown as ProductionCatalogue;
 
+function enforceVisualSceneChoicePresentation(activity: VisualReasoningActivity): VisualReasoningActivity {
+  if (activity.kind !== 'visual_scene_choice') return activity;
+
+  const presentation = activity.question.interaction.presentation;
+  return {
+    ...activity,
+    question: {
+      ...activity.question,
+      interaction: {
+        ...activity.question.interaction,
+        presentation: {
+          mode: presentation?.mode ?? 'visual_dominant',
+          tier: presentation?.tier ?? 'preschool',
+          ...presentation,
+          labels: 'hidden'
+        }
+      }
+    }
+  };
+}
+
 export const FIRST_PLAY_ACTIVITIES: readonly FirstPlayActivity[] = catalogue.firstPlay;
-export const VISUAL_REASONING_ACTIVITIES: readonly VisualReasoningActivity[] = catalogue.visualReasoning;
-export const VISUAL_SCENE_CHOICE_ACTIVITIES: readonly VisualReasoningActivity[] = catalogue.visualReasoning.filter(
+export const VISUAL_REASONING_ACTIVITIES: readonly VisualReasoningActivity[] =
+  catalogue.visualReasoning.map(enforceVisualSceneChoicePresentation);
+export const VISUAL_SCENE_CHOICE_ACTIVITIES: readonly VisualReasoningActivity[] = VISUAL_REASONING_ACTIVITIES.filter(
   (activity) => activity.kind === 'visual_scene_choice'
 );
-export const ODD_ONE_OUT_ACTIVITIES: readonly VisualReasoningActivity[] = catalogue.visualReasoning.filter(
+export const ODD_ONE_OUT_ACTIVITIES: readonly VisualReasoningActivity[] = VISUAL_REASONING_ACTIVITIES.filter(
   (activity) => activity.kind === 'odd_one_out'
 );
 
