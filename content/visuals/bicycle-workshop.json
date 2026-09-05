@@ -1,0 +1,15 @@
+[
+  { "id": "entity.vehicle.bicycle", "renderer": "bicycle-workshop-icon", "glyph": "bicycle", "label": "Bicycle", "motion": "idle", "aliases": ["Bicycle Workshop vehicle"] },
+  { "id": "entity.part.bicycle.wheel", "renderer": "bicycle-workshop-icon", "glyph": "wheel", "label": "Bicycle wheel", "motion": "spin", "aliases": ["bicycle wheel"] },
+  { "id": "entity.part.bicycle.tyre", "renderer": "bicycle-workshop-icon", "glyph": "tyre", "label": "Bicycle tyre", "motion": "idle", "aliases": ["bicycle tyre", "bicycle tire"] },
+  { "id": "entity.part.bicycle.pedal", "renderer": "bicycle-workshop-icon", "glyph": "pedal", "label": "Bicycle pedal", "motion": "wiggle", "aliases": ["bicycle pedal"] },
+  { "id": "entity.part.bicycle.handlebar", "renderer": "bicycle-workshop-icon", "glyph": "handlebar", "label": "Bicycle handlebar", "motion": "sway", "aliases": ["bicycle handlebar"] },
+  { "id": "entity.part.bicycle.brake", "renderer": "bicycle-workshop-icon", "glyph": "brake", "label": "Bicycle brake", "motion": "idle", "aliases": ["bicycle brake"] },
+  { "id": "entity.part.bicycle.bell", "renderer": "bicycle-workshop-icon", "glyph": "bell", "label": "Bicycle bell", "motion": "wiggle", "aliases": ["bicycle bell"] },
+  { "id": "entity.part.bicycle.seat", "renderer": "bicycle-workshop-icon", "glyph": "seat", "label": "Bicycle seat", "motion": "idle", "aliases": ["bicycle seat"] },
+  { "id": "entity.part.bicycle.carrier", "renderer": "bicycle-workshop-icon", "glyph": "carrier", "label": "Bicycle carrier", "motion": "idle", "aliases": ["bicycle carrier", "bicycle rack"] },
+  { "id": "entity.part.bicycle.chain", "renderer": "bicycle-workshop-icon", "glyph": "chain", "label": "Bicycle chain", "motion": "spin", "aliases": ["bicycle chain"] },
+  { "id": "entity.part.bicycle.crank", "renderer": "bicycle-workshop-icon", "glyph": "crank", "label": "Bicycle crank", "motion": "spin", "aliases": ["bicycle crank"] },
+  { "id": "entity.part.bicycle.frame", "renderer": "bicycle-workshop-icon", "glyph": "frame", "label": "Bicycle frame", "motion": "idle", "aliases": ["bicycle frame"] },
+  { "id": "entity.safety.cycling-helmet", "renderer": "bicycle-workshop-icon", "glyph": "cycling-helmet", "label": "Cycling helmet", "motion": "idle", "aliases": ["cycling helmet"] }
+]
