@@ -42,20 +42,41 @@ export function validateBicycleWorkshopGuidedExperience() {
   invariant(JSON.stringify(guide.sections.map((section) => section.id)) === JSON.stringify(module.sections.map((section) => section.id)), 'Guided and module section order differ');
 
   let tracedBeatCount = 0;
+  let structuredBeatCount = 0;
+  let lookPromptCount = 0;
+  let memoryHookCount = 0;
   const sourceIdentity = /my bicycle|mridang|bemr101|ncert|cbse/i;
   for (const section of guide.sections) {
     invariant(Boolean(section.animationRef) !== Boolean(section.visualRef), `${section.id}: provide exactly one visual or animation authority`);
     if (section.animationRef) invariant(animationIds.has(section.animationRef), `${section.id}: unknown animation ${section.animationRef}`);
     if (section.visualRef) invariant(visualIds.has(section.visualRef), `${section.id}: unknown visual ${section.visualRef}`);
+    invariant(typeof section.lookPrompt === 'string' && section.lookPrompt.trim(), `${section.id}: lookPrompt required`);
+    invariant(typeof section.remember === 'string' && section.remember.trim(), `${section.id}: remember hook required`);
     invariant(typeof section.childPrompt === 'string' && section.childPrompt.trim(), `${section.id}: childPrompt required`);
-    invariant(!sourceIdentity.test(`${section.title} ${section.childPrompt}`), `${section.id}: protected source identity leaked into child copy`);
+    invariant(!sourceIdentity.test(`${section.title} ${section.lookPrompt} ${section.remember} ${section.childPrompt}`), `${section.id}: protected source identity leaked into child copy`);
     invariant(Array.isArray(section.beats) && section.beats.length > 0, `${section.id}: at least one explanation beat is required`);
+    lookPromptCount += 1;
+    memoryHookCount += 1;
 
     for (const beat of section.beats) {
       const refs = [...(beat.claimRefs ?? []), ...(beat.capabilityRefs ?? [])];
       invariant(refs.length > 0, `${section.id}/${beat.id}: explanation beat is not graph/capability traced`);
+      invariant(typeof beat.label === 'string' && beat.label.trim(), `${section.id}/${beat.id}: short child-facing idea label required`);
       invariant(typeof beat.text === 'string' && beat.text.trim(), `${section.id}/${beat.id}: child explanation required`);
-      invariant(!sourceIdentity.test(beat.text), `${section.id}/${beat.id}: source identity leaked into explanation`);
+      invariant(!sourceIdentity.test(`${beat.label} ${beat.text}`), `${section.id}/${beat.id}: source identity leaked into explanation`);
+
+      const examples = beat.examples ?? [];
+      const sequence = beat.sequence ?? [];
+      if (examples.length > 0) {
+        invariant(examples.length >= 2, `${section.id}/${beat.id}: examples must form a useful comparison/set`);
+        invariant(examples.every((value) => typeof value === 'string' && value.trim()), `${section.id}/${beat.id}: examples must be non-empty strings`);
+      }
+      if (sequence.length > 0) {
+        invariant(sequence.length >= 2, `${section.id}/${beat.id}: sequence must contain at least two steps`);
+        invariant(sequence.every((value) => typeof value === 'string' && value.trim()), `${section.id}/${beat.id}: sequence steps must be non-empty strings`);
+      }
+      if (examples.length > 0 || sequence.length > 0) structuredBeatCount += 1;
+
       for (const claimRef of beat.claimRefs ?? []) {
         invariant(claimIds.has(claimRef), `${section.id}/${beat.id}: unknown claim ${claimRef}`);
         invariant(admittedClaims.has(claimRef), `${section.id}/${beat.id}: claim ${claimRef} is outside runtime module scope`);
@@ -69,11 +90,14 @@ export function validateBicycleWorkshopGuidedExperience() {
   }
 
   invariant(tracedBeatCount >= 15, `Guided experience is too thin: ${tracedBeatCount} traced beats`);
+  invariant(structuredBeatCount >= 12, `Guided experience needs more concrete examples/sequences: ${structuredBeatCount}`);
   invariant(component.includes("bicycle-workshop-guided.json"), 'Viewport does not consume the guided content authority');
   invariant(component.includes('SemanticVisualPresenter'), 'Viewport does not consume the canonical semantic media presenter');
   invariant(component.includes('animationVisualPresentation') && component.includes('resolveItemVisualPresentation'), 'Viewport does not resolve both animation and entity visual authorities');
   invariant(!component.includes("from '../presentation/VisualEntity.svelte'"), 'Viewport bypasses the canonical semantic presenter with a direct entity renderer');
   invariant(!component.includes("from '../presentation/SemanticAnimation.svelte'"), 'Viewport bypasses the canonical semantic presenter with a direct animation renderer');
+  invariant(component.includes('Next idea') && component.includes('YOUR TURN') && component.includes('REMEMBER'), 'Viewport does not provide paced look-learn-try teaching');
+  invariant(component.includes('aria-live="polite"'), 'Changing teaching ideas are not announced accessibly');
   invariant(component.includes('onPractice') && component.includes('onChapterCheck'), 'Viewport does not launch both assessed surfaces');
   invariant(!/recordAttempt|evaluate\(|localProgress|saveProgress|knowledgeEvidence/.test(component), 'Guided viewport must not write or evaluate mastery');
   invariant(!sourceIdentity.test(component), 'Source identity leaked into the child viewport');
@@ -88,6 +112,9 @@ export function validateBicycleWorkshopGuidedExperience() {
     experienceId: guide.experienceId,
     sectionCount: guide.sections.length,
     tracedBeatCount,
+    structuredBeatCount,
+    lookPromptCount,
+    memoryHookCount,
     claimTraceCount: guide.sections.flatMap((section) => section.beats).reduce((sum, beat) => sum + (beat.claimRefs?.length ?? 0), 0),
     capabilityTraceCount: guide.sections.flatMap((section) => section.beats).reduce((sum, beat) => sum + (beat.capabilityRefs?.length ?? 0), 0),
     semanticPresenter: 'SemanticVisualPresenter',
