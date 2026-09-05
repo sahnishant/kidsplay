@@ -10,10 +10,15 @@
     {"activityId":"studio.fractions.three-friends","family":"fraction_studio","childTitle":"Share with three friends","source":{"kind":"question_bank","questionId":"fractions.studio.three-friends.001"}},
     {"activityId":"studio.fractions.four-friends","family":"fraction_studio","childTitle":"Four equal shares","source":{"kind":"question_bank","questionId":"fractions.studio.four-friends.001"}},
     {"activityId":"studio.fractions.half-six","family":"fraction_studio","childTitle":"Half with six pieces","source":{"kind":"question_bank","questionId":"fractions.studio.half-six.001"}},
-    {"activityId":"studio.fractions.half-eight","family":"fraction_studio","childTitle":"Half with eight pieces","source":{"kind":"question_bank","questionId":"fractions.studio.half-eight.001"}}
+    {"activityId":"studio.fractions.half-eight","family":"fraction_studio","childTitle":"Half with eight pieces","source":{"kind":"question_bank","questionId":"fractions.studio.half-eight.001"}},
+    {"activityId":"studio.words.pedal","family":"sequence_studio","childTitle":"Build PEDAL","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"pedal","conceptRef":"english.vocabulary.pedal","knowledgeRef":"claim.lexeme.pedal-noun.denotes.bicycle-pedal"}}},
+    {"activityId":"studio.words.brake","family":"sequence_studio","childTitle":"Build BRAKE","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"brake","conceptRef":"english.vocabulary.brake","knowledgeRef":"claim.lexeme.brake-noun.denotes.bicycle-brake"}}},
+    {"activityId":"studio.words.bell","family":"sequence_studio","childTitle":"Build BELL","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"bell","conceptRef":"english.vocabulary.bell","knowledgeRef":"claim.lexeme.bell.denotes.bicycle-bell"}}},
+    {"activityId":"studio.words.tyre","family":"sequence_studio","childTitle":"Build TYRE","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"tyre","conceptRef":"english.vocabulary.tyre","knowledgeRef":"claim.lexeme.tyre.denotes.bicycle-tyre"}}}
   ],
   "workshopBindings": [
-    {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]}
+    {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]},
+    {"workshopId":"bicycle-workshop","sectionId":"words","activityRefs":["studio.words.pedal","studio.words.brake","studio.words.bell","studio.words.tyre"]}
   ],
   "topicBindings": [
     {"topicId":"learn.fractions","sectionId":"fractions.equal-shares","minDepth":"d1_preschool","activityRefs":["studio.fractions.equal-shares"]},

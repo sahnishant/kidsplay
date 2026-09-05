@@ -1,6 +1,7 @@
 import document from '../../content/experience/learning-studios.json';
 import type { LearnAboutDepthBand } from './learnAboutContract';
 import type { EqualPartsQuestion, Question, SequenceOrderQuestion } from '../contracts/question';
+import type { StudioWordReferences } from './studioWordProjection.mjs';
 import { assertEqualPartsQuestion } from '../mechanics/equalParts.mjs';
 
 export type StudioQuestion = EqualPartsQuestion | SequenceOrderQuestion;
@@ -8,7 +9,7 @@ export interface LearningStudioActivity {
   activityId: string;
   family: 'fraction_studio' | 'sequence_studio';
   childTitle: string;
-  source: { kind: 'question_bank' | 'bicycle_workshop'; questionId: string };
+  source: { kind: 'question_bank' | 'bicycle_workshop'; questionId: string; wordProjection?: StudioWordReferences };
 }
 export interface StudioWorkspace {
   schemaVersion: 1;
@@ -32,7 +33,15 @@ export function validateLearningStudioRegistry(value: unknown): void {
     ids.add(activity.activityId);
     if (!['fraction_studio', 'sequence_studio'].includes(String(activity.family)) || typeof activity.childTitle !== 'string' || !activity.childTitle.trim()) throw new Error(`${activity.activityId}: invalid studio family/title`);
     if (!record(activity.source) || !['question_bank', 'bicycle_workshop'].includes(String(activity.source.kind)) || !ref(activity.source.questionId)) throw new Error(`${activity.activityId}: invalid source binding`);
-    if (Object.keys(activity).some((key) => !['activityId', 'family', 'childTitle', 'source'].includes(key)) || Object.keys(activity.source).some((key) => !['kind', 'questionId'].includes(key))) throw new Error(`${activity.activityId}: studio bindings must not embed answers or content`);
+    if (Object.keys(activity).some((key) => !['activityId', 'family', 'childTitle', 'source'].includes(key)) || Object.keys(activity.source).some((key) => !['kind', 'questionId', 'wordProjection'].includes(key))) throw new Error(`${activity.activityId}: studio bindings must not embed answers or content`);
+    const projection = activity.source.wordProjection;
+    if (projection !== undefined) {
+      if (activity.family !== 'sequence_studio' || !record(projection)
+        || !ref(projection.termId) || !ref(projection.conceptRef) || !ref(projection.knowledgeRef)
+        || Object.keys(projection).some((key) => !['termId', 'conceptRef', 'knowledgeRef'].includes(key))) {
+        throw new Error(`${activity.activityId}: word projection must contain only source references and use sequence_studio`);
+      }
+    }
   }
   for (const name of ['topicBindings', 'workshopBindings'] as const) {
     const bindings = value[name];
@@ -90,6 +99,10 @@ export async function loadLearningStudioQuestion(activityId: string): Promise<St
     question = catalog.resolveQuestionIds([activity.source.questionId])[0];
   }
   if (!question) throw new Error(`${activityId}: the source activity could not be loaded`);
+  if (activity.source.wordProjection) {
+    const { projectStudioWord } = await import('./studioWordProjection.mjs');
+    question = projectStudioWord(question, activity.source.wordProjection);
+  }
   return asStudioPracticeQuestion(question, activity);
 }
 

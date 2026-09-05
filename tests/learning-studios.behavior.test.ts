@@ -20,7 +20,8 @@ describe('reusable learning studios and existing topic placements', () => {
   });
   it.each(LEARNING_STUDIO_ACTIVITIES)('loads the actual source for $activityId without duplicating an answer key', async (activity) => {
     const question = await loadLearningStudioQuestion(activity.activityId);
-    expect(question.id).toBe(activity.source.questionId);
+    const projection = activity.source.wordProjection;
+    expect(question.id).toBe(projection ? `${activity.source.questionId}.letters.${projection.termId}.v1` : activity.source.questionId);
     expect(question.evidencePolicy).toBe('practice_only');
     expect(question.interaction.type).toBe(activity.family === 'fraction_studio' ? 'equal_parts' : 'sequence_order');
   });
