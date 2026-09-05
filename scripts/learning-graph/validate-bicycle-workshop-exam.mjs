@@ -22,6 +22,7 @@ export function validateBicycleWorkshopExam() {
   const projectionById = new Map(projection.entries.map((row) => [row.rowId, row]));
   const allowedScopes = new Set(blueprint.scopePolicy.allowed);
   const excludedScopes = new Set(blueprint.scopePolicy.excluded);
+  const claimScopes = blueprint.scopePolicy.claimScopes ?? {};
 
   invariant(blueprint.officialBoardPaper === false, 'Companion check must not claim official-board-paper status');
   invariant(blueprint.sourceTextRequiredInRuntime === false, 'Exam companion must not require copied source text');
@@ -29,6 +30,20 @@ export function validateBicycleWorkshopExam() {
   invariant(blueprint.totalQuestions === blueprint.sections.reduce((sum, section) => sum + section.count, 0), 'Section counts do not match totalQuestions');
   invariant(blueprint.totalMarks === blueprint.sections.reduce((sum, section) => sum + section.count * section.marksPerQuestion, 0), 'Section marks do not match totalMarks');
   invariant(blueprint.forms.length >= 3, 'At least three equivalent forms are required to prevent answer memorisation');
+
+  /*
+   * Exam scope belongs to the curriculum/assessment overlay, not to a shared
+   * canonical fact. The same fact may be core in one chapter and enrichment
+   * in another, so every admitted projection row is classified explicitly
+   * in this blueprint.
+   */
+  for (const rowId of projectionById.keys()) {
+    invariant(typeof claimScopes[rowId] === 'string', `Missing explicit exam scope for ${rowId}`);
+  }
+  for (const [rowId, scope] of Object.entries(claimScopes)) {
+    invariant(projectionById.has(rowId), `Exam scope references unknown projection row ${rowId}`);
+    invariant(allowedScopes.has(scope) || excludedScopes.has(scope), `Unknown exam scope ${scope} for ${rowId}`);
+  }
 
   for (const form of blueprint.forms) {
     invariant(form.questionRefs.length === blueprint.totalQuestions, `${form.id}: wrong question count`);
@@ -38,9 +53,9 @@ export function validateBicycleWorkshopExam() {
       invariant(question, `${form.id}: unknown question ${ref}`);
       invariant(question.authoring?.source === 'kidsplay-independent-curriculum-companion', `${form.id}/${ref}: non-independent authoring source`);
       for (const rowId of question.knowledgeRefs ?? []) {
-        const row = projectionById.get(rowId);
-        invariant(row, `${form.id}/${ref}: unresolved knowledgeRef ${rowId}`);
-        const scope = row.meta?.examScope;
+        invariant(projectionById.has(rowId), `${form.id}/${ref}: unresolved knowledgeRef ${rowId}`);
+        const scope = claimScopes[rowId];
+        invariant(typeof scope === 'string', `${form.id}/${ref}: missing explicit exam scope for ${rowId}`);
         invariant(!excludedScopes.has(scope), `${form.id}/${ref}: excluded ${scope} row ${rowId}`);
         invariant(allowedScopes.has(scope), `${form.id}/${ref}: unadmitted exam scope ${scope} for ${rowId}`);
       }
@@ -63,6 +78,11 @@ export function validateBicycleWorkshopExam() {
   };
   invariant(Object.values(semanticCoverage).every((count) => count >= 3), 'Equivalent forms need meaningful question variation in every strand');
 
+  const scopeCounts = Object.values(claimScopes).reduce((counts, scope) => {
+    counts[scope] = (counts[scope] ?? 0) + 1;
+    return counts;
+  }, {});
+
   return {
     blueprintId: blueprint.blueprintId,
     formCount: blueprint.forms.length,
@@ -71,6 +91,8 @@ export function validateBicycleWorkshopExam() {
     livePackId: livePack.id,
     livePackQuestionCount: livePack.questionRefs.length,
     chapterContextRuntimeEnabled: blueprint.scopePolicy.chapterContextOverlayRuntimeEnabled,
+    explicitScopeCount: Object.keys(claimScopes).length,
+    scopeCounts,
     semanticCoverage
   };
 }
