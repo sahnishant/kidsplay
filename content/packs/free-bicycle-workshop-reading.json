@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "id": "free.english.bicycle-workshop.reading.1",
+  "kind": "learning_pack",
+  "status": "reviewed",
+  "title": "Bicycle Workshop — Reading",
+  "description": "Four independently authored Class 2 reading-comprehension questions using bicycle situations.",
+  "catalogVisible": false,
+  "access": { "type": "free" },
+  "questionRefs": [
+    "bicycle.workshop.reading.detail.001",
+    "bicycle.workshop.reading.sequence.001",
+    "bicycle.workshop.reading.verify.001",
+    "bicycle.workshop.reading.inference.001"
+  ],
+  "authoring": {
+    "source": "kidsplay-independent-curriculum-companion",
+    "sourcePolicyRef": "source-policy.mridang.my-bicycle.independent-expression.v1",
+    "runtimeModuleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+    "sourceTextCopied": false,
+    "sourceArtworkCopied": false
+  }
+}
