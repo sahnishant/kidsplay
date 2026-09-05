@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "source.ncert.mridang.class2.english.2026-27",
+  "kind": "curriculum_textbook",
+  "title": "Mridang: English Textbook for Class II",
+  "publisher": "National Council of Educational Research and Training",
+  "publisherShortName": "NCERT",
+  "country": "India",
+  "language": "en",
+  "classLevel": 2,
+  "subject": "English",
+  "edition": {
+    "reprint": "2026-27",
+    "sourceCreationDate": "2026-03-24T11:47:41Z",
+    "sourceModifiedDate": "2026-03-27T05:05:24Z"
+  },
+  "files": [
+    {
+      "fileName": "bemr101.pdf",
+      "role": "chapter_extract",
+      "sha256": "ed3d9b6b69d1dc74462eb9b7a95cd29f5ef90ba04b496c33d08e1b743bcc3785",
+      "bytes": 1306355,
+      "pdfPageRange": {
+        "start": 1,
+        "end": 7
+      },
+      "printedPageRange": {
+        "start": 1,
+        "end": 7
+      },
+      "includedInRepository": false,
+      "runtimeBundled": false
+    }
+  ],
+  "rights": {
+    "status": "all_rights_reserved",
+    "basis": "book_prelims_notice",
+    "sourceUse": "editorial_reference_only",
+    "runtimeTextPolicy": "prohibited_without_separate_permission",
+    "runtimeArtworkPolicy": "prohibited_without_separate_permission",
+    "verbatimNarrationPolicy": "prohibited_without_separate_permission",
+    "structuredKnowledgePolicy": "independently_worded_reviewed_derivations_only"
+  },
+  "contentHandling": {
+    "verbatimSourceTextStored": false,
+    "sourceArtworkStored": false,
+    "pageImagesStored": false,
+    "runtimePublicationAllowed": false,
+    "humanRightsReviewRequired": true
+  },
+  "review": {
+    "status": "source_verified_editorial_only",
+    "authority": "kidsplay_editorial_review_required",
+    "publishable": false
+  }
+}
