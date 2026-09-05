@@ -5,6 +5,7 @@
   { "id": "entity.bicycle-part.carrier", "renderer": "utility-icon", "glyph": "bicycle", "label": "Carrier", "motion": "idle", "aliases": ["carrier"] },
   { "id": "entity.bicycle-part.handlebar", "renderer": "utility-icon", "glyph": "bicycle", "label": "Handlebar", "motion": "wiggle", "aliases": ["handlebar"] },
   { "id": "entity.bicycle-part.wheel", "renderer": "utility-icon", "glyph": "bicycle", "label": "Wheel", "motion": "spin", "aliases": ["wheel"] },
+  { "id": "entity.bicycle-part.cycle-bell", "renderer": "utility-icon", "glyph": "bicycle", "label": "Bicycle bell", "motion": "wiggle", "aliases": ["bicycle bell", "cycle bell"] },
 
   { "id": "entity.bicycle-step.rider-pushes-pedals", "renderer": "utility-icon", "glyph": "bicycle", "label": "Rider pushes pedals", "motion": "pulse", "aliases": ["rider pushes pedals"] },
   { "id": "entity.bicycle-step.crank-turns", "renderer": "utility-icon", "glyph": "bicycle", "label": "Crank turns", "motion": "spin", "aliases": ["crank turns"] },
