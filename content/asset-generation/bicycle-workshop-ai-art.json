@@ -2,9 +2,17 @@
   "schemaVersion": 1,
   "generationRecordId": "ai-art.bicycle-workshop.v1",
   "runtimeCompanionRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
-  "method": "original_semantic_vector_composition",
-  "generatorRole": "AI-assisted original vector and composition authoring",
+  "policyRef": "source-policy.mridang.my-bicycle.independent-expression.v1",
+  "promptSpecificationRef": "ai-prompts.bicycle-workshop.v1",
   "promptBasis": "Kidsplay Learning Graph nodes, claims, functional affordances, accessibility requirements, and existing Kidsplay visual grammar only",
+  "generationStatus": "prompt_specification_ready_final_assets_not_yet_generated",
+  "currentPreview": {
+    "status": "functional_original_vector_preview",
+    "usesTextbookPixels": false,
+    "usesTextbookComposition": false,
+    "usesTextbookStyleReference": false,
+    "isFinalAIAssetPack": false
+  },
   "inputs": {
     "sourceTextProvidedToGenerator": false,
     "sourcePageProvidedToGenerator": false,
@@ -20,7 +28,7 @@
     "imitating an identifiable illustrator or textbook house style",
     "including NCERT marks, page furniture or textbook characters"
   ],
-  "visualAuthorities": [
+  "previewVisualAuthorities": [
     {
       "visualRef": "entity.transport.bicycle",
       "origin": "existing_original_kidsplay_vector_renderer",
@@ -33,13 +41,14 @@
     },
     {
       "visualRef": "animation.variant.bicycle-workshop-neutral",
-      "origin": "new_original_kidsplay_composition",
+      "origin": "new_original_kidsplay_composition_over_existing_vector",
       "sourceImageUsed": false
     }
   ],
   "review": {
     "automatedPolicyCheck": "required",
     "humanSimilarityReview": "required_before_commercial_release",
-    "status": "engineering_ready_pending_human_visual_review"
+    "finalAssetAdmission": "pending_generation_and_review",
+    "status": "functional_preview_ready_final_ai_art_pending"
   }
 }
