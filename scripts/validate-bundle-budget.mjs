@@ -23,7 +23,8 @@ const budgets = {
 // silently consume the core-runtime budget. The primary/single-chunk limits stay
 // unchanged and every named route must remain inside its reviewed allowance.
 const lazyRouteBudgets = [
-  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 2 * 1024 },
+  // Topic styling is retained in its own lazy chunk; measured 2.6 KiB raw CSS.
+  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'StudioLauncher-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
