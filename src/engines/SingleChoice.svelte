@@ -5,7 +5,7 @@
   import { resolveItemVisualPresentation } from '../presentation/semanticVisualPresentation';
   import type { EngineProps } from './types';
 
-  let { question, onSubmit }: EngineProps<SingleChoiceQuestion> = $props();
+  let { question, onSubmit, hideLabels = false }: EngineProps<SingleChoiceQuestion> & { hideLabels?: boolean } = $props();
 
   let options = $derived.by(() => question.interaction.shuffleOptions
     ? shuffled(question.interaction.options, Math.random)
@@ -15,7 +15,7 @@
   let locked = $state(false);
   let presentation = $derived(question.interaction.presentation);
   let visualDominant = $derived(presentation?.mode === 'visual_dominant');
-  let labelMode = $derived(presentation?.labels ?? 'visible');
+  let labelMode = $derived(hideLabels ? 'hidden' : (presentation?.labels ?? 'visible'));
   let choiceCount = $derived(question.interaction.options.length);
 
   function selectAndSubmit(optionId: string): void {

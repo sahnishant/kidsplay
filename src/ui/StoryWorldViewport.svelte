@@ -82,8 +82,12 @@
       : '🏘️';
   }
 
+  function worldDepthLabel(mission: StoryMission): string {
+    return locations.find((location) => location.id === mission.locationRef)?.label ?? 'World';
+  }
+
   function challengeLabel(mission: StoryMission): string {
-    if (mission.worldActionRef) return `Forest Level ${mission.worldDepthLevel ?? 2}`;
+    if (mission.worldActionRef) return `${worldDepthLabel(mission)} Level ${mission.worldDepthLevel ?? 2}`;
     const difficulty = getStoryMissionAverageDifficulty(mission.id);
     const relevant = topicProgress.filter((topic) => {
       const location = locations.find((item) => item.id === mission.locationRef);
@@ -97,7 +101,7 @@
 
   function missionStartLabel(mission: StoryMission): string {
     return mission.worldActionRef
-      ? `Start Forest Level ${mission.worldDepthLevel ?? 2}`
+      ? `Start ${worldDepthLabel(mission)} Level ${mission.worldDepthLevel ?? 2}`
       : `Start investigation · ${mission.questionCount} clues`;
   }
 
@@ -231,7 +235,7 @@
     if (state === 'locked') {
       return `${location.expeditionTitle}, Level ${location.progression.level}: locked until ${unlockMissionTitle(location) ?? 'the previous story mission'}`;
     }
-    const depth = mission?.worldActionRef ? `, Forest depth ${mission.worldDepthLevel}` : '';
+    const depth = mission?.worldActionRef ? `, ${worldDepthLabel(mission)} depth ${mission.worldDepthLevel ?? 2}` : '';
     const action = state === 'complete' ? 'complete, replay' : state === 'current' ? 'play next' : mission ? mission.title : 'explore';
     return `${location.expeditionTitle}, Level ${location.progression.level}${depth}: ${action}`;
   }

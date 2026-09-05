@@ -1,0 +1,212 @@
+{
+  "schemaVersion": 1,
+  "adventures": [
+    {
+      "schemaVersion": 1,
+      "adventureRef": "town.world-depth.l2.safe-square",
+      "level": 2,
+      "title": "Make Town Square Safe Again",
+      "worldProblem": "The crossing sign is loose, the recycling corner is mixed up, a help parcel is in the wrong place, and rainwater cannot leave the square.",
+      "characterSetup": "Shaitanu wants to rush through the mess. Scientu asks what will make the square safer and easier for everyone. Dheu helps one part at a time.",
+      "ending": "The crossing is ready, the recycling corner is sorted, the help parcel is delivered, and rainwater can leave the square.",
+      "nextStateLabel": "Town Square restored · Adventure Mail delivered",
+      "persistentChangeId": "town-square-safe-ready",
+      "sourceEventRefs": ["event.town.square.safe-restored", "event.town.square.adventure-mail"],
+      "adaptiveReviewPlan": {
+        "stepId": "town.l2.step.safe-crossing",
+        "candidates": [
+          {
+            "knowledgeRef": "kr.safety.traffic.red.stop",
+            "cue": "Red means stop. Check the crossing before moving.",
+            "scaffold": "Stop first, then look carefully before you cross."
+          },
+          {
+            "knowledgeRef": "kr.safety.road.crossing.zebra",
+            "cue": "Use the zebra crossing when it is safe to cross.",
+            "scaffold": "Find the striped crossing and use that safe place."
+          }
+        ]
+      },
+      "steps": [
+        {
+          "id": "town.l2.step.crossing-sign-repair",
+          "interactionFamily": "assemble_repair",
+          "semanticDomain": "town_infrastructure",
+          "icon": "🚦",
+          "title": "Repair the crossing sign",
+          "actionLabel": "Repair the sign",
+          "prompt": "The sign panel and its post have come apart beside the zebra crossing.",
+          "instruction": "Choose a piece, then the matching place where it belongs.",
+          "consequence": "The crossing sign stands upright again.",
+          "scaffold": "Look at the open shapes. Correct pieces stay in place.",
+          "worldObjectBefore": "fallen-crossing-sign",
+          "worldObjectAfter": "working-crossing-sign",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.town.l2.repair-crossing-sign",
+            "family": "practical_life",
+            "action": "help",
+            "canonicalGoalRefs": ["kr.safety.road.crossing.zebra", "kr.safety.traffic.red.stop"],
+            "subjectSemanticRefs": ["semantic.town.crossing.sign-panel", "semantic.town.crossing.sign-post"],
+            "evidenceClass": "evaluative",
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.town.l2.crossing-sign",
+            "operation": "repair_restore",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.town.sign-panel", "semanticRef": "semantic.town.crossing.sign-panel"},
+              {"partId": "part.town.sign-post", "semanticRef": "semantic.town.crossing.sign-post"}
+            ],
+            "slots": [
+              {"slotId": "slot.town.sign-top", "semanticRef": "semantic.town.crossing.sign-top-gap"},
+              {"slotId": "slot.town.sign-base", "semanticRef": "semantic.town.crossing.sign-base-gap"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.town.sign-panel", "slotId": "slot.town.sign-top"},
+              {"partId": "part.town.sign-post", "slotId": "slot.town.sign-base"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          }
+        },
+        {
+          "id": "town.l2.step.safe-crossing",
+          "interactionFamily": "guided_sequence",
+          "semanticDomain": "crossing_safety",
+          "icon": "🚸",
+          "title": "Help everyone cross safely",
+          "actionLabel": "Stop, look, then cross",
+          "prompt": "The crossing is repaired, but the square is busy.",
+          "instruction": "Use the safety clue Scientu brings back from earlier learning.",
+          "consequence": "Everyone waits, checks the road, and uses the safe crossing place.",
+          "scaffold": "Slow down. Safe crossing starts before anyone steps into the road.",
+          "worldObjectBefore": "busy-unsafe-crossing",
+          "worldObjectAfter": "calm-safe-crossing",
+          "guidedStages": [
+            "Stop at the edge",
+            "Look and check the road",
+            "Cross at the zebra crossing"
+          ],
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.town.l2.safe-crossing",
+            "family": "practical_life",
+            "action": "safety_choice",
+            "canonicalGoalRefs": ["kr.safety.road.crossing.zebra", "kr.safety.traffic.red.stop"],
+            "subjectSemanticRefs": ["semantic.town.crossing.walkers"],
+            "targetSemanticRefs": ["semantic.town.crossing.zebra"],
+            "evidenceClass": "guided_practice",
+            "retryPolicy": "not_applicable"
+          }
+        },
+        {
+          "id": "town.l2.step.sort-recycling",
+          "interactionFamily": "practical_life",
+          "semanticDomain": "community_sorting",
+          "icon": "♻️",
+          "title": "Sort the recycling corner",
+          "actionLabel": "Sort the corner",
+          "prompt": "Paper, a bottle and food scraps are mixed together beside the bins.",
+          "instruction": "Put each kind of thing with the matching destination.",
+          "consequence": "The recycling corner is tidy and each thing has a clear place.",
+          "scaffold": "Match by what the item is and where that kind belongs.",
+          "worldObjectBefore": "mixed-recycling-corner",
+          "worldObjectAfter": "sorted-recycling-corner",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.town.l2.sort-recycling",
+            "family": "practical_life",
+            "action": "sort",
+            "canonicalGoalRefs": ["goal.town.recycling.sort"],
+            "subjectSemanticRefs": ["semantic.town.recycling.paper", "semantic.town.recycling.bottle", "semantic.town.recycling.food-scrap"],
+            "targetSemanticRefs": ["semantic.town.bin.paper", "semantic.town.bin.recycling", "semantic.town.bin.compost"],
+            "evidenceClass": "guided_practice",
+            "retryPolicy": "not_applicable"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.town.l2.recycling-sort",
+            "operation": "place_part_in_slot",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.town.paper", "semanticRef": "semantic.town.recycling.paper"},
+              {"partId": "part.town.bottle", "semanticRef": "semantic.town.recycling.bottle"},
+              {"partId": "part.town.food-scrap", "semanticRef": "semantic.town.recycling.food-scrap"}
+            ],
+            "slots": [
+              {"slotId": "slot.town.paper-bin", "semanticRef": "semantic.town.bin.paper"},
+              {"slotId": "slot.town.recycling-bin", "semanticRef": "semantic.town.bin.recycling"},
+              {"slotId": "slot.town.compost-bin", "semanticRef": "semantic.town.bin.compost"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.town.paper", "slotId": "slot.town.paper-bin"},
+              {"partId": "part.town.bottle", "slotId": "slot.town.recycling-bin"},
+              {"partId": "part.town.food-scrap", "slotId": "slot.town.compost-bin"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+          }
+        },
+        {
+          "id": "town.l2.step.pack-help-parcel",
+          "interactionFamily": "practical_life",
+          "semanticDomain": "community_help",
+          "icon": "📦",
+          "title": "Put the help parcel where it belongs",
+          "actionLabel": "Place the help parcel",
+          "prompt": "A small community help parcel is blocking the walking path.",
+          "instruction": "Move it to the help table so the path stays clear.",
+          "consequence": "The parcel is ready for the community helper and the walking path is open.",
+          "scaffold": "Keep walking space clear and place helpful things at their proper station.",
+          "worldObjectBefore": "parcel-on-path",
+          "worldObjectAfter": "parcel-at-help-table",
+          "guidedStages": [
+            "Pick up the help parcel",
+            "Place it at the help table"
+          ],
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.town.l2.place-help-parcel",
+            "family": "practical_life",
+            "action": "pack",
+            "canonicalGoalRefs": ["goal.town.community.help"],
+            "subjectSemanticRefs": ["semantic.town.help-parcel"],
+            "targetSemanticRefs": ["semantic.town.community-help-table"],
+            "evidenceClass": "guided_practice",
+            "retryPolicy": "not_applicable"
+          }
+        },
+        {
+          "id": "town.l2.step.clear-rain-channel",
+          "interactionFamily": "cause_effect",
+          "semanticDomain": "town_infrastructure",
+          "icon": "💧",
+          "title": "Clear the rainwater path",
+          "actionLabel": "Clear the blockage",
+          "prompt": "Leaves are blocking the shallow rain channel at the edge of the square.",
+          "instruction": "Clear the blockage and watch what changes downstream.",
+          "consequence": "Rainwater moves away from the walking area and the square is ready again.",
+          "scaffold": "A blocked path holds water back; an open path lets it move away.",
+          "worldObjectBefore": "blocked-rain-channel",
+          "worldObjectAfter": "clear-rain-channel",
+          "worldAction": {
+            "schemaVersion": 1,
+            "actionId": "action.town.l2.clear-rain-channel",
+            "family": "cause_effect",
+            "action": "empty",
+            "canonicalGoalRefs": ["goal.town.cleanup.keep-path-clear"],
+            "subjectSemanticRefs": ["semantic.town.rain-channel.leaf-blockage"],
+            "stateTransition": {
+              "beforeStateRef": "state.town.rain-channel.blocked",
+              "afterStateRef": "state.town.rain-channel.flowing",
+              "causalKnowledgeRef": "goal.town.cleanup.keep-path-clear"
+            },
+            "evidenceClass": "exploration",
+            "retryPolicy": "not_applicable"
+          }
+        }
+      ]
+    }
+  ]
+}

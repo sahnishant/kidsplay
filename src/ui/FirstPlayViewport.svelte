@@ -212,7 +212,7 @@
         {/if}
       {:else if current && mode === 'visual_reasoning'}
         {@const activity = current as VisualReasoningActivity}
-        {#key `${activity.id}:${interactionEpoch}`}<SingleChoice question={activity.question} checkResponse={(r) => evaluate(activity.question, r)} onSubmit={(r) => visualResponse(activity, r)} />{/key}
+        {#key `${activity.id}:${interactionEpoch}`}<SingleChoice question={activity.question} checkResponse={(r) => evaluate(activity.question, r)} onSubmit={(r) => visualResponse(activity, r)} hideLabels={activity.kind === 'visual_scene_choice'} />{/key}
       {/if}
     </div>
   </section>

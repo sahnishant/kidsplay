@@ -31,6 +31,18 @@ describe('visual scene choice + Which Does Not Belong production', () => {
     }
   });
 
+  it('hides option labels on named-target scene choices so the prompt cannot disclose the answer', () => {
+    for (const activity of VISUAL_SCENE_CHOICE_ACTIVITIES) {
+      expect(activity.question.interaction.presentation?.labels, `${activity.id} should hide option labels`).toBe('hidden');
+    }
+  });
+
+  it('keeps secondary labels on odd-one-out reasoning activities', () => {
+    for (const activity of ODD_ONE_OUT_ACTIVITIES) {
+      expect(activity.question.interaction.presentation?.labels, `${activity.id} should retain supporting labels`).toBe('secondary');
+    }
+  });
+
   it('requires semantically controlled distractor evidence for every scene-choice candidate', () => {
     for (const activity of VISUAL_SCENE_CHOICE_ACTIVITIES) {
       const proof = VISUAL_REASONING_PROOFS[activity.id];

@@ -199,38 +199,46 @@
   style={compactLayout ? 'gap:8px' : undefined}
   data-oversized={oversized ? 'true' : undefined}
 >
-  <div class="drag-items" aria-label="Things to move" style={itemsStyle()}>
-    {#each displayOrder.items as item (item.id)}
-      {@const visual = resolveItemVisualPresentation(item, { allowLabelInference: false, context: 'drag-item' })}
-      <button
-        type="button"
-        class:drag-item--visual={visual.hasVisuals}
-        class:drag-item--selected={selectedItemId === item.id}
-        class:drag-item--assigned={Boolean(assignments[item.id])}
-        class="drag-item"
-        aria-label={item.label}
-        aria-pressed={selectedItemId === item.id}
-        disabled={locked}
-        style={itemStyle(visual.hasVisuals)}
-        onclick={() => clickItem(item.id)}
-        onpointerdown={(event) => pointerDown(item.id, event)}
-        onpointermove={(event) => pointerMove(item.id, event)}
-        onpointerup={(event) => pointerEnd(item.id, event)}
-        onpointercancel={(event) => pointerEnd(item.id, event)}
-      >
-        {#if visual.hasVisuals}
-          <SemanticVisualPresenter
-            presentation={visual}
-            class="drag-visuals"
-            itemClass="drag-visual"
-            itemStyle={oversized ? 'width:min(120px,36vw);height:104px' : ''}
-          />
-        {:else if item.symbol}
-          <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
-        {/if}
-        {#if showLabels}<span>{item.label}</span>{/if}
-      </button>
-    {/each}
+  <div class:drag-tray--scrolling={!compactLayout && !oversized} class="drag-tray">
+    {#if !compactLayout && !oversized}
+      <p class="drag-hint" aria-live="polite">
+        {selectedItemId ? 'Now tap the matching clue.' : 'Tap an answer, then tap its matching clue.'}
+      </p>
+    {/if}
+
+    <div class="drag-items" aria-label="Answer cards" style={itemsStyle()}>
+      {#each displayOrder.items as item (item.id)}
+        {@const visual = resolveItemVisualPresentation(item, { allowLabelInference: false, context: 'drag-item' })}
+        <button
+          type="button"
+          class:drag-item--visual={visual.hasVisuals}
+          class:drag-item--selected={selectedItemId === item.id}
+          class:drag-item--assigned={Boolean(assignments[item.id])}
+          class="drag-item"
+          aria-label={item.label}
+          aria-pressed={selectedItemId === item.id}
+          disabled={locked}
+          style={itemStyle(visual.hasVisuals)}
+          onclick={() => clickItem(item.id)}
+          onpointerdown={(event) => pointerDown(item.id, event)}
+          onpointermove={(event) => pointerMove(item.id, event)}
+          onpointerup={(event) => pointerEnd(item.id, event)}
+          onpointercancel={(event) => pointerEnd(item.id, event)}
+        >
+          {#if visual.hasVisuals}
+            <SemanticVisualPresenter
+              presentation={visual}
+              class="drag-visuals"
+              itemClass="drag-visual"
+              itemStyle={oversized ? 'width:min(120px,36vw);height:104px' : ''}
+            />
+          {:else if item.symbol}
+            <span class="drag-symbol" aria-hidden="true">{item.symbol}</span>
+          {/if}
+          {#if showLabels}<span>{item.label}</span>{/if}
+        </button>
+      {/each}
+    </div>
   </div>
 
   <div class="target-grid" style={targetGridStyle()}>
@@ -273,6 +281,20 @@
 {/if}
 
 <style>
+  .drag-tray {
+    display: grid;
+    gap: 6px;
+  }
+
+  .drag-hint {
+    margin: 0;
+    color: #5b6472;
+    font-size: 0.82rem;
+    font-weight: 800;
+    line-height: 1.2;
+    text-align: center;
+  }
+
   .drag-item--visual {
     min-width: 142px;
     min-height: 110px;
@@ -306,5 +328,58 @@
 
   .drop-target--visual {
     min-height: 150px;
+  }
+
+  @media (max-width: 640px), (pointer: coarse) {
+    .drag-tray--scrolling {
+      position: sticky;
+      top: 5.35rem;
+      z-index: 12;
+      padding: 6px;
+      border: 1px solid rgba(196, 181, 253, 0.82);
+      border-radius: 18px;
+      background: rgba(250, 245, 255, 0.97);
+      box-shadow: 0 10px 24px rgba(76, 29, 149, 0.13);
+      backdrop-filter: blur(12px);
+    }
+
+    .drag-tray--scrolling .drag-items {
+      display: grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(2, minmax(0, auto));
+      grid-auto-columns: minmax(8.25rem, 42vw);
+      justify-content: start;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 6px;
+      scroll-snap-type: x proximity;
+      overscroll-behavior-x: contain;
+      scrollbar-width: none;
+    }
+
+    .drag-tray--scrolling .drag-items::-webkit-scrollbar {
+      display: none;
+    }
+
+    .drag-tray--scrolling .drag-item {
+      width: 100%;
+      min-width: 0;
+      min-height: 3.2rem;
+      padding: 0.5rem 0.55rem;
+      font-size: 0.9rem;
+      line-height: 1.08;
+      touch-action: pan-x;
+      scroll-snap-align: start;
+    }
+
+    .drag-tray--scrolling .drag-item--visual {
+      min-height: 5.8rem;
+    }
+
+    .drag-tray--scrolling :global(.drag-visual) {
+      width: 56px;
+      height: 48px;
+    }
   }
 </style>
