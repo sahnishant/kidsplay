@@ -1,0 +1,181 @@
+{
+  "schemaVersion": 1,
+  "experienceId": "experience.bicycle-workshop.guided.v1",
+  "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "childTitle": "Bicycle Workshop",
+  "subtitle": "Look closely · follow the parts · play with words",
+  "mode": "non_evaluative_guided_learning",
+  "sourcePolicyRef": "source-policy.mridang.my-bicycle.independent-expression.v1",
+  "practicePackRef": "free.english.bicycle-workshop.1",
+  "chapterCheckPackRef": "free.english.bicycle-workshop.chapter-check.1",
+  "evidencePolicy": {
+    "viewingWritesMastery": false,
+    "navigationWritesMastery": false,
+    "practiceUsesCanonicalEvaluator": true,
+    "chapterCheckUsesCanonicalEvaluator": true
+  },
+  "sections": [
+    {
+      "id": "meet",
+      "order": 1,
+      "eyebrow": "MEET IT",
+      "title": "A rider-powered machine",
+      "animationRef": "animation.bicycle-workshop.neutral",
+      "visualLabel": "A simple side-view bicycle",
+      "beats": [
+        {
+          "id": "meet-wheels",
+          "text": "A bicycle is a wheeled vehicle.",
+          "claimRefs": ["claim.bicycle.is-a.wheeled-vehicle"]
+        },
+        {
+          "id": "meet-power",
+          "text": "The rider supplies the power by pushing the pedals.",
+          "claimRefs": ["claim.bicycle.is-a.human-powered-vehicle", "claim.pedalling.contributes-to.bicycle-movement"]
+        }
+      ],
+      "childPrompt": "Find the two wheels and the two pedals."
+    },
+    {
+      "id": "parts",
+      "order": 2,
+      "eyebrow": "PARTS AND JOBS",
+      "title": "Every part helps in a different way",
+      "visualRef": "entity.transport.bicycle",
+      "visualLabel": "A bicycle showing its main parts",
+      "beats": [
+        {
+          "id": "parts-wheel-pedal",
+          "text": "Wheels roll. Pedals are pushed by the rider's feet.",
+          "claimRefs": ["claim.bicycle.typically-has-part.wheel", "claim.bicycle.typically-has-part.pedal"]
+        },
+        {
+          "id": "parts-handlebar-brake",
+          "text": "The handlebar helps the rider steer. Brakes help the bicycle slow down.",
+          "claimRefs": ["claim.bicycle.typically-has-part.handlebar", "claim.turn-handlebar.contributes-to.direction-change", "claim.bicycle.typically-has-part.brake", "claim.brake-engages.contributes-to.bicycle-slowing"]
+        },
+        {
+          "id": "parts-bell-carrier",
+          "text": "A bell and a carrier are useful additions, but not every bicycle has them.",
+          "claimRefs": ["claim.bicycle.may-have-part.bell", "claim.bicycle.may-have-part.carrier"]
+        }
+      ],
+      "childPrompt": "Point to a part, say its name, and tell what it helps the rider do."
+    },
+    {
+      "id": "movement",
+      "order": 3,
+      "eyebrow": "FOLLOW THE MOVEMENT",
+      "title": "One action starts a chain",
+      "animationRef": "animation.bicycle-workshop.motion",
+      "visualLabel": "A bicycle with movement arrows",
+      "beats": [
+        {
+          "id": "movement-chain",
+          "text": "Push pedals → crank turns → chain moves → rear wheel turns → bicycle moves.",
+          "claimRefs": [
+            "claim.push-pedals.contributes-to.crank-turns",
+            "claim.crank-turns.contributes-to.chain-moves",
+            "claim.chain-moves.contributes-to.rear-wheel-turns",
+            "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+          ]
+        },
+        {
+          "id": "braking-chain",
+          "text": "Squeeze a brake lever → the brake engages → the bicycle slows.",
+          "claimRefs": ["claim.squeeze-brake-lever.contributes-to.brake-engages", "claim.brake-engages.contributes-to.bicycle-slowing"]
+        }
+      ],
+      "childPrompt": "Trace each chain with your finger from the first action to the result."
+    },
+    {
+      "id": "words",
+      "order": 4,
+      "eyebrow": "WORD DETECTIVE",
+      "title": "The same word can do two jobs",
+      "visualRef": "entity.bicycle-part.pedal",
+      "visualLabel": "A bicycle with its pedal area emphasised",
+      "beats": [
+        {
+          "id": "pedal-senses",
+          "text": "In “the pedal”, pedal names a part. In “pedal gently”, pedal names an action.",
+          "claimRefs": ["claim.lexeme.pedal-noun.denotes.bicycle-pedal", "claim.lexeme.pedal-verb.denotes.pedalling"]
+        },
+        {
+          "id": "brake-senses",
+          "text": "In “the brake”, brake names a part. In “brake before the turn”, brake names an action.",
+          "claimRefs": ["claim.lexeme.brake-noun.denotes.bicycle-brake", "claim.lexeme.brake-verb.denotes.bicycle-slowing"]
+        }
+      ],
+      "childPrompt": "Say one sentence where pedal names a part and another where it tells an action."
+    },
+    {
+      "id": "sounds",
+      "order": 5,
+      "eyebrow": "SOUND AND SENTENCE PLAY",
+      "title": "Listen to the beginning and middle sounds",
+      "visualRef": "entity.animal.cat",
+      "visualLabel": "A cat used for the short-a sound",
+      "beats": [
+        {
+          "id": "short-a",
+          "text": "Cat, cap, and map share the short-a sound.",
+          "capabilityRefs": ["capability.english.phonics.short-a-recognition"]
+        },
+        {
+          "id": "articles",
+          "text": "We say a bicycle and a helmet, but an apple. Listen to the opening sound.",
+          "capabilityRefs": ["capability.english.grammar.indefinite-article-selection"]
+        }
+      ],
+      "childPrompt": "Say cat, cap, and map slowly. What sound stays the same?"
+    },
+    {
+      "id": "reading",
+      "order": 6,
+      "eyebrow": "READ AND UNDERSTAND",
+      "title": "Use small clues from a sentence",
+      "visualRef": "entity.safety.helmet",
+      "visualLabel": "A cycling helmet",
+      "beats": [
+        {
+          "id": "reading-micro-passage",
+          "text": "Ria fastens her helmet. She checks the brakes. Then she begins to pedal.",
+          "capabilityRefs": ["capability.english.reading.literal-retrieval", "capability.english.reading.sequence-retrieval"]
+        },
+        {
+          "id": "reading-strategy",
+          "text": "Words such as then and last help us follow the order. Actions help us work out simple reasons.",
+          "capabilityRefs": ["capability.english.reading.statement-verification", "capability.english.reading.simple-inference"]
+        }
+      ],
+      "childPrompt": "What did Ria do first? What did she do last?"
+    },
+    {
+      "id": "safety",
+      "order": 7,
+      "eyebrow": "READY TO RIDE",
+      "title": "Check the rider and the bicycle",
+      "animationRef": "animation.bicycle-workshop.safety",
+      "visualLabel": "A bicycle, helmet, and safety check",
+      "beats": [
+        {
+          "id": "safety-helmet",
+          "text": "Fasten a properly fitted cycling helmet before riding.",
+          "claimRefs": ["claim.cycling-helmet.protects.head", "claim.check-helmet.contributes-to.safer-ride"]
+        },
+        {
+          "id": "safety-bike",
+          "text": "Check that the brakes work and that the tyres are ready.",
+          "claimRefs": ["claim.check-brakes.contributes-to.safer-ride", "claim.check-tyres.contributes-to.safer-ride"]
+        },
+        {
+          "id": "safety-signal",
+          "text": "A bicycle bell can signal that a rider is nearby.",
+          "claimRefs": ["claim.bicycle-bell.produces.ring", "claim.ring-bell.contributes-to.signal-presence"]
+        }
+      ],
+      "childPrompt": "Say the three checks before you begin: helmet, brakes, tyres."
+    }
+  ]
+}
