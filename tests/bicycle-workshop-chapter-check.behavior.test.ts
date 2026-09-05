@@ -1,6 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { createSessionForCatalogEntry, getCatalogEntries, getFreePackQuestions } from '../src/content';
+import { getCatalogEntries } from '../src/content';
 import { evaluate } from '../src/evaluation/evaluate';
+import {
+  createBicycleWorkshopSession,
+  getBicycleWorkshopPackQuestions
+} from '../src/experience/bicycleWorkshopRuntime';
 
 const packId = 'free.english.bicycle-workshop.chapter-check.1';
 const expectedIds = new Set([
@@ -15,24 +19,21 @@ const expectedIds = new Set([
 ]);
 
 describe('Bicycle Workshop chapter check', () => {
-  it('is a visible, bounded and non-official Class 2 assessment companion', () => {
-    expect(getCatalogEntries().find((entry) => entry.id === packId)).toMatchObject({
-      id: packId,
-      kind: 'free_explore',
-      title: 'Bicycle Workshop — Chapter Check',
-      access: { type: 'free' },
-      status: 'ready',
-      actionLabel: 'Take chapter check'
-    });
+  it('is bounded, non-official and absent from the eager global catalogue', () => {
+    expect(getCatalogEntries().some((entry) => entry.id === packId)).toBe(false);
 
-    const bank = getFreePackQuestions(packId);
+    const bank = getBicycleWorkshopPackQuestions('chapter_check');
     expect(bank).toHaveLength(8);
     expect(new Set(bank.map((question) => question.id))).toEqual(expectedIds);
   });
 
-  it('launches every admitted check item through the existing session selector', () => {
-    const launch = createSessionForCatalogEntry(packId);
-    expect(launch.mode).toBe('free_explore');
+  it('launches every admitted check item through the lazy chapter session selector', () => {
+    const launch = createBicycleWorkshopSession('chapter_check');
+    expect(launch).toMatchObject({
+      id: 'session.bicycle-workshop.chapter-check',
+      mode: 'free_explore',
+      title: 'Bicycle Workshop — Chapter Check'
+    });
     expect(launch.questions).toHaveLength(8);
     expect(new Set(launch.questions.map((question) => question.id))).toEqual(expectedIds);
     expect(new Set(launch.questions.map((question) => question.interaction.type))).toEqual(
@@ -41,7 +42,7 @@ describe('Bicycle Workshop chapter check', () => {
   });
 
   it('keeps independently authored reading evidence separate from bicycle-fact mastery', () => {
-    const reading = getFreePackQuestions(packId).find(
+    const reading = getBicycleWorkshopPackQuestions('chapter_check').find(
       (question) => question.id === 'bicycle.workshop.reading.detail.001'
     );
     expect(reading).toBeTruthy();
@@ -57,7 +58,7 @@ describe('Bicycle Workshop chapter check', () => {
   });
 
   it('contains no source chapter title, source PDF identity or chapter-local mastery claim', () => {
-    for (const question of getFreePackQuestions(packId)) {
+    for (const question of getBicycleWorkshopPackQuestions('chapter_check')) {
       const serialized = JSON.stringify(question);
       expect(serialized).not.toMatch(/My Bicycle/i);
       expect(serialized).not.toContain('bemr101.pdf');
