@@ -13,7 +13,7 @@
       "shuffleOptions": false,
       "options": [
         { "id": "helmet", "label": "Helmet", "visualRefs": ["entity.safety.helmet"] },
-        { "id": "bell", "label": "Bell", "visualRefs": ["entity.bicycle-part.bell"] },
+        { "id": "bell", "label": "Bell", "visualRefs": ["entity.bicycle-part.cycle-bell"] },
         { "id": "pedal", "label": "Pedal", "visualRefs": ["entity.bicycle-part.pedal"] }
       ]
     },
@@ -62,7 +62,7 @@
       "version": 1,
       "shuffleOptions": false,
       "options": [
-        { "id": "signal", "label": "Nila uses the bell to signal that she is nearby.", "visualRefs": ["entity.bicycle-part.bell"] },
+        { "id": "signal", "label": "Nila uses the bell to signal that she is nearby.", "visualRefs": ["entity.bicycle-part.cycle-bell"] },
         { "id": "slow", "label": "Nila uses the bell to slow the bicycle.", "visualRefs": ["entity.bicycle-part.brake"] },
         { "id": "move", "label": "Nila uses the bell to make the wheels turn.", "visualRefs": ["entity.bicycle-part.wheel"] }
       ]
@@ -88,7 +88,7 @@
       "shuffleOptions": false,
       "options": [
         { "id": "slow", "label": "To slow the bicycle", "visualRefs": ["entity.bicycle-part.brake"] },
-        { "id": "signal", "label": "To make a ringing signal", "visualRefs": ["entity.bicycle-part.bell"] },
+        { "id": "signal", "label": "To make a ringing signal", "visualRefs": ["entity.bicycle-part.cycle-bell"] },
         { "id": "move", "label": "To make the bicycle move faster", "visualRefs": ["entity.bicycle-part.pedal"] }
       ]
     },
