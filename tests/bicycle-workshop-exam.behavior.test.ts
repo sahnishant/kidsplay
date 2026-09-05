@@ -1,6 +1,10 @@
 import { execFileSync } from 'node:child_process';
 import { describe, expect, it } from 'vitest';
-import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content';
+import { getCatalogEntries } from '../src/content';
+import {
+  createBicycleWorkshopSession,
+  getBicycleWorkshopPackQuestions
+} from '../src/experience/bicycleWorkshopRuntime';
 
 const packId = 'free.english.bicycle-workshop.chapter-check.1';
 
@@ -20,6 +24,7 @@ describe('Bicycle Workshop exam-oriented chapter check', () => {
       questionsPerForm: 8,
       totalMarks: 8,
       livePackId: packId,
+      livePackQuestionCount: 8,
       chapterContextRuntimeEnabled: false,
       semanticCoverage: {
         partsAndJobs: 6,
@@ -30,18 +35,19 @@ describe('Bicycle Workshop exam-oriented chapter check', () => {
     });
   });
 
-  it('is visible as a prototype practice check rather than an official paper', () => {
-    const entry = getCatalogEntries().find((item) => item.id === packId);
-    expect(entry).toMatchObject({
-      id: packId,
-      kind: 'free_explore',
-      status: 'prototype',
-      title: 'Bicycle Workshop — Chapter Check',
-      actionLabel: 'Try chapter check'
-    });
+  it('keeps the live formative check in the lazy chapter runtime', () => {
+    expect(getCatalogEntries().some((item) => item.id === packId)).toBe(false);
 
-    const session = createSessionForCatalogEntry(packId);
+    const questions = getBicycleWorkshopPackQuestions('chapter_check');
+    expect(questions).toHaveLength(8);
+    expect(new Set(questions.map((question) => question.id)).size).toBe(8);
+
+    const session = createBicycleWorkshopSession('chapter_check');
+    expect(session).toMatchObject({
+      id: 'session.bicycle-workshop.chapter-check',
+      mode: 'free_explore',
+      title: 'Bicycle Workshop — Chapter Check'
+    });
     expect(session.questions).toHaveLength(8);
-    expect(new Set(session.questions.map((question) => question.id)).size).toBe(8);
   });
 });

@@ -1,7 +1,11 @@
 <script lang="ts">
   import guideJson from '../../content/experience/bicycle-workshop-guided.json';
-  import SemanticAnimation from '../presentation/SemanticAnimation.svelte';
-  import VisualEntity from '../presentation/VisualEntity.svelte';
+  import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
+  import {
+    animationVisualPresentation,
+    resolveItemVisualPresentation,
+    type SemanticVisualPresentation
+  } from '../presentation/semanticVisualPresentation';
 
   interface GuideBeat {
     id: string;
@@ -43,6 +47,16 @@
   let section = $derived(guide.sections[activeIndex]);
   let isFirst = $derived(activeIndex === 0);
   let isLast = $derived(activeIndex === guide.sections.length - 1);
+  let visualPresentation = $derived<SemanticVisualPresentation | null>(
+    section.animationRef
+      ? animationVisualPresentation(section.animationRef, { embedded: true, decorative: false })
+      : section.visualRef
+        ? resolveItemVisualPresentation(
+            { label: section.visualLabel, visualRefs: [section.visualRef] },
+            { allowLabelInference: false, context: 'dashboard', decorative: false }
+          )
+        : null
+  );
 
   function previous(): void {
     activeIndex = Math.max(0, activeIndex - 1);
@@ -93,11 +107,14 @@
         <h2 id="workshop-section-title">{section.title}</h2>
       </div>
 
-      <div class="workshop__visual" aria-label={section.visualLabel}>
-        {#if section.animationRef}
-          <SemanticAnimation animationId={section.animationRef} />
-        {:else if section.visualRef}
-          <VisualEntity visualRef={section.visualRef} context="dashboard" decorative={false} label={section.visualLabel} />
+      <div class="workshop__visual">
+        {#if visualPresentation}
+          <SemanticVisualPresenter presentation={visualPresentation} class="workshop__visual-presentation" />
+        {:else}
+          <div class="workshop__visual-fallback" role="img" aria-label={section.visualLabel}>
+            <span aria-hidden="true">🚲</span>
+            <strong>{section.visualLabel}</strong>
+          </div>
         {/if}
       </div>
 
@@ -136,9 +153,18 @@
 </main>
 
 <style>
+  :global(.bicycle-workshop-host) {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    display: grid;
+    overflow: hidden;
+  }
+
   .workshop {
     width: min(820px, 100%);
-    height: calc(100dvh - 42px);
+    height: 100%;
+    min-height: 0;
     margin: auto;
     display: grid;
     grid-template-rows: auto auto minmax(0, 1fr) auto;
@@ -279,10 +305,7 @@
     background: #fffffff2;
   }
 
-  .workshop__lesson-heading {
-    grid-column: 1 / -1;
-  }
-
+  .workshop__lesson-heading { grid-column: 1 / -1; }
   .workshop__lesson-heading h2 {
     margin: 2px 0 0;
     font-size: clamp(1.08rem, 4.5vw, 1.5rem);
@@ -291,11 +314,46 @@
 
   .workshop__visual {
     min-height: 190px;
+    display: grid;
+    place-items: center;
     overflow: hidden;
     border: 1px solid #24303a14;
     border-radius: 18px;
     background: linear-gradient(145deg, #f8fbff, #fffaf1);
   }
+
+  .workshop__visual :global(.workshop__visual-presentation),
+  .workshop__visual :global([data-semantic-visual-kind='entities']) {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center;
+  }
+
+  .workshop__visual :global(.visual-entity),
+  .workshop__visual :global(.visual-entity__art) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .workshop__visual :global(svg) {
+    width: 100%;
+    height: 100%;
+    max-height: 220px;
+  }
+
+  .workshop__visual-fallback {
+    min-height: 180px;
+    display: grid;
+    place-items: center;
+    align-content: center;
+    gap: 8px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .workshop__visual-fallback span { font-size: 4rem; }
+  .workshop__visual-fallback strong { font-size: .8rem; }
 
   .workshop__beats {
     display: grid;
@@ -418,9 +476,5 @@
     .workshop__finish-actions { grid-template-columns: 1fr 1fr; }
     .workshop__primary,
     .workshop__secondary { min-height: 46px; font-size: .76rem; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { scroll-behavior: auto !important; }
   }
 </style>

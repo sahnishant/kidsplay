@@ -9,15 +9,17 @@ function validate(): Record<string, unknown> {
   return JSON.parse(output.trim()) as Record<string, unknown>;
 }
 
-describe('Bicycle Workshop original visual boundary', () => {
-  it('uses graph-only original visuals broadly without source-image input', () => {
+describe('Bicycle Workshop visual boundary', () => {
+  it('reuses the canonical semantic presenter without source-image input or a parallel renderer', () => {
     const result = validate();
     expect(result).toMatchObject({
-      dedicatedVisualCount: 12,
+      customRendererUsed: false,
       sourceImageInputsUsed: false,
+      guidedVisualCount: 4,
+      guidedAnimationCount: 3,
       humanSimilarityReview: 'required_before_commercial_release'
     });
-    expect(Number(result.dedicatedReferenceCount)).toBeGreaterThanOrEqual(40);
-    expect(Number(result.distinctDedicatedVisualsUsed)).toBeGreaterThanOrEqual(10);
+    expect(Number(result.registeredWorkshopVisualCount)).toBeGreaterThanOrEqual(16);
+    expect(Number(result.explicitQuestionReferenceCount)).toBeGreaterThanOrEqual(10);
   });
 });

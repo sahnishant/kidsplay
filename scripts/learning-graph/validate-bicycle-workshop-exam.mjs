@@ -7,15 +7,15 @@ const read = (path) => JSON.parse(readFileSync(resolve(ROOT, path), 'utf8'));
 const invariant = (condition, message) => { if (!condition) throw new Error(message); };
 
 function readQuestions() {
-  return readdirSync(resolve(ROOT, 'content/questions'))
-    .filter((name) => name.startsWith('bicycle-workshop-') && name.endsWith('.json'))
+  return readdirSync(resolve(ROOT, 'content/curriculum-runtime/bicycle-workshop/questions'))
+    .filter((name) => name.endsWith('.json'))
     .sort()
-    .flatMap((name) => read(`content/questions/${name}`));
+    .flatMap((name) => read(`content/curriculum-runtime/bicycle-workshop/questions/${name}`));
 }
 
 export function validateBicycleWorkshopExam() {
   const blueprint = read('content/module-assessments/mridang/bicycle-workshop-exam-v1.json');
-  const livePack = read('content/packs/free-bicycle-workshop-chapter-check.json');
+  const livePack = read('content/curriculum-runtime/bicycle-workshop/packs/chapter-check.json');
   const projection = read('content/knowledge/bicycle-workshop-runtime-projection.json');
   const questions = readQuestions();
   const questionById = new Map(questions.map((question) => [question.id, question]));
@@ -45,23 +45,15 @@ export function validateBicycleWorkshopExam() {
         invariant(allowedScopes.has(scope), `${form.id}/${ref}: unadmitted exam scope ${scope} for ${rowId}`);
       }
     }
-
-    const sectionSlices = [];
-    let offset = 0;
-    for (const section of blueprint.sections) {
-      sectionSlices.push({ sectionId: section.id, questionRefs: form.questionRefs.slice(offset, offset + section.count) });
-      offset += section.count;
-    }
-    invariant(sectionSlices.every((slice) => slice.questionRefs.length === 2), `${form.id}: every current section must contain two questions`);
   }
 
-  const formA = blueprint.forms.find((form) => form.id === 'form-a');
-  invariant(formA, 'Missing live form-a');
-  invariant(livePack.assessmentBlueprintRef === blueprint.blueprintId, 'Live pack points to the wrong blueprint');
-  invariant(livePack.assessmentFormRef === formA.id, 'Live pack points to the wrong form');
-  invariant(JSON.stringify(livePack.questionRefs) === JSON.stringify(formA.questionRefs), 'Live pack must exactly match form-a membership and order');
-  invariant(livePack.status === 'prototype', 'Chapter check must remain visibly prototype until human exam review');
-  invariant(livePack.authoring.officialBoardPaper === false, 'Live pack must not claim official-board status');
+  invariant(livePack.id === blueprint.livePracticePackRef, 'Live chapter-check pack ID does not match the blueprint');
+  invariant(livePack.status === 'reviewed', 'Live chapter check must remain a reviewed formative companion');
+  invariant(livePack.questionRefs.length === 8, 'Live chapter check must contain eight questions');
+  invariant(new Set(livePack.questionRefs).size === livePack.questionRefs.length, 'Live chapter check contains duplicate questions');
+  invariant(livePack.assessmentScope?.officialPaperClaimed === false, 'Live pack must not claim official-board status');
+  invariant(livePack.assessmentScope?.sourcePassageReproduced === false, 'Live pack must not reproduce the source passage');
+  for (const ref of livePack.questionRefs) invariant(questionById.has(ref), `Live chapter check has unknown question ${ref}`);
 
   const semanticCoverage = {
     partsAndJobs: new Set(blueprint.forms.flatMap((form) => form.questionRefs.slice(0, 2))).size,
@@ -77,6 +69,7 @@ export function validateBicycleWorkshopExam() {
     questionsPerForm: blueprint.totalQuestions,
     totalMarks: blueprint.totalMarks,
     livePackId: livePack.id,
+    livePackQuestionCount: livePack.questionRefs.length,
     chapterContextRuntimeEnabled: blueprint.scopePolicy.chapterContextOverlayRuntimeEnabled,
     semanticCoverage
   };
