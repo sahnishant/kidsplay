@@ -8,13 +8,13 @@ const assetsDir = join(root, 'dist', 'assets');
 const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
-  // The first independently lazy curriculum chapter adds two reviewed JS
-  // chunks (teaching viewport + chapter runtime). Keep the installed-code
-  // increase explicit and bounded instead of hiding it inside Vite warnings.
-  maxTotalJsBytes: 784 * 1024,
-  // Registering the chapter launcher adds a small amount to startup code; the
-  // substantive chapter implementation remains under the lazy route budgets.
-  maxCoreJsGzipBytes: 162 * 1024,
+  // Reusable studios add one lazy manipulative renderer and one shared teaching
+  // shell. The installed-code allowance is explicitly +32 KiB; each new chunk
+  // also has its own compressed cap below. No Vite warning limit is relaxed.
+  maxTotalJsBytes: (784 + 32) * 1024,
+  // +2 KiB for the shared mathematical evaluator, safe workspace hooks and
+  // registry wrapper. The fraction renderer and studio shell remain lazy.
+  maxCoreJsGzipBytes: (162 + 2) * 1024,
   maxCoreCssBytes: 100 * 1024
 };
 
@@ -23,6 +23,10 @@ const budgets = {
 // unchanged and every named route must remain inside its reviewed allowance.
 const lazyRouteBudgets = [
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 2 * 1024 },
+  // Shared only by the lazy Learn About/Bicycle routes; not startup code.
+  { prefix: 'StudioLauncher-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 3 * 1024 },
+  // Loaded by LazyEqualParts only when an equal-parts activity is opened.
+  { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   // Keep the already-loaded world-depth dispatcher tiny; actual Forest/Town mission
   // implementations are lazy children with their own reviewed route allowances.
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
@@ -57,6 +61,12 @@ const contentAssetBudgets = [
     expectedCount: 6,
     maxRawBytes: 48 * 1024,
     maxGzipBytes: 12 * 1024
+  },
+  {
+    prefix: 'runtime-fraction-studio-',
+    expectedCount: 1,
+    maxRawBytes: 4 * 1024,
+    maxGzipBytes: 1.5 * 1024
   }
 ];
 

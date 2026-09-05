@@ -34,7 +34,7 @@ describe('equal-parts manipulation', () => {
     const checkResponse = vi.fn((r:unknown)=>evaluate(question,r));
     const submit = vi.fn();
     const view = render(EngineHost,{question,onSubmit:submit,checkResponse,feedbackMode:'explore',soundEnabled:false});
-    await fireEvent.click(view.getByRole('button',{name:'Look at my whole'}));
+    await fireEvent.click(await view.findByRole('button',{name:'Look at my whole'}));
     expect(submit).toHaveBeenCalledWith({assignments:[null,null,null,null]});
     expect(checkResponse).not.toHaveBeenCalled();
   });

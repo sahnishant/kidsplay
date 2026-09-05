@@ -1,7 +1,7 @@
 import type { Question } from '../contracts/question';
 import Crossword from '../engines/Crossword.svelte';
 import DragToTarget from '../engines/DragToTarget.svelte';
-import EqualParts from '../engines/EqualParts.svelte';
+import EqualParts from '../engines/LazyEqualParts.svelte';
 import Hotspot from '../engines/Hotspot.svelte';
 import MazePath from '../engines/MazePath.svelte';
 import MemoryPairs from '../engines/MemoryPairs.svelte';
