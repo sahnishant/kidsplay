@@ -26,16 +26,21 @@ function validate(): Record<string, unknown> {
 }
 
 describe('Bicycle Workshop end-to-end chapter companion', () => {
-  it('validates a substantial graph-traced, independently authored production slice', () => {
+  it('validates the complete graph-traced, independently authored production slice', () => {
     expect(validate()).toMatchObject({
       moduleId: 'curriculum-companion.ncert-class2-english.bicycle-workshop.v1',
+      sectionCount: 7,
       graphNodeCount: 79,
       graphClaimCount: 64,
       admittedClaimCount: 29,
       projectionRowCount: 29,
-      questionCount: 28,
+      questionCount: 32,
+      practiceQuestionCount: 32,
+      chapterCheckQuestionCount: 8,
       sceneCount: 3,
-      sourceImagesUsedForGeneration: false
+      aiArtBriefCount: 6,
+      sourceImagesUsedForGeneration: false,
+      finalAiArtStatus: 'prompt_specification_ready_final_assets_not_yet_generated'
     });
   });
 
