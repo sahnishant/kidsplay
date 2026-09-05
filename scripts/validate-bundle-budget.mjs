@@ -28,7 +28,9 @@ const lazyRouteBudgets = [
   // V1 deterministic spacing + eligibility + world-fit selection. Keep this
   // isolated from the core budget and below a deliberately small 2.5 KiB cap.
   { prefix: 'adaptiveRouting-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
-  { prefix: 'DiscoveryBookViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 4 * 1024 }
+  { prefix: 'DiscoveryBookViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 4 * 1024 },
+  { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
+  { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 }
 ];
 
 function kib(bytes) {
