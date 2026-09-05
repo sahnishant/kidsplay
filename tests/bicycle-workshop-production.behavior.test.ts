@@ -2,7 +2,7 @@ import { execFileSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { createSessionForCatalogEntry, getCatalogEntries } from '../src/content';
+import { createSessionForCatalogEntry, getCatalogEntries, getFreePackQuestions } from '../src/content';
 import { evaluate } from '../src/evaluation/evaluate';
 import type { Question } from '../src/contracts/question';
 
@@ -12,7 +12,8 @@ const readQuestions = (name: string): Question[] => JSON.parse(
 ) as Question[];
 const questions = [
   ...readQuestions('bicycle-workshop-core.json'),
-  ...readQuestions('bicycle-workshop-play.json')
+  ...readQuestions('bicycle-workshop-play.json'),
+  ...readQuestions('bicycle-workshop-reading.json')
 ];
 const byId = new Map(questions.map((question) => [question.id, question]));
 
@@ -38,7 +39,7 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
     });
   });
 
-  it('appears in the existing child catalogue and launches through the canonical session path', () => {
+  it('appears in the existing child catalogue with the composed 32-question chapter bank', () => {
     const entry = getCatalogEntries().find((item) => item.id === packId);
     expect(entry).toMatchObject({
       id: packId,
@@ -48,6 +49,11 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
       status: 'ready',
       actionLabel: 'Enter workshop'
     });
+
+    const bank = getFreePackQuestions(packId);
+    expect(bank).toHaveLength(32);
+    expect(bank.every((question) => byId.has(question.id))).toBe(true);
+    expect(bank.filter((question) => question.id.startsWith('bicycle.workshop.reading.'))).toHaveLength(4);
 
     const session = createSessionForCatalogEntry(packId);
     expect(session.mode).toBe('free_explore');
@@ -65,15 +71,24 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
     expect(result.masteryEvidence.some((item) => item.conceptId === 'bicycle.braking.chain')).toBe(true);
   });
 
-  it('keeps capability-only phonics evidence separate from bicycle fact mastery', () => {
-    const question = byId.get('bicycle.workshop.phonics.short-a.001');
-    expect(question).toBeTruthy();
-    expect(question!.knowledgeRefs).toBeUndefined();
-    const result = evaluate(question!, { selectedOptionIds: ['cat'] });
-    expect(result.correct).toBe(true);
-    expect(result.knowledgeEvidence).toEqual([]);
-    expect(result.masteryEvidence.map((item) => item.conceptId)).toEqual([
+  it('keeps capability-only phonics and reading evidence separate from bicycle fact mastery', () => {
+    const phonics = byId.get('bicycle.workshop.phonics.short-a.001');
+    expect(phonics).toBeTruthy();
+    expect(phonics!.knowledgeRefs).toBeUndefined();
+    const phonicsResult = evaluate(phonics!, { selectedOptionIds: ['cat'] });
+    expect(phonicsResult.correct).toBe(true);
+    expect(phonicsResult.knowledgeEvidence).toEqual([]);
+    expect(phonicsResult.masteryEvidence.map((item) => item.conceptId)).toEqual([
       'capability.english.phonics.short-a-recognition'
+    ]);
+
+    const reading = byId.get('bicycle.workshop.reading.detail.001');
+    expect(reading?.knowledgeRefs).toBeUndefined();
+    const readingResult = evaluate(reading!, { selectedOptionIds: ['helmet'] });
+    expect(readingResult.correct).toBe(true);
+    expect(readingResult.knowledgeEvidence).toEqual([]);
+    expect(readingResult.masteryEvidence.map((item) => item.conceptId)).toEqual([
+      'capability.english.reading.literal-retrieval'
     ]);
   });
 
