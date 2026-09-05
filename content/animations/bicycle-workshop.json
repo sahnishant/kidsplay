@@ -1,0 +1,32 @@
+[
+  {
+    "id": "animation.bicycle-workshop.neutral",
+    "semanticRef": "entity.vehicle.bicycle",
+    "theme": "paper",
+    "ariaLabel": "An original simple bicycle drawing in an open workshop space.",
+    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "neutral", "x": 50, "y": 56, "scale": 1.25 },
+    "parts": []
+  },
+  {
+    "id": "animation.bicycle-workshop.motion",
+    "semanticRef": "entity.vehicle.bicycle",
+    "theme": "paper",
+    "ariaLabel": "An original bicycle diagram with moving arrows inviting the child to think about movement.",
+    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "curious", "x": 48, "y": 58, "scale": 1.12 },
+    "parts": [
+      { "id": "push", "role": "relation", "text": "PUSH", "slot": "above", "x": 28, "y": 20, "scale": 0.42, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 77, "y": 56, "scale": 0.5, "motion": "float" }
+    ]
+  },
+  {
+    "id": "animation.bicycle-workshop.safety",
+    "semanticRef": "entity.vehicle.bicycle",
+    "theme": "grass",
+    "ariaLabel": "An original bicycle workshop scene with a helmet and check mark for a pre-ride safety check.",
+    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "happy", "x": 43, "y": 59, "scale": 1.04 },
+    "parts": [
+      { "id": "helmet", "role": "prop", "visualRef": "entity.safety.helmet", "slot": "above", "x": 78, "y": 34, "scale": 0.58 },
+      { "id": "check", "role": "relation", "text": "✓", "slot": "front", "x": 76, "y": 72, "scale": 0.48, "motion": "pulse" }
+    ]
+  }
+]
