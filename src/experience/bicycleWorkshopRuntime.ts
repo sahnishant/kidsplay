@@ -5,13 +5,19 @@ import practicePackJson from '../../content/curriculum-runtime/bicycle-workshop/
 import readingPackJson from '../../content/curriculum-runtime/bicycle-workshop/packs/reading.json';
 import chapterCheckPackJson from '../../content/curriculum-runtime/bicycle-workshop/packs/chapter-check.json';
 import type { Question } from '../contracts/question';
-import type { SessionLaunch } from '../content';
 import type { MasteryCounter } from '../runtime/localProgress';
 
-export const BICYCLE_WORKSHOP_PRACTICE_ID = 'bicycle-workshop:practice';
-export const BICYCLE_WORKSHOP_CHAPTER_CHECK_ID = 'bicycle-workshop:chapter-check';
+export const BICYCLE_WORKSHOP_PRACTICE_ID = 'free.english.bicycle-workshop.1';
+export const BICYCLE_WORKSHOP_CHAPTER_CHECK_ID = 'free.english.bicycle-workshop.chapter-check.1';
 
 export type BicycleWorkshopLaunchMode = 'practice' | 'chapter_check';
+
+export interface BicycleWorkshopSessionLaunch {
+  id: string;
+  mode: 'free_explore';
+  title: string;
+  questions: Question[];
+}
 
 interface ChapterPack {
   id: string;
@@ -125,7 +131,7 @@ export function getBicycleWorkshopPackQuestions(mode: BicycleWorkshopLaunchMode)
 export function createBicycleWorkshopSession(
   mode: BicycleWorkshopLaunchMode,
   mastery: Record<string, MasteryCounter> = {}
-): SessionLaunch {
+): BicycleWorkshopSessionLaunch {
   if (mode === 'chapter_check') {
     return {
       id: 'session.bicycle-workshop.chapter-check',
