@@ -8,7 +8,9 @@
     {"activityId":"studio.sequence.bicycle-motion","family":"sequence_studio","childTitle":"Follow the bicycle movement","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.sequence.motion.001"}},
     {"activityId":"studio.sequence.bicycle-braking","family":"sequence_studio","childTitle":"Follow the slowing sequence","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.sequence.braking.001"}},
     {"activityId":"studio.fractions.three-friends","family":"fraction_studio","childTitle":"Share with three friends","source":{"kind":"question_bank","questionId":"fractions.studio.three-friends.001"}},
-    {"activityId":"studio.fractions.four-friends","family":"fraction_studio","childTitle":"Four equal shares","source":{"kind":"question_bank","questionId":"fractions.studio.four-friends.001"}}
+    {"activityId":"studio.fractions.four-friends","family":"fraction_studio","childTitle":"Four equal shares","source":{"kind":"question_bank","questionId":"fractions.studio.four-friends.001"}},
+    {"activityId":"studio.fractions.half-six","family":"fraction_studio","childTitle":"Half with six pieces","source":{"kind":"question_bank","questionId":"fractions.studio.half-six.001"}},
+    {"activityId":"studio.fractions.half-eight","family":"fraction_studio","childTitle":"Half with eight pieces","source":{"kind":"question_bank","questionId":"fractions.studio.half-eight.001"}}
   ],
   "workshopBindings": [
     {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]}
@@ -17,6 +19,7 @@
     {"topicId":"learn.fractions","sectionId":"fractions.equal-shares","minDepth":"d1_preschool","activityRefs":["studio.fractions.equal-shares"]},
     {"topicId":"learn.fractions","sectionId":"fractions.make-and-share","minDepth":"d2_early_primary","activityRefs":["studio.fractions.dosa","studio.fractions.garden"]},
     {"topicId":"learn.lion","sectionId":"lion.animal-neighbours","minDepth":"d2_early_primary","activityRefs":["studio.sequence.butterfly"]},
-    {"topicId":"learn.fractions","sectionId":"fractions.share-with-friends","minDepth":"d2_early_primary","activityRefs":["studio.fractions.three-friends","studio.fractions.four-friends"]}
+    {"topicId":"learn.fractions","sectionId":"fractions.share-with-friends","minDepth":"d2_early_primary","activityRefs":["studio.fractions.three-friends","studio.fractions.four-friends"]},
+    {"topicId":"learn.fractions","sectionId":"fractions.same-half","minDepth":"d2_early_primary","activityRefs":["studio.fractions.equal-shares","studio.fractions.half-six","studio.fractions.half-eight"]}
   ]
 }

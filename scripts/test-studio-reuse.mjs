@@ -7,7 +7,9 @@ import { evaluateEqualParts, validateEqualPartsQuestion, createEqualPartsState }
 // from the solution being tested. Include incomplete allocations in the search.
 const expected = {
   'fractions.studio.three-friends.001': { parts: 6, counts: { dheu: 2, scientu: 2, shaitanu: 2 }, valid: 90 },
-  'fractions.studio.four-friends.001': { parts: 8, counts: { dheu: 2, scientu: 2, shaitanu: 2, you: 2 }, valid: 2520 }
+  'fractions.studio.four-friends.001': { parts: 8, counts: { dheu: 2, scientu: 2, shaitanu: 2, you: 2 }, valid: 2520 },
+  'fractions.studio.half-six.001': { parts: 6, counts: { gold: 3, teal: 3 }, valid: 20 },
+  'fractions.studio.half-eight.001': { parts: 8, counts: { gold: 4, teal: 4 }, valid: 70 }
 };
 const questions = JSON.parse(readFileSync(fileURLToPath(new URL('../content/questions/studio-reuse.json', import.meta.url)), 'utf8'));
 assert.equal(new Set(questions.map((q) => q.id)).size, questions.length);

@@ -58,6 +58,7 @@ export const FRACTIONS_LEARN_ABOUT_TOPIC = {
   sections: [
     { sectionId: 'fractions.equal-shares', childTitle: 'Equal shares', knowledgeRefs: [], depthBands: ['d1_preschool'], recipeFamilies: ['explore'] },
     { sectionId: 'fractions.share-with-friends', childTitle: 'Share with friends', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'fractions.same-half', childTitle: 'Half, different pieces', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
     { sectionId: 'fractions.make-and-share', childTitle: 'Make and share', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
   ]
 } as const satisfies LearnAboutTopic;
