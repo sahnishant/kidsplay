@@ -8,24 +8,23 @@ const assetsDir = join(root, 'dist', 'assets');
 const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
-  // Reusable studios add one lazy manipulative renderer and one shared teaching
-  // shell. The installed-code allowance is explicitly +32 KiB; each new chunk
-  // also has its own compressed cap below. No Vite warning limit is relaxed.
-  maxTotalJsBytes: (784 + 32) * 1024,
-  // The measured core at the first lazy-studio build is 165 KiB gzip. A +4 KiB
-  // allowance covers the shared model, workspace hooks and module boundaries;
-  // the fraction renderer and studio shell remain separately bounded and lazy.
+  // #263 initial studio allowance +32 KiB; #264 durable workspace and visual
+  // teaching adds +16 KiB. Measured at 737ec69: 826.8 KiB installed JS.
+  // Both the teaching route and renderer retain independent compressed caps.
+  maxTotalJsBytes: (784 + 32 + 16) * 1024,
+  // The core allowance is unchanged. The already-lazy word-source projection
+  // is now accounted for independently below rather than charged to core.
   maxCoreJsGzipBytes: (162 + 4) * 1024,
   maxCoreCssBytes: 100 * 1024
 };
 
-// Lazy product routes are bounded separately so adding an offline route does not
-// silently consume the core-runtime budget. The primary/single-chunk limits stay
-// unchanged and every named route must remain inside its reviewed allowance.
+// Lazy product routes are bounded separately. These explicit allowances are
+// review items, not permission to disable checks or increase Vite warnings.
 const lazyRouteBudgets = [
-  // Topic styling is retained in its own lazy chunk; measured 2.6 KiB raw CSS.
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 3 * 1024 },
-  { prefix: 'StudioLauncher-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 3 * 1024 },
+  // #264 measured 9.2 KiB gzip / 3.7 KiB CSS after durable work and demo UI.
+  { prefix: 'StudioLauncher-', maxJsGzipBytes: 10 * 1024, maxCssBytes: 4 * 1024 },
+  { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 },
@@ -46,8 +45,6 @@ const lazyRouteBudgets = [
 const contentAssetBudgets = [
   { prefix: 'runtime-bicycle-workshop-', expectedCount: 6, maxRawBytes: 48 * 1024, maxGzipBytes: 12 * 1024 },
   { prefix: 'runtime-fraction-studio-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 },
-  // #264: separately bounded content-only sharing/partition practice pack.
-  // Existing JS, CSS and first-pilot data allowances remain unchanged.
   { prefix: 'runtime-studio-reuse-', expectedCount: 1, maxRawBytes: 6 * 1024, maxGzipBytes: 2 * 1024 }
 ];
 

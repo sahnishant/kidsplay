@@ -12,7 +12,7 @@
   let selected = $state<Selection | null>(null);
   let dialog = $state<HTMLDialogElement>();
   let notice = $state('');
-  const memory = new Map<string, StudioWorkspace>();
+  const memory = new Map<string, { workspace: StudioWorkspace; token: string | null }>();
   $effect(() => { if (selected && (selected.owner !== ownerId || !activityRefs.includes(selected.id))) selected = null; });
   $effect(() => {
     const active = selected;
@@ -41,13 +41,17 @@
     const store = createStudioWorkStore(ownerId);
     const loaded = store.load(id);
     notice = storageNotice(loaded.status);
-    selected = { id, owner: ownerId, token: loaded.token, workspace: memory.get(`${ownerId}:${id}`) ?? loaded.workspace, store };
+    const cached = memory.get(`${ownerId}:${id}`);
+    // Memory may be newer after a failed save, but never let stale memory replace
+    // a newer durable generation after another launcher/tab has saved.
+    const cachedIsCurrent = cached && (cached.token === loaded.token || loaded.status === 'unavailable');
+    selected = { id, owner: ownerId, token: loaded.token, workspace: cachedIsCurrent ? cached.workspace : loaded.workspace, store };
   }
   function remember(active: Selection, workspace: StudioWorkspace): void {
     if (active !== untrack(() => selected) || active.owner !== ownerId || workspace.activityId !== active.id) return;
-    memory.set(`${active.owner}:${active.id}`, structuredClone(workspace));
     const result = active.store.save(active.id, workspace, active.token);
     if (result.status === 'saved' || result.status === 'unchanged') active.token = result.token;
+    memory.set(`${active.owner}:${active.id}`, { workspace: structuredClone(workspace), token: active.token });
     notice = storageNotice(result.status);
   }
   function close(): void { requestAppBack(() => selected = null); }

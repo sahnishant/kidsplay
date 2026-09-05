@@ -45,6 +45,14 @@ jobs:
       - name: Run browser child journeys
         run: npm run test:e2e:ci
 
+      - name: Upload studio browser proof
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: learning-studio-browser-proof
+          path: node_modules/.cache/kidsplay-playwright/results/**/studio-*.png
+          if-no-files-found: ignore
+
       - name: Upload Playwright diagnostics
         if: failure()
         uses: actions/upload-artifact@v7
