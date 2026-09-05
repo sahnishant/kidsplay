@@ -17,7 +17,7 @@ function validate(): Record<string, unknown> {
 }
 
 describe('Bicycle Workshop exam-oriented chapter check', () => {
-  it('keeps three equivalent eight-mark forms within the admitted chapter scope', () => {
+  it('keeps three equivalent eight-mark forms within the explicit chapter scope overlay', () => {
     expect(validate()).toMatchObject({
       blueprintId: 'assessment.bicycle-workshop.class2-english.v1',
       formCount: 3,
@@ -26,6 +26,11 @@ describe('Bicycle Workshop exam-oriented chapter check', () => {
       livePackId: packId,
       livePackQuestionCount: 8,
       chapterContextRuntimeEnabled: false,
+      explicitScopeCount: 29,
+      scopeCounts: {
+        chapter_core: 23,
+        chapter_supporting: 6
+      },
       semanticCoverage: {
         partsAndJobs: 6,
         words: 6,
