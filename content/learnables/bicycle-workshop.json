@@ -1,0 +1,37 @@
+[
+  { "id": "bicycle.identity", "statement": "Recognise a bicycle as a human-powered wheeled vehicle.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Bicycle identity", "gradeBands": [2] },
+
+  { "id": "bicycle.parts", "statement": "Recognise that a bicycle is made of connected parts with different jobs.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.wheel", "statement": "Recognise a wheel as a bicycle part that turns as the bicycle rolls.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.tyre", "statement": "Recognise a tyre as the outer covering around a bicycle wheel.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.pedal", "statement": "Recognise a pedal as the bicycle part pushed by a rider's foot.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.handlebar", "statement": "Recognise the handlebar as the bicycle's steering part.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.brake", "statement": "Recognise a brake as a bicycle control used to slow or stop.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.bell", "statement": "Recognise a bicycle bell as an optional part that makes a ringing signal.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.carrier", "statement": "Recognise a bicycle carrier as an optional part used to carry suitable items.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.parts.drive", "statement": "Recognise that pedals, crank, chain and rear wheel can form a bicycle movement system.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "How movement travels", "gradeBands": [2] },
+  { "id": "bicycle.parts.optional", "statement": "Distinguish common optional bicycle parts from parts normally needed for riding and control.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+
+  { "id": "bicycle.motion.pedalling", "statement": "Understand that a rider can supply movement by pushing bicycle pedals.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "How movement travels", "gradeBands": [2] },
+  { "id": "bicycle.motion.chain", "statement": "Put the simple bicycle movement chain in order from pedal action to bicycle movement.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "How movement travels", "gradeBands": [2] },
+  { "id": "bicycle.braking.chain", "statement": "Put the simple braking chain in order from squeezing a lever to the bicycle slowing.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "How movement travels", "gradeBands": [2] },
+  { "id": "bicycle.control.steering", "statement": "Understand that turning the handlebar helps change a bicycle's direction.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Parts and jobs", "gradeBands": [2] },
+  { "id": "bicycle.sound.bell", "statement": "Connect a bicycle bell with a ringing sound.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Sound and meaning", "gradeBands": [2] },
+
+  { "id": "bicycle.safety.helmet", "statement": "Understand that a properly fitted cycling helmet helps protect a rider's head.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Ready to ride", "gradeBands": [2] },
+  { "id": "bicycle.safety.signal", "statement": "Understand that ringing a bicycle bell can signal that a rider is nearby.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Ready to ride", "gradeBands": [2] },
+  { "id": "bicycle.safety.pre-ride", "statement": "Identify a simple pre-ride check covering helmet, brakes and tyres.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Ready to ride", "gradeBands": [2] },
+  { "id": "bicycle.safety.visibility", "statement": "Recognise that suitable lights and reflectors can help a bicycle rider be seen.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Ready to ride", "gradeBands": [2] },
+
+  { "id": "english.vocabulary.bicycle", "statement": "Understand the Class II meaning of bicycle as a two-wheeled vehicle moved by a rider.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Vocabulary", "gradeBands": [2] },
+  { "id": "english.vocabulary.pedal", "statement": "Distinguish pedal as a bicycle-part noun from pedal as an action verb.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Vocabulary", "gradeBands": [2] },
+  { "id": "english.vocabulary.brake", "statement": "Distinguish brake as a bicycle-part noun from brake as an action verb.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Vocabulary", "gradeBands": [2] },
+  { "id": "english.vocabulary.handlebar", "statement": "Understand handlebar as the bicycle part used for steering.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Vocabulary", "gradeBands": [2] },
+  { "id": "english.vocabulary.tyre", "statement": "Understand tyre as the outer covering around a wheel.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Vocabulary", "gradeBands": [2] },
+  { "id": "english.vocabulary.bell", "statement": "Understand bell as an object that can make a ringing sound.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Vocabulary", "gradeBands": [2] },
+
+  { "id": "capability.english.semantic-part-labelling", "statement": "Label or match a familiar object's visible parts using appropriate words.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Language capability", "gradeBands": [2] },
+  { "id": "capability.english.vocabulary.sense-recognition", "statement": "Choose the intended meaning of a familiar word from its sentence context.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Language capability", "gradeBands": [2] },
+  { "id": "capability.english.phonics.short-a-recognition", "statement": "Recognise the short-a sound in familiar spoken and written words.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Phonics", "gradeBands": [2] },
+  { "id": "capability.english.grammar.indefinite-article-selection", "statement": "Choose a or an for familiar words by attending to the word's opening sound.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Grammar", "gradeBands": [2] }
+]

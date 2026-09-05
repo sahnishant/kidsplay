@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "moduleId": "curriculum.ncert.2026-27.class2.english.mridang",
+  "moduleType": "curriculum_book",
+  "status": "editorial_pilot",
+  "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+  "curriculumIdentity": {
+    "authority": "NCERT",
+    "country": "India",
+    "classLevel": 2,
+    "subject": "English",
+    "bookTitle": "Mridang",
+    "edition": "2026-27",
+    "boardMappings": []
+  },
+  "coverage": {
+    "status": "partial_pilot",
+    "admittedChapterCount": 1,
+    "bookWidePublicationClaim": false
+  },
+  "units": [
+    {
+      "unitId": "curriculum.ncert.2026-27.class2.english.mridang.unit1",
+      "title": "Fun with Friends",
+      "chapterModuleRefs": [
+        "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+      ]
+    }
+  ],
+  "publication": {
+    "runtimeEligible": false,
+    "reason": "Source-rights and human editorial approval remain open."
+  }
+}

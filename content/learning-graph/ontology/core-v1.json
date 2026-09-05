@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "ontologyId": "kidsplay.learning-graph.core.v1",
+  "openWorldAssumption": true,
+  "nodeTypes": [
+    "entity",
+    "entity_class",
+    "part",
+    "concept",
+    "lexical_sense",
+    "lexical_form",
+    "chapter_actor",
+    "chapter_instance",
+    "phonological_pattern",
+    "grammar_concept"
+  ],
+  "authorityKinds": [
+    "canonical",
+    "curriculum_conventional",
+    "chapter_contextual",
+    "fictional",
+    "worked_example",
+    "source_perspective"
+  ],
+  "reviewStatuses": [
+    "editorial_candidate",
+    "source_extracted_draft",
+    "blocked_pending_sense_review",
+    "source_verified_editorial_only",
+    "human_approved"
+  ],
+  "mediaPurposes": [
+    "instructional",
+    "neutral_assessment_stimulus",
+    "hint",
+    "scaffold",
+    "answer_revealing",
+    "non_evaluative_activity",
+    "decorative"
+  ],
+  "predicateDefinitions": [
+    {
+      "id": "is_a",
+      "subjectTypes": [
+        "entity"
+      ],
+      "objectTypes": [
+        "entity_class"
+      ],
+      "qualifiersAllowed": [],
+      "transitive": true
+    },
+    {
+      "id": "instance_of",
+      "subjectTypes": [
+        "chapter_instance"
+      ],
+      "objectTypes": [
+        "entity"
+      ],
+      "qualifiersAllowed": [],
+      "transitive": false
+    },
+    {
+      "id": "typically_has_part",
+      "subjectTypes": [
+        "entity"
+      ],
+      "objectTypes": [
+        "part"
+      ],
+      "qualifiersAllowed": [
+        "frequency"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "may_have_part",
+      "subjectTypes": [
+        "entity"
+      ],
+      "objectTypes": [
+        "part"
+      ],
+      "qualifiersAllowed": [
+        "frequency"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "has_part",
+      "subjectTypes": [
+        "chapter_instance"
+      ],
+      "objectTypes": [
+        "part"
+      ],
+      "qualifiersAllowed": [],
+      "transitive": false
+    },
+    {
+      "id": "owns",
+      "subjectTypes": [
+        "chapter_actor"
+      ],
+      "objectTypes": [
+        "chapter_instance"
+      ],
+      "qualifiersAllowed": [],
+      "transitive": false
+    },
+    {
+      "id": "has_colour",
+      "subjectTypes": [
+        "chapter_instance"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "qualifiersAllowed": [
+        "appliesToPartRef"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "uses",
+      "subjectTypes": [
+        "chapter_actor"
+      ],
+      "objectTypes": [
+        "entity"
+      ],
+      "qualifiersAllowed": [
+        "activity"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "produces_sound",
+      "subjectTypes": [
+        "entity",
+        "part"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "qualifiersAllowed": [],
+      "transitive": false
+    },
+    {
+      "id": "contributes_to",
+      "subjectTypes": [
+        "concept"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "qualifiersAllowed": [
+        "contextRef"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "protects",
+      "subjectTypes": [
+        "entity"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "qualifiersAllowed": [
+        "activity"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "requires",
+      "subjectTypes": [
+        "chapter_instance"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "qualifiersAllowed": [
+        "componentRef"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "may_move_at_speed",
+      "subjectTypes": [
+        "chapter_instance"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "qualifiersAllowed": [
+        "frequency"
+      ],
+      "transitive": false
+    },
+    {
+      "id": "denotes",
+      "subjectTypes": [
+        "lexical_sense"
+      ],
+      "objectTypes": [
+        "entity",
+        "part",
+        "concept"
+      ],
+      "qualifiersAllowed": [],
+      "transitive": false
+    }
+  ],
+  "qualifierDefinitions": [
+    {
+      "id": "frequency",
+      "valueType": "enum",
+      "values": [
+        "typical",
+        "common",
+        "possible",
+        "sometimes",
+        "chapter_specific",
+        "always"
+      ]
+    },
+    {
+      "id": "appliesToPartRef",
+      "valueType": "node_ref"
+    },
+    {
+      "id": "componentRef",
+      "valueType": "node_ref"
+    },
+    {
+      "id": "contextRef",
+      "valueType": "node_ref"
+    },
+    {
+      "id": "activity",
+      "valueType": "enum",
+      "values": [
+        "riding_bicycle"
+      ]
+    }
+  ]
+}

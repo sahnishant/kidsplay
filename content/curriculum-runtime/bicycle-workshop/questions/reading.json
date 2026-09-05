@@ -1,0 +1,102 @@
+[
+  {
+    "id": "bicycle.workshop.reading.detail.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["capability.english.reading.literal-retrieval"],
+    "difficulty": 1,
+    "language": "en-IN",
+    "prompt": { "text": "Read: Aman fastens his helmet, checks the brakes, and then starts to pedal. What does Aman fasten?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": false,
+      "options": [
+        { "id": "helmet", "label": "Helmet", "visualRefs": ["entity.safety.helmet"] },
+        { "id": "bell", "label": "Bell", "visualRefs": ["entity.bicycle-part.cycle-bell"] },
+        { "id": "pedal", "label": "Pedal", "visualRefs": ["entity.bicycle-part.pedal"] }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["helmet"] },
+    "feedback": {
+      "correct": "Correct. The passage says Aman fastens his helmet.",
+      "incorrect": "Read the first action again. Aman fastens something he wears on his head."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-independent-curriculum-companion" }
+  },
+  {
+    "id": "bicycle.workshop.reading.sequence.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["capability.english.reading.sequence-retrieval"],
+    "difficulty": 2,
+    "language": "en-IN",
+    "prompt": { "text": "Read: Meera puts on her helmet. Next, she checks the brake. Last, she begins to pedal. Put the actions in order." },
+    "interaction": {
+      "type": "sequence_order",
+      "version": 1,
+      "seed": 241,
+      "items": [
+        { "id": "helmet", "label": "Put on helmet", "visualRefs": ["entity.safety.helmet"] },
+        { "id": "brake", "label": "Check brake", "visualRefs": ["entity.bicycle-part.brake"] },
+        { "id": "pedal", "label": "Begin to pedal", "visualRefs": ["entity.bicycle-part.pedal"] }
+      ]
+    },
+    "solution": { "type": "ordered_items", "orderedItemIds": ["helmet", "brake", "pedal"] },
+    "feedback": {
+      "correct": "Correct. You followed the order stated in the passage.",
+      "incorrect": "Use the signal words next and last to place the actions."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-independent-curriculum-companion" }
+  },
+  {
+    "id": "bicycle.workshop.reading.verify.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["capability.english.reading.statement-verification"],
+    "difficulty": 2,
+    "language": "en-IN",
+    "prompt": { "text": "Read: Nila rings the bicycle bell before she passes a walker. Which statement agrees with the passage?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": false,
+      "options": [
+        { "id": "signal", "label": "Nila uses the bell to signal that she is nearby.", "visualRefs": ["entity.bicycle-part.cycle-bell"] },
+        { "id": "slow", "label": "Nila uses the bell to slow the bicycle.", "visualRefs": ["entity.bicycle-part.brake"] },
+        { "id": "move", "label": "Nila uses the bell to make the wheels turn.", "visualRefs": ["entity.bicycle-part.wheel"] }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["signal"] },
+    "feedback": {
+      "correct": "Correct. The bell signals that Nila is nearby.",
+      "incorrect": "The passage connects ringing the bell with passing someone nearby."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-independent-curriculum-companion" }
+  },
+  {
+    "id": "bicycle.workshop.reading.inference.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": ["capability.english.reading.simple-inference"],
+    "difficulty": 2,
+    "language": "en-IN",
+    "prompt": { "text": "Read: Kabir sees a turn ahead, so he squeezes the brake lever. Why does he squeeze it?" },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": false,
+      "options": [
+        { "id": "slow", "label": "To slow the bicycle", "visualRefs": ["entity.bicycle-part.brake"] },
+        { "id": "signal", "label": "To make a ringing signal", "visualRefs": ["entity.bicycle-part.cycle-bell"] },
+        { "id": "move", "label": "To make the bicycle move faster", "visualRefs": ["entity.bicycle-part.pedal"] }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["slow"] },
+    "feedback": {
+      "correct": "Correct. Kabir uses the brake before the turn so the bicycle slows.",
+      "incorrect": "Think about why a rider reduces speed before a turn."
+    },
+    "authoring": { "status": "reviewed", "source": "kidsplay-independent-curriculum-companion" }
+  }
+]

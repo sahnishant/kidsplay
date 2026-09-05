@@ -1,0 +1,117 @@
+{
+  "schemaVersion": 1,
+  "promptSetId": "ai-prompts.bicycle-workshop.v1",
+  "runtimeCompanionRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "policyRef": "source-policy.mridang.my-bicycle.independent-expression.v1",
+  "generationMode": "text_to_image_from_learning_graph_only",
+  "globalDirection": {
+    "audience": "Indian Class II children",
+    "visualCharacter": "clear, friendly, modern educational illustration with strong silhouettes and generous whitespace",
+    "consistency": "same original bicycle design and visual language across the pack",
+    "embeddedText": "none except separately rendered UI labels",
+    "sourceReference": "none",
+    "required": [
+      "mechanically recognisable bicycle",
+      "large distinguishable child-facing forms",
+      "high foreground-background separation",
+      "no unsafe riding depiction",
+      "no brand marks",
+      "no textbook page furniture",
+      "no identifiable copyrighted character"
+    ],
+    "negativeConstraints": [
+      "do not trace or transform a source image",
+      "do not imitate any named illustrator, publisher, textbook, animation studio or living artist",
+      "do not reproduce a textbook pose, palette, composition, layout or decorative border",
+      "do not include NCERT or CBSE names, logos or marks inside artwork",
+      "do not render labels as part of the image",
+      "do not show a child riding without a properly fitted helmet"
+    ]
+  },
+  "assets": [
+    {
+      "assetId": "asset.bicycle-workshop.hero",
+      "semanticRefs": ["entity.vehicle.bicycle"],
+      "purpose": "chapter_hero_and_neutral_recognition",
+      "aspectRatio": "4:3",
+      "transparentBackground": true,
+      "prompt": "Create an entirely original side-view children's educational illustration of one practical bicycle. Show two wheels, frame, handlebar, seat, pedals and brakes clearly. Use a simple friendly form, accurate enough for part recognition, with no rider, no scenery, no text and no logo."
+    },
+    {
+      "assetId": "asset.bicycle-workshop.parts",
+      "semanticRefs": [
+        "claim.bicycle.typically-has-part.wheel",
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.typically-has-part.handlebar",
+        "claim.bicycle.typically-has-part.brake",
+        "claim.bicycle.may-have-part.bell",
+        "claim.bicycle.may-have-part.carrier"
+      ],
+      "purpose": "instructional_part_focus",
+      "aspectRatio": "4:3",
+      "transparentBackground": false,
+      "prompt": "Create an original uncluttered bicycle workshop diagram for young children. Place one side-view bicycle centrally and leave clean space around the wheel, pedal, handlebar, brake, bicycle bell, seat and rear carrier so the app can place interactive labels later. No printed labels, arrows or page-like border."
+    },
+    {
+      "assetId": "asset.bicycle-workshop.motion-chain",
+      "semanticRefs": [
+        "claim.push-pedals.contributes-to.crank-turns",
+        "claim.crank-turns.contributes-to.chain-moves",
+        "claim.chain-moves.contributes-to.rear-wheel-turns",
+        "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+      ],
+      "purpose": "causal_process_explanation",
+      "aspectRatio": "16:9",
+      "transparentBackground": false,
+      "prompt": "Create an original four-stage educational sequence showing only the essential bicycle mechanism: a foot presses a pedal, the crank turns, the chain moves, and the rear wheel turns so the bicycle moves forward. Use four clearly separated visual beats without words. Keep the mechanism child-readable rather than mechanically dense."
+    },
+    {
+      "assetId": "asset.bicycle-workshop.braking-chain",
+      "semanticRefs": [
+        "claim.squeeze-brake-lever.contributes-to.brake-engages",
+        "claim.brake-engages.contributes-to.bicycle-slowing"
+      ],
+      "purpose": "causal_process_explanation",
+      "aspectRatio": "16:9",
+      "transparentBackground": false,
+      "prompt": "Create an original three-stage children's educational sequence: a hand squeezes a bicycle brake lever, the brake engages at a wheel, and the bicycle slows before a turn. Use clear visual separation and motion cues without words, danger, collision or source-page styling."
+    },
+    {
+      "assetId": "asset.bicycle-workshop.safety-check",
+      "semanticRefs": [
+        "claim.check-helmet.contributes-to.safer-ride",
+        "claim.check-brakes.contributes-to.safer-ride",
+        "claim.check-tyres.contributes-to.safer-ride"
+      ],
+      "purpose": "safety_scenario",
+      "aspectRatio": "4:3",
+      "transparentBackground": false,
+      "prompt": "Create an original friendly pre-ride bicycle safety scene for a Class II learner. Show a child beside, not riding, a bicycle while checking a correctly fitted helmet, gently testing a brake lever, and looking at both tyres. Use three clear focus areas, no text, no road traffic and no branded clothing."
+    },
+    {
+      "assetId": "asset.bicycle-workshop.reading-cards",
+      "semanticRefs": [
+        "capability.english.reading.literal-retrieval",
+        "capability.english.reading.sequence-retrieval",
+        "capability.english.reading.statement-verification",
+        "capability.english.reading.simple-inference"
+      ],
+      "purpose": "neutral_reading_support",
+      "aspectRatio": "16:9",
+      "transparentBackground": false,
+      "prompt": "Create four entirely original small scene cards using the same bicycle design: fastening a helmet, checking a brake, ringing a bicycle bell near a pedestrian with safe distance, and slowing before a turn. Keep each card compositionally distinct and neutral so the app can pair it with independently written reading questions. No text or source-page imitation."
+    }
+  ],
+  "admission": {
+    "requiredChecks": [
+      "semantic_accuracy",
+      "part_visibility",
+      "child_safety",
+      "accessibility_contrast",
+      "source_similarity_review",
+      "offline_asset_size",
+      "visual_registry_binding"
+    ],
+    "status": "awaiting_generation"
+  }
+}

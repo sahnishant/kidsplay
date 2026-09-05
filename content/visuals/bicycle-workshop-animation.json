@@ -1,0 +1,11 @@
+[
+  {
+    "id": "animation.variant.bicycle-workshop-neutral",
+    "renderer": "utility-icon",
+    "glyph": "bicycle",
+    "label": "Bicycle Workshop bicycle",
+    "motion": "idle",
+    "aliases": ["bicycle workshop animation subject"],
+    "animationIdentityRef": "entity.vehicle.bicycle"
+  }
+]

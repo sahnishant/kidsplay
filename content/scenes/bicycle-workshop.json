@@ -1,0 +1,5 @@
+[
+  { "id": "scene.bicycle-workshop.neutral", "theme": "paper", "ariaLabel": "An original simple bicycle in a workshop space.", "animationRef": "animation.bicycle-workshop.neutral" },
+  { "id": "scene.bicycle-workshop.motion", "theme": "paper", "ariaLabel": "An original bicycle with arrows inviting the child to think about movement.", "animationRef": "animation.bicycle-workshop.motion" },
+  { "id": "scene.bicycle-workshop.safety", "theme": "grass", "ariaLabel": "An original bicycle, helmet and check mark representing a pre-ride safety check.", "animationRef": "animation.bicycle-workshop.safety" }
+]

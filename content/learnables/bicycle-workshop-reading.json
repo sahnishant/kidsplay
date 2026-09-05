@@ -1,0 +1,6 @@
+[
+  { "id": "capability.english.reading.literal-retrieval", "statement": "Retrieve an explicitly stated detail from a short independently authored passage.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Reading comprehension", "gradeBands": [2] },
+  { "id": "capability.english.reading.sequence-retrieval", "statement": "Put explicitly stated events from a short passage in their correct order.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Reading comprehension", "gradeBands": [2] },
+  { "id": "capability.english.reading.statement-verification", "statement": "Decide whether a statement agrees with information explicitly given in a short passage.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Reading comprehension", "gradeBands": [2] },
+  { "id": "capability.english.reading.simple-inference", "statement": "Use an action and its context in a short passage to choose a simple reason or consequence.", "subject": "English", "topic": "Bicycle Workshop", "subtopic": "Reading comprehension", "gradeBands": [2] }
+]

@@ -1,0 +1,18 @@
+[
+  { "id": "entity.bicycle-part.pedal", "renderer": "utility-icon", "glyph": "bicycle", "label": "Pedal", "motion": "pulse", "aliases": ["pedal"] },
+  { "id": "entity.bicycle-part.brake", "renderer": "utility-icon", "glyph": "bicycle", "label": "Brake", "motion": "pulse", "aliases": ["brake"] },
+  { "id": "entity.bicycle-part.seat", "renderer": "utility-icon", "glyph": "bicycle", "label": "Seat", "motion": "idle", "aliases": ["seat"] },
+  { "id": "entity.bicycle-part.carrier", "renderer": "utility-icon", "glyph": "bicycle", "label": "Carrier", "motion": "idle", "aliases": ["carrier"] },
+  { "id": "entity.bicycle-part.handlebar", "renderer": "utility-icon", "glyph": "bicycle", "label": "Handlebar", "motion": "wiggle", "aliases": ["handlebar"] },
+  { "id": "entity.bicycle-part.wheel", "renderer": "utility-icon", "glyph": "bicycle", "label": "Wheel", "motion": "spin", "aliases": ["wheel"] },
+  { "id": "entity.bicycle-part.cycle-bell", "renderer": "utility-icon", "glyph": "bicycle", "label": "Bicycle bell", "motion": "wiggle", "aliases": ["bicycle bell", "cycle bell"] },
+
+  { "id": "entity.bicycle-step.rider-pushes-pedals", "renderer": "utility-icon", "glyph": "bicycle", "label": "Rider pushes pedals", "motion": "pulse", "aliases": ["rider pushes pedals"] },
+  { "id": "entity.bicycle-step.crank-turns", "renderer": "utility-icon", "glyph": "bicycle", "label": "Crank turns", "motion": "spin", "aliases": ["crank turns"] },
+  { "id": "entity.bicycle-step.chain-moves", "renderer": "utility-icon", "glyph": "bicycle", "label": "Chain moves", "motion": "wiggle", "aliases": ["chain moves"] },
+  { "id": "entity.bicycle-step.rear-wheel-turns", "renderer": "utility-icon", "glyph": "bicycle", "label": "Rear wheel turns", "motion": "spin", "aliases": ["rear wheel turns"] },
+  { "id": "entity.bicycle-step.bicycle-moves", "renderer": "utility-icon", "glyph": "bicycle", "label": "Bicycle moves", "motion": "float", "aliases": ["bicycle moves"] },
+  { "id": "entity.bicycle-step.rider-squeezes-brake-lever", "renderer": "utility-icon", "glyph": "bicycle", "label": "Rider squeezes brake lever", "motion": "pulse", "aliases": ["rider squeezes brake lever"] },
+  { "id": "entity.bicycle-step.brake-engages", "renderer": "utility-icon", "glyph": "bicycle", "label": "Brake engages", "motion": "pulse", "aliases": ["brake engages"] },
+  { "id": "entity.bicycle-step.bicycle-slows", "renderer": "utility-icon", "glyph": "bicycle", "label": "Bicycle slows", "motion": "idle", "aliases": ["bicycle slows"] }
+]

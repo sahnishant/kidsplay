@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "blueprintId": "assessment.ncert.2026-27.class2.english.mridang.my-bicycle.v1",
+  "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle",
+  "status": "editorial_pilot",
+  "generationPolicy": {
+    "verbatimSourceTextAllowed": false,
+    "sourceArtworkAllowed": false,
+    "independentChildWordingRequired": true,
+    "runtimeCloudGenerationAllowed": false,
+    "deterministicRecipeRequired": true
+  },
+  "targets": [
+    {
+      "id": "target.my-bicycle.listen.bell-source",
+      "mode": "evaluative",
+      "cognitiveOperation": "discriminate",
+      "targetCapabilityRefs": [
+        "capability.english.listening.sound-source-identification"
+      ],
+      "targetClaimRefs": [
+        "claim.bicycle-bell.produces.ring"
+      ],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [
+        "media.binding.my-bicycle.bell-sound-assessment"
+      ],
+      "preAnswerMedia": true,
+      "responseShape": "controlled_choice",
+      "evidencePolicy": {
+        "capabilities": "record",
+        "targetClaims": "practice_only",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.phonics.short-a",
+      "mode": "evaluative",
+      "cognitiveOperation": "discriminate",
+      "targetCapabilityRefs": [
+        "capability.english.phonics.short-a-recognition"
+      ],
+      "targetNodeRefs": [
+        "phonology.en.short-a"
+      ],
+      "targetClaimRefs": [],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [],
+      "preAnswerMedia": false,
+      "responseShape": "controlled_choice",
+      "evidencePolicy": {
+        "capabilities": "record",
+        "targetClaims": "none",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.grammar.a-an",
+      "mode": "evaluative",
+      "cognitiveOperation": "apply",
+      "targetCapabilityRefs": [
+        "capability.english.grammar.indefinite-article-selection"
+      ],
+      "targetNodeRefs": [
+        "grammar.en.indefinite-article-a-an"
+      ],
+      "targetClaimRefs": [],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [],
+      "preAnswerMedia": false,
+      "responseShape": "controlled_choice",
+      "evidencePolicy": {
+        "capabilities": "record",
+        "targetClaims": "none",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.parts.labelling",
+      "mode": "evaluative",
+      "cognitiveOperation": "label",
+      "targetCapabilityRefs": [
+        "capability.english.semantic-part-labelling"
+      ],
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.wheel",
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.typically-has-part.seat",
+        "claim.bicycle.typically-has-part.handlebar",
+        "claim.bicycle.may-have-part.bell",
+        "claim.bicycle.may-have-part.carrier",
+        "claim.bicycle.typically-has-part.brake"
+      ],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [
+        "media.binding.my-bicycle.parts-assessment"
+      ],
+      "preAnswerMedia": true,
+      "responseShape": "label_or_match",
+      "evidencePolicy": {
+        "capabilities": "record",
+        "targetClaims": "record_target_only",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.vocabulary.pedal-sense",
+      "mode": "guided_practice",
+      "cognitiveOperation": "recognise",
+      "targetCapabilityRefs": [
+        "capability.english.vocabulary.sense-recognition"
+      ],
+      "targetClaimRefs": [
+        "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+        "claim.lexeme.pedal-verb.denotes.pedalling"
+      ],
+      "supportingClaimRefs": [
+        "claim.pedalling.contributes-to.bicycle-movement"
+      ],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [
+        "media.binding.my-bicycle.entity-neutral"
+      ],
+      "preAnswerMedia": true,
+      "responseShape": "controlled_choice",
+      "evidencePolicy": {
+        "capabilities": "practice_only",
+        "targetClaims": "practice_only",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.comprehension.colour-retrieval",
+      "mode": "evaluative",
+      "cognitiveOperation": "retrieve",
+      "targetCapabilityRefs": [
+        "capability.english.reading.literal-retrieval"
+      ],
+      "targetClaimRefs": [],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [
+        "claim.chapter.my-bicycle.bicycle-colour-red"
+      ],
+      "mediaBindingRefs": [],
+      "preAnswerMedia": false,
+      "responseShape": "controlled_choice",
+      "expectedSemantics": {
+        "kind": "select_object",
+        "objectRef": "concept.colour.red",
+        "evidenceClaimRefs": [
+          "claim.chapter.my-bicycle.bicycle-colour-red"
+        ]
+      },
+      "evidencePolicy": {
+        "capabilities": "record",
+        "targetClaims": "none",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.comprehension.speed-verification",
+      "mode": "evaluative",
+      "cognitiveOperation": "verify",
+      "targetCapabilityRefs": [
+        "capability.english.reading.statement-verification"
+      ],
+      "targetClaimRefs": [],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [
+        "claim.chapter.my-bicycle.bicycle-may-move-fast",
+        "claim.chapter.my-bicycle.bicycle-may-move-slow"
+      ],
+      "mediaBindingRefs": [],
+      "preAnswerMedia": false,
+      "responseShape": "truth_judgement",
+      "expectedSemantics": {
+        "kind": "truth_judgement",
+        "expectedJudgement": false,
+        "candidateAssertion": {
+          "subjectRef": "chapter.mridang.my-bicycle.bicycle",
+          "predicate": "may_move_at_speed",
+          "objectRef": "concept.speed.fast",
+          "qualifiers": {
+            "frequency": "always"
+          }
+        },
+        "evidenceClaimRefs": [
+          "claim.chapter.my-bicycle.bicycle-may-move-fast",
+          "claim.chapter.my-bicycle.bicycle-may-move-slow"
+        ],
+        "evaluationBasis": "explicit_conflicting_frequency_evidence"
+      },
+      "evidencePolicy": {
+        "capabilities": "record",
+        "targetClaims": "none",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.speaking.object-description",
+      "mode": "non_evaluative",
+      "cognitiveOperation": "describe",
+      "targetCapabilityRefs": [
+        "capability.english.speaking.familiar-object-description"
+      ],
+      "targetClaimRefs": [],
+      "supportingClaimRefs": [
+        "claim.bicycle.is-a.wheeled-vehicle"
+      ],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [
+        "media.binding.my-bicycle.entity-neutral"
+      ],
+      "preAnswerMedia": true,
+      "responseShape": "open_spoken_response",
+      "evidencePolicy": {
+        "capabilities": "none",
+        "targetClaims": "none",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    },
+    {
+      "id": "target.my-bicycle.creative.magic-bicycle",
+      "mode": "non_evaluative",
+      "cognitiveOperation": "create",
+      "targetCapabilityRefs": [
+        "capability.english.creative.imagine-draw-speak"
+      ],
+      "targetClaimRefs": [],
+      "supportingClaimRefs": [],
+      "contextClaimRefs": [],
+      "mediaBindingRefs": [
+        "media.binding.my-bicycle.creative-canvas"
+      ],
+      "preAnswerMedia": false,
+      "responseShape": "open_drawing_or_spoken_response",
+      "evidencePolicy": {
+        "capabilities": "none",
+        "targetClaims": "none",
+        "supportingClaims": "none",
+        "contextClaims": "none"
+      }
+    }
+  ]
+}

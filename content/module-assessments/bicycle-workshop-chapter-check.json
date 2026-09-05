@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "blueprintId": "assessment.bicycle-workshop.chapter-check.v1",
+  "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "packRef": "free.english.bicycle-workshop.chapter-check.1",
+  "title": "Bicycle Workshop — Chapter Check",
+  "assessmentKind": "formative_chapter_check",
+  "status": "reviewed_companion_blueprint",
+  "officialPaperClaimed": false,
+  "sourcePassageReproduced": false,
+  "sourceExerciseWordingReproduced": false,
+  "totalQuestions": 8,
+  "totalMarks": 8,
+  "selectionPolicy": {
+    "type": "fixed_question_set",
+    "shuffleQuestions": false,
+    "shuffleOptionsOnlyWhereQuestionAllows": true,
+    "runtimeCloudGeneration": false
+  },
+  "deliveryPolicy": {
+    "feedback": "existing_formative_session_feedback",
+    "retry": "existing_honest_retry_policy",
+    "summativeExamClaimed": false,
+    "notes": "This first proof is a formative, exam-oriented chapter check. A future summative mode may suppress feedback and retry without changing its knowledge graph or question identities."
+  },
+  "sections": [
+    {
+      "id": "reading",
+      "title": "Read and understand",
+      "startIndex": 0,
+      "count": 2,
+      "marksPerQuestion": 1,
+      "questionRefs": [
+        "bicycle.workshop.reading.detail.001",
+        "bicycle.workshop.reading.sequence.001"
+      ],
+      "targetCapabilityRefs": [
+        "capability.english.reading.literal-retrieval",
+        "capability.english.reading.sequence-retrieval"
+      ]
+    },
+    {
+      "id": "words",
+      "title": "Word meaning",
+      "startIndex": 2,
+      "count": 1,
+      "marksPerQuestion": 1,
+      "questionRefs": [
+        "bicycle.workshop.word.pedal-noun.001"
+      ],
+      "targetCapabilityRefs": [
+        "capability.english.vocabulary.sense-recognition"
+      ]
+    },
+    {
+      "id": "sounds-and-grammar",
+      "title": "Sounds and grammar",
+      "startIndex": 3,
+      "count": 2,
+      "marksPerQuestion": 1,
+      "questionRefs": [
+        "bicycle.workshop.phonics.short-a.001",
+        "bicycle.workshop.grammar.article.002"
+      ],
+      "targetCapabilityRefs": [
+        "capability.english.phonics.short-a-recognition",
+        "capability.english.grammar.indefinite-article-selection"
+      ]
+    },
+    {
+      "id": "apply-and-reason",
+      "title": "Apply and reason",
+      "startIndex": 5,
+      "count": 2,
+      "marksPerQuestion": 1,
+      "questionRefs": [
+        "bicycle.workshop.match.parts-functions.001",
+        "bicycle.workshop.sequence.motion.001"
+      ],
+      "targetClaimRefs": [
+        "claim.pedalling.contributes-to.bicycle-movement",
+        "claim.turn-handlebar.contributes-to.direction-change",
+        "claim.brake-engages.contributes-to.bicycle-slowing",
+        "claim.ring-bell.contributes-to.signal-presence",
+        "claim.push-pedals.contributes-to.crank-turns",
+        "claim.crank-turns.contributes-to.chain-moves",
+        "claim.chain-moves.contributes-to.rear-wheel-turns",
+        "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+      ]
+    },
+    {
+      "id": "safety",
+      "title": "Ready to ride",
+      "startIndex": 7,
+      "count": 1,
+      "marksPerQuestion": 1,
+      "questionRefs": [
+        "bicycle.workshop.safety.pre-ride.001"
+      ],
+      "targetClaimRefs": [
+        "claim.check-helmet.contributes-to.safer-ride",
+        "claim.check-brakes.contributes-to.safer-ride",
+        "claim.check-tyres.contributes-to.safer-ride"
+      ]
+    }
+  ],
+  "evidencePolicy": {
+    "readingItemsUpdateSupportingBicycleClaims": false,
+    "phonicsItemsUpdateBicycleClaims": false,
+    "grammarItemsUpdateBicycleClaims": false,
+    "graphItemsUpdateExactClaimRefs": true,
+    "chapterLocalPoemClaimsAllowed": false
+  }
+}
