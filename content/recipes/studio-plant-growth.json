@@ -1,0 +1,3 @@
+[
+  { "id": "plants.studio.seed-growth.001", "sourceRef": "knowledge.science.process.germination.001", "engine": "sequence_order@1", "revision": 1, "difficulty": 2, "seed": 443, "evidencePolicy": "practice_only", "prompt": "Follow a seed that is beginning to grow. Start with the seed and finish with the young plant.", "feedback": { "correct": "You followed this seed-growth sequence: seed, sprout, young plant.", "incorrect": "Keep your cards. Begin with the seed; the sprout comes before the young plant. Show me lets you look at each stage." } }
+]

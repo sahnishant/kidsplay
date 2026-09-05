@@ -64,7 +64,19 @@ export const FRACTIONS_LEARN_ABOUT_TOPIC = {
   ]
 } as const satisfies LearnAboutTopic;
 
-export const LEARN_ABOUT_TOPICS: readonly LearnAboutTopic[] = [EARTH_LEARN_ABOUT_TOPIC, LION_LEARN_ABOUT_TOPIC, FIRE_STATION_LEARN_ABOUT_TOPIC, FRACTIONS_LEARN_ABOUT_TOPIC];
+/** A new topic home for an existing canonical process, not a new plant-fact bank. */
+export const PLANTS_LEARN_ABOUT_TOPIC = {
+  schemaVersion: 1,
+  topicId: 'learn.plants',
+  childTitle: 'Plants',
+  archetype: 'how_it_works',
+  rootConceptRefs: ['sof3.plants.germination'],
+  sections: [
+    { sectionId: 'plants.seed-growth', childTitle: 'A seed begins to grow', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
+  ]
+} as const satisfies LearnAboutTopic;
+
+export const LEARN_ABOUT_TOPICS: readonly LearnAboutTopic[] = [EARTH_LEARN_ABOUT_TOPIC, LION_LEARN_ABOUT_TOPIC, FIRE_STATION_LEARN_ABOUT_TOPIC, FRACTIONS_LEARN_ABOUT_TOPIC, PLANTS_LEARN_ABOUT_TOPIC];
 
 export function getLearnAboutTopic(topicId: string): LearnAboutTopic | undefined {
   return LEARN_ABOUT_TOPICS.find((topic) => topic.topicId === topicId);

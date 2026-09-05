@@ -26,7 +26,8 @@ export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
     ]
   },
   { topicId: 'learn.fire-station', icon: '🚒', sections: [] },
-  { topicId: 'learn.fractions', icon: '◒', sections: [] }
+  { topicId: 'learn.fractions', icon: '◒', sections: [] },
+  { topicId: 'learn.plants', icon: '🌱', sections: [] }
 ];
 
 export function getLearnAboutTopicBinding(topicId: string): LearnAboutTopicBinding | undefined {
