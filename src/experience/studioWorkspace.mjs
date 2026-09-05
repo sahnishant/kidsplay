@@ -6,8 +6,9 @@ const ownKeys = (value, allowed) => record(value) && Object.keys(value).every((k
 
 function canonical(value, depth = 0) {
   if (depth > 16) throw new Error('Studio configuration is too deeply nested');
-  if (Array.isArray(value)) return value.map((item) => canonical(item, depth + 1));
+  if (Array.isArray(value)) return Array.from(value, (item) => canonical(item, depth + 1));
   if (record(value)) return Object.fromEntries(Object.keys(value).sort().filter((key) => value[key] !== undefined).map((key) => [key, canonical(value[key], depth + 1)]));
+  if (typeof value === 'number' && !Number.isFinite(value)) throw new Error('Studio configuration needs finite numbers');
   if (value === null || ['string', 'number', 'boolean'].includes(typeof value)) return value;
   throw new Error('Studio configuration must be JSON data');
 }
@@ -15,7 +16,8 @@ function canonical(value, depth = 0) {
 /** Exact canonical descriptor, not a lossy hash; catches a forgotten revision bump. */
 export function studioQuestionSignature(question) {
   if (!record(question) || !id(question.id) || !Number.isSafeInteger(question.revision) || question.revision < 1 || !record(question.interaction) || !record(question.solution)) throw new Error('Invalid studio source identity');
-  const signature = JSON.stringify(canonical([question.id, question.revision, question.interaction, question.solution]));
+  const context = { language: question.language, prompt: question.prompt, stimulus: question.stimulus, conceptIds: question.conceptIds, knowledgeRefs: question.knowledgeRefs };
+  const signature = JSON.stringify(canonical([question.id, question.revision, question.interaction, question.solution, context]));
   if (signature.length > 16000) throw new Error('Studio source exceeds the workspace bound');
   return signature;
 }

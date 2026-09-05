@@ -16,11 +16,8 @@
   let compactLetters = $derived(question.interaction.items.length >= 2 && question.interaction.items.every((item) => Array.from(item.label).length === 1 && /^[A-Z0-9]$/i.test(item.label)));
   let compactSequence = $derived(!compactLetters && question.interaction.items.length <= 4);
 
-  $effect(() => {
-    const state = { orderedItemIds: order.map((item) => item.id) };
-    untrack(() => onStateChange?.(state));
-  });
-
+  $effect(() => { untrack(() => publish()); });
+  function publish(): void { onStateChange?.({ orderedItemIds: order.map((item) => item.id) }); }
   function choose(itemId: string, index: number): void {
     if (locked) return;
     const noun = compactLetters ? 'letter' : 'card';
@@ -29,6 +26,7 @@
     order = swapItems(order, order.findIndex((candidate) => candidate.id === selectedId), index);
     selectedId = null;
     status = compactLetters ? 'Letters swapped.' : 'Cards swapped.';
+    publish();
   }
   function move(index: number, targetIndex: number): void {
     if (locked) return;
@@ -36,6 +34,7 @@
     order = moveItem(order, index, targetIndex);
     selectedId = null;
     status = `${item.label} moved ${targetIndex < index ? 'earlier' : 'later'}.`;
+    publish();
   }
   function submit(): void {
     if (locked) return;
@@ -88,5 +87,5 @@
 {/if}
 
 <style>
-  .letter-order__instructions{margin:0 0 12px}.letter-order__tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:12px 0}.letter-order__slot{display:inline-flex}.letter-order__tile{min-width:48px;min-height:52px;padding:7px 12px;border:2px solid currentColor;border-radius:12px;font:inherit;font-size:1.35rem;font-weight:800;line-height:1}.letter-order__tile--selected{transform:translateY(-3px);outline:3px solid currentColor;outline-offset:2px}.sequence-order__item{display:flex;align-items:center;gap:10px;text-align:left}:global(.sequence-order__visuals){display:flex;align-items:center;justify-content:center;flex:0 0 58px;width:58px;height:48px}:global(.sequence-order__visuals--compound){flex-basis:86px;width:86px}:global(.sequence-order__visual){width:48px;height:44px}:global(.sequence-order__visuals--compound .sequence-order__visual){width:39px;height:39px}.sequence-order__symbol{flex:0 0 auto;font-size:1.7rem}@media(max-width:480px){.letter-order__tiles{gap:7px}.letter-order__tile{min-width:43px;min-height:48px;padding:6px 10px;font-size:1.2rem}}
+  .letter-order__instructions{margin:0 0 12px}.letter-order__tiles{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:12px 0}.letter-order__slot{display:inline-flex}.letter-order__tile{min-width:48px;min-height:52px;padding:7px 12px;border:2px solid currentColor;border-radius:12px;font:inherit;font-size:1.35rem;font-weight:800;line-height:1}.letter-order__tile--selected{transform:translateY(-3px);outline:3px solid currentColor;outline-offset:2px}.sequence-order__item{display:flex;align-items:center;gap:10px;text-align:left}:global(.sequence-order__visuals){display:flex;align-items:center;justify-content:center;flex:0 0 58px;width:58px;height:48px}:global(.sequence-order__visuals--compound){flex-basis:86px;width:86px}:global(.sequence-order__visual){width:48px;height:44px}:global(.sequence-order__visuals--compound .sequence-order__visual){width:39px;height:39px}.sequence-order__symbol{flex:0 0 auto;font-size:1.7rem}@media(max-width:480px){.letter-order__tiles{gap:7px}.letter-order__tile{min-width:48px;min-height:48px;padding:6px 10px;font-size:1.2rem}}
 </style>
