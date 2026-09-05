@@ -11,6 +11,7 @@ export const EARTH_LEARN_ABOUT_TOPIC = {
     { sectionId: 'earth.meet-earth', childTitle: 'Meet Earth', knowledgeRefs: ['kr.universe.earth.type.planet'], depthBands: ['d0_first_play', 'd1_preschool'], recipeFamilies: ['explore', 'did_you_know', 'guess'] },
     { sectionId: 'earth.land-water', childTitle: 'Land & water', knowledgeRefs: [], depthBands: ['d0_first_play', 'd1_preschool'], recipeFamilies: ['explore'] },
     { sectionId: 'earth.day-and-night', childTitle: 'Day and Night', knowledgeRefs: ['kr.universe.earth.rotation.day-night'], depthBands: ['d2_early_primary'], recipeFamilies: ['explore', 'did_you_know', 'try_it'] },
+    { sectionId: 'earth.water-changes', childTitle: 'Water can change', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
     { sectionId: 'earth.space-neighbours', childTitle: 'Space Neighbours', knowledgeRefs: ['kr.universe.earth.type.planet', 'kr.universe.sun.type.star', 'kr.universe.moon.type.satellite', 'kr.universe.earth.position.third'], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore', 'did_you_know', 'compare', 'guess'] },
     { sectionId: 'earth.go-deeper', childTitle: 'Go Deeper', knowledgeRefs: ['kr.universe.sun.type.star', 'kr.universe.moonlight.source.sun', 'kr.universe.orbit.definition.planet-path'], depthBands: ['d3_deeper_primary'], recipeFamilies: ['explore', 'did_you_know', 'practice'] }
   ]

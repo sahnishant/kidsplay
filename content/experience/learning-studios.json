@@ -14,7 +14,10 @@
     {"activityId":"studio.words.pedal","family":"sequence_studio","childTitle":"Build PEDAL","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"pedal","conceptRef":"english.vocabulary.pedal","knowledgeRef":"claim.lexeme.pedal-noun.denotes.bicycle-pedal"}}},
     {"activityId":"studio.words.brake","family":"sequence_studio","childTitle":"Build BRAKE","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"brake","conceptRef":"english.vocabulary.brake","knowledgeRef":"claim.lexeme.brake-noun.denotes.bicycle-brake"}}},
     {"activityId":"studio.words.bell","family":"sequence_studio","childTitle":"Build BELL","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"bell","conceptRef":"english.vocabulary.bell","knowledgeRef":"claim.lexeme.bell.denotes.bicycle-bell"}}},
-    {"activityId":"studio.words.tyre","family":"sequence_studio","childTitle":"Build TYRE","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"tyre","conceptRef":"english.vocabulary.tyre","knowledgeRef":"claim.lexeme.tyre.denotes.bicycle-tyre"}}}
+    {"activityId":"studio.words.tyre","family":"sequence_studio","childTitle":"Build TYRE","source":{"kind":"bicycle_workshop","questionId":"bicycle.workshop.word-search.parts.001","wordProjection":{"termId":"tyre","conceptRef":"english.vocabulary.tyre","knowledgeRef":"claim.lexeme.tyre.denotes.bicycle-tyre"}}},
+    {"activityId":"studio.earth.day-sequence","family":"sequence_studio","childTitle":"From sunrise to midnight","source":{"kind":"question_bank","questionId":"earth.studio.day-sequence.001"}},
+    {"activityId":"studio.earth.ice-melting","family":"sequence_studio","childTitle":"When ice melts","source":{"kind":"question_bank","questionId":"earth.studio.ice-melting.001"}},
+    {"activityId":"studio.earth.water-freezing","family":"sequence_studio","childTitle":"When water freezes","source":{"kind":"question_bank","questionId":"earth.studio.water-freezing.001"}}
   ],
   "workshopBindings": [
     {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]},
@@ -25,6 +28,8 @@
     {"topicId":"learn.fractions","sectionId":"fractions.make-and-share","minDepth":"d2_early_primary","activityRefs":["studio.fractions.dosa","studio.fractions.garden"]},
     {"topicId":"learn.lion","sectionId":"lion.animal-neighbours","minDepth":"d2_early_primary","activityRefs":["studio.sequence.butterfly"]},
     {"topicId":"learn.fractions","sectionId":"fractions.share-with-friends","minDepth":"d2_early_primary","activityRefs":["studio.fractions.three-friends","studio.fractions.four-friends"]},
-    {"topicId":"learn.fractions","sectionId":"fractions.same-half","minDepth":"d2_early_primary","activityRefs":["studio.fractions.equal-shares","studio.fractions.half-six","studio.fractions.half-eight"]}
+    {"topicId":"learn.fractions","sectionId":"fractions.same-half","minDepth":"d2_early_primary","activityRefs":["studio.fractions.equal-shares","studio.fractions.half-six","studio.fractions.half-eight"]},
+    {"topicId":"learn.earth","sectionId":"earth.day-and-night","minDepth":"d2_early_primary","activityRefs":["studio.earth.day-sequence"]},
+    {"topicId":"learn.earth","sectionId":"earth.water-changes","minDepth":"d2_early_primary","activityRefs":["studio.earth.ice-melting","studio.earth.water-freezing"]}
   ]
 }
