@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "blueprintId": "assessment.bicycle-workshop.class2-english.v1",
+  "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "kind": "curriculum_companion_chapter_check",
+  "status": "engineering_ready_pending_human_editorial_review",
+  "officialBoardPaper": false,
+  "sourceTextRequiredInRuntime": false,
+  "sourceArtworkRequiredInRuntime": false,
+  "purpose": "Balanced Class II English chapter-companion practice after the child studies the prescribed school chapter.",
+  "scopePolicy": {
+    "allowed": ["chapter_core", "chapter_supporting"],
+    "excluded": ["enrichment", "chapter_contextual"],
+    "chapterContextOverlayRef": "assessment.ncert.2026-27.class2.english.mridang.my-bicycle.v1",
+    "chapterContextOverlayRuntimeEnabled": false,
+    "reason": "Exact source-dependent comprehension remains rights/editorial gated; the live companion uses independent expression only."
+  },
+  "sections": [
+    {
+      "id": "parts_and_jobs",
+      "title": "Parts and jobs",
+      "count": 2,
+      "marksPerQuestion": 1,
+      "requiredConceptGroups": ["bicycle.parts", "bicycle.function"]
+    },
+    {
+      "id": "words",
+      "title": "Words and meanings",
+      "count": 2,
+      "marksPerQuestion": 1,
+      "requiredConceptGroups": ["english.vocabulary.pedal", "english.vocabulary.brake"]
+    },
+    {
+      "id": "sounds_and_sentences",
+      "title": "Sounds and sentences",
+      "count": 2,
+      "marksPerQuestion": 1,
+      "requiredConceptGroups": ["english.phonics.short-a", "english.grammar.a-an"]
+    },
+    {
+      "id": "apply_and_stay_safe",
+      "title": "Apply and stay safe",
+      "count": 2,
+      "marksPerQuestion": 1,
+      "requiredConceptGroups": ["bicycle.reasoning", "bicycle.safety"]
+    }
+  ],
+  "totalQuestions": 8,
+  "totalMarks": 8,
+  "forms": [
+    {
+      "id": "form-a",
+      "questionRefs": [
+        "bicycle.workshop.part.pedal.001",
+        "bicycle.workshop.match.parts-functions.001",
+        "bicycle.workshop.word.pedal-noun.001",
+        "bicycle.workshop.word.brake-verb.001",
+        "bicycle.workshop.phonics.short-a.001",
+        "bicycle.workshop.grammar.article.001",
+        "bicycle.workshop.sequence.braking.001",
+        "bicycle.workshop.safety.pre-ride.001"
+      ]
+    },
+    {
+      "id": "form-b",
+      "questionRefs": [
+        "bicycle.workshop.part.wheel.001",
+        "bicycle.workshop.control.handlebar.001",
+        "bicycle.workshop.word.pedal-verb.001",
+        "bicycle.workshop.word.brake-noun.001",
+        "bicycle.workshop.phonics.short-a.002",
+        "bicycle.workshop.grammar.article.002",
+        "bicycle.workshop.sequence.motion.001",
+        "bicycle.workshop.safety.helmet.001"
+      ]
+    },
+    {
+      "id": "form-c",
+      "questionRefs": [
+        "bicycle.workshop.control.brake.001",
+        "bicycle.workshop.signal.bell.001",
+        "bicycle.workshop.match.word-sense.001",
+        "bicycle.workshop.fill.pedal.001",
+        "bicycle.workshop.phonics.short-a.001",
+        "bicycle.workshop.grammar.article.002",
+        "bicycle.workshop.human-power.001",
+        "bicycle.workshop.fill.helmet.001"
+      ]
+    }
+  ],
+  "livePracticePackRef": "free.english.bicycle-workshop.chapter-check.1",
+  "delivery": {
+    "currentMode": "practice_check_with_existing_honest_retry",
+    "strictNoHintExamMode": "not_claimed",
+    "deterministicMembership": true,
+    "runtimeCloudGeneration": false,
+    "recordsCanonicalEvidence": true
+  },
+  "reviewGates": {
+    "childWording": "required",
+    "linguistic": "required",
+    "visual": "required",
+    "examBlueprint": "required"
+  }
+}
