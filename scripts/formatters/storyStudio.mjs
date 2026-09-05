@@ -28,7 +28,7 @@ export function projectStoryStudio(story, binding) {
     id: binding.questionId, revision: binding.revision, schemaVersion: 1,
     conceptIds: [binding.conceptRef], knowledgeRefs: [], evidencePolicy: 'practice_only',
     difficulty: 2, language: binding.language,
-    prompt: { text: `Read “${story.childTitle}” in Show me, then arrange its events. This order belongs to the story, not to every real-life visit.` },
+    prompt: { text: `Read “${story.childTitle}” in Show me. Then put this story's events in order.` },
     interaction: { type: 'sequence_order', version: 1, seed: binding.seed, items },
     solution: { type: 'ordered_items', orderedItemIds: items.map(({ id }) => id) },
     feedback: { correct: 'You put the events in this story in their original order.', incorrect: 'Keep your cards. Read this story again in Show me, then compare its events with your order.' },
