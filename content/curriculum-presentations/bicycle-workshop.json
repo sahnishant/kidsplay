@@ -1,0 +1,160 @@
+{
+  "schemaVersion": 1,
+  "presentationId": "curriculum-presentation.bicycle-workshop.v1",
+  "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "childTitle": "Bicycle Workshop",
+  "subtitle": "Look closely. Find each part. Follow how movement travels.",
+  "badge": "CLASS 2 ENGLISH",
+  "practicePackRef": "free.english.bicycle-workshop.1",
+  "chapterCheckPackRef": "free.english.bicycle-workshop.chapter-check.1",
+  "sourceExpression": {
+    "copied": false,
+    "sourceTextShown": false,
+    "sourceArtworkShown": false,
+    "policyRef": "source-policy.mridang.my-bicycle.independent-expression.v1"
+  },
+  "beats": [
+    {
+      "id": "meet",
+      "order": 1,
+      "eyebrow": "MEET IT",
+      "title": "A rider-powered vehicle",
+      "body": "A bicycle is a two-wheeled vehicle. The rider supplies the power by pushing the pedals.",
+      "claimRefs": [
+        "claim.bicycle.is-a.wheeled-vehicle",
+        "claim.bicycle.is-a.human-powered-vehicle",
+        "claim.pedalling.contributes-to.bicycle-movement"
+      ],
+      "capabilityRefs": [],
+      "visual": {
+        "kind": "entity",
+        "visualRef": "entity.transport.bicycle",
+        "ariaLabel": "An original side-view drawing of a bicycle."
+      },
+      "exposureEvidence": "none"
+    },
+    {
+      "id": "parts",
+      "order": 2,
+      "eyebrow": "PARTS AND JOBS",
+      "title": "Every part helps in a different way",
+      "body": "Pedals help the bicycle move. The handlebar helps the rider steer. Brakes help it slow down. A bell can signal to people nearby.",
+      "claimRefs": [
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.typically-has-part.handlebar",
+        "claim.bicycle.typically-has-part.brake",
+        "claim.bicycle.may-have-part.bell",
+        "claim.pedalling.contributes-to.bicycle-movement",
+        "claim.turn-handlebar.contributes-to.direction-change",
+        "claim.brake-engages.contributes-to.bicycle-slowing",
+        "claim.ring-bell.contributes-to.signal-presence"
+      ],
+      "capabilityRefs": [
+        "capability.english.semantic-part-labelling"
+      ],
+      "visual": {
+        "kind": "grid",
+        "visualRefs": [
+          "visual.bicycle-workshop.bicycle-pedal",
+          "visual.bicycle-workshop.bicycle-handlebar",
+          "visual.bicycle-workshop.bicycle-brake",
+          "visual.bicycle-workshop.bicycle-bell"
+        ],
+        "labels": ["Pedal", "Handlebar", "Brake", "Bell"],
+        "ariaLabel": "Four original bicycle-part drawings: pedal, handlebar, brake and bell."
+      },
+      "exposureEvidence": "none"
+    },
+    {
+      "id": "movement",
+      "order": 3,
+      "eyebrow": "FOLLOW THE MOVEMENT",
+      "title": "One action starts a chain",
+      "body": "The feet push the pedals. The crank turns, the chain moves, and the rear wheel turns. Then the bicycle moves forward.",
+      "claimRefs": [
+        "claim.push-pedals.contributes-to.crank-turns",
+        "claim.crank-turns.contributes-to.chain-moves",
+        "claim.chain-moves.contributes-to.rear-wheel-turns",
+        "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+      ],
+      "capabilityRefs": [],
+      "visual": {
+        "kind": "animation",
+        "animationRef": "animation.bicycle-workshop.motion",
+        "ariaLabel": "An original bicycle movement diagram with a push cue and direction arrow."
+      },
+      "sequence": ["Push pedals", "Crank turns", "Chain moves", "Rear wheel turns", "Bicycle moves"],
+      "exposureEvidence": "none"
+    },
+    {
+      "id": "words",
+      "order": 4,
+      "eyebrow": "WORD WORKSHOP",
+      "title": "A word can name a part or an action",
+      "body": "“The pedal” names a part. “Pedal gently” tells someone what to do. “The brake” names a part. “Brake before the turn” names an action.",
+      "claimRefs": [
+        "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+        "claim.lexeme.pedal-verb.denotes.pedalling",
+        "claim.lexeme.brake-noun.denotes.bicycle-brake",
+        "claim.lexeme.brake-verb.denotes.bicycle-slowing"
+      ],
+      "capabilityRefs": [
+        "capability.english.vocabulary.sense-recognition"
+      ],
+      "visual": {
+        "kind": "grid",
+        "visualRefs": [
+          "visual.bicycle-workshop.bicycle-pedal",
+          "visual.bicycle-workshop.bicycle-brake"
+        ],
+        "labels": ["pedal", "brake"],
+        "ariaLabel": "Original drawings of a bicycle pedal and brake."
+      },
+      "exposureEvidence": "none"
+    },
+    {
+      "id": "sounds",
+      "order": 5,
+      "eyebrow": "SOUND AND SENTENCE PLAY",
+      "title": "Listen to the word before choosing",
+      "body": "Cat, map and cap share the short-a sound. We say “a helmet” and “an apple.” The choice follows the sound at the start of the next word.",
+      "claimRefs": [],
+      "capabilityRefs": [
+        "capability.english.phonics.short-a-recognition",
+        "capability.english.grammar.indefinite-article-selection"
+      ],
+      "visual": {
+        "kind": "tokens",
+        "tokens": ["cat", "map", "cap", "a helmet", "an apple"],
+        "ariaLabel": "Word cards for short-a and a-or-an sentence practice."
+      },
+      "exposureEvidence": "none"
+    },
+    {
+      "id": "safety",
+      "order": 6,
+      "eyebrow": "READY TO RIDE",
+      "title": "Check the rider and the bicycle",
+      "body": "Fasten a well-fitted helmet. Check that the brakes work and the tyres are ready. Use the bell to signal when needed.",
+      "claimRefs": [
+        "claim.cycling-helmet.protects.head",
+        "claim.check-helmet.contributes-to.safer-ride",
+        "claim.check-brakes.contributes-to.safer-ride",
+        "claim.check-tyres.contributes-to.safer-ride",
+        "claim.ring-bell.contributes-to.signal-presence"
+      ],
+      "capabilityRefs": [],
+      "visual": {
+        "kind": "animation",
+        "animationRef": "animation.bicycle-workshop.safety",
+        "ariaLabel": "An original bicycle safety scene with a cycling helmet and check mark."
+      },
+      "exposureEvidence": "none"
+    }
+  ],
+  "completion": {
+    "title": "Workshop explored",
+    "body": "Now use the parts, words, sounds and safety ideas in practice.",
+    "masteryEvidence": "none"
+  }
+}
