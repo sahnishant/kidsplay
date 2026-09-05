@@ -70,7 +70,10 @@ export function validateBicycleWorkshopGuidedExperience() {
 
   invariant(tracedBeatCount >= 15, `Guided experience is too thin: ${tracedBeatCount} traced beats`);
   invariant(component.includes("bicycle-workshop-guided.json"), 'Viewport does not consume the guided content authority');
-  invariant(component.includes('SemanticAnimation') && component.includes('VisualEntity'), 'Viewport does not consume semantic media');
+  invariant(component.includes('SemanticVisualPresenter'), 'Viewport does not consume the canonical semantic media presenter');
+  invariant(component.includes('animationVisualPresentation') && component.includes('resolveItemVisualPresentation'), 'Viewport does not resolve both animation and entity visual authorities');
+  invariant(!component.includes("from '../presentation/VisualEntity.svelte'"), 'Viewport bypasses the canonical semantic presenter with a direct entity renderer');
+  invariant(!component.includes("from '../presentation/SemanticAnimation.svelte'"), 'Viewport bypasses the canonical semantic presenter with a direct animation renderer');
   invariant(component.includes('onPractice') && component.includes('onChapterCheck'), 'Viewport does not launch both assessed surfaces');
   invariant(!/recordAttempt|evaluate\(|localProgress|saveProgress|knowledgeEvidence/.test(component), 'Guided viewport must not write or evaluate mastery');
   invariant(!sourceIdentity.test(component), 'Source identity leaked into the child viewport');
@@ -87,6 +90,7 @@ export function validateBicycleWorkshopGuidedExperience() {
     tracedBeatCount,
     claimTraceCount: guide.sections.flatMap((section) => section.beats).reduce((sum, beat) => sum + (beat.claimRefs?.length ?? 0), 0),
     capabilityTraceCount: guide.sections.flatMap((section) => section.beats).reduce((sum, beat) => sum + (beat.capabilityRefs?.length ?? 0), 0),
+    semanticPresenter: 'SemanticVisualPresenter',
     nonEvaluative: guide.evidencePolicy.viewingWritesMastery === false,
     homeIntegrated: true
   };
