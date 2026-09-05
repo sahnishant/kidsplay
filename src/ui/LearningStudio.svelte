@@ -47,7 +47,7 @@
       const saved = untrack(() => $state.snapshot(initialWorkspace));
       const restored = readStudioWorkspace(id, loaded, saved);
       saveAllowed = saved == null || restored !== null;
-      restoreNotice = saveAllowed ? '' : 'This activity has changed. Your old saved work has not been replaced. Choose Start over to begin a new copy.';
+      restoreNotice = saveAllowed ? '' : 'This activity has changed. Old work is saved. Choose Start over for a new copy.';
       engineState = restored?.state ?? undefined;
       engineInitial = restored?.state ?? undefined;
       mode = restored?.learning.mode ?? 'explore';
@@ -60,7 +60,7 @@
       confirmReset = false;
       question = loaded;
       feedback = checked && restored?.state ? describeResponse(loaded, restored.state) : '';
-    }).catch(() => { if (live) loadError = 'This activity could not be opened. Go back and try opening it again.'; });
+    }).catch(() => { if (live) loadError = 'This activity could not be opened. Go back and try again.'; });
     return () => { live = false; };
   });
 
@@ -166,7 +166,7 @@
     </nav>
     {#if checked}
       <div class="studio__feedback" style="flex:none;max-height:32dvh;overflow:auto">
-        <p role="status" aria-live="polite" style="margin:3px 0">{feedback}</p>
+        <p role="status" aria-live="polite">{feedback}</p>
         <button type="button" onclick={retry}>Change my answer</button>
       </div>
     {/if}
@@ -184,12 +184,12 @@
         {@const ids = sequenceQuestion.solution.orderedItemIds}
         {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === ids[stepIndex])!}
         {@const visual = resolveItemVisualPresentation(item, { recipeSurface: 'sequence-item' })}
-        <p>{storySequence ? 'Read this story at your own pace. You do not need to answer to reach the ending.' : 'Follow this sequence one step at a time.'}</p>
+        <p>{storySequence ? 'Read at your own pace. No answers are needed to reach the ending.' : 'Follow one step at a time.'}</p>
         <article class="studio__step" aria-live="polite">
           <small>{storySequence ? 'Page' : 'Step'} {stepIndex + 1} of {ids.length}</small>
           {#if visual.hasVisuals}
             <div class="studio__illustration" style="width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box">
-              <SemanticVisualPresenter presentation={visual} class="studio__visual" style="display:block;width:100%;height:100%" itemStyle="display:block;width:100%;height:100%" />
+              <SemanticVisualPresenter presentation={visual} style="display:block;width:100%;height:100%" itemStyle="display:block;width:100%;height:100%" />
             </div>
           {/if}
           <strong>{item.label}</strong>

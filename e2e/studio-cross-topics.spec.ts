@@ -64,7 +64,7 @@ test.describe('cross-topic studio teaching and recovery',() => {
     await expect(dialog.getByRole('button',{name:'Next step',exact:true})).toBeDisabled();
     expect((await work(page,pilot.activity)).workspace.learning.checkCount).toBe(0);
     expect(await evidence(page)).toEqual(before);
-    if(pilot.topic === 'Fire Station') await expect(dialog.getByText('Read this story at your own pace. You do not need to answer to reach the ending.',{exact:true})).toBeVisible();
+    if(pilot.topic === 'Fire Station') await expect(dialog.getByText('Read at your own pace. No answers are needed to reach the ending.',{exact:true})).toBeVisible();
     await page.screenshot({path:info.outputPath(`studio-${pilot.activity}-reading.png`)});
     await dialog.getByRole('button',{name:'Try it',exact:true}).click();
     // Exercise a tap swap and its keyboard equivalent before arranging the task.
