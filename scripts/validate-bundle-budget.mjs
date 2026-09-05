@@ -32,9 +32,19 @@ const lazyRouteBudgets = [
   { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 },
   // Curriculum chapters must scale without consuming child startup budget.
-  // The teaching viewport and assessed question bank have independent caps.
+  // The teaching viewport and executable selection code have independent caps;
+  // question/pack content is emitted as JSON and budgeted below.
   { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
-  { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 14 * 1024, maxCssBytes: 0 }
+  { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 0 }
+];
+
+const contentAssetBudgets = [
+  {
+    prefix: 'runtime-bicycle-workshop-',
+    expectedCount: 6,
+    maxRawBytes: 48 * 1024,
+    maxGzipBytes: 12 * 1024
+  }
 ];
 
 function kib(bytes) {
@@ -45,7 +55,9 @@ async function measure(name) {
   const path = join(assetsDir, name);
   const info = await stat(path);
   const bytes = info.size;
-  const gzipBytes = name.endsWith('.js') ? gzipSync(await readFile(path)).byteLength : null;
+  const gzipBytes = name.endsWith('.js') || name.endsWith('.json')
+    ? gzipSync(await readFile(path)).byteLength
+    : null;
   return { name, bytes, gzipBytes };
 }
 
@@ -62,10 +74,14 @@ try {
 }
 
 const measured = await Promise.all(
-  names.filter((name) => name.endsWith('.js') || name.endsWith('.css')).sort().map(measure)
+  names
+    .filter((name) => name.endsWith('.js') || name.endsWith('.css') || name.endsWith('.json'))
+    .sort()
+    .map(measure)
 );
 const js = measured.filter((asset) => asset.name.endsWith('.js'));
 const css = measured.filter((asset) => asset.name.endsWith('.css'));
+const json = measured.filter((asset) => asset.name.endsWith('.json'));
 
 if (!js.length) {
   console.error('Bundle budget validation failed: production build emitted no JavaScript assets.');
@@ -114,6 +130,22 @@ for (const route of lazyRouteBudgets) {
     errors.push(`${route.prefix} CSS is ${kib(routeCssBytes)}; budget ${kib(route.maxCssBytes)}`);
   }
   console.log(`- ${route.prefix} route: ${kib(routeJsGzipBytes)} JS gzip / ${kib(routeCssBytes)} CSS`);
+}
+
+for (const contentBudget of contentAssetBudgets) {
+  const assets = json.filter((asset) => asset.name.startsWith(contentBudget.prefix));
+  const rawBytes = assets.reduce((sum, asset) => sum + asset.bytes, 0);
+  const gzipBytes = assets.reduce((sum, asset) => sum + (asset.gzipBytes ?? 0), 0);
+  if (assets.length !== contentBudget.expectedCount) {
+    errors.push(`${contentBudget.prefix} emitted ${assets.length} JSON asset(s); expected ${contentBudget.expectedCount}`);
+  }
+  if (rawBytes > contentBudget.maxRawBytes) {
+    errors.push(`${contentBudget.prefix} data is ${kib(rawBytes)} raw; budget ${kib(contentBudget.maxRawBytes)}`);
+  }
+  if (gzipBytes > contentBudget.maxGzipBytes) {
+    errors.push(`${contentBudget.prefix} data is ${kib(gzipBytes)} gzip; budget ${kib(contentBudget.maxGzipBytes)}`);
+  }
+  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)} gzip`);
 }
 
 if (errors.length) {
