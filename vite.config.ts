@@ -10,6 +10,7 @@ const projectRoot = dirname(fileURLToPath(import.meta.url));
 const normalizePath = (value: string): string => value.replaceAll('\\', '/');
 const questionRoot = `${normalizePath(resolve(projectRoot, 'content/questions'))}/`;
 const membershipRoot = `${normalizePath(resolve(projectRoot, 'content/profile-memberships'))}/`;
+const curriculumRuntimeRoot = `${normalizePath(resolve(projectRoot, 'content/curriculum-runtime'))}/`;
 const resolvedMembershipPath = normalizePath(resolve(projectRoot, 'content/index/__generated-profile-memberships.json'));
 const forestWorldDepthPath = normalizePath(resolve(projectRoot, 'content/forest/world-depth.json'));
 const firstPlayRuntimePath = normalizePath(resolve(projectRoot, 'content/runtime/first-play-production.json'));
@@ -23,9 +24,18 @@ function isRuntimeContentJson(id: string): boolean {
   const cleanId = cleanModuleId(id);
   return cleanId.startsWith(questionRoot)
     || cleanId.startsWith(membershipRoot)
+    || cleanId.startsWith(curriculumRuntimeRoot)
     || cleanId === resolvedMembershipPath
     || cleanId === forestWorldDepthPath
     || cleanId === firstPlayRuntimePath;
+}
+
+function runtimeAssetName(cleanId: string): string {
+  if (cleanId.startsWith(curriculumRuntimeRoot)) {
+    const relativePath = normalizePath(relative(curriculumRuntimeRoot, cleanId));
+    return `runtime-${relativePath.replaceAll('/', '-')}`;
+  }
+  return `runtime-${basename(cleanId)}`;
 }
 
 function runtimeJsonServeCompatPlugin(): Plugin {
@@ -66,7 +76,7 @@ function runtimeJsonAssetPlugin(): Plugin {
       const sourceLabel = normalizePath(relative(projectRoot, cleanId));
       const referenceId: string = this.emitFile({
         type: 'asset',
-        name: `runtime-${basename(cleanId)}`,
+        name: runtimeAssetName(cleanId),
         source
       });
 
