@@ -39,6 +39,7 @@ test.describe('cross-topic visual review regressions',() => {
   test('long story cards cannot push feedback and Change my answer below the viewport',async({page},info) => {
     const dialog = await openTopic(page,'Fire Station',/^Dheu visits the fire station/);
     await dialog.getByRole('button',{name:'Try it',exact:true}).click();
+    const before = await dialog.locator('.sequence-order__item').allTextContents();
     await dialog.getByRole('button',{name:'Check order',exact:true}).click();
     const feedback = dialog.locator('.studio__feedback');
     await expect(feedback.getByRole('status')).not.toHaveText('');
@@ -49,6 +50,13 @@ test.describe('cross-topic visual review regressions',() => {
     expect(box.y+box.height).toBeLessThanOrEqual(640);
     const body = (await dialog.locator('.studio__body').boundingBox())!;
     expect(box.y+box.height).toBeLessThanOrEqual(body.y+1);
+    // Submitted work is inactive, not visually faded or replaced by the answer.
+    const ink = await dialog.locator('.studio').evaluate((element) => getComputedStyle(element).color);
+    for (const card of await dialog.locator('.sequence-order__item').all()) {
+      await expect(card).toHaveCSS('opacity','1');
+      await expect(card).toHaveCSS('color',ink);
+    }
+    expect(await dialog.locator('.sequence-order__item').allTextContents()).toEqual(before);
     await page.screenshot({path:info.outputPath('studio-story-visible-feedback.png')});
     await change.tap();
     await expect(dialog.getByRole('button',{name:'Check order',exact:true})).toBeEnabled();
