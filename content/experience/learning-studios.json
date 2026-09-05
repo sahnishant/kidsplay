@@ -18,7 +18,8 @@
     {"activityId":"studio.earth.day-sequence","family":"sequence_studio","childTitle":"From sunrise to midnight","source":{"kind":"question_bank","questionId":"earth.studio.day-sequence.001"}},
     {"activityId":"studio.earth.ice-melting","family":"sequence_studio","childTitle":"When ice melts","source":{"kind":"question_bank","questionId":"earth.studio.ice-melting.001"}},
     {"activityId":"studio.earth.water-freezing","family":"sequence_studio","childTitle":"When water freezes","source":{"kind":"question_bank","questionId":"earth.studio.water-freezing.001"}},
-    {"activityId":"studio.lion.growth","family":"sequence_studio","childTitle":"A lion grows up","source":{"kind":"question_bank","questionId":"lion.studio.growth.001"}}
+    {"activityId":"studio.lion.growth","family":"sequence_studio","childTitle":"A lion grows up","source":{"kind":"question_bank","questionId":"lion.studio.growth.001"}},
+    {"activityId":"studio.fire-station.visit-story","family":"sequence_studio","childTitle":"Dheu visits the fire station","source":{"kind":"question_bank","questionId":"fire-station.studio.visit-story.001"}}
   ],
   "workshopBindings": [
     {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]},
@@ -32,6 +33,7 @@
     {"topicId":"learn.fractions","sectionId":"fractions.same-half","minDepth":"d2_early_primary","activityRefs":["studio.fractions.equal-shares","studio.fractions.half-six","studio.fractions.half-eight"]},
     {"topicId":"learn.earth","sectionId":"earth.day-and-night","minDepth":"d2_early_primary","activityRefs":["studio.earth.day-sequence"]},
     {"topicId":"learn.earth","sectionId":"earth.water-changes","minDepth":"d2_early_primary","activityRefs":["studio.earth.ice-melting","studio.earth.water-freezing"]},
-    {"topicId":"learn.lion","sectionId":"lion.family","minDepth":"d2_early_primary","activityRefs":["studio.lion.growth"]}
+    {"topicId":"learn.lion","sectionId":"lion.family","minDepth":"d2_early_primary","activityRefs":["studio.lion.growth"]},
+    {"topicId":"learn.fire-station","sectionId":"fire-station.engine","minDepth":"d2_early_primary","activityRefs":["studio.fire-station.visit-story"]}
   ]
 }

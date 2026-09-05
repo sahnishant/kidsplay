@@ -109,3 +109,5 @@ console.log(
   `${expandedRecipeCount} expanded recipe(s): ${generatedQuestions.length} direct question(s), ` +
   `${generatedCrosswords.length} crossword authoring item(s).`
 );
+// Separate source scope and output: a story event must never become shared truth.
+execFileSync(process.execPath, [fileURLToPath(new URL('scripts/compile-story-studios.mjs', root))], { cwd: fileURLToPath(root), stdio: 'inherit' });
