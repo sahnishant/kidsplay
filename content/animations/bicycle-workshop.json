@@ -4,7 +4,7 @@
     "semanticRef": "entity.vehicle.bicycle",
     "theme": "paper",
     "ariaLabel": "An original simple bicycle drawing in an open workshop space.",
-    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "neutral", "x": 50, "y": 56, "scale": 1.25 },
+    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "neutral", "x": 50, "y": 58, "scale": 1.7 },
     "parts": []
   },
   {
@@ -12,10 +12,10 @@
     "semanticRef": "entity.vehicle.bicycle",
     "theme": "paper",
     "ariaLabel": "An original bicycle diagram with moving arrows inviting the child to think about movement.",
-    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "curious", "x": 48, "y": 58, "scale": 1.12 },
+    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "curious", "x": 49, "y": 61, "scale": 1.65 },
     "parts": [
-      { "id": "push", "role": "relation", "text": "PUSH", "slot": "above", "x": 28, "y": 20, "scale": 0.42, "motion": "pulse" },
-      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 77, "y": 56, "scale": 0.5, "motion": "float" }
+      { "id": "push", "role": "relation", "text": "PUSH", "slot": "above", "x": 27, "y": 20, "scale": 0.5, "motion": "pulse" },
+      { "id": "arrow", "role": "relation", "text": "→", "slot": "front", "x": 79, "y": 57, "scale": 0.58, "motion": "float" }
     ]
   },
   {
@@ -23,10 +23,10 @@
     "semanticRef": "entity.vehicle.bicycle",
     "theme": "grass",
     "ariaLabel": "An original bicycle workshop scene with a helmet and check mark for a pre-ride safety check.",
-    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "happy", "x": 43, "y": 59, "scale": 1.04 },
+    "subject": { "variantRef": "animation.variant.bicycle-workshop-neutral", "orientation": "side", "pose": "stand", "expression": "happy", "x": 42, "y": 63, "scale": 1.55 },
     "parts": [
-      { "id": "helmet", "role": "prop", "visualRef": "entity.safety.helmet", "slot": "above", "x": 78, "y": 34, "scale": 0.58 },
-      { "id": "check", "role": "relation", "text": "✓", "slot": "front", "x": 76, "y": 72, "scale": 0.48, "motion": "pulse" }
+      { "id": "helmet", "role": "prop", "visualRef": "entity.safety.helmet", "slot": "above", "x": 79, "y": 31, "scale": 0.78 },
+      { "id": "check", "role": "relation", "text": "✓", "slot": "front", "x": 78, "y": 73, "scale": 0.6, "motion": "pulse" }
     ]
   }
 ]
