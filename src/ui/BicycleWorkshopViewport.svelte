@@ -146,9 +146,7 @@
         {#if visualPresentation}
           <SemanticVisualPresenter presentation={visualPresentation} class="workshop__visual-presentation" />
         {:else}
-          <div class="workshop__visual-fallback" role="img" aria-label={section.visualLabel}>
-            <span aria-hidden="true">🚲</span><strong>{section.visualLabel}</strong>
-          </div>
+          <div class="workshop__visual-fallback" role="img" aria-label={section.visualLabel}>🚲 {section.visualLabel}</div>
         {/if}
       </div>
 
@@ -158,7 +156,6 @@
             <button
               type="button"
               class:workshop__idea-tab--active={index === activeBeatIndex}
-              class:workshop__idea-tab--visited={index < activeBeatIndex}
               aria-current={index === activeBeatIndex ? 'step' : undefined}
               aria-label={`Open idea ${index + 1}: ${item.label}`}
               onclick={() => chooseIdea(index)}
@@ -177,7 +174,7 @@
             <div class="workshop__sequence" aria-label={`${beat.label} sequence`}>
               {#each beat.sequence as step, stepIndex}
                 <span class="workshop__sequence-step">{step}</span>
-                {#if stepIndex < beat.sequence.length - 1}<span class="workshop__sequence-arrow" aria-hidden="true">→</span>{/if}
+                {#if stepIndex < beat.sequence.length - 1}<b aria-hidden="true">→</b>{/if}
               {/each}
             </div>
           {/if}
@@ -192,7 +189,7 @@
         {#if isLastBeat}
           <aside class="workshop__remember" aria-label="Remember this"><strong>REMEMBER</strong><p>{section.remember}</p></aside>
         {:else}
-          <p class="workshop__nudge">One idea at a time. Tap <b>Next idea</b> when you are ready.</p>
+          <p>One idea at a time. Tap <b>Next idea</b> when you are ready.</p>
         {/if}
       </div>
 
@@ -211,7 +208,7 @@
       <button class="workshop__primary" type="button" onclick={next}>{isLastBeat ? 'Next part' : 'Next idea'}</button>
     {:else}
       <div class="workshop__finish-actions">
-        <button class="workshop__secondary workshop__secondary--strong" type="button" onclick={onPractice}>Practice</button>
+        <button class="workshop__secondary" type="button" onclick={onPractice}>Practice</button>
         <button class="workshop__primary" type="button" onclick={onChapterCheck}>Chapter check</button>
       </div>
     {/if}
@@ -221,79 +218,55 @@
 <style>
   :global(.bicycle-workshop-host) { width:100%; height:100%; min-height:0; display:grid; overflow:hidden; }
   .workshop { width:min(920px,100%); height:100%; min-height:0; margin:auto; display:grid; grid-template-rows:auto auto minmax(0,1fr) auto; gap:7px; overflow:hidden; color:var(--ink); }
-  .workshop__topbar { min-height:56px; display:grid; grid-template-columns:42px minmax(0,1fr) auto; align-items:center; gap:8px; padding:5px 8px; border:1px solid #24303a18; border-radius:15px; background:#fff; }
-  .workshop__back { width:38px; height:38px; border:0; border-radius:11px; background:var(--accent-soft); color:var(--accent); font:900 1rem inherit; cursor:pointer; }
-  .workshop__heading { min-width:0; }
+  .workshop button { font:inherit; font-weight:850; cursor:pointer; }
+  .workshop small { font-size:.58rem; font-weight:850; letter-spacing:.04em; }
+
+  .workshop__topbar { min-height:54px; display:grid; grid-template-columns:40px minmax(0,1fr) auto; align-items:center; gap:8px; padding:5px 8px; border:1px solid #24303a18; border-radius:14px; background:#fff; }
+  .workshop__back { width:36px; height:36px; border:0; border-radius:10px; background:var(--accent-soft); color:var(--accent); font-size:1rem; }
   .workshop__heading h1,.workshop__lesson-heading h2 { margin:1px 0 0; line-height:1.05; }
-  .workshop__heading h1 { font-size:clamp(1rem,4vw,1.3rem); }
-  .workshop__lesson-heading h2 { font-size:clamp(1.08rem,4.5vw,1.5rem); }
+  .workshop__heading h1 { font-size:1.18rem; }
   .workshop__heading p { margin:2px 0 0; overflow:hidden; color:var(--muted); font-size:.68rem; font-weight:700; text-overflow:ellipsis; white-space:nowrap; }
-  .workshop__heading>small,.workshop__lesson-heading small,.workshop__look strong,.workshop__beat-heading small,.workshop__remember strong,.workshop__try strong { color:var(--accent); font-size:.57rem; font-weight:900; letter-spacing:.07em; }
-  .workshop__count { min-width:54px; display:grid; padding:5px 7px; border-radius:11px; background:#eef6ff; color:var(--accent); text-align:center; font-size:.7rem; font-weight:900; }
-  .workshop__count small { font-size:.5rem; white-space:nowrap; }
+  .workshop__count { min-width:52px; display:grid; padding:5px 7px; border-radius:10px; background:#eef6ff; color:var(--accent); text-align:center; font-size:.7rem; font-weight:900; }
 
   .workshop__steps { display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:5px; }
-  .workshop__step { min-width:0; min-height:42px; display:grid; grid-template-columns:auto minmax(0,1fr); align-items:center; gap:4px; padding:4px 6px; border:1px solid #24303a18; border-radius:11px; background:#fff; color:var(--muted); font:inherit; cursor:pointer; }
-  .workshop__step span,.workshop__look>span,.workshop__try>span,.workshop__beat-heading>span { display:grid; place-items:center; border-radius:50%; font-weight:900; }
-  .workshop__step span { width:22px; height:22px; background:#eef1f3; font-size:.65rem; }
-  .workshop__step small { overflow:hidden; font-size:.55rem; font-weight:850; text-overflow:ellipsis; text-transform:uppercase; white-space:nowrap; }
+  .workshop__step { min-width:0; min-height:40px; display:grid; grid-template-columns:auto minmax(0,1fr); place-items:center; gap:4px; padding:4px 6px; border:1px solid #24303a18; border-radius:11px; background:#fff; color:var(--muted); }
+  .workshop__step span { width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#eef1f3; font-size:.65rem; }
   .workshop__step--active { border-color:var(--accent); background:var(--accent-soft); color:var(--accent); }
-  .workshop__step--active span,.workshop__look>span,.workshop__try>span,.workshop__beat-heading>span { background:var(--accent); color:#fff; }
 
   .workshop__body { min-height:0; overflow:auto; }
-  .workshop__lesson { min-height:100%; display:grid; grid-template-columns:minmax(220px,.9fr) minmax(270px,1.1fr); grid-template-rows:auto auto minmax(0,1fr) auto; gap:9px 12px; padding:11px; border:1px solid #24303a18; border-radius:19px; background:#fff; }
+  .workshop__lesson { min-height:100%; display:grid; grid-template-columns:minmax(210px,.9fr) minmax(260px,1.1fr); grid-template-rows:auto auto minmax(0,1fr) auto; gap:9px 12px; padding:10px; border:1px solid #24303a18; border-radius:18px; background:#fff; }
   .workshop__lesson-heading,.workshop__look,.workshop__try { grid-column:1/-1; }
-  .workshop__look,.workshop__try,.workshop__beat-heading { display:grid; grid-template-columns:30px minmax(0,1fr); align-items:center; gap:8px; }
-  .workshop__look { min-height:46px; padding:7px 9px; border-radius:13px; background:#f3f0ff; }
-  .workshop__look>span,.workshop__try>span,.workshop__beat-heading>span { width:30px; height:30px; font-size:.72rem; }
-  .workshop__look p,.workshop__try p,.workshop__remember p,.workshop__beat p { margin:0; font-size:clamp(.82rem,2.5vw,.95rem); font-weight:740; line-height:1.3; }
+  .workshop__lesson-heading h2 { font-size:1.4rem; }
+  .workshop__look,.workshop__try { min-height:46px; display:grid; grid-template-columns:30px minmax(0,1fr); align-items:center; gap:8px; padding:7px 9px; border-radius:13px; }
+  .workshop__look { background:#f3f0ff; }
+  .workshop__look>span,.workshop__try>span,.workshop__beat-heading>span { width:30px; height:30px; display:grid; place-items:center; border-radius:50%; background:var(--accent); color:#fff; font-size:.72rem; font-weight:900; }
 
-  .workshop__visual { min-height:225px; display:grid; place-items:center; overflow:hidden; border:1px solid #24303a14; border-radius:17px; background:#fbfcfd; }
-  .workshop__visual :global(.workshop__visual-presentation),.workshop__visual :global([data-semantic-visual-kind='entities']) { width:100%; height:100%; display:grid; place-items:center; }
-  .workshop__visual :global(.visual-entity),.workshop__visual :global(.visual-entity__art) { width:100%; height:100%; }
-  .workshop__visual :global(svg) { width:100%; height:100%; max-height:270px; }
-  .workshop__visual-fallback { min-height:200px; display:grid; place-items:center; align-content:center; gap:6px; padding:12px; text-align:center; }
-  .workshop__visual-fallback span { font-size:4rem; }
-
+  .workshop__visual { min-height:220px; display:grid; place-items:center; overflow:hidden; border:1px solid #24303a14; border-radius:17px; background:#fbfcfd; }
+  .workshop__visual-fallback { padding:20px; text-align:center; font-weight:800; }
   .workshop__learn { min-width:0; display:grid; align-content:center; gap:8px; }
   .workshop__idea-tabs,.workshop__examples,.workshop__sequence { display:flex; flex-wrap:wrap; align-items:center; gap:6px; }
-  .workshop__idea-tabs button { width:34px; height:30px; border:1px solid #24303a20; border-radius:999px; background:#fff; color:var(--muted); font:900 .66rem inherit; cursor:pointer; }
-  .workshop__idea-tabs .workshop__idea-tab--visited { background:#eef1f3; color:var(--ink); }
+  .workshop__idea-tabs button { width:34px; height:30px; border:1px solid #24303a20; border-radius:999px; background:#fff; color:var(--muted); }
   .workshop__idea-tabs .workshop__idea-tab--active { border-color:var(--accent); background:var(--accent); color:#fff; }
-  .workshop__beat { min-height:145px; display:grid; align-content:center; gap:9px; padding:11px; border-radius:15px; background:#f7f9fa; }
-  .workshop__beat-heading div { min-width:0; display:grid; }
-  .workshop__beat-heading strong { font-size:.86rem; font-weight:900; }
+  .workshop__beat { min-height:140px; display:grid; align-content:center; gap:9px; padding:11px; border-radius:15px; background:#f7f9fa; }
+  .workshop__beat-heading { display:grid; grid-template-columns:30px minmax(0,1fr); align-items:center; gap:8px; }
+  .workshop__look p,.workshop__try p,.workshop__remember p,.workshop__beat p { margin:0; font-size:.9rem; font-weight:740; line-height:1.3; }
   .workshop__examples span,.workshop__sequence-step { padding:6px 8px; border-radius:9px; background:#fff; font-size:.7rem; font-weight:800; }
   .workshop__sequence-step { border:1px solid #6358dc22; background:#f3f0ff; color:#3f36a8; }
-  .workshop__sequence-arrow { color:var(--accent); font-weight:900; }
-  .workshop__remember { display:grid; gap:2px; padding:8px 9px; border-left:4px solid var(--accent); border-radius:9px; background:#f3f0ff; }
-  .workshop__nudge { margin:0; color:var(--muted); font-size:.66rem; font-weight:700; }
-  .workshop__try { min-height:52px; padding:7px 9px; border:1px dashed #e2a93d; border-radius:13px; background:#fff9e9; }
-  .workshop__try>span { background:#d89220; }
-  .workshop__try small { display:block; margin-top:2px; color:var(--muted); font-size:.61rem; font-weight:700; }
+  .workshop__remember { padding:8px 9px; border-left:4px solid var(--accent); border-radius:9px; background:#f3f0ff; }
+  .workshop__try { border:1px dashed #e2a93d; background:#fff9e9; }
 
-  .workshop__footer { min-height:50px; display:grid; grid-template-columns:minmax(92px,.45fr) minmax(160px,1fr); gap:8px; }
-  .workshop__finish-actions { display:grid; grid-template-columns:1fr 1.25fr; gap:8px; }
-  .workshop__primary,.workshop__secondary { min-height:48px; border-radius:13px; font:900 .9rem inherit; cursor:pointer; }
+  .workshop__footer,.workshop__finish-actions { display:grid; gap:8px; }
+  .workshop__footer { min-height:48px; grid-template-columns:88px minmax(0,1fr); }
+  .workshop__finish-actions { grid-template-columns:1fr 1.25fr; }
+  .workshop__primary,.workshop__secondary { min-height:46px; border-radius:13px; }
   .workshop__primary { border:0; background:var(--accent); color:#fff; }
   .workshop__secondary { border:2px solid var(--line); background:#fff; color:var(--ink); }
-  .workshop__secondary--strong { border-color:var(--accent); color:var(--accent); }
-  .workshop__secondary:disabled { opacity:.38; cursor:default; }
-  button:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
 
   @media (max-width:650px) {
-    .workshop { gap:5px; }
-    .workshop__steps { overflow-x:auto; grid-template-columns:repeat(7,minmax(54px,1fr)); }
-    .workshop__step { grid-template-columns:1fr; place-items:center; gap:1px; }
-    .workshop__lesson { grid-template-columns:1fr; grid-template-rows:auto auto auto auto auto; padding:9px; }
+    .workshop__steps { overflow-x:auto; grid-template-columns:repeat(7,minmax(52px,1fr)); }
+    .workshop__step { grid-template-columns:1fr; gap:1px; }
+    .workshop__lesson { grid-template-columns:1fr; grid-template-rows:auto auto auto auto auto; padding:8px; }
     .workshop__lesson-heading,.workshop__look,.workshop__try { grid-column:1; }
-    .workshop__visual { min-height:160px; max-height:28dvh; }
-    .workshop__beat { min-height:128px; }
-    .workshop__footer { grid-template-columns:88px minmax(0,1fr); }
-  }
-  @media (max-width:430px) {
-    .workshop__heading p { display:none; }
-    .workshop__finish-actions { grid-template-columns:1fr 1fr; }
-    .workshop__primary,.workshop__secondary { min-height:46px; font-size:.76rem; }
+    .workshop__visual { min-height:155px; max-height:27dvh; }
   }
 </style>
