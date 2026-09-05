@@ -9,7 +9,7 @@ import {
 } from '../mechanics/assembly';
 import type { ProgressSnapshot, StoredAttempt } from '../runtime/localProgress';
 
-export type TownWorldDepthLevel = 1;
+export type TownWorldDepthLevel = 2;
 export type TownInteractionFamily = 'assemble_repair' | 'practical_life' | 'cause_effect';
 export type TownSemanticDomain = 'crossing_safety' | 'community_sorting' | 'community_help' | 'town_infrastructure';
 
@@ -68,7 +68,7 @@ interface TownWorldDepthDocument {
 }
 
 function validateAdventure(adventure: TownWorldDepthAdventure): TownWorldDepthAdventure {
-  if (adventure.schemaVersion !== 1 || adventure.level !== 1 || adventure.steps.length < 3) {
+  if (adventure.schemaVersion !== 1 || adventure.level !== 2 || adventure.steps.length < 3) {
     throw new Error(`Invalid Town world-depth adventure ${adventure.adventureRef}`);
   }
   if (new Set(adventure.steps.map((step) => step.interactionFamily)).size < 3) {

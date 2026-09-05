@@ -66,7 +66,8 @@ function attempt(
 describe('Town Square world-depth transfer', () => {
   it('authors one coherent five-action Town arc with three reusable interaction families', () => {
     const [adventure] = getTownWorldDepthAdventures();
-    expect(adventure.adventureRef).toBe('town.world-depth.l1.safe-square');
+    expect(adventure.adventureRef).toBe('town.world-depth.l2.safe-square');
+    expect(adventure.level).toBe(2);
     expect(adventure.steps).toHaveLength(5);
     expect(new Set(adventure.steps.map((step) => step.interactionFamily)).size).toBeGreaterThanOrEqual(3);
     expect(adventure.worldProblem.length).toBeGreaterThan(30);
@@ -95,15 +96,16 @@ describe('Town Square world-depth transfer', () => {
       ],
       updatedAt: '2026-09-05T07:00:00.000Z'
     };
-    const selected = selectTownAdaptiveReview('town.world-depth.l1.safe-square', progress);
+    const selected = selectTownAdaptiveReview('town.world-depth.l2.safe-square', progress);
     expect(selected.knowledgeRef).toBe('kr.safety.traffic.red.stop');
     expect(selected.reason).toBe('assisted');
-    expect(getWorldDepthAdventure('town.world-depth.l1.safe-square', progress).adaptiveReview).toEqual(selected);
+    expect(getWorldDepthAdventure('town.world-depth.l2.safe-square', progress).adaptiveReview).toEqual(selected);
   });
 
   it('routes Town through the existing world-action story shell and keeps it out of the quiz evaluator', () => {
     const launch = createStoryMissionLaunch('mission.town-square-helper');
-    expect(launch.mission.worldActionRef).toBe('town.world-depth.l1.safe-square');
+    expect(launch.mission.worldActionRef).toBe('town.world-depth.l2.safe-square');
+    expect(launch.mission.worldDepthLevel).toBe(2);
     expect(launch.mission.status).toBe('prototype');
     expect(launch.mission.questionCount).toBe(0);
     expect(launch.session.questions).toEqual([]);
@@ -147,7 +149,7 @@ describe('Town Square world-depth transfer', () => {
   });
 
   it('keeps Scientu Lab pass 112 closed until Town human acceptance is explicitly completed', () => {
-    expect(() => getWorldDepthAdventure('lab.world-depth.l1.prediction-bench', emptyProgress)).toThrow(/Unknown world-depth adventure/);
-    expect(getTownWorldDepthAdventures()[0].level).toBe(1);
+    expect(() => getWorldDepthAdventure('lab.world-depth.l2.prediction-bench', emptyProgress)).toThrow(/Unknown world-depth adventure/);
+    expect(getTownWorldDepthAdventures()[0].level).toBe(2);
   });
 });

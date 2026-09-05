@@ -3,8 +3,8 @@
   "adventures": [
     {
       "schemaVersion": 1,
-      "adventureRef": "town.world-depth.l1.safe-square",
-      "level": 1,
+      "adventureRef": "town.world-depth.l2.safe-square",
+      "level": 2,
       "title": "Make Town Square Safe Again",
       "worldProblem": "The crossing sign is loose, the recycling corner is mixed up, a help parcel is in the wrong place, and rainwater cannot leave the square.",
       "characterSetup": "Shaitanu wants to rush through the mess. Scientu asks what will make the square safer and easier for everyone. Dheu helps one part at a time.",
@@ -13,7 +13,7 @@
       "persistentChangeId": "town-square-safe-ready",
       "sourceEventRefs": ["event.town.square.safe-restored", "event.town.square.adventure-mail"],
       "adaptiveReviewPlan": {
-        "stepId": "town.l1.step.safe-crossing",
+        "stepId": "town.l2.step.safe-crossing",
         "candidates": [
           {
             "knowledgeRef": "kr.safety.traffic.red.stop",
@@ -29,7 +29,7 @@
       },
       "steps": [
         {
-          "id": "town.l1.step.crossing-sign-repair",
+          "id": "town.l2.step.crossing-sign-repair",
           "interactionFamily": "assemble_repair",
           "semanticDomain": "town_infrastructure",
           "icon": "🚦",
@@ -43,7 +43,7 @@
           "worldObjectAfter": "working-crossing-sign",
           "worldAction": {
             "schemaVersion": 1,
-            "actionId": "action.town.l1.repair-crossing-sign",
+            "actionId": "action.town.l2.repair-crossing-sign",
             "family": "practical_life",
             "action": "help",
             "canonicalGoalRefs": ["kr.safety.road.crossing.zebra", "kr.safety.traffic.red.stop"],
@@ -53,7 +53,7 @@
           },
           "assembly": {
             "schemaVersion": 1,
-            "assemblyId": "assembly.town.l1.crossing-sign",
+            "assemblyId": "assembly.town.l2.crossing-sign",
             "operation": "repair_restore",
             "orderMode": "unordered",
             "parts": [
@@ -72,7 +72,7 @@
           }
         },
         {
-          "id": "town.l1.step.safe-crossing",
+          "id": "town.l2.step.safe-crossing",
           "interactionFamily": "practical_life",
           "semanticDomain": "crossing_safety",
           "icon": "🚸",
@@ -86,7 +86,7 @@
           "worldObjectAfter": "calm-safe-crossing",
           "worldAction": {
             "schemaVersion": 1,
-            "actionId": "action.town.l1.safe-crossing",
+            "actionId": "action.town.l2.safe-crossing",
             "family": "practical_life",
             "action": "safety_choice",
             "canonicalGoalRefs": ["kr.safety.road.crossing.zebra", "kr.safety.traffic.red.stop"],
@@ -97,7 +97,7 @@
           }
         },
         {
-          "id": "town.l1.step.sort-recycling",
+          "id": "town.l2.step.sort-recycling",
           "interactionFamily": "practical_life",
           "semanticDomain": "community_sorting",
           "icon": "♻️",
@@ -111,7 +111,7 @@
           "worldObjectAfter": "sorted-recycling-corner",
           "worldAction": {
             "schemaVersion": 1,
-            "actionId": "action.town.l1.sort-recycling",
+            "actionId": "action.town.l2.sort-recycling",
             "family": "practical_life",
             "action": "sort",
             "canonicalGoalRefs": ["goal.town.recycling.sort"],
@@ -122,7 +122,7 @@
           }
         },
         {
-          "id": "town.l1.step.pack-help-parcel",
+          "id": "town.l2.step.pack-help-parcel",
           "interactionFamily": "practical_life",
           "semanticDomain": "community_help",
           "icon": "📦",
@@ -136,7 +136,7 @@
           "worldObjectAfter": "parcel-at-help-table",
           "worldAction": {
             "schemaVersion": 1,
-            "actionId": "action.town.l1.place-help-parcel",
+            "actionId": "action.town.l2.place-help-parcel",
             "family": "practical_life",
             "action": "pack",
             "canonicalGoalRefs": ["goal.town.community.help"],
@@ -147,7 +147,7 @@
           }
         },
         {
-          "id": "town.l1.step.clear-rain-channel",
+          "id": "town.l2.step.clear-rain-channel",
           "interactionFamily": "cause_effect",
           "semanticDomain": "town_infrastructure",
           "icon": "💧",
@@ -161,7 +161,7 @@
           "worldObjectAfter": "clear-rain-channel",
           "worldAction": {
             "schemaVersion": 1,
-            "actionId": "action.town.l1.clear-rain-channel",
+            "actionId": "action.town.l2.clear-rain-channel",
             "family": "cause_effect",
             "action": "empty",
             "canonicalGoalRefs": ["goal.town.cleanup.keep-path-clear"],

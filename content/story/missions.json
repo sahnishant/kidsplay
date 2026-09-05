@@ -154,8 +154,8 @@
       "locationRef": "town-square",
       "status": "prototype",
       "access": "free",
-      "worldActionRef": "town.world-depth.l1.safe-square",
-      "worldDepthLevel": 1,
+      "worldActionRef": "town.world-depth.l2.safe-square",
+      "worldDepthLevel": 2,
       "questionCount": 0,
       "knowledgeRefs": ["kr.safety.road.crossing.zebra", "kr.safety.traffic.red.stop"],
       "beats": [
