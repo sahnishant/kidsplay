@@ -42,7 +42,18 @@ PY
 }
 
 open_fraction_studio_from_home() {
-  tap_label "Open child navigation" 1
+  # A native PID does not establish that the WebView Home is ready for input.
+  # Match the Stories precondition rather than sending scrolls during startup.
+  assert_label "Open child navigation" || {
+    # Preserve the failed launch instead of dismissing a system ANR or retrying
+    # the app. Diagnostics are bounded and cannot turn this failure into a pass.
+    timeout 15s adb logcat -b main -b system -b events -d -t 2000 > "$OUT_DIR/studio-startup-logcat.txt" 2>&1 || true
+    timeout 15s adb shell dumpsys activity lastanr > "$OUT_DIR/studio-startup-last-anr.txt" 2>&1 || true
+    timeout 15s adb shell dumpsys input > "$OUT_DIR/studio-startup-input.txt" 2>&1 || true
+    echo "Studio Home readiness failed; startup diagnostics retained." >&2
+    return 1
+  }
+  tap_label "Open child navigation"
   tap_label "Open practice activities" 1
   tap_label "Open Learn About" 1
   tap_label "Learn about Fractions" 1
