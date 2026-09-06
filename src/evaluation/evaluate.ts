@@ -102,7 +102,8 @@ function dependencySequenceScore(question: SequenceOrderQuestion, actual: string
 
 function sequenceOrderScore(question: Question, actual: string[]): number {
   if (question.solution.type !== 'ordered_items' || question.interaction.type !== 'sequence_order') return 0;
-  return question.interaction.version === 2 ? dependencySequenceScore(question, actual) : exactSequenceScore(question, actual);
+  const sequenceQuestion = question as SequenceOrderQuestion;
+  return sequenceQuestion.interaction.version === 2 ? dependencySequenceScore(sequenceQuestion, actual) : exactSequenceScore(sequenceQuestion, actual);
 }
 
 function collectionCountScore(question: CollectionCountQuestion, actual: Record<string, unknown> | undefined): number {
@@ -138,7 +139,7 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
   }
   if (question.solution.type === 'collection_counts' && question.interaction.type === 'collection_count') {
     const payload = response as { assignments?: Record<string, unknown> };
-    score = collectionCountScore(question, payload?.assignments);
+    score = collectionCountScore(question as CollectionCountQuestion, payload?.assignments);
   }
   if (question.solution.type === 'found_terms') {
     const payload = response as { foundTermIds?: unknown };
