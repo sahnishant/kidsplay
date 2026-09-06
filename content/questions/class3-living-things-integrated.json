@@ -1,0 +1,46 @@
+[
+  {
+    "id": "sof3.living.integrated.needs-characteristics.001",
+    "revision": 1,
+    "schemaVersion": 1,
+    "conceptIds": [
+      "sof3.living.needs.food",
+      "sof3.living.needs.water",
+      "sof3.living.characteristics.growth",
+      "sof3.living.characteristics.reproduction"
+    ],
+    "knowledgeRefs": [
+      "kr.sof3.living.need.food",
+      "kr.sof3.living.need.water",
+      "kr.sof3.living.characteristic.grow",
+      "kr.sof3.living.characteristic.reproduce"
+    ],
+    "gradeBands": [3],
+    "difficulty": 2,
+    "language": "en",
+    "prompt": {
+      "text": "A bean plant needs nutrients and water, grows and changes, and can make new plants of its kind. What do these clues show?"
+    },
+    "interaction": {
+      "type": "single_choice",
+      "version": 1,
+      "shuffleOptions": true,
+      "options": [
+        { "id": "living", "label": "They are needs and characteristics of living things" },
+        { "id": "non-living", "label": "They show that the plant is a non-living object" },
+        { "id": "weather", "label": "They are all types of weather" },
+        { "id": "machine", "label": "They describe only things made by machines" }
+      ]
+    },
+    "solution": { "type": "exact_option", "correctOptionIds": ["living"] },
+    "feedback": {
+      "correct": "Correct. Living things need resources, grow and change, and reproduce.",
+      "incorrect": "Use all four clues together: nutrients, water, growth and making new living things."
+    },
+    "authoring": {
+      "status": "reviewed",
+      "source": "kidsplay-editorial-elementary-science",
+      "scopeNote": "Integrated review of four canonical Class 3 living-things rows; avoids forcing repeated-subject facts into indistinguishable card choices."
+    }
+  }
+]

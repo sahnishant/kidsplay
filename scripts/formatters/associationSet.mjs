@@ -6,6 +6,13 @@ const capitalize = (text) => {
   return value ? value[0].toUpperCase() + value.slice(1) : value;
 };
 const semanticRefFor = (node) => typeof node?.id === 'string' && node.id.trim() ? node.id : undefined;
+const visibleOptionIdentityFor = (unit, side) => {
+  const node = unit?.[side];
+  const label = String(node?.label ?? '').trim().toLocaleLowerCase('en');
+  if (label) return `label:${label}`;
+  const semanticRef = semanticRefFor(node);
+  return semanticRef ? `semantic:${semanticRef}` : '';
+};
 
 const selectedUnits = (source, recipe) => {
   const units = Array.isArray(source.units) ? source.units : [];
@@ -194,16 +201,39 @@ const formatCrossword = (source, recipe, units) => {
   };
 };
 
+const choiceFamilyUnitsFor = (source, recipe, target, optionSide) => {
+  if (recipe.choiceFamilyEntryIds === undefined) return null;
+  if (!Array.isArray(recipe.choiceFamilyEntryIds) || recipe.choiceFamilyEntryIds.length === 0) {
+    throw new Error(`${recipe.id}: choiceFamilyEntryIds must be a non-empty array`);
+  }
+  const byLocalId = new Map(source.units.map((unit) => [unit.localId, unit]));
+  const family = recipe.choiceFamilyEntryIds.map((id) => {
+    const unit = byLocalId.get(id);
+    if (!unit) throw new Error(`${recipe.id}: unknown choice-family entry ${id} in ${source.sourceRef}`);
+    return unit;
+  });
+  if (!family.some((unit) => unit.rowId === target.rowId)) {
+    throw new Error(`${recipe.id}: choice family must include target entry ${target.localId}`);
+  }
+  const identities = family.map((unit) => visibleOptionIdentityFor(unit, optionSide));
+  if (identities.some((identity) => !identity) || new Set(identities).size !== identities.length) {
+    throw new Error(`${recipe.id}: choice family must resolve to unique visible ${optionSide} options`);
+  }
+  return family;
+};
+
 const formatSingleChoice = (source, recipe, units) => {
   if (units.length !== 1) throw new Error(`${recipe.id}: single_choice recipe must select exactly one unit`);
   const target = units[0];
   const direction = recipe.choiceDirection ?? 'object_to_subject';
   if (!['object_to_subject', 'subject_to_object'].includes(direction)) throw new Error(`${recipe.id}: unsupported choiceDirection ${direction}`);
   const distractorCount = recipe.distractorCount ?? 3;
-  const distractors = source.units.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount);
+  const optionSide = direction === 'subject_to_object' ? 'object' : 'subject';
+  const choiceFamily = choiceFamilyUnitsFor(source, recipe, target, optionSide);
+  const distractorPool = choiceFamily ?? source.units;
+  const distractors = distractorPool.filter((unit) => unit.rowId !== target.rowId).slice(0, distractorCount);
   if (distractors.length < distractorCount) throw new Error(`${recipe.id}: not enough distractors in ${source.sourceRef}`);
   const optionUnits = [target, ...distractors];
-  const optionSide = direction === 'subject_to_object' ? 'object' : 'subject';
   const prompt = direction === 'subject_to_object' ? reverseQuestionPromptFor(target) : questionPromptFor(target);
   const base = baseQuestion(source, recipe, units, prompt);
   return {
