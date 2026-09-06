@@ -10,8 +10,9 @@ const budgets = {
   maxSingleJsGzipBytes: 140 * 1024,
   // Sixteen source-bound states and picture-card teaching: cdcd4f1 measures
   // 854.0 KiB installed. Explicit +32 KiB feature allowance over 832 KiB.
+  // The explicit drivetrain demonstration is a bounded nested lazy surface: +8 KiB raw.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 8) * 1024,
   // Lazy artwork is measured separately; +1 KiB admits its registry/loader.
   maxCoreJsGzipBytes: (162 + 4 + 1) * 1024,
   maxCoreCssBytes: 100 * 1024
@@ -39,6 +40,8 @@ const lazyRouteBudgets = [
   { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 },
   { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
+  // Dedicated mechanism pedagogy is intentionally split from the workshop shell.
+  { prefix: 'BicycleMechanismDemonstration-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 6 * 1024 },
   { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 0 }
 ];
 
