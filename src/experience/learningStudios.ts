@@ -103,7 +103,7 @@ export function asStudioPracticeQuestion(question: Question, activity: LearningS
       : 'sequence_order';
   if (question.interaction.type !== expected) throw new Error(`${activity.activityId}: source does not support ${expected}`);
   if (question.interaction.type === 'equal_parts') assertEqualPartsQuestion(question);
-  if (question.interaction.type === 'drag_to_target') validateMatchingQuestion(question);
+  if (question.interaction.type === 'drag_to_target') validateMatchingQuestion(question as DragToTargetQuestion);
   if (question.interaction.type === 'sequence_order') {
     if (question.solution.type !== 'ordered_items') throw new Error('Sequence studio requires ordered_items');
     const items = question.interaction.items;
