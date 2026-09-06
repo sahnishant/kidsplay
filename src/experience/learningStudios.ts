@@ -69,6 +69,10 @@ export function getWorkshopStudioActivityRefs(workshopId: string, sectionId: str
   return document.workshopBindings.filter((binding) => binding.workshopId === workshopId && binding.sectionId === sectionId).flatMap((binding) => binding.activityRefs);
 }
 
+function normalizedVisibleLabel(value: string): string {
+  return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('en');
+}
+
 function validateMatchingQuestion(question: DragToTargetQuestion): void {
   if (question.solution.type !== 'target_assignment') throw new Error('Matching studio requires target_assignment');
   if (question.authoring.status !== 'reviewed') throw new Error('Matching studio requires a reviewed source question');
@@ -77,9 +81,14 @@ function validateMatchingQuestion(question: DragToTargetQuestion): void {
   if (items.length < 2 || items.length > 8 || targets.length < 2 || targets.length > 8) throw new Error('Matching studio requires 2 to 8 items and targets');
   const itemIds = items.map((item) => item.id);
   const targetIds = new Set(targets.map((target) => target.id));
+  const itemLabels = items.map((item) => normalizedVisibleLabel(item.label));
+  const targetLabels = targets.map((target) => normalizedVisibleLabel(target.label));
   if (new Set(itemIds).size !== itemIds.length || targetIds.size !== targets.length
     || items.some((item) => !item.id.trim() || !item.label.trim())
     || targets.some((target) => !target.id.trim() || !target.label.trim())) throw new Error('Matching studio requires uniquely identified labelled items and targets');
+  if (new Set(itemLabels).size !== itemLabels.length || new Set(targetLabels).size !== targetLabels.length) {
+    throw new Error('Matching studio requires visibly distinct item and target labels; ambiguous grouping belongs in a different mechanic');
+  }
   const assignments = question.solution.assignments;
   if (Object.keys(assignments).length !== itemIds.length
     || itemIds.some((itemId) => typeof assignments[itemId] !== 'string' || !targetIds.has(assignments[itemId]))) throw new Error('Matching studio source needs a complete valid assignment map');
