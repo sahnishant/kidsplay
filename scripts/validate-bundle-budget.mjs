@@ -38,7 +38,10 @@ const budgets = {
   // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
   // keep the adjustment bounded to +0.5 KiB rather than broadening route budgets.
   maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.5) * 1024,
-  maxCoreCssBytes: 100 * 1024
+  // #281 also upgrades the generic Forest world-depth fallback through the existing
+  // global forestSessionPolish.css rather than shipping a second duplicate renderer.
+  // CI measures 105.7 KiB core CSS; keep a narrow reviewed 107 KiB ceiling.
+  maxCoreCssBytes: 107 * 1024
 };
 
 // Explicit feature allowances are review items, not disabled checks.
@@ -60,11 +63,9 @@ const lazyRouteBudgets = [
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
-  // Quiet Creek was deliberately rebuilt from a text/status-card screen into one
-  // persistent illustrated world. This is a reviewed route-local allowance for the
-  // spatial bridge/channel targets, tactile piece tray and visible cause/effect states;
-  // the route remains lazy and core CSS/JS budgets are unchanged.
-  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 12 * 1024 },
+  // Quiet Creek plus the generic Forest mission presentation now measures 13.1 KiB
+  // CSS after the visual-workbench pass. Keep only 0.4 KiB reviewed headroom.
+  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 13.5 * 1024 },
   // Town Square now carries one persistent illustrated world instead of a flat status
   // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
   // CI measures 7.8 KiB JS gzip / 27.7 KiB CSS; keep narrow reviewed headroom here.
