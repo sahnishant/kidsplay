@@ -21,6 +21,63 @@
     "costClass": "low"
   },
   {
+    "id": "recipe.classification.herbivore",
+    "semanticRef": "herbivore",
+    "template": "classification",
+    "ariaLabel": "Examples of herbivores: a cow and a rabbit",
+    "slots": [
+      { "role": "cow-example", "visualRef": "entity.animal.cow", "exposure": "identity" },
+      { "role": "rabbit-example", "visualRef": "entity.animal.rabbit", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "animals that mainly eat plants or plant parts",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.classification.carnivore",
+    "semanticRef": "carnivore",
+    "template": "classification",
+    "ariaLabel": "Examples of carnivores: a lion and a tiger",
+    "slots": [
+      { "role": "lion-example", "visualRef": "entity.animal.lion", "exposure": "identity" },
+      { "role": "tiger-example", "visualRef": "entity.animal.tiger", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "animals that mainly eat other animals",
+    "costClass": "low"
+  },
+  {
+    "id": "recipe.classification.omnivore",
+    "semanticRef": "omnivore",
+    "template": "classification",
+    "ariaLabel": "Examples of omnivores: a hen and a duck",
+    "slots": [
+      { "role": "hen-example", "visualRef": "entity.animal.hen", "exposure": "identity" },
+      { "role": "duck-example", "visualRef": "entity.animal.duck", "exposure": "identity" }
+    ],
+    "surfaces": {
+      "option": "identity_only",
+      "memory-card": "identity_only",
+      "feedback": "full_relation",
+      "dashboard": "full_relation",
+      "scene": "full_relation"
+    },
+    "annotation": "animals that eat both plant material and animals",
+    "costClass": "low"
+  },
+  {
     "id": "recipe.orbit.earth-revolution",
     "semanticRef": "earth-revolution",
     "template": "orbit",

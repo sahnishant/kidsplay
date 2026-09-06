@@ -71,7 +71,7 @@ test('Forest Explorer Level 3 restores a habitat and persists its discoveries at
   await page.getByRole('button', { name: 'Water and watch it grow' }).click();
   await expect(page.getByText('Forest depth complete · next world available')).toBeVisible();
   await expect(page.getByText(/butterflies return to the restored grove/i)).toBeVisible();
-  await expect(page.getByText(/replaying the mission cannot farm another reward/i)).toBeVisible();
+  await expect(page.getByText(/replaying the mission cannot farm another reward/i)).toHaveCount(0);
   await expectForestSurfaceFits(page, 'Level 3 completion');
 
   await level.getByRole('button', { name: "Back to Dheu's world" }).last().click();

@@ -1,10 +1,12 @@
 import { expect, test } from '@playwright/test';
 import { openCleanApp } from './helpers/childJourney';
+import { emulateMotionPolicy, expectMotionPolicy } from './helpers/motionPolicy';
 
 for (const reducedMotion of ['reduce', 'no-preference'] as const) {
   test.describe(`studio character SVG timelines: ${reducedMotion}`, () => {
     test.use({ viewport: { width: 360, height: 640 }, reducedMotion });
     test('the canonical character stays still through every story page', async ({ page }) => {
+      await emulateMotionPolicy(page, reducedMotion);
       await openCleanApp(page);
       await page.getByLabel('Open child navigation').click();
       await page.getByRole('button', { name: 'Open practice activities' }).click();
@@ -17,6 +19,7 @@ for (const reducedMotion of ['reduce', 'no-preference'] as const) {
       for (const [index, glyph] of ['visit-arrive', 'visit-look', 'visit-draw', 'visit-leave'].entries()) {
         const scene = dialog.locator(`[data-studio-scene="${glyph}"]`);
         await expect(scene).toBeVisible();
+        await expectMotionPolicy(page, reducedMotion);
         const character = scene.locator('svg[data-character="dheu"]');
         await expect(character).toHaveCount(1);
         await expect.poll(() => character.evaluate((svg) => (svg as SVGSVGElement).animationsPaused())).toBe(true);
