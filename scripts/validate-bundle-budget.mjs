@@ -42,6 +42,9 @@ const lazyRouteBudgets = [
   // 12/6; future studio families must earn another explicit review rather than
   // silently consuming this route.
   { prefix: 'StudioLauncher-', maxJsGzipBytes: 12 * 1024, maxCssBytes: 6 * 1024 },
+  // STUDIO-08 is loaded only when its collection activity opens. Keep the new
+  // mechanic outside startup core and independently bounded like EqualParts.
+  { prefix: 'CollectionCount-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'StudioScene-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 2 * 1024 },
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
