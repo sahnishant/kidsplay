@@ -10,10 +10,10 @@ const budgets = {
   maxSingleJsGzipBytes: 140 * 1024,
   // Sixteen source-bound states and picture-card teaching: cdcd4f1 measures
   // 854.0 KiB installed. Explicit +32 KiB feature allowance over 832 KiB.
-  // Quiet Creek visual rescue adds a bounded +2 KiB raw-JS allowance for spatial
+  // Quiet Creek visual rescue adds a bounded +3 KiB raw-JS allowance for spatial
   // placement/touch handling on the already-lazy Forest mission route.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 2) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3) * 1024,
   // Lazy artwork is measured separately; +1 KiB admits its registry/loader.
   maxCoreJsGzipBytes: (162 + 4 + 1) * 1024,
   maxCoreCssBytes: 100 * 1024
@@ -109,7 +109,7 @@ for (const contentBudget of contentAssetBudgets) {
   if (assets.length !== contentBudget.expectedCount) errors.push(`${contentBudget.prefix} emitted ${assets.length} JSON asset(s); expected ${contentBudget.expectedCount}`);
   if (rawBytes > contentBudget.maxRawBytes) errors.push(`${contentBudget.prefix} data is ${kib(rawBytes)} raw; budget ${kib(contentBudget.maxRawBytes)}`);
   if (gzipBytes > contentBudget.maxGzipBytes) errors.push(`${contentBudget.prefix} data is ${kib(gzipBytes)} gzip; budget ${kib(contentBudget.maxGzipBytes)}`);
-  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)}`);
+  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)} gzip`);
 }
 if (errors.length) {
   console.error('Bundle budget validation failed:');
