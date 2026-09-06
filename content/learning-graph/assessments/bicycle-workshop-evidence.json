@@ -81,16 +81,9 @@
     "bicycle.workshop.sequence.motion.001": "process.bicycle.motion-chain",
     "bicycle.workshop.sequence.braking.001": "process.bicycle.braking-chain"
   },
-  "supportingKnowledgeByQuestion": {
-    "bicycle.workshop.reading.verify.001": [
-      "claim.bicycle.bell.used-for.signalling"
-    ],
-    "bicycle.workshop.reading.inference.001": [
-      "claim.bicycle.brake.used-for.slowing"
-    ]
-  },
   "rules": {
     "knowledgeRefsMustBeCanonical": true,
+    "supportingKnowledgeRefsMustBeCanonical": true,
     "evidenceEligibleKnowledgeMustMatchQuestionObjectives": true,
     "supportingKnowledgeNeverRecordsEvidence": true,
     "knowledgeEvidenceForbiddenRefsRequired": true,
