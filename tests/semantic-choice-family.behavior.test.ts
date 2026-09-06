@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { formatAssociationSet } from '../scripts/formatters/associationSet.mjs';
+import { resolveItemVisualRefs } from '../src/presentation/visualRegistry';
 
 const readJson = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
 
@@ -27,6 +28,19 @@ describe('semantic single-choice families', () => {
     const carnivore = generated.find((question: { id: string }) => question.id === `${prefix}carnivore`);
     expect(carnivore.prompt.text).toContain('mainly eats other animals');
     expect(carnivore.solution.correctOptionIds).toEqual(['carnivore:subject']);
+  });
+
+  it('renders the three dietary choices with visibly different animal examples', () => {
+    const visuals = {
+      herbivore: resolveItemVisualRefs({ label: 'Herbivore', semanticRef: 'herbivore' }, true, 'option'),
+      carnivore: resolveItemVisualRefs({ label: 'Carnivore', semanticRef: 'carnivore' }, true, 'option'),
+      omnivore: resolveItemVisualRefs({ label: 'Omnivore', semanticRef: 'omnivore' }, true, 'option')
+    };
+
+    expect(visuals.herbivore).toEqual(['entity.animal.cow', 'entity.animal.rabbit']);
+    expect(visuals.carnivore).toEqual(['entity.animal.lion', 'entity.animal.tiger']);
+    expect(visuals.omnivore).toEqual(['entity.animal.hen', 'entity.animal.duck']);
+    expect(new Set(Object.values(visuals).flat()).size).toBe(6);
   });
 
   it('does not force repeated Living things rows through game projections that require distinguishable cards', () => {
