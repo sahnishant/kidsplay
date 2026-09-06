@@ -27,7 +27,7 @@
     {"activityId":"studio.match.animal-homes","family":"matching_studio","childTitle":"Match animals to homes","source":{"kind":"question_bank","questionId":"animals.homes.match.generated.001"}},
     {"activityId":"studio.match.animal-young","family":"matching_studio","childTitle":"Match animals & young ones","source":{"kind":"question_bank","questionId":"animals.young.match.generated.001"}},
     {"activityId":"studio.match.plant-parts","family":"matching_studio","childTitle":"Match plant parts & jobs","source":{"kind":"question_bank","questionId":"plants.parts.match.generated.001"}},
-    {"activityId":"studio.match.plant-uses","family":"matching_studio","childTitle":"Match useful plants","source":{"kind":"question_bank","questionId":"plants.uses.match.generated.001"}},
+    {"activityId":"studio.match.plant-uses","family":"matching_studio","childTitle":"Match useful plants","source":{"kind":"question_bank","questionId":"plants.uses.match.studio.generated.001"}},
     {"activityId":"studio.match.human-senses","family":"matching_studio","childTitle":"Match sense organs & jobs","source":{"kind":"question_bank","questionId":"human.senses.match.generated.001"}},
     {"activityId":"studio.match.human-organs","family":"matching_studio","childTitle":"Match body parts & jobs","source":{"kind":"question_bank","questionId":"human.organs.match.generated.001"}},
     {"activityId":"studio.match.food-sources","family":"matching_studio","childTitle":"Match foods to sources","source":{"kind":"question_bank","questionId":"food.sources.match.generated.001"}},
