@@ -83,6 +83,7 @@ test('Forest Explorer Level 2 is a visual persistent creek-repair adventure at 3
   await expect(page.getByText('What is blocking the water?')).toBeVisible();
   await page.locator('.branch-action').click();
   await expect(scene.locator('[data-scene-state="creek-flowing"]')).toBeVisible();
+  await expect(scene.getByText('Creek rescued!', { exact: true })).toBeVisible();
   const rescued = page.getByLabel('Creek rescued!');
   await expect(rescued).toBeVisible();
   await expect(rescued).toContainText(/Water is moving again, the crossing is safe/i);
