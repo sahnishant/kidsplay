@@ -8,6 +8,7 @@
   type Section={id:string;order:number;navLabel?:string;storyMode:StoryMode;sourceLayer?:string;eyebrow:string;title:string;animationRef?:string;visualRef?:string;storyLead?:string;lookPrompt:string;beats:Beat[];remember:string;childPrompt:string};
   const guide=guideJson as {childTitle:string;subtitle:string;sections:Section[]};
   const storyStagePromise=import('./BicycleStoryStage.svelte');
+  const mechanismComponentPromise=import('../presentation/BicycleMechanismDemonstration.svelte');
   const studioLauncherPromise=import('./StudioLauncher.svelte');
   let {onExit,onPractice,onChapterCheck}:{onExit:()=>void;onPractice:()=>void;onChapterCheck:()=>void}=$props();
   let part=$state(0),idea=$state(0);
@@ -28,15 +29,25 @@
     <header class="title"><small>{section.eyebrow}</small><h2 id="section-title">{section.title}</h2></header>
     {#if section.storyLead}<p class="story"><b>✦</b>{section.storyLead}</p>{/if}
     <p class="look"><b>LOOK · NOTICE</b>{section.lookPrompt}</p>
-    <div class="visual" data-visual-ref={semanticVisualRef} data-story-mode={section.storyMode}>
-      {#await storyStagePromise}<div class="stage-loading" aria-label="Loading bicycle">🚲</div>{:then module}{@const StoryStage=module.default}<StoryStage mode={section.storyMode}/>{/await}
+    <div class:visual--mechanism={section.id==='movement'} class="visual" data-visual-ref={semanticVisualRef} data-story-mode={section.storyMode}>
+      {#if section.id==='movement'}
+        <div class="mechanism-boundary"><b>LOOK INSIDE</b><span>Kidsplay extra · no score</span></div>
+        {#await mechanismComponentPromise}
+          <div class="stage-loading" aria-label="Loading bicycle mechanism">🚲</div>
+        {:then module}
+          {@const BicycleMechanismDemonstration=module.default}
+          {#key beat.id}<BicycleMechanismDemonstration mode={beat.id==='braking-chain'?'brake':'drive'}/>{/key}
+        {/await}
+      {:else}
+        {#await storyStagePromise}<div class="stage-loading" aria-label="Loading bicycle">🚲</div>{:then module}{@const StoryStage=module.default}<StoryStage mode={section.storyMode}/>{/await}
+      {/if}
     </div>
 
     <div class="learn">
       <div class="ideas" aria-label={`Ideas in ${section.title}`}>{#each section.beats as item,index}<button type="button" class:active={index===idea} onclick={()=>idea=index} aria-label={`Open idea ${index+1}: ${item.label}`}>{index+1}</button>{/each}</div>
       <section class:extra={section.sourceLayer==='kidsplay_enrichment'} class="beat" aria-live="polite" data-claim-count={beat.claimRefs?.length??0} data-capability-count={beat.capabilityRefs?.length??0}>
         <small>LEARN · DISCOVER · IDEA {idea+1}</small><h3>{beat.label}</h3><p>{beat.text}</p>
-        {#if beat.sequence?.length}<div class="chips" aria-label={`${beat.label} sequence`}>{#each beat.sequence as value,index}<span>{value}</span>{#if index<beat.sequence.length-1}<b>→</b>{/if}{/each}</div>{/if}
+        {#if beat.sequence?.length && section.id!=='movement'}<div class="chips" aria-label={`${beat.label} sequence`}>{#each beat.sequence as value,index}<span>{value}</span>{#if index<beat.sequence.length-1}<b>→</b>{/if}{/each}</div>{/if}
         {#if beat.examples?.length}<div class="chips">{#each beat.examples as value}<span>{value}</span>{/each}</div>{/if}
       </section>
       {#if lastIdea}<aside><b>REMEMBER</b><p>{section.remember}</p></aside>{:else}<p class="pace">One idea at a time. Tap <b>Next idea</b> when ready.</p>{/if}
