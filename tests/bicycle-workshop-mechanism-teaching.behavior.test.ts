@@ -6,10 +6,20 @@ describe('Bicycle Workshop mechanism teaching', () => {
   it('teaches pedal, crank, chain and rear-wheel motion progressively instead of leaking the full chain', () => {
     const viewport = readFileSync(resolve(process.cwd(), 'src/ui/BicycleWorkshopViewport.svelte'), 'utf8');
     const mechanism = readFileSync(resolve(process.cwd(), 'src/presentation/BicycleMechanismDemonstration.svelte'), 'utf8');
+    const guide = JSON.parse(readFileSync(resolve(process.cwd(), 'content/experience/bicycle-workshop-guided.json'), 'utf8')) as {
+      sections: Array<{ id: string; lookPrompt: string; beats: Array<{ id: string; text: string }> }>;
+    };
+    const movement = guide.sections.find((section) => section.id === 'movement');
+    const drive = movement?.beats.find((item) => item.id === 'movement-chain');
 
-    expect(viewport).toContain('BicycleMechanismDemonstration');
+    expect(viewport).toContain("import('../presentation/BicycleMechanismDemonstration.svelte')");
     expect(viewport).toContain("section.id === 'movement'");
     expect(viewport).toContain("beat.sequence?.length && section.id !== 'movement'");
+    expect(viewport).toContain('workshop__lesson--movement');
+
+    expect(movement?.lookPrompt).toContain('pedal where the foot pushes');
+    expect(movement?.lookPrompt).toContain('crank arm attached to it');
+    expect(drive?.text).toContain('The pedal is attached to the crank arm');
 
     expect(mechanism).toContain("title: 'PEDAL'");
     expect(mechanism).toContain("title: 'CRANK'");
