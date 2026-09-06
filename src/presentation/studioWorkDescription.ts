@@ -1,8 +1,8 @@
-import type { EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
+import type { DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
 import { isStudioResponse } from '../experience/studioWorkspace.mjs';
 
 /** Accessible description of the child's submitted work, never the answer key. */
-export function describeStudioWork(question: EqualPartsQuestion | SequenceOrderQuestion, state: unknown): string {
+export function describeStudioWork(question: EqualPartsQuestion | SequenceOrderQuestion | DragToTargetQuestion, state: unknown): string {
   if (!isStudioResponse(question, state)) return 'Submitted work is unavailable.';
   const interaction = question.interaction;
   if (interaction.type === 'equal_parts') {
@@ -11,6 +11,15 @@ export function describeStudioWork(question: EqualPartsQuestion | SequenceOrderQ
     const empty = values.filter((value) => value === null).length;
     if (empty) amounts.push(`${empty} parts empty`);
     return `Your submitted work: ${amounts.join('; ')}.`;
+  }
+  if (interaction.type === 'drag_to_target') {
+    const values = (state as { assignments: Record<string, string> }).assignments;
+    const itemLabels = new Map(interaction.items.map((item) => [item.id, item.label]));
+    const targetLabels = new Map(interaction.targets.map((target) => [target.id, target.label]));
+    const matches = Object.entries(values).map(([itemId, targetId]) => `${itemLabels.get(itemId) ?? itemId} → ${targetLabels.get(targetId) ?? targetId}`);
+    const unassigned = interaction.items.filter((item) => !values[item.id]).map((item) => item.label);
+    if (unassigned.length) matches.push(`not matched yet: ${unassigned.join(', ')}`);
+    return `Your submitted work: ${matches.join('; ')}.`;
   }
   const ids = (state as { orderedItemIds: string[] }).orderedItemIds;
   const labels = new Map(interaction.items.map((item) => [item.id, item.label]));
