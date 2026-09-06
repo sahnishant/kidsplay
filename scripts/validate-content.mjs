@@ -25,8 +25,8 @@ const scenes = readArrayDirectory('content/scenes/');
 const questions = readArrayDirectory('content/questions/');
 const packs = readObjectDirectory('content/packs/');
 const supportedEngines = new Set([
-  'single_choice@1', 'word_bank_fill@1', 'drag_to_target@1', 'word_search@1',
-  'memory_pairs@1', 'sequence_order@1', 'hotspot@1', 'trace_path@1', 'crossword@1', 'maze_path@1', 'equal_parts@1'
+  'single_choice@1', 'word_bank_fill@1', 'drag_to_target@1', 'collection_count@1', 'word_search@1',
+  'memory_pairs@1', 'sequence_order@1', 'sequence_order@2', 'hotspot@1', 'trace_path@1', 'crossword@1', 'maze_path@1', 'equal_parts@1'
 ]);
 const wordSearchDirections = new Set(['right','left','down','up','down_right','down_left','up_right','up_left']);
 const hotspotThemes = new Set(['plain', 'grass', 'ocean', 'sky', 'split-land-water']);
@@ -85,6 +85,22 @@ for (const question of questions) {
     }
     for (const itemId of itemIds) if (!question.solution?.assignments?.[itemId]) errors.push(`${prefix}: drag item ${itemId} has no target answer`);
   }
+  if (interaction?.type === 'collection_count') {
+    const itemIds = duplicateIds(interaction.items ?? [], `${prefix} collection item`);
+    const targetIds = duplicateIds(interaction.targets ?? [], `${prefix} collection target`);
+    if (itemIds.size < 2) errors.push(`${prefix}: collection count needs at least two objects`);
+    if (targetIds.size < 2) errors.push(`${prefix}: collection count needs at least two targets`);
+    if (!Number.isInteger(interaction.seed)) errors.push(`${prefix}: collection-count seed must be an integer`);
+    if (question.solution?.type !== 'collection_counts') errors.push(`${prefix}: collection_count requires collection_counts solution`);
+    const counts = question.solution?.counts ?? {};
+    for (const targetId of targetIds) {
+      if (!Object.hasOwn(counts, targetId)) errors.push(`${prefix}: collection target ${targetId} has no target count`);
+      else if (!Number.isSafeInteger(counts[targetId]) || counts[targetId] < 1) errors.push(`${prefix}: collection target ${targetId} count must be a positive integer`);
+    }
+    for (const targetId of Object.keys(counts)) if (!targetIds.has(targetId)) errors.push(`${prefix}: collection solution refers to missing target ${targetId}`);
+    const total = Object.values(counts).filter(Number.isSafeInteger).reduce((sum, count) => sum + count, 0);
+    if (total !== itemIds.size) errors.push(`${prefix}: collection target counts must allocate every object exactly once`);
+  }
   if (interaction?.type === 'word_search') {
     const termIds = duplicateIds(interaction.terms ?? [], `${prefix} word-search term`);
     if (!termIds.size) errors.push(`${prefix}: word search needs at least one term`);
@@ -122,6 +138,26 @@ for (const question of questions) {
     if (orderedIds.length !== itemIds.size) errors.push(`${prefix}: ordered solution must contain every sequence item`);
     if (new Set(orderedIds).size !== orderedIds.length) errors.push(`${prefix}: ordered solution contains duplicate item ids`);
     for (const itemId of orderedIds) if (!itemIds.has(itemId)) errors.push(`${prefix}: ordered solution refers to missing item ${itemId}`);
+    if (interaction.version === 1 && question.solution?.prerequisites !== undefined) errors.push(`${prefix}: sequence_order@1 cannot declare prerequisites`);
+    if (interaction.version === 2) {
+      const prerequisites = question.solution?.prerequisites;
+      if (!prerequisites || typeof prerequisites !== 'object' || Array.isArray(prerequisites)) errors.push(`${prefix}: sequence_order@2 needs a prerequisite map`);
+      else {
+        const prerequisiteKeys = Object.keys(prerequisites);
+        if (prerequisiteKeys.length !== itemIds.size || prerequisiteKeys.some((id) => !itemIds.has(id))) errors.push(`${prefix}: sequence_order@2 prerequisite map must contain every sequence item exactly once`);
+        const position = new Map(orderedIds.map((id, index) => [id, index]));
+        for (const itemId of itemIds) {
+          const required = prerequisites[itemId];
+          if (!Array.isArray(required)) { errors.push(`${prefix}: sequence item ${itemId} needs a prerequisite array`); continue; }
+          if (new Set(required).size !== required.length) errors.push(`${prefix}: sequence item ${itemId} has duplicate prerequisites`);
+          for (const before of required) {
+            if (!itemIds.has(before)) errors.push(`${prefix}: sequence prerequisite refers to missing item ${before}`);
+            else if (before === itemId) errors.push(`${prefix}: sequence item ${itemId} cannot depend on itself`);
+            else if (position.has(before) && position.has(itemId) && position.get(before) >= position.get(itemId)) errors.push(`${prefix}: example order violates prerequisite ${before} -> ${itemId}`);
+          }
+        }
+      }
+    }
   }
   if (interaction?.type === 'hotspot') {
     const regionIds = duplicateIds(interaction.board?.regions ?? [], `${prefix} hotspot region`);
