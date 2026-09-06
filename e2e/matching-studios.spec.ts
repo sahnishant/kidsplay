@@ -44,6 +44,8 @@ test.describe('matching studio reuse', () => {
     const firstItem = dialog.locator('.drag-item').first();
     const secondTarget = dialog.locator('.drop-target').nth(1);
     const itemLabel = (await firstItem.innerText()).trim();
+    const targetId = await secondTarget.getAttribute('data-target-id');
+    if (!targetId) throw new Error('Matching target must expose its stable target ID');
 
     await firstItem.focus();
     await page.keyboard.press('Space');
@@ -69,7 +71,7 @@ test.describe('matching studio reuse', () => {
     await expect(restored.getByRole('button', { name: 'Show me', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await expect(restored.getByText(/PAIR 2 OF/i)).toBeVisible();
     await restored.getByRole('button', { name: 'Return to my matches', exact: true }).click();
-    await expect(restored.locator('.drop-target').nth(1)).toContainText(itemLabel);
+    await expect(restored.locator(`[data-drop-target="true"][data-target-id="${targetId}"]`)).toContainText(itemLabel);
 
     expect(await evidence(page)).toEqual(beforeEvidence);
     const bounds = await restored.boundingBox();
