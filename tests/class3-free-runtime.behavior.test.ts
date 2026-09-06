@@ -11,6 +11,21 @@ import class3Membership from '../content/profile-memberships/SOF_INDIA_CLASS3.js
 const PACK_ID = 'free.sof-class3-science-foundation.1';
 const PROFILE_REF = 'SOF_INDIA_CLASS3';
 
+const INTEGRATED_LIVING_ROWS = [
+  'kr.sof3.living.need.food',
+  'kr.sof3.living.need.water',
+  'kr.sof3.living.characteristic.grow',
+  'kr.sof3.living.characteristic.reproduce'
+];
+
+const DIET_ROWS = [
+  'kr.sof3.animals.feeding.herbivore',
+  'kr.sof3.animals.feeding.carnivore',
+  'kr.sof3.animals.feeding.omnivore'
+];
+
+const CAMOUFLAGE_ROW = 'kr.sof3.animals.adaptation.camouflage';
+
 describe('Class 3 free runtime', () => {
   it('surfaces the Class 3 foundation pack as a profile-scoped free catalog entry', () => {
     const entry = getCatalogEntries().find((item) => item.id === PACK_ID);
@@ -26,7 +41,7 @@ describe('Class 3 free runtime', () => {
     expect(entry?.title).toContain('Class 3 Science');
   });
 
-  it('keeps every direct Class 3 row in free content while reusing the Class 2 free bank by composition', () => {
+  it('keeps every direct Class 3 row in free content without forcing semantically bad one-row choices', () => {
     const pool = getFreePackQuestions(PACK_ID);
     const freeRows = new Set(pool.flatMap((question) => question.knowledgeRefs ?? []));
     const directMembershipRows = class3Membership.members.map((member) => member.rowId);
@@ -41,10 +56,23 @@ describe('Class 3 free runtime', () => {
         .map((question) => question.knowledgeRefs?.[0])
         .filter((rowId): rowId is string => Boolean(rowId))
     );
+    for (const rowId of DIET_ROWS) expect(oneRowSingleChoiceRows.has(rowId)).toBe(true);
+
+    const integratedLiving = pool.find((question) => question.id === 'sof3.living.integrated.needs-characteristics.001');
+    expect(integratedLiving).toBeTruthy();
+    expect(new Set(integratedLiving?.knowledgeRefs ?? [])).toEqual(new Set(INTEGRATED_LIVING_ROWS));
+
+    const camouflagePractice = pool.filter((question) =>
+      question.knowledgeRefs?.includes(CAMOUFLAGE_ROW)
+      && ['memory_pairs', 'drag_to_target'].includes(question.interaction.type)
+    );
+    expect(camouflagePractice.length).toBeGreaterThanOrEqual(2);
+
+    const semanticExceptions = new Set([...INTEGRATED_LIVING_ROWS, CAMOUFLAGE_ROW]);
     const class3ScienceRows = directMembershipRows.filter((rowId) => rowId.startsWith('kr.sof3.'));
     const missingOneRowSingleChoiceRows = class3ScienceRows.filter((rowId) => !oneRowSingleChoiceRows.has(rowId));
-
-    expect(missingOneRowSingleChoiceRows).toEqual([]);
+    expect(missingOneRowSingleChoiceRows.filter((rowId) => !semanticExceptions.has(rowId))).toEqual([]);
+    expect(new Set(missingOneRowSingleChoiceRows)).toEqual(semanticExceptions);
   });
 
   it('launches an eight-question Class 3 free session inside its effective composed profile membership', () => {

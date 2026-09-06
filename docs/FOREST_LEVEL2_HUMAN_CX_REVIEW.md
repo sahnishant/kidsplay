@@ -1,66 +1,64 @@
 # HUMAN REVIEW — Forest Explorer Level 2 visual/CX acceptance
 
-**Status: APPROVED BY HUMAN REVIEWER on 2026-09-04. This approval was supplied by the human product owner after completing the prescribed review; it is not an Agent D / automation self-approval.**
+**Status: RE-REVIEW REQUIRED.**
 
-Review basis: `main` at Forest L2/L3 merge commit `1cb205a0ff09f2be684eecf1f05d6cc370bf6761`, after automated Windows, Browser and Android checks were green. This is a child-experience review, not a code review.
+The prior 2026-09-04 approval was bound to `main` at `1cb205a0ff09f2be684eecf1f05d6cc370bf6761`. It remains historical evidence for that exact build only.
 
-## Setup
+On **2026-09-06**, the human product owner explicitly rejected the current Quiet Creek presentation as visually weak and sloppy, specifically calling out the lack of meaningful visuals. That later product decision supersedes the earlier visual/CX approval for future builds. Automation must not treat the old approval as acceptance of the redesign.
 
-- Use a fresh profile, then complete Forest Explorer Level 1 normally; alternatively use a test profile with L1 complete and L2 incomplete.
-- Primary Browser review viewport: **360 × 640** with touch emulation enabled.
-- Repeat the key path on the packaged Android build with network connectivity disabled.
-- Run once with sound off. The mission must remain fully understandable from visible prompts, state changes and feedback.
-- Run once with reduced motion enabled. Meaning must remain clear without animation.
+Current redesign branch: `fix/quiet-creek-visual-rescue`.
 
-## Journey to review
+## Required redesign
 
-1. On the child home, confirm the Forest remains one place on the map and the HUD shows **Level 2**. `Continue Adventure` should lead to **The Quiet Creek Rescue** rather than a duplicate Forest node or a generic quiz folder.
-2. Read/play all three character setup beats. Shaitanu should frame the bad shortcut, Scientu should identify the connected creek/root/crossing problem, and Dheu should take the action role. Judge whether this feels like a problem in a world, not prefatory quiz text.
-3. Start Forest Level 2. Confirm the broken crossing, split channel, dry saplings and blocked creek are visually legible as a damaged place.
-4. On **Repair the creek crossing**, deliberately put the plank in the rail slot first. Confirm the response is an immediate local retry/scaffold, not a failure screen; correct work should not be erased. There must be no separate `Check Answer` button after placing a piece.
-5. Finish the crossing repair, then reconnect the two water-channel pieces. Confirm these feel like different physical jobs even though both use the same reusable assembly machinery.
-6. Water the saplings. Confirm the before/after state is visually apparent without audio.
-7. Release the creek flow. Confirm the physical consequence reads causally: blocked creek → flowing water → restored creek-bank environment.
-8. At completion, confirm the ending explicitly reflects the repaired world and shows **Forest Level 3 unlocked**. There should be no farmable currency loop or invitation to repeat for more rewards.
-9. Return to the world. Confirm the Forest visibly carries the creek-restoration consequence and shows two bounded Forest discoveries.
-10. Kill/relaunch or reload. Confirm the restored creek state, L2 completion, two Discovery entries and Level 3 continuation all persist. Replaying L2 must not increase the Discovery count.
+The child-facing mission must stop presenting the creek as status/debug cards plus text controls. The mission should read as one place that the child changes.
 
-## Child-CX acceptance questions
+Required product shape:
 
-Human reviewer marked **APPROVE** for all items below:
+1. **One persistent illustrated creek scene** occupies most of the phone surface.
+   - visible shallow creek;
+   - visibly broken wooden crossing;
+   - missing plank and side rail;
+   - fallen branch/blockage in the water;
+   - visible side channel;
+   - visibly drooping creek-bank saplings;
+   - Dheu and Scientu visibly participate in the scene.
+2. **Compact HUD only**: Back, title and `1/4` progress. No permanent `WORLD PROBLEM` panel.
+3. **Bridge repair is physical/visual**: illustrated plank and rail pieces go into glowing gaps on the actual bridge. Select-then-place remains an accessibility path; direct pointer drag may use the same assembly contract.
+4. **Water-path work is physical/visual**: channel pieces connect visibly in the scene rather than matching text labels in two columns.
+5. **Cause/effect happens in the world**: the visible blockage is removed, water visibly flows, and the child can see the changed creek.
+6. **Plant recovery is visible**: dry saplings visibly lift/green after watering, with a small returning-life payoff such as frog/butterfly activity.
+7. **Completion stays in the same scene**: do not replace the world with a technical completion/debug page. No child-facing text about saved progress stores, reward farming, implementation policy or persistence internals.
+8. Existing evidence boundaries remain unchanged:
+   - G2 assembly authority remains shared;
+   - wrong-first placement preserves first-attempt evidence;
+   - no redundant `Check Answer`;
+   - no new evaluator or duplicate progress store;
+   - persistence is still projected from canonical story progress.
 
-- The full arc feels like one coherent 5–10 minute creek rescue rather than four unrelated cards.
-- A young child can understand what to touch without reading every sentence.
-- Touch targets are comfortable on a 360 × 640 phone.
-- The wrong-first repair gives useful, non-punitive help and preserves the sense of progress.
-- The crossing/channel/watering/flow actions feel materially different enough to sustain play.
-- The child can see that their action changed the Forest, not merely that an answer was marked correct.
-- Dheu, Scientu and Shaitanu contribute to the adventure rather than appearing as decorative mascots.
-- Reduced-motion mode preserves all semantic state changes.
-- Sound-off mode preserves every required instruction, retry cue and consequence.
-- The persistent changed Forest is visible after relaunch and does not look like a transient celebration overlay.
-- There is no redundant `Check Answer` interaction and no replay-farming incentive.
+## Fresh human acceptance journey
 
-## Packaged Android checks
+Review the exact redesign head only after automated Windows, Browser and Android checks are green.
 
-Human reviewer marked **APPROVE** for all prescribed Android checks:
+1. Enter Forest Level 2 at **360 × 640** and confirm the creek/bridge/branch/plants are understandable before reading prose.
+2. Confirm the illustrated world gets substantially more screen area than instructions/chrome.
+3. Deliberately put the plank in the rail target. Retry must remain local, gentle and preserve correct work.
+4. Place the plank and rail. The repaired pieces must visibly become part of the bridge.
+5. Complete the water-path work. The connected path must be visible without relying on labels such as `slot.channel-upper`.
+6. Complete plant care and blockage removal. The child must see the scene change rather than receive only a success sentence.
+7. Confirm completion remains a restored creek scene and contains no engineering/debug copy.
+8. Repeat with sound off and reduced motion; all required meaning must remain visible.
+9. Repeat on packaged Android offline, including force-stop/relaunch and portrait → landscape → portrait.
+10. Return/relaunch and confirm the persistent Forest consequence and bounded discoveries remain correct.
 
-- Launch with Wi-Fi/mobile data off and enter L2.
-- Complete at least the first repair and one cause/effect step offline.
-- Force-stop and relaunch; confirm saved world state remains coherent.
-- Rotate portrait → landscape → portrait during L2; verify controls remain reachable and no content becomes permanently clipped.
-- Confirm Android Back exits the mission safely rather than losing saved completed-mission state.
-
-## Review record
+## Acceptance record
 
 - Reviewer: Human product owner
-- Device/browser: All prescribed Browser + Android review conditions approved; exact hardware/browser version not separately recorded
-- Branch/head SHA: `main` @ `1cb205a0ff09f2be684eecf1f05d6cc370bf6761`
-- Date: 2026-09-04
-- Browser 360 × 640: **APPROVE**
-- Touch accessibility: **APPROVE**
-- Reduced motion: **APPROVE**
-- Sound off: **APPROVE**
-- Android offline/relaunch/rotation: **APPROVE**
-- Overall Forest L2 visual/CX gate: **APPROVE**
-- Notes/screenshots: Human reviewer reported all review items approved; no rejection notes were supplied
+- Redesign branch: `fix/quiet-creek-visual-rescue`
+- Exact reviewed SHA: **PENDING**
+- Browser 360 × 640: **PENDING**
+- Touch accessibility: **PENDING**
+- Reduced motion: **PENDING**
+- Sound off: **PENDING**
+- Android offline/relaunch/rotation: **PENDING**
+- Overall Forest L2 visual/CX gate: **PENDING**
+- Rejection source: human product-owner review on 2026-09-06; current pre-redesign screen rejected for inadequate visuals/sloppy presentation

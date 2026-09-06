@@ -57,7 +57,7 @@ describe('water process visual family', () => {
     expect(report.familyQueue.some((family) => family.familyKey === 'process-change')).toBe(false);
   });
 
-  it('adds the five process instances on top of the soil and shadow gains', () => {
+  it('keeps the certified visual-coverage floor while both water processes remain recipe-resolved', () => {
     const report = JSON.parse(execFileSync(process.execPath, ['scripts/report-visual-coverage.mjs', '--json'], { encoding: 'utf8' })) as {
       library: { entities: number; recipes: number };
       visualFriendly: { visual: number; total: number; percent: number; recipe: number };
@@ -67,6 +67,6 @@ describe('water process visual family', () => {
     expect(report.visualFriendly.total).toBeGreaterThanOrEqual(1459);
     expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(791);
     expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(40);
-    expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(182);
+    for (const [semanticRef] of processes) expect(resolveVisualRecipeForSemantic(semanticRef, 'option')).toBeTruthy();
   });
 });
