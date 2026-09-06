@@ -14,6 +14,7 @@ export function validateBicycleWorkshopPresentation() {
   const viewport = text('src/ui/BicycleWorkshopViewport.svelte');
   const stage = text('src/ui/BicycleStoryStage.svelte');
   const stageCss = text('src/ui/bicycleStoryStage.css');
+  const mechanism = text('src/presentation/BicycleMechanismDemonstration.svelte');
   const home = text('src/ui/HomeViewport.svelte');
 
   invariant(guide.mode === 'non_evaluative_guided_learning', 'Guided chapter must remain non-evaluative');
@@ -34,6 +35,9 @@ export function validateBicycleWorkshopPresentation() {
   invariant(stageCss.includes('.part-hit') && stageCss.includes('touch-action:manipulation') && stageCss.includes('pointer-events:auto'), 'Bicycle part finder is missing direct touch targets over the illustration');
   invariant(stageCss.includes('.part-focus-outline') && stageCss.includes('part-splash') && stageCss.includes('0 0 0 999px'), 'Bicycle part finder is missing its spotlight/splash treatment');
   invariant(!stage.includes('yellow ring'), 'Legacy low-salience yellow-ring instruction returned');
+  invariant(mechanism.includes("../ui/bicycleStoryBike.svg?url") && mechanism.includes('class="mechanism__bike"'), 'Look Inside must reuse the same colorful Bicycle Workshop asset');
+  invariant(mechanism.includes('mechanism__overlay') && mechanism.includes('mechanism-crank') && mechanism.includes('mechanism-chain') && mechanism.includes('mechanism-wheel'), 'Look Inside must teach mechanics as overlays on the shared colorful bicycle');
+  invariant(!mechanism.includes('class="frame"'), 'Look Inside returned to a separate monochrome bicycle drawing');
   invariant(viewport.includes('Previous') && viewport.includes('Next idea') && viewport.includes('Next part'), 'Guided chapter navigation is incomplete');
   invariant(viewport.includes('LOOK') && viewport.includes('LEARN') && viewport.includes('YOUR TURN'), 'Guided chapter pacing cues are incomplete');
   invariant(viewport.includes('Practice') && viewport.includes('Chapter check'), 'Guided chapter completion actions are incomplete');
