@@ -24,11 +24,16 @@ const budgets = {
   // STUDIO-08/09 measure 907.6 KiB after CollectionCount is split out of startup
   // core. Admit +9 KiB for the two reusable mechanics; route/core ceilings remain
   // independently enforced below instead of turning this into unbounded growth.
+  // #281 renders the canonical bicycle SVG inline only inside the lazy mechanism
+  // route so its real crank arms and pedals can animate. CI measures 911.0 KiB raw;
+  // admit a bounded +4 KiB over the prior 908 KiB ceiling for that exact-art reuse.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
-  maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
+  // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
+  // keep the adjustment bounded to +0.5 KiB rather than broadening route budgets.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.5) * 1024,
   maxCoreCssBytes: 100 * 1024
 };
 
@@ -71,7 +76,9 @@ const lazyRouteBudgets = [
   { prefix: 'BicycleStoryStage-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 5 * 1024 },
   { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
   // Imported from #268: the mechanism lesson is its own reusable nested surface.
-  { prefix: 'BicycleMechanismDemonstration-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 6.5 * 1024 },
+  // #281 adds exact-art crank/pedal counter-rotation and measures 7.4 KiB CSS;
+  // keep a narrow 7.75 KiB ceiling while its JS remains under the existing 4.5 KiB cap.
+  { prefix: 'BicycleMechanismDemonstration-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 7.75 * 1024 },
   { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 0 }
 ];
 
