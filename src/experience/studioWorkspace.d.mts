@@ -1,5 +1,5 @@
-import type { EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
-type StudioQuestion = EqualPartsQuestion | SequenceOrderQuestion;
+import type { DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
+type StudioQuestion = DragToTargetQuestion | EqualPartsQuestion | SequenceOrderQuestion;
 export interface StudioLearningState {
   mode: 'explore' | 'watch' | 'practice';
   demonstrationSeen: boolean;

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { untrack } from 'svelte';
   import type { DragToTargetQuestion } from '../contracts/question';
   import { resolveForgivingDropTarget, type DropSnapTarget } from '../mechanics/dragSnap';
   import { createMatchingDisplayOrder, matchingClueLabel } from '../mechanics/matchingPresentation';
@@ -18,10 +19,24 @@
     submissionMode = 'explicit',
     dropSnapTolerancePx = 0,
     showLabels = true,
-    oversized = false
+    oversized = false,
+    initialState,
+    onStateChange,
+    mode = 'question'
   }: DragToTargetEngineProps = $props();
 
-  let assignments = $state<Record<string, string>>({});
+  function restoreAssignments(value: unknown): Record<string, string> {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) return {};
+    const raw = (value as { assignments?: unknown }).assignments;
+    if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return {};
+    const itemIds = new Set(question.interaction.items.map((item) => item.id));
+    const targetIds = new Set(question.interaction.targets.map((target) => target.id));
+    return Object.fromEntries(Object.entries(raw).filter(([itemId, targetId]) =>
+      itemIds.has(itemId) && typeof targetId === 'string' && targetIds.has(targetId)
+    ));
+  }
+
+  let assignments = $state<Record<string, string>>(untrack(() => restoreAssignments(initialState)));
   let selectedItemId = $state<string | null>(null);
   let locked = $state(false);
   let suppressClickFor: string | null = null;
@@ -43,6 +58,18 @@
     question.solution.assignments
   ));
 
+  function workspaceState(value = assignments): { assignments: Record<string, string> } {
+    return { assignments: { ...value } };
+  }
+
+  // Publish the initial/restored work once so a host can establish its lifecycle.
+  // Actual edits also publish synchronously in assign() before navigation can tear
+  // the engine down; the effect is the idempotent fallback for reactive restores.
+  $effect(() => {
+    const snapshot = workspaceState(assignments);
+    untrack(() => onStateChange?.(snapshot));
+  });
+
   function pairedItemLabel(targetId: string): string | undefined {
     return question.interaction.items.find(
       (item) => question.solution.assignments[item.id] === targetId
@@ -62,13 +89,14 @@
 
   function commit(nextAssignments: Record<string, string>): void {
     if (locked) return;
-    locked = true;
-    onSubmit({ assignments: { ...nextAssignments } });
+    locked = mode !== 'explore';
+    onSubmit(workspaceState(nextAssignments));
   }
 
   function assign(itemId: string, targetId: string): void {
     if (locked) return;
     const nextAssignments = { ...assignments, [itemId]: targetId };
+    onStateChange?.(workspaceState(nextAssignments));
     assignments = nextAssignments;
     selectedItemId = null;
 
@@ -276,7 +304,7 @@
 
 {#if submissionMode === 'explicit'}
   <button class="primary-button" type="button" disabled={locked || !complete} onclick={() => commit(assignments)}>
-    Check answer
+    {mode === 'explore' ? 'Look at my matches' : 'Check answer'}
   </button>
 {/if}
 

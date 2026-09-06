@@ -1,16 +1,17 @@
 import document from '../../content/experience/learning-studios.json';
 import type { LearnAboutDepthBand } from './learnAboutContract';
-import type { EqualPartsQuestion, Question, SequenceOrderQuestion } from '../contracts/question';
+import type { DragToTargetQuestion, EqualPartsQuestion, Question, SequenceOrderQuestion } from '../contracts/question';
 import type { StudioWordReferences } from './studioWordProjection.mjs';
 import { assertEqualPartsQuestion } from '../mechanics/equalParts.mjs';
 import { studioQuestionSignature } from './studioWorkspace.mjs';
 export { createStudioWorkspace, restoreStudioWorkspace } from './studioWorkspace.mjs';
 export type { StudioWorkspace } from './studioWorkspace.mjs';
 
-export type StudioQuestion = EqualPartsQuestion | SequenceOrderQuestion;
+export type StudioQuestion = EqualPartsQuestion | SequenceOrderQuestion | DragToTargetQuestion;
+export type LearningStudioFamily = 'fraction_studio' | 'sequence_studio' | 'matching_studio';
 export interface LearningStudioActivity {
   activityId: string;
-  family: 'fraction_studio' | 'sequence_studio';
+  family: LearningStudioFamily;
   childTitle: string;
   source: { kind: 'question_bank' | 'bicycle_workshop'; questionId: string; wordProjection?: StudioWordReferences };
 }
@@ -27,7 +28,7 @@ export function validateLearningStudioRegistry(value: unknown): void {
   for (const activity of value.activities) {
     if (!record(activity) || !ref(activity.activityId) || !activity.activityId.startsWith('studio.') || ids.has(activity.activityId)) throw new Error('Invalid or duplicate studio activity ID');
     ids.add(activity.activityId);
-    if ((activity.family !== 'fraction_studio' && activity.family !== 'sequence_studio') || typeof activity.childTitle !== 'string' || !activity.childTitle.trim() || activity.childTitle.length > 96) throw new Error(`${activity.activityId}: invalid studio family/title`);
+    if (!['fraction_studio', 'sequence_studio', 'matching_studio'].includes(String(activity.family)) || typeof activity.childTitle !== 'string' || !activity.childTitle.trim() || activity.childTitle.length > 96) throw new Error(`${activity.activityId}: invalid studio family/title`);
     if (!record(activity.source) || (activity.source.kind !== 'question_bank' && activity.source.kind !== 'bicycle_workshop') || !ref(activity.source.questionId)) throw new Error(`${activity.activityId}: invalid source binding`);
     if (!only(activity, ['activityId','family','childTitle','source']) || !only(activity.source, ['kind','questionId','wordProjection'])) throw new Error(`${activity.activityId}: studio bindings must not embed answers or content`);
     const projection = activity.source.wordProjection;
@@ -68,11 +69,44 @@ export function getWorkshopStudioActivityRefs(workshopId: string, sectionId: str
   return document.workshopBindings.filter((binding) => binding.workshopId === workshopId && binding.sectionId === sectionId).flatMap((binding) => binding.activityRefs);
 }
 
+function normalizedVisibleLabel(value: string): string {
+  return value.trim().replace(/\s+/g, ' ').toLocaleLowerCase('en');
+}
+
+function validateMatchingQuestion(question: DragToTargetQuestion): void {
+  if (question.solution.type !== 'target_assignment') throw new Error('Matching studio requires target_assignment');
+  if (question.authoring.status !== 'reviewed') throw new Error('Matching studio requires a reviewed source question');
+  const items = question.interaction.items;
+  const targets = question.interaction.targets;
+  if (items.length < 2 || items.length > 8 || targets.length < 2 || targets.length > 8) throw new Error('Matching studio requires 2 to 8 items and targets');
+  if (items.length !== targets.length) throw new Error('Matching studio requires the same number of items and targets for one-to-one pairing');
+  const itemIds = items.map((item) => item.id);
+  const targetIds = new Set(targets.map((target) => target.id));
+  const itemLabels = items.map((item) => normalizedVisibleLabel(item.label));
+  const targetLabels = targets.map((target) => normalizedVisibleLabel(target.label));
+  if (new Set(itemIds).size !== itemIds.length || targetIds.size !== targets.length
+    || items.some((item) => !item.id.trim() || !item.label.trim())
+    || targets.some((target) => !target.id.trim() || !target.label.trim())) throw new Error('Matching studio requires uniquely identified labelled items and targets');
+  if (new Set(itemLabels).size !== itemLabels.length || new Set(targetLabels).size !== targetLabels.length) {
+    throw new Error('Matching studio requires visibly distinct item and target labels; ambiguous grouping belongs in a different mechanic');
+  }
+  const assignments = question.solution.assignments;
+  const assignedTargetIds = itemIds.map((itemId) => assignments[itemId]);
+  if (Object.keys(assignments).length !== itemIds.length
+    || assignedTargetIds.some((targetId) => typeof targetId !== 'string' || !targetIds.has(targetId))
+    || new Set(assignedTargetIds).size !== itemIds.length) throw new Error('Matching studio source needs a complete one-to-one assignment map');
+}
+
 /** Practice clones the source; it cannot refresh mastery or mutate its answer authority. */
 export function asStudioPracticeQuestion(question: Question, activity: LearningStudioActivity): StudioQuestion {
-  const expected = activity.family === 'fraction_studio' ? 'equal_parts' : 'sequence_order';
+  const expected = activity.family === 'fraction_studio'
+    ? 'equal_parts'
+    : activity.family === 'matching_studio'
+      ? 'drag_to_target'
+      : 'sequence_order';
   if (question.interaction.type !== expected) throw new Error(`${activity.activityId}: source does not support ${expected}`);
   if (question.interaction.type === 'equal_parts') assertEqualPartsQuestion(question);
+  if (question.interaction.type === 'drag_to_target') validateMatchingQuestion(question as DragToTargetQuestion);
   if (question.interaction.type === 'sequence_order') {
     if (question.solution.type !== 'ordered_items') throw new Error('Sequence studio requires ordered_items');
     const items = question.interaction.items;
@@ -86,7 +120,7 @@ export function asStudioPracticeQuestion(question: Question, activity: LearningS
   return copy;
 }
 
-/** Lazy source adapters; no chapter-owned copies of sequence answers. */
+/** Lazy source adapters; no chapter-owned copies of sequence or matching answers. */
 export async function loadLearningStudioQuestion(activityId: string): Promise<StudioQuestion> {
   const activity = getLearningStudioActivity(activityId);
   let question: Question | undefined;

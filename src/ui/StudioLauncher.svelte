@@ -37,6 +37,11 @@
     if (status === 'unavailable' || status === 'invalid') return 'This device could not save this work. Keep this page open to continue.';
     return '';
   }
+  function iconFor(family: string): string {
+    if (family === 'fraction_studio') return '◒';
+    if (family === 'matching_studio') return '⇄';
+    return '↔';
+  }
   function open(id: string): void {
     const store = createStudioWorkStore(ownerId);
     const loaded = store.load(id);
@@ -63,7 +68,7 @@
       {#each activityRefs as ref}
         {@const activity = getLearningStudioActivity(ref)}
         <button type="button" onclick={() => open(ref)}>
-          <span aria-hidden="true">{activity.family === 'fraction_studio' ? '◒' : '↔'}</span>
+          <span aria-hidden="true">{iconFor(activity.family)}</span>
           <span><strong>{activity.childTitle}</strong><small>Explore · show me · try it</small></span>
         </button>
       {/each}

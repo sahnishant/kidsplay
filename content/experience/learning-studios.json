@@ -20,7 +20,22 @@
     {"activityId":"studio.earth.water-freezing","family":"sequence_studio","childTitle":"When water freezes","source":{"kind":"question_bank","questionId":"earth.studio.water-freezing.001"}},
     {"activityId":"studio.lion.growth","family":"sequence_studio","childTitle":"A lion grows up","source":{"kind":"question_bank","questionId":"lion.studio.growth.001"}},
     {"activityId":"studio.fire-station.visit-story","family":"sequence_studio","childTitle":"Dheu visits the fire station","source":{"kind":"question_bank","questionId":"fire-station.studio.visit-story.001"}},
-    {"activityId":"studio.plants.seed-growth","family":"sequence_studio","childTitle":"From seed to young plant","source":{"kind":"question_bank","questionId":"plants.studio.seed-growth.001"}}
+    {"activityId":"studio.plants.seed-growth","family":"sequence_studio","childTitle":"From seed to young plant","source":{"kind":"question_bank","questionId":"plants.studio.seed-growth.001"}},
+
+    {"activityId":"studio.match.earth-sky","family":"matching_studio","childTitle":"Match Earth & sky ideas","source":{"kind":"question_bank","questionId":"universe.earth-sky.match.generated.001"}},
+    {"activityId":"studio.match.planets","family":"matching_studio","childTitle":"Match the planets","source":{"kind":"question_bank","questionId":"universe.planets.match.generated.001"}},
+    {"activityId":"studio.match.animal-homes","family":"matching_studio","childTitle":"Match animals to homes","source":{"kind":"question_bank","questionId":"animals.homes.match.generated.001"}},
+    {"activityId":"studio.match.animal-young","family":"matching_studio","childTitle":"Match animals & young ones","source":{"kind":"question_bank","questionId":"animals.young.match.generated.001"}},
+    {"activityId":"studio.match.plant-parts","family":"matching_studio","childTitle":"Match plant parts & jobs","source":{"kind":"question_bank","questionId":"plants.parts.match.generated.001"}},
+    {"activityId":"studio.match.plant-uses","family":"matching_studio","childTitle":"Match useful plants","source":{"kind":"question_bank","questionId":"plants.uses.match.studio.generated.001"}},
+    {"activityId":"studio.match.human-senses","family":"matching_studio","childTitle":"Match sense organs & jobs","source":{"kind":"question_bank","questionId":"human.senses.match.generated.001"}},
+    {"activityId":"studio.match.human-organs","family":"matching_studio","childTitle":"Match body parts & jobs","source":{"kind":"question_bank","questionId":"human.organs.match.generated.001"}},
+    {"activityId":"studio.match.food-sources","family":"matching_studio","childTitle":"Match foods to sources","source":{"kind":"question_bank","questionId":"food.sources.match.generated.001"}},
+    {"activityId":"studio.match.food-habits","family":"matching_studio","childTitle":"Match food habits & reasons","source":{"kind":"question_bank","questionId":"food.habits.match.generated.001"}},
+    {"activityId":"studio.match.housing-types","family":"matching_studio","childTitle":"Match different homes","source":{"kind":"question_bank","questionId":"housing.types.match.generated.001"}},
+    {"activityId":"studio.match.clothing-weather","family":"matching_studio","childTitle":"Match clothes to weather","source":{"kind":"question_bank","questionId":"clothing.weather.match.generated.001"}},
+    {"activityId":"studio.match.daily-habits","family":"matching_studio","childTitle":"Match healthy habits","source":{"kind":"question_bank","questionId":"habits.daily.match.generated.001"}},
+    {"activityId":"studio.match.safety-rules","family":"matching_studio","childTitle":"Match everyday safety","source":{"kind":"question_bank","questionId":"safety.rules.match.generated.001"}}
   ],
   "workshopBindings": [
     {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]},
@@ -29,13 +44,24 @@
   "topicBindings": [
     {"topicId":"learn.fractions","sectionId":"fractions.equal-shares","minDepth":"d1_preschool","activityRefs":["studio.fractions.equal-shares"]},
     {"topicId":"learn.fractions","sectionId":"fractions.make-and-share","minDepth":"d2_early_primary","activityRefs":["studio.fractions.dosa","studio.fractions.garden"]},
-    {"topicId":"learn.lion","sectionId":"lion.animal-neighbours","minDepth":"d2_early_primary","activityRefs":["studio.sequence.butterfly"]},
+    {"topicId":"learn.lion","sectionId":"lion.animal-neighbours","minDepth":"d2_early_primary","activityRefs":["studio.sequence.butterfly","studio.match.animal-homes","studio.match.animal-young"]},
     {"topicId":"learn.fractions","sectionId":"fractions.share-with-friends","minDepth":"d2_early_primary","activityRefs":["studio.fractions.three-friends","studio.fractions.four-friends"]},
     {"topicId":"learn.fractions","sectionId":"fractions.same-half","minDepth":"d2_early_primary","activityRefs":["studio.fractions.equal-shares","studio.fractions.half-six","studio.fractions.half-eight"]},
     {"topicId":"learn.earth","sectionId":"earth.day-and-night","minDepth":"d2_early_primary","activityRefs":["studio.earth.day-sequence"]},
     {"topicId":"learn.earth","sectionId":"earth.water-changes","minDepth":"d2_early_primary","activityRefs":["studio.earth.ice-melting","studio.earth.water-freezing"]},
+    {"topicId":"learn.earth","sectionId":"earth.space-neighbours","minDepth":"d2_early_primary","activityRefs":["studio.match.earth-sky","studio.match.planets"]},
     {"topicId":"learn.lion","sectionId":"lion.family","minDepth":"d2_early_primary","activityRefs":["studio.lion.growth"]},
     {"topicId":"learn.fire-station","sectionId":"fire-station.engine","minDepth":"d2_early_primary","activityRefs":["studio.fire-station.visit-story"]},
-    {"topicId":"learn.plants","sectionId":"plants.seed-growth","minDepth":"d2_early_primary","activityRefs":["studio.plants.seed-growth"]}
+    {"topicId":"learn.plants","sectionId":"plants.seed-growth","minDepth":"d2_early_primary","activityRefs":["studio.plants.seed-growth"]},
+    {"topicId":"learn.plants","sectionId":"plants.parts","minDepth":"d1_preschool","activityRefs":["studio.match.plant-parts"]},
+    {"topicId":"learn.plants","sectionId":"plants.uses","minDepth":"d2_early_primary","activityRefs":["studio.match.plant-uses"]},
+    {"topicId":"learn.human-body","sectionId":"human.senses","minDepth":"d1_preschool","activityRefs":["studio.match.human-senses"]},
+    {"topicId":"learn.human-body","sectionId":"human.organs","minDepth":"d2_early_primary","activityRefs":["studio.match.human-organs"]},
+    {"topicId":"learn.food","sectionId":"food.sources","minDepth":"d1_preschool","activityRefs":["studio.match.food-sources"]},
+    {"topicId":"learn.food","sectionId":"food.habits","minDepth":"d2_early_primary","activityRefs":["studio.match.food-habits"]},
+    {"topicId":"learn.homes-clothes","sectionId":"housing.types","minDepth":"d2_early_primary","activityRefs":["studio.match.housing-types"]},
+    {"topicId":"learn.homes-clothes","sectionId":"clothing.weather","minDepth":"d2_early_primary","activityRefs":["studio.match.clothing-weather"]},
+    {"topicId":"learn.healthy-safe","sectionId":"habits.daily","minDepth":"d2_early_primary","activityRefs":["studio.match.daily-habits"]},
+    {"topicId":"learn.healthy-safe","sectionId":"safety.rules","minDepth":"d2_early_primary","activityRefs":["studio.match.safety-rules"]}
   ]
 }

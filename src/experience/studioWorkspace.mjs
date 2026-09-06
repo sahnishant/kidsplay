@@ -36,12 +36,25 @@ export function isStudioResponse(question, state) {
     const actual = Array.from(state.orderedItemIds);
     return ids.size === interaction.items.length && actual.length === ids.size && new Set(actual).size === ids.size && actual.every((value) => typeof value === 'string' && ids.has(value));
   }
+  if (interaction.type === 'drag_to_target') {
+    if (!ownKeys(state, ['assignments']) || !record(state.assignments)) return false;
+    const itemIds = new Set(interaction.items.map((item) => item.id));
+    const targetIds = new Set(interaction.targets.map((target) => target.id));
+    const entries = Object.entries(state.assignments);
+    return entries.length <= itemIds.size
+      && entries.every(([itemId, targetId]) => itemIds.has(itemId) && typeof targetId === 'string' && targetIds.has(targetId));
+  }
   return false;
 }
 
 export const INITIAL_STUDIO_LEARNING = Object.freeze({ mode: 'explore', demonstrationSeen: false, checkCount: 0, stepIndex: 0, checked: false });
 function validLearning(value, question) {
-  const length = question.interaction.type === 'sequence_order' ? question.interaction.items.length : question.interaction.categories.length;
+  const interaction = question.interaction;
+  const length = interaction.type === 'sequence_order'
+    ? interaction.items.length
+    : interaction.type === 'drag_to_target'
+      ? interaction.items.length
+      : interaction.categories.length;
   return ownKeys(value, Object.keys(INITIAL_STUDIO_LEARNING))
     && ['explore', 'watch', 'practice'].includes(value.mode)
     && typeof value.demonstrationSeen === 'boolean'

@@ -12,19 +12,25 @@ const budgets = {
   // 854.0 KiB installed. Explicit +32 KiB feature allowance over 832 KiB.
   // Quiet Creek visual rescue adds a bounded +3 KiB raw-JS allowance for spatial
   // placement/touch handling on the already-lazy Forest mission route.
+  // MATCH-08 measured the third reusable studio family at 876.8 KiB raw. Give
+  // that cross-topic family a further +12 KiB installed-code ceiling; it remains
+  // subject to the lazy StudioLauncher cap below rather than becoming core code.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3) * 1024,
-  // Lazy artwork is measured separately; +1 KiB admits its registry/loader.
-  maxCoreJsGzipBytes: (162 + 4 + 1) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12) * 1024,
+  // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
+  // shared drag-state typing/validation without absorbing the matching UI route.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
   maxCoreCssBytes: 100 * 1024
 };
 
 // Explicit feature allowances are review items, not disabled checks.
 const lazyRouteBudgets = [
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 3 * 1024 },
-  // cdcd4f1: 10.2 KiB gzip / 4.4 KiB CSS. Shared visual preview and its frame
-  // receive +0.5 KiB JS / +1 KiB CSS over the prior text-only teaching surface.
-  { prefix: 'StudioLauncher-', maxJsGzipBytes: 10.5 * 1024, maxCssBytes: 5 * 1024 },
+  // MATCH-08 measured 11.4 KiB gzip / 5.6 KiB CSS after adding resumable matching,
+  // source-backed Show Me pairs and actual-work accessibility. Keep it bounded at
+  // 12/6; future studio families must earn another explicit review rather than
+  // silently consuming this route.
+  { prefix: 'StudioLauncher-', maxJsGzipBytes: 12 * 1024, maxCssBytes: 6 * 1024 },
   { prefix: 'StudioScene-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 2 * 1024 },
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
