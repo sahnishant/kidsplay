@@ -1,7 +1,7 @@
 [
-  { "id": "sof3.life-adaptations.memory.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "memory_pairs@1", "difficulty": 2 },
-  { "id": "sof3.life-adaptations.match.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "drag_to_target@1", "difficulty": 2 },
-  { "id": "sof3.life-adaptations.mcq.each.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "single_choice@1", "forEachEntry": true, "includeEntryIds": ["herbivore", "carnivore", "omnivore", "camouflage"], "choiceFamilyEntryIds": ["herbivore", "carnivore", "omnivore", "camouflage"], "distractorCount": 3, "difficulty": 2 },
+  { "id": "sof3.life-adaptations.memory.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "memory_pairs@1", "entryIds": ["herbivore", "carnivore", "omnivore", "camouflage"], "difficulty": 2 },
+  { "id": "sof3.life-adaptations.match.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "drag_to_target@1", "entryIds": ["herbivore", "carnivore", "omnivore", "camouflage"], "difficulty": 2 },
+  { "id": "sof3.life-adaptations.mcq.each.generated.001", "sourceRef": "knowledge.sof.class3.life-adaptations.001", "engine": "single_choice@1", "forEachEntry": true, "includeEntryIds": ["herbivore", "carnivore", "omnivore"], "choiceFamilyEntryIds": ["herbivore", "carnivore", "omnivore"], "distractorCount": 2, "difficulty": 2 },
 
   { "id": "sof3.plants-body.memory.generated.001", "sourceRef": "knowledge.sof.class3.plants-body.001", "engine": "memory_pairs@1", "difficulty": 2 },
   { "id": "sof3.plants-body.match.generated.001", "sourceRef": "knowledge.sof.class3.plants-body.001", "engine": "drag_to_target@1", "difficulty": 2 },
