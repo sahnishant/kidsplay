@@ -10,15 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Read bounded failure diagnostics from the existing browser run
+      - name: Read bounded browser assertion failures
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh api --allow-escape-sequences repos/sahnishant/kidsplay/actions/jobs/101430899280/logs > /tmp/browser.log
+          gh api --allow-escape-sequences repos/sahnishant/kidsplay/actions/jobs/101432260087/logs > /tmp/browser.log
           python3 - <<'PY'
           import re
           from pathlib import Path
           source = Path('/tmp/browser.log').read_text(encoding='utf-8-sig')
           source = re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', source)
-          print('\n'.join(source.splitlines()[-240:]))
+          lines = source.splitlines()
+          selected = set()
+          for i, line in enumerate(lines):
+              if re.search(r'\d+\) \[|Error:|failed|passed|Expected:|Received:|strict mode violation|Test timeout', line) and i > next((j for j, text in enumerate(lines) if 'Run npm run test:e2e:ci' in text), len(lines)):
+                  selected.update(range(max(0, i - 3), min(len(lines), i + 25)))
+          print('\n'.join(lines[i] for i in sorted(selected))[:45000])
           PY
