@@ -26,53 +26,61 @@
       "order": 1,
       "title": "Meet the bicycle",
       "focus": [
-        "bicycle.identity"
+        "bicycle.identity",
+        "bicycle.sound.bell"
       ],
-      "experience": "visual_recognition"
+      "experience": "story_visual_recognition"
     },
     {
       "id": "parts",
       "order": 2,
-      "title": "Parts and jobs",
+      "title": "Know the bicycle",
       "focus": [
+        "capability.english.semantic-part-labelling",
         "bicycle.parts.wheel",
         "bicycle.parts.pedal",
         "bicycle.parts.handlebar",
         "bicycle.parts.brake",
-        "bicycle.parts.bell"
+        "bicycle.parts.bell",
+        "bicycle.parts.carrier"
       ],
-      "experience": "label_match_compare"
+      "experience": "large_interactive_part_labelling"
     },
     {
       "id": "movement",
       "order": 3,
-      "title": "How movement travels",
+      "title": "See how pedalling works",
       "focus": [
-        "bicycle.motion.chain",
-        "bicycle.braking.chain",
-        "bicycle.control.steering"
+        "bicycle.motion.pedalling",
+        "bicycle.motion.chain"
       ],
-      "experience": "causal_sequence"
-    },
-    {
-      "id": "words",
-      "order": 4,
-      "title": "Words can change jobs",
-      "focus": [
-        "english.vocabulary.pedal",
-        "english.vocabulary.brake"
-      ],
-      "experience": "sense_discrimination"
+      "experience": "optional_mechanical_demonstration",
+      "curriculumRole": "kidsplay_enrichment_explanation_only",
+      "writesMastery": false
     },
     {
       "id": "sounds",
-      "order": 5,
-      "title": "Sound and sentence play",
+      "order": 4,
+      "title": "Hear and play with words",
       "focus": [
+        "bicycle.sound.bell",
+        "english.vocabulary.pedal",
+        "english.vocabulary.brake",
+        "capability.english.vocabulary.sense-recognition",
         "capability.english.phonics.short-a-recognition",
         "capability.english.grammar.indefinite-article-selection"
       ],
-      "experience": "phonics_and_grammar"
+      "experience": "sound_vocabulary_phonics_and_grammar"
+    },
+    {
+      "id": "magic",
+      "order": 5,
+      "title": "Magic bicycle",
+      "focus": [
+        "capability.english.creative.imagine-draw-speak"
+      ],
+      "experience": "non_evaluative_imaginative_expression",
+      "writesMastery": false
     },
     {
       "id": "reading",
@@ -145,6 +153,7 @@
     "capability.english.phonics.short-a-recognition",
     "capability.english.grammar.indefinite-article-selection",
     "capability.english.semantic-part-labelling",
+    "capability.english.creative.imagine-draw-speak",
     "capability.english.reading.literal-retrieval",
     "capability.english.reading.sequence-retrieval",
     "capability.english.reading.statement-verification",

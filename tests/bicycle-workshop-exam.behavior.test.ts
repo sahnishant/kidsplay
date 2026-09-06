@@ -29,8 +29,8 @@ describe('Bicycle Workshop exam-oriented chapter check', () => {
       explicitScopeCount: 40,
       scopeCounts: {
         chapter_core: 23,
-        chapter_supporting: 15,
-        enrichment: 2
+        chapter_supporting: 11,
+        enrichment: 6
       },
       semanticCoverage: {
         partsAndJobs: 6,
@@ -41,12 +41,14 @@ describe('Bicycle Workshop exam-oriented chapter check', () => {
     });
   });
 
-  it('keeps the live formative check in the lazy chapter runtime', () => {
+  it('keeps the live formative check in the lazy chapter runtime without inner-mechanics questions', () => {
     expect(getCatalogEntries().some((item) => item.id === packId)).toBe(false);
 
     const questions = getBicycleWorkshopPackQuestions('chapter_check');
     expect(questions).toHaveLength(8);
     expect(new Set(questions.map((question) => question.id)).size).toBe(8);
+    expect(questions.map((question) => question.id)).not.toContain('bicycle.workshop.sequence.motion.001');
+    expect(questions.map((question) => question.id)).not.toContain('bicycle.workshop.sequence.braking.001');
 
     const session = createBicycleWorkshopSession('chapter_check');
     expect(session).toMatchObject({

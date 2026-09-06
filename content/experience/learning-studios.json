@@ -21,7 +21,6 @@
     {"activityId":"studio.lion.growth","family":"sequence_studio","childTitle":"A lion grows up","source":{"kind":"question_bank","questionId":"lion.studio.growth.001"}},
     {"activityId":"studio.fire-station.visit-story","family":"sequence_studio","childTitle":"Dheu visits the fire station","source":{"kind":"question_bank","questionId":"fire-station.studio.visit-story.001"}},
     {"activityId":"studio.plants.seed-growth","family":"sequence_studio","childTitle":"From seed to young plant","source":{"kind":"question_bank","questionId":"plants.studio.seed-growth.001"}},
-
     {"activityId":"studio.match.earth-sky","family":"matching_studio","childTitle":"Match Earth & sky ideas","source":{"kind":"question_bank","questionId":"universe.earth-sky.match.generated.001"}},
     {"activityId":"studio.match.planets","family":"matching_studio","childTitle":"Match the planets","source":{"kind":"question_bank","questionId":"universe.planets.match.generated.001"}},
     {"activityId":"studio.match.animal-homes","family":"matching_studio","childTitle":"Match animals to homes","source":{"kind":"question_bank","questionId":"animals.homes.match.generated.001"}},
@@ -39,7 +38,7 @@
   ],
   "workshopBindings": [
     {"workshopId":"bicycle-workshop","sectionId":"movement","activityRefs":["studio.sequence.bicycle-motion","studio.sequence.bicycle-braking"]},
-    {"workshopId":"bicycle-workshop","sectionId":"words","activityRefs":["studio.words.pedal","studio.words.brake","studio.words.bell","studio.words.tyre"]}
+    {"workshopId":"bicycle-workshop","sectionId":"sounds","activityRefs":["studio.words.pedal","studio.words.brake","studio.words.bell","studio.words.tyre"]}
   ],
   "topicBindings": [
     {"topicId":"learn.fractions","sectionId":"fractions.equal-shares","minDepth":"d1_preschool","activityRefs":["studio.fractions.equal-shares"]},

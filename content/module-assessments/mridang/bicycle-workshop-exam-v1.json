@@ -7,7 +7,7 @@
   "officialBoardPaper": false,
   "sourceTextRequiredInRuntime": false,
   "sourceArtworkRequiredInRuntime": false,
-  "purpose": "Balanced Class II English chapter-companion practice after the child studies the prescribed school chapter.",
+  "purpose": "Balanced Class II English chapter-companion practice after the child studies the prescribed school chapter. Inner crank-and-chain mechanics remain optional Kidsplay explanation and are excluded from assessed forms.",
   "scopePolicy": {
     "allowed": [
       "chapter_core",
@@ -31,10 +31,10 @@
       "claim.cycling-helmet.protects.head": "chapter_core",
       "claim.lexeme.pedal-noun.denotes.bicycle-pedal": "chapter_core",
       "claim.lexeme.pedal-verb.denotes.pedalling": "chapter_core",
-      "claim.push-pedals.contributes-to.crank-turns": "chapter_supporting",
-      "claim.crank-turns.contributes-to.chain-moves": "chapter_supporting",
-      "claim.chain-moves.contributes-to.rear-wheel-turns": "chapter_supporting",
-      "claim.rear-wheel-turns.contributes-to.bicycle-movement": "chapter_supporting",
+      "claim.push-pedals.contributes-to.crank-turns": "enrichment",
+      "claim.crank-turns.contributes-to.chain-moves": "enrichment",
+      "claim.chain-moves.contributes-to.rear-wheel-turns": "enrichment",
+      "claim.rear-wheel-turns.contributes-to.bicycle-movement": "enrichment",
       "claim.squeeze-brake-lever.contributes-to.brake-engages": "chapter_supporting",
       "claim.brake-engages.contributes-to.bicycle-slowing": "chapter_core",
       "claim.turn-handlebar.contributes-to.direction-change": "chapter_core",
@@ -61,7 +61,7 @@
     },
     "chapterContextOverlayRef": "assessment.ncert.2026-27.class2.english.mridang.my-bicycle.v1",
     "chapterContextOverlayRuntimeEnabled": false,
-    "reason": "Exam scope is module-specific, so it is declared by this blueprint rather than embedded in shared canonical knowledge rows. Exact source-dependent comprehension remains rights/editorial gated."
+    "reason": "Exam scope is module-specific, so it is declared by this blueprint rather than embedded in shared canonical knowledge rows. Exact source-dependent comprehension remains rights/editorial gated, and inner crank-and-chain mechanics are explicitly enrichment rather than chapter assessment scope."
   },
   "sections": [
     {
@@ -96,11 +96,11 @@
     },
     {
       "id": "apply_and_stay_safe",
-      "title": "Apply and stay safe",
+      "title": "Use what you know and stay safe",
       "count": 2,
       "marksPerQuestion": 1,
       "requiredConceptGroups": [
-        "bicycle.reasoning",
+        "bicycle.parts",
         "bicycle.safety"
       ]
     }
@@ -117,7 +117,7 @@
         "bicycle.workshop.word.brake-verb.001",
         "bicycle.workshop.phonics.short-a.001",
         "bicycle.workshop.grammar.article.001",
-        "bicycle.workshop.sequence.braking.001",
+        "bicycle.workshop.fill.bell.001",
         "bicycle.workshop.safety.pre-ride.001"
       ]
     },
@@ -130,7 +130,7 @@
         "bicycle.workshop.word.brake-noun.001",
         "bicycle.workshop.phonics.short-a.002",
         "bicycle.workshop.grammar.article.002",
-        "bicycle.workshop.sequence.motion.001",
+        "bicycle.workshop.fill.brake.001",
         "bicycle.workshop.safety.helmet.001"
       ]
     },

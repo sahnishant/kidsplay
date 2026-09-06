@@ -14,8 +14,12 @@ const expectedIds = new Set([
   'bicycle.workshop.phonics.short-a.001',
   'bicycle.workshop.grammar.article.002',
   'bicycle.workshop.match.parts-functions.001',
-  'bicycle.workshop.sequence.motion.001',
+  'bicycle.workshop.fill.pedal.001',
   'bicycle.workshop.safety.pre-ride.001'
+]);
+const excludedInnerMechanics = new Set([
+  'bicycle.workshop.sequence.motion.001',
+  'bicycle.workshop.sequence.braking.001'
 ]);
 
 describe('Bicycle Workshop chapter check', () => {
@@ -25,6 +29,7 @@ describe('Bicycle Workshop chapter check', () => {
     const bank = getBicycleWorkshopPackQuestions('chapter_check');
     expect(bank).toHaveLength(8);
     expect(new Set(bank.map((question) => question.id))).toEqual(expectedIds);
+    expect(bank.some((question) => excludedInnerMechanics.has(question.id))).toBe(false);
   });
 
   it('launches every admitted check item through the lazy chapter session selector', () => {
@@ -37,7 +42,7 @@ describe('Bicycle Workshop chapter check', () => {
     expect(launch.questions).toHaveLength(8);
     expect(new Set(launch.questions.map((question) => question.id))).toEqual(expectedIds);
     expect(new Set(launch.questions.map((question) => question.interaction.type))).toEqual(
-      new Set(['single_choice', 'sequence_order', 'drag_to_target'])
+      new Set(['single_choice', 'word_bank_fill', 'drag_to_target', 'sequence_order'])
     );
   });
 
@@ -57,12 +62,19 @@ describe('Bicycle Workshop chapter check', () => {
     ]);
   });
 
-  it('contains no source chapter title, source PDF identity or chapter-local mastery claim', () => {
+  it('contains no source chapter title, source PDF identity, chapter-local mastery claim or pedal-drive enrichment claim', () => {
+    const excludedClaims = new Set([
+      'claim.push-pedals.contributes-to.crank-turns',
+      'claim.crank-turns.contributes-to.chain-moves',
+      'claim.chain-moves.contributes-to.rear-wheel-turns',
+      'claim.rear-wheel-turns.contributes-to.bicycle-movement'
+    ]);
     for (const question of getBicycleWorkshopPackQuestions('chapter_check')) {
       const serialized = JSON.stringify(question);
       expect(serialized).not.toMatch(/My Bicycle/i);
       expect(serialized).not.toContain('bemr101.pdf');
       expect((question.knowledgeRefs ?? []).some((ref) => ref.startsWith('claim.chapter.'))).toBe(false);
+      expect((question.knowledgeRefs ?? []).some((ref) => excludedClaims.has(ref))).toBe(false);
     }
   });
 });

@@ -4,7 +4,7 @@
   "kind": "learning_pack",
   "status": "reviewed",
   "title": "Bicycle Workshop — Chapter Check",
-  "description": "An eight-question Class 2 check covering original reading, vocabulary, phonics, grammar, bicycle parts, causal order and safety. It is a Kidsplay companion, not an official NCERT or CBSE paper.",
+  "description": "An eight-question Class 2 check covering original reading, vocabulary, phonics, grammar, familiar bicycle parts and basic safety. The optional crank-and-chain explanation is not assessed. It is a Kidsplay companion, not an official NCERT or CBSE paper.",
   "actionLabel": "Take chapter check",
   "catalogVisible": true,
   "access": { "type": "free" },
@@ -15,7 +15,7 @@
     "bicycle.workshop.phonics.short-a.001",
     "bicycle.workshop.grammar.article.002",
     "bicycle.workshop.match.parts-functions.001",
-    "bicycle.workshop.sequence.motion.001",
+    "bicycle.workshop.fill.pedal.001",
     "bicycle.workshop.safety.pre-ride.001"
   ],
   "assessmentScope": {
@@ -28,7 +28,7 @@
       "phonics",
       "grammar",
       "part_function_reasoning",
-      "causal_sequence",
+      "semantic_part_labelling",
       "safety_application"
     ],
     "officialPaperClaimed": false,

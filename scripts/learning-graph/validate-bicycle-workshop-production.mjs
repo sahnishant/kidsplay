@@ -42,6 +42,10 @@ const unique = (values, label) => {
   invariant(result.size === values.length, `${label} contains duplicates`);
   return result;
 };
+const innerMechanicsQuestionRefs = new Set([
+  'bicycle.workshop.sequence.motion.001',
+  'bicycle.workshop.sequence.braking.001'
+]);
 
 export function validateBicycleWorkshopProduction() {
   const policy = read('content/source-policies/mridang-my-bicycle-independent-expression.json');
@@ -151,18 +155,22 @@ export function validateBicycleWorkshopProduction() {
 
   invariant(practicePack.id === module.questionPackRef && practicePack.kind === 'learning_pack', 'Module/practice-pack mismatch');
   invariant(practicePack.status === 'reviewed' && practicePack.catalogVisible && practicePack.access?.type === 'free', 'Practice pack must be reviewed, visible and free');
-  invariant(practicePack.questionRefs.length === 28 && unique(practicePack.questionRefs, 'Practice pack').size === 28, 'Practice pack must contain 28 direct questions');
+  invariant(practicePack.questionRefs.length === 26 && unique(practicePack.questionRefs, 'Practice pack').size === 26, 'Practice pack must contain 26 direct assessed questions');
+  invariant(practicePack.questionRefs.every((ref) => !innerMechanicsQuestionRefs.has(ref)), 'Optional inner-mechanics questions leaked into scored practice');
   invariant(JSON.stringify(practicePack.includePackRefs) === JSON.stringify([readingPack.id]), 'Practice pack must compose exactly the reading slice');
   invariant(readingPack.catalogVisible === false && readingPack.questionRefs.length === 4, 'Reading slice must be hidden and contain four questions');
   for (const ref of [...practicePack.questionRefs, ...readingPack.questionRefs]) invariant(questionById.has(ref), `Practice composition has unknown question ${ref}`);
-  invariant(new Set([...practicePack.questionRefs, ...readingPack.questionRefs]).size === 32, 'Practice composition must expose 32 unique questions');
+  invariant(new Set([...practicePack.questionRefs, ...readingPack.questionRefs]).size === 30, 'Practice composition must expose 30 unique assessed questions');
   invariant(practicePack.authoring.sourceTextCopied === false && practicePack.authoring.sourceArtworkCopied === false, 'Practice-pack copy boundary weakened');
 
   invariant(chapterCheckPack.questionRefs.length === 8 && unique(chapterCheckPack.questionRefs, 'Chapter-check pack').size === 8, 'Chapter check must contain eight unique questions');
+  invariant(chapterCheckPack.questionRefs.every((ref) => !innerMechanicsQuestionRefs.has(ref)), 'Optional inner-mechanics questions leaked into the chapter check');
+  invariant(!(chapterCheckPack.assessmentScope?.strands ?? []).includes('causal_sequence'), 'Chapter check must not present inner mechanics as a required causal-sequence strand');
   for (const ref of chapterCheckPack.questionRefs) invariant(questionById.has(ref), `Chapter check has unknown question ${ref}`);
   invariant(chapterCheckPack.assessmentScope?.blueprintRef === chapterCheckBlueprint.blueprintId, 'Chapter check does not name its blueprint');
   invariant(chapterCheckBlueprint.packRef === chapterCheckPack.id, 'Chapter-check blueprint/pack mismatch');
   invariant(chapterCheckBlueprint.totalQuestions === 8 && chapterCheckBlueprint.totalMarks === 8, 'Chapter check must be an eight-question, eight-mark blueprint');
+  invariant(chapterCheckBlueprint.evidencePolicy?.innerMechanicsClaimsAssessed === false, 'Chapter-check blueprint must explicitly exclude inner mechanics from assessed evidence');
   const blueprintQuestionRefs = chapterCheckBlueprint.sections.flatMap((section) => section.questionRefs);
   invariant(JSON.stringify(blueprintQuestionRefs) === JSON.stringify(chapterCheckPack.questionRefs), 'Chapter-check section order must equal the fixed pack order');
   invariant(chapterCheckBlueprint.officialPaperClaimed === false && chapterCheckBlueprint.sourcePassageReproduced === false && chapterCheckBlueprint.sourceExerciseWordingReproduced === false, 'Chapter-check rights boundary weakened');

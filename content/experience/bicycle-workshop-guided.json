@@ -1,9 +1,9 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "experienceId": "experience.bicycle-workshop.guided.v1",
   "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
   "childTitle": "Bicycle Workshop",
-  "subtitle": "See it · understand it · try it",
+  "subtitle": "Meet it · discover it · imagine with it",
   "mode": "non_evaluative_guided_learning",
   "sourcePolicyRef": "source-policy.mridang.my-bicycle.independent-expression.v1",
   "practicePackRef": "free.english.bicycle-workshop.1",
@@ -14,125 +14,127 @@
     "practiceUsesCanonicalEvaluator": true,
     "chapterCheckUsesCanonicalEvaluator": true
   },
+  "storyBoundary": {
+    "primarySpine": "chapter_topic_and_skill_inventory",
+    "mechanicsSection": "kidsplay_explanation_only",
+    "mechanicsWritesMastery": false,
+    "creativeSection": "non_evaluative_expression"
+  },
   "sections": [
     {
       "id": "meet",
       "order": 1,
-      "eyebrow": "LOOK FIRST",
+      "navLabel": "Meet",
+      "storyMode": "meet",
+      "sourceLayer": "chapter_spine",
+      "eyebrow": "A RIDE IS WAITING",
       "title": "Meet the bicycle",
       "animationRef": "animation.bicycle-workshop.neutral",
-      "visualLabel": "A simple side-view bicycle",
-      "lookPrompt": "Can you spot the wheels and the pedals?",
+      "visualLabel": "A large side-view bicycle ready to explore",
+      "storyLead": "A bicycle is waiting. Before we ride, let us look closely and listen for one small sound.",
+      "lookPrompt": "Find both wheels. Then look for the bell near the handle.",
       "beats": [
         {
-          "id": "meet-wheels",
-          "label": "WHEELS",
-          "text": "A bicycle is a vehicle with wheels. The wheels roll along the ground.",
-          "examples": [
-            "two wheels",
-            "wheels roll"
-          ],
+          "id": "meet-ride",
+          "label": "READY TO ROLL",
+          "text": "A bicycle is a wheeled vehicle. The rider supplies the power that helps it move.",
+          "examples": ["two wheels", "rider power"],
           "claimRefs": [
             "claim.bicycle.is-a.wheeled-vehicle",
-            "claim.bicycle.has-property.two-wheels"
+            "claim.bicycle.is-a.human-powered-vehicle",
+            "claim.bicycle.has-property.two-wheels",
+            "claim.bicycle.has-property.human-power"
           ]
         },
         {
-          "id": "meet-power",
-          "label": "RIDER POWER",
-          "text": "Your feet push the pedals. That is how the rider gives the bicycle power.",
-          "sequence": [
-            "feet push",
-            "pedals move",
-            "bicycle goes"
-          ],
+          "id": "meet-bell",
+          "label": "RING, RING",
+          "text": "A bicycle may have a bell. Its ringing sound can help signal that a rider is nearby.",
+          "examples": ["bell rings", "people notice"],
           "claimRefs": [
-            "claim.bicycle.is-a.human-powered-vehicle",
-            "claim.pedalling.contributes-to.bicycle-movement"
+            "claim.bicycle.may-have-part.bell",
+            "claim.bicycle-bell.produces.ring",
+            "claim.bicycle.bell.used-for.signalling",
+            "claim.ring-bell.contributes-to.signal-presence"
           ]
         }
       ],
-      "remember": "The rider gives the bicycle its power.",
-      "childPrompt": "Point to both wheels. Now point to the pedals."
+      "remember": "A rider powers the bicycle, and a bell can make a useful signal.",
+      "childPrompt": "Point to the two wheels. Now tap the bell."
     },
     {
       "id": "parts",
       "order": 2,
-      "eyebrow": "PARTS AND JOBS",
-      "title": "Each part has a job",
+      "navLabel": "Parts",
+      "storyMode": "parts",
+      "sourceLayer": "chapter_spine",
+      "eyebrow": "KNOW THE BICYCLE",
+      "title": "Seven parts to find",
       "visualRef": "entity.transport.bicycle",
-      "visualLabel": "A bicycle showing its main parts",
-      "lookPrompt": "Find a part that helps the bicycle go, turn, or stop.",
+      "visualLabel": "A large bicycle with seven tappable part labels",
+      "storyLead": "The whole bicycle stays large on the screen. Tap a label and the matching part wakes up.",
+      "lookPrompt": "Find: seat, pedal, wheel, bell, handle, carrier, brake.",
       "beats": [
         {
-          "id": "parts-wheel-pedal",
-          "label": "GO",
-          "text": "Wheels roll. Your feet push the pedals.",
-          "examples": [
-            "wheels = roll",
-            "pedals = push"
-          ],
+          "id": "parts-seven",
+          "label": "THE SEVEN WORDS",
+          "text": "Learn the bicycle as one whole object first. Then locate these seven visible parts.",
+          "examples": ["seat", "pedal", "wheel", "bell", "handle", "carrier", "brake"],
+          "capabilityRefs": ["capability.english.semantic-part-labelling"]
+        },
+        {
+          "id": "parts-go-turn-slow",
+          "label": "GO · TURN · SLOW",
+          "text": "Your foot pushes the pedal. The wheel rolls, the handle steers, and the brake helps the bicycle slow down.",
+          "examples": ["pedal = push", "wheel = roll", "handle = steer", "brake = slow"],
           "claimRefs": [
             "claim.bicycle.typically-has-part.wheel",
             "claim.bicycle.typically-has-part.pedal",
-            "claim.bicycle.wheel.helps-enable.rolling",
-            "claim.bicycle.pedal.operated-by.rider-foot"
-          ]
-        },
-        {
-          "id": "parts-handlebar-brake",
-          "label": "TURN AND STOP",
-          "text": "Turn the handlebar to steer. Use the brakes to slow down.",
-          "examples": [
-            "handlebar = steer",
-            "brakes = slow down"
-          ],
-          "claimRefs": [
             "claim.bicycle.typically-has-part.handlebar",
-            "claim.turn-handlebar.contributes-to.direction-change",
             "claim.bicycle.typically-has-part.brake",
-            "claim.brake-engages.contributes-to.bicycle-slowing",
+            "claim.bicycle.wheel.helps-enable.rolling",
+            "claim.bicycle.pedal.operated-by.rider-foot",
             "claim.bicycle.handlebar.controls.direction",
             "claim.bicycle.brake.used-for.slowing"
           ]
         },
         {
-          "id": "parts-bell-carrier",
-          "label": "USEFUL EXTRAS",
-          "text": "A bell and a carrier are useful extras. Some bicycles have them and some do not.",
-          "examples": [
-            "bell = signal",
-            "carrier = carry things"
-          ],
+          "id": "parts-seat-bell-carrier",
+          "label": "SEAT · BELL · CARRIER",
+          "text": "Find the seat, bell and carrier. A bell and a carrier are useful parts that some bicycles have and some do not.",
+          "examples": ["seat = find it", "bell = signal", "carrier = carry suitable things"],
           "claimRefs": [
             "claim.bicycle.may-have-part.bell",
-            "claim.bicycle.may-have-part.carrier"
-          ]
+            "claim.bicycle.may-have-part.carrier",
+            "claim.bicycle.bell.used-for.signalling",
+            "claim.bicycle.carrier.used-for.carrying"
+          ],
+          "capabilityRefs": ["capability.english.semantic-part-labelling"]
         }
       ],
-      "remember": "Different bicycle parts do different jobs.",
-      "childPrompt": "Choose one part. Say its name and its job."
+      "remember": "First see the whole bicycle. Then learn where each named part belongs.",
+      "childPrompt": "Tap all seven labels. Choose one part and say its name."
     },
     {
       "id": "movement",
       "order": 3,
-      "eyebrow": "FOLLOW THE MOVEMENT",
-      "title": "Follow what happens next",
+      "navLabel": "Look inside",
+      "storyMode": "mechanics",
+      "sourceLayer": "kidsplay_enrichment",
+      "evidenceRole": "explanation_only",
+      "writesMastery": false,
+      "eyebrow": "KIDSPLAY · LOOK INSIDE",
+      "title": "How does the pedal make it go?",
       "animationRef": "animation.bicycle-workshop.motion",
-      "visualLabel": "A bicycle with movement arrows",
-      "lookPrompt": "Start at the pedals. What moves next?",
+      "visualLabel": "A slow inspectable pedal, crank, chain and back-wheel demonstration",
+      "storyLead": "This is an extra look inside the machine. These inner-part words explain what happens; they are not a word list you have to memorise.",
+      "lookPrompt": "First find the pedal where the foot pushes. Then find the crank arm attached to it.",
       "beats": [
         {
           "id": "movement-chain",
           "label": "MAKE IT GO",
-          "text": "One push starts a chain of movement.",
-          "sequence": [
-            "Push pedals",
-            "Crank turns",
-            "Chain moves",
-            "Back wheel turns",
-            "Bicycle moves"
-          ],
+          "text": "Push the pedal with your foot. The pedal is attached to the crank arm, so the crank turns. Then follow the chain to the back wheel.",
+          "sequence": ["Foot pushes pedal", "Crank turns", "Chain moves", "Back wheel turns", "Bicycle moves"],
           "claimRefs": [
             "claim.push-pedals.contributes-to.crank-turns",
             "claim.crank-turns.contributes-to.chain-moves",
@@ -143,117 +145,117 @@
         {
           "id": "braking-chain",
           "label": "MAKE IT SLOW",
-          "text": "Braking is another short chain.",
-          "sequence": [
-            "Squeeze lever",
-            "Brake engages",
-            "Bicycle slows"
-          ],
+          "text": "Squeeze the brake lever with your hand. Watch the brake act on the wheel so the bicycle slows.",
+          "sequence": ["Squeeze brake lever", "Brake engages", "Bicycle slows"],
           "claimRefs": [
             "claim.squeeze-brake-lever.contributes-to.brake-engages",
-            "claim.brake-engages.contributes-to.bicycle-slowing"
-          ]
-        }
-      ],
-      "remember": "One action can start the next action.",
-      "childPrompt": "Trace the GO chain with your finger. Then trace the SLOW chain."
-    },
-    {
-      "id": "words",
-      "order": 4,
-      "eyebrow": "WORD DETECTIVE",
-      "title": "One word can do two jobs",
-      "visualRef": "entity.bicycle-part.pedal",
-      "visualLabel": "A bicycle with its pedal area emphasised",
-      "lookPrompt": "Look at pedal. Can it name a thing and an action?",
-      "beats": [
-        {
-          "id": "pedal-senses",
-          "label": "PEDAL",
-          "text": "Pedal can name a part. It can also tell an action.",
-          "examples": [
-            "the pedal = thing",
-            "pedal gently = action"
-          ],
-          "claimRefs": [
-            "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
-            "claim.lexeme.pedal-verb.denotes.pedalling"
+            "claim.brake-engages.contributes-to.bicycle-slowing",
+            "claim.bicycle.brake.used-for.slowing"
           ]
         },
         {
-          "id": "brake-senses",
-          "label": "BRAKE",
-          "text": "Brake can name a part. It can also tell an action.",
-          "examples": [
-            "the brake = thing",
-            "brake before the turn = action"
-          ],
+          "id": "movement-outside",
+          "label": "WHAT THE RIDER FEELS",
+          "text": "From the outside it feels simple: your foot pushes a pedal, and pedalling helps the bicycle move.",
+          "examples": ["foot pushes", "bicycle moves"],
           "claimRefs": [
-            "claim.lexeme.brake-noun.denotes.bicycle-brake",
-            "claim.lexeme.brake-verb.denotes.bicycle-slowing"
+            "claim.bicycle.pedal.operated-by.rider-foot",
+            "claim.pedalling.contributes-to.bicycle-movement"
           ]
         }
       ],
-      "remember": "Some words can do more than one job.",
-      "childPrompt": "Make two tiny sentences with pedal: one thing, one action."
+      "remember": "Foot pushes pedal. Pedal turns with the crank. Crank moves the chain. The chain turns the back wheel. Braking follows a separate lever-to-brake path.",
+      "childPrompt": "Advance the GO steps one by one. Then open MAKE IT SLOW and follow the brake path."
     },
     {
       "id": "sounds",
-      "order": 5,
-      "eyebrow": "LISTEN CLOSELY",
-      "title": "Hear the sound pattern",
-      "visualRef": "entity.animal.cat",
-      "visualLabel": "A cat used for the short-a sound",
-      "lookPrompt": "Say cat, cap, and map slowly. Listen to the middle sound.",
+      "order": 4,
+      "navLabel": "Sounds",
+      "storyMode": "sounds",
+      "sourceLayer": "chapter_spine",
+      "eyebrow": "HEAR AND PLAY WITH WORDS",
+      "title": "Ring, listen, say",
+      "visualRef": "entity.bicycle-part.cycle-bell",
+      "visualLabel": "A bicycle bell beside playful word cards",
+      "storyLead": "The bicycle gives us a sound to notice and words to play with.",
+      "lookPrompt": "Tap the bell, then say the word cards slowly.",
       "beats": [
+        {
+          "id": "sounds-bell",
+          "label": "BELL SOUND",
+          "text": "A bicycle bell makes a ringing sound. Ringing can also tell others that a rider is nearby.",
+          "examples": ["ring", "listen"],
+          "claimRefs": ["claim.bicycle-bell.produces.ring", "claim.ring-bell.contributes-to.signal-presence"]
+        },
         {
           "id": "short-a",
           "label": "SHORT A",
-          "text": "Cat, cap, and map all have the same short-a sound in the middle.",
-          "examples": [
-            "cat",
-            "cap",
-            "map"
-          ],
-          "capabilityRefs": [
-            "capability.english.phonics.short-a-recognition"
-          ]
+          "text": "Cat, cap and map share the same short-a sound in the middle.",
+          "examples": ["cat", "cap", "map"],
+          "capabilityRefs": ["capability.english.phonics.short-a-recognition"]
         },
         {
           "id": "articles",
           "label": "A OR AN?",
           "text": "Listen to the first sound when you choose a or an.",
-          "examples": [
-            "a bicycle",
-            "a helmet",
-            "an apple"
-          ],
-          "capabilityRefs": [
-            "capability.english.grammar.indefinite-article-selection"
-          ]
+          "examples": ["a bicycle", "a helmet", "an apple"],
+          "capabilityRefs": ["capability.english.grammar.indefinite-article-selection"]
         }
       ],
-      "remember": "Listen to the sound at the start of the word.",
-      "childPrompt": "Say cat, cap, map. Then say: a bicycle, a helmet, an apple."
+      "remember": "Listen closely: sounds can help you notice patterns in words.",
+      "childPrompt": "Ring the bell. Then say: cat, cap, map; a bicycle; an apple."
+    },
+    {
+      "id": "magic",
+      "order": 5,
+      "navLabel": "Magic ride",
+      "storyMode": "magic",
+      "sourceLayer": "creative_extension",
+      "evidenceRole": "non_evaluative_expression",
+      "writesMastery": false,
+      "eyebrow": "YOUR MAGIC BICYCLE",
+      "title": "Where could it take you?",
+      "visualRef": "entity.transport.bicycle",
+      "visualLabel": "An original playful bicycle in an imaginative sky",
+      "storyLead": "Now the bicycle can leave the workshop. There is no one correct destination.",
+      "lookPrompt": "Choose a place, or invent your own place in your head.",
+      "beats": [
+        {
+          "id": "magic-place",
+          "label": "CHOOSE A DESTINATION",
+          "text": "Imagine a bicycle that can take you somewhere surprising. Your idea can be completely different from anyone else's.",
+          "examples": ["a cloud garden", "a moonlit hill", "a place you invent"],
+          "capabilityRefs": ["capability.english.creative.imagine-draw-speak"]
+        },
+        {
+          "id": "magic-story",
+          "label": "WHAT HAPPENS THERE?",
+          "text": "Give your ride one tiny story: where do you arrive, what do you notice, and what happens next?",
+          "sequence": ["I ride to…", "I notice…", "Then I…"],
+          "capabilityRefs": ["capability.english.creative.imagine-draw-speak"]
+        }
+      ],
+      "remember": "An imaginative answer belongs to the child; it is not marked right or wrong.",
+      "childPrompt": "Tell your magic ride in three tiny steps, or just imagine it quietly."
     },
     {
       "id": "reading",
       "order": 6,
+      "navLabel": "Read",
+      "storyMode": "reading",
+      "sourceLayer": "chapter_spine",
       "eyebrow": "READ AND UNDERSTAND",
-      "title": "Put the clues in order",
+      "title": "Follow a tiny ride story",
       "visualRef": "entity.safety.helmet",
-      "visualLabel": "A cycling helmet",
+      "visualLabel": "Three original story cards showing a simple ride sequence",
+      "storyLead": "A tiny story gives us clues. We can find a detail, put actions in order, and explain a simple reason.",
       "lookPrompt": "Read the three actions. Which happens first?",
       "beats": [
         {
           "id": "reading-micro-passage",
           "label": "TINY STORY",
           "text": "Ria fastens her helmet. She checks the brakes. Then she begins to pedal.",
-          "sequence": [
-            "Helmet",
-            "Brakes",
-            "Pedal"
-          ],
+          "sequence": ["Helmet", "Brakes", "Pedal"],
           "capabilityRefs": [
             "capability.english.reading.literal-retrieval",
             "capability.english.reading.sequence-retrieval"
@@ -261,72 +263,52 @@
         },
         {
           "id": "reading-strategy",
-          "label": "ORDER CLUES",
-          "text": "Words like then and last help tell the order. Actions can also help us understand simple reasons.",
-          "examples": [
-            "then = next",
-            "last = end"
-          ],
+          "label": "FIND THE CLUES",
+          "text": "Action words and order words help us understand what happened and why.",
+          "examples": ["then = next", "last = end"],
           "capabilityRefs": [
             "capability.english.reading.statement-verification",
             "capability.english.reading.simple-inference"
           ]
         }
       ],
-      "remember": "Find the actions, then put them in order.",
-      "childPrompt": "Tell the tiny story in three steps: first, next, last."
+      "remember": "Find the actions first. Then use the clues to understand the story.",
+      "childPrompt": "Retell the tiny story: first, next, last."
     },
     {
       "id": "safety",
       "order": 7,
+      "navLabel": "Ready",
+      "storyMode": "safety",
+      "sourceLayer": "chapter_spine_and_basic_safety",
       "eyebrow": "READY TO RIDE",
-      "title": "Three checks before you ride",
+      "title": "Get ready before you go",
       "animationRef": "animation.bicycle-workshop.safety",
-      "visualLabel": "A bicycle, helmet, and safety check",
-      "lookPrompt": "Before riding, what should you check?",
+      "visualLabel": "A bicycle, helmet and simple pre-ride check",
+      "storyLead": "The ride is almost ready. A few simple checks come before moving off.",
+      "lookPrompt": "Find the helmet, brakes and tyres.",
       "beats": [
         {
           "id": "safety-helmet",
-          "label": "1 · HELMET",
-          "text": "Fasten a properly fitted cycling helmet before you ride.",
-          "examples": [
-            "helmet on",
-            "helmet fastened"
-          ],
-          "claimRefs": [
-            "claim.cycling-helmet.protects.head",
-            "claim.check-helmet.contributes-to.safer-ride"
-          ]
+          "label": "HELMET",
+          "text": "Fasten a properly fitted cycling helmet before you ride. It helps protect the head.",
+          "examples": ["proper fit", "fastened"],
+          "claimRefs": ["claim.cycling-helmet.protects.head", "claim.check-helmet.contributes-to.safer-ride"]
         },
         {
           "id": "safety-bike",
-          "label": "2 · BIKE CHECK",
-          "text": "Check that the brakes work and that the tyres are ready.",
-          "examples": [
-            "brakes work",
-            "tyres ready"
-          ],
+          "label": "BRAKES · TYRES",
+          "text": "Check that the brakes work and the tyres are ready. A bell can help signal when one is fitted.",
+          "examples": ["brakes work", "tyres ready", "bell can signal"],
           "claimRefs": [
             "claim.check-brakes.contributes-to.safer-ride",
-            "claim.check-tyres.contributes-to.safer-ride"
-          ]
-        },
-        {
-          "id": "safety-signal",
-          "label": "3 · BELL",
-          "text": "A bicycle bell can tell others that a rider is nearby.",
-          "examples": [
-            "ring",
-            "people hear you"
-          ],
-          "claimRefs": [
-            "claim.bicycle-bell.produces.ring",
-            "claim.ring-bell.contributes-to.signal-presence"
+            "claim.check-tyres.contributes-to.safer-ride",
+            "claim.bicycle.bell.used-for.signalling"
           ]
         }
       ],
       "remember": "Helmet. Brakes. Tyres. Then ride.",
-      "childPrompt": "Say the three checks aloud: helmet, brakes, tyres."
+      "childPrompt": "Tap the three checks in order: helmet, brakes, tyres."
     }
   ]
 }

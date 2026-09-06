@@ -5,6 +5,16 @@ import { fileURLToPath } from 'node:url';
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const read = (path) => JSON.parse(readFileSync(resolve(ROOT, path), 'utf8'));
 const invariant = (condition, message) => { if (!condition) throw new Error(message); };
+const innerMechanicsQuestions = new Set([
+  'bicycle.workshop.sequence.motion.001',
+  'bicycle.workshop.sequence.braking.001'
+]);
+const pedalDriveEnrichmentClaims = [
+  'claim.push-pedals.contributes-to.crank-turns',
+  'claim.crank-turns.contributes-to.chain-moves',
+  'claim.chain-moves.contributes-to.rear-wheel-turns',
+  'claim.rear-wheel-turns.contributes-to.bicycle-movement'
+];
 
 function readQuestions() {
   return readdirSync(resolve(ROOT, 'content/curriculum-runtime/bicycle-workshop/questions'))
@@ -44,10 +54,14 @@ export function validateBicycleWorkshopExam() {
     invariant(projectionById.has(rowId), `Exam scope references unknown projection row ${rowId}`);
     invariant(allowedScopes.has(scope) || excludedScopes.has(scope), `Unknown exam scope ${scope} for ${rowId}`);
   }
+  for (const rowId of pedalDriveEnrichmentClaims) {
+    invariant(claimScopes[rowId] === 'enrichment', `${rowId}: pedal/crank/chain mechanics must remain excluded enrichment`);
+  }
 
   for (const form of blueprint.forms) {
     invariant(form.questionRefs.length === blueprint.totalQuestions, `${form.id}: wrong question count`);
     invariant(new Set(form.questionRefs).size === form.questionRefs.length, `${form.id}: duplicate question`);
+    invariant(form.questionRefs.every((ref) => !innerMechanicsQuestions.has(ref)), `${form.id}: inner-mechanics question entered an assessed form`);
     for (const ref of form.questionRefs) {
       const question = questionById.get(ref);
       invariant(question, `${form.id}: unknown question ${ref}`);
@@ -70,6 +84,7 @@ export function validateBicycleWorkshopExam() {
   invariant(livePack.status === 'reviewed', 'Live chapter check must remain a reviewed formative companion');
   invariant(livePack.questionRefs.length === 8, 'Live chapter check must contain eight questions');
   invariant(new Set(livePack.questionRefs).size === livePack.questionRefs.length, 'Live chapter check contains duplicate questions');
+  invariant(livePack.questionRefs.every((ref) => !innerMechanicsQuestions.has(ref)), 'Live chapter check contains an inner-mechanics question');
   invariant(livePack.assessmentScope?.officialPaperClaimed === false, 'Live pack must not claim official-board status');
   invariant(livePack.assessmentScope?.sourcePassageReproduced === false, 'Live pack must not reproduce the source passage');
   for (const ref of livePack.questionRefs) invariant(questionById.has(ref), `Live chapter check has unknown question ${ref}`);

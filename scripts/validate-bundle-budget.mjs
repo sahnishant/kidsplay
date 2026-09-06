@@ -15,8 +15,14 @@ const budgets = {
   // MATCH-08 measured the third reusable studio family at 876.8 KiB raw. Give
   // that cross-topic family a further +12 KiB installed-code ceiling; it remains
   // subject to the lazy StudioLauncher cap below rather than becoming core code.
+  // Bicycle Workshop adds one isolated interactive teaching stage. After trimming
+  // duplicate mechanics UI it remains independently route-capped below; +9 KiB
+  // admits that measured raw payload without changing any existing route ceiling.
+  // #268 contributes a second, nested lazy teaching surface for explicit pedal /
+  // crank / chain / brake progression. The integrated chunk measures ~10.6 KiB raw;
+  // admit a bounded +11 KiB while keeping its own gzip/CSS route caps below.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
@@ -25,7 +31,12 @@ const budgets = {
 
 // Explicit feature allowances are review items, not disabled checks.
 const lazyRouteBudgets = [
-  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 3 * 1024 },
+  // The restored StudioLauncher split measures Learn About at ~9.34 KiB gzip.
+  // Keep a narrow 9.5 KiB ceiling rather than folding the whole Studio surface back in.
+  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9.5 * 1024, maxCssBytes: 3 * 1024 },
+  // This shared registry/support chunk is emitted only with the lazy Learn About /
+  // Studio surfaces. It is not startup core, so account for it explicitly.
+  { prefix: 'learningStudios-', maxJsGzipBytes: 5.5 * 1024, maxCssBytes: 0 },
   // MATCH-08 measured 11.4 KiB gzip / 5.6 KiB CSS after adding resumable matching,
   // source-backed Show Me pairs and actual-work accessibility. Keep it bounded at
   // 12/6; future studio families must earn another explicit review rather than
@@ -50,7 +61,12 @@ const lazyRouteBudgets = [
   { prefix: 'DiscoveryBookViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 4 * 1024 },
   { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 },
+  // Detailed Bicycle interaction is lazy under BicycleWorkshopViewport and stays
+  // independently bounded rather than becoming part of the core route budget.
+  { prefix: 'BicycleStoryStage-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 5 * 1024 },
   { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
+  // Imported from #268: the mechanism lesson is its own reusable nested surface.
+  { prefix: 'BicycleMechanismDemonstration-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 6.5 * 1024 },
   { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 0 }
 ];
 
@@ -115,7 +131,7 @@ for (const contentBudget of contentAssetBudgets) {
   if (assets.length !== contentBudget.expectedCount) errors.push(`${contentBudget.prefix} emitted ${assets.length} JSON asset(s); expected ${contentBudget.expectedCount}`);
   if (rawBytes > contentBudget.maxRawBytes) errors.push(`${contentBudget.prefix} data is ${kib(rawBytes)} raw; budget ${kib(contentBudget.maxRawBytes)}`);
   if (gzipBytes > contentBudget.maxGzipBytes) errors.push(`${contentBudget.prefix} data is ${kib(gzipBytes)} gzip; budget ${kib(contentBudget.maxGzipBytes)}`);
-  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)} gzip`);
+  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)}`);
 }
 if (errors.length) {
   console.error('Bundle budget validation failed:');
