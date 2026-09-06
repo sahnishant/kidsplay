@@ -75,10 +75,25 @@ export async function expectAllForestButtonsTouchable(page: Page, label: string)
 
 export async function expectStaticReducedMotion(page: Page): Promise<void> {
   expect(await page.evaluate(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches)).toBe(true);
-  const durations = await page.locator('.forest-depth *').evaluateAll((elements) =>
-    elements.map((element) => getComputedStyle(element).animationDuration)
+
+  // A non-zero animation-duration declaration is harmless when animation-name is `none`.
+  // Assert on animations that could actually run, and separately ensure SVG persona motion
+  // has not been mounted under reduced-motion.
+  const activeCssAnimations = await page.locator('.forest-depth *').evaluateAll((elements) =>
+    elements.flatMap((element) => {
+      const style = getComputedStyle(element);
+      const names = style.animationName.split(',').map((value) => value.trim());
+      const durations = style.animationDuration.split(',').map((value) => value.trim());
+      return names.flatMap((name, index) => {
+        const duration = durations[index] ?? durations[durations.length - 1] ?? '0s';
+        return name !== 'none' && duration !== '0s' && duration !== '0ms'
+          ? [{ name, duration, tag: element.tagName.toLowerCase(), className: element.getAttribute('class') ?? '' }]
+          : [];
+      });
+    })
   );
-  expect(durations.every((duration) => duration === '0s' || duration === '0ms')).toBe(true);
+  expect(activeCssAnimations, 'reduced-motion should leave no runnable CSS animation').toEqual([]);
+  await expect(page.locator('.forest-depth animate, .forest-depth animateTransform')).toHaveCount(0);
 }
 
 export function remoteHttpRequests(requestUrls: string[], appOrigin: string): string[] {
