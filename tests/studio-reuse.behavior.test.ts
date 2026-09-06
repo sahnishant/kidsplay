@@ -33,7 +33,7 @@ describe('#264 content-only studio reuse', () => {
   });
 
   it('keeps sharing with three or four friends out of introductory depth and reuses the Fractions topic', () => {
-    const refs = ['studio.fractions.three-friends', 'studio.fractions.four-friends'];
+    const refs = ['studio.fractions.three-friends', 'studio.fractions.four-friends', 'studio.collections.equal-share'];
     expect(getTopicStudioActivityRefs('learn.fractions', 'fractions.share-with-friends', 'd1_preschool')).toEqual([]);
     expect(getTopicStudioActivityRefs('learn.fractions', 'fractions.share-with-friends', 'd2_early_primary')).toEqual(refs);
     expect(getTopicStudioActivityRefs('learn.fractions', 'fractions.share-with-friends', 'd3_deeper_primary')).toEqual(refs);
