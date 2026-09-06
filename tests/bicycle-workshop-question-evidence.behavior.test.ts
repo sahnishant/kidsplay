@@ -79,8 +79,8 @@ describe('Bicycle Workshop canonical question evidence', () => {
     expect(wordSearch.supportingKnowledgeRefs).toEqual([
       'claim.lexeme.pedal-noun.denotes.bicycle-pedal',
       'claim.lexeme.brake-noun.denotes.bicycle-brake',
-      'claim.lexeme.bell-noun.denotes.bicycle-bell',
-      'claim.lexeme.tyre-noun.denotes.bicycle-tyre'
+      'claim.lexeme.bell.denotes.bicycle-bell',
+      'claim.lexeme.tyre.denotes.bicycle-tyre'
     ]);
 
     const result = evaluate(wordSearch as Question, {
