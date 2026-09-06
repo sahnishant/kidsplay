@@ -19,7 +19,8 @@ describe('#264 Bicycle word reconstruction using sequence_order', () => {
     expect(question.id).toBe(`${source.id}.letters.${term}.v1`);
     expect(question.revision).toBe(source.revision);
     expect(question.conceptIds).toEqual([`english.vocabulary.${term}`]);
-    expect(source.knowledgeRefs).toContain(activity.source.wordProjection!.knowledgeRef);
+    expect(source.supportingKnowledgeRefs).toContain(activity.source.wordProjection!.knowledgeRef);
+    expect(source.knowledgeRefs).toBeUndefined(); // Denotation is context only on the source word-search.
     expect(question.knowledgeRefs).toEqual([]); // Copying a word does not assess its denotation.
     expect(question.evidencePolicy).toBe('practice_only');
     expect(question.authoring?.status).toBe('draft');
@@ -37,7 +38,8 @@ describe('#264 Bicycle word reconstruction using sequence_order', () => {
     const workspace = createStudioWorkspace(activityId, question, { orderedItemIds: question.solution.orderedItemIds });
     expect(restoreStudioWorkspace(activityId, { ...question, revision: question.revision + 1 }, workspace)).toBeUndefined();
     expect(source).toEqual(original);
-    expect(getWorkshopStudioActivityRefs('bicycle-workshop', 'words')).toContain(activityId);
+    const sectionId = getWorkshopStudioActivityRefs('bicycle-workshop', 'sounds').length ? 'sounds' : 'words';
+    expect(getWorkshopStudioActivityRefs('bicycle-workshop', sectionId)).toContain(activityId);
   });
 
   it('rejects missing terms, unrelated references and unsupported spellings instead of guessing', () => {
