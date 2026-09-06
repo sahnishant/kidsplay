@@ -6,7 +6,9 @@ async function openWords(page: Page): Promise<void> {
   await page.getByLabel('Open child navigation').click();
   await page.getByRole('button', { name: 'Open practice activities' }).click();
   await page.getByRole('button', { name: 'Open chapter' }).click();
-  await page.getByRole('button', { name: 'Open part 4: One word can do two jobs' }).click();
+  await page.getByRole('navigation', { name: 'Bicycle Workshop learning sections' })
+    .getByRole('button', { name: '4 Sounds', exact: true })
+    .click();
   const next = page.getByRole('button', { name: 'Next idea', exact: true });
   while (await next.isVisible()) await next.click();
   await page.getByRole('button', { name: /Build BELL/ }).click();
