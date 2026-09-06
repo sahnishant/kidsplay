@@ -79,6 +79,7 @@ function validateMatchingQuestion(question: DragToTargetQuestion): void {
   const items = question.interaction.items;
   const targets = question.interaction.targets;
   if (items.length < 2 || items.length > 8 || targets.length < 2 || targets.length > 8) throw new Error('Matching studio requires 2 to 8 items and targets');
+  if (items.length !== targets.length) throw new Error('Matching studio requires the same number of items and targets for one-to-one pairing');
   const itemIds = items.map((item) => item.id);
   const targetIds = new Set(targets.map((target) => target.id));
   const itemLabels = items.map((item) => normalizedVisibleLabel(item.label));
@@ -90,8 +91,10 @@ function validateMatchingQuestion(question: DragToTargetQuestion): void {
     throw new Error('Matching studio requires visibly distinct item and target labels; ambiguous grouping belongs in a different mechanic');
   }
   const assignments = question.solution.assignments;
+  const assignedTargetIds = itemIds.map((itemId) => assignments[itemId]);
   if (Object.keys(assignments).length !== itemIds.length
-    || itemIds.some((itemId) => typeof assignments[itemId] !== 'string' || !targetIds.has(assignments[itemId]))) throw new Error('Matching studio source needs a complete valid assignment map');
+    || assignedTargetIds.some((targetId) => typeof targetId !== 'string' || !targetIds.has(targetId))
+    || new Set(assignedTargetIds).size !== itemIds.length) throw new Error('Matching studio source needs a complete one-to-one assignment map');
 }
 
 /** Practice clones the source; it cannot refresh mastery or mutate its answer authority. */
