@@ -2,6 +2,7 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
 import { openCleanApp } from './helpers/childJourney';
+import { emulateMotionPolicy, expectMotionPolicy } from './helpers/motionPolicy';
 import type { SequenceOrderQuestion } from '../src/contracts/question';
 
 const read = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
@@ -43,6 +44,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 640 }
       test.use({ viewport, reducedMotion, hasTouch: true });
       for (const activity of activities) {
         test(activity.title, async ({ page }, info) => {
+          await emulateMotionPolicy(page, reducedMotion);
           await openCleanApp(page);
           const before = await evidence(page);
           const dialog = await openActivity(page, activity);
@@ -71,6 +73,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 640 }
               expect(image.x + image.width).toBeLessThanOrEqual(box.x + box.width + 1);
               expect(image.y + image.height).toBeLessThanOrEqual(box.y + box.height + 1);
             }
+            await expectMotionPolicy(page, reducedMotion);
             const motion = await scene.evaluate((root) => [...root.querySelectorAll('*')].map((element) => ({ name: getComputedStyle(element).animationName, count: getComputedStyle(element).animationIterationCount })));
             if (reducedMotion === 'reduce') expect(motion.every((item) => item.name === 'none')).toBe(true);
             else expect(motion.every((item) => !item.count.includes('infinite'))).toBe(true);
@@ -116,6 +119,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 640 }
 
 test.describe('illustration delivery failure and offline boundaries', () => {
   test.use({ viewport: { width: 360, height: 640 }, reducedMotion: 'reduce' });
+  test.beforeEach(async ({ page }) => { await emulateMotionPolicy(page, 'reduce'); });
   test('a missing artwork chunk leaves source labels and controls usable', async ({ page }) => {
     await page.route(/\/StudioScene-[^/]+\.js$/, (route) => route.abort());
     await openCleanApp(page);
@@ -128,6 +132,7 @@ test.describe('illustration delivery failure and offline boundaries', () => {
     await dialog.getByRole('button', { name: 'Back to topic', exact: true }).click();
     await page.unroute(/\/StudioScene-[^/]+\.js$/);
     await page.reload();
+    await expectMotionPolicy(page, 'reduce');
     const reopened = await openActivity(page, activities[0]);
     await expect(reopened.locator('.studio__step [data-studio-scene="day-noon"]')).toBeVisible();
   });
@@ -145,8 +150,29 @@ test.describe('illustration delivery failure and offline boundaries', () => {
     await dialog.getByRole('button', { name: 'Back to topic', exact: true }).click();
     await page.getByRole('button', { name: /^From seed to young plant/ }).click();
     await expect(page.getByRole('dialog').locator('[data-studio-scene="plant-sprout"]')).toBeVisible();
+    await expectMotionPolicy(page, 'reduce');
     expect(await evidence(page)).toEqual(before);
     expect(remote).toEqual([]);
     await context.setOffline(false);
+  });
+  test('changing motion preference updates the existing picture without changing source or evidence', async ({ page }) => {
+    await emulateMotionPolicy(page, 'no-preference');
+    await openCleanApp(page);
+    const before = await evidence(page);
+    const dialog = await openActivity(page, activities[1]);
+    await dialog.getByRole('button', { name: 'Show me', exact: true }).click();
+    const scene = dialog.locator('.studio__step [data-studio-scene="water-ice"]');
+    const mark = scene.locator('.scene-settle');
+    await expect(scene).toBeVisible();
+    const label = await dialog.locator('.studio__step strong').textContent();
+    await expect(mark).not.toHaveCSS('animation-name', 'none');
+    await emulateMotionPolicy(page, 'reduce');
+    await expect(mark).toHaveCSS('animation-name', 'none');
+    expect(await scene.evaluate((root) => root.getAnimations({ subtree: true }).length)).toBe(0);
+    await expect(dialog.locator('.studio__step strong')).toHaveText(label!);
+    await emulateMotionPolicy(page, 'no-preference');
+    await expect(mark).not.toHaveCSS('animation-name', 'none');
+    await expect(dialog.locator('.studio__step strong')).toHaveText(label!);
+    expect(await evidence(page)).toEqual(before);
   });
 });
