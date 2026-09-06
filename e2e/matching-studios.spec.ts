@@ -15,7 +15,7 @@ async function openHumanSenses(page: Page) {
   await page.getByRole('button', { name: 'Learn about Human Body' }).click();
   await page.getByRole('button', { name: /Match sense organs & jobs/ }).click();
   const dialog = page.getByRole('dialog', { name: 'Match sense organs & jobs' });
-  await expect(dialog.locator('.drag-stage')).toBeVisible();
+  await expect(dialog).toBeVisible();
   return dialog;
 }
 
@@ -39,6 +39,7 @@ test.describe('matching studio reuse', () => {
     await openCleanApp(page);
     const beforeEvidence = await evidence(page);
     const dialog = await openHumanSenses(page);
+    await expect(dialog.locator('.drag-stage')).toBeVisible();
 
     const firstItem = dialog.locator('.drag-item').first();
     const secondTarget = dialog.locator('.drop-target').nth(1);
