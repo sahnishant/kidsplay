@@ -23,6 +23,7 @@ jobs:
           node scripts/test-objective-projection.mjs
           node scripts/test-question-semantic-targets.mjs
           node scripts/test-graph-context-separation.mjs
+          node scripts/learning-graph/question-evidence.mjs
       - name: Verify repeated migrations cannot change the current checkout
         run: |
           node scripts/learning-graph/migrations/001-canonical-records.mjs --write
