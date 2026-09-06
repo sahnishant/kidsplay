@@ -46,7 +46,7 @@ describe('reusable learning studios and existing topic placements', () => {
   it('places exactly fourteen guided matches across seven topic homes and keeps plant-type sorting out', () => {
     const matching = LEARNING_STUDIO_ACTIVITIES.filter((activity) => activity.family === 'matching_studio');
     expect(matching).toHaveLength(14);
-    expect(new Set(matching.map((activity) => activity.source.questionId))).toHaveSize(14);
+    expect(new Set(matching.map((activity) => activity.source.questionId)).size).toBe(14);
     expect(matching.map((activity) => activity.source.questionId)).not.toContain('plants.types.match.generated.001');
 
     const matchingIds = new Set(matching.map((activity) => activity.activityId));
