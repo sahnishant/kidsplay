@@ -1,3 +1,4 @@
+import { loadCanonicalGraph, validateCanonicalGraph } from './canonical-graph.mjs';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -47,7 +48,8 @@ export function validateBicycleWorkshopProduction() {
   const art = read('content/asset-generation/bicycle-workshop-ai-art.json');
   const prompts = read('content/asset-generation/bicycle-workshop-ai-prompts.json');
   const module = read('content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json');
-  const graph = read('content/learning-graph/modules/bicycle-workshop.json');
+  const graph = loadCanonicalGraph({ root: ROOT });
+  validateCanonicalGraph(graph);
   const projection = read('content/knowledge/bicycle-workshop-runtime-projection.json');
   const practicePack = read('content/curriculum-runtime/bicycle-workshop/packs/practice.json');
   const readingPack = read('content/curriculum-runtime/bicycle-workshop/packs/reading.json');
@@ -94,22 +96,20 @@ export function validateBicycleWorkshopProduction() {
   invariant(module.deliveryRefs.visualGenerationRecordRef === art.generationRecordId, 'Visual-generation record is not linked from the module');
   invariant(module.deliveryRefs.visualPromptSetRef === prompts.promptSetId, 'Visual prompt set is not linked from the module');
 
-  const importedNodes = graph.imports.nodeFiles.flatMap((path) => read(path).nodes ?? []);
-  const importedClaims = graph.imports.claimFiles.flatMap((path) => read(path).claims ?? []);
-  const nodeIds = new Set([...importedNodes, ...graph.nodes].map((node) => node.id));
-  const claimIds = new Set([...importedClaims, ...graph.edges].map((claim) => claim.id));
+  const nodeIds = new Set(graph.nodes.map((node) => node.id));
+  const claimIds = new Set(graph.claims.map((claim) => claim.id));
   invariant(nodeIds.size >= 75, `Graph too small: ${nodeIds.size} nodes`);
   invariant(claimIds.size >= 60, `Graph too small: ${claimIds.size} claims`);
-  for (const edge of graph.edges) {
-    invariant(nodeIds.has(edge.from), `${edge.id}: unknown source node ${edge.from}`);
-    invariant(nodeIds.has(edge.to), `${edge.id}: unknown target node ${edge.to}`);
-    invariant(Array.isArray(edge.conceptIds) && edge.conceptIds.length > 0, `${edge.id}: conceptIds required`);
+  for (const edge of graph.claims) {
+    invariant(nodeIds.has(edge.subjectRef), `${edge.id}: unknown source node ${edge.subjectRef}`);
+    invariant(nodeIds.has(edge.objectRef), `${edge.id}: unknown target node ${edge.objectRef}`);
+    invariant(Array.isArray(edge.objectiveRefs), `${edge.id}: explicit objective bindings required`);
   }
   for (const process of graph.processes) {
     for (const ref of [...(process.orderedEdgeRefs ?? []), ...(process.parallelEdgeRefs ?? [])]) invariant(claimIds.has(ref), `${process.id}: unknown edge ${ref}`);
   }
   for (const misconception of graph.misconceptions) for (const ref of misconception.repairWith) invariant(claimIds.has(ref), `${misconception.id}: unknown repair claim ${ref}`);
-  invariant(module.graphClaimRefs.length === 29, 'Expected 29 admitted runtime claims');
+  invariant(module.graphClaimRefs.length === 40, 'Expected 40 admitted runtime claims');
   for (const ref of module.graphClaimRefs) {
     invariant(claimIds.has(ref), `Runtime module has unknown claim ${ref}`);
     invariant(!ref.startsWith('claim.chapter.'), `Chapter-local claim leaked into runtime mastery: ${ref}`);
@@ -117,7 +117,7 @@ export function validateBicycleWorkshopProduction() {
 
   const projectionById = new Map(projection.entries.map((row) => [row.rowId, row]));
   invariant(projection.canonicalSource.kind === 'learning_graph', 'Runtime projection must name Learning Graph authority');
-  invariant(projection.entries.length === 29, 'Expected 29 runtime projection rows');
+  invariant(projection.entries.length === 40, 'Expected 40 runtime projection rows');
   for (const row of projection.entries) {
     invariant(row.rowId === row.graphClaimRef, `${row.rowId}: graph identity changed in projection`);
     invariant(claimIds.has(row.graphClaimRef), `${row.rowId}: unknown graph claim`);
@@ -130,7 +130,7 @@ export function validateBicycleWorkshopProduction() {
   const families = new Set(questions.map((question) => question.interaction.type));
   for (const family of ['single_choice','word_bank_fill','drag_to_target','sequence_order','memory_pairs','word_search']) invariant(families.has(family), `Missing activity family ${family}`);
   for (const question of questions) {
-    invariant(question.authoring?.source === 'kidsplay-independent-curriculum-companion' && question.authoring?.status === 'reviewed', `${question.id}: wrong authoring authority`);
+    invariant(question.authoring?.source === 'kidsplay-independent-curriculum-companion' && (question.authoring?.status === 'reviewed' || (question.authoring?.status === 'draft' && question.evidencePolicy === 'practice_only' && question.semanticTarget)), `${question.id}: wrong authoring authority`);
     invariant(!/my bicycle/i.test(question.prompt?.text ?? ''), `${question.id}: source chapter title leaked into child prompt`);
     for (const ref of question.knowledgeRefs ?? []) {
       invariant(projectionById.has(ref), `${question.id}: unknown runtime knowledge ref ${ref}`);

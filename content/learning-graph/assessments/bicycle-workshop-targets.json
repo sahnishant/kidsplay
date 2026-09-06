@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "questionRefs": [
+    "bicycle.workshop.identity.001",
+    "bicycle.workshop.human-power.001",
+    "bicycle.workshop.part.pedal.001",
+    "bicycle.workshop.part.wheel.001",
+    "bicycle.workshop.control.handlebar.001",
+    "bicycle.workshop.control.brake.001",
+    "bicycle.workshop.signal.bell.001",
+    "bicycle.workshop.safety.helmet.001"
+  ],
+  "naturalLanguageEntailmentCertified": false,
+  "review": {
+    "status": "editorial_candidate",
+    "authority": "kidsplay_editorial_review_required",
+    "publishable": false
+  }
+}

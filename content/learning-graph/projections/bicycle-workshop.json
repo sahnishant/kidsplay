@@ -1,0 +1,804 @@
+{
+  "schemaVersion": 2,
+  "generatedOnly": true,
+  "notes": "Entry subject/object labels are retained presentation aliases, not canonical endpoints or additional facts. All predicates and objective/progress mappings are projected from canonical claims. Historical reviewed output status is compatibility metadata, not human graph approval.",
+  "learnables": {
+    "content/learnables/bicycle-workshop.json": [
+      "objective.bicycle.identity",
+      "objective.bicycle.parts",
+      "objective.bicycle.parts.wheel",
+      "objective.bicycle.parts.tyre",
+      "objective.bicycle.parts.pedal",
+      "objective.bicycle.parts.handlebar",
+      "objective.bicycle.parts.brake",
+      "objective.bicycle.parts.bell",
+      "objective.bicycle.parts.carrier",
+      "objective.bicycle.parts.drive",
+      "objective.bicycle.parts.optional",
+      "objective.bicycle.motion.pedalling",
+      "objective.bicycle.motion.chain",
+      "objective.bicycle.braking.chain",
+      "objective.bicycle.control.steering",
+      "objective.bicycle.sound.bell",
+      "objective.bicycle.safety.helmet",
+      "objective.bicycle.safety.signal",
+      "objective.bicycle.safety.pre-ride",
+      "objective.bicycle.safety.visibility",
+      "objective.english.vocabulary.bicycle",
+      "objective.english.vocabulary.pedal",
+      "objective.english.vocabulary.brake",
+      "objective.english.vocabulary.handlebar",
+      "objective.english.vocabulary.tyre",
+      "objective.english.vocabulary.bell",
+      "objective.capability.english.semantic-part-labelling",
+      "objective.capability.english.vocabulary.sense-recognition",
+      "objective.capability.english.phonics.short-a-recognition",
+      "objective.capability.english.grammar.indefinite-article-selection"
+    ],
+    "content/learnables/bicycle-workshop-reading.json": [
+      "objective.capability.english.reading.literal-retrieval",
+      "objective.capability.english.reading.sequence-retrieval",
+      "objective.capability.english.reading.statement-verification",
+      "objective.capability.english.reading.simple-inference"
+    ]
+  },
+  "projection": {
+    "outputPath": "content/knowledge/bicycle-workshop-runtime-projection.json",
+    "header": {
+      "schemaVersion": 1,
+      "id": "knowledge.runtime-projection.bicycle-workshop.001",
+      "kind": "association_set",
+      "version": 1,
+      "language": "en-IN",
+      "subject": "English",
+      "topic": "Bicycle Workshop"
+    },
+    "authoring": {
+      "status": "reviewed",
+      "source": "generated-compatibility-projection-from-learning-graph"
+    },
+    "entries": [
+      {
+        "id": "bicycle-wheeled",
+        "claimRef": "claim.bicycle.is-a.wheeled-vehicle",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "wheeled-vehicle",
+          "label": "wheeled vehicle"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-human-powered",
+        "claimRef": "claim.bicycle.is-a.human-powered-vehicle",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "human-powered-vehicle",
+          "label": "human-powered vehicle"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-wheel",
+        "claimRef": "claim.bicycle.typically-has-part.wheel",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "wheel",
+          "label": "wheel"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-pedal",
+        "claimRef": "claim.bicycle.typically-has-part.pedal",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "pedal",
+          "label": "pedal"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-handlebar",
+        "claimRef": "claim.bicycle.typically-has-part.handlebar",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "handlebar",
+          "label": "handlebar"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-brake",
+        "claimRef": "claim.bicycle.typically-has-part.brake",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "brake",
+          "label": "brake"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-bell",
+        "claimRef": "claim.bicycle.may-have-part.bell",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "bell",
+          "label": "bell"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "bicycle-carrier",
+        "claimRef": "claim.bicycle.may-have-part.carrier",
+        "subject": {
+          "id": "bicycle",
+          "label": "Bicycle"
+        },
+        "object": {
+          "id": "carrier",
+          "label": "carrier"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "bell-ring",
+        "claimRef": "claim.bicycle-bell.produces.ring",
+        "subject": {
+          "id": "bicycle-bell",
+          "label": "Bicycle bell"
+        },
+        "object": {
+          "id": "ringing-sound",
+          "label": "ringing sound"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "recall"
+          ]
+        }
+      },
+      {
+        "id": "pedalling-movement",
+        "claimRef": "claim.pedalling.contributes-to.bicycle-movement",
+        "subject": {
+          "id": "pedalling",
+          "label": "Pedalling"
+        },
+        "object": {
+          "id": "bicycle-movement",
+          "label": "bicycle movement"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "helmet-head",
+        "claimRef": "claim.cycling-helmet.protects.head",
+        "subject": {
+          "id": "cycling-helmet",
+          "label": "Cycling helmet"
+        },
+        "object": {
+          "id": "head",
+          "label": "head"
+        },
+        "meta": {
+          "knowledgeLevel": "foundation",
+          "skills": [
+            "vocabulary",
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "pedal-noun",
+        "claimRef": "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+        "subject": {
+          "id": "pedal-noun",
+          "label": "pedal (noun)"
+        },
+        "object": {
+          "id": "bicycle-part",
+          "label": "bicycle part"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "pedal-verb",
+        "claimRef": "claim.lexeme.pedal-verb.denotes.pedalling",
+        "subject": {
+          "id": "pedal-verb",
+          "label": "pedal (verb)"
+        },
+        "object": {
+          "id": "operate-pedals",
+          "label": "action of operating pedals"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "push-crank",
+        "claimRef": "claim.push-pedals.contributes-to.crank-turns",
+        "subject": {
+          "id": "pushing-pedals",
+          "label": "Pushing the pedals"
+        },
+        "object": {
+          "id": "crank-turning",
+          "label": "crank turning"
+        },
+        "meta": {
+          "knowledgeLevel": "intermediate",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "crank-chain",
+        "claimRef": "claim.crank-turns.contributes-to.chain-moves",
+        "subject": {
+          "id": "crank-turning",
+          "label": "Crank turning"
+        },
+        "object": {
+          "id": "chain-movement",
+          "label": "chain movement"
+        },
+        "meta": {
+          "knowledgeLevel": "intermediate",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "chain-wheel",
+        "claimRef": "claim.chain-moves.contributes-to.rear-wheel-turns",
+        "subject": {
+          "id": "chain-movement",
+          "label": "Chain movement"
+        },
+        "object": {
+          "id": "rear-wheel-turning",
+          "label": "rear wheel turning"
+        },
+        "meta": {
+          "knowledgeLevel": "intermediate",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "wheel-movement",
+        "claimRef": "claim.rear-wheel-turns.contributes-to.bicycle-movement",
+        "subject": {
+          "id": "rear-wheel-turning",
+          "label": "Rear wheel turning"
+        },
+        "object": {
+          "id": "bicycle-movement",
+          "label": "bicycle movement"
+        },
+        "meta": {
+          "knowledgeLevel": "intermediate",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "lever-brake",
+        "claimRef": "claim.squeeze-brake-lever.contributes-to.brake-engages",
+        "subject": {
+          "id": "squeezing-brake-lever",
+          "label": "Squeezing a brake lever"
+        },
+        "object": {
+          "id": "brake-engagement",
+          "label": "brake engagement"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "brake-slow",
+        "claimRef": "claim.brake-engages.contributes-to.bicycle-slowing",
+        "subject": {
+          "id": "brake-engagement",
+          "label": "Brake engagement"
+        },
+        "object": {
+          "id": "bicycle-slowing",
+          "label": "bicycle slowing"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "handlebar-direction",
+        "claimRef": "claim.turn-handlebar.contributes-to.direction-change",
+        "subject": {
+          "id": "turning-handlebar",
+          "label": "Turning the handlebar"
+        },
+        "object": {
+          "id": "direction-change",
+          "label": "direction change"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "bell-signal",
+        "claimRef": "claim.ring-bell.contributes-to.signal-presence",
+        "subject": {
+          "id": "ringing-bicycle-bell",
+          "label": "Ringing a bicycle bell"
+        },
+        "object": {
+          "id": "signal-rider-nearby",
+          "label": "signalling a rider nearby"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "check-helmet",
+        "claimRef": "claim.check-helmet.contributes-to.safer-ride",
+        "subject": {
+          "id": "checking-fastening-helmet",
+          "label": "Checking and fastening a helmet"
+        },
+        "object": {
+          "id": "safer-ride",
+          "label": "safer ride"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "check-brakes",
+        "claimRef": "claim.check-brakes.contributes-to.safer-ride",
+        "subject": {
+          "id": "checking-brakes",
+          "label": "Checking the brakes"
+        },
+        "object": {
+          "id": "safer-ride",
+          "label": "safer ride"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "check-tyres",
+        "claimRef": "claim.check-tyres.contributes-to.safer-ride",
+        "subject": {
+          "id": "checking-tyres",
+          "label": "Checking the tyres"
+        },
+        "object": {
+          "id": "safer-ride",
+          "label": "safer ride"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "reasoning"
+          ]
+        }
+      },
+      {
+        "id": "brake-noun",
+        "claimRef": "claim.lexeme.brake-noun.denotes.bicycle-brake",
+        "subject": {
+          "id": "brake-noun",
+          "label": "brake (noun)"
+        },
+        "object": {
+          "id": "bicycle-part",
+          "label": "bicycle part"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "brake-verb",
+        "claimRef": "claim.lexeme.brake-verb.denotes.bicycle-slowing",
+        "subject": {
+          "id": "brake-verb",
+          "label": "brake (verb)"
+        },
+        "object": {
+          "id": "action-of-slowing",
+          "label": "action of slowing"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "handlebar-word",
+        "claimRef": "claim.lexeme.handlebar.denotes.bicycle-handlebar",
+        "subject": {
+          "id": "handlebar",
+          "label": "handlebar"
+        },
+        "object": {
+          "id": "bicycle-steering-part",
+          "label": "bicycle steering part"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "tyre-word",
+        "claimRef": "claim.lexeme.tyre.denotes.bicycle-tyre",
+        "subject": {
+          "id": "tyre",
+          "label": "tyre"
+        },
+        "object": {
+          "id": "wheel-covering",
+          "label": "wheel covering"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "bell-word",
+        "claimRef": "claim.lexeme.bell.denotes.bicycle-bell",
+        "subject": {
+          "id": "bell",
+          "label": "bell"
+        },
+        "object": {
+          "id": "ringing-bicycle-part",
+          "label": "ringing bicycle part"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.pedal.operated-by.rider-foot",
+        "claimRef": "claim.bicycle.pedal.operated-by.rider-foot",
+        "subject": {
+          "id": "entity.part.bicycle.pedal",
+          "label": "pedal"
+        },
+        "object": {
+          "id": "concept.body.rider-foot",
+          "label": "rider's foot"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.wheel.helps-enable.rolling",
+        "claimRef": "claim.bicycle.wheel.helps-enable.rolling",
+        "subject": {
+          "id": "entity.part.bicycle.wheel",
+          "label": "wheel"
+        },
+        "object": {
+          "id": "concept.function.rolling-movement",
+          "label": "rolling movement"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.has-property.two-wheels",
+        "claimRef": "claim.bicycle.has-property.two-wheels",
+        "subject": {
+          "id": "entity.vehicle.bicycle",
+          "label": "bicycle"
+        },
+        "object": {
+          "id": "concept.property.two-wheels",
+          "label": "two wheels"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.has-property.human-power",
+        "claimRef": "claim.bicycle.has-property.human-power",
+        "subject": {
+          "id": "entity.vehicle.bicycle",
+          "label": "bicycle"
+        },
+        "object": {
+          "id": "concept.property.human-power",
+          "label": "movement powered by a rider"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.carrier.used-for.carrying",
+        "claimRef": "claim.bicycle.carrier.used-for.carrying",
+        "subject": {
+          "id": "entity.part.bicycle.carrier",
+          "label": "carrier"
+        },
+        "object": {
+          "id": "concept.function.carrying-items",
+          "label": "carrying suitable items"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.handlebar.controls.direction",
+        "claimRef": "claim.bicycle.handlebar.controls.direction",
+        "subject": {
+          "id": "entity.part.bicycle.handlebar",
+          "label": "handlebar"
+        },
+        "object": {
+          "id": "concept.motion.direction-change",
+          "label": "change direction"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.brake.used-for.slowing",
+        "claimRef": "claim.bicycle.brake.used-for.slowing",
+        "subject": {
+          "id": "entity.part.bicycle.brake",
+          "label": "brake"
+        },
+        "object": {
+          "id": "concept.motion.bicycle-slowing",
+          "label": "the bicycle slows"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.light.helps-enable.visibility",
+        "claimRef": "claim.bicycle.light.helps-enable.visibility",
+        "subject": {
+          "id": "entity.part.bicycle.light",
+          "label": "bicycle light"
+        },
+        "object": {
+          "id": "concept.function.rider-visibility",
+          "label": "rider visibility"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.reflector.helps-enable.visibility",
+        "claimRef": "claim.bicycle.reflector.helps-enable.visibility",
+        "subject": {
+          "id": "entity.part.bicycle.reflector",
+          "label": "reflector"
+        },
+        "object": {
+          "id": "concept.function.rider-visibility",
+          "label": "rider visibility"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.tyre.covers.wheel",
+        "claimRef": "claim.bicycle.tyre.covers.wheel",
+        "subject": {
+          "id": "entity.part.bicycle.tyre",
+          "label": "tyre"
+        },
+        "object": {
+          "id": "entity.part.bicycle.wheel",
+          "label": "wheel"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.bell.used-for.signalling",
+        "claimRef": "claim.bicycle.bell.used-for.signalling",
+        "subject": {
+          "id": "entity.part.bicycle.bell",
+          "label": "bell"
+        },
+        "object": {
+          "id": "concept.communication.signal-presence",
+          "label": "signal that a rider is nearby"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      }
+    ]
+  }
+}

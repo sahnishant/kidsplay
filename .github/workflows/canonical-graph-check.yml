@@ -1,0 +1,33 @@
+name: Canonical Graph Invariants
+on:
+  pull_request:
+    branches: [main, feat/reusable-learning-studios-v1]
+    paths: ['content/learning-graph/**', 'content/knowledge/**', 'content/learnables/**', 'content/curriculum-runtime/**', 'scripts/**', 'tests/canonical-*.ts', '.github/workflows/canonical-graph-check.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  invariants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Check canonical records and deliberately invalid mutations
+        run: |
+          node scripts/test-canonical-graph.mjs
+          node scripts/test-objective-projection.mjs
+          node scripts/test-question-semantic-targets.mjs
+          node scripts/test-graph-context-separation.mjs
+      - name: Verify repeated migrations cannot change the current checkout
+        run: |
+          node scripts/learning-graph/migrations/001-canonical-records.mjs --write
+          node scripts/learning-graph/migrations/002-objective-authority.mjs --write
+          node scripts/learning-graph/migrations/003-semantic-traceability.mjs --write
+          node scripts/learning-graph/migrations/004-exam-scope.mjs --write
+          git diff --exit-code
+          test -z "$(git ls-files --others --exclude-standard)"

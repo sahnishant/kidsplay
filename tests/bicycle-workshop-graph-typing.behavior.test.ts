@@ -13,8 +13,8 @@ describe('Bicycle Workshop Learning Graph typing', () => {
   it('resolves every node, claim, concept, qualifier, depth, process and misconception repair', () => {
     expect(validate()).toMatchObject({
       graphId: 'learning-graph.bicycle-workshop.v1',
-      nodeCount: 79,
-      claimCount: 64,
+      nodeCount: 93,
+      claimCount: 88,
       depthBandCount: 4,
       processCount: 3,
       misconceptionCount: 4,

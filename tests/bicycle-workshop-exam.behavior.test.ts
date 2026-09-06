@@ -26,10 +26,11 @@ describe('Bicycle Workshop exam-oriented chapter check', () => {
       livePackId: packId,
       livePackQuestionCount: 8,
       chapterContextRuntimeEnabled: false,
-      explicitScopeCount: 29,
+      explicitScopeCount: 40,
       scopeCounts: {
         chapter_core: 23,
-        chapter_supporting: 6
+        chapter_supporting: 15,
+        enrichment: 2
       },
       semanticCoverage: {
         partsAndJobs: 6,

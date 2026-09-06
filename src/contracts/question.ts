@@ -3,7 +3,17 @@ export interface SceneStimulus { type: 'scene'; sceneId: string; }
 export interface Feedback { correct: string; incorrect: string; }
 export interface AuthoringMetadata { status: 'draft' | 'reviewed'; source: string; compiledBy?: string; }
 
+export interface QuestionSemanticTarget {
+  schemaVersion: 1; kind: 'select_subject' | 'select_object';
+  claimRef: string; claimRevision: number; objectiveRef: string;
+  query: { predicate: string; subjectRef?: string; objectRef?: string; qualifiers: Record<string, string> };
+  optionNodeRefs: Record<string, string>; promptBinding: string; feedbackBinding: Feedback;
+  review: { status: 'editorial_candidate'; publishable: false };
+}
+
 export interface BaseQuestion {
+  /** Build-time semantic traceability; not a second runtime evaluator. */
+  semanticTarget?: QuestionSemanticTarget;
   id: string;
   revision: number;
   schemaVersion: 1;
