@@ -2,6 +2,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { formatDataForEngine } from './formatters/registry.mjs';
+import { decorateStudioQuestions } from './visuals/studio-scene-bindings.mjs';
 
 const root = new URL('../', import.meta.url);
 const knowledgeDirectory = new URL('content/knowledge/', root);
@@ -102,7 +103,7 @@ for (const recipe of recipes) {
   }
 }
 
-writeFileSync(questionOutput, `${JSON.stringify(generatedQuestions, null, 2)}\n`, 'utf8');
+writeFileSync(questionOutput, `${JSON.stringify(decorateStudioQuestions(generatedQuestions), null, 2)}\n`, 'utf8');
 writeFileSync(crosswordOutput, `${JSON.stringify(generatedCrosswords, null, 2)}\n`, 'utf8');
 console.log(
   `Formatted ${sources.length} knowledge source(s) through ${recipes.length} recipe template(s) / ` +

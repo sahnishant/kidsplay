@@ -1,0 +1,18 @@
+[
+  {"id":"visual.studio.studio-day-sunrise","label":"Day study: sunrise","renderer":"studio-scene","glyph":"day-sunrise","motion":"none","aliases":["studio illustration day sunrise"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-day-noon","label":"Day study: noon","renderer":"studio-scene","glyph":"day-noon","motion":"none","aliases":["studio illustration day noon"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-day-sunset","label":"Day study: sunset","renderer":"studio-scene","glyph":"day-sunset","motion":"none","aliases":["studio illustration day sunset"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-day-midnight","label":"Day study: midnight","renderer":"studio-scene","glyph":"day-midnight","motion":"none","aliases":["studio illustration day midnight"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-lion-cub","label":"Lion growth study: cub example","renderer":"studio-scene","glyph":"lion-cub","motion":"none","aliases":["studio illustration lion cub"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-lion-subadult","label":"Lion growth study: subadult example","renderer":"studio-scene","glyph":"lion-subadult","motion":"none","aliases":["studio illustration lion subadult"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-lion-adult","label":"Lion growth study: adult lioness example","renderer":"studio-scene","glyph":"lion-adult","motion":"none","aliases":["studio illustration lion adult"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-water-ice","label":"Water study: ice in a bowl","renderer":"studio-scene","glyph":"water-ice","motion":"none","aliases":["studio illustration water ice"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-water-liquid","label":"Water study: liquid water in the same bowl","renderer":"studio-scene","glyph":"water-liquid","motion":"none","aliases":["studio illustration water liquid"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-plant-seed","label":"Plant study: seed below the soil","renderer":"studio-scene","glyph":"plant-seed","motion":"none","aliases":["studio illustration plant seed"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-plant-sprout","label":"Plant study: sprout with first leaves","renderer":"studio-scene","glyph":"plant-sprout","motion":"none","aliases":["studio illustration plant sprout"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-plant-young","label":"Plant study: young plant and roots","renderer":"studio-scene","glyph":"plant-young","motion":"none","aliases":["studio illustration plant young"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-visit-arrive","label":"Visit story: Dheu arrives with a grown-up","renderer":"studio-scene","glyph":"visit-arrive","motion":"none","aliases":["studio illustration visit arrive"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-visit-look","label":"Visit story: a firefighter shows the parked engine","renderer":"studio-scene","glyph":"visit-look","motion":"none","aliases":["studio illustration visit look"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-visit-draw","label":"Visit story: Dheu draws the parked engine","renderer":"studio-scene","glyph":"visit-draw","motion":"none","aliases":["studio illustration visit draw"],"editorialStatus":"draft"},
+  {"id":"visual.studio.studio-visit-leave","label":"Visit story: Dheu and the grown-up say goodbye","renderer":"studio-scene","glyph":"visit-leave","motion":"none","aliases":["studio illustration visit leave"],"editorialStatus":"draft"}
+]

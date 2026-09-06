@@ -1,0 +1,56 @@
+[
+  {
+    "questionId":"earth.studio.day-sequence.001",
+    "source":"knowledge:knowledge.earth.process.day-sequence.001",
+    "items":{
+      "knowledge.earth.process.day-sequence.001:stage:sunrise":{"expectedLabel":"Sunrise","visualRef":"visual.studio.studio-day-sunrise"},
+      "knowledge.earth.process.day-sequence.001:stage:noon":{"expectedLabel":"Noon","visualRef":"visual.studio.studio-day-noon"},
+      "knowledge.earth.process.day-sequence.001:stage:sunset":{"expectedLabel":"Sunset","visualRef":"visual.studio.studio-day-sunset"},
+      "knowledge.earth.process.day-sequence.001:stage:midnight":{"expectedLabel":"Midnight","visualRef":"visual.studio.studio-day-midnight"}
+    }
+  },
+  {
+    "questionId":"earth.studio.ice-melting.001",
+    "source":"knowledge:knowledge.science.process.melt-ice.001",
+    "items":{
+      "knowledge.science.process.melt-ice.001:stage:ice":{"expectedLabel":"Ice","visualRef":"visual.studio.studio-water-ice"},
+      "knowledge.science.process.melt-ice.001:stage:liquid-water":{"expectedLabel":"Liquid water","visualRef":"visual.studio.studio-water-liquid"}
+    }
+  },
+  {
+    "questionId":"earth.studio.water-freezing.001",
+    "source":"knowledge:knowledge.science.process.freeze-water.001",
+    "items":{
+      "knowledge.science.process.freeze-water.001:stage:liquid-water":{"expectedLabel":"Liquid water","visualRef":"visual.studio.studio-water-liquid"},
+      "knowledge.science.process.freeze-water.001:stage:ice":{"expectedLabel":"Ice","visualRef":"visual.studio.studio-water-ice"}
+    }
+  },
+  {
+    "questionId":"lion.studio.growth.001",
+    "source":"knowledge:knowledge.animals.process.lion-growth.001",
+    "items":{
+      "knowledge.animals.process.lion-growth.001:stage:cub":{"expectedLabel":"Lion cub","visualRef":"visual.studio.studio-lion-cub"},
+      "knowledge.animals.process.lion-growth.001:stage:subadult":{"expectedLabel":"Young lion (subadult)","visualRef":"visual.studio.studio-lion-subadult"},
+      "knowledge.animals.process.lion-growth.001:stage:adult":{"expectedLabel":"Adult lion","visualRef":"visual.studio.studio-lion-adult"}
+    }
+  },
+  {
+    "questionId":"plants.studio.seed-growth.001",
+    "source":"knowledge:knowledge.science.process.germination.001",
+    "items":{
+      "knowledge.science.process.germination.001:stage:seed":{"expectedLabel":"Seed","visualRef":"visual.studio.studio-plant-seed"},
+      "knowledge.science.process.germination.001:stage:sprout":{"expectedLabel":"Sprout","visualRef":"visual.studio.studio-plant-sprout"},
+      "knowledge.science.process.germination.001:stage:young-plant":{"expectedLabel":"Young plant","visualRef":"visual.studio.studio-plant-young"}
+    }
+  },
+  {
+    "questionId":"fire-station.studio.visit-story.001",
+    "source":"story:story.studio.fire-station-visit",
+    "items":{
+      "visit.arrive":{"expectedLabel":"Dheu and a grown-up arrive for a planned fire-station visit.","visualRef":"visual.studio.studio-visit-arrive"},
+      "visit.look":{"expectedLabel":"A firefighter shows them a parked fire engine.","visualRef":"visual.studio.studio-visit-look"},
+      "visit.draw":{"expectedLabel":"Dheu draws the fire engine in her notebook.","visualRef":"visual.studio.studio-visit-draw"},
+      "visit.leave":{"expectedLabel":"Dheu says thank you and leaves with the grown-up.","visualRef":"visual.studio.studio-visit-leave"}
+    }
+  }
+]

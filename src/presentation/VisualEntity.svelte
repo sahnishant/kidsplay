@@ -16,6 +16,7 @@
   import PropertyIcon from './PropertyIcon.svelte';
   import Class2ConceptIcon from './Class2ConceptIcon.svelte';
   import Class2FinalIcon from './Class2FinalIcon.svelte';
+  import LazyStudioScene from './LazyStudioScene.svelte';
   import type { SceneIconId } from './sceneTypes';
   import { resolveBundledAsset } from './assetRegistry';
   import { resolveVisualDefinition, type VisualContext } from './visualRegistry';
@@ -40,6 +41,8 @@
     <span class="visual-entity__art">
       {#if bundledAsset}
         <img class="visual-entity__asset" src={bundledAsset.url} alt="" aria-hidden="true" draggable="false" onerror={markAssetFailed} />
+      {:else if visual.renderer === 'studio-scene'}
+        <LazyStudioScene icon={visual.glyph} />
       {:else if visual.renderer === 'scene-icon'}
         <SceneIcon icon={sceneIcon(visual.glyph)} />
       {:else if visual.renderer === 'utility-icon'}

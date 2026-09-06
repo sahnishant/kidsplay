@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { projectStoryStudio } from './formatters/storyStudio.mjs';
+import { decorateStudioQuestions } from './visuals/studio-scene-bindings.mjs';
 
 const root = new URL('../', import.meta.url);
 const read = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -17,5 +18,5 @@ const questions = bindings.map((binding) => {
   ids.add(binding.questionId);
   return projectStoryStudio(byId.get(binding.storyId), binding);
 });
-writeFileSync(new URL('content/questions/__generated-story-studios.json', root), `${JSON.stringify(questions, null, 2)}\n`, 'utf8');
+writeFileSync(new URL('content/questions/__generated-story-studios.json', root), `${JSON.stringify(decorateStudioQuestions(questions), null, 2)}\n`, 'utf8');
 console.log(`Projected ${questions.length} story-local practice question(s); no shared knowledge claims or story assessment added.`);
