@@ -6,8 +6,8 @@
   import { learnAboutRelationLabel, loadReviewedLearnAboutKnowledge, type LearnAboutKnowledgeRow } from '../experience/learnAboutKnowledge';
   import { createLearnAboutRuntimeSession } from '../experience/learnAboutRuntime';
   import { getTopicStudioActivityRefs } from '../experience/learningStudios';
-  import StudioLauncher from './StudioLauncher.svelte';
 
+  const studioLauncherPromise = import('./StudioLauncher.svelte');
   let { onExit, onStartQuestion, onTopicInterest = () => {} }: {
     onExit: () => void;
     onStartQuestion: (question: Question, title: string) => void;
@@ -83,7 +83,7 @@
         {@const studioRefs = getTopicStudioActivityRefs(session.topicId, section.sectionId, selectedDepth)}
         <section class="section" aria-labelledby={`${section.sectionId}-heading`}>
           <h2 id={`${section.sectionId}-heading`}>● {section.childTitle}</h2>
-          <StudioLauncher activityRefs={studioRefs} />
+          {#await studioLauncherPromise}{:then module}{@const StudioLauncher = module.default}<StudioLauncher activityRefs={studioRefs} />{/await}
           {#each section.cards as card}
             {#if !(studioRefs.length && card.family === 'explore' && card.knowledgeRows.length === 0)}
               <article class="card">
