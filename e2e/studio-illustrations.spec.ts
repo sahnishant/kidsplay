@@ -25,7 +25,9 @@ async function openActivity(page: Page, activity: typeof activities[number]) {
   await page.getByRole('button', { name: /D2\s*Connect/ }).click();
   await page.getByRole('button', { name: new RegExp(`^${activity.title}`) }).click();
   const dialog = page.getByRole('dialog');
-  await expect(dialog.locator('.sequence-order')).toBeVisible();
+  // A compatible reopen may restore Show me, without an active ordering engine.
+  await expect(dialog.locator('.studio h2')).toHaveText(activity.title);
+  await expect(dialog.getByRole('button', { name: 'Explore', exact: true })).toBeVisible();
   return dialog;
 }
 async function evidence(page: Page) {
@@ -77,8 +79,7 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 640 }
               await page.screenshot({ path: info.outputPath(`studio-page-${glyph}.png`) });
             }
             const next = dialog.getByRole('button', { name: 'Next step', exact: true });
-            const controls = await dialog.locator('.studio__controls button').all();
-            for (const control of controls) {
+            for (const control of await dialog.locator('.studio__controls button').all()) {
               const button = (await control.boundingBox())!;
               expect(button.width).toBeGreaterThanOrEqual(48);
               expect(button.height).toBeGreaterThanOrEqual(48);
@@ -97,6 +98,11 @@ for (const viewport of [{ width: 320, height: 568 }, { width: 360, height: 640 }
           expect(await cards.allTextContents()).toEqual([order[1], order[0], ...order.slice(2)]);
           await dialog.getByRole('button', { name: 'Look at my order', exact: true }).click();
           await expect(dialog.locator('.studio__step [data-studio-scene]')).toHaveAttribute('data-studio-scene', secondVisual!);
+          // Editing an already-open preview must update its picture AND source label.
+          await cards.first().click(); await cards.nth(1).click();
+          await expect(dialog.locator('.studio__step [data-studio-scene]')).toHaveAttribute('data-studio-scene', firstVisual!);
+          await expect(dialog.locator('.studio__step strong')).toHaveText(order[0].trim());
+          expect(await cards.allTextContents()).toEqual(order);
           expect(await evidence(page)).toEqual(before);
           if (viewport.width === 360 && reducedMotion === 'reduce') {
             await dialog.locator('.sequence-order__list').screenshot({ path: info.outputPath(`studio-cards-${activity.question}.png`) });
@@ -124,7 +130,7 @@ test.describe('illustration delivery failure and offline boundaries', () => {
     const reopened = await openActivity(page, activities[0]);
     await expect(reopened.locator('.studio__step [data-studio-scene="day-noon"]')).toBeVisible();
   });
-  test('illustrations remain available for another topic after warm offline entry', async ({ page, context }) => {
+  test('a loaded illustration family survives warm offline editing and reopening', async ({ page, context }) => {
     const remote: string[] = [];
     page.on('request', (request) => { if (!['127.0.0.1','localhost'].includes(new URL(request.url()).hostname)) remote.push(request.url()); });
     await openCleanApp(page);

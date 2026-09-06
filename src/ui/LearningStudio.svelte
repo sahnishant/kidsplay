@@ -74,6 +74,10 @@
     awaitingInitialState = false;
     const unchanged = JSON.stringify(engineState) === JSON.stringify(state);
     engineState = structuredClone(state);
+    // A preview is the child's current work, never an old order or answer key.
+    if (previewOrder.length && question.interaction.type === 'sequence_order') {
+      previewOrder = (state as { orderedItemIds: string[] }).orderedItemIds.slice();
+    }
     // Mounting/restoring a renderer is exposure, not a child action or a save.
     if (!first && !unchanged) persist();
   }
