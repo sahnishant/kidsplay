@@ -5,6 +5,7 @@ import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { svelteTesting } from '@testing-library/svelte/vite';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vitest/config';
+import { projectRuntimeQuestionJson } from './scripts/learning-graph/runtime-question-projection.mjs';
 
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 const normalizePath = (value: string): string => value.replaceAll('\\', '/');
@@ -73,8 +74,9 @@ function runtimeJsonAssetPlugin(): Plugin {
       if (!id.startsWith(runtimeJsonPrefix)) return null;
       const cleanId = id.slice(runtimeJsonPrefix.length);
 
-      const source = await readFile(cleanId, 'utf8');
+      const authoredSource = await readFile(cleanId, 'utf8');
       const sourceLabel = normalizePath(relative(projectRoot, cleanId));
+      const source = projectRuntimeQuestionJson(authoredSource, sourceLabel);
       const referenceId: string = this.emitFile({
         type: 'asset',
         name: runtimeAssetName(cleanId),
