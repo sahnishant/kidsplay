@@ -1,5 +1,5 @@
 import type { Question } from '../contracts/question';
-import CollectionCount from '../engines/CollectionCount.svelte';
+import CollectionCount from '../engines/LazyCollectionCount.svelte';
 import Crossword from '../engines/Crossword.svelte';
 import DragToTarget from '../engines/DragToTarget.svelte';
 import EqualParts from '../engines/LazyEqualParts.svelte';
