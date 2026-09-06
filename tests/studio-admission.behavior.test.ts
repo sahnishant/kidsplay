@@ -10,7 +10,9 @@ describe('studio authoring and workspace boundaries', () => {
       ? { assignments: Array(question.interaction.partCount).fill(null) }
       : question.interaction.type === 'drag_to_target'
         ? { assignments: { [question.interaction.items[0].id]: question.interaction.targets[1].id } }
-        : { orderedItemIds: question.interaction.items.map((item) => item.id).reverse() };
+        : question.interaction.type === 'collection_count'
+          ? { assignments: { [question.interaction.items[0].id]: question.interaction.targets[1].id } }
+          : { orderedItemIds: question.interaction.items.map((item) => item.id).reverse() };
     const saved = createStudioWorkspace(activity.activityId, question, state);
     expect(saved.schemaVersion).toBe(2);
     expect(restoreStudioWorkspace(activity.activityId, question, JSON.parse(JSON.stringify(saved)))).toEqual(state);
