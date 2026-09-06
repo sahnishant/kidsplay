@@ -33,7 +33,7 @@
     <div class="bike-canvas">
       <img class="bike" src={bikeUrl} alt="Large original side-view bicycle"/>
       {#if mode==='parts'}
-        <div class="part-hit-layer" aria-label="Tap bicycle parts directly">
+        <div class="part-hit-layer" role="group" aria-label="Tap bicycle parts directly">
           {#each partHitRegions as hit}
             <button class="part-hit" type="button" tabindex="-1" aria-label={hit.ariaLabel} title={hit.label} style={`left:${hit.x}%;top:${hit.y}%;width:${hit.w}%;height:${hit.h}%;z-index:${hit.z}`} onclick={()=>selectPart(hit.id)}></button>
           {/each}
