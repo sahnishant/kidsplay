@@ -1,0 +1,53 @@
+name: Canonical Graph Migration Workbench
+on:
+  push:
+    branches: ['refactor/canonical-learning-graph-v2']
+    paths: ['scripts/learning-graph/**', 'scripts/test-canonical-graph.mjs', '.github/workflows/canonical-graph-migration.yml']
+permissions:
+  contents: read
+concurrency:
+  group: canonical-graph-migration
+  cancel-in-progress: false
+jobs:
+  migrate-and-verify:
+    if: github.repository == 'sahnishant/kidsplay' && github.ref == 'refs/heads/refactor/canonical-learning-graph-v2'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.sha }}
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Migrate only the reviewed graph branch
+        run: |
+          node scripts/learning-graph/migrations/001-canonical-records.mjs --write
+          node scripts/learning-graph/migrations/001-canonical-records.mjs --write
+          node scripts/test-canonical-graph.mjs
+          node scripts/learning-graph/validate-curriculum-module.mjs --json
+          node scripts/learning-graph/validate-bicycle-workshop-production.mjs --json
+      - name: Install locked test dependencies
+        run: |
+          npm ci --no-audit --no-fund
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          LIGHTNINGCSS_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          NATIVE_DIR="$(mktemp -d)"
+          npm install --prefix "$NATIVE_DIR" --no-save --package-lock=false --no-audit --no-fund "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION" "lightningcss-linux-x64-gnu@$LIGHTNINGCSS_VERSION"
+          mkdir -p node_modules/@rolldown
+          cp -R "$NATIVE_DIR/node_modules/@rolldown/binding-linux-x64-gnu" node_modules/@rolldown/
+          cp -R "$NATIVE_DIR/node_modules/lightningcss-linux-x64-gnu" node_modules/
+          rm -rf "$NATIVE_DIR"
+      - name: Compile and run all unit regressions
+        run: npm test
+      - name: Commit only validated migration outputs without force pushing
+        run: |
+          git add content/learning-graph scripts/learning-graph/validate-bicycle-workshop-production.mjs
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'refactor(graph): materialize validated canonical records (#265)'
+          git push origin HEAD:refs/heads/refactor/canonical-learning-graph-v2
+          git rev-parse HEAD
