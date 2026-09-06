@@ -8,7 +8,7 @@ export function projectStudioWord(source, refs) {
   if (!matches || matches.length !== 1 || !source.solution.requiredTermIds?.includes(refs.termId)) fail('term must be uniquely present and required in the source');
   const term = matches[0];
   if (typeof term.word !== 'string' || !/^[A-Z]{2,8}$/.test(term.word)) fail('V1 supports explicit 2–8 letter uppercase A–Z words only');
-  if (!source.conceptIds?.includes(refs.conceptRef) || !source.knowledgeRefs?.includes(refs.knowledgeRef)) fail('concept and knowledge references must belong to the source');
+  if (!source.conceptIds?.includes(refs.conceptRef) || !source.supportingKnowledgeRefs?.includes(refs.knowledgeRef)) fail('concept and supporting knowledge references must belong to the source');
   const items = Array.from(term.word, (label, index) => ({ id: `${term.id}-letter-${index + 1}`, label }));
   return {
     id: `${source.id}.letters.${term.id}.v1`,
