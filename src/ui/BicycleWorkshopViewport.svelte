@@ -1,17 +1,20 @@
 <script lang="ts">
   import './bicycleWorkshop.css';
   import guideJson from '../../content/experience/bicycle-workshop-guided.json';
+  import { getWorkshopStudioActivityRefs } from '../experience/learningStudios';
 
   type StoryMode='meet'|'parts'|'mechanics'|'sounds'|'magic'|'reading'|'safety';
   type Beat={id:string;label:string;text:string;examples?:string[];sequence?:string[];claimRefs?:string[];capabilityRefs?:string[]};
   type Section={id:string;order:number;navLabel?:string;storyMode:StoryMode;sourceLayer?:string;eyebrow:string;title:string;animationRef?:string;visualRef?:string;storyLead?:string;lookPrompt:string;beats:Beat[];remember:string;childPrompt:string};
   const guide=guideJson as {childTitle:string;subtitle:string;sections:Section[]};
   const storyStagePromise=import('./BicycleStoryStage.svelte');
+  const studioLauncherPromise=import('./StudioLauncher.svelte');
   let {onExit,onPractice,onChapterCheck}:{onExit:()=>void;onPractice:()=>void;onChapterCheck:()=>void}=$props();
   let part=$state(0),idea=$state(0);
   let section=$derived(guide.sections[part]),beat=$derived(section.beats[idea]);
   let first=$derived(part===0&&idea===0),lastIdea=$derived(idea===section.beats.length-1),done=$derived(part===guide.sections.length-1&&lastIdea);
   let semanticVisualRef=$derived(section.animationRef??section.visualRef??'');
+  let studioRefs=$derived(getWorkshopStudioActivityRefs('bicycle-workshop',section.id));
   function next(){if(!lastIdea){idea++;return}if(part<guide.sections.length-1){part++;idea=0}}
   function previous(){if(idea){idea--;return}if(part){part--;idea=guide.sections[part].beats.length-1}}
   function openPart(index:number){part=index;idea=0}
@@ -37,6 +40,11 @@
         {#if beat.examples?.length}<div class="chips">{#each beat.examples as value}<span>{value}</span>{/each}</div>{/if}
       </section>
       {#if lastIdea}<aside><b>REMEMBER</b><p>{section.remember}</p></aside>{:else}<p class="pace">One idea at a time. Tap <b>Next idea</b> when ready.</p>{/if}
+      {#if studioRefs.length}
+        {#key section.id}
+          {#await studioLauncherPromise}{:then module}{@const StudioLauncher=module.default}<StudioLauncher activityRefs={studioRefs}/>{/await}
+        {/key}
+      {/if}
     </div>
     {#if lastIdea}<p class="try"><b>YOUR TURN</b><span>{section.childPrompt}</span><small>No score here — just explore.</small></p>{/if}
   </article></section>
