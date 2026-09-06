@@ -28,8 +28,8 @@ function readQuestions(root, directoryPath) {
     .flatMap((name) => JSON.parse(readFileSync(resolve(directory, name), 'utf8')));
 }
 
-export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
-  const system = loadObjectiveSystem(root);
+export function validateQuestionEvidencePolicy({ root = ROOT, modulePath } = {}) {
+  const system = loadObjectiveSystem(root, modulePath);
   validateCanonicalGraph(system.graph);
   validateObjectiveSystem(system);
 
@@ -168,7 +168,8 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
 
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
   try {
-    console.log(JSON.stringify(validateQuestionEvidencePolicy()));
+    const moduleArg = process.argv.find((arg) => arg.startsWith('--module='));
+    console.log(JSON.stringify(validateQuestionEvidencePolicy({ modulePath: moduleArg?.slice('--module='.length) })));
   } catch (error) {
     console.error(error instanceof Error ? error.message : String(error));
     process.exitCode = 1;
