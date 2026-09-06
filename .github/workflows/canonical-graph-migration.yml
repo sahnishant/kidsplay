@@ -22,6 +22,23 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version: 22
+      - name: Correct migration execution boundary and candidate-policy fixture
+        run: |
+          node --input-type=module <<'NODE'
+          import { readFileSync, writeFileSync } from 'node:fs';
+          function replace(path, before, after) {
+            let source = readFileSync(path, 'utf8');
+            if (source.includes(after)) return;
+            if (!source.includes(before)) throw new Error(`Patch anchor missing in ${path}`);
+            writeFileSync(path, source.replace(before, after));
+          }
+          const path = 'scripts/learning-graph/migrations/003-semantic-traceability.mjs';
+          replace(path, "import { compileObjectiveProjection } from '../objective-projection.mjs';", "import { execFileSync } from 'node:child_process';");
+          replace(path, "  compileObjectiveProjection({ root, check: false });", "  execFileSync(process.execPath, ['scripts/learning-graph/objective-projection.mjs', '--write'], { cwd: root, stdio: 'inherit' });");
+          const test = 'tests/bicycle-workshop-production.behavior.test.ts';
+          replace(test, "it('records exact graph-claim evidence through the existing evaluator'", "it('keeps the revised unapproved functional target practice-only through the existing evaluator'");
+          replace(test, "    expect(result.knowledgeEvidence.map((item) => item.rowId)).toEqual(question.knowledgeRefs);\n    expect(result.masteryEvidence.some((item) => item.conceptId === 'bicycle.braking.chain')).toBe(true);", "    expect(question.evidencePolicy).toBe('practice_only');\n    expect(question.authoring.status).toBe('draft');\n    expect(result.knowledgeEvidence).toEqual([]);\n    expect(result.masteryEvidence).toEqual([]);");
+          NODE
       - name: Migrate only the reviewed graph branch
         run: |
           node scripts/learning-graph/migrations/003-semantic-traceability.mjs --write
@@ -44,7 +61,12 @@ jobs:
           cp -R "$NATIVE_DIR/node_modules/lightningcss-linux-x64-gnu" node_modules/
           rm -rf "$NATIVE_DIR"
       - name: Compile and run all unit regressions
-        run: npm test
+        run: |
+          set +e
+          npm test > /tmp/graph-regression.log 2>&1
+          STATUS=$?
+          tail -n 160 /tmp/graph-regression.log
+          exit "$STATUS"
       - name: Commit only validated migration outputs without force pushing
         run: |
           git add content/learning-graph content/learnables/bicycle-workshop.json content/learnables/bicycle-workshop-reading.json content/knowledge/bicycle-workshop-runtime-projection.json content/source-manifests/kidsplay-graph-architecture-review.json content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json content/curriculum-runtime/bicycle-workshop/questions/core.json content/experience/bicycle-workshop-guided.json scripts/learning-graph scripts/test-canonical-graph.mjs scripts/test-objective-projection.mjs scripts/compile-knowledge.mjs src/contracts/question.ts tests/canonical-learning-graph.behavior.test.ts tests/bicycle-workshop-graph-typing.behavior.test.ts tests/bicycle-workshop-production.behavior.test.ts
