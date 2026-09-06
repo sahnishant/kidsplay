@@ -26,10 +26,10 @@ describe('Bicycle Workshop canonical question evidence', () => {
       policyId: 'question-evidence.bicycle-workshop.v1',
       questionCount: 32,
       strongSemanticTargetCount: 8,
-      practiceOnlyCount: 9,
-      evidenceEligibleCount: 23,
+      practiceOnlyCount: 11,
+      evidenceEligibleCount: 21,
       capabilityOnlyCount: 8,
-      claimEvidenceQuestionCount: 15,
+      claimEvidenceQuestionCount: 13,
       processQuestionCount: 2,
       supportingKnowledgeQuestionCount: 3,
       knowledgeEvidenceForbiddenCount: 4,
@@ -68,6 +68,26 @@ describe('Bicycle Workshop canonical question evidence', () => {
       'claim.bicycle.brake.used-for.slowing',
       'claim.bicycle.bell.used-for.signalling'
     ]);
+  });
+
+  it('keeps the optional inner mechanics processes structurally canonical but non-evidentiary', () => {
+    const questions = readJson<Question[]>(playPath);
+    const byId = new Map(questions.map((question) => [question.id, question]));
+    const motion = byId.get('bicycle.workshop.sequence.motion.001')!;
+    const braking = byId.get('bicycle.workshop.sequence.braking.001')!;
+
+    expect(motion.evidencePolicy).toBe('practice_only');
+    expect(braking.evidencePolicy).toBe('practice_only');
+
+    const motionResult = evaluate(motion, { orderedItemIds: ['push', 'crank', 'chain', 'wheel', 'move'] });
+    expect(motionResult.correct).toBe(true);
+    expect(motionResult.masteryEvidence).toEqual([]);
+    expect(motionResult.knowledgeEvidence).toEqual([]);
+
+    const brakingResult = evaluate(braking, { orderedItemIds: ['squeeze', 'engage', 'slow'] });
+    expect(brakingResult.correct).toBe(true);
+    expect(brakingResult.masteryEvidence).toEqual([]);
+    expect(brakingResult.knowledgeEvidence).toEqual([]);
   });
 
   it('keeps word-search denotation context reusable without turning spelling success into mastery', () => {
