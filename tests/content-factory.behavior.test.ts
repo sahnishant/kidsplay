@@ -50,7 +50,16 @@ describe('reusable higher-grade content factory', () => {
       'sof3.life-adaptations.mcq.each.generated.001.herbivore',
       'sof3.measurement-space.mcq.each.generated.001.temperature'
     ]));
-    expect(expanded.length).toBeGreaterThan(30);
+
+    const lifeAdaptationIds = ids.filter((id: string) => id.startsWith('sof3.life-adaptations.mcq.each.generated.001.'));
+    expect(lifeAdaptationIds).toEqual([
+      'sof3.life-adaptations.mcq.each.generated.001.herbivore',
+      'sof3.life-adaptations.mcq.each.generated.001.carnivore',
+      'sof3.life-adaptations.mcq.each.generated.001.omnivore'
+    ]);
+    expect(lifeAdaptationIds.some((id: string) => id.includes('.living-'))).toBe(false);
+    expect(lifeAdaptationIds.some((id: string) => id.endsWith('.camouflage'))).toBe(false);
+
     expect(new Set(ids).size).toBe(ids.length);
     expect(expanded.every((question: { knowledgeRefs?: string[] }) => question.knowledgeRefs?.length === 1)).toBe(true);
   });
