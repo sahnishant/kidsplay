@@ -1,0 +1,26 @@
+[
+  {
+    "id":"fractions.studio.equal-shares.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":1,"language":"en-IN",
+    "prompt":{"text":"Make one half gold and one half teal."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One rectangle","partCount":4,"representation":"grid","categories":[{"id":"gold","label":"Gold","symbol":"G"},{"id":"teal","label":"Teal","symbol":"T"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"gold":{"numerator":1,"denominator":2},"teal":{"numerator":1,"denominator":2}}},
+    "feedback":{"correct":"Both colours cover one half of the same rectangle. Different arrangements can show the same amount.","incorrect":"Keep your rectangle. Check how many equal parts each colour covers."},
+    "authoring":{"status":"draft","source":"kidsplay-reusable-learning-studios-v1"}
+  },
+  {
+    "id":"fractions.studio.dosa.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Make one dosa: 3/8 potato, 1/8 paneer and 4/8 tomato. You choose where they go."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One dosa","partCount":8,"representation":"circle","categories":[{"id":"potato","label":"Potato","symbol":"P"},{"id":"paneer","label":"Paneer","symbol":"C"},{"id":"tomato","label":"Tomato","symbol":"T"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"potato":{"numerator":3,"denominator":8},"paneer":{"numerator":1,"denominator":8},"tomato":{"numerator":4,"denominator":8}}},
+    "feedback":{"correct":"Your dosa has all three requested amounts. Their positions can be different.","incorrect":"Keep your dosa and adjust the topping amounts. Every numbered part is the same size."},
+    "authoring":{"status":"draft","source":"kidsplay-reusable-learning-studios-v1"}
+  },
+  {
+    "id":"fractions.studio.garden.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Plan one garden: 1/7 marigold, 3/7 rose and 3/7 hibiscus. Choose their positions."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One garden plan","partCount":7,"representation":"bar","categories":[{"id":"marigold","label":"Marigold","symbol":"M"},{"id":"rose","label":"Rose","symbol":"R"},{"id":"hibiscus","label":"Hibiscus","symbol":"H"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"marigold":{"numerator":1,"denominator":7},"rose":{"numerator":3,"denominator":7},"hibiscus":{"numerator":3,"denominator":7}}},
+    "feedback":{"correct":"Your garden plan has the requested areas. This is a fractions activity, not a rule for growing flowers.","incorrect":"Keep your plan. Count the equal areas assigned to each flower."},
+    "authoring":{"status":"draft","source":"kidsplay-reusable-learning-studios-v1"}
+  }
+]

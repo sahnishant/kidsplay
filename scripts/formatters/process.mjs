@@ -12,6 +12,10 @@ export function formatProcess(data, recipe) {
   if (recipe.engine !== 'sequence_order@1') {
     throw new Error(`${data.sourceRef}: process formatter does not support ${recipe.engine}`);
   }
+  // A teaching recipe may restrict evidence, never create a new scoring policy.
+  if (recipe.evidencePolicy !== undefined && recipe.evidencePolicy !== 'practice_only') {
+    throw new Error(`${recipe.id}: unsupported process evidence policy`);
+  }
 
   const unit = data.units[0];
   const stages = Array.isArray(unit.stages) ? unit.stages : [];
@@ -28,12 +32,14 @@ export function formatProcess(data, recipe) {
       revision: recipe.revision ?? 1,
       schemaVersion: 1,
       conceptIds: [...new Set(unit.conceptIds ?? [])],
+      ...(recipe.evidencePolicy === 'practice_only' ? { evidencePolicy: 'practice_only' } : {}),
       difficulty: recipe.difficulty ?? 2,
       language: data.language ?? 'en',
       prompt: { text: recipe.prompt ?? `Put the stages of ${unit.prompt} in order.` },
       feedback: recipe.feedback ?? defaultFeedback,
       authoring: {
-        status: data.authoring?.status ?? 'reviewed',
+        // Approval of source knowledge does not approve a new studio adaptation.
+        status: recipe.evidencePolicy === 'practice_only' ? 'draft' : data.authoring?.status ?? 'reviewed',
         source: `knowledge:${data.sourceRef}`,
         compiledBy: `${data.datatype}->sequence_order@1`
       },

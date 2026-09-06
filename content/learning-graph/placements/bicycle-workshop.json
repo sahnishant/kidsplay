@@ -1,0 +1,405 @@
+{
+  "schemaVersion": 2,
+  "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "objectives": [
+    {
+      "objectiveRef": "objective.bicycle.identity",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Bicycle identity",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.wheel",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.tyre",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.pedal",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.handlebar",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.brake",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.bell",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.carrier",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.drive",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "How movement travels",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.parts.optional",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.motion.pedalling",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "How movement travels",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.motion.chain",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "How movement travels",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.braking.chain",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "How movement travels",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.control.steering",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Parts and jobs",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.sound.bell",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Sound and meaning",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.safety.helmet",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Ready to ride",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.safety.signal",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Ready to ride",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.safety.pre-ride",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Ready to ride",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.bicycle.safety.visibility",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Ready to ride",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.english.vocabulary.bicycle",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Vocabulary",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.english.vocabulary.pedal",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Vocabulary",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.english.vocabulary.brake",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Vocabulary",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.english.vocabulary.handlebar",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Vocabulary",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.english.vocabulary.tyre",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Vocabulary",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.english.vocabulary.bell",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Vocabulary",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.semantic-part-labelling",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Language capability",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.vocabulary.sense-recognition",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Language capability",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.phonics.short-a-recognition",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Phonics",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.grammar.indefinite-article-selection",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Grammar",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.reading.literal-retrieval",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Reading comprehension",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.reading.sequence-retrieval",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Reading comprehension",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.reading.statement-verification",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Reading comprehension",
+      "gradeBands": [
+        2
+      ]
+    },
+    {
+      "objectiveRef": "objective.capability.english.reading.simple-inference",
+      "subject": "English",
+      "topic": "Bicycle Workshop",
+      "subtopic": "Reading comprehension",
+      "gradeBands": [
+        2
+      ]
+    }
+  ],
+  "capabilities": [
+    {
+      "capabilityRef": "capability.english.reading.literal-retrieval",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.reading.statement-verification",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.listening.sound-source-identification",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.speaking.familiar-object-description",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.vocabulary.sense-recognition",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.phonics.short-a-recognition",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.grammar.indefinite-article-selection",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.semantic-part-labelling",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.creative.imagine-draw-speak",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.reading.sequence-retrieval",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    },
+    {
+      "capabilityRef": "capability.english.reading.simple-inference",
+      "expectedStage": "class2",
+      "contextAuthority": "migrated_curriculum_placement_not_intrinsic_skill_level"
+    }
+  ],
+  "discoveryDepth": {
+    "D0": [
+      "entity.vehicle.bicycle",
+      "entity.part.bicycle.wheel",
+      "entity.part.bicycle.pedal",
+      "entity.safety.cycling-helmet"
+    ],
+    "D1": [
+      "entity.part.bicycle.handlebar",
+      "entity.part.bicycle.brake",
+      "entity.part.bicycle.bell",
+      "lexeme.en.pedal.noun.bicycle-part",
+      "lexeme.en.pedal.verb.operate-cycle"
+    ],
+    "D2": [
+      "concept.action.push-pedals",
+      "concept.action.crank-turns",
+      "concept.action.chain-moves",
+      "concept.action.rear-wheel-turns",
+      "concept.action.squeeze-brake-lever",
+      "concept.action.brake-engages",
+      "concept.motion.bicycle-slowing"
+    ],
+    "D3": [
+      "entity.part.bicycle.frame",
+      "entity.part.bicycle.fork",
+      "entity.part.bicycle.rim",
+      "entity.part.bicycle.spoke",
+      "entity.part.bicycle.hub",
+      "entity.part.bicycle.inner-tube",
+      "entity.part.bicycle.crank",
+      "entity.part.bicycle.chain",
+      "entity.part.bicycle.rear-sprocket"
+    ]
+  },
+  "depthSemantics": "Node bands are contextual discovery suggestions; objective depth owns the cognitive demand. Migrated objective depths remain editorial candidates."
+}

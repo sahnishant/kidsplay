@@ -1,11 +1,10 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "capabilitySetId": "capabilities.english.class2.my-bicycle.v1",
   "capabilities": [
     {
       "id": "capability.english.reading.literal-retrieval",
       "domain": "english",
-      "stage": "class2",
       "kind": "reading_comprehension",
       "cognitiveOperation": "retrieve",
       "defaultEvidence": {
@@ -17,12 +16,15 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "description": {
+        "en": "Retrieve an explicitly stated detail from a short independently authored passage."
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.reading.statement-verification",
       "domain": "english",
-      "stage": "class2",
       "kind": "reading_comprehension",
       "cognitiveOperation": "verify",
       "defaultEvidence": {
@@ -34,12 +36,15 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "description": {
+        "en": "Decide whether a statement agrees with information explicitly given in a short passage."
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.listening.sound-source-identification",
       "domain": "english",
-      "stage": "class2",
       "kind": "listening",
       "cognitiveOperation": "discriminate",
       "defaultEvidence": {
@@ -51,12 +56,12 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.speaking.familiar-object-description",
       "domain": "english",
-      "stage": "class2",
       "kind": "speaking",
       "cognitiveOperation": "describe",
       "defaultEvidence": {
@@ -69,12 +74,12 @@
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
       },
-      "notes": "Open spoken response; do not automatically score accent, fluency or correctness."
+      "notes": "Open spoken response; do not automatically score accent, fluency or correctness.",
+      "revision": 1
     },
     {
       "id": "capability.english.vocabulary.sense-recognition",
       "domain": "english",
-      "stage": "class2",
       "kind": "vocabulary",
       "cognitiveOperation": "recognise",
       "defaultEvidence": {
@@ -86,12 +91,15 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "description": {
+        "en": "Choose the intended meaning of a familiar word from its sentence context."
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.phonics.short-a-recognition",
       "domain": "english",
-      "stage": "class2",
       "kind": "phonics",
       "cognitiveOperation": "discriminate",
       "defaultEvidence": {
@@ -103,12 +111,15 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "description": {
+        "en": "Recognise the short-a sound in familiar spoken and written words."
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.grammar.indefinite-article-selection",
       "domain": "english",
-      "stage": "class2",
       "kind": "grammar",
       "cognitiveOperation": "apply",
       "defaultEvidence": {
@@ -120,12 +131,15 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "description": {
+        "en": "Choose a or an for familiar words by attending to the word's opening sound."
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.semantic-part-labelling",
       "domain": "english",
-      "stage": "class2",
       "kind": "vocabulary",
       "cognitiveOperation": "label",
       "defaultEvidence": {
@@ -137,12 +151,15 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "description": {
+        "en": "Label or match a familiar object's visible parts using appropriate words."
+      },
+      "revision": 1
     },
     {
       "id": "capability.english.creative.imagine-draw-speak",
       "domain": "english",
-      "stage": "class2",
       "kind": "creative_expression",
       "cognitiveOperation": "create",
       "defaultEvidence": {
@@ -155,7 +172,48 @@
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
       },
-      "notes": "Participation may be recorded, but not correctness or mastery."
+      "notes": "Participation may be recorded, but not correctness or mastery.",
+      "revision": 1
+    },
+    {
+      "id": "capability.english.reading.sequence-retrieval",
+      "domain": "english",
+      "kind": "reading_comprehension",
+      "cognitiveOperation": "sequence",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "description": {
+        "en": "Put explicitly stated events from a short passage in their correct order."
+      },
+      "revision": 1
+    },
+    {
+      "id": "capability.english.reading.simple-inference",
+      "domain": "english",
+      "kind": "reading_comprehension",
+      "cognitiveOperation": "infer",
+      "defaultEvidence": {
+        "evaluative": "record",
+        "guidedPractice": "practice_only",
+        "exposure": "none"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "description": {
+        "en": "Use an action and its context in a short passage to choose a simple reason or consequence."
+      },
+      "revision": 1
     }
   ]
 }

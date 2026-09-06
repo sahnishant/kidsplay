@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.animals.process.lion-growth.001",
+  "kind": "process",
+  "version": 1,
+  "revision": 1,
+  "rowId": "kr.animals.lion.growth.cub-to-adult",
+  "language": "en",
+  "subject": "Science",
+  "topic": "Lion - Growth",
+  "label": "a lion growing from a cub through the subadult stage to adulthood",
+  "stages": [
+    { "id": "cub", "label": "Lion cub" },
+    { "id": "subadult", "label": "Young lion (subadult)" },
+    { "id": "adult", "label": "Adult lion" }
+  ],
+  "conceptIds": ["animals.lion.growth-sequence"],
+  "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
+  "authoring": {
+    "status": "draft",
+    "source": "kidsplay-source-informed-topic-pilot",
+    "scopeNote": "A growth-stage ordering for a lion that reaches adulthood, not a guarantee of survival. No exact ages, mane-based test, hunting milestone, or assumption that every adult is a maned male. Illustrations require a separate stage-discrimination review.",
+    "provenance": [{ "url": "https://nationalzoo.si.edu/animals/lion", "title": "Lion - Smithsonian National Zoo", "locator": "Social structure describes adults, subadults and cubs; reproduction and development", "reviewedOn": "2026-09-06", "reviewKind": "source_check_not_human_editorial_approval" }]
+  }
+}

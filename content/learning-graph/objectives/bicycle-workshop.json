@@ -1,0 +1,808 @@
+{
+  "schemaVersion": 2,
+  "objectives": [
+    {
+      "id": "objective.bicycle.identity",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a bicycle as a human-powered wheeled vehicle."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D0",
+      "targetClaimRefs": [
+        "claim.bicycle.is-a.wheeled-vehicle",
+        "claim.bicycle.is-a.human-powered-vehicle",
+        "claim.bicycle.has-property.two-wheels",
+        "claim.bicycle.has-property.human-power",
+        "claim.class.wheeled.subclass-of.vehicle",
+        "claim.class.human-powered.subclass-of.vehicle"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.identity"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise that a bicycle is made of connected parts with different jobs."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.frame",
+        "claim.bicycle.typically-has-part.fork"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.wheel",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a wheel as a bicycle part that turns as the bicycle rolls."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D0",
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.wheel",
+        "claim.bicycle.typically-has-part.rim",
+        "claim.bicycle.typically-has-part.spoke",
+        "claim.bicycle.typically-has-part.hub",
+        "claim.bicycle.wheel.helps-enable.rolling",
+        "claim.bicycle.rim.part-of.wheel",
+        "claim.bicycle.spoke.part-of.wheel",
+        "claim.bicycle.hub.part-of.wheel"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.wheel"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.tyre",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a tyre as the outer covering around a bicycle wheel."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.may-have-part.inner-tube",
+        "claim.bicycle.tyre.covers.wheel",
+        "claim.bicycle.tyre.part-of.wheel",
+        "claim.bicycle.inner-tube.part-of.tyre-system"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.tyre"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.pedal",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a pedal as the bicycle part pushed by a rider's foot."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D0",
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.pedal.operated-by.rider-foot"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.pedal"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.handlebar",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise the handlebar as the bicycle's steering part."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.handlebar",
+        "claim.bicycle.may-have-part.grip",
+        "claim.bicycle.handlebar.controls.direction",
+        "claim.bicycle.grip.part-of.handlebar"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.handlebar"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.brake",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a brake as a bicycle control used to slow or stop."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.brake",
+        "claim.bicycle.typically-has-part.brake-lever",
+        "claim.bicycle.brake.used-for.slowing"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.brake"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.bell",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a bicycle bell as an optional part that makes a ringing signal."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.may-have-part.bell",
+        "claim.bicycle.bell.used-for.signalling"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.bell"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.carrier",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise a bicycle carrier as an optional part used to carry suitable items."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.may-have-part.carrier",
+        "claim.bicycle.carrier.used-for.carrying"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.carrier"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.drive",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise that pedals, crank, chain and rear wheel can form a bicycle movement system."
+      },
+      "cognitiveOperation": "reason",
+      "defaultDepth": "D2",
+      "targetClaimRefs": [
+        "claim.bicycle.typically-has-part.crank",
+        "claim.bicycle.typically-has-part.chain",
+        "claim.bicycle.typically-has-part.rear-sprocket",
+        "claim.bicycle.pedal.belongs-to.drivetrain",
+        "claim.bicycle.crank.belongs-to.drivetrain",
+        "claim.bicycle.chain.belongs-to.drivetrain",
+        "claim.bicycle.rear-sprocket.belongs-to.drivetrain",
+        "claim.bicycle.drivetrain.part-of.bicycle"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.drive"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.parts.optional",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Distinguish common optional bicycle parts from parts normally needed for riding and control."
+      },
+      "cognitiveOperation": "compare",
+      "defaultDepth": "D2",
+      "targetClaimRefs": [
+        "claim.bicycle.may-have-part.kickstand"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.parts.optional"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.motion.pedalling",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand that a rider can supply movement by pushing bicycle pedals."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.pedalling.contributes-to.bicycle-movement"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.motion.pedalling"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.motion.chain",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Put the simple bicycle movement chain in order from pedal action to bicycle movement."
+      },
+      "cognitiveOperation": "sequence",
+      "defaultDepth": "D2",
+      "targetClaimRefs": [
+        "claim.push-pedals.contributes-to.crank-turns",
+        "claim.crank-turns.contributes-to.chain-moves",
+        "claim.chain-moves.contributes-to.rear-wheel-turns",
+        "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.motion.chain"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.braking.chain",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Put the simple braking chain in order from squeezing a lever to the bicycle slowing."
+      },
+      "cognitiveOperation": "sequence",
+      "defaultDepth": "D2",
+      "targetClaimRefs": [
+        "claim.squeeze-brake-lever.contributes-to.brake-engages",
+        "claim.brake-engages.contributes-to.bicycle-slowing"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.braking.chain"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.control.steering",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand that turning the handlebar helps change a bicycle's direction."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.turn-handlebar.contributes-to.direction-change",
+        "claim.bicycle.handlebar.controls.direction"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.control.steering"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.sound.bell",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Connect a bicycle bell with a ringing sound."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle-bell.produces.ring"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.sound.bell"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.safety.helmet",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand that a properly fitted cycling helmet helps protect a rider's head."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D0",
+      "targetClaimRefs": [
+        "claim.cycling-helmet.protects.head"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.safety.helmet"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.safety.signal",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand that ringing a bicycle bell can signal that a rider is nearby."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.ring-bell.contributes-to.signal-presence",
+        "claim.bicycle.bell.used-for.signalling"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.safety.signal"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.safety.pre-ride",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Identify a simple pre-ride check covering helmet, brakes and tyres."
+      },
+      "cognitiveOperation": "apply",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.check-helmet.contributes-to.safer-ride",
+        "claim.check-brakes.contributes-to.safer-ride",
+        "claim.check-tyres.contributes-to.safer-ride"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.safety.pre-ride"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.bicycle.safety.visibility",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Recognise that suitable lights and reflectors can help a bicycle rider be seen."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.bicycle.may-have-part.light",
+        "claim.bicycle.may-have-part.reflector",
+        "claim.bicycle.light.helps-enable.visibility",
+        "claim.bicycle.reflector.helps-enable.visibility"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "bicycle.safety.visibility"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.english.vocabulary.bicycle",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand the Class II meaning of bicycle as a two-wheeled vehicle moved by a rider."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.lexeme.bicycle.denotes.vehicle",
+        "claim.bicycle.has-property.two-wheels"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "english.vocabulary.bicycle"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.english.vocabulary.pedal",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Distinguish pedal as a bicycle-part noun from pedal as an action verb."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+        "claim.lexeme.pedal-verb.denotes.pedalling"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "english.vocabulary.pedal"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.english.vocabulary.brake",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Distinguish brake as a bicycle-part noun from brake as an action verb."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.lexeme.brake-noun.denotes.bicycle-brake",
+        "claim.lexeme.brake-verb.denotes.bicycle-slowing"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "english.vocabulary.brake"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.english.vocabulary.handlebar",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand handlebar as the bicycle part used for steering."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.lexeme.handlebar.denotes.bicycle-handlebar"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "english.vocabulary.handlebar"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.english.vocabulary.tyre",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand tyre as the outer covering around a wheel."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.lexeme.tyre.denotes.bicycle-tyre"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "english.vocabulary.tyre"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.english.vocabulary.bell",
+      "revision": 1,
+      "descriptionSource": "objective",
+      "description": {
+        "en": "Understand bell as an object that can make a ringing sound."
+      },
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [
+        "claim.lexeme.bell.denotes.bicycle-bell"
+      ],
+      "capabilityRefs": [],
+      "legacyConceptIds": [
+        "english.vocabulary.bell"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.semantic-part-labelling",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "label",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.semantic-part-labelling"
+      ],
+      "legacyConceptIds": [
+        "capability.english.semantic-part-labelling"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.vocabulary.sense-recognition",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "recognise",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.vocabulary.sense-recognition"
+      ],
+      "legacyConceptIds": [
+        "capability.english.vocabulary.sense-recognition"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.phonics.short-a-recognition",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "discriminate",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.phonics.short-a-recognition"
+      ],
+      "legacyConceptIds": [
+        "capability.english.phonics.short-a-recognition"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.grammar.indefinite-article-selection",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "apply",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.grammar.indefinite-article-selection"
+      ],
+      "legacyConceptIds": [
+        "capability.english.grammar.indefinite-article-selection"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.reading.literal-retrieval",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "retrieve",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.reading.literal-retrieval"
+      ],
+      "legacyConceptIds": [
+        "capability.english.reading.literal-retrieval"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.reading.sequence-retrieval",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "sequence",
+      "defaultDepth": "D2",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.reading.sequence-retrieval"
+      ],
+      "legacyConceptIds": [
+        "capability.english.reading.sequence-retrieval"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.reading.statement-verification",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "verify",
+      "defaultDepth": "D1",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.reading.statement-verification"
+      ],
+      "legacyConceptIds": [
+        "capability.english.reading.statement-verification"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "objective.capability.english.reading.simple-inference",
+      "revision": 1,
+      "descriptionSource": "capability",
+      "cognitiveOperation": "infer",
+      "defaultDepth": "D2",
+      "targetClaimRefs": [],
+      "capabilityRefs": [
+        "capability.english.reading.simple-inference"
+      ],
+      "legacyConceptIds": [
+        "capability.english.reading.simple-inference"
+      ],
+      "bindingReview": "migrated_references_not_semantic_entailment_approval",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    }
+  ]
+}

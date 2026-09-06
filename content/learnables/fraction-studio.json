@@ -1,0 +1,7 @@
+[
+  {
+    "id": "math.fractions.equal-part-allocation",
+    "statement": "Allocate already-equal areas of one explicitly declared whole to satisfy specified fractional quantities. This does not assess constructing equal partitions, fractions of collections or general fraction mastery.",
+    "subject": "Mathematics", "topic": "Fractions", "subtopic": "Equal parts of one whole", "gradeBands": [2, 3, 4]
+  }
+]

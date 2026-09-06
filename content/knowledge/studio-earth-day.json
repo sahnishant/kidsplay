@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "knowledge.earth.process.day-sequence.001",
+  "kind": "process",
+  "version": 1,
+  "revision": 1,
+  "rowId": "kr.universe.day.temporal.sunrise-to-midnight",
+  "language": "en",
+  "subject": "Science",
+  "topic": "Earth - Day and Night",
+  "label": "one day from sunrise to the following midnight, at a place and date with sunrise and sunset",
+  "stages": [
+    { "id": "sunrise", "label": "Sunrise" },
+    { "id": "noon", "label": "Noon" },
+    { "id": "sunset", "label": "Sunset" },
+    { "id": "midnight", "label": "Midnight" }
+  ],
+  "conceptIds": ["universe.day.temporal-order"],
+  "meta": { "knowledgeLevel": "basic", "skills": ["recall", "reasoning"] },
+  "authoring": {
+    "status": "draft",
+    "source": "kidsplay-source-informed-topic-pilot",
+    "scopeNote": "Temporal order only, anchored at sunrise and ending at the following midnight. No fixed clock hours, equal day/night duration, polar-day universality or causal explanation assessment.",
+    "provenance": [{ "url": "https://www.lpi.usra.edu/education/explore/marvelMoon/activities/whatIf/spin/", "title": "Spin! Day and Night", "locator": "Part A, day/night rotation activity", "reviewedOn": "2026-09-06", "reviewKind": "source_check_not_human_editorial_approval" }]
+  }
+}

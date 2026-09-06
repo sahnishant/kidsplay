@@ -1,6 +1,7 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadCanonicalGraph, validateCanonicalGraph } from './canonical-graph.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const readJson = (path) => JSON.parse(readFileSync(resolve(ROOT, path), 'utf8'));
@@ -17,9 +18,9 @@ const collectArrays = (directory) => readdirSync(resolve(ROOT, directory))
 export function validateBicycleWorkshopGuidedExperience() {
   const guide = readJson('content/experience/bicycle-workshop-guided.json');
   const module = readJson('content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json');
-  const graph = readJson('content/learning-graph/modules/bicycle-workshop.json');
-  const importedClaims = graph.imports.claimFiles.flatMap((path) => readJson(path).claims ?? []);
-  const claimIds = new Set([...importedClaims.map((claim) => claim.id), ...graph.edges.map((edge) => edge.id)]);
+  const graph = loadCanonicalGraph({ root: ROOT });
+  validateCanonicalGraph(graph);
+  const claimIds = new Set(graph.claims.map((claim) => claim.id));
   const admittedClaims = new Set(module.graphClaimRefs);
   const admittedCapabilities = new Set(module.capabilityRefs);
   const visualIds = new Set(collectArrays('content/visuals').map((visual) => visual.id));

@@ -1,0 +1,3 @@
+[
+  { "id": "lion.studio.growth.001", "sourceRef": "knowledge.animals.process.lion-growth.001", "engine": "sequence_order@1", "revision": 1, "difficulty": 2, "seed": 433, "evidencePolicy": "practice_only", "prompt": "Follow a lion growing up. Start with the cub and finish with the adult. The young lion between them is called a subadult.", "feedback": { "correct": "You followed this growth sequence from cub to subadult to adult lion.", "incorrect": "Keep the cub first and the adult last. Show me introduces the middle stage." } }
+]

@@ -2,8 +2,8 @@ import { resolveAssetRefForVisualRef } from './assetRegistry';
 import { resolveVisualRecipeRefs } from './visualRecipeRegistry';
 import type { VisualRecipeSurface } from './visualRecipeTypes';
 
-export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon' | 'nature-space-icon' | 'everyday-icon' | 'process-icon' | 'measurement-icon' | 'material-property-icon' | 'environmental-action-icon' | 'soil-type-icon' | 'animal-expansion-icon' | 'concept-icon' | 'curriculum-icon' | 'learning-icon' | 'property-icon' | 'class2-concept-icon' | 'class2-final-icon';
-export type VisualMotion = 'idle' | 'wag' | 'swim' | 'flap' | 'hop' | 'float' | 'sway' | 'pulse' | 'blink' | 'chomp' | 'breathe' | 'flex' | 'drift' | 'spin' | 'flicker' | 'wiggle';
+export type VisualRenderer = 'scene-icon' | 'entity-icon' | 'utility-icon' | 'nature-space-icon' | 'everyday-icon' | 'process-icon' | 'measurement-icon' | 'material-property-icon' | 'environmental-action-icon' | 'soil-type-icon' | 'animal-expansion-icon' | 'concept-icon' | 'curriculum-icon' | 'learning-icon' | 'property-icon' | 'class2-concept-icon' | 'class2-final-icon' | 'studio-scene';
+export type VisualMotion = 'none' | 'idle' | 'wag' | 'swim' | 'flap' | 'hop' | 'float' | 'sway' | 'pulse' | 'blink' | 'chomp' | 'breathe' | 'flex' | 'drift' | 'spin' | 'flicker' | 'wiggle';
 export type VisualContext = 'option' | 'word-bank' | 'drag-item' | 'drag-target' | 'feedback' | 'dashboard';
 
 export interface VisualDefinition {
@@ -51,6 +51,9 @@ function registerSemanticKey(key: string, visualRef: string): void {
 }
 
 for (const definition of definitions) {
+  // Topic-specific candidate scenes are explicit-only; never infer them from
+  // a general noun such as water, seed, adult or a story's wording.
+  if (definition.renderer === 'studio-scene') continue;
   for (const alias of definition.aliases) {
     const normalizedAlias = normalizeLabel(alias);
     visualRefByAlias.set(normalizedAlias, definition.id);

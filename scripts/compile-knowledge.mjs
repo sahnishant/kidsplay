@@ -2,6 +2,7 @@ import { readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { formatDataForEngine } from './formatters/registry.mjs';
+import { decorateStudioQuestions } from './visuals/studio-scene-bindings.mjs';
 
 const root = new URL('../', import.meta.url);
 const knowledgeDirectory = new URL('content/knowledge/', root);
@@ -14,6 +15,8 @@ const crosswordOutput = new URL('content/authoring/crosswords/__generated-from-k
 // content build (Windows, browser and Android included) materializes the exact same
 // accepted review batches without a second runtime or a hand-maintained question bank.
 for (const script of [
+  'scripts/learning-graph/objective-projection.mjs',
+  'scripts/learning-graph/question-semantic-targets.mjs',
   'scripts/lexicon/import-primary-vocabulary-reviews.mjs',
   'scripts/lexicon/materialize-primary-vocabulary-review-delivery.mjs'
 ]) {
@@ -102,10 +105,12 @@ for (const recipe of recipes) {
   }
 }
 
-writeFileSync(questionOutput, `${JSON.stringify(generatedQuestions, null, 2)}\n`, 'utf8');
+writeFileSync(questionOutput, `${JSON.stringify(decorateStudioQuestions(generatedQuestions), null, 2)}\n`, 'utf8');
 writeFileSync(crosswordOutput, `${JSON.stringify(generatedCrosswords, null, 2)}\n`, 'utf8');
 console.log(
   `Formatted ${sources.length} knowledge source(s) through ${recipes.length} recipe template(s) / ` +
   `${expandedRecipeCount} expanded recipe(s): ${generatedQuestions.length} direct question(s), ` +
   `${generatedCrosswords.length} crossword authoring item(s).`
 );
+// Separate source scope and output: a story event must never become shared truth.
+execFileSync(process.execPath, [fileURLToPath(new URL('scripts/compile-story-studios.mjs', root))], { cwd: fileURLToPath(root), stdio: 'inherit' });

@@ -1,7 +1,8 @@
-import type { MazePathQuestion, Question, TracePathQuestion } from '../contracts/question';
+import type { EqualPartsQuestion, MazePathQuestion, Question, TracePathQuestion } from '../contracts/question';
 import type { EvaluationResult } from '../contracts/runtime';
 import { canTravel } from '../mechanics/maze';
 import { traceCorridorScore } from '../mechanics/tracePath';
+import { evaluateEqualParts } from '../mechanics/equalParts.mjs';
 
 const sameStringSet = (actual: string[], expected: string[]): boolean => {
   if (actual.length !== expected.length) return false;
@@ -127,6 +128,9 @@ function sequenceOrderScore(question: Question, actual: string[]): number {
 export function evaluate(question: Question, response: unknown): EvaluationResult {
   let score = 0;
 
+  if (question.solution.type === 'fraction_allocation' && question.interaction.type === 'equal_parts') {
+    score = evaluateEqualParts(question as EqualPartsQuestion, response).correct ? 1 : 0;
+  }
   if (question.solution.type === 'exact_option') {
     const payload = response as { selectedOptionIds?: unknown };
     const selected = Array.isArray(payload?.selectedOptionIds) ? payload.selectedOptionIds.filter((value): value is string => typeof value === 'string') : [];
@@ -191,12 +195,13 @@ export function evaluate(question: Question, response: unknown): EvaluationResul
 
   const correct = score === 1;
   const result = correct ? 'correct' : 'incorrect';
+  const evidenceEligible = question.evidencePolicy !== 'practice_only';
   return {
     correct,
     score,
     maxScore: 1,
     feedbackKey: correct ? 'correct' : 'incorrect',
-    masteryEvidence: question.conceptIds.map((conceptId) => ({ conceptId, result, weight: score })),
-    knowledgeEvidence: (question.knowledgeRefs ?? []).map((rowId) => ({ rowId, result, weight: score }))
+    masteryEvidence: evidenceEligible ? question.conceptIds.map((conceptId) => ({ conceptId, result, weight: score })) : [],
+    knowledgeEvidence: evidenceEligible ? (question.knowledgeRefs ?? []).map((rowId) => ({ rowId, result, weight: score })) : []
   };
 }

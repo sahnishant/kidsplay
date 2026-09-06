@@ -3,13 +3,25 @@ export interface SceneStimulus { type: 'scene'; sceneId: string; }
 export interface Feedback { correct: string; incorrect: string; }
 export interface AuthoringMetadata { status: 'draft' | 'reviewed'; source: string; compiledBy?: string; }
 
+export interface QuestionSemanticTarget {
+  schemaVersion: 1; kind: 'select_subject' | 'select_object';
+  claimRef: string; claimRevision: number; objectiveRef: string;
+  query: { predicate: string; subjectRef?: string; objectRef?: string; qualifiers: Record<string, string> };
+  optionNodeRefs: Record<string, string>; promptBinding: string; feedbackBinding: Feedback;
+  review: { status: 'editorial_candidate'; publishable: false };
+}
+
 export interface BaseQuestion {
+  /** Build-time semantic traceability; not a second runtime evaluator. */
+  semanticTarget?: QuestionSemanticTarget;
   id: string;
   revision: number;
   schemaVersion: 1;
   conceptIds: string[];
   /** Stable knowledge-row IDs this activity directly tests. */
   knowledgeRefs?: string[];
+  /** Guided studio practice is evaluable but cannot refresh mastery. Existing questions default to assessment. */
+  evidencePolicy?: 'practice_only';
   /** Legacy/manual descriptive metadata only. Curriculum placement belongs to learning profiles. */
   gradeBands?: number[];
   difficulty: number;
@@ -67,6 +79,25 @@ export interface DragTarget extends PresentableItem { symbol?: string; }
 export interface DragToTargetQuestion extends BaseQuestion {
   interaction: { type: 'drag_to_target'; version: 1; items: DragItem[]; targets: DragTarget[]; };
   solution: { type: 'target_assignment'; assignments: Record<string, string>; };
+}
+
+export interface EqualPartsCategory extends PresentableItem { symbol?: string; }
+export interface EqualPartsQuestion extends BaseQuestion {
+  interaction: {
+    type: 'equal_parts';
+    version: 1;
+    /** The unit whole is explicit; V1 does not compare different wholes. */
+    wholeLabel: string;
+    partCount: number;
+    /** All supported regions have equal area. Object collections are not a skin. */
+    representation: 'circle' | 'bar' | 'grid';
+    categories: EqualPartsCategory[];
+  };
+  solution: {
+    type: 'fraction_allocation';
+    /** Positive, representable rational quantities which together fill one whole. */
+    fractions: Record<string, { numerator: number; denominator: number }>;
+  };
 }
 
 export type WordSearchDirection = 'right' | 'left' | 'down' | 'up' | 'down_right' | 'down_left' | 'up_right' | 'up_left';
@@ -172,6 +203,7 @@ export type Question =
   | SingleChoiceQuestion
   | WordBankFillQuestion
   | DragToTargetQuestion
+  | EqualPartsQuestion
   | WordSearchQuestion
   | MemoryPairsQuestion
   | SequenceOrderQuestion

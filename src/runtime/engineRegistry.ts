@@ -1,6 +1,7 @@
 import type { Question } from '../contracts/question';
 import Crossword from '../engines/Crossword.svelte';
 import DragToTarget from '../engines/DragToTarget.svelte';
+import EqualParts from '../engines/LazyEqualParts.svelte';
 import Hotspot from '../engines/Hotspot.svelte';
 import MazePath from '../engines/MazePath.svelte';
 import MemoryPairs from '../engines/MemoryPairs.svelte';
@@ -18,6 +19,7 @@ const engines = new Map<string, EngineComponent>([
   ['single_choice@1', SingleChoice],
   ['word_bank_fill@1', WordBankFill],
   ['drag_to_target@1', DragToTarget],
+  ['equal_parts@1', EqualParts],
   ['word_search@1', WordSearch],
   ['memory_pairs@1', MemoryPairs],
   ['sequence_order@1', SequenceOrder],
@@ -31,6 +33,7 @@ const retryCapabilities = new Map<string, EngineRetryCapability>([
   ['single_choice@1', 'reset_for_retry'],
   ['word_bank_fill@1', 'reset_for_retry'],
   ['drag_to_target@1', 'reset_for_retry'],
+  ['equal_parts@1', 'reset_for_retry'],
   ['trace_path@1', 'reset_for_retry'],
   ['word_search@1', 'explanation_only'],
   ['memory_pairs@1', 'explanation_only'],

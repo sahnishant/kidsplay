@@ -2,7 +2,7 @@ name: Android Stories Offline
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, feat/reusable-learning-studios-v1]
   workflow_dispatch:
 
 jobs:

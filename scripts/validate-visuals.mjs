@@ -1,4 +1,5 @@
 import { readFileSync, readdirSync } from 'node:fs';
+import { validateStudioSceneBindings, bindStudioScene } from './visuals/studio-scene-bindings-core.mjs';
 
 const root = new URL('../', import.meta.url);
 const readJson = (path) => JSON.parse(readFileSync(new URL(path, root), 'utf8'));
@@ -13,12 +14,15 @@ const visuals = visualFiles.flatMap((file) => {
 const allowedRenderers = new Set([
   'scene-icon','entity-icon','utility-icon','nature-space-icon','everyday-icon','process-icon',
   'measurement-icon','material-property-icon','environmental-action-icon','soil-type-icon','animal-expansion-icon',
-  'concept-icon','curriculum-icon','learning-icon','property-icon','class2-concept-icon','class2-final-icon'
+  'concept-icon','curriculum-icon','learning-icon','property-icon','class2-concept-icon','class2-final-icon','studio-scene'
 ]);
-const allowedMotions = new Set(['idle','wag','swim','flap','hop','float','sway','pulse','blink','chomp','breathe','flex','drift','spin','flicker','wiggle']);
+const allowedMotions = new Set(['none','idle','wag','swim','flap','hop','float','sway','pulse','blink','chomp','breathe','flex','drift','spin','flicker','wiggle']);
 const visualIds = new Set();
 const aliasOwners = new Map();
 const semanticOwners = new Map();
+const studioVisuals = new Set();
+const studioSource = readFileSync(new URL('src/presentation/StudioScene.svelte', root), 'utf8');
+const studioGlyphs = new Set([...studioSource.matchAll(/icon\s*===\s*'([^']+)'/g)].map((match) => match[1]));
 const normalizeAlias = (value) => String(value ?? '').toLowerCase().replace(/[’']/g, '').replace(/[-_]+/g, ' ').replace(/[.,!?;:()]/g, ' ').replace(/\s+/g, ' ').trim();
 const registerSemanticOwner = (rawKey, visualId) => {
   const key = normalizeAlias(rawKey); if (!key) return;
@@ -36,6 +40,10 @@ for (const visual of visuals) {
   if (!visual.glyph || typeof visual.glyph !== 'string') errors.push(`${prefix}: glyph must be a non-empty string`);
   if (!visual.label || typeof visual.label !== 'string') errors.push(`${prefix}: label must be a non-empty string`);
   if (!Array.isArray(visual.aliases) || !visual.aliases.length) errors.push(`${prefix}: aliases must be a non-empty array`);
+  if (visual.renderer === 'studio-scene') {
+    studioVisuals.add(visual.id);
+    if (!visual.id.startsWith('visual.studio.') || visual.motion !== 'none' || visual.editorialStatus !== 'draft' || !studioGlyphs.has(visual.glyph) || !Array.isArray(visual.aliases) || visual.aliases.some((alias) => typeof alias !== 'string' || !alias.startsWith('studio illustration '))) errors.push(`${prefix}: studio artwork must be a namespaced, implemented, static-outer draft`);
+  }
   const isAnimationVariant = typeof visual.id === 'string' && visual.id.startsWith('animation.variant.');
   const hasAnimationIdentity = typeof visual.animationIdentityRef === 'string' && visual.animationIdentityRef.trim().length > 0;
   if (isAnimationVariant && !hasAnimationIdentity) errors.push(`${prefix}: animation variants must declare a non-empty animationIdentityRef`);
@@ -64,17 +72,33 @@ const presentableItems = (question) => {
   if (interaction.type === 'hotspot') return interaction.board?.regions ?? [];
   return [];
 };
+const questionById = new Map();
 for (const file of questionFiles) {
   const questions = readJson(`content/questions/${file}`); if (!Array.isArray(questions)) continue;
-  for (const question of questions) for (const item of presentableItems(question)) {
-    if (item.semanticRef !== undefined && (typeof item.semanticRef !== 'string' || !item.semanticRef.trim())) errors.push(`${question.id}/${item.id}: semanticRef must be a non-empty string when provided`);
-    if (item.visualRefs === undefined) continue;
-    if (!Array.isArray(item.visualRefs) || !item.visualRefs.length) { errors.push(`${question.id}/${item.id}: visualRefs must be a non-empty array when provided`); continue; }
-    for (const visualRef of item.visualRefs) {
-      if (typeof visualRef !== 'string') errors.push(`${question.id}/${item.id}: visualRef must be a string`);
-      else if (!visualIds.has(visualRef)) errors.push(`${question.id}/${item.id}: unknown visualRef ${visualRef}`);
+  for (const question of questions) {
+    questionById.set(question.id, question);
+    for (const item of presentableItems(question)) {
+      if (item.semanticRef !== undefined && (typeof item.semanticRef !== 'string' || !item.semanticRef.trim())) errors.push(`${question.id}/${item.id}: semanticRef must be a non-empty string when provided`);
+      if (item.visualRefs === undefined) continue;
+      if (!Array.isArray(item.visualRefs) || !item.visualRefs.length) { errors.push(`${question.id}/${item.id}: visualRefs must be a non-empty array when provided`); continue; }
+      for (const visualRef of item.visualRefs) {
+        if (typeof visualRef !== 'string') errors.push(`${question.id}/${item.id}: visualRef must be a string`);
+        else if (!visualIds.has(visualRef)) errors.push(`${question.id}/${item.id}: unknown visualRef ${visualRef}`);
+        else if (studioVisuals.has(visualRef) && (question.evidencePolicy !== 'practice_only' || question.authoring?.status !== 'draft' || question.interaction.type !== 'sequence_order')) errors.push(`${question.id}/${item.id}: candidate studio artwork cannot enter assessment`);
+      }
     }
   }
 }
+try {
+  const bindings = validateStudioSceneBindings(readJson('content/experience/studio-scene-bindings.json'), visuals);
+  const used = new Set();
+  for (const binding of bindings) {
+    const question = questionById.get(binding.questionId);
+    const decorated = bindStudioScene(question, binding);
+    if (JSON.stringify(decorated) !== JSON.stringify(question)) errors.push(`${binding.questionId}: illustration binding was not compiled`);
+    for (const item of Object.values(binding.items)) used.add(item.visualRef);
+  }
+  for (const id of studioVisuals) if (!used.has(id)) errors.push(`${id}: unreachable studio illustration`);
+} catch (error) { errors.push(error.message); }
 if (errors.length) { console.error('Visual validation failed:'); for (const error of errors) console.error(`- ${error}`); process.exit(1); }
-console.log(`Visual validation passed (${visualIds.size} entities, ${aliasOwners.size} aliases, ${semanticOwners.size} semantic keys).`);
+console.log(`Visual validation passed (${visualIds.size} entities, ${aliasOwners.size} aliases, ${semanticOwners.size} semantic keys; ${studioVisuals.size} source-bound draft studio illustrations).`);

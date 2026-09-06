@@ -46,7 +46,18 @@
       "claim.lexeme.brake-verb.denotes.bicycle-slowing": "chapter_core",
       "claim.lexeme.handlebar.denotes.bicycle-handlebar": "chapter_core",
       "claim.lexeme.tyre.denotes.bicycle-tyre": "chapter_core",
-      "claim.lexeme.bell.denotes.bicycle-bell": "chapter_core"
+      "claim.lexeme.bell.denotes.bicycle-bell": "chapter_core",
+      "claim.bicycle.pedal.operated-by.rider-foot": "chapter_supporting",
+      "claim.bicycle.wheel.helps-enable.rolling": "chapter_supporting",
+      "claim.bicycle.has-property.two-wheels": "chapter_supporting",
+      "claim.bicycle.has-property.human-power": "chapter_supporting",
+      "claim.bicycle.carrier.used-for.carrying": "chapter_supporting",
+      "claim.bicycle.handlebar.controls.direction": "chapter_supporting",
+      "claim.bicycle.brake.used-for.slowing": "chapter_supporting",
+      "claim.bicycle.tyre.covers.wheel": "chapter_supporting",
+      "claim.bicycle.bell.used-for.signalling": "chapter_supporting",
+      "claim.bicycle.light.helps-enable.visibility": "enrichment",
+      "claim.bicycle.reflector.helps-enable.visibility": "enrichment"
     },
     "chapterContextOverlayRef": "assessment.ncert.2026-27.class2.english.mridang.my-bicycle.v1",
     "chapterContextOverlayRuntimeEnabled": false,
@@ -143,12 +154,14 @@
     "strictNoHintExamMode": "not_claimed",
     "deterministicMembership": true,
     "runtimeCloudGeneration": false,
-    "recordsCanonicalEvidence": true
+    "recordsCanonicalEvidence": true,
+    "candidateSemanticTargets": "practice_only_no_mastery"
   },
   "reviewGates": {
     "childWording": "required",
     "linguistic": "required",
     "visual": "required",
-    "examBlueprint": "required"
+    "examBlueprint": "required",
+    "semanticTargets": "required_candidate_functions_and_scope_placement"
   }
 }

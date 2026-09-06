@@ -1,0 +1,34 @@
+[
+  {
+    "id":"fractions.studio.three-friends.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Share this paper equally between Dheu, Scientu and Shaitanu. Choose where their parts go."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One paper rectangle","partCount":6,"representation":"grid","categories":[{"id":"dheu","label":"Dheu","symbol":"D"},{"id":"scientu","label":"Scientu","symbol":"Sc"},{"id":"shaitanu","label":"Shaitanu","symbol":"Sh"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"dheu":{"numerator":1,"denominator":3},"scientu":{"numerator":1,"denominator":3},"shaitanu":{"numerator":1,"denominator":3}}},
+    "feedback":{"correct":"Each friend has the same amount: one of 3 equal shares. Their parts can be in different places.","incorrect":"Keep your paper. Count how many equal parts each friend has."},
+    "authoring":{"status":"draft","source":"kidsplay-studio-reuse-264-original-mathematics"}
+  },
+  {
+    "id":"fractions.studio.four-friends.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Share this paper equally between you and the three friends. Choose where each share goes."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One paper rectangle","partCount":8,"representation":"grid","categories":[{"id":"dheu","label":"Dheu","symbol":"D"},{"id":"scientu","label":"Scientu","symbol":"Sc"},{"id":"shaitanu","label":"Shaitanu","symbol":"Sh"},{"id":"you","label":"You","symbol":"Y"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"dheu":{"numerator":1,"denominator":4},"scientu":{"numerator":1,"denominator":4},"shaitanu":{"numerator":1,"denominator":4},"you":{"numerator":1,"denominator":4}}},
+    "feedback":{"correct":"Each friend has the same amount: one of 4 equal shares. Their parts can be in different places.","incorrect":"Keep your paper. Count how many equal parts each friend has."},
+    "authoring":{"status":"draft","source":"kidsplay-studio-reuse-264-original-mathematics"}
+  },
+  {
+    "id":"fractions.studio.half-six.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Make one half gold and one half teal. This rectangle has 6 equal parts."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One rectangle","partCount":6,"representation":"grid","categories":[{"id":"gold","label":"Gold","symbol":"G"},{"id":"teal","label":"Teal","symbol":"T"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"gold":{"numerator":1,"denominator":2},"teal":{"numerator":1,"denominator":2}}},
+    "feedback":{"correct":"3 of 6 equal parts make one half of this rectangle. Different positions can show the same amount.","incorrect":"Keep your rectangle. Give each colour the same number of equal parts."},
+    "authoring":{"status":"draft","source":"kidsplay-studio-reuse-264-original-mathematics"}
+  },
+  {
+    "id":"fractions.studio.half-eight.001","revision":1,"schemaVersion":1,"conceptIds":["math.fractions.equal-part-allocation"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Make one half gold and one half teal. This rectangle has 8 equal parts."},
+    "interaction":{"type":"equal_parts","version":1,"wholeLabel":"One rectangle","partCount":8,"representation":"grid","categories":[{"id":"gold","label":"Gold","symbol":"G"},{"id":"teal","label":"Teal","symbol":"T"}]},
+    "solution":{"type":"fraction_allocation","fractions":{"gold":{"numerator":1,"denominator":2},"teal":{"numerator":1,"denominator":2}}},
+    "feedback":{"correct":"4 of 8 equal parts make one half of this rectangle. Different positions can show the same amount.","incorrect":"Keep your rectangle. Give each colour the same number of equal parts."},
+    "authoring":{"status":"draft","source":"kidsplay-studio-reuse-264-original-mathematics"}
+  }
+]

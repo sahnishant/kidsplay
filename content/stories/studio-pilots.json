@@ -1,0 +1,20 @@
+[
+  {
+    "schemaVersion": 1,
+    "storyId": "story.studio.fire-station-visit",
+    "childTitle": "Dheu visits the fire station",
+    "seriesId": "stories.dheu-friends",
+    "editorialStatus": "draft",
+    "lexicalProfileRef": "lexical.story.frequency-band-1",
+    "durationBand": "tiny_tale",
+    "supportedModes": ["read_to_me", "read_together"],
+    "beats": [
+      { "beatId": "visit.arrive", "text": "Dheu and a grown-up arrive for a planned fire-station visit.", "characterIds": ["dheu"] },
+      { "beatId": "visit.look", "text": "A firefighter shows them a parked fire engine.", "characterIds": ["dheu"] },
+      { "beatId": "visit.draw", "text": "Dheu draws the fire engine in her notebook.", "characterIds": ["dheu"] },
+      { "beatId": "visit.leave", "text": "Dheu says thank you and leaves with the grown-up.", "characterIds": ["dheu"] }
+    ],
+    "assessmentPolicy": "none",
+    "masteryWritesAllowed": false
+  }
+]

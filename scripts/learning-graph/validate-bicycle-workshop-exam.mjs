@@ -52,6 +52,10 @@ export function validateBicycleWorkshopExam() {
       const question = questionById.get(ref);
       invariant(question, `${form.id}: unknown question ${ref}`);
       invariant(question.authoring?.source === 'kidsplay-independent-curriculum-companion', `${form.id}/${ref}: non-independent authoring source`);
+      if (question.semanticTarget) {
+        invariant(question.evidencePolicy === 'practice_only', `${form.id}/${ref}: candidate semantic target cannot grant mastery`);
+        invariant(question.semanticTarget.review?.publishable === false, `${form.id}/${ref}: candidate target needs human review`);
+      }
       for (const rowId of question.knowledgeRefs ?? []) {
         invariant(projectionById.has(rowId), `${form.id}/${ref}: unresolved knowledgeRef ${rowId}`);
         const scope = claimScopes[rowId];
