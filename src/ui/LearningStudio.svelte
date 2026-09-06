@@ -1,6 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import type { EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
+  import type { DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
   import EngineHost from './EngineHost.svelte';
   import FractionDemonstration from './FractionDemonstration.svelte';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
@@ -19,6 +19,7 @@
   let question = $state<StudioQuestion | null>(null);
   let fractionQuestion = $derived(question?.interaction.type === 'equal_parts' ? question as EqualPartsQuestion : null);
   let sequenceQuestion = $derived(question?.interaction.type === 'sequence_order' ? question as SequenceOrderQuestion : null);
+  let matchingQuestion = $derived(question?.interaction.type === 'drag_to_target' ? question as DragToTargetQuestion : null);
   let storySequence = $derived(question?.authoring.compiledBy === 'story-manifest->sequence_order@1');
   let loadError = $state('');
   let mode = $state<StudioLearningState['mode']>('explore');
@@ -35,7 +36,12 @@
   let restoreNotice = $state('');
   let saveAllowed = $state(true);
   let awaitingInitialState = true;
-  let demonstrationLength = $derived(fractionQuestion?.interaction.categories.length ?? sequenceQuestion?.interaction.items.length ?? 1);
+  let demonstrationLength = $derived(
+    fractionQuestion?.interaction.categories.length
+    ?? sequenceQuestion?.interaction.items.length
+    ?? matchingQuestion?.interaction.items.length
+    ?? 1
+  );
 
   $effect(() => {
     const id = activityId;
@@ -125,6 +131,14 @@
     persist();
   }
   function describeResponse(source: StudioQuestion, response: unknown): string {
+    if (source.interaction.type === 'drag_to_target') {
+      const result = evaluate(source, response);
+      if (result.correct) return 'All of your pairs match.';
+      const actual = (response as { assignments: Record<string, string> }).assignments;
+      const expected = source.solution.assignments;
+      const correct = Object.entries(expected).filter(([itemId, targetId]) => actual[itemId] === targetId).length;
+      return `${correct} of ${Object.keys(expected).length} pairs match. Keep your work and adjust the others.`;
+    }
     if (source.interaction.type !== 'equal_parts') return evaluate(source, response).correct ? source.feedback.correct : source.feedback.incorrect;
     const diagnostic = evaluateEqualParts(source as EqualPartsQuestion, response);
     if (diagnostic.correct) return 'Your amounts match. A different arrangement can work too.';
@@ -142,6 +156,8 @@
         previewOrder = (response as { orderedItemIds: string[] }).orderedItemIds.slice();
         stepIndex = 0;
         feedback = 'This is your order. Look at one card at a time, or keep rearranging.';
+      } else if (question.interaction.type === 'drag_to_target') {
+        feedback = 'Look at your pairs. You can change any match before you practise.';
       } else feedback = 'Notice how the amounts change when you change a part.';
     } else {
       feedback = describeResponse(question, response);
@@ -184,7 +200,7 @@
     {/if}
     <div class="studio__body">
       {#if restoreNotice}<p role="alert">{restoreNotice}</p>{/if}
-      {#if sequenceQuestion || mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
+      {#if sequenceQuestion || matchingQuestion || mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
       {#if mode === 'watch' && fractionQuestion}
         <FractionDemonstration question={fractionQuestion} step={stepIndex} />
         <div class="studio__controls">
@@ -192,6 +208,22 @@
           <button type="button" disabled={stepIndex === demonstrationLength - 1} onclick={() => changeStep(stepIndex + 1)}>Next step</button>
         </div>
         <button type="button" onclick={() => changeMode('explore')}>Make my own version</button>
+      {:else if mode === 'watch' && matchingQuestion}
+        {@const matchItem = matchingQuestion.interaction.items[stepIndex]}
+        {@const matchTargetId = matchingQuestion.solution.assignments[matchItem.id]}
+        {@const matchTarget = matchingQuestion.interaction.targets.find((candidate) => candidate.id === matchTargetId)!}
+        <p>Look at one relationship at a time. Your own unfinished matches stay saved.</p>
+        <article class="studio__match-demo" aria-live="polite">
+          <small>PAIR {stepIndex + 1} OF {matchingQuestion.interaction.items.length}</small>
+          <div class="studio__match-side"><span aria-hidden="true">{matchItem.symbol ?? '●'}</span><strong>{matchItem.label}</strong></div>
+          <b aria-hidden="true">→</b>
+          <div class="studio__match-side"><span aria-hidden="true">{matchTarget.symbol ?? '◆'}</span><strong>{matchTarget.label}</strong></div>
+        </article>
+        <div class="studio__controls">
+          <button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous pair</button>
+          <button type="button" disabled={stepIndex === matchingQuestion.interaction.items.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next pair</button>
+        </div>
+        <button type="button" onclick={() => changeMode('explore')}>Return to my matches</button>
       {:else if mode === 'watch' && sequenceQuestion}
         {@const ids = sequenceQuestion.solution.orderedItemIds}
         {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === ids[stepIndex])!}
@@ -248,6 +280,7 @@
   .studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__controls button{flex:1}
   .studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:700;font-size:.94rem}
   .studio__step{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;box-shadow:0 2px 0 #e1e7d8}.studio__step strong{font-size:1.05rem;line-height:1.4}
+  .studio__match-demo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;padding:12px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef}.studio__match-demo small{grid-column:1/-1}.studio__match-side{display:grid;place-items:center;gap:5px;text-align:center;min-width:0}.studio__match-side span{font-size:1.9rem}.studio__match-side strong{overflow-wrap:anywhere;line-height:1.25}
   .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}
   /* Reserve normal-flow height independently of percentage-sized lazy children. */
   .studio__illustration--wide{position:relative;width:320px;max-width:100%;height:auto;padding:0}
@@ -256,7 +289,8 @@
   .studio__illustration :global(.visual-entity){display:block}
   .studio__feedback{flex:none;max-height:32dvh;overflow:auto;padding:3px 8px 8px;background:#f0f4e8;border-radius:12px;border:1px solid #d4dfcc}
   .studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid #ccd6c7;border-radius:12px}
-  :global(.studio [inert] :is(.letter-order__tile,.sequence-order__item,.parts button,.categories button)){opacity:1;color:var(--ink,#24303a)}
+  :global(.studio [inert] :is(.letter-order__tile,.sequence-order__item,.parts button,.categories button,.drag-item,.drop-target)){opacity:1;color:var(--ink,#24303a)}
+  @media(max-width:420px){.studio__match-demo{grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);padding:9px}.studio__match-side span{font-size:1.6rem}}
   @media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
   @media(forced-colors:active){.studio button[aria-pressed=true]{outline:2px solid Highlight}}
 </style>
