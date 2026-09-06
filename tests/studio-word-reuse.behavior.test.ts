@@ -19,7 +19,8 @@ describe('#264 Bicycle word reconstruction using sequence_order', () => {
     expect(question.id).toBe(`${source.id}.letters.${term}.v1`);
     expect(question.revision).toBe(source.revision);
     expect(question.conceptIds).toEqual([`english.vocabulary.${term}`]);
-    expect(source.knowledgeRefs).toContain(activity.source.wordProjection!.knowledgeRef);
+    expect(source.supportingKnowledgeRefs).toContain(activity.source.wordProjection!.knowledgeRef);
+    expect(source.knowledgeRefs).toBeUndefined(); // Denotation is context only on the source word-search.
     expect(question.knowledgeRefs).toEqual([]); // Copying a word does not assess its denotation.
     expect(question.evidencePolicy).toBe('practice_only');
     expect(question.authoring?.status).toBe('draft');

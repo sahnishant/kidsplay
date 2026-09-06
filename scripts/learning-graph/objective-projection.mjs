@@ -8,9 +8,9 @@ const text = (value) => typeof value === 'string' && value.trim().length > 0;
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const unique = (values, label) => { must(Array.isArray(values) && new Set(values).size === values.length, `${label}: expected unique array`); return values; };
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
-export function loadObjectiveSystem(root = ROOT) {
+export function loadObjectiveSystem(root = ROOT, modulePath) {
   const read = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
-  const graph = loadCanonicalGraph({ root });
+  const graph = loadCanonicalGraph({ root, ...(modulePath ? { modulePath } : {}) });
   must(graph.objectiveFile && graph.capabilityFile && graph.placementFile, 'Graph must bind its canonical objectives, capabilities and placements');
   return { graph, objectives: read(graph.objectiveFile).objectives,
     capabilities: read(graph.capabilityFile).capabilities,

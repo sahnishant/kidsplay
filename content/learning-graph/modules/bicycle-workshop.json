@@ -149,5 +149,7 @@
     "objective.capability.english.reading.simple-inference"
   ],
   "assessmentTargetFile": "content/learning-graph/assessments/bicycle-workshop-targets.json",
-  "semanticMigrationRef": "learning-graph.003-semantic-traceability"
+  "semanticMigrationRef": "learning-graph.003-semantic-traceability",
+  "questionEvidenceFile": "content/learning-graph/assessments/bicycle-workshop-evidence.json",
+  "evidenceMigrationRef": "learning-graph.005-question-evidence-completeness"
 }
