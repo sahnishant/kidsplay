@@ -10,9 +10,11 @@ const budgets = {
   maxSingleJsGzipBytes: 140 * 1024,
   // Sixteen source-bound states and picture-card teaching: cdcd4f1 measures
   // 854.0 KiB installed. Explicit +32 KiB feature allowance over 832 KiB.
+  // Quiet Creek visual rescue adds a bounded +3 KiB raw-JS allowance for spatial
+  // placement/touch handling on the already-lazy Forest mission route.
   // The explicit drivetrain demonstration is a bounded nested lazy surface: +8 KiB raw.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 8) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 8) * 1024,
   // Lazy artwork is measured separately; +1 KiB admits its registry/loader.
   maxCoreJsGzipBytes: (162 + 4 + 1) * 1024,
   maxCoreCssBytes: 100 * 1024
@@ -28,7 +30,11 @@ const lazyRouteBudgets = [
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
-  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 3 * 1024 },
+  // Quiet Creek was deliberately rebuilt from a text/status-card screen into one
+  // persistent illustrated world. This is a reviewed route-local allowance for the
+  // spatial bridge/channel targets, tactile piece tray and visible cause/effect states;
+  // the route remains lazy and core CSS/JS budgets are unchanged.
+  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 12 * 1024 },
   { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 4 * 1024 },
   { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },

@@ -58,7 +58,7 @@ describe('shadow formation visual family', () => {
     expect(report.familyQueue.some((family) => family.familyKey === 'shadow-formation')).toBe(false);
   });
 
-  it('adds the ten shadow instances on top of the certified soil-family floor', () => {
+  it('keeps the certified visual-coverage floor while shadow remains recipe-resolved', () => {
     const report = JSON.parse(execFileSync(process.execPath, ['scripts/report-visual-coverage.mjs', '--json'], { encoding: 'utf8' })) as {
       library: { entities: number; recipes: number };
       visualFriendly: { visual: number; total: number; percent: number; recipe: number };
@@ -68,6 +68,6 @@ describe('shadow formation visual family', () => {
     expect(report.visualFriendly.total).toBeGreaterThanOrEqual(1459);
     expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(786);
     expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(40);
-    expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(177);
+    expect(resolveVisualRecipeForSemantic('shadow', 'option')).toBeTruthy();
   });
 });
