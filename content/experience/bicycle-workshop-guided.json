@@ -128,18 +128,29 @@
       "animationRef": "animation.bicycle-workshop.motion",
       "visualLabel": "A slow inspectable pedal, crank, chain and back-wheel demonstration",
       "storyLead": "This is an extra look inside the machine. These inner-part words explain what happens; they are not a word list you have to memorise.",
-      "lookPrompt": "Press Play. Watch one thing begin moving, then the next.",
+      "lookPrompt": "First find the pedal where the foot pushes. Then find the crank arm attached to it.",
       "beats": [
         {
           "id": "movement-chain",
-          "label": "WATCH THE MOTION TRAVEL",
-          "text": "The movement travels through connected parts. Pause the demonstration anywhere and follow the path.",
+          "label": "MAKE IT GO",
+          "text": "Push the pedal with your foot. The pedal is attached to the crank arm, so the crank turns. Then follow the chain to the back wheel.",
           "sequence": ["Foot pushes pedal", "Crank turns", "Chain moves", "Back wheel turns", "Bicycle moves"],
           "claimRefs": [
             "claim.push-pedals.contributes-to.crank-turns",
             "claim.crank-turns.contributes-to.chain-moves",
             "claim.chain-moves.contributes-to.rear-wheel-turns",
             "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+          ]
+        },
+        {
+          "id": "braking-chain",
+          "label": "MAKE IT SLOW",
+          "text": "Squeeze the brake lever with your hand. Watch the brake act on the wheel so the bicycle slows.",
+          "sequence": ["Squeeze brake lever", "Brake engages", "Bicycle slows"],
+          "claimRefs": [
+            "claim.squeeze-brake-lever.contributes-to.brake-engages",
+            "claim.brake-engages.contributes-to.bicycle-slowing",
+            "claim.bicycle.brake.used-for.slowing"
           ]
         },
         {
@@ -153,8 +164,8 @@
           ]
         }
       ],
-      "remember": "The inner motion is an explanation to watch and understand, not a list to memorise.",
-      "childPrompt": "Replay it slowly. Can you point to the part that moves after the pedal?"
+      "remember": "Foot pushes pedal. Pedal turns with the crank. Crank moves the chain. The chain turns the back wheel. Braking follows a separate lever-to-brake path.",
+      "childPrompt": "Advance the GO steps one by one. Then open MAKE IT SLOW and follow the brake path."
     },
     {
       "id": "sounds",
