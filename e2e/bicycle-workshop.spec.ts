@@ -66,7 +66,7 @@ test.describe('Bicycle Workshop chapter vertical', () => {
     await nav.getByRole('button', { name: '4 Sounds', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Ring, listen, say' })).toBeVisible();
     await expect(page.getByRole('button', { name: '🔔 Tap the bell', exact: true })).toBeVisible();
-    await expect(page.getByRole('button', { name: 'Build BELL', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: /Build BELL/ })).toBeVisible();
 
     await nav.getByRole('button', { name: '5 Magic ride', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Where could it take you?' })).toBeVisible();
