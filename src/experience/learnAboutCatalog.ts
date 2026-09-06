@@ -64,19 +64,80 @@ export const FRACTIONS_LEARN_ABOUT_TOPIC = {
   ]
 } as const satisfies LearnAboutTopic;
 
-/** A new topic home for an existing canonical process, not a new plant-fact bank. */
+/** A topic home for reviewed plant sources and existing process activities, not another plant-fact bank. */
 export const PLANTS_LEARN_ABOUT_TOPIC = {
   schemaVersion: 1,
   topicId: 'learn.plants',
   childTitle: 'Plants',
-  archetype: 'how_it_works',
+  archetype: 'nature_system',
   rootConceptRefs: ['sof3.plants.germination'],
   sections: [
-    { sectionId: 'plants.seed-growth', childTitle: 'A seed begins to grow', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
+    { sectionId: 'plants.seed-growth', childTitle: 'A seed begins to grow', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'plants.parts', childTitle: 'Plant parts & jobs', knowledgeRefs: [], depthBands: ['d1_preschool', 'd2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'plants.uses', childTitle: 'Useful plants', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
   ]
 } as const satisfies LearnAboutTopic;
 
-export const LEARN_ABOUT_TOPICS: readonly LearnAboutTopic[] = [EARTH_LEARN_ABOUT_TOPIC, LION_LEARN_ABOUT_TOPIC, FIRE_STATION_LEARN_ABOUT_TOPIC, FRACTIONS_LEARN_ABOUT_TOPIC, PLANTS_LEARN_ABOUT_TOPIC];
+/** These navigation homes contain no new truth: each guided match reuses a reviewed source question. */
+export const HUMAN_BODY_LEARN_ABOUT_TOPIC = {
+  schemaVersion: 1,
+  topicId: 'learn.human-body',
+  childTitle: 'Human Body',
+  archetype: 'body_system',
+  rootConceptRefs: ['human.senses.eyes'],
+  sections: [
+    { sectionId: 'human.senses', childTitle: 'Sense organs', knowledgeRefs: [], depthBands: ['d1_preschool', 'd2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'human.organs', childTitle: 'Body parts & jobs', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
+  ]
+} as const satisfies LearnAboutTopic;
+
+export const FOOD_LEARN_ABOUT_TOPIC = {
+  schemaVersion: 1,
+  topicId: 'learn.food',
+  childTitle: 'Food',
+  archetype: 'how_it_works',
+  rootConceptRefs: ['food.sources.milk'],
+  sections: [
+    { sectionId: 'food.sources', childTitle: 'Where food comes from', knowledgeRefs: [], depthBands: ['d1_preschool', 'd2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'food.habits', childTitle: 'Food habits', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
+  ]
+} as const satisfies LearnAboutTopic;
+
+export const HOMES_CLOTHES_LEARN_ABOUT_TOPIC = {
+  schemaVersion: 1,
+  topicId: 'learn.homes-clothes',
+  childTitle: 'Homes & Clothes',
+  archetype: 'how_it_works',
+  rootConceptRefs: ['housing.types.igloo'],
+  sections: [
+    { sectionId: 'housing.types', childTitle: 'Different homes', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'clothing.weather', childTitle: 'Clothes for weather', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
+  ]
+} as const satisfies LearnAboutTopic;
+
+export const HEALTHY_SAFE_LEARN_ABOUT_TOPIC = {
+  schemaVersion: 1,
+  topicId: 'learn.healthy-safe',
+  childTitle: 'Healthy & Safe',
+  archetype: 'how_it_works',
+  rootConceptRefs: ['habits.daily.brush-teeth'],
+  sections: [
+    { sectionId: 'habits.daily', childTitle: 'Healthy habits', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] },
+    { sectionId: 'safety.rules', childTitle: 'Everyday safety', knowledgeRefs: [], depthBands: ['d2_early_primary', 'd3_deeper_primary'], recipeFamilies: ['explore'] }
+  ]
+} as const satisfies LearnAboutTopic;
+
+export const LEARN_ABOUT_TOPICS: readonly LearnAboutTopic[] = [
+  EARTH_LEARN_ABOUT_TOPIC,
+  LION_LEARN_ABOUT_TOPIC,
+  FIRE_STATION_LEARN_ABOUT_TOPIC,
+  FRACTIONS_LEARN_ABOUT_TOPIC,
+  PLANTS_LEARN_ABOUT_TOPIC,
+  HUMAN_BODY_LEARN_ABOUT_TOPIC,
+  FOOD_LEARN_ABOUT_TOPIC,
+  HOMES_CLOTHES_LEARN_ABOUT_TOPIC,
+  HEALTHY_SAFE_LEARN_ABOUT_TOPIC
+];
 
 export function getLearnAboutTopic(topicId: string): LearnAboutTopic | undefined {
   return LEARN_ABOUT_TOPICS.find((topic) => topic.topicId === topicId);
