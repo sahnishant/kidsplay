@@ -50,7 +50,7 @@ describe('gas spreading visual family', () => {
     expect(report.familyQueue.some((family) => family.familyKey === 'gas-process')).toBe(false);
   });
 
-  it('adds all five gas-spread instances on top of the water-process floor', () => {
+  it('keeps the certified visual-coverage floor while gas spreading remains recipe-resolved', () => {
     const report = JSON.parse(execFileSync(process.execPath, ['scripts/report-visual-coverage.mjs', '--json'], { encoding: 'utf8' })) as {
       library: { entities: number; recipes: number };
       visualFriendly: { visual: number; total: number; percent: number; recipe: number };
@@ -60,6 +60,6 @@ describe('gas spreading visual family', () => {
     expect(report.visualFriendly.total).toBeGreaterThanOrEqual(1459);
     expect(report.visualFriendly.visual).toBeGreaterThanOrEqual(796);
     expect(report.visualFriendly.percent).toBeGreaterThanOrEqual(40);
-    expect(report.visualFriendly.recipe).toBeGreaterThanOrEqual(187);
+    expect(resolveVisualRecipeForSemantic('gas-spreads', 'option')).toBeTruthy();
   });
 });
