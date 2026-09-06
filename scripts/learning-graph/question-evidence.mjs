@@ -9,7 +9,9 @@ const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const must = (condition, message) => { if (!condition) throw new Error(message); };
 const sameSet = (left, right) => {
   if (!Array.isArray(left) || !Array.isArray(right) || left.length !== right.length) return false;
-  return [...left].sort().every((value, index) => value === [...right].sort()[index]);
+  const a = [...left].sort();
+  const b = [...right].sort();
+  return a.every((value, index) => value === b[index]);
 };
 const same = (left, right) => JSON.stringify(left) === JSON.stringify(right);
 const unique = (values, label) => {
@@ -17,8 +19,9 @@ const unique = (values, label) => {
   return values;
 };
 
-function readQuestions(root) {
-  const directory = resolve(root, 'content/curriculum-runtime/bicycle-workshop/questions');
+function readQuestions(root, directoryPath) {
+  must(typeof directoryPath === 'string' && directoryPath.startsWith('content/') && !directoryPath.includes('..'), 'Question evidence policy requires a repository-local content questionDirectory');
+  const directory = resolve(root, directoryPath);
   return readdirSync(directory)
     .filter((name) => name.endsWith('.json'))
     .sort()
@@ -33,13 +36,13 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
   const graph = system.graph;
   must(typeof graph.questionEvidenceFile === 'string' && graph.questionEvidenceFile, 'Graph must register a question evidence policy');
   const policy = JSON.parse(readFileSync(resolve(root, graph.questionEvidenceFile), 'utf8'));
-  must(policy.schemaVersion === 1 && policy.policyId === 'question-evidence.bicycle-workshop.v1', 'Unsupported Bicycle Workshop question evidence policy');
+  must(policy.schemaVersion === 1 && typeof policy.policyId === 'string' && policy.policyId, 'Unsupported question evidence policy');
   must(policy.moduleRef === graph.runtimeCompanionRef, 'Question evidence policy/module mismatch');
   must(policy.review?.status === 'editorial_candidate' && policy.review?.publishable === false, 'Question evidence migration cannot imply human approval');
   must(policy.rules?.naturalLanguageEntailmentCertified === false, 'Natural-language entailment cannot be silently certified');
   must(policy.rules?.supportingKnowledgeNeverRecordsEvidence === true, 'Supporting knowledge must remain non-evidentiary');
 
-  const questions = readQuestions(root);
+  const questions = readQuestions(root, policy.questionDirectory);
   const questionById = indexRecords(questions, 'question');
   const objectives = indexRecords(system.objectives, 'objective');
   const claims = indexRecords(graph.claims, 'claim');
@@ -55,10 +58,16 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
   }
 
   unique(policy.questionRefs, policy.policyId);
-  must(sameSet(policy.questionRefs, [...questionById.keys()]), 'Question evidence policy must cover every Bicycle Workshop question exactly once');
+  must(sameSet(policy.questionRefs, [...questionById.keys()]), 'Question evidence policy must cover every configured question exactly once');
   const strongRefs = new Set(unique(policy.strongSemanticTargetRefs, 'strongSemanticTargetRefs'));
   const practiceOnlyRefs = new Set(unique(policy.practiceOnlyQuestionRefs, 'practiceOnlyQuestionRefs'));
   const capabilityOnlyRefs = new Set(unique(policy.capabilityOnlyQuestionRefs, 'capabilityOnlyQuestionRefs'));
+  const knowledgeForbiddenRefs = new Set(unique(policy.knowledgeEvidenceForbiddenQuestionRefs, 'knowledgeEvidenceForbiddenQuestionRefs'));
+  const practiceOnlyInteractionTypes = new Set(unique(policy.practiceOnlyInteractionTypes, 'practiceOnlyInteractionTypes'));
+
+  for (const ref of [...strongRefs, ...practiceOnlyRefs, ...capabilityOnlyRefs, ...knowledgeForbiddenRefs]) {
+    must(questionById.has(ref), `${policy.policyId}: unknown question ref ${ref}`);
+  }
 
   const embeddedSemanticRefs = questions.filter((question) => question.semanticTarget).map((question) => question.id);
   must(sameSet([...strongRefs], embeddedSemanticRefs), 'Strong semantic target registry must exactly match embedded semantic targets');
@@ -92,11 +101,11 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
     }
     if (!practiceOnly && knowledgeRefs.length > 0) claimEvidenceQuestionCount += 1;
 
-    if (question.id.startsWith('bicycle.workshop.reading.')) {
-      must(knowledgeRefs.length === 0, `${question.id}: reading comprehension cannot grant supporting bicycle-fact mastery`);
+    if (knowledgeForbiddenRefs.has(question.id)) {
+      must(knowledgeRefs.length === 0, `${question.id}: policy forbids knowledge mastery evidence`);
     }
-    if (question.interaction?.type === 'word_search') {
-      must(practiceOnly && knowledgeRefs.length === 0, `${question.id}: finding spellings cannot grant lexical-meaning mastery`);
+    if (practiceOnlyInteractionTypes.has(question.interaction?.type)) {
+      must(practiceOnly && knowledgeRefs.length === 0, `${question.id}: ${question.interaction.type} must remain practice-only with no knowledge evidence`);
     }
 
     if (capabilityOnlyRefs.has(question.id)) {
@@ -113,7 +122,7 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
   for (const [questionId, refs] of supportingEntries) {
     const question = questionById.get(questionId);
     must(question, `Supporting knowledge points to unknown question ${questionId}`);
-    must(question.id.startsWith('bicycle.workshop.reading.'), `${questionId}: supporting-only policy is reserved for non-knowledge reading evidence in this module`);
+    must(knowledgeForbiddenRefs.has(questionId), `${questionId}: supporting-only knowledge requires an explicit no-knowledge-evidence question policy`);
     must((question.knowledgeRefs ?? []).length === 0, `${questionId}: supporting knowledge leaked into evidence refs`);
     for (const ref of unique(refs, `${questionId}.supportingKnowledge`)) {
       const claim = claims.get(ref);
@@ -131,10 +140,14 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
     must(same(question.knowledgeRefs ?? [], process.orderedEdgeRefs), `${questionId}: sequence evidence must exactly match canonical process order`);
   }
 
-  must(policy.rules.readingKnowledgeEvidence === 'forbidden', 'Reading knowledge-evidence rule weakened');
-  must(policy.rules.wordSearchEvidence === 'practice_only', 'Word-search evidence rule weakened');
   must(policy.rules.knowledgeRefsMustBeCanonical === true, 'Canonical knowledge-ref rule weakened');
   must(policy.rules.evidenceEligibleKnowledgeMustMatchQuestionObjectives === true, 'Objective/evidence compatibility rule weakened');
+  must(policy.rules.knowledgeEvidenceForbiddenRefsRequired === true, 'Explicit no-knowledge-evidence registry rule weakened');
+  must(policy.rules.practiceOnlyInteractionTypesRequired === true, 'Practice-only interaction registry rule weakened');
+
+  const practiceOnlyInteractionCoverage = questions
+    .filter((question) => practiceOnlyInteractionTypes.has(question.interaction?.type))
+    .every((question) => question.evidencePolicy === 'practice_only' && !(question.knowledgeRefs?.length));
 
   return {
     policyId: policy.policyId,
@@ -146,7 +159,9 @@ export function validateQuestionEvidencePolicy({ root = ROOT } = {}) {
     claimEvidenceQuestionCount,
     processQuestionCount: processEntries.length,
     supportingKnowledgeQuestionCount: supportingEntries.length,
-    wordSearchPracticeOnly: questions.filter((question) => question.interaction?.type === 'word_search').every((question) => question.evidencePolicy === 'practice_only' && !(question.knowledgeRefs?.length)),
+    knowledgeEvidenceForbiddenCount: knowledgeForbiddenRefs.size,
+    practiceOnlyInteractionTypeCount: practiceOnlyInteractionTypes.size,
+    practiceOnlyInteractionCoverage,
     naturalLanguageEntailmentCertified: false
   };
 }
