@@ -28,7 +28,10 @@ export function validateBicycleWorkshopPresentation() {
 
   invariant(viewport.includes('BicycleStoryStage') && viewport.includes('data-visual-ref'), 'Guided chapter is not using the canonical interactive story projection');
   invariant(stage.includes('bicycleStoryBike.svg?url'), 'Interactive story projection is missing its original bicycle asset');
-  invariant(stage.includes('part-focus') && stage.includes('focusRun') && stage.includes('that bicycle part will flash'), 'Bicycle part finder must replay an explicit high-salience focus cue');
+  invariant(stage.includes('part-focus') && stage.includes('focusRun') && stage.includes('it will flash'), 'Bicycle part finder must replay an explicit high-salience focus cue');
+  invariant(stage.includes('partHitRegions') && stage.includes('selectPart(hit.id)') && stage.includes('selectPart(part.id)'), 'Bicycle picture and label buttons must share the same part-selection behavior');
+  invariant(stage.includes('Tap a word or the bicycle part'), 'Bicycle part finder must tell children that the illustration itself is tappable');
+  invariant(stageCss.includes('.part-hit') && stageCss.includes('touch-action:manipulation') && stageCss.includes('pointer-events:auto'), 'Bicycle part finder is missing direct touch targets over the illustration');
   invariant(stageCss.includes('.part-focus-outline') && stageCss.includes('part-splash') && stageCss.includes('0 0 0 999px'), 'Bicycle part finder is missing its spotlight/splash treatment');
   invariant(!stage.includes('yellow ring'), 'Legacy low-salience yellow-ring instruction returned');
   invariant(viewport.includes('Previous') && viewport.includes('Next idea') && viewport.includes('Next part'), 'Guided chapter navigation is incomplete');
