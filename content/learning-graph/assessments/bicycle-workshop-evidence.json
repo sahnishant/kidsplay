@@ -56,6 +56,8 @@
     "bicycle.workshop.control.brake.001",
     "bicycle.workshop.signal.bell.001",
     "bicycle.workshop.safety.helmet.001",
+    "bicycle.workshop.sequence.motion.001",
+    "bicycle.workshop.sequence.braking.001",
     "bicycle.workshop.word-search.parts.001"
   ],
   "capabilityOnlyQuestionRefs": [
