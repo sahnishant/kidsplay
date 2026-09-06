@@ -189,6 +189,23 @@
     "prompt": "Match each plant with its use or product."
   },
   {
+    "id": "plants.uses.match.studio.generated.001",
+    "sourceRef": "knowledge.plants.uses.001",
+    "engine": "drag_to_target@1",
+    "entryIds": [
+      "cotton-fibre",
+      "sugarcane-sugar",
+      "rubber-tree-rubber",
+      "tea-plant-tea-leaves",
+      "neem-medicine",
+      "bamboo-baskets",
+      "indigo-dye",
+      "cardamom-spice"
+    ],
+    "difficulty": 2,
+    "prompt": "Match each plant with its use or product."
+  },
+  {
     "id": "plants.uses.word-search.generated.001",
     "sourceRef": "knowledge.plants.uses.001",
     "engine": "word_search@1",
