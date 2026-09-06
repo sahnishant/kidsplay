@@ -38,7 +38,7 @@ test.describe('Bicycle Workshop chapter vertical', () => {
     const nav = workshopNav(page);
     await expect(page.getByText('1/7', { exact: true })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Meet the bicycle' })).toBeVisible();
-    await expect(page.getByText('Find both wheels. Then look for the bell near the handle.', { exact: true })).toBeVisible();
+    await expect(page.locator('p.look')).toContainText('Find both wheels. Then look for the bell near the handle.');
     await expect(page.getByRole('button', { name: 'Next idea', exact: true })).toBeVisible();
     await expect(nav.getByRole('button')).toHaveCount(7);
     await expect(page.getByText(/My Bicycle|Mridang|NCERT|CBSE/i)).toHaveCount(0);
@@ -66,6 +66,7 @@ test.describe('Bicycle Workshop chapter vertical', () => {
     await nav.getByRole('button', { name: '4 Sounds', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Ring, listen, say' })).toBeVisible();
     await expect(page.getByRole('button', { name: '🔔 Tap the bell', exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Build BELL', exact: true })).toBeVisible();
 
     await nav.getByRole('button', { name: '5 Magic ride', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Where could it take you?' })).toBeVisible();
