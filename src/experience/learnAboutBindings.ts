@@ -27,7 +27,11 @@ export const LEARN_ABOUT_TOPIC_BINDINGS: readonly LearnAboutTopicBinding[] = [
   },
   { topicId: 'learn.fire-station', icon: '🚒', sections: [] },
   { topicId: 'learn.fractions', icon: '◒', sections: [] },
-  { topicId: 'learn.plants', icon: '🌱', sections: [] }
+  { topicId: 'learn.plants', icon: '🌱', sections: [] },
+  { topicId: 'learn.human-body', icon: '🧍', sections: [] },
+  { topicId: 'learn.food', icon: '🍎', sections: [] },
+  { topicId: 'learn.homes-clothes', icon: '🏠', sections: [] },
+  { topicId: 'learn.healthy-safe', icon: '🛡️', sections: [] }
 ];
 
 export function getLearnAboutTopicBinding(topicId: string): LearnAboutTopicBinding | undefined {
