@@ -20,6 +20,8 @@ export interface BaseQuestion {
   conceptIds: string[];
   /** Stable knowledge-row IDs this activity directly tests. */
   knowledgeRefs?: string[];
+  /** Canonical context needed to interpret/reuse the activity; never emitted as knowledge evidence. */
+  supportingKnowledgeRefs?: string[];
   /** Guided studio practice is evaluable but cannot refresh mastery. Existing questions default to assessment. */
   evidencePolicy?: 'practice_only';
   /** Legacy/manual descriptive metadata only. Curriculum placement belongs to learning profiles. */
