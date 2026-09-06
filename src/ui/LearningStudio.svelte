@@ -80,11 +80,9 @@
     awaitingInitialState = false;
     const unchanged = JSON.stringify(engineState) === JSON.stringify(state);
     engineState = structuredClone(state);
-    // A preview is the child's current work, never an old order or answer key.
     if (previewOrder.length && question.interaction.type === 'sequence_order') {
       previewOrder = (state as { orderedItemIds: string[] }).orderedItemIds.slice();
     }
-    // Mounting/restoring a renderer is exposure, not a child action or a save.
     if (!first && !unchanged) persist();
   }
   function changeMode(next: typeof mode): void {
@@ -132,10 +130,11 @@
   }
   function describeResponse(source: StudioQuestion, response: unknown): string {
     if (source.interaction.type === 'drag_to_target') {
-      const result = evaluate(source, response);
+      const matching = source as DragToTargetQuestion;
+      const result = evaluate(matching, response);
       if (result.correct) return 'All of your pairs match.';
       const actual = (response as { assignments: Record<string, string> }).assignments;
-      const expected = source.solution.assignments;
+      const expected = matching.solution.assignments;
       const correct = Object.entries(expected).filter(([itemId, targetId]) => actual[itemId] === targetId).length;
       return `${correct} of ${Object.keys(expected).length} pairs match. Keep your work and adjust the others.`;
     }
@@ -282,7 +281,6 @@
   .studio__step{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;box-shadow:0 2px 0 #e1e7d8}.studio__step strong{font-size:1.05rem;line-height:1.4}
   .studio__match-demo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;padding:12px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef}.studio__match-demo small{grid-column:1/-1}.studio__match-side{display:grid;place-items:center;gap:5px;text-align:center;min-width:0}.studio__match-side span{font-size:1.9rem}.studio__match-side strong{overflow-wrap:anywhere;line-height:1.25}
   .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}
-  /* Reserve normal-flow height independently of percentage-sized lazy children. */
   .studio__illustration--wide{position:relative;width:320px;max-width:100%;height:auto;padding:0}
   .studio__illustration--wide::before{content:'';display:block;padding-top:62.5%}
   .studio__illustration--wide>:global(span){position:absolute;inset:0}
