@@ -14,8 +14,8 @@ describe('Bicycle Workshop guided learning journey', () => {
     expect(result).toMatchObject({
       experienceId: 'experience.bicycle-workshop.guided.v1',
       sectionCount: 7,
-      tracedBeatCount: 16,
-      structuredBeatCount: 16,
+      tracedBeatCount: 17,
+      structuredBeatCount: 17,
       lookPromptCount: 7,
       memoryHookCount: 7,
       semanticPresenter: 'BicycleStoryStage',
