@@ -1,0 +1,48 @@
+{
+  "migrationId": "learning-graph.005-question-evidence-completeness",
+  "graphRef": "learning-graph.bicycle-workshop.v1",
+  "policyRef": "question-evidence.bicycle-workshop.v1",
+  "questionCount": 32,
+  "strongSemanticTargetCount": 8,
+  "practiceOnlyCount": 9,
+  "evidenceEligibleCount": 23,
+  "capabilityOnlyCount": 8,
+  "claimEvidenceQuestionCount": 15,
+  "processQuestionCount": 2,
+  "supportingKnowledgeQuestionCount": 2,
+  "revisedQuestionIds": [
+    "bicycle.workshop.fill.pedal.001",
+    "bicycle.workshop.fill.brake.001",
+    "bicycle.workshop.fill.helmet.001",
+    "bicycle.workshop.match.parts-functions.001",
+    "bicycle.workshop.sort.core-extra.001",
+    "bicycle.workshop.memory.parts.001",
+    "bicycle.workshop.word-search.parts.001",
+    "bicycle.workshop.safety.pre-ride.001"
+  ],
+  "supportingKnowledgeQuestionIds": [
+    "bicycle.workshop.reading.verify.001",
+    "bicycle.workshop.reading.inference.001"
+  ],
+  "evidencePolicy": {
+    "newRuntimeEvaluator": false,
+    "canonicalEvaluatorPreserved": true,
+    "supportingKnowledgeIsNonEvidentiary": true,
+    "readingBicycleFactMasteryForbidden": true,
+    "wordSearchLexicalMeaningMasteryForbidden": true,
+    "wordSearchPracticeOnly": true,
+    "evidenceEligibleClaimsMustMatchQuestionObjectives": true,
+    "sequenceEvidenceMustMatchCanonicalProcess": true,
+    "naturalLanguageEntailmentCertified": false
+  },
+  "graphCountsUnchanged": {
+    "nodeCount": 93,
+    "claimCount": 88,
+    "projectedClaimCount": 40
+  },
+  "review": {
+    "status": "editorial_candidate",
+    "authority": "kidsplay_editorial_review_required",
+    "publishable": false
+  }
+}
