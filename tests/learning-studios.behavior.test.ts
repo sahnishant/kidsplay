@@ -98,6 +98,22 @@ describe('reusable learning studios and existing topic placements', () => {
     expect(() => asStudioPracticeQuestion(ambiguous, activity)).toThrow(/visibly distinct/);
   });
 
+  it('requires true one-to-one source pairings rather than many-to-one target assignments', async () => {
+    const activity = LEARNING_STUDIO_ACTIVITIES.find((item) => item.activityId === 'studio.match.human-senses');
+    if (!activity) throw new Error('Missing matching activity');
+    const source = await loadLearningStudioQuestion(activity.activityId);
+    if (source.interaction.type !== 'drag_to_target') throw new Error('Expected matching source');
+
+    const duplicateTarget = structuredClone(source);
+    const [firstItem, secondItem] = duplicateTarget.interaction.items;
+    duplicateTarget.solution.assignments[secondItem.id] = duplicateTarget.solution.assignments[firstItem.id];
+    expect(() => asStudioPracticeQuestion(duplicateTarget, activity)).toThrow(/one-to-one/);
+
+    const unequalSides = structuredClone(source);
+    unequalSides.interaction.targets.pop();
+    expect(() => asStudioPracticeQuestion(unequalSides, activity)).toThrow(/same number of items and targets/);
+  });
+
   it('binds workspace snapshots to activity, question revision and engine version', async () => {
     const id = 'studio.fractions.equal-shares';
     const question = await loadLearningStudioQuestion(id);
