@@ -170,7 +170,7 @@
     "revision": 2,
     "schemaVersion": 1,
     "conceptIds": ["english.vocabulary.pedal", "english.vocabulary.brake", "english.vocabulary.bell", "english.vocabulary.tyre"],
-    "supportingKnowledgeRefs": ["claim.lexeme.pedal-noun.denotes.bicycle-pedal", "claim.lexeme.brake-noun.denotes.bicycle-brake", "claim.lexeme.bell-noun.denotes.bicycle-bell", "claim.lexeme.tyre-noun.denotes.bicycle-tyre"],
+    "supportingKnowledgeRefs": ["claim.lexeme.pedal-noun.denotes.bicycle-pedal", "claim.lexeme.brake-noun.denotes.bicycle-brake", "claim.lexeme.bell.denotes.bicycle-bell", "claim.lexeme.tyre.denotes.bicycle-tyre"],
     "difficulty": 2,
     "language": "en-IN",
     "prompt": {"text": "Find the four bicycle words."},
