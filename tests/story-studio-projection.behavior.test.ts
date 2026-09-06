@@ -3,7 +3,9 @@ import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import stories from '../content/stories/studio-pilots.json';
 import bindings from '../content/experience/story-studio-projections.json';
+import appearances from '../content/experience/studio-scene-bindings.json';
 import { projectStoryStudio } from '../scripts/formatters/storyStudio.mjs';
+import { bindStudioScene } from '../scripts/visuals/studio-scene-bindings-core.mjs';
 import { validateStoryManifest } from '../src/experience/storiesContract';
 import { evaluate } from '../src/evaluation/evaluate';
 import type { SequenceOrderQuestion } from '../src/contracts/question';
@@ -31,9 +33,13 @@ describe('story-local sequence projection', () => {
     expect(results.every((result) => !result.masteryEvidence.length && !result.knowledgeEvidence.length)).toBe(true);
     expect(story).toEqual(before);
   });
-  it('checks the exact compiled delivery against its source projection', () => {
+  it('checks exact compiled delivery and proves artwork adds no story authority', () => {
     const output = JSON.parse(readFileSync(resolve(process.cwd(),'content/questions/__generated-story-studios.json'),'utf8'));
-    expect(output).toEqual([projectStoryStudio(story,binding)]);
+    const source = projectStoryStudio(story,binding);
+    expect(output).toEqual([bindStudioScene(source, appearances.find((item) => item.questionId === source.id))]);
+    const withoutArtwork = structuredClone(output[0]);
+    withoutArtwork.interaction.items.forEach((item: { visualRefs?: string[] }) => { delete item.visualRefs; });
+    expect(withoutArtwork).toEqual(source);
   });
   it.each(['solution','answers','orderedItemIds','knowledgeRefs'])('rejects %s embedded in projection references', (field) => {
     expect(() => projectStoryStudio(story,{...binding,[field]:[]})).toThrow();

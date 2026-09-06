@@ -8,13 +8,12 @@ const assetsDir = join(root, 'dist', 'assets');
 const budgets = {
   maxSingleJsBytes: 700 * 1024,
   maxSingleJsGzipBytes: 140 * 1024,
-  // #263 initial studio allowance +32 KiB; #264 durable workspace and visual
-  // teaching adds +16 KiB. Measured at 737ec69: 826.8 KiB installed JS.
-  // Both the teaching route and renderer retain independent compressed caps.
-  maxTotalJsBytes: (784 + 32 + 16) * 1024,
-  // The core allowance is unchanged. The already-lazy word-source projection
-  // is now accounted for independently below rather than charged to core.
-  maxCoreJsGzipBytes: (162 + 4) * 1024,
+  // Original studios +32 KiB; durable work +16 KiB. The sixteen illustrated
+  // states at 187e851 measure 852.1 KiB installed (+20.9 KiB), receiving a
+  // bounded +32 KiB feature allowance. See docs/studio-art-budget-review.md.
+  maxTotalJsBytes: (784 + 32 + 16 + 32) * 1024,
+  // Lazy artwork is measured separately; +1 KiB admits its registry/loader.
+  maxCoreJsGzipBytes: (162 + 4 + 1) * 1024,
   maxCoreCssBytes: 100 * 1024
 };
 
@@ -22,8 +21,9 @@ const budgets = {
 // review items, not permission to disable checks or increase Vite warnings.
 const lazyRouteBudgets = [
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 3 * 1024 },
-  // #264 measured 9.2 KiB gzip / 3.7 KiB CSS after durable work and demo UI.
-  { prefix: 'StudioLauncher-', maxJsGzipBytes: 10 * 1024, maxCssBytes: 4 * 1024 },
+  // The illustrated layout adds +1 KiB CSS, not a larger runtime JS allowance.
+  { prefix: 'StudioLauncher-', maxJsGzipBytes: 10 * 1024, maxCssBytes: 5 * 1024 },
+  { prefix: 'StudioScene-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 2 * 1024 },
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
@@ -46,8 +46,7 @@ const contentAssetBudgets = [
   { prefix: 'runtime-bicycle-workshop-', expectedCount: 6, maxRawBytes: 48 * 1024, maxGzipBytes: 12 * 1024 },
   { prefix: 'runtime-fraction-studio-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 },
   { prefix: 'runtime-studio-reuse-', expectedCount: 1, maxRawBytes: 6 * 1024, maxGzipBytes: 2 * 1024 },
-  // #264: original story-local pilot, separate from factual knowledge delivery.
-  // Existing installed/core/renderer/CSS limits are not raised for topic reuse.
+  // Original story-local pilot, separate from factual knowledge delivery.
   { prefix: 'runtime-__generated-story-studios-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 }
 ];
 

@@ -118,7 +118,6 @@
     saveAllowed = true;
     awaitingInitialState = true;
     resetKey += 1;
-    // Assistance/check history is not erased by clearing the construction.
     persist();
   }
   function describeResponse(source: StudioQuestion, response: unknown): string {
@@ -149,6 +148,15 @@
   }
 </script>
 
+{#snippet illustration(item: SequenceOrderQuestion['interaction']['items'][number])}
+  {@const visual = resolveItemVisualPresentation(item, { recipeSurface: 'sequence-item' })}
+  {#if visual.hasVisuals}
+    <div class="studio__illustration" class:studio__illustration--wide={item.visualRefs?.some((ref) => ref.startsWith('visual.studio.'))}>
+      <SemanticVisualPresenter presentation={visual} style="display:block;width:100%;height:100%" itemStyle="display:block;width:100%;height:100%" />
+    </div>
+  {/if}
+{/snippet}
+
 <section class="studio" data-learning-studio={activityId} aria-label={activity.childTitle}>
   <header class="studio__header">
     <button type="button" onclick={onClose} aria-label="Back to topic">←</button>
@@ -165,7 +173,7 @@
       <button type="button" aria-pressed={mode === 'practice'} onclick={() => changeMode('practice')}>Try it</button>
     </nav>
     {#if checked}
-      <div class="studio__feedback" style="flex:none;max-height:32dvh;overflow:auto">
+      <div class="studio__feedback">
         <p role="status" aria-live="polite">{feedback}</p>
         <button type="button" onclick={retry}>Change my answer</button>
       </div>
@@ -183,15 +191,10 @@
       {:else if mode === 'watch' && sequenceQuestion}
         {@const ids = sequenceQuestion.solution.orderedItemIds}
         {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === ids[stepIndex])!}
-        {@const visual = resolveItemVisualPresentation(item, { recipeSurface: 'sequence-item' })}
         <p>{storySequence ? 'Read at your own pace. No answers are needed to reach the ending.' : 'Follow one step at a time.'}</p>
         <article class="studio__step" aria-live="polite">
           <small>{storySequence ? 'Page' : 'Step'} {stepIndex + 1} of {ids.length}</small>
-          {#if visual.hasVisuals}
-            <div class="studio__illustration" style="width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box">
-              <SemanticVisualPresenter presentation={visual} style="display:block;width:100%;height:100%" itemStyle="display:block;width:100%;height:100%" />
-            </div>
-          {/if}
+          {@render illustration(item)}
           <strong>{item.label}</strong>
         </article>
         <div class="studio__controls">
@@ -211,7 +214,10 @@
         {/key}
         {#if previewOrder.length && sequenceQuestion}
           {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === previewOrder[stepIndex])}
-          <article class="studio__step" aria-live="polite"><small>YOUR ORDER · {stepIndex + 1}/{previewOrder.length}</small><strong>{item?.label}</strong></article>
+          <article class="studio__step" aria-live="polite">
+            <small>YOUR ORDER · {stepIndex + 1}/{previewOrder.length}</small>
+            {#if item}{@render illustration(item)}<strong>{item.label}</strong>{/if}
+          </article>
           <div class="studio__controls">
             <button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous card</button>
             <button type="button" disabled={stepIndex === previewOrder.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next card</button>
@@ -231,8 +237,18 @@
 </section>
 
 <style>
-  .studio{width:100%;height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;background:var(--paper,#fff);color:var(--ink,#24303a);box-sizing:border-box}.studio__header{display:flex;align-items:center;gap:8px;flex:none}.studio h2{margin:0;font-size:1.05rem;overflow-wrap:anywhere}.studio small{font-size:.72rem}.studio button{font:inherit;min-height:48px;padding:7px 10px;border:1px solid var(--line,#ccd4db);border-radius:10px;background:var(--paper,#fff);color:var(--ink,#24303a)}.studio button[aria-pressed=true]{outline:2px solid var(--accent,#5042a8);font-weight:800}.studio button:focus-visible{outline:3px solid var(--accent,#5042a8);outline-offset:2px}.studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:750}.studio__step{display:grid;gap:8px;padding:10px;border:1px solid var(--line,#ccd4db);border-radius:12px;margin:8px 0}.studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid var(--line,#ccd4db);border-radius:10px}@media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
-  /* A definite block avoids the nested SVG's intrinsic grid-row minimum. */
+  .studio{width:100%;height:100%;min-height:0;min-width:0;display:flex;flex-direction:column;background:#fffef9;color:var(--ink,#24303a);box-sizing:border-box}
+  .studio__header{display:flex;align-items:center;gap:8px;flex:none}.studio h2{margin:0;font-size:1.05rem;overflow-wrap:anywhere}.studio small{font-size:.72rem;letter-spacing:.04em}
+  .studio button{font:inherit;min-height:48px;min-width:48px;padding:7px 10px;border:1px solid #cdd8c6;border-radius:12px;background:#fffef9;color:var(--ink,#24303a)}
+  .studio button[aria-pressed=true]{background:#e4eddc;border-color:#57745f;font-weight:800;box-shadow:inset 0 -3px #57745f}.studio button:focus-visible{outline:3px solid #426454;outline-offset:2px}
+  .studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__controls button{flex:1}
+  .studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:700;font-size:.94rem}
+  .studio__step{display:grid;gap:8px;padding:10px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;box-shadow:0 2px 0 #e1e7d8}.studio__step strong{font-size:1.05rem;line-height:1.4}
+  .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}.studio__illustration--wide{width:min(100%,320px);height:auto;aspect-ratio:8/5;padding:0}
   .studio__illustration :global(.visual-entity){display:block}
+  .studio__feedback{flex:none;max-height:32dvh;overflow:auto;padding:3px 8px 8px;background:#f0f4e8;border-radius:12px;border:1px solid #d4dfcc}
+  .studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid #ccd6c7;border-radius:12px}
   :global(.studio [inert] :is(.letter-order__tile,.sequence-order__item,.parts button,.categories button)){opacity:1;color:var(--ink,#24303a)}
+  @media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
+  @media(forced-colors:active){.studio button[aria-pressed=true]{outline:2px solid Highlight}}
 </style>

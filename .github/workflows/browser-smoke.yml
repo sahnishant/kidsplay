@@ -45,6 +45,26 @@ jobs:
       - name: Run browser child journeys
         run: npm run test:e2e:ci
 
+      - name: Assemble exact-checkout illustration contact sheet
+        if: always()
+        run: node scripts/qa/studio-art-contact-sheet.mjs
+
+      - name: Upload illustration contact sheet
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          path: studio-art-proof/studio-art-contact.png
+          archive: false
+          if-no-files-found: error
+
+      - name: Upload illustration capture provenance
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          path: studio-art-proof/studio-art-capture-report.json
+          archive: false
+          if-no-files-found: error
+
       - name: Upload studio browser proof
         if: always()
         uses: actions/upload-artifact@v7

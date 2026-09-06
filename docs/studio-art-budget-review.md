@@ -1,0 +1,7 @@
+# Explicit illustrated-studio performance allowance
+
+The first illustrated build at `187e851` passes source/content/visual validation and Svelte typechecking but correctly fails the old total/core budget. Android workflow34006445052 job101414417799 measures installed JS852.1KiB against832KiB. The new lazy StudioScene is17.14kB raw /5.12kB gzip, plus1.48kB CSS. The registry and loader add approximately4.4kB raw to shared presentation. StoryCharacter remains one shared chunk, not a second persona.
+
+The reported171.3KiB core gzip still includes StudioScene because its new lazy prefix was not yet classified. Registering that independently is accounting, not a core optimisation. Allow installed JS832→864KiB (+32KiB), core gzip166→167KiB (+1KiB for registry/loader), and bound StudioScene at7KiB gzip /2KiB CSS. The small shared picture-card CSS has its own normal core CSS limit100KiB, unchanged. StudioLauncher CSS4→5KiB allows the large teaching frame, preview and warm-paper controls; its JS10KiB gzip cap is unchanged. Every single-chunk, other route, data and Vite gate remains enforced.
+
+This is an intentional measured new-artwork allowance, not the prior authoring-only tranche's unchanged-budget claim. Final measured values must be recorded after the new layout compiles. Physical-device performance and human art approval remain unclaimed. The temporary full-dependency workbench workflow is removed: ordinary browser screenshots are the continuing QA artifact, not repeated330MB workbench uploads.
