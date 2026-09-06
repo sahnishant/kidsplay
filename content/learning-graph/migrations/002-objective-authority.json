@@ -1,0 +1,50 @@
+{
+  "migrationId": "learning-graph.002-objective-authority",
+  "preservedProgressIds": [
+    "bicycle.identity",
+    "bicycle.parts",
+    "bicycle.parts.wheel",
+    "bicycle.parts.tyre",
+    "bicycle.parts.pedal",
+    "bicycle.parts.handlebar",
+    "bicycle.parts.brake",
+    "bicycle.parts.bell",
+    "bicycle.parts.carrier",
+    "bicycle.parts.drive",
+    "bicycle.parts.optional",
+    "bicycle.motion.pedalling",
+    "bicycle.motion.chain",
+    "bicycle.braking.chain",
+    "bicycle.control.steering",
+    "bicycle.sound.bell",
+    "bicycle.safety.helmet",
+    "bicycle.safety.signal",
+    "bicycle.safety.pre-ride",
+    "bicycle.safety.visibility",
+    "english.vocabulary.bicycle",
+    "english.vocabulary.pedal",
+    "english.vocabulary.brake",
+    "english.vocabulary.handlebar",
+    "english.vocabulary.tyre",
+    "english.vocabulary.bell",
+    "capability.english.semantic-part-labelling",
+    "capability.english.vocabulary.sense-recognition",
+    "capability.english.phonics.short-a-recognition",
+    "capability.english.grammar.indefinite-article-selection",
+    "capability.english.reading.literal-retrieval",
+    "capability.english.reading.sequence-retrieval",
+    "capability.english.reading.statement-verification",
+    "capability.english.reading.simple-inference"
+  ],
+  "addedCanonicalCapabilities": [
+    "capability.english.reading.sequence-retrieval",
+    "capability.english.reading.simple-inference"
+  ],
+  "sourceHashes": {
+    "content/learnables/bicycle-workshop.json": "ffdbdc5b2ec5ba8f46ae427a5b030e1cb0fead0eaf7ec40a3d3b291f5eb22a0b",
+    "content/learnables/bicycle-workshop-reading.json": "ef256b0da07b9216e4b3952fbe80e1088e7623951dbfd45857a61a7a54c60f4c",
+    "content/knowledge/bicycle-workshop-runtime-projection.json": "8924941ea384914047e2c6b02f6af943e6d7378d90af6750cec7ee6091b7f528",
+    "content/learning-graph/capabilities/english-class2-my-bicycle.json": "d467cad8348e59a3b51ebeae1c82cc6774d3c80c38bed3deb1b44cee6f82f5f5"
+  },
+  "approvalGranted": false
+}

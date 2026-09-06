@@ -4,9 +4,6 @@
   "claims": [
     {
       "id": "claim.bicycle.is-a.human-powered-vehicle",
-      "conceptIds": [
-        "bicycle.identity"
-      ],
       "revision": 1,
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "is_a",
@@ -30,13 +27,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.identity"
+      ]
     },
     {
       "id": "claim.bicycle.typically-has-part.frame",
-      "conceptIds": [
-        "bicycle.parts"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -62,13 +59,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.fork",
-      "conceptIds": [
-        "bicycle.parts"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -94,13 +91,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.rim",
-      "conceptIds": [
-        "bicycle.parts.wheel"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -126,13 +123,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.wheel"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.spoke",
-      "conceptIds": [
-        "bicycle.parts.wheel"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -158,13 +155,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.wheel"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.hub",
-      "conceptIds": [
-        "bicycle.parts.wheel"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -190,13 +187,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.wheel"
       ]
     },
     {
       "id": "claim.bicycle.may-have-part.inner-tube",
-      "conceptIds": [
-        "bicycle.parts.tyre"
-      ],
       "qualifiers": {
         "frequency": "common"
       },
@@ -222,13 +219,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.tyre"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.crank",
-      "conceptIds": [
-        "bicycle.parts.drive"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -254,13 +251,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.drive"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.chain",
-      "conceptIds": [
-        "bicycle.parts.drive"
-      ],
       "qualifiers": {
         "frequency": "common"
       },
@@ -286,13 +283,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.drive"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.rear-sprocket",
-      "conceptIds": [
-        "bicycle.parts.drive"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -318,13 +315,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.drive"
       ]
     },
     {
       "id": "claim.bicycle.typically-has-part.brake-lever",
-      "conceptIds": [
-        "bicycle.parts.brake"
-      ],
       "qualifiers": {
         "frequency": "typical"
       },
@@ -350,13 +347,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.brake"
       ]
     },
     {
       "id": "claim.bicycle.may-have-part.grip",
-      "conceptIds": [
-        "bicycle.parts.handlebar"
-      ],
       "qualifiers": {
         "frequency": "common"
       },
@@ -382,13 +379,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.handlebar"
       ]
     },
     {
       "id": "claim.bicycle.may-have-part.kickstand",
-      "conceptIds": [
-        "bicycle.parts.optional"
-      ],
       "qualifiers": {
         "frequency": "possible"
       },
@@ -414,13 +411,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.parts.optional"
       ]
     },
     {
       "id": "claim.bicycle.may-have-part.light",
-      "conceptIds": [
-        "bicycle.safety.visibility"
-      ],
       "qualifiers": {
         "frequency": "possible"
       },
@@ -446,13 +443,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.safety.visibility"
       ]
     },
     {
       "id": "claim.bicycle.may-have-part.reflector",
-      "conceptIds": [
-        "bicycle.safety.visibility"
-      ],
       "qualifiers": {
         "frequency": "possible"
       },
@@ -478,13 +475,13 @@
           "sourceRole": "curriculum_trigger_and_independent_expansion",
           "sourceExpressionCopied": false
         }
+      ],
+      "objectiveRefs": [
+        "objective.bicycle.safety.visibility"
       ]
     },
     {
       "id": "claim.push-pedals.contributes-to.crank-turns",
-      "conceptIds": [
-        "bicycle.motion.chain"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.push-pedals",
       "predicate": "contributes_to",
@@ -508,13 +505,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.motion.chain"
+      ]
     },
     {
       "id": "claim.crank-turns.contributes-to.chain-moves",
-      "conceptIds": [
-        "bicycle.motion.chain"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.crank-turns",
       "predicate": "contributes_to",
@@ -538,13 +535,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.motion.chain"
+      ]
     },
     {
       "id": "claim.chain-moves.contributes-to.rear-wheel-turns",
-      "conceptIds": [
-        "bicycle.motion.chain"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.chain-moves",
       "predicate": "contributes_to",
@@ -568,13 +565,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.motion.chain"
+      ]
     },
     {
       "id": "claim.rear-wheel-turns.contributes-to.bicycle-movement",
-      "conceptIds": [
-        "bicycle.motion.chain"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.rear-wheel-turns",
       "predicate": "contributes_to",
@@ -598,13 +595,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.motion.chain"
+      ]
     },
     {
       "id": "claim.squeeze-brake-lever.contributes-to.brake-engages",
-      "conceptIds": [
-        "bicycle.braking.chain"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.squeeze-brake-lever",
       "predicate": "contributes_to",
@@ -628,13 +625,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.braking.chain"
+      ]
     },
     {
       "id": "claim.brake-engages.contributes-to.bicycle-slowing",
-      "conceptIds": [
-        "bicycle.braking.chain"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.brake-engages",
       "predicate": "contributes_to",
@@ -658,13 +655,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.braking.chain"
+      ]
     },
     {
       "id": "claim.turn-handlebar.contributes-to.direction-change",
-      "conceptIds": [
-        "bicycle.control.steering"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.turn-handlebar",
       "predicate": "contributes_to",
@@ -688,13 +685,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.control.steering"
+      ]
     },
     {
       "id": "claim.ring-bell.contributes-to.signal-presence",
-      "conceptIds": [
-        "bicycle.safety.signal"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.ring-bicycle-bell",
       "predicate": "contributes_to",
@@ -718,13 +715,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.safety.signal"
+      ]
     },
     {
       "id": "claim.check-helmet.contributes-to.safer-ride",
-      "conceptIds": [
-        "bicycle.safety.pre-ride"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.check-helmet",
       "predicate": "contributes_to",
@@ -748,13 +745,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.safety.pre-ride"
+      ]
     },
     {
       "id": "claim.check-brakes.contributes-to.safer-ride",
-      "conceptIds": [
-        "bicycle.safety.pre-ride"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.check-brakes",
       "predicate": "contributes_to",
@@ -778,13 +775,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.safety.pre-ride"
+      ]
     },
     {
       "id": "claim.check-tyres.contributes-to.safer-ride",
-      "conceptIds": [
-        "bicycle.safety.pre-ride"
-      ],
       "revision": 1,
       "subjectRef": "concept.action.check-tyres",
       "predicate": "contributes_to",
@@ -808,13 +805,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.bicycle.safety.pre-ride"
+      ]
     },
     {
       "id": "claim.lexeme.bicycle.denotes.vehicle",
-      "conceptIds": [
-        "english.vocabulary.bicycle"
-      ],
       "revision": 1,
       "subjectRef": "lexeme.en.bicycle.noun.vehicle",
       "predicate": "denotes",
@@ -838,13 +835,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.english.vocabulary.bicycle"
+      ]
     },
     {
       "id": "claim.lexeme.brake-noun.denotes.bicycle-brake",
-      "conceptIds": [
-        "english.vocabulary.brake"
-      ],
       "revision": 1,
       "subjectRef": "lexeme.en.brake.noun.bicycle-part",
       "predicate": "denotes",
@@ -868,13 +865,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.english.vocabulary.brake"
+      ]
     },
     {
       "id": "claim.lexeme.brake-verb.denotes.bicycle-slowing",
-      "conceptIds": [
-        "english.vocabulary.brake"
-      ],
       "revision": 1,
       "subjectRef": "lexeme.en.brake.verb.slow",
       "predicate": "denotes",
@@ -898,13 +895,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.english.vocabulary.brake"
+      ]
     },
     {
       "id": "claim.lexeme.handlebar.denotes.bicycle-handlebar",
-      "conceptIds": [
-        "english.vocabulary.handlebar"
-      ],
       "revision": 1,
       "subjectRef": "lexeme.en.handlebar.noun.steering-part",
       "predicate": "denotes",
@@ -928,13 +925,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.english.vocabulary.handlebar"
+      ]
     },
     {
       "id": "claim.lexeme.tyre.denotes.bicycle-tyre",
-      "conceptIds": [
-        "english.vocabulary.tyre"
-      ],
       "revision": 1,
       "subjectRef": "lexeme.en.tyre.noun.wheel-covering",
       "predicate": "denotes",
@@ -958,13 +955,13 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.english.vocabulary.tyre"
+      ]
     },
     {
       "id": "claim.lexeme.bell.denotes.bicycle-bell",
-      "conceptIds": [
-        "english.vocabulary.bell"
-      ],
       "revision": 1,
       "subjectRef": "lexeme.en.bell.noun.ringing-device",
       "predicate": "denotes",
@@ -988,7 +985,10 @@
           "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {}
+      "qualifiers": {},
+      "objectiveRefs": [
+        "objective.english.vocabulary.bell"
+      ]
     }
   ]
 }

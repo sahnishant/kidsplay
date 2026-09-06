@@ -25,7 +25,7 @@ rejects('missing editorial state', (g) => delete g.claims[0].review, /review sta
 rejects('candidate cannot publish', (g) => g.claims[0].review.publishable = true, /human approval/);
 rejects('approval label is not proof', (g) => g.claims[0].review = { status: 'human_approved', publishable: true }, /human approval/);
 rejects('missing revision', (g) => delete g.claims[0].revision, /revision required/);
-rejects('unknown objective compatibility ID', (g) => g.claims[0].conceptIds = ['missing'], /unknown concept/);
+rejects('unknown objective compatibility ID', (g) => g.claims[0].objectiveRefs = ['missing'], /unknown objective/);
 rejects('invalid qualifier', (g) => g.claims[0].qualifiers = { arbitrary: 'yes' }, /forbidden qualifier/);
 rejects('shared claim cannot be contextual', (g) => g.claims[0].scope.moduleRef = 'chapter.fake', /shared authority/);
 rejects('invalid process reference', (g) => g.processes[0].orderedEdgeRefs[0] = 'missing', /unknown claim/);

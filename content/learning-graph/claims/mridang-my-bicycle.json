@@ -31,7 +31,9 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.identity"
+      ]
     },
     {
       "id": "claim.tricycle.is-a.wheeled-vehicle",
@@ -61,7 +63,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.wheelchair.is-a.wheeled-mobility-device",
@@ -91,7 +93,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.bicycle.typically-has-part.wheel",
@@ -123,7 +125,9 @@
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.parts.wheel"
+      ]
     },
     {
       "id": "claim.bicycle.typically-has-part.tyre",
@@ -155,7 +159,7 @@
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.bicycle.typically-has-part.pedal",
@@ -187,7 +191,9 @@
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.parts.pedal"
+      ]
     },
     {
       "id": "claim.bicycle.typically-has-part.seat",
@@ -219,7 +225,7 @@
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.bicycle.typically-has-part.handlebar",
@@ -251,7 +257,9 @@
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.parts.handlebar"
+      ]
     },
     {
       "id": "claim.bicycle.typically-has-part.brake",
@@ -283,7 +291,9 @@
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.parts.brake"
+      ]
     },
     {
       "id": "claim.bicycle.may-have-part.bell",
@@ -315,7 +325,9 @@
         "frequency": "possible"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.parts.bell"
+      ]
     },
     {
       "id": "claim.bicycle.may-have-part.carrier",
@@ -347,7 +359,9 @@
         "frequency": "possible"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.parts.carrier"
+      ]
     },
     {
       "id": "claim.bicycle-bell.produces.ring",
@@ -378,7 +392,9 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.sound.bell"
+      ]
     },
     {
       "id": "claim.pedalling.contributes-to.bicycle-movement",
@@ -410,7 +426,9 @@
         "contextRef": "entity.vehicle.bicycle"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.motion.pedalling"
+      ]
     },
     {
       "id": "claim.cycling-helmet.protects.head",
@@ -442,7 +460,9 @@
         "activity": "riding_bicycle"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.bicycle.safety.helmet"
+      ]
     },
     {
       "id": "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
@@ -472,7 +492,9 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.english.vocabulary.pedal"
+      ]
     },
     {
       "id": "claim.lexeme.pedal-verb.denotes.pedalling",
@@ -502,7 +524,9 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": [
+        "objective.english.vocabulary.pedal"
+      ]
     },
     {
       "id": "claim.lexeme.handle.denotes.bicycle-handlebar",
@@ -532,7 +556,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.lexeme.aside.denotes.to-one-side",
@@ -562,7 +586,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.lexeme.sometimes.denotes.occasionally",
@@ -592,7 +616,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.lexeme.helmet.denotes.cycling-helmet",
@@ -622,7 +646,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.lexeme.everywhere.denotes.all-places",
@@ -652,7 +676,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.instance-of.bicycle",
@@ -682,7 +706,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.speaker-owns-bicycle",
@@ -712,7 +736,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.bicycle-colour-red",
@@ -742,7 +766,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.seat-colour-blue",
@@ -774,7 +798,7 @@
         "appliesToPartRef": "entity.part.bicycle.seat"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.tyre-colour-black",
@@ -806,7 +830,7 @@
         "appliesToPartRef": "entity.part.bicycle.tyre"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.pedal-colour-black",
@@ -838,7 +862,7 @@
         "appliesToPartRef": "entity.part.bicycle.pedal"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.bicycle-has-bell",
@@ -868,7 +892,7 @@
       ],
       "revision": 1,
       "qualifiers": {},
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.bicycle-may-move-fast",
@@ -900,7 +924,7 @@
         "frequency": "sometimes"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.bicycle-may-move-slow",
@@ -932,7 +956,7 @@
         "frequency": "sometimes"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.bicycle-requires-air",
@@ -964,7 +988,7 @@
         "componentRef": "entity.part.bicycle.tyre"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     },
     {
       "id": "claim.chapter.my-bicycle.speaker-uses-helmet",
@@ -996,7 +1020,7 @@
         "activity": "riding_bicycle"
       },
       "revision": 1,
-      "conceptIds": []
+      "objectiveRefs": []
     }
   ]
 }

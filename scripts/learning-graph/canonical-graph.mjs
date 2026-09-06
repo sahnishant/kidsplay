@@ -37,7 +37,8 @@ export function loadCanonicalGraph({ root = process.cwd(), modulePath = BICYCLE_
   });
   const sourceIds = new Set(readdirSync(resolve(base, 'content/source-manifests')).filter((name) => name.endsWith('.json')).map((name) => read(`content/source-manifests/${name}`).sourceId));
   const learnableIds = new Set(readdirSync(resolve(base, 'content/learnables')).filter((name) => name.endsWith('.json')).flatMap((name) => read(`content/learnables/${name}`)).map((item) => item.id));
-  return { ...module, ontology: read(module.ontologyFile), sourceIds, learnableIds,
+  const objectiveIds = new Set(read(module.objectiveFile).objectives.map((item) => item.id));
+  return { ...module, objectiveIds, ontology: read(module.ontologyFile), sourceIds, learnableIds,
     nodes: collect(module.imports.nodeFiles, 'nodes'), claims: collect(module.imports.claimFiles, 'claims') };
 }
 
@@ -85,8 +86,9 @@ export function validateCanonicalGraph(graph) {
       if (definition.valueType === 'node_ref') { assert(nodes.has(value), `${claim.id}: unresolved qualifier ${key}`); used.add(value); }
       if (definition.valueType === 'enum') assert(definition.values.includes(value), `${claim.id}: invalid qualifier ${key}`);
     }
-    assert(Array.isArray(claim.conceptIds) && new Set(claim.conceptIds).size === claim.conceptIds.length, `${claim.id}: explicit unique concept bindings required`);
-    for (const id of claim.conceptIds) assert(graph.learnableIds.has(id), `${claim.id}: unknown concept binding ${id}`);
+    assert(!('conceptIds' in claim), `${claim.id}: authored legacy concept bindings forbidden`);
+    assert(Array.isArray(claim.objectiveRefs) && new Set(claim.objectiveRefs).size === claim.objectiveRefs.length, `${claim.id}: explicit unique objective bindings required`);
+    for (const id of claim.objectiveRefs) assert(graph.objectiveIds.has(id), `${claim.id}: unknown objective binding ${id}`);
     used.add(claim.subjectRef); used.add(claim.objectRef);
   }
   // Only predicates explicitly declaring acyclic structure prohibit cycles.
@@ -118,7 +120,7 @@ export function validateCanonicalGraph(graph) {
   assert(new Set(depthRefs).size === depthRefs.length, 'Duplicate discovery-depth placement');
   for (const id of depthRefs) assert(nodes.has(id), `Unknown discovery node ${id}`);
   return { graphId: graph.graphId, nodeCount: nodes.size, claimCount: claims.size,
-    registeredConceptCount: new Set(graph.claims.flatMap((claim) => claim.conceptIds)).size,
+    registeredConceptCount: new Set(graph.claims.flatMap((claim) => claim.objectiveRefs)).size,
     depthBandCount: Object.keys(graph.depthBands ?? {}).length, processCount: graph.processes?.length ?? 0,
     misconceptionCount: graph.misconceptions?.length ?? 0, openWorldAssumption: true,
     orphanNodeRefs: [...nodes.keys()].filter((id) => !used.has(id)).sort() };

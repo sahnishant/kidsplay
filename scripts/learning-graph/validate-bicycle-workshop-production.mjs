@@ -103,7 +103,7 @@ export function validateBicycleWorkshopProduction() {
   for (const edge of graph.claims) {
     invariant(nodeIds.has(edge.subjectRef), `${edge.id}: unknown source node ${edge.subjectRef}`);
     invariant(nodeIds.has(edge.objectRef), `${edge.id}: unknown target node ${edge.objectRef}`);
-    invariant(Array.isArray(edge.conceptIds), `${edge.id}: explicit concept bindings required`);
+    invariant(Array.isArray(edge.objectiveRefs), `${edge.id}: explicit objective bindings required`);
   }
   for (const process of graph.processes) {
     for (const ref of [...(process.orderedEdgeRefs ?? []), ...(process.parallelEdgeRefs ?? [])]) invariant(claimIds.has(ref), `${process.id}: unknown edge ${ref}`);

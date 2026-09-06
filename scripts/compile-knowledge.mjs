@@ -15,6 +15,7 @@ const crosswordOutput = new URL('content/authoring/crosswords/__generated-from-k
 // content build (Windows, browser and Android included) materializes the exact same
 // accepted review batches without a second runtime or a hand-maintained question bank.
 for (const script of [
+  'scripts/learning-graph/objective-projection.mjs',
   'scripts/lexicon/import-primary-vocabulary-reviews.mjs',
   'scripts/lexicon/materialize-primary-vocabulary-review-delivery.mjs'
 ]) {
