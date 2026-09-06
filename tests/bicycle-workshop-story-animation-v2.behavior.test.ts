@@ -49,9 +49,17 @@ describe('Bicycle Workshop story and animation v2',()=>{
     expect(stage).not.toContain('class="hotspots"');
     expect(stage).toContain('Seven bicycle part labels');
     expect(stage).toContain('aria-pressed={selectedPart===part.id}');
-    expect(stage).toContain('find the yellow ring');
+    expect(stage).not.toContain('find the yellow ring');
+    expect(stage).toContain('class="part-hit-layer"');
+    expect(stage).toContain('data-focus-part={selectedPart}');
+    expect(stage).toContain('class="part-focus-pulse"');
+    expect(stage).toContain('class="part-focus-outline"');
+    expect(stage).toContain('class="part-focus-label"');
+    expect(stage).toContain('Tap a word or the bicycle part — it will flash');
     expect(stageCss).toContain('aspect-ratio:760/420');
     expect(stageCss).toContain('min-height:44px');
+    expect(stageCss).toContain('@keyframes part-splash');
+    expect(stageCss).toContain('box-shadow:0 0 0 999px');
     for(const label of ['Seat','Pedal','Wheel','Bell','Handle','Carrier','Brake']) expect(stage).toContain(`label:'${label}'`);
   });
 
@@ -59,7 +67,8 @@ describe('Bicycle Workshop story and animation v2',()=>{
     expect(viewport).toContain("import('../presentation/BicycleMechanismDemonstration.svelte')");
     expect(viewport).toContain("beat.id==='braking-chain'?'brake':'drive'");
     expect(viewport).toContain("beat.sequence?.length && section.id!=='movement'");
-    for(const token of ["title: 'PEDAL'","title: 'CRANK'","title: 'CHAIN'","title: 'BACK WHEEL'","title: 'BRAKE LEVER'","title: 'BICYCLE SLOWS'"]) expect(mechanism).toContain(token);
+    expect(mechanism).toContain("import bikeSvg from '../ui/bicycleStoryBike.svg?raw'");
+    for(const title of ['PEDAL','CRANK','CHAIN','BACK WHEEL','BRAKE LEVER','BICYCLE SLOWS']) expect(mechanism).toMatch(new RegExp(`title:\\s*'${title}'`));
     expect(mechanism).toContain('visibleSteps = $derived(steps.slice(0, stepIndex + 1))');
     expect(mechanism).toContain('PEDAL</b> = where the foot pushes');
     expect(mechanism).toContain('CRANK</b> = the arm that turns');
@@ -91,6 +100,6 @@ describe('Bicycle Workshop story and animation v2',()=>{
     expect(bundleBudget).toContain("prefix: 'BicycleStoryStage-'");
     expect(bundleBudget).toContain("prefix: 'BicycleMechanismDemonstration-'");
     expect(bundleBudget).toContain("maxJsGzipBytes: 4 * 1024, maxCssBytes: 5 * 1024");
-    expect(bundleBudget).toContain("maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 6.5 * 1024");
+    expect(bundleBudget).toContain("maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 7.75 * 1024");
   });
 });
