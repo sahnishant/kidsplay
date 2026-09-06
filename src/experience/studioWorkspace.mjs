@@ -9,11 +9,10 @@ function canonical(value, depth = 0) {
   if (Array.isArray(value)) return Array.from(value, (item) => canonical(item, depth + 1));
   if (record(value)) return Object.fromEntries(Object.keys(value).sort().filter((key) => value[key] !== undefined).map((key) => [key, canonical(value[key], depth + 1)]));
   if (typeof value === 'number' && !Number.isFinite(value)) throw new Error('Studio configuration needs finite numbers');
-  if (value === null || ['string', 'number', 'boolean'].includes(typeof value)) return value;
+  if (value === null || ['string','number','boolean'].includes(typeof value)) return value;
   throw new Error('Studio configuration must be JSON data');
 }
 
-/** Exact canonical descriptor, not a lossy hash; catches a forgotten revision bump. */
 export function studioQuestionSignature(question) {
   if (!record(question) || !id(question.id) || !Number.isSafeInteger(question.revision) || question.revision < 1 || !record(question.interaction) || !record(question.solution)) throw new Error('Invalid studio source identity');
   const context = { language: question.language, prompt: question.prompt, stimulus: question.stimulus, conceptIds: question.conceptIds, knowledgeRefs: question.knowledgeRefs };
@@ -36,13 +35,12 @@ export function isStudioResponse(question, state) {
     const actual = Array.from(state.orderedItemIds);
     return ids.size === interaction.items.length && actual.length === ids.size && new Set(actual).size === ids.size && actual.every((value) => typeof value === 'string' && ids.has(value));
   }
-  if (interaction.type === 'drag_to_target') {
+  if (interaction.type === 'drag_to_target' || interaction.type === 'collection_count') {
     if (!ownKeys(state, ['assignments']) || !record(state.assignments)) return false;
     const itemIds = new Set(interaction.items.map((item) => item.id));
     const targetIds = new Set(interaction.targets.map((target) => target.id));
     const entries = Object.entries(state.assignments);
-    return entries.length <= itemIds.size
-      && entries.every(([itemId, targetId]) => itemIds.has(itemId) && typeof targetId === 'string' && targetIds.has(targetId));
+    return entries.length <= itemIds.size && entries.every(([itemId, targetId]) => itemIds.has(itemId) && typeof targetId === 'string' && targetIds.has(targetId));
   }
   return false;
 }
@@ -50,13 +48,9 @@ export function isStudioResponse(question, state) {
 export const INITIAL_STUDIO_LEARNING = Object.freeze({ mode: 'explore', demonstrationSeen: false, checkCount: 0, stepIndex: 0, checked: false });
 function validLearning(value, question) {
   const interaction = question.interaction;
-  const length = interaction.type === 'sequence_order'
-    ? interaction.items.length
-    : interaction.type === 'drag_to_target'
-      ? interaction.items.length
-      : interaction.categories.length;
+  const length = interaction.type === 'sequence_order' || interaction.type === 'drag_to_target' || interaction.type === 'collection_count' ? interaction.items.length : interaction.categories.length;
   return ownKeys(value, Object.keys(INITIAL_STUDIO_LEARNING))
-    && ['explore', 'watch', 'practice'].includes(value.mode)
+    && ['explore','watch','practice'].includes(value.mode)
     && typeof value.demonstrationSeen === 'boolean'
     && integer(value.checkCount, 1000000)
     && integer(value.stepIndex, Math.max(0, length - 1))
@@ -70,28 +64,13 @@ export function createStudioWorkspace(activityId, question, state, learning = IN
   if (state !== undefined && state !== null && !isStudioResponse(question, state)) throw new Error('Invalid studio work product');
   if (!validLearning(learning, question)) throw new Error('Invalid studio teaching state');
   if (learning.checked && (state === undefined || state === null)) throw new Error('Checked work needs a response');
-  return {
-    schemaVersion: 2, activityId, questionId: question.id, questionRevision: question.revision,
-    engineKey: `${question.interaction.type}@${question.interaction.version}`,
-    signature: studioQuestionSignature(question), state: state == null ? null : structuredClone(state),
-    learning: structuredClone(learning)
-  };
+  return { schemaVersion: 2, activityId, questionId: question.id, questionRevision: question.revision, engineKey: `${question.interaction.type}@${question.interaction.version}`, signature: studioQuestionSignature(question), state: state == null ? null : structuredClone(state), learning: structuredClone(learning) };
 }
 
-/** Old V1 work had no durable format. Refuse it rather than guess its semantics. */
 export function readStudioWorkspace(activityId, question, value) {
   try {
-    if (!ownKeys(value, ['schemaVersion', 'activityId', 'questionId', 'questionRevision', 'engineKey', 'signature', 'state', 'learning'])
-      || value.schemaVersion !== 2 || value.activityId !== activityId || value.questionId !== question.id
-      || value.questionRevision !== question.revision || value.engineKey !== `${question.interaction.type}@${question.interaction.version}`
-      || value.signature !== studioQuestionSignature(question) || !validLearning(value.learning, question)
-      || !Object.hasOwn(value, 'state') || (value.state !== null && !isStudioResponse(question, value.state))
-      || (value.learning.checked && value.state === null)) return null;
+    if (!ownKeys(value, ['schemaVersion','activityId','questionId','questionRevision','engineKey','signature','state','learning']) || value.schemaVersion !== 2 || value.activityId !== activityId || value.questionId !== question.id || value.questionRevision !== question.revision || value.engineKey !== `${question.interaction.type}@${question.interaction.version}` || value.signature !== studioQuestionSignature(question) || !validLearning(value.learning, question) || !Object.hasOwn(value, 'state') || (value.state !== null && !isStudioResponse(question, value.state)) || (value.learning.checked && value.state === null)) return null;
     return structuredClone(value);
   } catch { return null; }
 }
-
-export function restoreStudioWorkspace(activityId, question, value) {
-  const workspace = readStudioWorkspace(activityId, question, value);
-  return workspace?.state ?? undefined;
-}
+export function restoreStudioWorkspace(activityId, question, value) { return readStudioWorkspace(activityId, question, value)?.state ?? undefined; }

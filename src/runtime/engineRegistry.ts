@@ -1,4 +1,5 @@
 import type { Question } from '../contracts/question';
+import CollectionCount from '../engines/CollectionCount.svelte';
 import Crossword from '../engines/Crossword.svelte';
 import DragToTarget from '../engines/DragToTarget.svelte';
 import EqualParts from '../engines/LazyEqualParts.svelte';
@@ -13,50 +14,26 @@ import WordBankFill from '../engines/WordBankFill.svelte';
 import WordSearch from '../engines/WordSearch.svelte';
 
 export type EngineRetryCapability = 'retry_same_state' | 'reset_for_retry' | 'explanation_only';
-
-// Keep this registry in the canonical key -> component shape consumed by validate-engine-registry.mjs.
 const engines = new Map<string, EngineComponent>([
-  ['single_choice@1', SingleChoice],
-  ['word_bank_fill@1', WordBankFill],
-  ['drag_to_target@1', DragToTarget],
-  ['equal_parts@1', EqualParts],
-  ['word_search@1', WordSearch],
-  ['memory_pairs@1', MemoryPairs],
-  ['sequence_order@1', SequenceOrder],
-  ['hotspot@1', Hotspot],
-  ['trace_path@1', TracePath],
-  ['crossword@1', Crossword],
-  ['maze_path@1', MazePath]
+  ['single_choice@1', SingleChoice], ['word_bank_fill@1', WordBankFill], ['drag_to_target@1', DragToTarget],
+  ['equal_parts@1', EqualParts], ['collection_count@1', CollectionCount], ['word_search@1', WordSearch],
+  ['memory_pairs@1', MemoryPairs], ['sequence_order@1', SequenceOrder], ['sequence_order@2', SequenceOrder],
+  ['hotspot@1', Hotspot], ['trace_path@1', TracePath], ['crossword@1', Crossword], ['maze_path@1', MazePath]
 ]);
-
 const retryCapabilities = new Map<string, EngineRetryCapability>([
-  ['single_choice@1', 'reset_for_retry'],
-  ['word_bank_fill@1', 'reset_for_retry'],
-  ['drag_to_target@1', 'reset_for_retry'],
-  ['equal_parts@1', 'reset_for_retry'],
-  ['trace_path@1', 'reset_for_retry'],
-  ['word_search@1', 'explanation_only'],
-  ['memory_pairs@1', 'explanation_only'],
-  ['sequence_order@1', 'explanation_only'],
-  ['hotspot@1', 'explanation_only'],
-  ['crossword@1', 'explanation_only'],
-  ['maze_path@1', 'explanation_only']
+  ['single_choice@1','reset_for_retry'], ['word_bank_fill@1','reset_for_retry'], ['drag_to_target@1','reset_for_retry'],
+  ['equal_parts@1','reset_for_retry'], ['collection_count@1','reset_for_retry'], ['trace_path@1','reset_for_retry'],
+  ['word_search@1','explanation_only'], ['memory_pairs@1','explanation_only'], ['sequence_order@1','explanation_only'],
+  ['sequence_order@2','explanation_only'], ['hotspot@1','explanation_only'], ['crossword@1','explanation_only'], ['maze_path@1','explanation_only']
 ]);
-
-function engineKey(question: Question): string {
-  return `${question.interaction.type}@${question.interaction.version}`;
-}
-
+function engineKey(question: Question): string { return `${question.interaction.type}@${question.interaction.version}`; }
 export function getEngineComponent(question: Question): EngineComponent {
-  const key = engineKey(question);
-  const engine = engines.get(key);
+  const key = engineKey(question), engine = engines.get(key);
   if (!engine) throw new Error(`Unsupported interaction engine: ${key}`);
   return engine;
 }
-
 export function getEngineRetryCapability(question: Question): EngineRetryCapability {
-  const key = engineKey(question);
-  const capability = retryCapabilities.get(key);
+  const key = engineKey(question), capability = retryCapabilities.get(key);
   if (!capability) throw new Error(`Unsupported retry capability: ${key}`);
   return capability;
 }
