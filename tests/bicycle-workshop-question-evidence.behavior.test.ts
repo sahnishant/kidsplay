@@ -6,6 +6,7 @@ import type { Question } from '../src/contracts/question';
 import { evaluate } from '../src/evaluation/evaluate';
 
 const playPath = 'content/curriculum-runtime/bicycle-workshop/questions/play.json';
+const readingPath = 'content/curriculum-runtime/bicycle-workshop/questions/reading.json';
 const policyPath = 'content/learning-graph/assessments/bicycle-workshop-evidence.json';
 
 function readJson<T>(path: string): T {
@@ -30,7 +31,7 @@ describe('Bicycle Workshop canonical question evidence', () => {
       capabilityOnlyCount: 8,
       claimEvidenceQuestionCount: 15,
       processQuestionCount: 2,
-      supportingKnowledgeQuestionCount: 2,
+      supportingKnowledgeQuestionCount: 3,
       knowledgeEvidenceForbiddenCount: 4,
       practiceOnlyInteractionTypeCount: 1,
       practiceOnlyInteractionCoverage: true,
@@ -48,6 +49,7 @@ describe('Bicycle Workshop canonical question evidence', () => {
       'bicycle.workshop.reading.inference.001'
     ]);
     expect(policy.practiceOnlyInteractionTypes).toEqual(['word_search']);
+    expect(policy.supportingKnowledgeByQuestion).toBeUndefined();
   });
 
   it('uses the direct canonical function claims for the repaired play activities', () => {
@@ -68,12 +70,18 @@ describe('Bicycle Workshop canonical question evidence', () => {
     ]);
   });
 
-  it('does not turn word-search spelling success into vocabulary or knowledge mastery', () => {
-    const questions = readJson<Question[]>(playPath);
+  it('keeps word-search denotation context reusable without turning spelling success into mastery', () => {
+    const questions = readJson<any[]>(playPath);
     const wordSearch = questions.find((question) => question.id === 'bicycle.workshop.word-search.parts.001');
     expect(wordSearch).toBeDefined();
-    expect(wordSearch?.evidencePolicy).toBe('practice_only');
-    expect(wordSearch?.knowledgeRefs).toBeUndefined();
+    expect(wordSearch.evidencePolicy).toBe('practice_only');
+    expect(wordSearch.knowledgeRefs).toBeUndefined();
+    expect(wordSearch.supportingKnowledgeRefs).toEqual([
+      'claim.lexeme.pedal-noun.denotes.bicycle-pedal',
+      'claim.lexeme.brake-noun.denotes.bicycle-brake',
+      'claim.lexeme.bell-noun.denotes.bicycle-bell',
+      'claim.lexeme.tyre-noun.denotes.bicycle-tyre'
+    ]);
 
     const result = evaluate(wordSearch as Question, {
       foundTermIds: ['pedal', 'brake', 'bell', 'tyre']
@@ -83,15 +91,22 @@ describe('Bicycle Workshop canonical question evidence', () => {
     expect(result.knowledgeEvidence).toEqual([]);
   });
 
-  it('records reading background knowledge as supporting context, never as fact mastery', () => {
-    const policy = readJson<any>(policyPath);
-    expect(policy.supportingKnowledgeByQuestion).toEqual({
-      'bicycle.workshop.reading.verify.001': [
-        'claim.bicycle.bell.used-for.signalling'
-      ],
-      'bicycle.workshop.reading.inference.001': [
-        'claim.bicycle.brake.used-for.slowing'
-      ]
+  it('stores reading background facts on the question as supporting-only context', () => {
+    const questions = readJson<any[]>(readingPath);
+    const byId = new Map(questions.map((question) => [question.id, question]));
+    expect(byId.get('bicycle.workshop.reading.verify.001')?.supportingKnowledgeRefs).toEqual([
+      'claim.bicycle.bell.used-for.signalling'
+    ]);
+    expect(byId.get('bicycle.workshop.reading.inference.001')?.supportingKnowledgeRefs).toEqual([
+      'claim.bicycle.brake.used-for.slowing'
+    ]);
+    expect(byId.get('bicycle.workshop.reading.verify.001')?.knowledgeRefs).toBeUndefined();
+    expect(byId.get('bicycle.workshop.reading.inference.001')?.knowledgeRefs).toBeUndefined();
+
+    const result = evaluate(byId.get('bicycle.workshop.reading.inference.001') as Question, {
+      selectedOptionIds: ['slow']
     });
+    expect(result.correct).toBe(true);
+    expect(result.knowledgeEvidence).toEqual([]);
   });
 });
