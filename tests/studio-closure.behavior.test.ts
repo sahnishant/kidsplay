@@ -45,7 +45,7 @@ describe('STUDIO-08 count collections and STUDIO-09 dependency ordering', () => 
     expect(accepted).toHaveLength(6);
     expect(accepted.every((order) => order.at(-1) === 'ride')).toBe(true);
     expect(new Set(accepted.map((order) => order.join('|'))).size).toBe(6);
-    expect(evaluate(question,{orderedItemIds:['ride','helmet','brake','bell']}).correct).toBe(false);
+    expect(evaluate(question,{orderedItemIds:['ride','helmet','brake','tyres']}).correct).toBe(false);
   });
 
   it('registers both new engines without forking the evaluator', async () => {
