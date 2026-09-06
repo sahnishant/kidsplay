@@ -74,6 +74,7 @@ export function validateQuestionEvidencePolicy({ root = ROOT, modulePath } = {})
 
   let evidenceEligibleCount = 0;
   let claimEvidenceQuestionCount = 0;
+  let supportingKnowledgeQuestionCount = 0;
   for (const question of questions) {
     must(Array.isArray(question.conceptIds) && question.conceptIds.length > 0, `${question.id}: conceptIds required`);
     const questionObjectives = new Set();
@@ -101,11 +102,21 @@ export function validateQuestionEvidencePolicy({ root = ROOT, modulePath } = {})
     }
     if (!practiceOnly && knowledgeRefs.length > 0) claimEvidenceQuestionCount += 1;
 
+    const supportingKnowledgeRefs = unique(question.supportingKnowledgeRefs ?? [], `${question.id}.supportingKnowledgeRefs`);
+    if (supportingKnowledgeRefs.length > 0) supportingKnowledgeQuestionCount += 1;
+    for (const ref of supportingKnowledgeRefs) {
+      const claim = claims.get(ref);
+      must(claim, `${question.id}: unknown supporting knowledge claim ${ref}`);
+      must(projectedClaims.has(ref), `${question.id}: supporting claim ${ref} is not admitted to runtime projection`);
+      must(claim.scope?.kind === 'shared' && claim.polarity === 'positive', `${question.id}: supporting knowledge must use positive shared claims`);
+      must(!knowledgeRefs.includes(ref), `${question.id}: claim ${ref} cannot be both evidence-bearing and supporting-only`);
+    }
+
     if (knowledgeForbiddenRefs.has(question.id)) {
       must(knowledgeRefs.length === 0, `${question.id}: policy forbids knowledge mastery evidence`);
     }
     if (practiceOnlyInteractionTypes.has(question.interaction?.type)) {
-      must(practiceOnly && knowledgeRefs.length === 0, `${question.id}: ${question.interaction.type} must remain practice-only with no knowledge evidence`);
+      must(practiceOnly && knowledgeRefs.length === 0, `${question.id}: ${question.interaction.type} must remain practice-only with no evidence-bearing knowledge refs`);
     }
 
     if (capabilityOnlyRefs.has(question.id)) {
@@ -115,19 +126,6 @@ export function validateQuestionEvidencePolicy({ root = ROOT, modulePath } = {})
         const objective = objectives.get(objectiveRef);
         must((objective.capabilityRefs ?? []).length > 0 && (objective.targetClaimRefs ?? []).length === 0, `${question.id}: capability-only registry contains a knowledge objective`);
       }
-    }
-  }
-
-  const supportingEntries = Object.entries(policy.supportingKnowledgeByQuestion ?? {});
-  for (const [questionId, refs] of supportingEntries) {
-    const question = questionById.get(questionId);
-    must(question, `Supporting knowledge points to unknown question ${questionId}`);
-    must(knowledgeForbiddenRefs.has(questionId), `${questionId}: supporting-only knowledge requires an explicit no-knowledge-evidence question policy`);
-    must((question.knowledgeRefs ?? []).length === 0, `${questionId}: supporting knowledge leaked into evidence refs`);
-    for (const ref of unique(refs, `${questionId}.supportingKnowledge`)) {
-      const claim = claims.get(ref);
-      must(claim && claim.scope?.kind === 'shared' && claim.polarity === 'positive', `${questionId}: invalid supporting claim ${ref}`);
-      must(projectedClaims.has(ref), `${questionId}: supporting claim ${ref} is not admitted to runtime`);
     }
   }
 
@@ -141,6 +139,7 @@ export function validateQuestionEvidencePolicy({ root = ROOT, modulePath } = {})
   }
 
   must(policy.rules.knowledgeRefsMustBeCanonical === true, 'Canonical knowledge-ref rule weakened');
+  must(policy.rules.supportingKnowledgeRefsMustBeCanonical === true, 'Canonical supporting-knowledge rule weakened');
   must(policy.rules.evidenceEligibleKnowledgeMustMatchQuestionObjectives === true, 'Objective/evidence compatibility rule weakened');
   must(policy.rules.knowledgeEvidenceForbiddenRefsRequired === true, 'Explicit no-knowledge-evidence registry rule weakened');
   must(policy.rules.practiceOnlyInteractionTypesRequired === true, 'Practice-only interaction registry rule weakened');
@@ -158,7 +157,7 @@ export function validateQuestionEvidencePolicy({ root = ROOT, modulePath } = {})
     capabilityOnlyCount: capabilityOnlyRefs.size,
     claimEvidenceQuestionCount,
     processQuestionCount: processEntries.length,
-    supportingKnowledgeQuestionCount: supportingEntries.length,
+    supportingKnowledgeQuestionCount,
     knowledgeEvidenceForbiddenCount: knowledgeForbiddenRefs.size,
     practiceOnlyInteractionTypeCount: practiceOnlyInteractionTypes.size,
     practiceOnlyInteractionCoverage,
