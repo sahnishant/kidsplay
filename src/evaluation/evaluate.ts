@@ -83,11 +83,19 @@ function exactSequenceScore(question: SequenceOrderQuestion, actual: string[]): 
 
 function dependencySequenceScore(question: SequenceOrderQuestion, actual: string[]): number {
   const ids = question.interaction.items.map((item) => item.id);
-  if (actual.length !== ids.length || new Set(actual).size !== ids.length || actual.some((id) => !ids.includes(id))) return 0;
+  const idSet = new Set(ids);
+  if (idSet.size !== ids.length || actual.length !== ids.length || new Set(actual).size !== ids.length || actual.some((id) => !idSet.has(id))) return 0;
   const prerequisites = question.solution.prerequisites;
-  if (!prerequisites) return 0;
+  if (!prerequisites || typeof prerequisites !== 'object' || Array.isArray(prerequisites)) return 0;
+  const keys = Object.keys(prerequisites);
+  if (keys.length !== ids.length || keys.some((id) => !idSet.has(id))) return 0;
+  const edges: Array<readonly [string, string]> = [];
+  for (const after of ids) {
+    const required = prerequisites[after];
+    if (!Array.isArray(required) || new Set(required).size !== required.length || required.some((before) => !idSet.has(before) || before === after)) return 0;
+    for (const before of required) edges.push([before, after] as const);
+  }
   const positions = new Map(actual.map((id, index) => [id, index]));
-  const edges = Object.entries(prerequisites).flatMap(([after, before]) => before.map((required) => [required, after] as const));
   if (!edges.length) return 1;
   return boundedScore(edges.filter(([before, after]) => positions.get(before)! < positions.get(after)!).length, edges.length);
 }
@@ -103,9 +111,12 @@ function collectionCountScore(question: CollectionCountQuestion, actual: Record<
   const entries = Object.entries(actual ?? {});
   if (entries.length !== itemIds.length || new Set(entries.map(([itemId]) => itemId)).size !== itemIds.length
     || entries.some(([itemId, targetId]) => !itemIds.includes(itemId) || typeof targetId !== 'string' || !targetIds.has(targetId))) return 0;
+  const expectedCounts = question.solution.counts;
+  if (Object.keys(expectedCounts).length !== targetIds.size || [...targetIds].some((targetId) => !Number.isSafeInteger(expectedCounts[targetId]) || expectedCounts[targetId] < 1)
+    || Object.values(expectedCounts).reduce((sum, count) => sum + count, 0) !== itemIds.length) return 0;
   const actualCounts = Object.fromEntries([...targetIds].map((targetId) => [targetId, 0])) as Record<string, number>;
   for (const [, targetId] of entries) actualCounts[targetId as string] += 1;
-  const matchedItems = Object.entries(question.solution.counts).reduce((sum, [targetId, expected]) => sum + Math.min(expected, actualCounts[targetId] ?? 0), 0);
+  const matchedItems = Object.entries(expectedCounts).reduce((sum, [targetId, expected]) => sum + Math.min(expected, actualCounts[targetId] ?? 0), 0);
   return boundedScore(matchedItems, itemIds.length);
 }
 
