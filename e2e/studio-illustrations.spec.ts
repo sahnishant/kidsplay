@@ -3,9 +3,10 @@ import { resolve } from 'node:path';
 import { expect, test, type Page } from '@playwright/test';
 import { openCleanApp } from './helpers/childJourney';
 import type { SequenceOrderQuestion } from '../src/contracts/question';
-import visuals from '../content/visuals/studio-scenes.json';
 
 const read = (path: string) => JSON.parse(readFileSync(resolve(process.cwd(), path), 'utf8'));
+// Playwright loads test modules in Node, outside Vite's JSON import transform.
+const visuals = read('content/visuals/studio-scenes.json') as Array<{ id: string; glyph: string }>;
 const questions = [...read('content/questions/__generated-from-knowledge.json'), ...read('content/questions/__generated-story-studios.json')] as SequenceOrderQuestion[];
 const byId = new Map(questions.map((question) => [question.id, question]));
 const glyphs = new Map(visuals.map((visual) => [visual.id, visual.glyph]));
