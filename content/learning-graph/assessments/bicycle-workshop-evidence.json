@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "policyId": "question-evidence.bicycle-workshop.v1",
   "moduleRef": "curriculum-companion.ncert-class2-english.bicycle-workshop.v1",
+  "questionDirectory": "content/curriculum-runtime/bicycle-workshop/questions",
   "questionRefs": [
     "bicycle.workshop.identity.001",
     "bicycle.workshop.human-power.001",
@@ -67,6 +68,15 @@
     "bicycle.workshop.reading.verify.001",
     "bicycle.workshop.reading.inference.001"
   ],
+  "knowledgeEvidenceForbiddenQuestionRefs": [
+    "bicycle.workshop.reading.detail.001",
+    "bicycle.workshop.reading.sequence.001",
+    "bicycle.workshop.reading.verify.001",
+    "bicycle.workshop.reading.inference.001"
+  ],
+  "practiceOnlyInteractionTypes": [
+    "word_search"
+  ],
   "processTargets": {
     "bicycle.workshop.sequence.motion.001": "process.bicycle.motion-chain",
     "bicycle.workshop.sequence.braking.001": "process.bicycle.braking-chain"
@@ -83,8 +93,8 @@
     "knowledgeRefsMustBeCanonical": true,
     "evidenceEligibleKnowledgeMustMatchQuestionObjectives": true,
     "supportingKnowledgeNeverRecordsEvidence": true,
-    "readingKnowledgeEvidence": "forbidden",
-    "wordSearchEvidence": "practice_only",
+    "knowledgeEvidenceForbiddenRefsRequired": true,
+    "practiceOnlyInteractionTypesRequired": true,
     "naturalLanguageEntailmentCertified": false
   },
   "review": {
