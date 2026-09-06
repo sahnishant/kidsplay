@@ -1,6 +1,5 @@
 <script lang="ts">
   import guideJson from '../../content/experience/bicycle-workshop-guided.json';
-  import BicycleMechanismDemonstration from '../presentation/BicycleMechanismDemonstration.svelte';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
   import { animationVisualPresentation, resolveItemVisualPresentation, type SemanticVisualPresentation } from '../presentation/semanticVisualPresentation';
   import { getWorkshopStudioActivityRefs } from '../experience/learningStudios';
@@ -10,6 +9,7 @@
   interface GuideSection { id: string; order: number; eyebrow: string; title: string; animationRef?: string; visualRef?: string; visualLabel: string; lookPrompt: string; beats: GuideBeat[]; remember: string; childPrompt: string; }
   interface GuidedExperience { childTitle: string; subtitle: string; sections: GuideSection[]; }
 
+  const mechanismComponentPromise = import('../presentation/BicycleMechanismDemonstration.svelte');
   let { onExit, onPractice, onChapterCheck }: { onExit: () => void; onPractice: () => void; onChapterCheck: () => void; } = $props();
   const guide = guideJson as GuidedExperience;
   let activeIndex = $state(0);
@@ -53,9 +53,13 @@
       <div class="workshop__look"><span aria-hidden="true">1</span><div><strong>LOOK</strong><p>{section.lookPrompt}</p></div></div>
       <div class="workshop__visual" class:workshop__visual--mechanism={section.id === 'movement'}>
         {#if section.id === 'movement'}
-          {#key beat.id}
-            <BicycleMechanismDemonstration mode={beat.id === 'braking-chain' ? 'brake' : 'drive'} />
-          {/key}
+          {#await mechanismComponentPromise}
+            <div class="workshop__visual-fallback" aria-live="polite">Opening the bicycle mechanism…</div>
+          {:then { default: BicycleMechanismDemonstration }}
+            {#key beat.id}
+              <BicycleMechanismDemonstration mode={beat.id === 'braking-chain' ? 'brake' : 'drive'} />
+            {/key}
+          {/await}
         {:else if visualPresentation}<SemanticVisualPresenter presentation={visualPresentation} class="workshop__visual-presentation" />
         {:else}<div class="workshop__visual-fallback" role="img" aria-label={section.visualLabel}>🚲 {section.visualLabel}</div>{/if}
       </div>
