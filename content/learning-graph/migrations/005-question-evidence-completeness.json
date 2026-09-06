@@ -9,7 +9,7 @@
   "capabilityOnlyCount": 8,
   "claimEvidenceQuestionCount": 15,
   "processQuestionCount": 2,
-  "supportingKnowledgeQuestionCount": 2,
+  "supportingKnowledgeQuestionCount": 3,
   "revisedQuestionIds": [
     "bicycle.workshop.fill.pedal.001",
     "bicycle.workshop.fill.brake.001",
@@ -21,6 +21,7 @@
     "bicycle.workshop.safety.pre-ride.001"
   ],
   "supportingKnowledgeQuestionIds": [
+    "bicycle.workshop.word-search.parts.001",
     "bicycle.workshop.reading.verify.001",
     "bicycle.workshop.reading.inference.001"
   ],
@@ -28,9 +29,11 @@
     "newRuntimeEvaluator": false,
     "canonicalEvaluatorPreserved": true,
     "supportingKnowledgeIsNonEvidentiary": true,
+    "supportingKnowledgeStoredOnQuestions": true,
     "readingBicycleFactMasteryForbidden": true,
     "wordSearchLexicalMeaningMasteryForbidden": true,
     "wordSearchPracticeOnly": true,
+    "studioWordSemanticContextPreserved": true,
     "evidenceEligibleClaimsMustMatchQuestionObjectives": true,
     "sequenceEvidenceMustMatchCanonicalProcess": true,
     "naturalLanguageEntailmentCertified": false
