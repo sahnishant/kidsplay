@@ -27,8 +27,12 @@ const budgets = {
   // #281 renders the canonical bicycle SVG inline only inside the lazy mechanism
   // route so its real crank arms and pedals can animate. CI measures 911.0 KiB raw;
   // admit a bounded +4 KiB over the prior 908 KiB ceiling for that exact-art reuse.
+  // Town Square visual rescue replaces the old text/card split pane with a persistent
+  // illustrated square, five visible world-state changes and richer assembly/guided/
+  // cause-effect presentation. CI measures 920.0 KiB raw; admit +9 KiB for this lazy
+  // world route while retaining an independent Town JS/CSS ceiling below.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
@@ -61,7 +65,10 @@ const lazyRouteBudgets = [
   // spatial bridge/channel targets, tactile piece tray and visible cause/effect states;
   // the route remains lazy and core CSS/JS budgets are unchanged.
   { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 12 * 1024 },
-  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 4 * 1024 },
+  // Town Square now carries one persistent illustrated world instead of a flat status
+  // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
+  // CI measures 7.8 KiB JS gzip / 27.7 KiB CSS; keep narrow reviewed headroom here.
+  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.25 * 1024, maxCssBytes: 29 * 1024 },
   { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'StoriesViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 3 * 1024 },
