@@ -8,27 +8,43 @@ permissions:
 jobs:
   inspect:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
     steps:
-      - name: Summarize every browser failure without repeated attachments
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - uses: actions/checkout@v7
+        with:
+          ref: 0d631f64e6efce9cddfd9f98ed960fc8385aca57
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Install exact dependencies
         run: |
-          gh api --allow-escape-sequences repos/sahnishant/kidsplay/actions/jobs/101432260087/logs > /tmp/browser.log
+          npm ci --no-audit --no-fund
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          LIGHTNINGCSS_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          NATIVE_DIR="$(mktemp -d)"
+          npm install --prefix "$NATIVE_DIR" --no-save --package-lock=false --no-audit --no-fund "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION" "lightningcss-linux-x64-gnu@$LIGHTNINGCSS_VERSION"
+          mkdir -p node_modules/@rolldown
+          cp -R "$NATIVE_DIR/node_modules/@rolldown/binding-linux-x64-gnu" node_modules/@rolldown/
+          cp -R "$NATIVE_DIR/node_modules/lightningcss-linux-x64-gnu" node_modules/
+          rm -rf "$NATIVE_DIR"
+          npx playwright install --with-deps chromium > /tmp/chromium.log 2>&1
+      - name: Add ephemeral computed-style diagnostics without changing assertions
+        run: |
           python3 - <<'PY'
-          import re
           from pathlib import Path
-          source = Path('/tmp/browser.log').read_text(encoding='utf-8-sig')
-          source = re.sub(r'\x1b\[[0-?]*[ -/]*[@-~]', '', source)
-          lines = source.splitlines()
-          for i, line in enumerate(lines):
-              if re.search(r'\s\d+\) \[chromium\]', line):
-                  block = []
-                  for candidate in lines[i:i+60]:
-                      if 'attachment #' in candidate or 'Retry #1' in candidate:
-                          break
-                      block.append(candidate)
-                  print('\n'.join(block))
-              elif re.search(r'\s\d+ (?:failed|passed|flaky)(?:\s|$)', line):
-                  print('\n'.join(lines[i:i+20]))
+          p = Path('e2e/studio-illustrations.spec.ts')
+          s = p.read_text()
+          old = "            if (reducedMotion === 'reduce') expect(motion.every((item) => item.name === 'none')).toBe(true);"
+          assert s.count(old) == 1
+          new = "            if (reducedMotion === 'reduce') console.log('MOTION_DIAGNOSTIC', glyph, await scene.evaluate((root) => ({ reduce: matchMedia('(prefers-reduced-motion: reduce)').matches, offending: [...root.querySelectorAll('*')].map((e) => ({ tag: e.tagName, classes: e.getAttribute('class'), name: getComputedStyle(e).animationName, duration: getComputedStyle(e).animationDuration })).filter((e) => e.name !== 'none'), css: [...document.styleSheets].flatMap((sheet) => [...sheet.cssRules].filter((rule) => rule.cssText.includes('studio-scene') || rule.cssText.includes('scene-settle')).map((rule) => rule.cssText)) })));\n" + old
+          p.write_text(s.replace(old, new))
           PY
+          npm run build > /tmp/build.log 2>&1 || { tail -80 /tmp/build.log; exit 1; }
+      - name: Reproduce one exact failed browser case
+        run: |
+          set +e
+          npx playwright test e2e/studio-illustrations.spec.ts --grep '320x568 reduce.*When ice melts' --retries=0 > /tmp/probe.log 2>&1
+          result=$?
+          cat /tmp/probe.log
+          test "$result" -eq 1
