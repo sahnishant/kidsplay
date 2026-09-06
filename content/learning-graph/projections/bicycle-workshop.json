@@ -589,6 +589,215 @@
             "vocabulary"
           ]
         }
+      },
+      {
+        "id": "v2-claim.bicycle.pedal.operated-by.rider-foot",
+        "claimRef": "claim.bicycle.pedal.operated-by.rider-foot",
+        "subject": {
+          "id": "entity.part.bicycle.pedal",
+          "label": "pedal"
+        },
+        "object": {
+          "id": "concept.body.rider-foot",
+          "label": "rider's foot"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.wheel.helps-enable.rolling",
+        "claimRef": "claim.bicycle.wheel.helps-enable.rolling",
+        "subject": {
+          "id": "entity.part.bicycle.wheel",
+          "label": "wheel"
+        },
+        "object": {
+          "id": "concept.function.rolling-movement",
+          "label": "rolling movement"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.has-property.two-wheels",
+        "claimRef": "claim.bicycle.has-property.two-wheels",
+        "subject": {
+          "id": "entity.vehicle.bicycle",
+          "label": "bicycle"
+        },
+        "object": {
+          "id": "concept.property.two-wheels",
+          "label": "two wheels"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.has-property.human-power",
+        "claimRef": "claim.bicycle.has-property.human-power",
+        "subject": {
+          "id": "entity.vehicle.bicycle",
+          "label": "bicycle"
+        },
+        "object": {
+          "id": "concept.property.human-power",
+          "label": "movement powered by a rider"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.carrier.used-for.carrying",
+        "claimRef": "claim.bicycle.carrier.used-for.carrying",
+        "subject": {
+          "id": "entity.part.bicycle.carrier",
+          "label": "carrier"
+        },
+        "object": {
+          "id": "concept.function.carrying-items",
+          "label": "carrying suitable items"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.handlebar.controls.direction",
+        "claimRef": "claim.bicycle.handlebar.controls.direction",
+        "subject": {
+          "id": "entity.part.bicycle.handlebar",
+          "label": "handlebar"
+        },
+        "object": {
+          "id": "concept.motion.direction-change",
+          "label": "change direction"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.brake.used-for.slowing",
+        "claimRef": "claim.bicycle.brake.used-for.slowing",
+        "subject": {
+          "id": "entity.part.bicycle.brake",
+          "label": "brake"
+        },
+        "object": {
+          "id": "concept.motion.bicycle-slowing",
+          "label": "the bicycle slows"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.light.helps-enable.visibility",
+        "claimRef": "claim.bicycle.light.helps-enable.visibility",
+        "subject": {
+          "id": "entity.part.bicycle.light",
+          "label": "bicycle light"
+        },
+        "object": {
+          "id": "concept.function.rider-visibility",
+          "label": "rider visibility"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.reflector.helps-enable.visibility",
+        "claimRef": "claim.bicycle.reflector.helps-enable.visibility",
+        "subject": {
+          "id": "entity.part.bicycle.reflector",
+          "label": "reflector"
+        },
+        "object": {
+          "id": "concept.function.rider-visibility",
+          "label": "rider visibility"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.tyre.covers.wheel",
+        "claimRef": "claim.bicycle.tyre.covers.wheel",
+        "subject": {
+          "id": "entity.part.bicycle.tyre",
+          "label": "tyre"
+        },
+        "object": {
+          "id": "entity.part.bicycle.wheel",
+          "label": "wheel"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
+      },
+      {
+        "id": "v2-claim.bicycle.bell.used-for.signalling",
+        "claimRef": "claim.bicycle.bell.used-for.signalling",
+        "subject": {
+          "id": "entity.part.bicycle.bell",
+          "label": "bell"
+        },
+        "object": {
+          "id": "concept.communication.signal-presence",
+          "label": "signal that a rider is nearby"
+        },
+        "meta": {
+          "knowledgeLevel": "basic",
+          "skills": [
+            "vocabulary",
+            "classification"
+          ]
+        }
       }
     ]
   }

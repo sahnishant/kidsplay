@@ -12,7 +12,8 @@
     "chapter_actor",
     "chapter_instance",
     "phonological_pattern",
-    "grammar_concept"
+    "grammar_concept",
+    "system"
   ],
   "authorityKinds": [
     "canonical",
@@ -48,15 +49,16 @@
         "entity_class"
       ],
       "qualifiersAllowed": [],
-      "transitive": true
+      "transitive": false,
+      "deprecatedForNewClaims": true
     },
     {
       "id": "instance_of",
       "subjectTypes": [
-        "chapter_instance"
+        "entity"
       ],
       "objectTypes": [
-        "entity"
+        "entity_class"
       ],
       "qualifiersAllowed": [],
       "transitive": false
@@ -211,6 +213,167 @@
       ],
       "qualifiersAllowed": [],
       "transitive": false
+    },
+    {
+      "id": "contextual_instance_of",
+      "subjectTypes": [
+        "chapter_instance"
+      ],
+      "objectTypes": [
+        "entity"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": []
+    },
+    {
+      "id": "subclass_of",
+      "subjectTypes": [
+        "entity_class"
+      ],
+      "objectTypes": [
+        "entity_class"
+      ],
+      "transitive": true,
+      "qualifiersAllowed": [],
+      "acyclic": true
+    },
+    {
+      "id": "part_of",
+      "subjectTypes": [
+        "part",
+        "system"
+      ],
+      "objectTypes": [
+        "part",
+        "system",
+        "entity"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": [
+        "conditionRef"
+      ],
+      "acyclic": true
+    },
+    {
+      "id": "belongs_to_system",
+      "subjectTypes": [
+        "part"
+      ],
+      "objectTypes": [
+        "system"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": [
+        "conditionRef"
+      ]
+    },
+    {
+      "id": "operated_by",
+      "subjectTypes": [
+        "part"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": []
+    },
+    {
+      "id": "used_for",
+      "subjectTypes": [
+        "part",
+        "entity"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": []
+    },
+    {
+      "id": "controls",
+      "subjectTypes": [
+        "part"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": []
+    },
+    {
+      "id": "covers",
+      "subjectTypes": [
+        "part"
+      ],
+      "objectTypes": [
+        "part"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": []
+    },
+    {
+      "id": "helps_enable",
+      "subjectTypes": [
+        "part",
+        "entity",
+        "concept"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": [
+        "conditionRef"
+      ]
+    },
+    {
+      "id": "has_property",
+      "subjectTypes": [
+        "entity",
+        "part"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": [
+        "frequency",
+        "contextRef"
+      ]
+    },
+    {
+      "id": "drives",
+      "subjectTypes": [
+        "concept"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": [
+        "conditionRef"
+      ],
+      "requiredQualifiers": [
+        "conditionRef"
+      ]
+    },
+    {
+      "id": "helps_protect",
+      "subjectTypes": [
+        "entity"
+      ],
+      "objectTypes": [
+        "concept"
+      ],
+      "transitive": false,
+      "qualifiersAllowed": [
+        "activity",
+        "conditionRef"
+      ],
+      "requiredQualifiers": [
+        "conditionRef"
+      ]
     }
   ],
   "qualifierDefinitions": [
@@ -244,6 +407,12 @@
       "values": [
         "riding_bicycle"
       ]
+    },
+    {
+      "id": "conditionRef",
+      "valueType": "node_ref"
     }
-  ]
+  ],
+  "revision": 2,
+  "semanticVersion": "2.0.0"
 }

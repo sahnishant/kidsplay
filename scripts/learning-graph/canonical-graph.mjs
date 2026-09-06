@@ -67,6 +67,8 @@ export function validateCanonicalGraph(graph) {
     const subject = nodes.get(claim.subjectRef), object = nodes.get(claim.objectRef), predicate = predicates.get(claim.predicate);
     assert(subject && object, `${claim.id}: unresolved endpoint`);
     assert(predicate, `${claim.id}: unknown predicate ${claim.predicate}`);
+    assert(!predicate.deprecatedForNewClaims, `${claim.id}: deprecated predicate ${claim.predicate}`);
+    for (const key of predicate.requiredQualifiers ?? []) assert(Object.hasOwn(claim.qualifiers ?? {}, key), `${claim.id}: required qualifier ${key} missing`);
     assert(predicate.subjectTypes.includes(subject.type) && predicate.objectTypes.includes(object.type), `${claim.id}: endpoint type mismatch`);
     assert(['positive', 'negative'].includes(claim.polarity), `${claim.id}: explicit polarity required`);
     assert(ontology.authorityKinds.includes(claim.authority?.kind), `${claim.id}: explicit knowledge authority required`);
@@ -116,6 +118,7 @@ export function validateCanonicalGraph(graph) {
     assert(text(misconception.incorrect) && misconception.repairWith?.length > 0, `${misconception.id}: wording and repair claims required`);
     for (const id of misconception.repairWith) assert(claims.has(id), `${misconception.id}: unknown repair claim ${id}`);
   }
+  for (const node of nodes.values()) if (!used.has(node.id)) assert(node.allowOrphan === true && text(node.orphanReason), `${node.id}: unexplained orphan node`);
   const depthRefs = Object.values(graph.depthBands ?? {}).flat();
   assert(new Set(depthRefs).size === depthRefs.length, 'Duplicate discovery-depth placement');
   for (const id of depthRefs) assert(nodes.has(id), `Unknown discovery node ${id}`);

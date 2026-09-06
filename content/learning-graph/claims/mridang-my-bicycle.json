@@ -5,7 +5,7 @@
     {
       "id": "claim.bicycle.is-a.wheeled-vehicle",
       "subjectRef": "entity.vehicle.bicycle",
-      "predicate": "is_a",
+      "predicate": "instance_of",
       "objectRef": "class.vehicle.wheeled",
       "polarity": "positive",
       "authority": {
@@ -27,9 +27,14 @@
             1,
             3
           ]
+        },
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
+      "revision": 2,
       "qualifiers": {},
       "objectiveRefs": [
         "objective.bicycle.identity"
@@ -38,7 +43,7 @@
     {
       "id": "claim.tricycle.is-a.wheeled-vehicle",
       "subjectRef": "entity.vehicle.tricycle",
-      "predicate": "is_a",
+      "predicate": "instance_of",
       "objectRef": "class.vehicle.wheeled",
       "polarity": "positive",
       "authority": {
@@ -59,16 +64,21 @@
           "pdfPages": [
             3
           ]
+        },
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
+      "revision": 2,
       "qualifiers": {},
       "objectiveRefs": []
     },
     {
       "id": "claim.wheelchair.is-a.wheeled-mobility-device",
       "subjectRef": "entity.mobility.wheelchair",
-      "predicate": "is_a",
+      "predicate": "instance_of",
       "objectRef": "class.mobility.wheeled-device",
       "polarity": "positive",
       "authority": {
@@ -89,9 +99,14 @@
           "pdfPages": [
             3
           ]
+        },
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
+      "revision": 2,
       "qualifiers": {},
       "objectiveRefs": []
     },
@@ -433,7 +448,7 @@
     {
       "id": "claim.cycling-helmet.protects.head",
       "subjectRef": "entity.safety.cycling-helmet",
-      "predicate": "protects",
+      "predicate": "helps_protect",
       "objectRef": "concept.body.head",
       "polarity": "positive",
       "authority": {
@@ -454,12 +469,18 @@
           "pdfPages": [
             2
           ]
+        },
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
         }
       ],
       "qualifiers": {
-        "activity": "riding_bicycle"
+        "activity": "riding_bicycle",
+        "conditionRef": "concept.condition.helmet-proper-fit"
       },
-      "revision": 1,
+      "revision": 2,
       "objectiveRefs": [
         "objective.bicycle.safety.helmet"
       ]
@@ -681,7 +702,7 @@
     {
       "id": "claim.chapter.my-bicycle.instance-of.bicycle",
       "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "instance_of",
+      "predicate": "contextual_instance_of",
       "objectRef": "entity.vehicle.bicycle",
       "polarity": "positive",
       "authority": {
@@ -702,9 +723,14 @@
           "pdfPages": [
             1
           ]
+        },
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
+      "revision": 2,
       "qualifiers": {},
       "objectiveRefs": []
     },

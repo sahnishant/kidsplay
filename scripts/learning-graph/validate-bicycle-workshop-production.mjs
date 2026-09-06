@@ -109,7 +109,7 @@ export function validateBicycleWorkshopProduction() {
     for (const ref of [...(process.orderedEdgeRefs ?? []), ...(process.parallelEdgeRefs ?? [])]) invariant(claimIds.has(ref), `${process.id}: unknown edge ${ref}`);
   }
   for (const misconception of graph.misconceptions) for (const ref of misconception.repairWith) invariant(claimIds.has(ref), `${misconception.id}: unknown repair claim ${ref}`);
-  invariant(module.graphClaimRefs.length === 29, 'Expected 29 admitted runtime claims');
+  invariant(module.graphClaimRefs.length === 40, 'Expected 40 admitted runtime claims');
   for (const ref of module.graphClaimRefs) {
     invariant(claimIds.has(ref), `Runtime module has unknown claim ${ref}`);
     invariant(!ref.startsWith('claim.chapter.'), `Chapter-local claim leaked into runtime mastery: ${ref}`);
@@ -117,7 +117,7 @@ export function validateBicycleWorkshopProduction() {
 
   const projectionById = new Map(projection.entries.map((row) => [row.rowId, row]));
   invariant(projection.canonicalSource.kind === 'learning_graph', 'Runtime projection must name Learning Graph authority');
-  invariant(projection.entries.length === 29, 'Expected 29 runtime projection rows');
+  invariant(projection.entries.length === 40, 'Expected 40 runtime projection rows');
   for (const row of projection.entries) {
     invariant(row.rowId === row.graphClaimRef, `${row.rowId}: graph identity changed in projection`);
     invariant(claimIds.has(row.graphClaimRef), `${row.rowId}: unknown graph claim`);
@@ -130,7 +130,7 @@ export function validateBicycleWorkshopProduction() {
   const families = new Set(questions.map((question) => question.interaction.type));
   for (const family of ['single_choice','word_bank_fill','drag_to_target','sequence_order','memory_pairs','word_search']) invariant(families.has(family), `Missing activity family ${family}`);
   for (const question of questions) {
-    invariant(question.authoring?.source === 'kidsplay-independent-curriculum-companion' && question.authoring?.status === 'reviewed', `${question.id}: wrong authoring authority`);
+    invariant(question.authoring?.source === 'kidsplay-independent-curriculum-companion' && (question.authoring?.status === 'reviewed' || (question.authoring?.status === 'draft' && question.evidencePolicy === 'practice_only' && question.semanticTarget)), `${question.id}: wrong authoring authority`);
     invariant(!/my bicycle/i.test(question.prompt?.text ?? ''), `${question.id}: source chapter title leaked into child prompt`);
     for (const ref of question.knowledgeRefs ?? []) {
       invariant(projectionById.has(ref), `${question.id}: unknown runtime knowledge ref ${ref}`);

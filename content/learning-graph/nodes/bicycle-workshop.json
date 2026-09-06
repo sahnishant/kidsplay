@@ -429,7 +429,9 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "allowOrphan": true,
+      "orphanReason": "Reserved vocabulary metaconcept; not currently an assessed factual claim."
     },
     {
       "id": "concept.word-sense.action",
@@ -442,7 +444,9 @@
         "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
-      }
+      },
+      "allowOrphan": true,
+      "orphanReason": "Reserved vocabulary metaconcept; not currently an assessed factual claim."
     },
     {
       "id": "lexeme.en.bicycle.noun.vehicle",
@@ -536,6 +540,308 @@
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
       }
+    },
+    {
+      "id": "concept.body.rider-foot",
+      "type": "concept",
+      "labels": {
+        "en": "rider's foot"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.function.rolling-movement",
+      "type": "concept",
+      "labels": {
+        "en": "rolling movement"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.function.carrying-items",
+      "type": "concept",
+      "labels": {
+        "en": "carrying suitable items"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.function.rider-visibility",
+      "type": "concept",
+      "labels": {
+        "en": "rider visibility"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.condition.helmet-proper-fit",
+      "type": "concept",
+      "labels": {
+        "en": "helmet is properly fitted"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "system.bicycle.drivetrain",
+      "type": "system",
+      "labels": {
+        "en": "bicycle drivetrain"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.condition.chain-driven-bicycle",
+      "type": "concept",
+      "labels": {
+        "en": "conventional chain-driven pedal bicycle"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.condition.tubed-tyre-system",
+      "type": "concept",
+      "labels": {
+        "en": "tyre system that uses an inner tube"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "concept.condition.normal-rolling-contact",
+      "type": "concept",
+      "labels": {
+        "en": "normal rolling contact with the ground"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "class.vehicle",
+      "type": "entity_class",
+      "labels": {
+        "en": "vehicle"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "entity.vehicle.car",
+      "type": "entity",
+      "labels": {
+        "en": "car"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "allowOrphan": true,
+      "orphanReason": "Neutral option entity in typed assessment targets; no property claim is inferred from being a distractor."
+    },
+    {
+      "id": "entity.vehicle.bus",
+      "type": "entity",
+      "labels": {
+        "en": "bus"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "allowOrphan": true,
+      "orphanReason": "Neutral option entity in typed assessment targets; no property claim is inferred from being a distractor."
+    },
+    {
+      "id": "entity.safety.seatbelt",
+      "type": "entity",
+      "labels": {
+        "en": "seat belt"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "allowOrphan": true,
+      "orphanReason": "Neutral option entity in a typed assessment target; not a bicycle safety recommendation."
+    },
+    {
+      "id": "entity.safety.traffic-light",
+      "type": "entity",
+      "labels": {
+        "en": "traffic light"
+      },
+      "revision": 1,
+      "scope": "shared",
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.kidsplay.graph-architecture-review.2026-09-06",
+          "sourceRole": "user_requested_model_correction_not_external_fact_verification",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "allowOrphan": true,
+      "orphanReason": "Neutral option entity in a typed assessment target; no property claim is inferred."
     }
   ]
 }

@@ -99,6 +99,7 @@ export function projectObjectiveSystem(system) {
     const claim = claims.get(entry.claimRef);
     return { id: entry.id, rowId: claim.id, graphClaimRef: claim.id,
       subject: entry.subject, relation: claim.predicate, object: entry.object,
+      canonicalClaim: { subjectRef: claim.subjectRef, objectRef: claim.objectRef, revision: claim.revision, polarity: claim.polarity, qualifiers: claim.qualifiers, objectiveRefs: claim.objectiveRefs, reviewStatus: claim.review.status, publishable: claim.review.publishable },
       conceptIds: [...new Set(claim.objectiveRefs.flatMap((ref) => objectives.get(ref).legacyConceptIds))],
       meta: { ...entry.meta, canonicalAuthority: 'learning_graph', runtimeProjection: true } };
   });

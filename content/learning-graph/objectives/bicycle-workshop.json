@@ -12,7 +12,11 @@
       "defaultDepth": "D0",
       "targetClaimRefs": [
         "claim.bicycle.is-a.wheeled-vehicle",
-        "claim.bicycle.is-a.human-powered-vehicle"
+        "claim.bicycle.is-a.human-powered-vehicle",
+        "claim.bicycle.has-property.two-wheels",
+        "claim.bicycle.has-property.human-power",
+        "claim.class.wheeled.subclass-of.vehicle",
+        "claim.class.human-powered.subclass-of.vehicle"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -62,7 +66,11 @@
         "claim.bicycle.typically-has-part.wheel",
         "claim.bicycle.typically-has-part.rim",
         "claim.bicycle.typically-has-part.spoke",
-        "claim.bicycle.typically-has-part.hub"
+        "claim.bicycle.typically-has-part.hub",
+        "claim.bicycle.wheel.helps-enable.rolling",
+        "claim.bicycle.rim.part-of.wheel",
+        "claim.bicycle.spoke.part-of.wheel",
+        "claim.bicycle.hub.part-of.wheel"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -85,7 +93,10 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D1",
       "targetClaimRefs": [
-        "claim.bicycle.may-have-part.inner-tube"
+        "claim.bicycle.may-have-part.inner-tube",
+        "claim.bicycle.tyre.covers.wheel",
+        "claim.bicycle.tyre.part-of.wheel",
+        "claim.bicycle.inner-tube.part-of.tyre-system"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -108,7 +119,8 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D0",
       "targetClaimRefs": [
-        "claim.bicycle.typically-has-part.pedal"
+        "claim.bicycle.typically-has-part.pedal",
+        "claim.bicycle.pedal.operated-by.rider-foot"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -132,7 +144,9 @@
       "defaultDepth": "D1",
       "targetClaimRefs": [
         "claim.bicycle.typically-has-part.handlebar",
-        "claim.bicycle.may-have-part.grip"
+        "claim.bicycle.may-have-part.grip",
+        "claim.bicycle.handlebar.controls.direction",
+        "claim.bicycle.grip.part-of.handlebar"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -156,7 +170,8 @@
       "defaultDepth": "D1",
       "targetClaimRefs": [
         "claim.bicycle.typically-has-part.brake",
-        "claim.bicycle.typically-has-part.brake-lever"
+        "claim.bicycle.typically-has-part.brake-lever",
+        "claim.bicycle.brake.used-for.slowing"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -179,7 +194,8 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D1",
       "targetClaimRefs": [
-        "claim.bicycle.may-have-part.bell"
+        "claim.bicycle.may-have-part.bell",
+        "claim.bicycle.bell.used-for.signalling"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -202,7 +218,8 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D1",
       "targetClaimRefs": [
-        "claim.bicycle.may-have-part.carrier"
+        "claim.bicycle.may-have-part.carrier",
+        "claim.bicycle.carrier.used-for.carrying"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -227,7 +244,12 @@
       "targetClaimRefs": [
         "claim.bicycle.typically-has-part.crank",
         "claim.bicycle.typically-has-part.chain",
-        "claim.bicycle.typically-has-part.rear-sprocket"
+        "claim.bicycle.typically-has-part.rear-sprocket",
+        "claim.bicycle.pedal.belongs-to.drivetrain",
+        "claim.bicycle.crank.belongs-to.drivetrain",
+        "claim.bicycle.chain.belongs-to.drivetrain",
+        "claim.bicycle.rear-sprocket.belongs-to.drivetrain",
+        "claim.bicycle.drivetrain.part-of.bicycle"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -346,7 +368,8 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D1",
       "targetClaimRefs": [
-        "claim.turn-handlebar.contributes-to.direction-change"
+        "claim.turn-handlebar.contributes-to.direction-change",
+        "claim.bicycle.handlebar.controls.direction"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -415,7 +438,8 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D1",
       "targetClaimRefs": [
-        "claim.ring-bell.contributes-to.signal-presence"
+        "claim.ring-bell.contributes-to.signal-presence",
+        "claim.bicycle.bell.used-for.signalling"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -464,7 +488,9 @@
       "defaultDepth": "D1",
       "targetClaimRefs": [
         "claim.bicycle.may-have-part.light",
-        "claim.bicycle.may-have-part.reflector"
+        "claim.bicycle.may-have-part.reflector",
+        "claim.bicycle.light.helps-enable.visibility",
+        "claim.bicycle.reflector.helps-enable.visibility"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [
@@ -487,7 +513,8 @@
       "cognitiveOperation": "recognise",
       "defaultDepth": "D1",
       "targetClaimRefs": [
-        "claim.lexeme.bicycle.denotes.vehicle"
+        "claim.lexeme.bicycle.denotes.vehicle",
+        "claim.bicycle.has-property.two-wheels"
       ],
       "capabilityRefs": [],
       "legacyConceptIds": [

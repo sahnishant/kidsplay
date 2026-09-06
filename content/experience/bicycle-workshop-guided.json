@@ -28,15 +28,28 @@
           "id": "meet-wheels",
           "label": "WHEELS",
           "text": "A bicycle is a vehicle with wheels. The wheels roll along the ground.",
-          "examples": ["two wheels", "wheels roll"],
-          "claimRefs": ["claim.bicycle.is-a.wheeled-vehicle"]
+          "examples": [
+            "two wheels",
+            "wheels roll"
+          ],
+          "claimRefs": [
+            "claim.bicycle.is-a.wheeled-vehicle",
+            "claim.bicycle.has-property.two-wheels"
+          ]
         },
         {
           "id": "meet-power",
           "label": "RIDER POWER",
           "text": "Your feet push the pedals. That is how the rider gives the bicycle power.",
-          "sequence": ["feet push", "pedals move", "bicycle goes"],
-          "claimRefs": ["claim.bicycle.is-a.human-powered-vehicle", "claim.pedalling.contributes-to.bicycle-movement"]
+          "sequence": [
+            "feet push",
+            "pedals move",
+            "bicycle goes"
+          ],
+          "claimRefs": [
+            "claim.bicycle.is-a.human-powered-vehicle",
+            "claim.pedalling.contributes-to.bicycle-movement"
+          ]
         }
       ],
       "remember": "The rider gives the bicycle its power.",
@@ -55,22 +68,46 @@
           "id": "parts-wheel-pedal",
           "label": "GO",
           "text": "Wheels roll. Your feet push the pedals.",
-          "examples": ["wheels = roll", "pedals = push"],
-          "claimRefs": ["claim.bicycle.typically-has-part.wheel", "claim.bicycle.typically-has-part.pedal"]
+          "examples": [
+            "wheels = roll",
+            "pedals = push"
+          ],
+          "claimRefs": [
+            "claim.bicycle.typically-has-part.wheel",
+            "claim.bicycle.typically-has-part.pedal",
+            "claim.bicycle.wheel.helps-enable.rolling",
+            "claim.bicycle.pedal.operated-by.rider-foot"
+          ]
         },
         {
           "id": "parts-handlebar-brake",
           "label": "TURN AND STOP",
           "text": "Turn the handlebar to steer. Use the brakes to slow down.",
-          "examples": ["handlebar = steer", "brakes = slow down"],
-          "claimRefs": ["claim.bicycle.typically-has-part.handlebar", "claim.turn-handlebar.contributes-to.direction-change", "claim.bicycle.typically-has-part.brake", "claim.brake-engages.contributes-to.bicycle-slowing"]
+          "examples": [
+            "handlebar = steer",
+            "brakes = slow down"
+          ],
+          "claimRefs": [
+            "claim.bicycle.typically-has-part.handlebar",
+            "claim.turn-handlebar.contributes-to.direction-change",
+            "claim.bicycle.typically-has-part.brake",
+            "claim.brake-engages.contributes-to.bicycle-slowing",
+            "claim.bicycle.handlebar.controls.direction",
+            "claim.bicycle.brake.used-for.slowing"
+          ]
         },
         {
           "id": "parts-bell-carrier",
           "label": "USEFUL EXTRAS",
           "text": "A bell and a carrier are useful extras. Some bicycles have them and some do not.",
-          "examples": ["bell = signal", "carrier = carry things"],
-          "claimRefs": ["claim.bicycle.may-have-part.bell", "claim.bicycle.may-have-part.carrier"]
+          "examples": [
+            "bell = signal",
+            "carrier = carry things"
+          ],
+          "claimRefs": [
+            "claim.bicycle.may-have-part.bell",
+            "claim.bicycle.may-have-part.carrier"
+          ]
         }
       ],
       "remember": "Different bicycle parts do different jobs.",
@@ -89,7 +126,13 @@
           "id": "movement-chain",
           "label": "MAKE IT GO",
           "text": "One push starts a chain of movement.",
-          "sequence": ["Push pedals", "Crank turns", "Chain moves", "Back wheel turns", "Bicycle moves"],
+          "sequence": [
+            "Push pedals",
+            "Crank turns",
+            "Chain moves",
+            "Back wheel turns",
+            "Bicycle moves"
+          ],
           "claimRefs": [
             "claim.push-pedals.contributes-to.crank-turns",
             "claim.crank-turns.contributes-to.chain-moves",
@@ -101,8 +144,15 @@
           "id": "braking-chain",
           "label": "MAKE IT SLOW",
           "text": "Braking is another short chain.",
-          "sequence": ["Squeeze lever", "Brake engages", "Bicycle slows"],
-          "claimRefs": ["claim.squeeze-brake-lever.contributes-to.brake-engages", "claim.brake-engages.contributes-to.bicycle-slowing"]
+          "sequence": [
+            "Squeeze lever",
+            "Brake engages",
+            "Bicycle slows"
+          ],
+          "claimRefs": [
+            "claim.squeeze-brake-lever.contributes-to.brake-engages",
+            "claim.brake-engages.contributes-to.bicycle-slowing"
+          ]
         }
       ],
       "remember": "One action can start the next action.",
@@ -121,15 +171,27 @@
           "id": "pedal-senses",
           "label": "PEDAL",
           "text": "Pedal can name a part. It can also tell an action.",
-          "examples": ["the pedal = thing", "pedal gently = action"],
-          "claimRefs": ["claim.lexeme.pedal-noun.denotes.bicycle-pedal", "claim.lexeme.pedal-verb.denotes.pedalling"]
+          "examples": [
+            "the pedal = thing",
+            "pedal gently = action"
+          ],
+          "claimRefs": [
+            "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
+            "claim.lexeme.pedal-verb.denotes.pedalling"
+          ]
         },
         {
           "id": "brake-senses",
           "label": "BRAKE",
           "text": "Brake can name a part. It can also tell an action.",
-          "examples": ["the brake = thing", "brake before the turn = action"],
-          "claimRefs": ["claim.lexeme.brake-noun.denotes.bicycle-brake", "claim.lexeme.brake-verb.denotes.bicycle-slowing"]
+          "examples": [
+            "the brake = thing",
+            "brake before the turn = action"
+          ],
+          "claimRefs": [
+            "claim.lexeme.brake-noun.denotes.bicycle-brake",
+            "claim.lexeme.brake-verb.denotes.bicycle-slowing"
+          ]
         }
       ],
       "remember": "Some words can do more than one job.",
@@ -148,15 +210,27 @@
           "id": "short-a",
           "label": "SHORT A",
           "text": "Cat, cap, and map all have the same short-a sound in the middle.",
-          "examples": ["cat", "cap", "map"],
-          "capabilityRefs": ["capability.english.phonics.short-a-recognition"]
+          "examples": [
+            "cat",
+            "cap",
+            "map"
+          ],
+          "capabilityRefs": [
+            "capability.english.phonics.short-a-recognition"
+          ]
         },
         {
           "id": "articles",
           "label": "A OR AN?",
           "text": "Listen to the first sound when you choose a or an.",
-          "examples": ["a bicycle", "a helmet", "an apple"],
-          "capabilityRefs": ["capability.english.grammar.indefinite-article-selection"]
+          "examples": [
+            "a bicycle",
+            "a helmet",
+            "an apple"
+          ],
+          "capabilityRefs": [
+            "capability.english.grammar.indefinite-article-selection"
+          ]
         }
       ],
       "remember": "Listen to the sound at the start of the word.",
@@ -175,15 +249,28 @@
           "id": "reading-micro-passage",
           "label": "TINY STORY",
           "text": "Ria fastens her helmet. She checks the brakes. Then she begins to pedal.",
-          "sequence": ["Helmet", "Brakes", "Pedal"],
-          "capabilityRefs": ["capability.english.reading.literal-retrieval", "capability.english.reading.sequence-retrieval"]
+          "sequence": [
+            "Helmet",
+            "Brakes",
+            "Pedal"
+          ],
+          "capabilityRefs": [
+            "capability.english.reading.literal-retrieval",
+            "capability.english.reading.sequence-retrieval"
+          ]
         },
         {
           "id": "reading-strategy",
           "label": "ORDER CLUES",
           "text": "Words like then and last help tell the order. Actions can also help us understand simple reasons.",
-          "examples": ["then = next", "last = end"],
-          "capabilityRefs": ["capability.english.reading.statement-verification", "capability.english.reading.simple-inference"]
+          "examples": [
+            "then = next",
+            "last = end"
+          ],
+          "capabilityRefs": [
+            "capability.english.reading.statement-verification",
+            "capability.english.reading.simple-inference"
+          ]
         }
       ],
       "remember": "Find the actions, then put them in order.",
@@ -202,22 +289,40 @@
           "id": "safety-helmet",
           "label": "1 · HELMET",
           "text": "Fasten a properly fitted cycling helmet before you ride.",
-          "examples": ["helmet on", "helmet fastened"],
-          "claimRefs": ["claim.cycling-helmet.protects.head", "claim.check-helmet.contributes-to.safer-ride"]
+          "examples": [
+            "helmet on",
+            "helmet fastened"
+          ],
+          "claimRefs": [
+            "claim.cycling-helmet.protects.head",
+            "claim.check-helmet.contributes-to.safer-ride"
+          ]
         },
         {
           "id": "safety-bike",
           "label": "2 · BIKE CHECK",
           "text": "Check that the brakes work and that the tyres are ready.",
-          "examples": ["brakes work", "tyres ready"],
-          "claimRefs": ["claim.check-brakes.contributes-to.safer-ride", "claim.check-tyres.contributes-to.safer-ride"]
+          "examples": [
+            "brakes work",
+            "tyres ready"
+          ],
+          "claimRefs": [
+            "claim.check-brakes.contributes-to.safer-ride",
+            "claim.check-tyres.contributes-to.safer-ride"
+          ]
         },
         {
           "id": "safety-signal",
           "label": "3 · BELL",
           "text": "A bicycle bell can tell others that a rider is nearby.",
-          "examples": ["ring", "people hear you"],
-          "claimRefs": ["claim.bicycle-bell.produces.ring", "claim.ring-bell.contributes-to.signal-presence"]
+          "examples": [
+            "ring",
+            "people hear you"
+          ],
+          "claimRefs": [
+            "claim.bicycle-bell.produces.ring",
+            "claim.ring-bell.contributes-to.signal-presence"
+          ]
         }
       ],
       "remember": "Helmet. Brakes. Tyres. Then ride.",

@@ -32,10 +32,10 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
     expect(validate()).toMatchObject({
       moduleId: 'curriculum-companion.ncert-class2-english.bicycle-workshop.v1',
       sectionCount: 7,
-      graphNodeCount: 79,
-      graphClaimCount: 64,
-      admittedClaimCount: 29,
-      projectionRowCount: 29,
+      graphNodeCount: 93,
+      graphClaimCount: 88,
+      admittedClaimCount: 40,
+      projectionRowCount: 40,
       questionCount: 32,
       practiceQuestionCount: 32,
       chapterCheckQuestionCount: 8,
@@ -69,6 +69,8 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
 
   it('uses exact graph-claim weakness to choose the practice item inside an activity lane', () => {
     const session = createBicycleWorkshopSession('practice', {
+      'claim.bicycle.has-property.two-wheels': { attempts: 3, correct: 3, totalWeight: 3, correctWeight: 3, lastResult: 'correct', lastSeenAt: '2026-09-05T00:00:00.000Z' },
+      'claim.bicycle.has-property.human-power': { attempts: 3, correct: 3, totalWeight: 3, correctWeight: 3, lastResult: 'correct', lastSeenAt: '2026-09-05T00:00:00.000Z' },
       'claim.bicycle.is-a.wheeled-vehicle': {
         attempts: 3,
         correct: 3,
@@ -85,12 +87,25 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
     ))).toBe(true);
   });
 
-  it('records exact graph-claim evidence through the existing evaluator', () => {
+  it('keeps the revised unapproved functional target practice-only through the existing evaluator', () => {
     const question = requireQuestion('bicycle.workshop.control.brake.001');
     const result = evaluate(question, { selectedOptionIds: ['brake'] });
     expect(result.correct).toBe(true);
-    expect(result.knowledgeEvidence.map((item) => item.rowId)).toEqual(question.knowledgeRefs);
-    expect(result.masteryEvidence.some((item) => item.conceptId === 'bicycle.braking.chain')).toBe(true);
+    expect(question.evidencePolicy).toBe('practice_only');
+    expect(question.authoring.status).toBe('draft');
+    expect(result.knowledgeEvidence).toEqual([]);
+    expect(result.masteryEvidence).toEqual([]);
+  });
+
+  it('does not treat old classification evidence as evidence for the new identity claims', () => {
+    const session = createBicycleWorkshopSession('practice', {
+      'claim.bicycle.is-a.wheeled-vehicle': { attempts: 3, correct: 3, totalWeight: 3, correctWeight: 3, lastResult: 'correct', lastSeenAt: '2026-09-05T00:00:00.000Z' }
+    });
+    expect(session.questions.some((item) => item.id === 'bicycle.workshop.identity.001')).toBe(true);
+    const identity = requireQuestion('bicycle.workshop.identity.001');
+    expect(identity.knowledgeRefs).toContain('claim.bicycle.has-property.two-wheels');
+    expect(identity.knowledgeRefs).toContain('claim.bicycle.has-property.human-power');
+    expect(evaluate(identity, { selectedOptionIds: ['bicycle'] }).masteryEvidence).toEqual([]);
   });
 
   it('keeps capability-only phonics and reading evidence separate from bicycle fact mastery', () => {

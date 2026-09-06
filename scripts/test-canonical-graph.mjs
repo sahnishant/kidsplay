@@ -3,8 +3,8 @@ import { loadCanonicalGraph, validateCanonicalGraph } from './learning-graph/can
 
 const source = loadCanonicalGraph();
 const result = validateCanonicalGraph(source);
-assert.equal(result.nodeCount, 79);
-assert.equal(result.claimCount, 64);
+assert.equal(result.nodeCount, 93);
+assert.equal(result.claimCount, 88);
 let mutations = 0;
 function rejects(name, mutate, pattern) {
   const graph = structuredClone(source);

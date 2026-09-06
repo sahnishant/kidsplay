@@ -7,7 +7,7 @@ const report = compileObjectiveProjection();
 assert.equal(report.objectiveCount, 34);
 assert.equal(report.capabilityCount, 11);
 assert.equal(report.legacyProgressIdCount, 34);
-assert.equal(report.projectedClaimCount, 29);
+assert.equal(report.projectedClaimCount, 40);
 const expected = JSON.parse(readFileSync('content/learning-graph/migrations/002-objective-authority.json', 'utf8')).preservedProgressIds;
 assert.deepEqual(system.objectives.flatMap((item) => item.legacyConceptIds), expected);
 let mutations = 0;

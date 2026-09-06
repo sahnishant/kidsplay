@@ -652,7 +652,9 @@
       ],
       "notation": "/æ/",
       "reviewNote": "Chapter example set requires pronunciation review before runtime audio use.",
-      "revision": 1
+      "revision": 1,
+      "allowOrphan": true,
+      "orphanReason": "Curriculum phonological target linked to a capability, not a factual edge."
     },
     {
       "id": "grammar.en.indefinite-article-a-an",
@@ -676,7 +678,9 @@
         }
       ],
       "reviewNote": "The chapter gives an introductory observation, not a complete universal article rule.",
-      "revision": 1
+      "revision": 1,
+      "allowOrphan": true,
+      "orphanReason": "Curriculum language target linked to a capability, not a factual edge."
     },
     {
       "id": "lexeme.en.pedal.noun.bicycle-part",
@@ -878,7 +882,9 @@
       "form": "track",
       "resolutionStatus": "blocked_pending_contextual_sense_review",
       "reviewNote": "Do not attach a generic track image or meaning until the phrase-level sense in this chapter is reviewed.",
-      "revision": 1
+      "revision": 1,
+      "allowOrphan": true,
+      "orphanReason": "Unresolved lexical target remains blocked pending sense review; no meaning is inferred."
     },
     {
       "id": "chapter.mridang.my-bicycle.speaker",

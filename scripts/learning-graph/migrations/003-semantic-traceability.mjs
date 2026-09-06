@@ -1,7 +1,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { createHash } from 'node:crypto';
-import { compileObjectiveProjection } from '../objective-projection.mjs';
+import { execFileSync } from 'node:child_process';
 
 const root = process.cwd(), read = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
 const write = (path, value) => { mkdirSync(dirname(resolve(root, path)), { recursive: true }); writeFileSync(resolve(root, path), `${JSON.stringify(value, null, 2)}\n`); };
@@ -203,6 +203,6 @@ else {
   for (const [path, value] of changes) write(path, value);
   for (const [path, source] of codeEdits) writeFileSync(resolve(root, path), source);
   write(ledgerPath, ledger);
-  compileObjectiveProjection({ root, check: false });
+  execFileSync(process.execPath, ['scripts/learning-graph/objective-projection.mjs', '--write'], { cwd: root, stdio: 'inherit' });
   console.log(JSON.stringify({ migration: ledger.migrationId, nodes: nodes.length, claims: claims.length, runtimeClaims: runtime.graphClaimRefs.length, semanticTargets: targetIds.length }));
 }

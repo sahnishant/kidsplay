@@ -147,5 +147,7 @@
     "objective.capability.english.reading.sequence-retrieval",
     "objective.capability.english.reading.statement-verification",
     "objective.capability.english.reading.simple-inference"
-  ]
+  ],
+  "assessmentTargetFile": "content/learning-graph/assessments/bicycle-workshop-targets.json",
+  "semanticMigrationRef": "learning-graph.003-semantic-traceability"
 }

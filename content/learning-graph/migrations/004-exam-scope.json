@@ -1,0 +1,30 @@
+{
+  "migrationId": "learning-graph.004-exam-scope",
+  "sourceHashes": {
+    "tests/bicycle-workshop-production.behavior.test.ts": "52b29f0b220527831e50b31af68ba355f94a1168570853d7371f14bf936c1e64",
+    "tests/bicycle-workshop-exam.behavior.test.ts": "cc7ab7e44fb2cde20a52e867c08e9c9590ee9f6c9a44cd23a7133efe0a8e7df5",
+    "scripts/learning-graph/validate-bicycle-workshop-exam.mjs": "397b6437f1d53b46a6ad9c99b3476c62ec69c1780a1e95a3d707882a674c9941",
+    ".github/workflows/windows-check.yml": "ffa8bf06738d9d19afc8fb1a305e17ac6967a5eccf69ad42d606f7afc292eac4",
+    ".github/workflows/browser-smoke.yml": "e223e2cf2385626cf6aa767cc7037c0f23ca16f24fd41a469dfbc4dc5a05afd3",
+    ".github/workflows/android-debug.yml": "53e44d6ed0e2fad1a5ac70510dd342d3a9184e1a3f061879da8d166c4aa2de11",
+    ".github/workflows/android-stories-offline.yml": "48545a40887e94f8ad6ee8f526b49acd6e18a8b5399e9696b047ba1e43b510a0",
+    "content/module-assessments/mridang/bicycle-workshop-exam-v1.json": "afa6d246f846e9ca1f9c51349a540ecee4b1d76ac3f30f62024ae2ba08bb70db"
+  },
+  "newSupportingClaims": [
+    "claim.bicycle.pedal.operated-by.rider-foot",
+    "claim.bicycle.wheel.helps-enable.rolling",
+    "claim.bicycle.has-property.two-wheels",
+    "claim.bicycle.has-property.human-power",
+    "claim.bicycle.carrier.used-for.carrying",
+    "claim.bicycle.handlebar.controls.direction",
+    "claim.bicycle.brake.used-for.slowing",
+    "claim.bicycle.tyre.covers.wheel",
+    "claim.bicycle.bell.used-for.signalling"
+  ],
+  "newEnrichmentClaims": [
+    "claim.bicycle.light.helps-enable.visibility",
+    "claim.bicycle.reflector.helps-enable.visibility"
+  ],
+  "semanticApprovalGranted": false,
+  "stackedPrBase": "feat/reusable-learning-studios-v1"
+}

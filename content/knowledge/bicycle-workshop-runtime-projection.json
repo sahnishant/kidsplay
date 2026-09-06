@@ -23,10 +23,22 @@
         "id": "bicycle",
         "label": "Bicycle"
       },
-      "relation": "is_a",
+      "relation": "instance_of",
       "object": {
         "id": "wheeled-vehicle",
         "label": "wheeled vehicle"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "class.vehicle.wheeled",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.identity"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.identity"
@@ -49,10 +61,22 @@
         "id": "bicycle",
         "label": "Bicycle"
       },
-      "relation": "is_a",
+      "relation": "instance_of",
       "object": {
         "id": "human-powered-vehicle",
         "label": "human-powered vehicle"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "class.vehicle.human-powered",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.identity"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.identity"
@@ -80,6 +104,20 @@
         "id": "wheel",
         "label": "wheel"
       },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "entity.part.bicycle.wheel",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "typical"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.wheel"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.parts.wheel"
       ],
@@ -105,6 +143,20 @@
       "object": {
         "id": "pedal",
         "label": "pedal"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "entity.part.bicycle.pedal",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "typical"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.pedal"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.parts.pedal"
@@ -132,6 +184,20 @@
         "id": "handlebar",
         "label": "handlebar"
       },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "entity.part.bicycle.handlebar",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "typical"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.handlebar"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.parts.handlebar"
       ],
@@ -157,6 +223,20 @@
       "object": {
         "id": "brake",
         "label": "brake"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "entity.part.bicycle.brake",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "typical"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.brake"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.parts.brake"
@@ -184,6 +264,20 @@
         "id": "bell",
         "label": "bell"
       },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "entity.part.bicycle.bell",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "possible"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.bell"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.parts.bell"
       ],
@@ -209,6 +303,20 @@
       "object": {
         "id": "carrier",
         "label": "carrier"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "entity.part.bicycle.carrier",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "possible"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.carrier"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.parts.carrier"
@@ -236,6 +344,18 @@
         "id": "ringing-sound",
         "label": "ringing sound"
       },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.bell",
+        "objectRef": "concept.sound.bell-ring",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.sound.bell"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.sound.bell"
       ],
@@ -262,6 +382,20 @@
         "id": "bicycle-movement",
         "label": "bicycle movement"
       },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.pedalling",
+        "objectRef": "concept.motion.bicycle-movement",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "contextRef": "entity.vehicle.bicycle"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.motion.pedalling"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.motion.pedalling"
       ],
@@ -282,10 +416,25 @@
         "id": "cycling-helmet",
         "label": "Cycling helmet"
       },
-      "relation": "protects",
+      "relation": "helps_protect",
       "object": {
         "id": "head",
         "label": "head"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.safety.cycling-helmet",
+        "objectRef": "concept.body.head",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {
+          "activity": "riding_bicycle",
+          "conditionRef": "concept.condition.helmet-proper-fit"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.safety.helmet"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.safety.helmet"
@@ -313,6 +462,18 @@
         "id": "bicycle-part",
         "label": "bicycle part"
       },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.pedal.noun.bicycle-part",
+        "objectRef": "entity.part.bicycle.pedal",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.pedal"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "english.vocabulary.pedal"
       ],
@@ -338,6 +499,18 @@
         "id": "operate-pedals",
         "label": "action of operating pedals"
       },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.pedal.verb.operate-cycle",
+        "objectRef": "concept.action.pedalling",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.pedal"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "english.vocabulary.pedal"
       ],
@@ -358,10 +531,24 @@
         "id": "pushing-pedals",
         "label": "Pushing the pedals"
       },
-      "relation": "contributes_to",
+      "relation": "drives",
       "object": {
         "id": "crank-turning",
         "label": "crank turning"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.push-pedals",
+        "objectRef": "concept.action.crank-turns",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {
+          "conditionRef": "concept.condition.chain-driven-bicycle"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.motion.chain"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.motion.chain"
@@ -383,10 +570,24 @@
         "id": "crank-turning",
         "label": "Crank turning"
       },
-      "relation": "contributes_to",
+      "relation": "drives",
       "object": {
         "id": "chain-movement",
         "label": "chain movement"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.crank-turns",
+        "objectRef": "concept.action.chain-moves",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {
+          "conditionRef": "concept.condition.chain-driven-bicycle"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.motion.chain"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.motion.chain"
@@ -408,10 +609,24 @@
         "id": "chain-movement",
         "label": "Chain movement"
       },
-      "relation": "contributes_to",
+      "relation": "drives",
       "object": {
         "id": "rear-wheel-turning",
         "label": "rear wheel turning"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.chain-moves",
+        "objectRef": "concept.action.rear-wheel-turns",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {
+          "conditionRef": "concept.condition.chain-driven-bicycle"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.motion.chain"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.motion.chain"
@@ -433,10 +648,24 @@
         "id": "rear-wheel-turning",
         "label": "Rear wheel turning"
       },
-      "relation": "contributes_to",
+      "relation": "helps_enable",
       "object": {
         "id": "bicycle-movement",
         "label": "bicycle movement"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.rear-wheel-turns",
+        "objectRef": "concept.motion.bicycle-movement",
+        "revision": 2,
+        "polarity": "positive",
+        "qualifiers": {
+          "conditionRef": "concept.condition.normal-rolling-contact"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.motion.chain"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.motion.chain"
@@ -463,6 +692,18 @@
         "id": "brake-engagement",
         "label": "brake engagement"
       },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.squeeze-brake-lever",
+        "objectRef": "concept.action.brake-engages",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.braking.chain"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.braking.chain"
       ],
@@ -487,6 +728,18 @@
       "object": {
         "id": "bicycle-slowing",
         "label": "bicycle slowing"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.brake-engages",
+        "objectRef": "concept.motion.bicycle-slowing",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.braking.chain"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.braking.chain"
@@ -513,6 +766,18 @@
         "id": "direction-change",
         "label": "direction change"
       },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.turn-handlebar",
+        "objectRef": "concept.motion.direction-change",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.control.steering"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.control.steering"
       ],
@@ -537,6 +802,18 @@
       "object": {
         "id": "signal-rider-nearby",
         "label": "signalling a rider nearby"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.ring-bicycle-bell",
+        "objectRef": "concept.communication.signal-presence",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.safety.signal"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.safety.signal"
@@ -563,6 +840,18 @@
         "id": "safer-ride",
         "label": "safer ride"
       },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.check-helmet",
+        "objectRef": "concept.safety.safer-ride",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.safety.pre-ride"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.safety.pre-ride"
       ],
@@ -587,6 +876,18 @@
       "object": {
         "id": "safer-ride",
         "label": "safer ride"
+      },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.check-brakes",
+        "objectRef": "concept.safety.safer-ride",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.safety.pre-ride"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "bicycle.safety.pre-ride"
@@ -613,6 +914,18 @@
         "id": "safer-ride",
         "label": "safer ride"
       },
+      "canonicalClaim": {
+        "subjectRef": "concept.action.check-tyres",
+        "objectRef": "concept.safety.safer-ride",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.safety.pre-ride"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "bicycle.safety.pre-ride"
       ],
@@ -637,6 +950,18 @@
       "object": {
         "id": "bicycle-part",
         "label": "bicycle part"
+      },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.brake.noun.bicycle-part",
+        "objectRef": "entity.part.bicycle.brake",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.brake"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "english.vocabulary.brake"
@@ -663,6 +988,18 @@
         "id": "action-of-slowing",
         "label": "action of slowing"
       },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.brake.verb.slow",
+        "objectRef": "concept.motion.bicycle-slowing",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.brake"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "english.vocabulary.brake"
       ],
@@ -687,6 +1024,18 @@
       "object": {
         "id": "bicycle-steering-part",
         "label": "bicycle steering part"
+      },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.handlebar.noun.steering-part",
+        "objectRef": "entity.part.bicycle.handlebar",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.handlebar"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
       },
       "conceptIds": [
         "english.vocabulary.handlebar"
@@ -713,6 +1062,18 @@
         "id": "wheel-covering",
         "label": "wheel covering"
       },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.tyre.noun.wheel-covering",
+        "objectRef": "entity.part.bicycle.tyre",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.tyre"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "english.vocabulary.tyre"
       ],
@@ -738,6 +1099,18 @@
         "id": "ringing-bicycle-part",
         "label": "ringing bicycle part"
       },
+      "canonicalClaim": {
+        "subjectRef": "lexeme.en.bell.noun.ringing-device",
+        "objectRef": "entity.part.bicycle.bell",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.english.vocabulary.bell"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
       "conceptIds": [
         "english.vocabulary.bell"
       ],
@@ -745,6 +1118,436 @@
         "knowledgeLevel": "basic",
         "skills": [
           "vocabulary"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.pedal.operated-by.rider-foot",
+      "rowId": "claim.bicycle.pedal.operated-by.rider-foot",
+      "graphClaimRef": "claim.bicycle.pedal.operated-by.rider-foot",
+      "subject": {
+        "id": "entity.part.bicycle.pedal",
+        "label": "pedal"
+      },
+      "relation": "operated_by",
+      "object": {
+        "id": "concept.body.rider-foot",
+        "label": "rider's foot"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.pedal",
+        "objectRef": "concept.body.rider-foot",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.parts.pedal"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.pedal"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.wheel.helps-enable.rolling",
+      "rowId": "claim.bicycle.wheel.helps-enable.rolling",
+      "graphClaimRef": "claim.bicycle.wheel.helps-enable.rolling",
+      "subject": {
+        "id": "entity.part.bicycle.wheel",
+        "label": "wheel"
+      },
+      "relation": "helps_enable",
+      "object": {
+        "id": "concept.function.rolling-movement",
+        "label": "rolling movement"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.wheel",
+        "objectRef": "concept.function.rolling-movement",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "conditionRef": "concept.condition.normal-rolling-contact"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.parts.wheel"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.wheel"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.has-property.two-wheels",
+      "rowId": "claim.bicycle.has-property.two-wheels",
+      "graphClaimRef": "claim.bicycle.has-property.two-wheels",
+      "subject": {
+        "id": "entity.vehicle.bicycle",
+        "label": "bicycle"
+      },
+      "relation": "has_property",
+      "object": {
+        "id": "concept.property.two-wheels",
+        "label": "two wheels"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "concept.property.two-wheels",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "frequency": "typical"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.identity",
+          "objective.english.vocabulary.bicycle"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.identity",
+        "english.vocabulary.bicycle"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.has-property.human-power",
+      "rowId": "claim.bicycle.has-property.human-power",
+      "graphClaimRef": "claim.bicycle.has-property.human-power",
+      "subject": {
+        "id": "entity.vehicle.bicycle",
+        "label": "bicycle"
+      },
+      "relation": "has_property",
+      "object": {
+        "id": "concept.property.human-power",
+        "label": "movement powered by a rider"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.vehicle.bicycle",
+        "objectRef": "concept.property.human-power",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {
+          "contextRef": "concept.condition.chain-driven-bicycle"
+        },
+        "objectiveRefs": [
+          "objective.bicycle.identity"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.identity"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.carrier.used-for.carrying",
+      "rowId": "claim.bicycle.carrier.used-for.carrying",
+      "graphClaimRef": "claim.bicycle.carrier.used-for.carrying",
+      "subject": {
+        "id": "entity.part.bicycle.carrier",
+        "label": "carrier"
+      },
+      "relation": "used_for",
+      "object": {
+        "id": "concept.function.carrying-items",
+        "label": "carrying suitable items"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.carrier",
+        "objectRef": "concept.function.carrying-items",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.parts.carrier"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.carrier"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.handlebar.controls.direction",
+      "rowId": "claim.bicycle.handlebar.controls.direction",
+      "graphClaimRef": "claim.bicycle.handlebar.controls.direction",
+      "subject": {
+        "id": "entity.part.bicycle.handlebar",
+        "label": "handlebar"
+      },
+      "relation": "controls",
+      "object": {
+        "id": "concept.motion.direction-change",
+        "label": "change direction"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.handlebar",
+        "objectRef": "concept.motion.direction-change",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.parts.handlebar",
+          "objective.bicycle.control.steering"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.handlebar",
+        "bicycle.control.steering"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.brake.used-for.slowing",
+      "rowId": "claim.bicycle.brake.used-for.slowing",
+      "graphClaimRef": "claim.bicycle.brake.used-for.slowing",
+      "subject": {
+        "id": "entity.part.bicycle.brake",
+        "label": "brake"
+      },
+      "relation": "used_for",
+      "object": {
+        "id": "concept.motion.bicycle-slowing",
+        "label": "the bicycle slows"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.brake",
+        "objectRef": "concept.motion.bicycle-slowing",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.parts.brake"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.brake"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.light.helps-enable.visibility",
+      "rowId": "claim.bicycle.light.helps-enable.visibility",
+      "graphClaimRef": "claim.bicycle.light.helps-enable.visibility",
+      "subject": {
+        "id": "entity.part.bicycle.light",
+        "label": "bicycle light"
+      },
+      "relation": "helps_enable",
+      "object": {
+        "id": "concept.function.rider-visibility",
+        "label": "rider visibility"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.light",
+        "objectRef": "concept.function.rider-visibility",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.safety.visibility"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.safety.visibility"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.reflector.helps-enable.visibility",
+      "rowId": "claim.bicycle.reflector.helps-enable.visibility",
+      "graphClaimRef": "claim.bicycle.reflector.helps-enable.visibility",
+      "subject": {
+        "id": "entity.part.bicycle.reflector",
+        "label": "reflector"
+      },
+      "relation": "helps_enable",
+      "object": {
+        "id": "concept.function.rider-visibility",
+        "label": "rider visibility"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.reflector",
+        "objectRef": "concept.function.rider-visibility",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.safety.visibility"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.safety.visibility"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.tyre.covers.wheel",
+      "rowId": "claim.bicycle.tyre.covers.wheel",
+      "graphClaimRef": "claim.bicycle.tyre.covers.wheel",
+      "subject": {
+        "id": "entity.part.bicycle.tyre",
+        "label": "tyre"
+      },
+      "relation": "covers",
+      "object": {
+        "id": "entity.part.bicycle.wheel",
+        "label": "wheel"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.tyre",
+        "objectRef": "entity.part.bicycle.wheel",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.parts.tyre"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.tyre"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
+        ],
+        "canonicalAuthority": "learning_graph",
+        "runtimeProjection": true
+      }
+    },
+    {
+      "id": "v2-claim.bicycle.bell.used-for.signalling",
+      "rowId": "claim.bicycle.bell.used-for.signalling",
+      "graphClaimRef": "claim.bicycle.bell.used-for.signalling",
+      "subject": {
+        "id": "entity.part.bicycle.bell",
+        "label": "bell"
+      },
+      "relation": "used_for",
+      "object": {
+        "id": "concept.communication.signal-presence",
+        "label": "signal that a rider is nearby"
+      },
+      "canonicalClaim": {
+        "subjectRef": "entity.part.bicycle.bell",
+        "objectRef": "concept.communication.signal-presence",
+        "revision": 1,
+        "polarity": "positive",
+        "qualifiers": {},
+        "objectiveRefs": [
+          "objective.bicycle.parts.bell",
+          "objective.bicycle.safety.signal"
+        ],
+        "reviewStatus": "editorial_candidate",
+        "publishable": false
+      },
+      "conceptIds": [
+        "bicycle.parts.bell",
+        "bicycle.safety.signal"
+      ],
+      "meta": {
+        "knowledgeLevel": "basic",
+        "skills": [
+          "vocabulary",
+          "classification"
         ],
         "canonicalAuthority": "learning_graph",
         "runtimeProjection": true

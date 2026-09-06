@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "source.kidsplay.graph-architecture-review.2026-09-06",
+  "kind": "user_supplied_architecture_review",
+  "date": "2026-09-06",
+  "purpose": "Model corrections requested for Bicycle Workshop; not external verification of facts.",
+  "contentHandling": {
+    "verbatimSourceTextStored": false,
+    "sourceArtworkStored": false,
+    "runtimePublicationAllowed": false
+  },
+  "editorial": {
+    "status": "candidate",
+    "publishable": false
+  }
+}
