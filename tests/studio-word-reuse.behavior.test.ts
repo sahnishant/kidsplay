@@ -37,7 +37,7 @@ describe('#264 Bicycle word reconstruction using sequence_order', () => {
     const workspace = createStudioWorkspace(activityId, question, { orderedItemIds: question.solution.orderedItemIds });
     expect(restoreStudioWorkspace(activityId, { ...question, revision: question.revision + 1 }, workspace)).toBeUndefined();
     expect(source).toEqual(original);
-    expect(getWorkshopStudioActivityRefs('bicycle-workshop', 'words')).toContain(activityId);
+    expect(getWorkshopStudioActivityRefs('bicycle-workshop', 'sounds')).toContain(activityId);
   });
 
   it('rejects missing terms, unrelated references and unsupported spellings instead of guessing', () => {

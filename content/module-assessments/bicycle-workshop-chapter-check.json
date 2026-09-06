@@ -21,7 +21,7 @@
     "feedback": "existing_formative_session_feedback",
     "retry": "existing_honest_retry_policy",
     "summativeExamClaimed": false,
-    "notes": "This first proof is a formative, exam-oriented chapter check. A future summative mode may suppress feedback and retry without changing its knowledge graph or question identities."
+    "notes": "This first proof is a formative, chapter-companion check. The optional inner-mechanics explanation is intentionally excluded from assessed evidence. A future summative mode may suppress feedback and retry without changing its knowledge graph or question identities."
   },
   "sections": [
     {
@@ -68,24 +68,21 @@
       ]
     },
     {
-      "id": "apply-and-reason",
-      "title": "Apply and reason",
+      "id": "parts-and-use",
+      "title": "Bicycle parts",
       "startIndex": 5,
       "count": 2,
       "marksPerQuestion": 1,
       "questionRefs": [
         "bicycle.workshop.match.parts-functions.001",
-        "bicycle.workshop.sequence.motion.001"
+        "bicycle.workshop.fill.pedal.001"
       ],
       "targetClaimRefs": [
         "claim.pedalling.contributes-to.bicycle-movement",
         "claim.turn-handlebar.contributes-to.direction-change",
         "claim.brake-engages.contributes-to.bicycle-slowing",
         "claim.ring-bell.contributes-to.signal-presence",
-        "claim.push-pedals.contributes-to.crank-turns",
-        "claim.crank-turns.contributes-to.chain-moves",
-        "claim.chain-moves.contributes-to.rear-wheel-turns",
-        "claim.rear-wheel-turns.contributes-to.bicycle-movement"
+        "claim.bicycle.typically-has-part.pedal"
       ]
     },
     {
@@ -109,6 +106,7 @@
     "phonicsItemsUpdateBicycleClaims": false,
     "grammarItemsUpdateBicycleClaims": false,
     "graphItemsUpdateExactClaimRefs": true,
-    "chapterLocalPoemClaimsAllowed": false
+    "chapterLocalPoemClaimsAllowed": false,
+    "innerMechanicsClaimsAssessed": false
   }
 }

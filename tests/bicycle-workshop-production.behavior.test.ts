@@ -12,6 +12,16 @@ import {
 const practicePackId = 'free.english.bicycle-workshop.1';
 const questions = getBicycleWorkshopQuestionBank();
 const byId = new Map(questions.map((question) => [question.id, question] as const));
+const innerMechanicsQuestionIds = new Set([
+  'bicycle.workshop.sequence.motion.001',
+  'bicycle.workshop.sequence.braking.001'
+]);
+const pedalDriveClaimIds = new Set([
+  'claim.push-pedals.contributes-to.crank-turns',
+  'claim.crank-turns.contributes-to.chain-moves',
+  'claim.chain-moves.contributes-to.rear-wheel-turns',
+  'claim.rear-wheel-turns.contributes-to.bicycle-movement'
+]);
 
 function validate(): Record<string, unknown> {
   const output = execFileSync(process.execPath, [
@@ -37,7 +47,7 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
       admittedClaimCount: 40,
       projectionRowCount: 40,
       questionCount: 32,
-      practiceQuestionCount: 32,
+      practiceQuestionCount: 30,
       chapterCheckQuestionCount: 8,
       sceneCount: 3,
       aiArtBriefCount: 6,
@@ -52,7 +62,7 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
     expect(getCatalogEntries().some((entry) => entry.id.startsWith('free.english.bicycle-workshop'))).toBe(false);
 
     const bank = getBicycleWorkshopPackQuestions('practice');
-    expect(bank).toHaveLength(32);
+    expect(bank).toHaveLength(30);
     expect(bank.every((question) => byId.has(question.id))).toBe(true);
     expect(bank.filter((question) => question.id.startsWith('bicycle.workshop.reading.'))).toHaveLength(4);
 
@@ -65,6 +75,16 @@ describe('Bicycle Workshop end-to-end chapter companion', () => {
     expect(session.questions).toHaveLength(8);
     expect(session.questions.every((question) => byId.has(question.id))).toBe(true);
     expect(new Set(session.questions.map((question) => question.interaction.type)).size).toBeGreaterThanOrEqual(4);
+  });
+
+  it('keeps inner pedal-drive and braking chains available for explanation but out of scored packs', () => {
+    for (const mode of ['practice', 'chapter_check'] as const) {
+      const pack = getBicycleWorkshopPackQuestions(mode);
+      expect(pack.some((question) => innerMechanicsQuestionIds.has(question.id))).toBe(false);
+      expect(pack.some((question) => (question.knowledgeRefs ?? []).some((ref) => pedalDriveClaimIds.has(ref)))).toBe(false);
+    }
+    expect(byId.has('bicycle.workshop.sequence.motion.001')).toBe(true);
+    expect(byId.has('bicycle.workshop.sequence.braking.001')).toBe(true);
   });
 
   it('uses exact graph-claim weakness to choose the practice item inside an activity lane', () => {

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 420" role="img" aria-label="Original side-view bicycle illustration">
+  <defs><filter id="s" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="5" stdDeviation="5" flood-opacity=".12"/></filter></defs>
+  <path d="M55 365C180 352 315 374 455 362c130-11 205-4 261 4" fill="none" stroke="#ad8b61" stroke-width="5" stroke-linecap="round" stroke-dasharray="18 14" opacity=".55"/>
+  <g filter="url(#s)">
+    <g fill="#fff" stroke="#273238">
+      <circle cx="205" cy="280" r="100" stroke-width="14"/><circle cx="545" cy="280" r="100" stroke-width="14"/>
+    </g>
+    <g fill="none" stroke="#aab6bd" stroke-width="4">
+      <circle cx="205" cy="280" r="86"/><circle cx="545" cy="280" r="86"/>
+      <path d="M205 194v172M119 280h172M144 219l122 122M144 341l122-122M545 194v172M459 280h172M484 219l122 122M484 341l122-122"/>
+    </g>
+    <g fill="#34414a"><circle cx="205" cy="280" r="9"/><circle cx="545" cy="280" r="9"/></g>
+    <g fill="none" stroke="#d54848" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M205 280l150 0-45-125zM310 155l160 5-115 120M470 160l75 120M310 155l-20-30"/>
+    </g>
+    <rect x="258" y="116" width="72" height="19" rx="9" fill="#28404e"/>
+    <g fill="none" stroke="#34414a" stroke-width="10" stroke-linecap="round"><path d="M470 160l23-56h43"/><path d="M522 96h26" stroke="#6358dc" stroke-width="15"/></g>
+    <g fill="none" stroke="#59656b" stroke-width="7" stroke-linecap="round"><path d="M125 172h107M135 185h97M143 172l23 53M220 172l-15 50"/></g>
+    <g fill="none" stroke="#1c6d77" stroke-width="7"><path d="M489 172q21 13 29 35"/><circle cx="520" cy="210" r="8" fill="#1c6d77"/></g>
+    <g stroke="#664b18" stroke-width="4"><circle cx="510" cy="103" r="14" fill="#f5b53f"/><path d="M499 102q11-16 22 0" fill="none"/></g>
+    <path d="M205 263l150-9q20 1 20 26t-20 26l-150-9q-18 0-18-17t18-17z" fill="none" stroke="#684f35" stroke-width="6" stroke-dasharray="7 8"/>
+    <circle cx="205" cy="280" r="20" fill="#fff" stroke="#684f35" stroke-width="5"/>
+    <g fill="#fff" stroke="#35434b" stroke-width="7" stroke-linecap="round"><circle cx="355" cy="280" r="30"/><path d="M355 280l40-26M355 280l-40 26"/></g>
+    <g fill="#2f7682"><rect x="388" y="245" width="37" height="13" rx="6"/><rect x="287" y="302" width="37" height="13" rx="6"/></g>
+  </g>
+</svg>

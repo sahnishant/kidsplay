@@ -39,15 +39,19 @@ describe('Bicycle Workshop chapter-check blueprint', () => {
     expect(blueprintRefs).toEqual(pack.questionRefs);
     expect(new Set(blueprintRefs).size).toBe(8);
     expect(pack.assessmentScope.blueprintRef).toBe(blueprint.blueprintId);
+    expect(pack.assessmentScope.strands).not.toContain('causal_sequence');
+    expect(blueprintRefs).not.toContain('bicycle.workshop.sequence.motion.001');
+    expect(blueprintRefs).not.toContain('bicycle.workshop.sequence.braking.001');
   });
 
-  it('prevents reading, phonics and grammar items from granting bicycle fact mastery', () => {
+  it('prevents language items and optional inner mechanics from granting bicycle fact mastery', () => {
     expect(blueprint.evidencePolicy).toMatchObject({
       readingItemsUpdateSupportingBicycleClaims: false,
       phonicsItemsUpdateBicycleClaims: false,
       grammarItemsUpdateBicycleClaims: false,
       graphItemsUpdateExactClaimRefs: true,
-      chapterLocalPoemClaimsAllowed: false
+      chapterLocalPoemClaimsAllowed: false,
+      innerMechanicsClaimsAssessed: false
     });
   });
 });

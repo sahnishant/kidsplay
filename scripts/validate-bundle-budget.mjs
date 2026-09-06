@@ -15,8 +15,11 @@ const budgets = {
   // MATCH-08 measured the third reusable studio family at 876.8 KiB raw. Give
   // that cross-topic family a further +12 KiB installed-code ceiling; it remains
   // subject to the lazy StudioLauncher cap below rather than becoming core code.
+  // Bicycle Workshop adds one isolated interactive teaching stage. After trimming
+  // duplicate mechanics UI it remains independently route-capped below; +9 KiB
+  // admits that measured raw payload without changing any existing route ceiling.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
@@ -50,6 +53,9 @@ const lazyRouteBudgets = [
   { prefix: 'DiscoveryBookViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 4 * 1024 },
   { prefix: 'PhonicsAdventureViewport-', maxJsGzipBytes: 8 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'PhonicsAudioGate-', maxJsGzipBytes: 3 * 1024, maxCssBytes: 2 * 1024 },
+  // Detailed Bicycle interaction is lazy under BicycleWorkshopViewport and stays
+  // independently bounded rather than becoming part of the core route budget.
+  { prefix: 'BicycleStoryStage-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 5 * 1024 },
   { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
   { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 0 }
 ];
