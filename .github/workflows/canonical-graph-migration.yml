@@ -45,6 +45,7 @@ jobs:
           node scripts/learning-graph/migrations/004-exam-scope.mjs --write
           node scripts/learning-graph/migrations/003-semantic-traceability.mjs --write
           node scripts/learning-graph/migrations/004-exam-scope.mjs --write
+          git restore --source=HEAD -- .github/workflows/windows-check.yml .github/workflows/browser-smoke.yml .github/workflows/android-debug.yml .github/workflows/android-stories-offline.yml
           node scripts/test-canonical-graph.mjs
           node scripts/test-objective-projection.mjs
           node scripts/test-question-semantic-targets.mjs
@@ -72,7 +73,7 @@ jobs:
           exit "$STATUS"
       - name: Commit only validated migration outputs without force pushing
         run: |
-          git add content/learning-graph content/learnables/bicycle-workshop.json content/learnables/bicycle-workshop-reading.json content/knowledge/bicycle-workshop-runtime-projection.json content/source-manifests/kidsplay-graph-architecture-review.json content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json content/curriculum-runtime/bicycle-workshop/questions/core.json content/experience/bicycle-workshop-guided.json content/module-assessments/mridang/bicycle-workshop-exam-v1.json scripts/learning-graph scripts/test-canonical-graph.mjs scripts/test-objective-projection.mjs scripts/compile-knowledge.mjs src/contracts/question.ts tests/canonical-learning-graph.behavior.test.ts tests/bicycle-workshop-graph-typing.behavior.test.ts tests/bicycle-workshop-production.behavior.test.ts tests/bicycle-workshop-exam.behavior.test.ts .github/workflows/windows-check.yml .github/workflows/browser-smoke.yml .github/workflows/android-debug.yml .github/workflows/android-stories-offline.yml
+          git add content/learning-graph content/learnables/bicycle-workshop.json content/learnables/bicycle-workshop-reading.json content/knowledge/bicycle-workshop-runtime-projection.json content/source-manifests/kidsplay-graph-architecture-review.json content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json content/curriculum-runtime/bicycle-workshop/questions/core.json content/experience/bicycle-workshop-guided.json content/module-assessments/mridang/bicycle-workshop-exam-v1.json scripts/learning-graph scripts/test-canonical-graph.mjs scripts/test-objective-projection.mjs scripts/compile-knowledge.mjs src/contracts/question.ts tests/canonical-learning-graph.behavior.test.ts tests/bicycle-workshop-graph-typing.behavior.test.ts tests/bicycle-workshop-production.behavior.test.ts tests/bicycle-workshop-exam.behavior.test.ts
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
