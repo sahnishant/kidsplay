@@ -13,6 +13,7 @@ export function validateBicycleWorkshopPresentation() {
   const chapterCheckPack = read('content/curriculum-runtime/bicycle-workshop/packs/chapter-check.json');
   const viewport = text('src/ui/BicycleWorkshopViewport.svelte');
   const stage = text('src/ui/BicycleStoryStage.svelte');
+  const stageCss = text('src/ui/bicycleStoryStage.css');
   const home = text('src/ui/HomeViewport.svelte');
 
   invariant(guide.mode === 'non_evaluative_guided_learning', 'Guided chapter must remain non-evaluative');
@@ -27,6 +28,9 @@ export function validateBicycleWorkshopPresentation() {
 
   invariant(viewport.includes('BicycleStoryStage') && viewport.includes('data-visual-ref'), 'Guided chapter is not using the canonical interactive story projection');
   invariant(stage.includes('bicycleStoryBike.svg?url'), 'Interactive story projection is missing its original bicycle asset');
+  invariant(stage.includes('part-focus') && stage.includes('focusRun') && stage.includes('that bicycle part will flash'), 'Bicycle part finder must replay an explicit high-salience focus cue');
+  invariant(stageCss.includes('.part-focus-outline') && stageCss.includes('part-splash') && stageCss.includes('0 0 0 999px'), 'Bicycle part finder is missing its spotlight/splash treatment');
+  invariant(!stage.includes('yellow ring'), 'Legacy low-salience yellow-ring instruction returned');
   invariant(viewport.includes('Previous') && viewport.includes('Next idea') && viewport.includes('Next part'), 'Guided chapter navigation is incomplete');
   invariant(viewport.includes('LOOK') && viewport.includes('LEARN') && viewport.includes('YOUR TURN'), 'Guided chapter pacing cues are incomplete');
   invariant(viewport.includes('Practice') && viewport.includes('Chapter check'), 'Guided chapter completion actions are incomplete');
