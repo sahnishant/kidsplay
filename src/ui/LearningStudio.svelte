@@ -247,8 +247,10 @@
   .studio button[aria-pressed=true]{background:#e4eddc;border-color:#57745f;font-weight:800;box-shadow:inset 0 -3px #57745f}.studio button:focus-visible{outline:3px solid #426454;outline-offset:2px}
   .studio nav,.studio__controls{display:flex;gap:6px;margin:7px 0;flex-wrap:wrap;flex:none}.studio nav button{flex:1}.studio__controls button{flex:1}
   .studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:700;font-size:.94rem}
-  .studio__step{display:grid;gap:8px;padding:10px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;box-shadow:0 2px 0 #e1e7d8}.studio__step strong{font-size:1.05rem;line-height:1.4}
-  .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}.studio__illustration--wide{width:min(100%,320px);height:auto;aspect-ratio:8/5;padding:0}
+  .studio__step{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;box-shadow:0 2px 0 #e1e7d8}.studio__step strong{font-size:1.05rem;line-height:1.4}
+  .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}
+  /* A definite preferred width avoids cyclic percentage sizing in this grid. */
+  .studio__illustration--wide{width:320px;max-width:100%;height:auto;aspect-ratio:8/5;padding:0}
   .studio__illustration :global(.visual-entity){display:block}
   .studio__feedback{flex:none;max-height:32dvh;overflow:auto;padding:3px 8px 8px;background:#f0f4e8;border-radius:12px;border:1px solid #d4dfcc}
   .studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid #ccd6c7;border-radius:12px}
