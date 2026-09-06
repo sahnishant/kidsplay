@@ -8,9 +8,9 @@ const text = (value) => typeof value === 'string' && value.trim().length > 0;
 const equal = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 const unique = (values, label) => { must(Array.isArray(values) && new Set(values).size === values.length, `${label}: expected unique array`); return values; };
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
-export function loadObjectiveSystem(root = ROOT) {
+export function loadObjectiveSystem(root = ROOT, modulePath) {
   const read = (path) => JSON.parse(readFileSync(resolve(root, path), 'utf8'));
-  const graph = loadCanonicalGraph({ root });
+  const graph = loadCanonicalGraph({ root, ...(modulePath ? { modulePath } : {}) });
   must(graph.objectiveFile && graph.capabilityFile && graph.placementFile, 'Graph must bind its canonical objectives, capabilities and placements');
   return { graph, objectives: read(graph.objectiveFile).objectives,
     capabilities: read(graph.capabilityFile).capabilities,
@@ -79,54 +79,99 @@ export function validateObjectiveSystem(system) {
     must(/^content\/learnables\/[a-z0-9-]+\.json$/.test(path), 'Unsafe generated learnable path');
     return unique(ids, path);
   });
-  must(emitted.length === objectives.size && new Set(emitted).size === emitted.length && emitted.every((id) => objectives.has(id)), 'Learnable outputs must partition objectives exactly once');
-  return { objectiveCount: objectives.size, capabilityCount: capabilities.size, legacyProgressIdCount: legacy.size, projectedClaimCount: compatibility.projection.entries.length };
+  must(new Set(emitted).size === emitted.length, 'A legacy learnable is emitted more than once');
+  must(equal(new Set(emitted), new Set(system.objectives.flatMap((item) => item.legacyConceptIds))), 'Compatibility outputs must cover every legacy progress ID exactly once');
+  return system;
 }
-export function projectObjectiveSystem(system) {
+
+export function buildLearnableProjection(system) {
   validateObjectiveSystem(system);
-  const { graph, compatibility } = system;
-  const objectives = indexRecords(system.objectives, 'objective'), capabilities = indexRecords(system.capabilities, 'capability'), claims = indexRecords(graph.claims, 'claim');
   const placements = new Map(system.placements.objectives.map((item) => [item.objectiveRef, item]));
-  const outputs = new Map();
-  for (const [path, ids] of Object.entries(compatibility.learnables)) outputs.set(path, ids.map((id) => {
-    const objective = objectives.get(id), placement = placements.get(id);
-    must(objective.legacyConceptIds.length === 1, `${id}: compatibility learnable needs one existing progress ID`);
-    const statement = objective.descriptionSource === 'capability' ? capabilities.get(objective.capabilityRefs[0]).description?.en : objective.description.en;
-    must(text(statement), `${id}: missing canonical statement`);
-    return { id: objective.legacyConceptIds[0], statement, subject: placement.subject, topic: placement.topic, subtopic: placement.subtopic, gradeBands: placement.gradeBands };
-  }));
-  const entries = compatibility.projection.entries.map((entry) => {
-    const claim = claims.get(entry.claimRef);
-    return { id: entry.id, rowId: claim.id, graphClaimRef: claim.id,
-      subject: entry.subject, relation: claim.predicate, object: entry.object,
-      canonicalClaim: { subjectRef: claim.subjectRef, objectRef: claim.objectRef, revision: claim.revision, polarity: claim.polarity, qualifiers: claim.qualifiers, objectiveRefs: claim.objectiveRefs, reviewStatus: claim.review.status, publishable: claim.review.publishable },
-      conceptIds: [...new Set(claim.objectiveRefs.flatMap((ref) => objectives.get(ref).legacyConceptIds))],
-      meta: { ...entry.meta, canonicalAuthority: 'learning_graph', runtimeProjection: true } };
-  });
-  outputs.set(compatibility.projection.outputPath, {
-    ...compatibility.projection.header,
-    canonicalSource: { kind: 'learning_graph', graphRef: graph.graphId, claimFiles: graph.imports.claimFiles },
-    entries, authoring: compatibility.projection.authoring
-  });
-  return outputs;
-}
-export function compileObjectiveProjection({ root = ROOT, check = true } = {}) {
-  const system = loadObjectiveSystem(root), outputs = projectObjectiveSystem(system);
-  for (const [path, value] of outputs) {
-    must(/^content\/(?:learnables|knowledge)\/[a-z0-9-]+\.json$/.test(path), 'Unsafe compatibility output path');
-    const absolute = resolve(root, path);
-    if (check) {
-      const actual = JSON.parse(readFileSync(absolute, 'utf8'));
-      must(equal(actual, value), `${path}: generated output drift; run canonical projection compiler`);
-    } else {
-      const tmp = `${absolute}.${process.pid}.tmp`;
-      try { writeFileSync(tmp, `${JSON.stringify(value, null, 2)}\n`); renameSync(tmp, absolute); }
-      finally { try { unlinkSync(tmp); } catch (error) { if (error.code !== 'ENOENT') throw error; } }
+  const legacy = new Map();
+  for (const objective of system.objectives) {
+    const placement = placements.get(objective.id);
+    for (const id of objective.legacyConceptIds) {
+      const description = objective.descriptionSource === 'capability'
+        ? system.capabilities.find((item) => item.id === objective.capabilityRefs[0])?.statement
+        : objective.description.en;
+      legacy.set(id, {
+        id,
+        statement: description,
+        subject: placement.subject,
+        topic: placement.topic,
+        subtopic: placement.subtopic,
+        gradeBands: placement.gradeBands
+      });
     }
   }
-  return { ...validateObjectiveSystem(system), generatedFiles: outputs.size, mode: check ? 'check' : 'write' };
+  return Object.fromEntries(Object.entries(system.compatibility.learnables).map(([path, ids]) => [path, ids.map((id) => legacy.get(id))]));
 }
+
+export function buildRuntimeKnowledgeProjection(system) {
+  validateObjectiveSystem(system);
+  const claimById = indexRecords(system.graph.claims, 'claim');
+  const objectiveById = indexRecords(system.objectives, 'objective');
+  return {
+    schemaVersion: 1,
+    id: system.compatibility.projection.id,
+    kind: 'association_set',
+    language: system.compatibility.projection.language,
+    subject: system.compatibility.projection.subject,
+    topic: system.compatibility.projection.topic,
+    canonicalSource: {
+      kind: 'learning_graph',
+      graphRef: system.graph.graphId,
+      claimFiles: system.graph.imports.claimFiles
+    },
+    status: system.compatibility.projection.status,
+    source: system.compatibility.projection.source,
+    entries: system.compatibility.projection.entries.map((entry) => {
+      const claim = claimById.get(entry.claimRef);
+      const conceptIds = claim.objectiveRefs.flatMap((ref) => objectiveById.get(ref)?.legacyConceptIds ?? []);
+      return {
+        id: entry.id,
+        rowId: claim.id,
+        graphClaimRef: claim.id,
+        subject: entry.subject,
+        relation: claim.predicate,
+        object: entry.object,
+        conceptIds,
+        meta: {
+          ...entry.meta,
+          canonicalAuthority: 'learning_graph',
+          runtimeProjection: true
+        }
+      };
+    })
+  };
+}
+
+export function writeObjectiveProjections({ root = ROOT } = {}) {
+  const system = loadObjectiveSystem(root);
+  const learnables = buildLearnableProjection(system), runtime = buildRuntimeKnowledgeProjection(system);
+  const writes = [
+    ...Object.entries(learnables),
+    [system.compatibility.projection.outputPath, runtime]
+  ];
+  for (const [path, value] of writes) {
+    const target = resolve(root, path), temp = `${target}.tmp`;
+    writeFileSync(temp, `${JSON.stringify(value, null, 2)}\n`);
+    renameSync(temp, target);
+  }
+  return { learnables: Object.keys(learnables), projection: system.compatibility.projection.outputPath };
+}
+
+export function assertGeneratedProjections({ root = ROOT } = {}) {
+  const system = loadObjectiveSystem(root);
+  const expected = [...Object.entries(buildLearnableProjection(system)), [system.compatibility.projection.outputPath, buildRuntimeKnowledgeProjection(system)]];
+  for (const [path, value] of expected) {
+    const actual = JSON.parse(readFileSync(resolve(root, path), 'utf8'));
+    must(equal(actual, value), `${path}: generated compatibility projection drifted from canonical objectives`);
+  }
+  return true;
+}
+
 if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  try { console.log(JSON.stringify(compileObjectiveProjection({ check: !process.argv.includes('--write') }))); }
-  catch (error) { console.error(error instanceof Error ? error.message : String(error)); process.exitCode = 1; }
+  const result = process.argv.includes('--write') ? writeObjectiveProjections() : assertGeneratedProjections();
+  console.log(JSON.stringify(result));
 }
