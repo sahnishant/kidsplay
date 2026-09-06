@@ -1,12 +1,16 @@
 {
   "schemaVersion": 2,
-  "graphSliceId": "graph-slice.mridang.my-bicycle.claims.v1",
+  "graphSliceId": "graph-slice.bicycle-workshop.claims",
   "claims": [
     {
-      "id": "claim.bicycle.is-a.wheeled-vehicle",
+      "id": "claim.bicycle.is-a.human-powered-vehicle",
+      "conceptIds": [
+        "bicycle.identity"
+      ],
+      "revision": 1,
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "is_a",
-      "objectRef": "class.vehicle.wheeled",
+      "objectRef": "class.vehicle.human-powered",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -22,114 +26,24 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            1,
-            3
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.tricycle.is-a.wheeled-vehicle",
-      "subjectRef": "entity.vehicle.tricycle",
-      "predicate": "is_a",
-      "objectRef": "class.vehicle.wheeled",
-      "polarity": "positive",
-      "authority": {
-        "kind": "canonical"
-      },
-      "scope": {
-        "kind": "shared"
-      },
-      "review": {
-        "status": "editorial_candidate",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            3
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.wheelchair.is-a.wheeled-mobility-device",
-      "subjectRef": "entity.mobility.wheelchair",
-      "predicate": "is_a",
-      "objectRef": "class.mobility.wheeled-device",
-      "polarity": "positive",
-      "authority": {
-        "kind": "canonical"
-      },
-      "scope": {
-        "kind": "shared"
-      },
-      "review": {
-        "status": "editorial_candidate",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            3
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.typically-has-part.wheel",
-      "subjectRef": "entity.vehicle.bicycle",
-      "predicate": "typically_has_part",
-      "objectRef": "entity.part.bicycle.wheel",
-      "polarity": "positive",
-      "authority": {
-        "kind": "canonical"
-      },
-      "scope": {
-        "kind": "shared"
-      },
-      "review": {
-        "status": "editorial_candidate",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
-        }
+      "id": "claim.bicycle.typically-has-part.frame",
+      "conceptIds": [
+        "bicycle.parts"
       ],
       "qualifiers": {
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.typically-has-part.tyre",
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "typically_has_part",
-      "objectRef": "entity.part.bicycle.tyre",
+      "objectRef": "entity.part.bicycle.frame",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -145,23 +59,23 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.fork",
+      "conceptIds": [
+        "bicycle.parts"
       ],
       "qualifiers": {
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.typically-has-part.pedal",
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "typically_has_part",
-      "objectRef": "entity.part.bicycle.pedal",
+      "objectRef": "entity.part.bicycle.fork",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -177,23 +91,23 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.rim",
+      "conceptIds": [
+        "bicycle.parts.wheel"
       ],
       "qualifiers": {
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.typically-has-part.seat",
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "typically_has_part",
-      "objectRef": "entity.part.bicycle.seat",
+      "objectRef": "entity.part.bicycle.rim",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -209,23 +123,23 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.spoke",
+      "conceptIds": [
+        "bicycle.parts.wheel"
       ],
       "qualifiers": {
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.typically-has-part.handlebar",
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "typically_has_part",
-      "objectRef": "entity.part.bicycle.handlebar",
+      "objectRef": "entity.part.bicycle.spoke",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -241,23 +155,23 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.hub",
+      "conceptIds": [
+        "bicycle.parts.wheel"
       ],
       "qualifiers": {
         "frequency": "typical"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.typically-has-part.brake",
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "typically_has_part",
-      "objectRef": "entity.part.bicycle.brake",
+      "objectRef": "entity.part.bicycle.hub",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -273,23 +187,23 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
-      ],
-      "qualifiers": {
-        "frequency": "typical"
-      },
-      "revision": 1,
-      "conceptIds": []
+      ]
     },
     {
-      "id": "claim.bicycle.may-have-part.bell",
+      "id": "claim.bicycle.may-have-part.inner-tube",
+      "conceptIds": [
+        "bicycle.parts.tyre"
+      ],
+      "qualifiers": {
+        "frequency": "common"
+      },
+      "revision": 1,
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "may_have_part",
-      "objectRef": "entity.part.bicycle.bell",
+      "objectRef": "entity.part.bicycle.inner-tube",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -305,23 +219,183 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.crank",
+      "conceptIds": [
+        "bicycle.parts.drive"
+      ],
+      "qualifiers": {
+        "frequency": "typical"
+      },
+      "revision": 1,
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "typically_has_part",
+      "objectRef": "entity.part.bicycle.crank",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.chain",
+      "conceptIds": [
+        "bicycle.parts.drive"
+      ],
+      "qualifiers": {
+        "frequency": "common"
+      },
+      "revision": 1,
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "typically_has_part",
+      "objectRef": "entity.part.bicycle.chain",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.rear-sprocket",
+      "conceptIds": [
+        "bicycle.parts.drive"
+      ],
+      "qualifiers": {
+        "frequency": "typical"
+      },
+      "revision": 1,
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "typically_has_part",
+      "objectRef": "entity.part.bicycle.rear-sprocket",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "claim.bicycle.typically-has-part.brake-lever",
+      "conceptIds": [
+        "bicycle.parts.brake"
+      ],
+      "qualifiers": {
+        "frequency": "typical"
+      },
+      "revision": 1,
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "typically_has_part",
+      "objectRef": "entity.part.bicycle.brake-lever",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "claim.bicycle.may-have-part.grip",
+      "conceptIds": [
+        "bicycle.parts.handlebar"
+      ],
+      "qualifiers": {
+        "frequency": "common"
+      },
+      "revision": 1,
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "may_have_part",
+      "objectRef": "entity.part.bicycle.grip",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "claim.bicycle.may-have-part.kickstand",
+      "conceptIds": [
+        "bicycle.parts.optional"
       ],
       "qualifiers": {
         "frequency": "possible"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle.may-have-part.carrier",
       "subjectRef": "entity.vehicle.bicycle",
       "predicate": "may_have_part",
-      "objectRef": "entity.part.bicycle.carrier",
+      "objectRef": "entity.part.bicycle.kickstand",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -337,23 +411,23 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
+      ]
+    },
+    {
+      "id": "claim.bicycle.may-have-part.light",
+      "conceptIds": [
+        "bicycle.safety.visibility"
       ],
       "qualifiers": {
         "frequency": "possible"
       },
       "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.bicycle-bell.produces.ring",
-      "subjectRef": "entity.part.bicycle.bell",
-      "predicate": "produces_sound",
-      "objectRef": "concept.sound.bell-ring",
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "may_have_part",
+      "objectRef": "entity.part.bicycle.light",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -369,20 +443,140 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            1,
-            3
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
+      ]
     },
     {
-      "id": "claim.pedalling.contributes-to.bicycle-movement",
-      "subjectRef": "concept.action.pedalling",
+      "id": "claim.bicycle.may-have-part.reflector",
+      "conceptIds": [
+        "bicycle.safety.visibility"
+      ],
+      "qualifiers": {
+        "frequency": "possible"
+      },
+      "revision": 1,
+      "subjectRef": "entity.vehicle.bicycle",
+      "predicate": "may_have_part",
+      "objectRef": "entity.part.bicycle.reflector",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ]
+    },
+    {
+      "id": "claim.push-pedals.contributes-to.crank-turns",
+      "conceptIds": [
+        "bicycle.motion.chain"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.push-pedals",
+      "predicate": "contributes_to",
+      "objectRef": "concept.action.crank-turns",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.crank-turns.contributes-to.chain-moves",
+      "conceptIds": [
+        "bicycle.motion.chain"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.crank-turns",
+      "predicate": "contributes_to",
+      "objectRef": "concept.action.chain-moves",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.chain-moves.contributes-to.rear-wheel-turns",
+      "conceptIds": [
+        "bicycle.motion.chain"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.chain-moves",
+      "predicate": "contributes_to",
+      "objectRef": "concept.action.rear-wheel-turns",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.rear-wheel-turns.contributes-to.bicycle-movement",
+      "conceptIds": [
+        "bicycle.motion.chain"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.rear-wheel-turns",
       "predicate": "contributes_to",
       "objectRef": "concept.motion.bicycle-movement",
       "polarity": "positive",
@@ -400,23 +594,21 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            1
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {
-        "contextRef": "entity.vehicle.bicycle"
-      },
-      "revision": 1,
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.cycling-helmet.protects.head",
-      "subjectRef": "entity.safety.cycling-helmet",
-      "predicate": "protects",
-      "objectRef": "concept.body.head",
+      "id": "claim.squeeze-brake-lever.contributes-to.brake-engages",
+      "conceptIds": [
+        "bicycle.braking.chain"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.squeeze-brake-lever",
+      "predicate": "contributes_to",
+      "objectRef": "concept.action.brake-engages",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -432,23 +624,201 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "qualifiers": {
-        "activity": "riding_bicycle"
-      },
-      "revision": 1,
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.lexeme.pedal-noun.denotes.bicycle-pedal",
-      "subjectRef": "lexeme.en.pedal.noun.bicycle-part",
+      "id": "claim.brake-engages.contributes-to.bicycle-slowing",
+      "conceptIds": [
+        "bicycle.braking.chain"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.brake-engages",
+      "predicate": "contributes_to",
+      "objectRef": "concept.motion.bicycle-slowing",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.turn-handlebar.contributes-to.direction-change",
+      "conceptIds": [
+        "bicycle.control.steering"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.turn-handlebar",
+      "predicate": "contributes_to",
+      "objectRef": "concept.motion.direction-change",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.ring-bell.contributes-to.signal-presence",
+      "conceptIds": [
+        "bicycle.safety.signal"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.ring-bicycle-bell",
+      "predicate": "contributes_to",
+      "objectRef": "concept.communication.signal-presence",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.check-helmet.contributes-to.safer-ride",
+      "conceptIds": [
+        "bicycle.safety.pre-ride"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.check-helmet",
+      "predicate": "contributes_to",
+      "objectRef": "concept.safety.safer-ride",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.check-brakes.contributes-to.safer-ride",
+      "conceptIds": [
+        "bicycle.safety.pre-ride"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.check-brakes",
+      "predicate": "contributes_to",
+      "objectRef": "concept.safety.safer-ride",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.check-tyres.contributes-to.safer-ride",
+      "conceptIds": [
+        "bicycle.safety.pre-ride"
+      ],
+      "revision": 1,
+      "subjectRef": "concept.action.check-tyres",
+      "predicate": "contributes_to",
+      "objectRef": "concept.safety.safer-ride",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.lexeme.bicycle.denotes.vehicle",
+      "conceptIds": [
+        "english.vocabulary.bicycle"
+      ],
+      "revision": 1,
+      "subjectRef": "lexeme.en.bicycle.noun.vehicle",
       "predicate": "denotes",
-      "objectRef": "entity.part.bicycle.pedal",
+      "objectRef": "entity.vehicle.bicycle",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -464,21 +834,21 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.lexeme.pedal-verb.denotes.pedalling",
-      "subjectRef": "lexeme.en.pedal.verb.operate-cycle",
+      "id": "claim.lexeme.brake-noun.denotes.bicycle-brake",
+      "conceptIds": [
+        "english.vocabulary.brake"
+      ],
+      "revision": 1,
+      "subjectRef": "lexeme.en.brake.noun.bicycle-part",
       "predicate": "denotes",
-      "objectRef": "concept.action.pedalling",
+      "objectRef": "entity.part.bicycle.brake",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -494,19 +864,49 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.lexeme.handle.denotes.bicycle-handlebar",
-      "subjectRef": "lexeme.en.handle.noun.bicycle-control",
+      "id": "claim.lexeme.brake-verb.denotes.bicycle-slowing",
+      "conceptIds": [
+        "english.vocabulary.brake"
+      ],
+      "revision": 1,
+      "subjectRef": "lexeme.en.brake.verb.slow",
+      "predicate": "denotes",
+      "objectRef": "concept.motion.bicycle-slowing",
+      "polarity": "positive",
+      "authority": {
+        "kind": "canonical"
+      },
+      "scope": {
+        "kind": "shared"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      },
+      "provenance": [
+        {
+          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
+        }
+      ],
+      "qualifiers": {}
+    },
+    {
+      "id": "claim.lexeme.handlebar.denotes.bicycle-handlebar",
+      "conceptIds": [
+        "english.vocabulary.handlebar"
+      ],
+      "revision": 1,
+      "subjectRef": "lexeme.en.handlebar.noun.steering-part",
       "predicate": "denotes",
       "objectRef": "entity.part.bicycle.handlebar",
       "polarity": "positive",
@@ -524,21 +924,21 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            5
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.lexeme.aside.denotes.to-one-side",
-      "subjectRef": "lexeme.en.aside.adverb.to-one-side",
+      "id": "claim.lexeme.tyre.denotes.bicycle-tyre",
+      "conceptIds": [
+        "english.vocabulary.tyre"
+      ],
+      "revision": 1,
+      "subjectRef": "lexeme.en.tyre.noun.wheel-covering",
       "predicate": "denotes",
-      "objectRef": "concept.position.to-one-side",
+      "objectRef": "entity.part.bicycle.tyre",
       "polarity": "positive",
       "authority": {
         "kind": "canonical"
@@ -554,449 +954,41 @@
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
+      "qualifiers": {}
     },
     {
-      "id": "claim.lexeme.sometimes.denotes.occasionally",
-      "subjectRef": "lexeme.en.sometimes.adverb.occasionally",
+      "id": "claim.lexeme.bell.denotes.bicycle-bell",
+      "conceptIds": [
+        "english.vocabulary.bell"
+      ],
+      "revision": 1,
+      "subjectRef": "lexeme.en.bell.noun.ringing-device",
       "predicate": "denotes",
-      "objectRef": "concept.frequency.occasionally",
-      "polarity": "positive",
-      "authority": {
-        "kind": "canonical"
-      },
-      "scope": {
-        "kind": "shared"
-      },
-      "review": {
-        "status": "editorial_candidate",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.lexeme.helmet.denotes.cycling-helmet",
-      "subjectRef": "lexeme.en.helmet.noun.protective-headgear",
-      "predicate": "denotes",
-      "objectRef": "entity.safety.cycling-helmet",
-      "polarity": "positive",
-      "authority": {
-        "kind": "canonical"
-      },
-      "scope": {
-        "kind": "shared"
-      },
-      "review": {
-        "status": "editorial_candidate",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.lexeme.everywhere.denotes.all-places",
-      "subjectRef": "lexeme.en.everywhere.adverb.all-places",
-      "predicate": "denotes",
-      "objectRef": "concept.place.all-places",
-      "polarity": "positive",
-      "authority": {
-        "kind": "canonical"
-      },
-      "scope": {
-        "kind": "shared"
-      },
-      "review": {
-        "status": "editorial_candidate",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "curriculum_trigger",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.instance-of.bicycle",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "instance_of",
-      "objectRef": "entity.vehicle.bicycle",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            1
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.speaker-owns-bicycle",
-      "subjectRef": "chapter.mridang.my-bicycle.speaker",
-      "predicate": "owns",
-      "objectRef": "chapter.mridang.my-bicycle.bicycle",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            1
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.bicycle-colour-red",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "has_colour",
-      "objectRef": "concept.colour.red",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            1
-          ]
-        }
-      ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.seat-colour-blue",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "has_colour",
-      "objectRef": "concept.colour.blue",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "appliesToPartRef": "entity.part.bicycle.seat"
-      },
-      "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.tyre-colour-black",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "has_colour",
-      "objectRef": "concept.colour.black",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "appliesToPartRef": "entity.part.bicycle.tyre"
-      },
-      "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.pedal-colour-black",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "has_colour",
-      "objectRef": "concept.colour.black",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "appliesToPartRef": "entity.part.bicycle.pedal"
-      },
-      "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.bicycle-has-bell",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "has_part",
       "objectRef": "entity.part.bicycle.bell",
       "polarity": "positive",
       "authority": {
-        "kind": "chapter_contextual"
+        "kind": "canonical"
       },
       "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
+        "kind": "shared"
       },
       "review": {
-        "status": "source_extracted_draft",
+        "status": "editorial_candidate",
         "authority": "kidsplay_editorial_review_required",
         "publishable": false
       },
       "provenance": [
         {
           "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            1
-          ]
+          "sourceRole": "curriculum_trigger_and_independent_expansion",
+          "sourceExpressionCopied": false
         }
       ],
-      "revision": 1,
-      "qualifiers": {},
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.bicycle-may-move-fast",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "may_move_at_speed",
-      "objectRef": "concept.speed.fast",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "frequency": "sometimes"
-      },
-      "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.bicycle-may-move-slow",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "may_move_at_speed",
-      "objectRef": "concept.speed.slow",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "frequency": "sometimes"
-      },
-      "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.bicycle-requires-air",
-      "subjectRef": "chapter.mridang.my-bicycle.bicycle",
-      "predicate": "requires",
-      "objectRef": "concept.material.air",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "componentRef": "entity.part.bicycle.tyre"
-      },
-      "revision": 1,
-      "conceptIds": []
-    },
-    {
-      "id": "claim.chapter.my-bicycle.speaker-uses-helmet",
-      "subjectRef": "chapter.mridang.my-bicycle.speaker",
-      "predicate": "uses",
-      "objectRef": "entity.safety.cycling-helmet",
-      "polarity": "positive",
-      "authority": {
-        "kind": "chapter_contextual"
-      },
-      "scope": {
-        "moduleRef": "curriculum.ncert.2026-27.class2.english.mridang.unit1.chapter1.my-bicycle"
-      },
-      "review": {
-        "status": "source_extracted_draft",
-        "authority": "kidsplay_editorial_review_required",
-        "publishable": false
-      },
-      "provenance": [
-        {
-          "sourceRef": "source.ncert.mridang.class2.english.2026-27",
-          "sourceRole": "chapter_evidence",
-          "pdfPages": [
-            2
-          ]
-        }
-      ],
-      "qualifiers": {
-        "activity": "riding_bicycle"
-      },
-      "revision": 1,
-      "conceptIds": []
+      "qualifiers": {}
     }
   ]
 }

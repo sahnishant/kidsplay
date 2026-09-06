@@ -1,3 +1,4 @@
+import { loadCanonicalGraph, validateCanonicalGraph } from './canonical-graph.mjs';
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -47,7 +48,8 @@ export function validateBicycleWorkshopProduction() {
   const art = read('content/asset-generation/bicycle-workshop-ai-art.json');
   const prompts = read('content/asset-generation/bicycle-workshop-ai-prompts.json');
   const module = read('content/curriculum-modules/ncert/2026-27/class-2/english/mridang/chapters/bicycle-workshop-runtime.json');
-  const graph = read('content/learning-graph/modules/bicycle-workshop.json');
+  const graph = loadCanonicalGraph({ root: ROOT });
+  validateCanonicalGraph(graph);
   const projection = read('content/knowledge/bicycle-workshop-runtime-projection.json');
   const practicePack = read('content/curriculum-runtime/bicycle-workshop/packs/practice.json');
   const readingPack = read('content/curriculum-runtime/bicycle-workshop/packs/reading.json');
@@ -94,16 +96,14 @@ export function validateBicycleWorkshopProduction() {
   invariant(module.deliveryRefs.visualGenerationRecordRef === art.generationRecordId, 'Visual-generation record is not linked from the module');
   invariant(module.deliveryRefs.visualPromptSetRef === prompts.promptSetId, 'Visual prompt set is not linked from the module');
 
-  const importedNodes = graph.imports.nodeFiles.flatMap((path) => read(path).nodes ?? []);
-  const importedClaims = graph.imports.claimFiles.flatMap((path) => read(path).claims ?? []);
-  const nodeIds = new Set([...importedNodes, ...graph.nodes].map((node) => node.id));
-  const claimIds = new Set([...importedClaims, ...graph.edges].map((claim) => claim.id));
+  const nodeIds = new Set(graph.nodes.map((node) => node.id));
+  const claimIds = new Set(graph.claims.map((claim) => claim.id));
   invariant(nodeIds.size >= 75, `Graph too small: ${nodeIds.size} nodes`);
   invariant(claimIds.size >= 60, `Graph too small: ${claimIds.size} claims`);
-  for (const edge of graph.edges) {
-    invariant(nodeIds.has(edge.from), `${edge.id}: unknown source node ${edge.from}`);
-    invariant(nodeIds.has(edge.to), `${edge.id}: unknown target node ${edge.to}`);
-    invariant(Array.isArray(edge.conceptIds) && edge.conceptIds.length > 0, `${edge.id}: conceptIds required`);
+  for (const edge of graph.claims) {
+    invariant(nodeIds.has(edge.subjectRef), `${edge.id}: unknown source node ${edge.subjectRef}`);
+    invariant(nodeIds.has(edge.objectRef), `${edge.id}: unknown target node ${edge.objectRef}`);
+    invariant(Array.isArray(edge.conceptIds), `${edge.id}: explicit concept bindings required`);
   }
   for (const process of graph.processes) {
     for (const ref of [...(process.orderedEdgeRefs ?? []), ...(process.parallelEdgeRefs ?? [])]) invariant(claimIds.has(ref), `${process.id}: unknown edge ${ref}`);

@@ -1,0 +1,541 @@
+{
+  "schemaVersion": 2,
+  "graphSliceId": "graph-slice.bicycle-workshop.nodes",
+  "nodes": [
+    {
+      "id": "class.vehicle.human-powered",
+      "type": "entity_class",
+      "revision": 1,
+      "labels": {
+        "en": "human-powered vehicle"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.frame",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "frame"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.fork",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "fork"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.rim",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "rim"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.spoke",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "spoke"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.hub",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "hub"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.inner-tube",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "inner tube"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.crank",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "crank"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.chain",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "chain"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.rear-sprocket",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "rear sprocket"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.brake-lever",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "brake lever"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.grip",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "handlebar grip"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.kickstand",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "kickstand"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.light",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "bicycle light"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "entity.part.bicycle.reflector",
+      "type": "part",
+      "revision": 1,
+      "labels": {
+        "en": "reflector"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.push-pedals",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "push the pedals"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.crank-turns",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "the crank turns"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.chain-moves",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "the chain moves"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.rear-wheel-turns",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "the rear wheel turns"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.squeeze-brake-lever",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "squeeze a brake lever"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.brake-engages",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "the brake engages"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.motion.bicycle-slowing",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "the bicycle slows"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.turn-handlebar",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "turn the handlebar"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.motion.direction-change",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "change direction"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.ring-bicycle-bell",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "ring the bicycle bell"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.communication.signal-presence",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "signal that a rider is nearby"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.check-helmet",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "check and fasten a helmet"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.check-brakes",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "check the brakes"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.action.check-tyres",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "check the tyres"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.safety.safer-ride",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "a safer bicycle ride"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.property.two-wheels",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "two wheels"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.property.human-power",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "movement powered by a rider"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.word-sense.object-part",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "a physical part of an object"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "concept.word-sense.action",
+      "type": "concept",
+      "revision": 1,
+      "labels": {
+        "en": "an action"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "lexeme.en.bicycle.noun.vehicle",
+      "type": "lexical_sense",
+      "lemma": "bicycle",
+      "partOfSpeech": "noun",
+      "revision": 1,
+      "labels": {
+        "en": "bicycle (two-wheeled vehicle)"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "lexeme.en.brake.noun.bicycle-part",
+      "type": "lexical_sense",
+      "lemma": "brake",
+      "partOfSpeech": "noun",
+      "revision": 1,
+      "labels": {
+        "en": "brake (bicycle part)"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "lexeme.en.brake.verb.slow",
+      "type": "lexical_sense",
+      "lemma": "brake",
+      "partOfSpeech": "verb",
+      "revision": 1,
+      "labels": {
+        "en": "brake (slow a vehicle)"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "lexeme.en.handlebar.noun.steering-part",
+      "type": "lexical_sense",
+      "lemma": "handlebar",
+      "partOfSpeech": "noun",
+      "revision": 1,
+      "labels": {
+        "en": "handlebar (steering part)"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "lexeme.en.tyre.noun.wheel-covering",
+      "type": "lexical_sense",
+      "lemma": "tyre",
+      "partOfSpeech": "noun",
+      "variants": [
+        "tire"
+      ],
+      "revision": 1,
+      "labels": {
+        "en": "tyre (wheel covering)"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    },
+    {
+      "id": "lexeme.en.bell.noun.ringing-device",
+      "type": "lexical_sense",
+      "lemma": "bell",
+      "partOfSpeech": "noun",
+      "revision": 1,
+      "labels": {
+        "en": "bell (ringing device)"
+      },
+      "review": {
+        "status": "editorial_candidate",
+        "authority": "kidsplay_editorial_review_required",
+        "publishable": false
+      }
+    }
+  ]
+}
