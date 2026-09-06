@@ -58,10 +58,18 @@ test.describe('Bicycle Workshop chapter vertical', () => {
     await expect(page.getByRole('heading', { name: 'How does the pedal make it go?' })).toBeVisible();
     await expect(page.getByText('LOOK INSIDE', { exact: true })).toBeVisible();
     await expect(page.getByText('Kidsplay extra · no score', { exact: true })).toBeVisible();
-    const playSlowly = page.getByRole('button', { name: 'Play slowly', exact: true });
-    await expect(playSlowly).toBeVisible();
-    await playSlowly.click();
-    await expect(page.getByRole('button', { name: 'Pause', exact: true })).toBeVisible();
+    await expect(page.locator('p.look')).toContainText('pedal where the foot pushes');
+    const pushPedal = page.getByRole('button', { name: 'Push the pedal', exact: true });
+    await expect(pushPedal).toBeVisible();
+    await pushPedal.click();
+    await expect(page.getByRole('button', { name: 'See what moves next', exact: true })).toBeVisible();
+    await expect(page.getByText('CRANK', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Open idea 2: MAKE IT SLOW', exact: true }).click();
+    const squeeze = page.getByRole('button', { name: 'Squeeze the lever', exact: true });
+    await expect(squeeze).toBeVisible();
+    await squeeze.click();
+    await expect(page.getByRole('button', { name: 'Watch the wheel', exact: true })).toBeVisible();
+    await expect(page.getByText('BRAKE', { exact: true })).toBeVisible();
 
     await nav.getByRole('button', { name: '4 Sounds', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Ring, listen, say' })).toBeVisible();
