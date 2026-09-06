@@ -19,9 +19,10 @@ const budgets = {
   // duplicate mechanics UI it remains independently route-capped below; +9 KiB
   // admits that measured raw payload without changing any existing route ceiling.
   // #268 contributes a second, nested lazy teaching surface for explicit pedal /
-  // crank / chain / brake progression. Keep its installed-code allowance bounded.
+  // crank / chain / brake progression. The integrated chunk measures ~10.6 KiB raw;
+  // admit a bounded +11 KiB while keeping its own gzip/CSS route caps below.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 8) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
