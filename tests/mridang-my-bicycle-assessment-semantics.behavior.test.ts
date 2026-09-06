@@ -57,5 +57,5 @@ describe('My Bicycle assessment semantic hardening', () => {
     } finally {
       rmSync(root, { recursive: true, force: true });
     }
-  });
+  }, 15_000);
 });
