@@ -9,16 +9,21 @@ afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 describe('shared illustration families', () => {
   it.each(visuals)('renders $glyph without answer text or interactive controls', async (visual) => {
     const view = render(StudioScene, { icon: visual.glyph });
-    const scene = view.container.querySelector('[data-studio-scene]')!;
-    expect(scene.getAttribute('data-studio-scene')).toBe(visual.glyph);
-    const canvas = scene.querySelector('svg')!;
-    expect(canvas.getAttribute('viewBox')).toBe('0 0 320 200');
-    expect(canvas.getAttribute('aria-hidden')).toBe('true');
-    // Test the visible canvas and actual ink, not an arbitrary minimum detail
-    // count that penalises a deliberately quiet night scene.
-    expect(canvas.querySelector('rect[width="318"][height="198"]')).not.toBeNull();
-    await waitFor(() => expect(canvas.querySelectorAll('path').length).toBeGreaterThan(2));
-    expect(scene.querySelectorAll('button,a,input,text')).toHaveLength(0);
+    await waitFor(() => {
+      const scene = view.container.querySelector('[data-studio-scene]')!;
+      expect(scene.getAttribute('data-studio-scene')).toBe(visual.glyph);
+      const canvas = scene.querySelector('svg')!;
+      expect(canvas.getAttribute('viewBox')).toBe('0 0 320 200');
+      expect(canvas.getAttribute('aria-hidden')).toBe('true');
+      // Check the actual SVG children after the reactive construction settles.
+      // Include the canvas in a failure so malformed markup is not mistaken
+      // for a selector/timing problem or hidden by weakening the assertion.
+      const rectangles = Array.from(canvas.getElementsByTagName('rect'));
+      const background = rectangles.find((rect) => rect.getAttribute('width') === '318' && rect.getAttribute('height') === '198');
+      expect(background, `${visual.glyph}: ${canvas.outerHTML}`).toBeDefined();
+      expect(canvas.getElementsByTagName('path').length).toBeGreaterThan(2);
+      expect(scene.querySelectorAll('button,a,input,text')).toHaveLength(0);
+    });
   });
   it('fails closed for unsupported glyphs rather than showing an unrelated default', () => {
     expect(render(StudioScene, { icon: 'unreviewed-new-stage' }).container.querySelector('svg')).toBeNull();
