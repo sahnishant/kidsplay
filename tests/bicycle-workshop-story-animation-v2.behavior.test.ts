@@ -9,6 +9,7 @@ const root=process.cwd();
 const guide=JSON.parse(readFileSync(resolve(root,'content/experience/bicycle-workshop-guided.json'),'utf8')) as Guide;
 const viewport=readFileSync(resolve(root,'src/ui/BicycleWorkshopViewport.svelte'),'utf8');
 const stage=readFileSync(resolve(root,'src/ui/BicycleStoryStage.svelte'),'utf8');
+const mechanism=readFileSync(resolve(root,'src/presentation/BicycleMechanismDemonstration.svelte'),'utf8');
 const shellCss=readFileSync(resolve(root,'src/ui/bicycleWorkshop.css'),'utf8');
 const stageCss=readFileSync(resolve(root,'src/ui/bicycleStoryStage.css'),'utf8');
 const bundleBudget=readFileSync(resolve(root,'scripts/validate-bundle-budget.mjs'),'utf8');
@@ -54,15 +55,18 @@ describe('Bicycle Workshop story and animation v2',()=>{
     for(const label of ['Seat','Pedal','Wheel','Bell','Handle','Carrier','Brake']) expect(stage).toContain(`label:'${label}'`);
   });
 
-  it('provides a pausable, replayable causal motion demonstration with visibly travelling chain motion',()=>{
-    for(const token of ['FOOT','PEDAL','CRANK','CHAIN','BACK WHEEL']) expect(stage).toContain(token);
-    expect(stage).toContain('bicycle moves');
-    for(const token of ['Play slowly','Pause','Continue','Replay']) expect(stage).toContain(token);
-    expect(stageCss).toContain('animation-play-state:paused');
-    expect(stageCss).toContain('repeating-linear-gradient');
-    expect(stageCss).toContain('background-position:110px 0');
-    for(const keyframe of ['foot-push','crank-turn','chain-travel','wheel-turn']) expect(stageCss).toContain(`@keyframes ${keyframe}`);
-    expect(stageCss).toContain('prefers-reduced-motion:reduce');
+  it('uses the imported #268 progressive mechanism instead of retaining duplicate answer-revealing motion code',()=>{
+    expect(viewport).toContain("import('../presentation/BicycleMechanismDemonstration.svelte')");
+    expect(viewport).toContain("beat.id==='braking-chain'?'brake':'drive'");
+    expect(viewport).toContain("beat.sequence?.length && section.id!=='movement'");
+    for(const token of ["title: 'PEDAL'","title: 'CRANK'","title: 'CHAIN'","title: 'BACK WHEEL'","title: 'BRAKE LEVER'","title: 'BICYCLE SLOWS'"]) expect(mechanism).toContain(token);
+    expect(mechanism).toContain('visibleSteps = $derived(steps.slice(0, stepIndex + 1))');
+    expect(mechanism).toContain('PEDAL</b> = where the foot pushes');
+    expect(mechanism).toContain('CRANK</b> = the arm that turns');
+    expect(mechanism).toContain('prefers-reduced-motion:reduce');
+    expect(stage).not.toContain('Play slowly');
+    expect(stage).not.toContain('class="motion"');
+    expect(stageCss).not.toContain('@keyframes chain-travel');
   });
 
   it('makes every child instruction correspond to a real non-scored interaction',()=>{
@@ -71,7 +75,7 @@ describe('Bicycle Workshop story and animation v2',()=>{
     expect(stage).toContain("const safetyItems=['Helmet','Brakes','Tyres'] as const");
     expect(stage).toContain('aria-label="Pre-ride checks"');
     expect(stage).toContain("safetyMask===7?'✓ Ready to ride!'");
-    expect(`${viewport}\n${stage}`).not.toMatch(/recordAttempt|knowledgeEvidence|saveProgress|localProgress/);
+    expect(`${viewport}\n${stage}\n${mechanism}`).not.toMatch(/recordAttempt|knowledgeEvidence|saveProgress|localProgress/);
   });
 
   it('keeps imagination non-evaluative while making the magic bicycle genuinely playable',()=>{
@@ -83,8 +87,10 @@ describe('Bicycle Workshop story and animation v2',()=>{
     expect(stage).toContain('No score here. Pick a place or invent a different one.');
   });
 
-  it('keeps the detailed Bicycle stage behind its own strict lazy-route budget',()=>{
+  it('keeps both Bicycle interaction surfaces behind strict lazy-route budgets',()=>{
     expect(bundleBudget).toContain("prefix: 'BicycleStoryStage-'");
+    expect(bundleBudget).toContain("prefix: 'BicycleMechanismDemonstration-'");
     expect(bundleBudget).toContain("maxJsGzipBytes: 4 * 1024, maxCssBytes: 5 * 1024");
+    expect(bundleBudget).toContain("maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 6.5 * 1024");
   });
 });
