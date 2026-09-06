@@ -38,10 +38,7 @@
           "id": "meet-ride",
           "label": "READY TO ROLL",
           "text": "A bicycle is a wheeled vehicle. The rider supplies the power that helps it move.",
-          "examples": [
-            "two wheels",
-            "rider power"
-          ],
+          "examples": ["two wheels", "rider power"],
           "claimRefs": [
             "claim.bicycle.is-a.wheeled-vehicle",
             "claim.bicycle.is-a.human-powered-vehicle",
@@ -53,10 +50,7 @@
           "id": "meet-bell",
           "label": "RING, RING",
           "text": "A bicycle may have a bell. Its ringing sound can help signal that a rider is nearby.",
-          "examples": [
-            "bell rings",
-            "people notice"
-          ],
+          "examples": ["bell rings", "people notice"],
           "claimRefs": [
             "claim.bicycle.may-have-part.bell",
             "claim.bicycle-bell.produces.ring",
@@ -85,29 +79,14 @@
           "id": "parts-seven",
           "label": "THE SEVEN WORDS",
           "text": "Learn the bicycle as one whole object first. Then locate these seven visible parts.",
-          "examples": [
-            "seat",
-            "pedal",
-            "wheel",
-            "bell",
-            "handle",
-            "carrier",
-            "brake"
-          ],
-          "capabilityRefs": [
-            "capability.english.semantic-part-labelling"
-          ]
+          "examples": ["seat", "pedal", "wheel", "bell", "handle", "carrier", "brake"],
+          "capabilityRefs": ["capability.english.semantic-part-labelling"]
         },
         {
           "id": "parts-go-turn-slow",
           "label": "GO · TURN · SLOW",
           "text": "Your foot pushes the pedal. The wheel rolls, the handle steers, and the brake helps the bicycle slow down.",
-          "examples": [
-            "pedal = push",
-            "wheel = roll",
-            "handle = steer",
-            "brake = slow"
-          ],
+          "examples": ["pedal = push", "wheel = roll", "handle = steer", "brake = slow"],
           "claimRefs": [
             "claim.bicycle.typically-has-part.wheel",
             "claim.bicycle.typically-has-part.pedal",
@@ -123,20 +102,14 @@
           "id": "parts-seat-bell-carrier",
           "label": "SEAT · BELL · CARRIER",
           "text": "Find the seat, bell and carrier. A bell and a carrier are useful parts that some bicycles have and some do not.",
-          "examples": [
-            "seat = find it",
-            "bell = signal",
-            "carrier = carry suitable things"
-          ],
+          "examples": ["seat = find it", "bell = signal", "carrier = carry suitable things"],
           "claimRefs": [
             "claim.bicycle.may-have-part.bell",
             "claim.bicycle.may-have-part.carrier",
             "claim.bicycle.bell.used-for.signalling",
             "claim.bicycle.carrier.used-for.carrying"
           ],
-          "capabilityRefs": [
-            "capability.english.semantic-part-labelling"
-          ]
+          "capabilityRefs": ["capability.english.semantic-part-labelling"]
         }
       ],
       "remember": "First see the whole bicycle. Then learn where each named part belongs.",
@@ -161,13 +134,7 @@
           "id": "movement-chain",
           "label": "WATCH THE MOTION TRAVEL",
           "text": "The movement travels through connected parts. Pause the demonstration anywhere and follow the path.",
-          "sequence": [
-            "Foot pushes pedal",
-            "Crank turns",
-            "Chain moves",
-            "Back wheel turns",
-            "Bicycle moves"
-          ],
+          "sequence": ["Foot pushes pedal", "Crank turns", "Chain moves", "Back wheel turns", "Bicycle moves"],
           "claimRefs": [
             "claim.push-pedals.contributes-to.crank-turns",
             "claim.crank-turns.contributes-to.chain-moves",
@@ -179,10 +146,7 @@
           "id": "movement-outside",
           "label": "WHAT THE RIDER FEELS",
           "text": "From the outside it feels simple: your foot pushes a pedal, and pedalling helps the bicycle move.",
-          "examples": [
-            "foot pushes",
-            "bicycle moves"
-          ],
+          "examples": ["foot pushes", "bicycle moves"],
           "claimRefs": [
             "claim.bicycle.pedal.operated-by.rider-foot",
             "claim.pedalling.contributes-to.bicycle-movement"
@@ -200,7 +164,7 @@
       "sourceLayer": "chapter_spine",
       "eyebrow": "HEAR AND PLAY WITH WORDS",
       "title": "Ring, listen, say",
-      "visualRef": "entity.bicycle-part.bell",
+      "visualRef": "entity.bicycle-part.cycle-bell",
       "visualLabel": "A bicycle bell beside playful word cards",
       "storyLead": "The bicycle gives us a sound to notice and words to play with.",
       "lookPrompt": "Tap the bell, then say the word cards slowly.",
@@ -209,40 +173,22 @@
           "id": "sounds-bell",
           "label": "BELL SOUND",
           "text": "A bicycle bell makes a ringing sound. Ringing can also tell others that a rider is nearby.",
-          "examples": [
-            "ring",
-            "listen"
-          ],
-          "claimRefs": [
-            "claim.bicycle-bell.produces.ring",
-            "claim.ring-bell.contributes-to.signal-presence"
-          ]
+          "examples": ["ring", "listen"],
+          "claimRefs": ["claim.bicycle-bell.produces.ring", "claim.ring-bell.contributes-to.signal-presence"]
         },
         {
           "id": "short-a",
           "label": "SHORT A",
           "text": "Cat, cap and map share the same short-a sound in the middle.",
-          "examples": [
-            "cat",
-            "cap",
-            "map"
-          ],
-          "capabilityRefs": [
-            "capability.english.phonics.short-a-recognition"
-          ]
+          "examples": ["cat", "cap", "map"],
+          "capabilityRefs": ["capability.english.phonics.short-a-recognition"]
         },
         {
           "id": "articles",
           "label": "A OR AN?",
           "text": "Listen to the first sound when you choose a or an.",
-          "examples": [
-            "a bicycle",
-            "a helmet",
-            "an apple"
-          ],
-          "capabilityRefs": [
-            "capability.english.grammar.indefinite-article-selection"
-          ]
+          "examples": ["a bicycle", "a helmet", "an apple"],
+          "capabilityRefs": ["capability.english.grammar.indefinite-article-selection"]
         }
       ],
       "remember": "Listen closely: sounds can help you notice patterns in words.",
@@ -267,27 +213,15 @@
           "id": "magic-place",
           "label": "CHOOSE A DESTINATION",
           "text": "Imagine a bicycle that can take you somewhere surprising. Your idea can be completely different from anyone else's.",
-          "examples": [
-            "a cloud garden",
-            "a moonlit hill",
-            "a place you invent"
-          ],
-          "capabilityRefs": [
-            "capability.english.creative.imagine-draw-speak"
-          ]
+          "examples": ["a cloud garden", "a moonlit hill", "a place you invent"],
+          "capabilityRefs": ["capability.english.creative.imagine-draw-speak"]
         },
         {
           "id": "magic-story",
           "label": "WHAT HAPPENS THERE?",
           "text": "Give your ride one tiny story: where do you arrive, what do you notice, and what happens next?",
-          "sequence": [
-            "I ride to…",
-            "I notice…",
-            "Then I…"
-          ],
-          "capabilityRefs": [
-            "capability.english.creative.imagine-draw-speak"
-          ]
+          "sequence": ["I ride to…", "I notice…", "Then I…"],
+          "capabilityRefs": ["capability.english.creative.imagine-draw-speak"]
         }
       ],
       "remember": "An imaginative answer belongs to the child; it is not marked right or wrong.",
@@ -310,11 +244,7 @@
           "id": "reading-micro-passage",
           "label": "TINY STORY",
           "text": "Ria fastens her helmet. She checks the brakes. Then she begins to pedal.",
-          "sequence": [
-            "Helmet",
-            "Brakes",
-            "Pedal"
-          ],
+          "sequence": ["Helmet", "Brakes", "Pedal"],
           "capabilityRefs": [
             "capability.english.reading.literal-retrieval",
             "capability.english.reading.sequence-retrieval"
@@ -324,10 +254,7 @@
           "id": "reading-strategy",
           "label": "FIND THE CLUES",
           "text": "Action words and order words help us understand what happened and why.",
-          "examples": [
-            "then = next",
-            "last = end"
-          ],
+          "examples": ["then = next", "last = end"],
           "capabilityRefs": [
             "capability.english.reading.statement-verification",
             "capability.english.reading.simple-inference"
@@ -354,24 +281,14 @@
           "id": "safety-helmet",
           "label": "HELMET",
           "text": "Fasten a properly fitted cycling helmet before you ride. It helps protect the head.",
-          "examples": [
-            "proper fit",
-            "fastened"
-          ],
-          "claimRefs": [
-            "claim.cycling-helmet.protects.head",
-            "claim.check-helmet.contributes-to.safer-ride"
-          ]
+          "examples": ["proper fit", "fastened"],
+          "claimRefs": ["claim.cycling-helmet.protects.head", "claim.check-helmet.contributes-to.safer-ride"]
         },
         {
           "id": "safety-bike",
           "label": "BRAKES · TYRES",
           "text": "Check that the brakes work and the tyres are ready. A bell can help signal when one is fitted.",
-          "examples": [
-            "brakes work",
-            "tyres ready",
-            "bell can signal"
-          ],
+          "examples": ["brakes work", "tyres ready", "bell can signal"],
           "claimRefs": [
             "claim.check-brakes.contributes-to.safer-ride",
             "claim.check-tyres.contributes-to.safer-ride",
