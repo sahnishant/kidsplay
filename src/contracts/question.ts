@@ -34,12 +34,7 @@ export interface BaseQuestion {
   authoring: AuthoringMetadata;
 }
 
-/**
- * Semantic presentation hook shared by choice, fill, drag, memory and sequence
- * content. semanticRef names the underlying content entity (for example dog,
- * seahorse or kennel); visualRefs is an optional authored presentation override.
- * The presentation layer owns SVG artwork and motion for both forms.
- */
+/** Semantic presentation hook shared by question families. */
 export interface PresentableItem {
   id: string;
   label: string;
@@ -50,7 +45,6 @@ export interface PresentableItem {
 export type SingleChoicePresentationTier = 'first_play' | 'preschool' | 'early_primary';
 export type SingleChoiceLabelMode = 'visible' | 'secondary' | 'hidden';
 export interface SingleChoicePresentationHint {
-  /** Layout/presentation only. Correctness remains exact_option + the canonical evaluator. */
   mode: 'visual_dominant';
   tier: SingleChoicePresentationTier;
   labels?: SingleChoiceLabelMode;
@@ -58,14 +52,7 @@ export interface SingleChoicePresentationHint {
 
 export interface ChoiceOption extends PresentableItem {}
 export interface SingleChoiceQuestion extends BaseQuestion {
-  interaction: {
-    type: 'single_choice';
-    version: 1;
-    shuffleOptions?: boolean;
-    options: ChoiceOption[];
-    /** Optional visual-dominant child presentation; never changes answer semantics. */
-    presentation?: SingleChoicePresentationHint;
-  };
+  interaction: { type: 'single_choice'; version: 1; shuffleOptions?: boolean; options: ChoiceOption[]; presentation?: SingleChoicePresentationHint; };
   solution: { type: 'exact_option'; correctOptionIds: string[]; };
 }
 
@@ -86,20 +73,10 @@ export interface DragToTargetQuestion extends BaseQuestion {
 export interface EqualPartsCategory extends PresentableItem { symbol?: string; }
 export interface EqualPartsQuestion extends BaseQuestion {
   interaction: {
-    type: 'equal_parts';
-    version: 1;
-    /** The unit whole is explicit; V1 does not compare different wholes. */
-    wholeLabel: string;
-    partCount: number;
-    /** All supported regions have equal area. Object collections are not a skin. */
-    representation: 'circle' | 'bar' | 'grid';
-    categories: EqualPartsCategory[];
+    type: 'equal_parts'; version: 1; wholeLabel: string; partCount: number;
+    representation: 'circle' | 'bar' | 'grid'; categories: EqualPartsCategory[];
   };
-  solution: {
-    type: 'fraction_allocation';
-    /** Positive, representable rational quantities which together fill one whole. */
-    fractions: Record<string, { numerator: number; denominator: number }>;
-  };
+  solution: { type: 'fraction_allocation'; fractions: Record<string, { numerator: number; denominator: number }>; };
 }
 
 export type WordSearchDirection = 'right' | 'left' | 'down' | 'up' | 'down_right' | 'down_left' | 'up_right' | 'up_left';
@@ -116,9 +93,25 @@ export interface MemoryPairsQuestion extends BaseQuestion {
 }
 
 export interface SequenceItem extends PresentableItem { symbol?: string; }
+/**
+ * sequence_order@1 has one exact order. sequence_order@2 may add prerequisite
+ * authority; orderedItemIds is then only a deterministic teaching/example order.
+ */
 export interface SequenceOrderQuestion extends BaseQuestion {
-  interaction: { type: 'sequence_order'; version: 1; seed: number; items: SequenceItem[]; };
-  solution: { type: 'ordered_items'; orderedItemIds: string[]; };
+  interaction: { type: 'sequence_order'; version: 1 | 2; seed: number; items: SequenceItem[]; };
+  solution: { type: 'ordered_items'; orderedItemIds: string[]; prerequisites?: Record<string, string[]>; };
+}
+
+/**
+ * Cardinality grouping. Item identity is presentation/work state only; the
+ * solution owns target counts, so interchangeable objects never create an
+ * arbitrary item-to-bin answer key.
+ */
+export interface CollectionCountItem extends PresentableItem { symbol?: string; }
+export interface CollectionCountTarget extends PresentableItem { symbol?: string; }
+export interface CollectionCountQuestion extends BaseQuestion {
+  interaction: { type: 'collection_count'; version: 1; seed: number; items: CollectionCountItem[]; targets: CollectionCountTarget[]; };
+  solution: { type: 'collection_counts'; counts: Record<string, number>; };
 }
 
 export type HotspotShape =
@@ -126,78 +119,26 @@ export type HotspotShape =
   | { type: 'rect'; x: number; y: number; width: number; height: number };
 export interface HotspotRegion extends PresentableItem { symbol?: string; shape: HotspotShape; }
 export interface HotspotQuestion extends BaseQuestion {
-  interaction: {
-    type: 'hotspot';
-    version: 1;
-    selectionMode: 'single' | 'multiple';
-    board: { ariaLabel: string; theme?: 'plain' | 'grass' | 'ocean' | 'sky' | 'split-land-water'; regions: HotspotRegion[]; };
-  };
+  interaction: { type: 'hotspot'; version: 1; selectionMode: 'single' | 'multiple'; board: { ariaLabel: string; theme?: 'plain' | 'grass' | 'ocean' | 'sky' | 'split-land-water'; regions: HotspotRegion[]; }; };
   solution: { type: 'selected_regions'; correctRegionIds: string[]; };
 }
 
-/** Device-independent 0..1 coordinate used by trace/draw interactions. */
 export interface NormalizedPoint { x: number; y: number; }
 export interface TraceAnchor extends PresentableItem { point: NormalizedPoint; symbol?: string; }
-export interface TraceLandmark extends PresentableItem {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-  symbol?: string;
-}
+export interface TraceLandmark extends PresentableItem { x: number; y: number; width: number; height: number; symbol?: string; }
 export interface TracePathQuestion extends BaseQuestion {
-  interaction: {
-    type: 'trace_path';
-    version: 1;
-    board: {
-      ariaLabel: string;
-      theme?: 'plain' | 'grass' | 'sky' | 'room' | 'playground';
-      start: TraceAnchor;
-      goal: TraceAnchor;
-      /** Authored route guide only. Scoring thresholds remain solution-owned. */
-      guidePath: NormalizedPoint[];
-      landmarks?: TraceLandmark[];
-    };
-  };
-  solution: {
-    type: 'trace_corridor';
-    minPointCount: number;
-    startRadius: number;
-    goalRadius: number;
-    corridorRadius: number;
-    minInCorridorRatio: number;
-    minGuideCoverage: number;
-  };
+  interaction: { type: 'trace_path'; version: 1; board: { ariaLabel: string; theme?: 'plain' | 'grass' | 'sky' | 'room' | 'playground'; start: TraceAnchor; goal: TraceAnchor; guidePath: NormalizedPoint[]; landmarks?: TraceLandmark[]; }; };
+  solution: { type: 'trace_corridor'; minPointCount: number; startRadius: number; goalRadius: number; corridorRadius: number; minInCorridorRatio: number; minGuideCoverage: number; };
 }
 
-export interface CrosswordEntry {
-  id: string;
-  clue: string;
-  number: number;
-  direction: 'across' | 'down';
-  startRow: number;
-  startCol: number;
-  length: number;
-}
+export interface CrosswordEntry { id: string; clue: string; number: number; direction: 'across' | 'down'; startRow: number; startCol: number; length: number; }
 export interface CrosswordQuestion extends BaseQuestion {
   interaction: { type: 'crossword'; version: 1; rows: number; cols: number; entries: CrosswordEntry[]; };
   solution: { type: 'crossword_answers'; answers: Record<string, string>; };
 }
 
 export interface MazePathQuestion extends BaseQuestion {
-  interaction: {
-    type: 'maze_path';
-    version: 1;
-    rows: number;
-    cols: number;
-    wallMasks: number[];
-    startIndex: number;
-    goalIndex: number;
-    startLabel: string;
-    startSymbol: string;
-    goalLabel: string;
-    goalSymbol: string;
-  };
+  interaction: { type: 'maze_path'; version: 1; rows: number; cols: number; wallMasks: number[]; startIndex: number; goalIndex: number; startLabel: string; startSymbol: string; goalLabel: string; goalSymbol: string; };
   solution: { type: 'maze_goal'; goalIndex: number; };
 }
 
@@ -209,6 +150,7 @@ export type Question =
   | WordSearchQuestion
   | MemoryPairsQuestion
   | SequenceOrderQuestion
+  | CollectionCountQuestion
   | HotspotQuestion
   | TracePathQuestion
   | CrosswordQuestion

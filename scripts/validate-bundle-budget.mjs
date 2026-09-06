@@ -21,8 +21,11 @@ const budgets = {
   // #268 contributes a second, nested lazy teaching surface for explicit pedal /
   // crank / chain / brake progression. The integrated chunk measures ~10.6 KiB raw;
   // admit a bounded +11 KiB while keeping its own gzip/CSS route caps below.
+  // STUDIO-08/09 measure 907.6 KiB after CollectionCount is split out of startup
+  // core. Admit +9 KiB for the two reusable mechanics; route/core ceilings remain
+  // independently enforced below instead of turning this into unbounded growth.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
@@ -37,11 +40,13 @@ const lazyRouteBudgets = [
   // This shared registry/support chunk is emitted only with the lazy Learn About /
   // Studio surfaces. It is not startup core, so account for it explicitly.
   { prefix: 'learningStudios-', maxJsGzipBytes: 5.5 * 1024, maxCssBytes: 0 },
-  // MATCH-08 measured 11.4 KiB gzip / 5.6 KiB CSS after adding resumable matching,
-  // source-backed Show Me pairs and actual-work accessibility. Keep it bounded at
-  // 12/6; future studio families must earn another explicit review rather than
-  // silently consuming this route.
-  { prefix: 'StudioLauncher-', maxJsGzipBytes: 12 * 1024, maxCssBytes: 6 * 1024 },
+  // MATCH-08 measured 11.4 KiB gzip / 5.6 KiB CSS after adding resumable matching.
+  // STUDIO-08/09 add bounded Show Me presentation but keep this shared launcher
+  // under 12 KiB gzip / 6.25 KiB CSS; future families still need explicit review.
+  { prefix: 'StudioLauncher-', maxJsGzipBytes: 12 * 1024, maxCssBytes: 6.25 * 1024 },
+  // STUDIO-08 is loaded only when its collection activity opens. Keep the new
+  // mechanic outside startup core and independently bounded like EqualParts.
+  { prefix: 'CollectionCount-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'StudioScene-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 2 * 1024 },
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
@@ -74,6 +79,7 @@ const contentAssetBudgets = [
   { prefix: 'runtime-bicycle-workshop-', expectedCount: 6, maxRawBytes: 48 * 1024, maxGzipBytes: 12 * 1024 },
   { prefix: 'runtime-fraction-studio-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 },
   { prefix: 'runtime-studio-reuse-', expectedCount: 1, maxRawBytes: 6 * 1024, maxGzipBytes: 2 * 1024 },
+  { prefix: 'runtime-studio-closure-', expectedCount: 1, maxRawBytes: 3 * 1024, maxGzipBytes: 1.2 * 1024 },
   { prefix: 'runtime-__generated-story-studios-', expectedCount: 1, maxRawBytes: 4 * 1024, maxGzipBytes: 1.5 * 1024 }
 ];
 

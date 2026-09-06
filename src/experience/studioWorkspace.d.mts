@@ -1,22 +1,7 @@
-import type { DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
-type StudioQuestion = DragToTargetQuestion | EqualPartsQuestion | SequenceOrderQuestion;
-export interface StudioLearningState {
-  mode: 'explore' | 'watch' | 'practice';
-  demonstrationSeen: boolean;
-  checkCount: number;
-  stepIndex: number;
-  checked: boolean;
-}
-export interface StudioWorkspace {
-  schemaVersion: 2;
-  activityId: string;
-  questionId: string;
-  questionRevision: number;
-  engineKey: string;
-  signature: string;
-  state: unknown;
-  learning: StudioLearningState;
-}
+import type { CollectionCountQuestion, DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
+type StudioQuestion = CollectionCountQuestion | DragToTargetQuestion | EqualPartsQuestion | SequenceOrderQuestion;
+export interface StudioLearningState { mode: 'explore' | 'watch' | 'practice'; demonstrationSeen: boolean; checkCount: number; stepIndex: number; checked: boolean; }
+export interface StudioWorkspace { schemaVersion: 2; activityId: string; questionId: string; questionRevision: number; engineKey: string; signature: string; state: unknown; learning: StudioLearningState; }
 export const INITIAL_STUDIO_LEARNING: Readonly<StudioLearningState>;
 export function studioQuestionSignature(question: StudioQuestion): string;
 export function isStudioResponse(question: StudioQuestion, state: unknown): boolean;

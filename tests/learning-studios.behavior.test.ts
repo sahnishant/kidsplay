@@ -19,6 +19,7 @@ import { restoreSequenceOrder } from '../src/mechanics/sequenceStudio';
 function expectedInteraction(activity: LearningStudioActivity): string {
   if (activity.family === 'fraction_studio') return 'equal_parts';
   if (activity.family === 'matching_studio') return 'drag_to_target';
+  if (activity.family === 'collection_studio') return 'collection_count';
   return 'sequence_order';
 }
 
@@ -48,15 +49,9 @@ describe('reusable learning studios and existing topic placements', () => {
     expect(matching).toHaveLength(14);
     expect(new Set(matching.map((activity) => activity.source.questionId)).size).toBe(14);
     expect(matching.map((activity) => activity.source.questionId)).not.toContain('plants.types.match.generated.001');
-
     const matchingIds = new Set(matching.map((activity) => activity.activityId));
-    const homes = new Set(document.topicBindings
-      .filter((binding) => binding.activityRefs.some((activityId) => matchingIds.has(activityId)))
-      .map((binding) => binding.topicId));
-    expect([...homes].sort()).toEqual([
-      'learn.earth', 'learn.food', 'learn.healthy-safe', 'learn.homes-clothes',
-      'learn.human-body', 'learn.lion', 'learn.plants'
-    ]);
+    const homes = new Set(document.topicBindings.filter((binding) => binding.activityRefs.some((activityId) => matchingIds.has(activityId))).map((binding) => binding.topicId));
+    expect([...homes].sort()).toEqual(['learn.earth','learn.food','learn.healthy-safe','learn.homes-clothes','learn.human-body','learn.lion','learn.plants']);
   });
 
   it('keeps deeper fraction examples out of the introductory depth', () => {
@@ -69,8 +64,7 @@ describe('reusable learning studios and existing topic placements', () => {
     const id = 'studio.match.human-senses';
     const question = await loadLearningStudioQuestion(id);
     if (question.interaction.type !== 'drag_to_target') throw new Error('Expected matching source');
-    const item = question.interaction.items[0];
-    const target = question.interaction.targets[1];
+    const item = question.interaction.items[0], target = question.interaction.targets[1];
     const state = { assignments: { [item.id]: target.id } };
     const workspace = createStudioWorkspace(id, question, state);
     expect(restoreStudioWorkspace(id, question, workspace)).toEqual(state);
@@ -81,11 +75,8 @@ describe('reusable learning studios and existing topic placements', () => {
   it('keeps matching practice out of mastery and knowledge evidence', async () => {
     const question = await loadLearningStudioQuestion('studio.match.animal-homes');
     if (question.interaction.type !== 'drag_to_target') throw new Error('Expected matching source');
-    const response = { assignments: structuredClone(question.solution.assignments) };
-    const result = evaluate(question, response);
-    expect(result.correct).toBe(true);
-    expect(result.knowledgeEvidence).toEqual([]);
-    expect(result.masteryEvidence).toEqual([]);
+    const result = evaluate(question, { assignments: structuredClone(question.solution.assignments) });
+    expect(result.correct).toBe(true); expect(result.knowledgeEvidence).toEqual([]); expect(result.masteryEvidence).toEqual([]);
   });
 
   it('refuses visually ambiguous one-to-one matching even when IDs are distinct', async () => {
@@ -93,8 +84,7 @@ describe('reusable learning studios and existing topic placements', () => {
     if (!activity) throw new Error('Missing matching activity');
     const source = await loadLearningStudioQuestion(activity.activityId);
     if (source.interaction.type !== 'drag_to_target') throw new Error('Expected matching source');
-    const ambiguous = structuredClone(source);
-    ambiguous.interaction.targets[1].label = ambiguous.interaction.targets[0].label;
+    const ambiguous = structuredClone(source); ambiguous.interaction.targets[1].label = ambiguous.interaction.targets[0].label;
     expect(() => asStudioPracticeQuestion(ambiguous, activity)).toThrow(/visibly distinct/);
   });
 
@@ -103,14 +93,11 @@ describe('reusable learning studios and existing topic placements', () => {
     if (!activity) throw new Error('Missing matching activity');
     const source = await loadLearningStudioQuestion(activity.activityId);
     if (source.interaction.type !== 'drag_to_target') throw new Error('Expected matching source');
-
     const duplicateTarget = structuredClone(source);
     const [firstItem, secondItem] = duplicateTarget.interaction.items;
     duplicateTarget.solution.assignments[secondItem.id] = duplicateTarget.solution.assignments[firstItem.id];
     expect(() => asStudioPracticeQuestion(duplicateTarget, activity)).toThrow(/one-to-one/);
-
-    const unequalSides = structuredClone(source);
-    unequalSides.interaction.targets.pop();
+    const unequalSides = structuredClone(source); unequalSides.interaction.targets.pop();
     expect(() => asStudioPracticeQuestion(unequalSides, activity)).toThrow(/same number of items and targets/);
   });
 
@@ -127,8 +114,7 @@ describe('reusable learning studios and existing topic placements', () => {
   it('rejects duplicate registry IDs and embedded answer authority', () => {
     const duplicate = structuredClone(document); duplicate.activities.push(duplicate.activities[0]);
     expect(() => validateLearningStudioRegistry(duplicate)).toThrow();
-    const contaminated = structuredClone(document) as unknown as {activities:Array<Record<string,unknown>>};
-    contaminated.activities[0].solution = {alwaysCorrect:true};
+    const contaminated = structuredClone(document) as unknown as {activities:Array<Record<string,unknown>>}; contaminated.activities[0].solution = {alwaysCorrect:true};
     expect(() => validateLearningStudioRegistry(contaminated)).toThrow();
   });
 

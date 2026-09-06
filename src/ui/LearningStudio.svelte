@@ -1,6 +1,6 @@
 <script lang="ts">
   import { untrack } from 'svelte';
-  import type { DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
+  import type { CollectionCountQuestion, DragToTargetQuestion, EqualPartsQuestion, SequenceOrderQuestion } from '../contracts/question';
   import EngineHost from './EngineHost.svelte';
   import FractionDemonstration from './FractionDemonstration.svelte';
   import SemanticVisualPresenter from '../presentation/SemanticVisualPresenter.svelte';
@@ -20,6 +20,7 @@
   let fractionQuestion = $derived(question?.interaction.type === 'equal_parts' ? question as EqualPartsQuestion : null);
   let sequenceQuestion = $derived(question?.interaction.type === 'sequence_order' ? question as SequenceOrderQuestion : null);
   let matchingQuestion = $derived(question?.interaction.type === 'drag_to_target' ? question as DragToTargetQuestion : null);
+  let collectionQuestion = $derived(question?.interaction.type === 'collection_count' ? question as CollectionCountQuestion : null);
   let storySequence = $derived(question?.authoring.compiledBy === 'story-manifest->sequence_order@1');
   let loadError = $state('');
   let mode = $state<StudioLearningState['mode']>('explore');
@@ -40,6 +41,7 @@
     fractionQuestion?.interaction.categories.length
     ?? sequenceQuestion?.interaction.items.length
     ?? matchingQuestion?.interaction.items.length
+    ?? collectionQuestion?.interaction.targets.length
     ?? 1
   );
 
@@ -80,9 +82,7 @@
     awaitingInitialState = false;
     const unchanged = JSON.stringify(engineState) === JSON.stringify(state);
     engineState = structuredClone(state);
-    if (previewOrder.length && question.interaction.type === 'sequence_order') {
-      previewOrder = (state as { orderedItemIds: string[] }).orderedItemIds.slice();
-    }
+    if (previewOrder.length && question.interaction.type === 'sequence_order') previewOrder = (state as { orderedItemIds: string[] }).orderedItemIds.slice();
     if (!first && !unchanged) persist();
   }
   function changeMode(next: typeof mode): void {
@@ -138,6 +138,19 @@
       const correct = Object.entries(expected).filter(([itemId, targetId]) => actual[itemId] === targetId).length;
       return `${correct} of ${Object.keys(expected).length} pairs match. Keep your work and adjust the others.`;
     }
+    if (source.interaction.type === 'collection_count') {
+      const collection = source as CollectionCountQuestion;
+      const result = evaluate(collection, response);
+      if (result.correct) return collection.feedback.correct;
+      const assignments = (response as { assignments?: Record<string,string> }).assignments ?? {};
+      const target = collection.interaction.targets.find((candidate) => {
+        const actual = Object.values(assignments).filter((targetId) => targetId === candidate.id).length;
+        return actual !== collection.solution.counts[candidate.id];
+      });
+      if (!target) return collection.feedback.incorrect;
+      const actual = Object.values(assignments).filter((targetId) => targetId === target.id).length;
+      return `${target.label} has ${actual}; it needs ${collection.solution.counts[target.id]}. Keep your groups and move objects.`;
+    }
     if (source.interaction.type !== 'equal_parts') return evaluate(source, response).correct ? source.feedback.correct : source.feedback.incorrect;
     const diagnostic = evaluateEqualParts(source as EqualPartsQuestion, response);
     if (diagnostic.correct) return 'Your amounts match. A different arrangement can work too.';
@@ -155,9 +168,9 @@
         previewOrder = (response as { orderedItemIds: string[] }).orderedItemIds.slice();
         stepIndex = 0;
         feedback = 'This is your order. Look at one card at a time, or keep rearranging.';
-      } else if (question.interaction.type === 'drag_to_target') {
-        feedback = 'Look at your pairs. You can change any match before you practise.';
-      } else feedback = 'Notice how the amounts change when you change a part.';
+      } else if (question.interaction.type === 'drag_to_target') feedback = 'Look at your pairs. You can change any match before you practise.';
+      else if (question.interaction.type === 'collection_count') feedback = 'Look at how many objects are in each group. You can move them before you practise.';
+      else feedback = 'Notice how the amounts change when you change a part.';
     } else {
       feedback = describeResponse(question, response);
       checked = true;
@@ -192,20 +205,14 @@
       <button type="button" aria-pressed={mode === 'practice'} onclick={() => changeMode('practice')}>Try it</button>
     </nav>
     {#if checked}
-      <div class="studio__feedback">
-        <p role="status" aria-live="polite">{feedback}</p>
-        <button type="button" onclick={retry}>Change my answer</button>
-      </div>
+      <div class="studio__feedback"><p role="status" aria-live="polite">{feedback}</p><button type="button" onclick={retry}>Change my answer</button></div>
     {/if}
     <div class="studio__body">
       {#if restoreNotice}<p role="alert">{restoreNotice}</p>{/if}
-      {#if sequenceQuestion || matchingQuestion || mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
+      {#if sequenceQuestion || matchingQuestion || collectionQuestion || mode === 'practice'}<p class="studio__prompt">{question.prompt.text}</p>{/if}
       {#if mode === 'watch' && fractionQuestion}
         <FractionDemonstration question={fractionQuestion} step={stepIndex} />
-        <div class="studio__controls">
-          <button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous step</button>
-          <button type="button" disabled={stepIndex === demonstrationLength - 1} onclick={() => changeStep(stepIndex + 1)}>Next step</button>
-        </div>
+        <div class="studio__controls"><button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous step</button><button type="button" disabled={stepIndex === demonstrationLength - 1} onclick={() => changeStep(stepIndex + 1)}>Next step</button></div>
         <button type="button" onclick={() => changeMode('explore')}>Make my own version</button>
       {:else if mode === 'watch' && matchingQuestion}
         {@const matchItem = matchingQuestion.interaction.items[stepIndex]}
@@ -214,58 +221,48 @@
         <p>Look at one relationship at a time. Your own unfinished matches stay saved.</p>
         <article class="studio__match-demo" aria-live="polite">
           <small>PAIR {stepIndex + 1} OF {matchingQuestion.interaction.items.length}</small>
-          <div class="studio__match-side"><span aria-hidden="true">{matchItem.symbol ?? '●'}</span><strong>{matchItem.label}</strong></div>
-          <b aria-hidden="true">→</b>
+          <div class="studio__match-side"><span aria-hidden="true">{matchItem.symbol ?? '●'}</span><strong>{matchItem.label}</strong></div><b aria-hidden="true">→</b>
           <div class="studio__match-side"><span aria-hidden="true">{matchTarget.symbol ?? '◆'}</span><strong>{matchTarget.label}</strong></div>
         </article>
-        <div class="studio__controls">
-          <button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous pair</button>
-          <button type="button" disabled={stepIndex === matchingQuestion.interaction.items.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next pair</button>
-        </div>
+        <div class="studio__controls"><button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous pair</button><button type="button" disabled={stepIndex === matchingQuestion.interaction.items.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next pair</button></div>
         <button type="button" onclick={() => changeMode('explore')}>Return to my matches</button>
+      {:else if mode === 'watch' && collectionQuestion}
+        {@const target = collectionQuestion.interaction.targets[stepIndex]}
+        {@const targetCount = collectionQuestion.solution.counts[target.id]}
+        {@const objectSymbol = collectionQuestion.interaction.items[0]?.symbol ?? '●'}
+        <p>Look at one group at a time. We care about how many objects are in the group, not which counter went there.</p>
+        <article class="studio__collection-demo" aria-live="polite">
+          <small>GROUP {stepIndex + 1} OF {collectionQuestion.interaction.targets.length}</small>
+          <strong>{target.label}</strong>
+          <div aria-label={`${targetCount} objects`}>{#each Array(targetCount) as _}<span aria-hidden="true">{objectSymbol}</span>{/each}</div>
+          <b>{targetCount} {targetCount === 1 ? 'object' : 'objects'}</b>
+        </article>
+        <div class="studio__controls"><button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous group</button><button type="button" disabled={stepIndex === collectionQuestion.interaction.targets.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next group</button></div>
+        <button type="button" onclick={() => changeMode('explore')}>Make my own groups</button>
       {:else if mode === 'watch' && sequenceQuestion}
         {@const ids = sequenceQuestion.solution.orderedItemIds}
         {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === ids[stepIndex])!}
-        <p>{storySequence ? 'Read at your own pace. No answers are needed to reach the ending.' : 'Follow one step at a time.'}</p>
+        <p>{storySequence ? 'Read at your own pace. No answers are needed to reach the ending.' : sequenceQuestion.interaction.version === 2 ? 'This is one valid example. Some independent steps can swap places.' : 'Follow one step at a time.'}</p>
         <article class="studio__step" aria-live="polite">
-          <small>{storySequence ? 'Page' : 'Step'} {stepIndex + 1} of {ids.length}</small>
-          {@render illustration(item)}
-          <strong>{item.label}</strong>
+          <small>{storySequence ? 'Page' : 'Step'} {stepIndex + 1} of {ids.length}</small>{@render illustration(item)}<strong>{item.label}</strong>
         </article>
-        <div class="studio__controls">
-          <button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous step</button>
-          <button type="button" disabled={stepIndex === ids.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next step</button>
-        </div>
+        <div class="studio__controls"><button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous step</button><button type="button" disabled={stepIndex === ids.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next step</button></div>
       {:else}
         {#key `${activityId}:${mode}:${resetKey}`}
           {@const generation = resetKey}
-          <div role="group" aria-label={checked ? describeStudioWork(question, engineState) : undefined}>
-            <div inert={checked}>
-              <EngineHost {question} onSubmit={(response) => { if (generation === resetKey) submit(response); }} checkResponse={(response) => evaluate(question!, response)}
-                feedbackMode={mode === 'explore' ? 'explore' : 'play'} soundEnabled={false}
-                initialState={engineInitial} onStateChange={(state) => { if (generation === resetKey) remember(state); }} />
-            </div>
-          </div>
+          <div role="group" aria-label={checked ? describeStudioWork(question, engineState) : undefined}><div inert={checked}>
+            <EngineHost {question} onSubmit={(response) => { if (generation === resetKey) submit(response); }} checkResponse={(response) => evaluate(question!, response)} feedbackMode={mode === 'explore' ? 'explore' : 'play'} soundEnabled={false} initialState={engineInitial} onStateChange={(state) => { if (generation === resetKey) remember(state); }} />
+          </div></div>
         {/key}
         {#if previewOrder.length && sequenceQuestion}
           {@const item = sequenceQuestion.interaction.items.find((candidate) => candidate.id === previewOrder[stepIndex])}
-          <article class="studio__step" aria-live="polite">
-            <small>YOUR ORDER · {stepIndex + 1}/{previewOrder.length}</small>
-            {#if item}{@render illustration(item)}<strong>{item.label}</strong>{/if}
-          </article>
-          <div class="studio__controls">
-            <button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous card</button>
-            <button type="button" disabled={stepIndex === previewOrder.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next card</button>
-          </div>
+          <article class="studio__step" aria-live="polite"><small>YOUR ORDER · {stepIndex + 1}/{previewOrder.length}</small>{#if item}{@render illustration(item)}<strong>{item.label}</strong>{/if}</article>
+          <div class="studio__controls"><button type="button" disabled={stepIndex === 0} onclick={() => changeStep(stepIndex - 1)}>Previous card</button><button type="button" disabled={stepIndex === previewOrder.length - 1} onclick={() => changeStep(stepIndex + 1)}>Next card</button></div>
         {/if}
       {/if}
       <p role="status" aria-live="polite">{checked ? '' : feedback}</p>
       {#if confirmReset}
-        <div class="studio__reset" role="group" aria-label="Confirm start over">
-          <p>Clear this activity's work? Your other activities stay saved.</p>
-          <button type="button" onclick={() => confirmReset = false}>Keep my work</button>
-          <button type="button" onclick={restart}>Clear this activity</button>
-        </div>
+        <div class="studio__reset" role="group" aria-label="Confirm start over"><p>Clear this activity's work? Your other activities stay saved.</p><button type="button" onclick={() => confirmReset = false}>Keep my work</button><button type="button" onclick={restart}>Clear this activity</button></div>
       {:else}<button type="button" class="studio__restart" onclick={() => confirmReset = true}>Start over</button>{/if}
     </div>
   {/if}
@@ -280,15 +277,10 @@
   .studio__body{overflow:auto;overscroll-behavior:contain;min-height:0;flex:1;padding:3px 4px 12px;overflow-wrap:anywhere}.studio p{margin:8px 0;line-height:1.35}.studio__prompt{font-weight:700;font-size:.94rem}
   .studio__step{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;padding:10px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;box-shadow:0 2px 0 #e1e7d8}.studio__step strong{font-size:1.05rem;line-height:1.4}
   .studio__match-demo{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:8px;padding:12px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef}.studio__match-demo small{grid-column:1/-1}.studio__match-side{display:grid;place-items:center;gap:5px;text-align:center;min-width:0}.studio__match-side span{font-size:1.9rem}.studio__match-side strong{overflow-wrap:anywhere;line-height:1.25}
-  .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}
-  .studio__illustration--wide{position:relative;width:320px;max-width:100%;height:auto;padding:0}
-  .studio__illustration--wide::before{content:'';display:block;padding-top:62.5%}
-  .studio__illustration--wide>:global(span){position:absolute;inset:0}
-  .studio__illustration :global(.visual-entity){display:block}
-  .studio__feedback{flex:none;max-height:32dvh;overflow:auto;padding:3px 8px 8px;background:#f0f4e8;border-radius:12px;border:1px solid #d4dfcc}
-  .studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid #ccd6c7;border-radius:12px}
-  :global(.studio [inert] :is(.letter-order__tile,.sequence-order__item,.parts button,.categories button,.drag-item,.drop-target)){opacity:1;color:var(--ink,#24303a)}
+  .studio__collection-demo{display:grid;place-items:center;gap:8px;padding:12px;border:1px solid #d4dfcc;border-radius:17px;margin:8px 0;background:#f7f9ef;text-align:center}.studio__collection-demo div{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:260px}.studio__collection-demo div span{font-size:1.75rem}
+  .studio__illustration{width:min(180px,100%);height:130px;padding:8px;box-sizing:border-box;justify-self:center}.studio__illustration--wide{position:relative;width:320px;max-width:100%;height:auto;padding:0}.studio__illustration--wide::before{content:'';display:block;padding-top:62.5%}.studio__illustration--wide>:global(span){position:absolute;inset:0}.studio__illustration :global(.visual-entity){display:block}
+  .studio__feedback{flex:none;max-height:32dvh;overflow:auto;padding:3px 8px 8px;background:#f0f4e8;border-radius:12px;border:1px solid #d4dfcc}.studio__restart{margin-top:8px}.studio__reset{padding:8px;border:1px solid #ccd6c7;border-radius:12px}
+  :global(.studio [inert] :is(.letter-order__tile,.sequence-order__item,.parts button,.categories button,.drag-item,.drop-target,.collection-count button)){opacity:1;color:var(--ink,#24303a)}
   @media(max-width:420px){.studio__match-demo{grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr);padding:9px}.studio__match-side span{font-size:1.6rem}}
-  @media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}
-  @media(forced-colors:active){.studio button[aria-pressed=true]{outline:2px solid Highlight}}
+  @media(prefers-reduced-motion:reduce){.studio *{animation:none!important;transition:none!important}}@media(forced-colors:active){.studio button[aria-pressed=true]{outline:2px solid Highlight}}
 </style>
