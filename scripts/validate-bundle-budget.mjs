@@ -28,7 +28,12 @@ const budgets = {
 
 // Explicit feature allowances are review items, not disabled checks.
 const lazyRouteBudgets = [
-  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 3 * 1024 },
+  // The restored StudioLauncher split measures Learn About at ~9.34 KiB gzip.
+  // Keep a narrow 9.5 KiB ceiling rather than folding the whole Studio surface back in.
+  { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9.5 * 1024, maxCssBytes: 3 * 1024 },
+  // This shared registry/support chunk is emitted only with the lazy Learn About /
+  // Studio surfaces. It is not startup core, so account for it explicitly.
+  { prefix: 'learningStudios-', maxJsGzipBytes: 5.5 * 1024, maxCssBytes: 0 },
   // MATCH-08 measured 11.4 KiB gzip / 5.6 KiB CSS after adding resumable matching,
   // source-backed Show Me pairs and actual-work accessibility. Keep it bounded at
   // 12/6; future studio families must earn another explicit review rather than
@@ -121,7 +126,7 @@ for (const contentBudget of contentAssetBudgets) {
   if (assets.length !== contentBudget.expectedCount) errors.push(`${contentBudget.prefix} emitted ${assets.length} JSON asset(s); expected ${contentBudget.expectedCount}`);
   if (rawBytes > contentBudget.maxRawBytes) errors.push(`${contentBudget.prefix} data is ${kib(rawBytes)} raw; budget ${kib(contentBudget.maxRawBytes)}`);
   if (gzipBytes > contentBudget.maxGzipBytes) errors.push(`${contentBudget.prefix} data is ${kib(gzipBytes)} gzip; budget ${kib(contentBudget.maxGzipBytes)}`);
-  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)} gzip`);
+  console.log(`- ${contentBudget.prefix} data: ${assets.length} asset(s), ${kib(rawBytes)} raw / ${kib(gzipBytes)}`);
 }
 if (errors.length) {
   console.error('Bundle budget validation failed:');
