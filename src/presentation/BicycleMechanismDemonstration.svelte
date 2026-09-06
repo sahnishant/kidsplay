@@ -1,67 +1,21 @@
 <script lang="ts">
+  import bikeSvg from '../ui/bicycleStoryBike.svg?raw';
+
   type Mode = 'drive' | 'brake';
-
-  interface MechanismStep {
-    id: string;
-    title: string;
-    text: string;
-    action: string;
-  }
-
+  interface MechanismStep { id:string; title:string; text:string; action:string; }
   let { mode = 'drive' }: { mode?: Mode } = $props();
 
   const driveSteps: MechanismStep[] = [
-    {
-      id: 'pedal',
-      title: 'PEDAL',
-      text: 'Your foot pushes the pedal. The pedal is the small platform at the end of the crank arm.',
-      action: 'Push the pedal'
-    },
-    {
-      id: 'crank',
-      title: 'CRANK',
-      text: 'The pedal moves around with the crank arm. The crank turns around its centre.',
-      action: 'See what moves next'
-    },
-    {
-      id: 'chain',
-      title: 'CHAIN',
-      text: 'When the crank turns, the chain moves around the bicycle.',
-      action: 'Follow the chain'
-    },
-    {
-      id: 'rear-wheel',
-      title: 'BACK WHEEL',
-      text: 'The moving chain turns the back part of the wheel. Now the back wheel turns.',
-      action: 'Make the bicycle roll'
-    },
-    {
-      id: 'roll',
-      title: 'BICYCLE ROLLS',
-      text: 'The back wheel turns and the bicycle rolls forward. The movement has travelled through the whole system.',
-      action: 'Start again'
-    }
+    { id:'pedal', title:'PEDAL', text:'Your foot pushes the pedal. The pedal is the small platform at the end of the crank arm.', action:'Push the pedal' },
+    { id:'crank', title:'CRANK', text:'The crank arm turns around its centre. The pedal travels around that centre but stays level under your foot.', action:'See what moves next' },
+    { id:'chain', title:'CHAIN', text:'When the crank turns, the chain moves around the bicycle.', action:'Follow the chain' },
+    { id:'rear-wheel', title:'BACK WHEEL', text:'The moving chain turns the back part of the wheel. Now the back wheel turns.', action:'Make the bicycle roll' },
+    { id:'roll', title:'BICYCLE ROLLS', text:'The back wheel turns and the bicycle rolls forward. The movement has travelled through the whole system.', action:'Start again' }
   ];
-
   const brakeSteps: MechanismStep[] = [
-    {
-      id: 'lever',
-      title: 'BRAKE LEVER',
-      text: 'Your hand squeezes the brake lever on the handlebar.',
-      action: 'Squeeze the lever'
-    },
-    {
-      id: 'brake',
-      title: 'BRAKE',
-      text: 'Squeezing the lever makes the brake act on the wheel.',
-      action: 'Watch the wheel'
-    },
-    {
-      id: 'slow',
-      title: 'BICYCLE SLOWS',
-      text: 'The wheel slows, so the bicycle slows too.',
-      action: 'Start again'
-    }
+    { id:'lever', title:'BRAKE LEVER', text:'Your hand squeezes the brake lever on the handlebar.', action:'Squeeze the lever' },
+    { id:'brake', title:'BRAKE', text:'Squeezing the lever makes the brake act on the wheel.', action:'Watch the wheel' },
+    { id:'slow', title:'BICYCLE SLOWS', text:'The wheel slows, so the bicycle slows too.', action:'Start again' }
   ];
 
   const steps = $derived(mode === 'drive' ? driveSteps : brakeSteps);
@@ -69,14 +23,7 @@
   const current = $derived(steps[stepIndex]);
   const visibleSteps = $derived(steps.slice(0, stepIndex + 1));
   const isLast = $derived(stepIndex === steps.length - 1);
-
-  function advance(): void {
-    if (isLast) {
-      stepIndex = 0;
-      return;
-    }
-    stepIndex += 1;
-  }
+  function advance(): void { stepIndex = isLast ? 0 : stepIndex + 1; }
 </script>
 
 <div class="mechanism" data-mechanism-mode={mode} data-mechanism-step={current.id}>
@@ -89,156 +36,72 @@
     </div>
   </div>
 
-  <div class="mechanism__diagram">
-    <svg viewBox="0 0 520 330" role="img" aria-label={mode === 'drive' ? 'Side-view bicycle diagram showing pedal, crank, chain and back wheel' : 'Side-view bicycle diagram showing the brake lever, brake and slowing wheel'}>
-      <defs>
-        <marker id="mechanism-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
-          <path d="M0,0 L7,3.5 L0,7 z" />
-        </marker>
-      </defs>
+  <div class="mechanism__diagram" role="img" aria-label={mode === 'drive' ? 'The same colorful bicycle showing pedal, crank, chain and back wheel movement' : 'The same colorful bicycle showing the brake lever, brake and slowing wheel'}>
+    <div class="mechanism__art" class:rolling={mode === 'drive' && current.id === 'roll'} class:drivetrainTurning={mode === 'drive' && stepIndex >= 1}>
+      <div class="mechanism__bike" aria-hidden="true">{@html bikeSvg}</div>
+      <svg class="mechanism__overlay" viewBox="0 0 760 420" aria-hidden="true">
+        <defs><marker id="mechanism-arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" /></marker></defs>
 
-      <line class="ground" x1="32" y1="292" x2="490" y2="292" />
-
-      <g class="bike" class:rolling={mode === 'drive' && stepIndex >= 4}>
-        <g class="wheel rear" class:active={mode === 'drive' && current.id === 'rear-wheel'} class:spinning={mode === 'drive' && stepIndex >= 3} class:slowing={mode === 'brake' && current.id === 'brake'}>
-          <circle cx="126" cy="230" r="72" />
-          <line x1="126" y1="158" x2="126" y2="302" />
-          <line x1="54" y1="230" x2="198" y2="230" />
-          <line x1="76" y1="180" x2="176" y2="280" />
-          <line x1="176" y1="180" x2="76" y2="280" />
-        </g>
-        <g class="wheel front">
-          <circle cx="402" cy="230" r="72" />
-          <line x1="402" y1="158" x2="402" y2="302" />
-          <line x1="330" y1="230" x2="474" y2="230" />
-          <line x1="352" y1="180" x2="452" y2="280" />
-          <line x1="452" y1="180" x2="352" y2="280" />
-        </g>
-
-        <g class="frame">
-          <line x1="126" y1="230" x2="260" y2="230" />
-          <line x1="126" y1="230" x2="226" y2="116" />
-          <line x1="226" y1="116" x2="260" y2="230" />
-          <line x1="226" y1="116" x2="334" y2="126" />
-          <line x1="334" y1="126" x2="260" y2="230" />
-          <line x1="334" y1="126" x2="402" y2="230" />
-          <line x1="344" y1="108" x2="402" y2="230" />
-          <line x1="216" y1="104" x2="246" y2="104" />
-          <line x1="334" y1="126" x2="354" y2="88" />
-          <line x1="347" y1="88" x2="383" y2="88" />
-        </g>
-
-        <g class="chain" class:active={mode === 'drive' && current.id === 'chain'} class:moving={mode === 'drive' && stepIndex >= 2}>
-          <path d="M154 211 L231 201" />
-          <path d="M154 247 L231 259" />
-          <circle cx="146" cy="230" r="17" />
-          <circle cx="260" cy="230" r="31" />
-        </g>
-
-        <g class="crank" class:active={mode === 'drive' && current.id === 'crank'} class:turning={mode === 'drive' && stepIndex >= 1}>
-          <circle cx="260" cy="230" r="7" />
-          <line x1="260" y1="230" x2="294" y2="260" />
-          <g class="pedal" class:active={mode === 'drive' && current.id === 'pedal'}>
-            <line x1="294" y1="260" x2="309" y2="260" />
-            <rect x="305" y="254" width="30" height="12" rx="5" />
+        {#if mode === 'drive'}
+          <g class="mechanism-crank" class:active={current.id === 'crank'}>
+            <circle class="crank-ring" cx="355" cy="280" r="34"/><circle class="crank-center" cx="355" cy="280" r="7"/>
           </g>
-          <line x1="260" y1="230" x2="226" y2="200" />
-          <rect x="191" y="194" width="30" height="12" rx="5" />
-        </g>
+          <g class="mechanism-pedal" class:active={current.id === 'pedal'}><rect x="386" y="242" width="42" height="19" rx="8"/><circle class="focus-halo" cx="406.5" cy="251.5" r="25"/></g>
+          <g class="mechanism-chain" class:active={current.id === 'chain'} class:moving={stepIndex >= 2}><path d="M218 260 L350 253"/><path d="M218 299 L350 306"/></g>
+          <g class="mechanism-wheel" class:active={current.id === 'rear-wheel'} class:spinning={stepIndex >= 3}><circle cx="205" cy="280" r="105"/><line x1="205" y1="171" x2="205" y2="190"/></g>
 
-        <g class="brake-system" class:active={mode === 'brake' && current.id === 'brake'}>
-          <path d="M366 92 C320 105 264 130 180 168" />
-          <path d="M165 168 L176 179" />
-          <path d="M177 168 L166 179" />
-        </g>
+          <g class="callout" class:active={current.id === 'pedal'}><path d="M410 261 L535 326"/><rect x="528" y="306" width="205" height="48" rx="13"/><text x="546" y="336">PEDAL · foot pushes</text></g>
+          <g class="callout" class:active={current.id === 'crank'}><path d="M355 280 L470 186"/><rect x="450" y="145" width="218" height="48" rx="13"/><text x="468" y="175">CRANK · turns here</text></g>
+          <g class="callout" class:active={current.id === 'chain'}><path d="M280 294 L244 335"/><rect x="112" y="328" width="190" height="48" rx="13"/><text x="130" y="358">CHAIN · moves</text></g>
+          <g class="callout" class:active={current.id === 'rear-wheel'}><path d="M151 198 L103 136"/><rect x="24" y="88" width="205" height="48" rx="13"/><text x="42" y="118">BACK WHEEL · turns</text></g>
 
-        <g class="brake-lever" class:active={mode === 'brake' && current.id === 'lever'}>
-          <line x1="367" y1="91" x2="390" y2="104" />
-          <path d="M386 103 Q395 116 383 127" />
-        </g>
-      </g>
-
-      {#if mode === 'drive'}
-        <g class="callout pedal-callout" class:active={current.id === 'pedal'}>
-          <path d="M335 270 L376 296" />
-          <rect x="375" y="280" width="119" height="36" rx="10" />
-          <text x="386" y="303">PEDAL · foot pushes</text>
-        </g>
-        <g class="callout crank-callout" class:active={current.id === 'crank'}>
-          <path d="M270 206 L300 164" />
-          <rect x="282" y="130" width="120" height="40" rx="10" />
-          <text x="294" y="155">CRANK · turns around</text>
-        </g>
-        <g class="callout chain-callout" class:active={current.id === 'chain'}>
-          <path d="M205 249 L196 278" />
-          <rect x="142" y="278" width="116" height="36" rx="10" />
-          <text x="154" y="301">CHAIN · moves</text>
-        </g>
-        <g class="callout wheel-callout" class:active={current.id === 'rear-wheel'}>
-          <path d="M91 170 L62 132" />
-          <rect x="16" y="94" width="135" height="40" rx="10" />
-          <text x="28" y="119">BACK WHEEL · turns</text>
-        </g>
-        {#if current.id === 'pedal'}
-          <path class="action-arrow" d="M326 212 C340 228 341 245 326 256" marker-end="url(#mechanism-arrow)" />
-        {:else if current.id === 'crank'}
-          <path class="action-arrow" d="M241 203 A39 39 0 1 1 288 206" marker-end="url(#mechanism-arrow)" />
-        {:else if current.id === 'chain'}
-          <path class="action-arrow" d="M222 198 L180 204" marker-end="url(#mechanism-arrow)" />
-        {:else if current.id === 'rear-wheel'}
-          <path class="action-arrow" d="M82 177 A66 66 0 0 1 161 168" marker-end="url(#mechanism-arrow)" />
+          {#if current.id === 'pedal'}
+            <path class="action-arrow" d="M428 225 C449 245 448 273 426 290" marker-end="url(#mechanism-arrow)"/>
+          {:else if current.id === 'crank'}
+            <path class="action-arrow crank-arrow" d="M355 230 A50 50 0 0 1 405 280 A50 50 0 0 1 355 330 A50 50 0 0 1 305 280" marker-end="url(#mechanism-arrow)"/>
+          {:else if current.id === 'chain'}
+            <path class="action-arrow" d="M337 248 L270 252" marker-end="url(#mechanism-arrow)"/>
+          {:else if current.id === 'rear-wheel'}
+            <path class="action-arrow" d="M154 188 A102 102 0 0 1 251 184" marker-end="url(#mechanism-arrow)"/>
+          {:else}
+            <path class="action-arrow roll-arrow" d="M486 385 L650 385" marker-end="url(#mechanism-arrow)"/>
+          {/if}
         {:else}
-          <path class="action-arrow" d="M357 70 L432 70" marker-end="url(#mechanism-arrow)" />
+          <g class="mechanism-lever" class:active={current.id === 'lever'}><path d="M526 104 Q548 112 552 126"/><circle class="focus-halo" cx="535" cy="110" r="28"/></g>
+          <g class="mechanism-brake" class:active={current.id === 'brake'}><path d="M526 120 C535 145 535 178 520 210"/><circle class="focus-halo" cx="520" cy="210" r="28"/></g>
+          <g class="mechanism-wheel" class:active={current.id === 'slow'} class:slowing={current.id === 'slow'}><circle cx="545" cy="280" r="105"/><line x1="545" y1="171" x2="545" y2="190"/></g>
+          <g class="callout" class:active={current.id === 'lever'}><path d="M535 111 L648 147"/><rect x="570" y="145" width="168" height="48" rx="13"/><text x="588" y="175">LEVER · squeeze</text></g>
+          <g class="callout" class:active={current.id === 'brake'}><path d="M518 209 L625 244"/><rect x="555" y="241" width="183" height="48" rx="13"/><text x="573" y="271">BRAKE · slows wheel</text></g>
+          {#if current.id === 'lever'}
+            <path class="action-arrow" d="M566 91 C555 103 546 110 538 113" marker-end="url(#mechanism-arrow)"/>
+          {:else if current.id === 'brake'}
+            <path class="action-arrow" d="M555 155 C536 172 526 191 520 209" marker-end="url(#mechanism-arrow)"/>
+          {:else}
+            <path class="action-arrow" d="M494 191 A102 102 0 0 1 590 184" marker-end="url(#mechanism-arrow)"/>
+          {/if}
         {/if}
-      {:else}
-        <g class="callout lever-callout" class:active={current.id === 'lever'}>
-          <path d="M385 107 L427 132" />
-          <rect x="386" y="132" width="116" height="40" rx="10" />
-          <text x="398" y="157">LEVER · squeeze</text>
-        </g>
-        <g class="callout brake-callout" class:active={current.id === 'brake'}>
-          <path d="M171 174 L152 132" />
-          <rect x="76" y="94" width="130" height="40" rx="10" />
-          <text x="88" y="119">BRAKE · slows wheel</text>
-        </g>
-        {#if current.id === 'lever'}
-          <path class="action-arrow" d="M414 96 C406 106 397 112 388 115" marker-end="url(#mechanism-arrow)" />
-        {:else if current.id === 'brake'}
-          <path class="action-arrow" d="M188 147 C177 157 171 165 170 174" marker-end="url(#mechanism-arrow)" />
-        {:else}
-          <path class="action-arrow" d="M82 177 A66 66 0 0 1 156 168" marker-end="url(#mechanism-arrow)" />
-        {/if}
-      {/if}
-    </svg>
+      </svg>
+    </div>
   </div>
 
   {#if mode === 'drive'}
-    <div class="mechanism__difference" aria-label="Pedal and crank difference">
-      <span><b>PEDAL</b> = where the foot pushes</span>
-      <span><b>CRANK</b> = the arm that turns</span>
-    </div>
+    <div class="mechanism__difference" aria-label="Pedal and crank difference"><span><b>PEDAL</b> = where the foot pushes</span><span><b>CRANK</b> = the arm that turns</span></div>
   {/if}
-
   <div class="mechanism__trace" aria-label="Movement shown so far">
-    {#each visibleSteps as item, index}
-      <span class:mechanism__trace--current={index === stepIndex}>{item.title}</span>
-      {#if index < visibleSteps.length - 1}<b aria-hidden="true">→</b>{/if}
-    {/each}
+    {#each visibleSteps as item, index}<span class:mechanism__trace--current={index === stepIndex}>{item.title}</span>{#if index < visibleSteps.length - 1}<b aria-hidden="true">→</b>{/if}{/each}
   </div>
-
   <button class="mechanism__action" type="button" onclick={advance}>{current.action}</button>
 </div>
 
 <style>
-  .mechanism{width:100%;min-height:100%;display:grid;grid-template-rows:auto minmax(210px,1fr) auto auto auto;gap:8px;padding:10px;background:linear-gradient(180deg,#fbfaff 0%,#f7fafc 100%);color:var(--ink)}
-  .mechanism__teaching{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:start;padding:8px 9px;border-radius:12px;background:#fff;border:1px solid #6358dc20}.mechanism__number{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#fff;font-weight:950}.mechanism__teaching small{display:block;color:var(--accent);font-size:.58rem;font-weight:900;letter-spacing:.06em}.mechanism__teaching strong{display:block;margin-top:2px;font-size:.9rem}.mechanism__teaching p{margin:3px 0 0;font-size:.72rem;font-weight:720;line-height:1.3;color:var(--muted)}
-  .mechanism__diagram{min-height:210px;display:grid;place-items:center}.mechanism svg{width:100%;height:100%;max-height:390px;overflow:visible}.ground{stroke:#aeb8c1;stroke-width:3;stroke-linecap:round}.frame line{stroke:#596874;stroke-width:8;stroke-linecap:round}.wheel circle,.wheel line{fill:none;stroke:#475967}.wheel circle{stroke-width:7}.wheel line{stroke-width:2;opacity:.42}.chain path,.chain circle{fill:none;stroke:#6e7c86;stroke-width:5}.chain path{stroke-dasharray:7 5}.crank circle,.crank line,.crank rect{fill:#fff;stroke:#52626e;stroke-width:5}.crank rect{stroke-width:4}.brake-system path,.brake-lever line,.brake-lever path{fill:none;stroke:#7a858e;stroke-width:5;stroke-linecap:round}.brake-system path:first-child{stroke-width:2;stroke-dasharray:5 4}
-  .active circle,.active line,.active rect,.active path{stroke:var(--accent)}.pedal.active rect{fill:#f3f0ff;stroke:var(--accent)}.chain.active path{stroke-width:8}.wheel.active circle{stroke-width:10}.brake-system.active path:not(:first-child){stroke-width:8}.brake-lever.active path{stroke-width:8}
-  .callout path{fill:none;stroke:#a3adb6;stroke-width:2}.callout rect{fill:#fff;stroke:#c8d0d6;stroke-width:1.5}.callout text{fill:#596874;font-size:12px;font-weight:850}.callout.active path,.callout.active rect{stroke:var(--accent)}.callout.active rect{fill:#f3f0ff}.callout.active text{fill:#3f36a8}.action-arrow{fill:none;stroke:var(--accent);stroke-width:4;stroke-linecap:round;stroke-dasharray:7 5}.mechanism :global(#mechanism-arrow path){fill:var(--accent)}
-  .mechanism__difference{display:grid;grid-template-columns:1fr 1fr;gap:6px}.mechanism__difference span{padding:6px 7px;border:1px solid #24303a16;border-radius:9px;background:#fff;font-size:.66rem;font-weight:720}.mechanism__difference b{color:#3f36a8}
-  .mechanism__trace{min-height:27px;display:flex;align-items:center;gap:4px;overflow-x:auto;padding-bottom:1px}.mechanism__trace span{flex:0 0 auto;padding:5px 7px;border-radius:999px;background:#eef1f3;color:#5a6872;font-size:.58rem;font-weight:900}.mechanism__trace .mechanism__trace--current{background:#f3f0ff;color:#3f36a8;border:1px solid #6358dc33}.mechanism__trace b{font-size:.68rem;color:#909ba3}.mechanism__action{min-height:44px;border:0;border-radius:11px;background:var(--accent);color:#fff;font:inherit;font-size:.76rem;font-weight:900;cursor:pointer}
-  .crank.turning{transform-box:view-box;transform-origin:260px 230px;animation:crank-turn 1.8s linear infinite}.chain.moving path{animation:chain-travel .7s linear infinite}.wheel.spinning{transform-box:view-box;transform-origin:126px 230px;animation:wheel-turn 1.25s linear infinite}.wheel.slowing{transform-box:view-box;transform-origin:126px 230px;animation:wheel-slow 2.2s ease-out infinite}.bike.rolling{animation:bike-nudge 1.4s ease-in-out infinite alternate}
-  @keyframes crank-turn{to{transform:rotate(360deg)}}@keyframes chain-travel{to{stroke-dashoffset:-24}}@keyframes wheel-turn{to{transform:rotate(360deg)}}@keyframes wheel-slow{0%{transform:rotate(0)}60%{transform:rotate(210deg)}100%{transform:rotate(250deg)}}@keyframes bike-nudge{to{transform:translateX(7px)}}
-  @media(max-width:650px){.mechanism{grid-template-rows:auto minmax(190px,1fr) auto auto auto;padding:7px;gap:6px}.mechanism__teaching{padding:6px 7px}.mechanism__teaching p{font-size:.68rem}.mechanism__diagram{min-height:190px}.mechanism__difference span{font-size:.61rem}.callout text{font-size:11px}}
-  @media(prefers-reduced-motion:reduce){.crank.turning,.chain.moving path,.wheel.spinning,.wheel.slowing,.bike.rolling{animation:none}.action-arrow{stroke-dasharray:none}}
+.mechanism{width:100%;min-height:100%;display:grid;grid-template-rows:auto minmax(210px,1fr) auto auto auto;gap:8px;padding:10px;background:linear-gradient(180deg,#fbfaff,#f7fafc);color:var(--ink)}
+.mechanism__teaching{display:grid;grid-template-columns:34px minmax(0,1fr);gap:8px;align-items:start;padding:8px 9px;border-radius:12px;background:#fff;border:1px solid #6358dc20}.mechanism__number{width:31px;height:31px;display:grid;place-items:center;border-radius:50%;background:var(--accent);color:#fff;font-weight:950}.mechanism__teaching small{display:block;color:var(--accent);font-size:.58rem;font-weight:900;letter-spacing:.06em}.mechanism__teaching strong{display:block;margin-top:2px;font-size:.9rem}.mechanism__teaching p{margin:3px 0 0;font-size:.72rem;font-weight:720;line-height:1.3;color:var(--muted)}
+.mechanism__diagram{min-height:210px;display:grid;place-items:center;overflow:hidden;border-radius:16px;background:linear-gradient(#eef8ff 0 62%,#f8f2de 62%)}.mechanism__art{position:relative;width:min(100%,760px);aspect-ratio:760/420}.mechanism__bike,.mechanism__overlay{position:absolute;inset:0;width:100%;height:100%}.mechanism__bike :global(svg){display:block;width:100%;height:100%}
+.mechanism-crank circle,.mechanism-pedal rect,.mechanism-chain path,.mechanism-wheel circle,.mechanism-wheel line,.mechanism-lever path,.mechanism-brake path{fill:none;stroke:#6358dc;stroke-width:6;stroke-linecap:round;opacity:.2}.mechanism-crank .crank-ring{stroke-width:8}.mechanism-crank .crank-center{fill:#fff;stroke-width:5}.mechanism-chain path{stroke-dasharray:9 7}.mechanism-wheel circle{stroke-width:7}.mechanism-pedal rect{fill:#f3f0ff;opacity:0}.focus-halo{fill:#ffd34e35!important;stroke:#ffd34e!important;stroke-width:5!important;opacity:0}.active circle,.active line,.active rect,.active path{opacity:1}.active .focus-halo{opacity:1}.mechanism-chain.active path{stroke-width:9}.mechanism-wheel.active circle{stroke-width:11}.mechanism-lever.active path,.mechanism-brake.active path{stroke-width:9}
+.callout path{fill:none;stroke:#a3adb6;stroke-width:2.5}.callout rect{fill:#fff;stroke:#c8d0d6;stroke-width:2}.callout text{fill:#596874;font-size:16px;font-weight:850}.callout.active path,.callout.active rect{stroke:var(--accent)}.callout.active rect{fill:#f3f0ff}.callout.active text{fill:#3f36a8}.action-arrow{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;stroke-dasharray:9 7}.crank-arrow{stroke-dasharray:none}.mechanism :global(#mechanism-arrow path){fill:var(--accent)}
+.mechanism__difference{display:grid;grid-template-columns:1fr 1fr;gap:6px}.mechanism__difference span{padding:6px 7px;border:1px solid #24303a16;border-radius:9px;background:#fff;font-size:.66rem;font-weight:720}.mechanism__difference b{color:#3f36a8}.mechanism__trace{min-height:27px;display:flex;align-items:center;gap:4px;overflow-x:auto}.mechanism__trace span{flex:0 0 auto;padding:5px 7px;border-radius:999px;background:#eef1f3;color:#5a6872;font-size:.58rem;font-weight:900}.mechanism__trace .mechanism__trace--current{background:#f3f0ff;color:#3f36a8;border:1px solid #6358dc33}.mechanism__trace b{font-size:.68rem;color:#909ba3}.mechanism__action{min-height:44px;border:0;border-radius:11px;background:var(--accent);color:#fff;font:inherit;font-size:.76rem;font-weight:900;cursor:pointer}
+.drivetrainTurning .mechanism__bike :global(.bike-crank),.drivetrainTurning .mechanism__bike :global(.bike-pedal-orbit){transform-box:view-box;transform-origin:355px 280px;animation:crank-turn 1.8s linear infinite}.drivetrainTurning .mechanism__bike :global(.bike-pedal-level-front){transform-box:view-box;transform-origin:406.5px 251.5px;animation:pedal-counterturn 1.8s linear infinite}.drivetrainTurning .mechanism__bike :global(.bike-pedal-level-rear){transform-box:view-box;transform-origin:305.5px 308.5px;animation:pedal-counterturn 1.8s linear infinite}.mechanism-chain.moving path{opacity:.8;animation:chain-travel .7s linear infinite}.mechanism-wheel.spinning{transform-box:view-box;transform-origin:205px 280px;animation:wheel-turn 1.25s linear infinite}.mechanism-wheel.slowing{transform-box:view-box;transform-origin:545px 280px;animation:wheel-slow 2.2s ease-out infinite}.mechanism__art.rolling{animation:bike-nudge 1.4s ease-in-out infinite alternate}.roll-arrow{animation:chain-travel .7s linear infinite}
+@keyframes crank-turn{to{transform:rotate(360deg)}}@keyframes pedal-counterturn{to{transform:rotate(-360deg)}}@keyframes chain-travel{to{stroke-dashoffset:-32}}@keyframes wheel-turn{to{transform:rotate(360deg)}}@keyframes wheel-slow{0%{transform:rotate(0)}60%{transform:rotate(210deg)}100%{transform:rotate(250deg)}}@keyframes bike-nudge{to{transform:translateX(7px)}}
+@media(max-width:650px){.mechanism{grid-template-rows:auto minmax(190px,1fr) auto auto auto;padding:7px;gap:6px}.mechanism__teaching{padding:6px 7px}.mechanism__teaching p{font-size:.68rem}.mechanism__diagram{min-height:190px}.mechanism__difference span{font-size:.61rem}.callout text{font-size:15px}}
+@media(prefers-reduced-motion:reduce){.drivetrainTurning .mechanism__bike :global(.bike-crank),.drivetrainTurning .mechanism__bike :global(.bike-pedal-orbit),.drivetrainTurning .mechanism__bike :global(.bike-pedal-level),.mechanism-chain.moving path,.mechanism-wheel.spinning,.mechanism-wheel.slowing,.mechanism__art.rolling,.roll-arrow{animation:none}.action-arrow{stroke-dasharray:none}}
 </style>

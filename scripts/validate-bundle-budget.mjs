@@ -24,12 +24,24 @@ const budgets = {
   // STUDIO-08/09 measure 907.6 KiB after CollectionCount is split out of startup
   // core. Admit +9 KiB for the two reusable mechanics; route/core ceilings remain
   // independently enforced below instead of turning this into unbounded growth.
+  // #281 renders the canonical bicycle SVG inline only inside the lazy mechanism
+  // route so its real crank arms and pedals can animate. CI measures 911.0 KiB raw;
+  // admit a bounded +4 KiB over the prior 908 KiB ceiling for that exact-art reuse.
+  // Town Square visual rescue replaces the old text/card split pane with a persistent
+  // illustrated square, five visible world-state changes and richer assembly/guided/
+  // cause-effect presentation. CI measures 920.0 KiB raw; admit +9 KiB for this lazy
+  // world route while retaining an independent Town JS/CSS ceiling below.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
-  maxCoreJsGzipBytes: (162 + 4 + 1 + 1) * 1024,
-  maxCoreCssBytes: 100 * 1024
+  // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
+  // keep the adjustment bounded to +0.5 KiB rather than broadening route budgets.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.5) * 1024,
+  // #281 also upgrades the generic Forest world-depth fallback through the existing
+  // global forestSessionPolish.css rather than shipping a second duplicate renderer.
+  // CI measures 105.7 KiB core CSS; keep a narrow reviewed 107 KiB ceiling.
+  maxCoreCssBytes: 107 * 1024
 };
 
 // Explicit feature allowances are review items, not disabled checks.
@@ -51,12 +63,13 @@ const lazyRouteBudgets = [
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
-  // Quiet Creek was deliberately rebuilt from a text/status-card screen into one
-  // persistent illustrated world. This is a reviewed route-local allowance for the
-  // spatial bridge/channel targets, tactile piece tray and visible cause/effect states;
-  // the route remains lazy and core CSS/JS budgets are unchanged.
-  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 12 * 1024 },
-  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 4 * 1024 },
+  // Quiet Creek plus the generic Forest mission presentation now measures 13.1 KiB
+  // CSS after the visual-workbench pass. Keep only 0.4 KiB reviewed headroom.
+  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 13.5 * 1024 },
+  // Town Square now carries one persistent illustrated world instead of a flat status
+  // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
+  // CI measures 7.8 KiB JS gzip / 27.7 KiB CSS; keep narrow reviewed headroom here.
+  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.25 * 1024, maxCssBytes: 29 * 1024 },
   { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'StoriesViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 3 * 1024 },
@@ -71,7 +84,9 @@ const lazyRouteBudgets = [
   { prefix: 'BicycleStoryStage-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 5 * 1024 },
   { prefix: 'BicycleWorkshopViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 7 * 1024 },
   // Imported from #268: the mechanism lesson is its own reusable nested surface.
-  { prefix: 'BicycleMechanismDemonstration-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 6.5 * 1024 },
+  // #281 adds exact-art crank/pedal counter-rotation and measures 7.4 KiB CSS;
+  // keep a narrow 7.75 KiB ceiling while its JS remains under the existing 4.5 KiB cap.
+  { prefix: 'BicycleMechanismDemonstration-', maxJsGzipBytes: 4.5 * 1024, maxCssBytes: 7.75 * 1024 },
   { prefix: 'bicycleWorkshopRuntime-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 0 }
 ];
 

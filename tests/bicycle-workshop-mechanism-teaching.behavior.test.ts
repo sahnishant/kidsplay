@@ -23,16 +23,13 @@ describe('Bicycle Workshop mechanism teaching imported from #268', () => {
     expect(movement?.lookPrompt).toContain('crank arm attached to it');
     expect(drive?.text).toContain('The pedal is attached to the crank arm');
 
-    expect(mechanism).toContain("title: 'PEDAL'");
-    expect(mechanism).toContain("title: 'CRANK'");
-    expect(mechanism).toContain("title: 'CHAIN'");
-    expect(mechanism).toContain("title: 'BACK WHEEL'");
+    for (const title of ['PEDAL', 'CRANK', 'CHAIN', 'BACK WHEEL']) expect(mechanism).toMatch(new RegExp(`title:\\s*'${title}'`));
     expect(mechanism).toContain('The pedal is the small platform at the end of the crank arm.');
-    expect(mechanism).toContain('The crank turns around its centre.');
+    expect(mechanism).toContain('The crank arm turns around its centre.');
     expect(mechanism).toContain('PEDAL</b> = where the foot pushes');
     expect(mechanism).toContain('CRANK</b> = the arm that turns');
     expect(mechanism).toContain('visibleSteps = $derived(steps.slice(0, stepIndex + 1))');
-    expect(mechanism).toContain("action: 'Push the pedal'");
+    expect(mechanism).toMatch(/action:\s*'Push the pedal'/);
   });
 
   it('keeps braking separate, accessible, reduced-motion safe and non-evaluative', () => {
@@ -44,9 +41,7 @@ describe('Bicycle Workshop mechanism teaching imported from #268', () => {
     const braking = movement?.beats.find((item) => item.id === 'braking-chain');
 
     expect(braking?.sequence).toEqual(['Squeeze brake lever', 'Brake engages', 'Bicycle slows']);
-    expect(mechanism).toContain("title: 'BRAKE LEVER'");
-    expect(mechanism).toContain("title: 'BRAKE'");
-    expect(mechanism).toContain("title: 'BICYCLE SLOWS'");
+    for (const title of ['BRAKE LEVER', 'BRAKE', 'BICYCLE SLOWS']) expect(mechanism).toMatch(new RegExp(`title:\\s*'${title}'`));
     expect(mechanism).toContain('aria-live="polite"');
     expect(mechanism).toContain('@media(prefers-reduced-motion:reduce)');
     expect(mechanism).toContain('min-height:44px');

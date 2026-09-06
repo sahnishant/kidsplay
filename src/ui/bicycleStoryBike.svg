@@ -20,7 +20,8 @@
     <g stroke="#664b18" stroke-width="4"><circle cx="510" cy="103" r="14" fill="#f5b53f"/><path d="M499 102q11-16 22 0" fill="none"/></g>
     <path d="M205 263l150-9q20 1 20 26t-20 26l-150-9q-18 0-18-17t18-17z" fill="none" stroke="#684f35" stroke-width="6" stroke-dasharray="7 8"/>
     <circle cx="205" cy="280" r="20" fill="#fff" stroke="#684f35" stroke-width="5"/>
-    <g fill="#fff" stroke="#35434b" stroke-width="7" stroke-linecap="round"><circle cx="355" cy="280" r="30"/><path d="M355 280l40-26M355 280l-40 26"/></g>
-    <g fill="#2f7682"><rect x="388" y="245" width="37" height="13" rx="6"/><rect x="287" y="302" width="37" height="13" rx="6"/></g>
+    <g class="bike-crank" fill="#fff" stroke="#35434b" stroke-width="7" stroke-linecap="round"><circle cx="355" cy="280" r="30"/><path d="M355 280l40-26M355 280l-40 26"/></g>
+    <g class="bike-pedal-orbit bike-pedal-orbit-front"><g class="bike-pedal-level bike-pedal-level-front" fill="#2f7682"><rect x="388" y="245" width="37" height="13" rx="6"/></g></g>
+    <g class="bike-pedal-orbit bike-pedal-orbit-rear"><g class="bike-pedal-level bike-pedal-level-rear" fill="#2f7682"><rect x="287" y="302" width="37" height="13" rx="6"/></g></g>
   </g>
 </svg>
