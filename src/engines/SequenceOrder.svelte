@@ -95,8 +95,9 @@
   .picture-sequence .sequence-order__item{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;min-width:0;width:100%;min-height:108px;gap:7px;padding:0 0 3px;border:0;border-radius:12px;background:transparent;color:var(--ink,#24303a);box-shadow:none;line-height:1.3;font-size:.88rem;font-weight:650;overflow-wrap:anywhere}
   .picture-sequence .sequence-order__item--selected{outline:3px solid #426454;outline-offset:2px;background:#edf3e4}
   .picture-sequence .sequence-order__item:focus-visible{outline:3px solid #426454;outline-offset:2px}
-  .picture-sequence :global(.sequence-order__visuals){display:block;flex:none;width:100%;height:auto;aspect-ratio:8/5}
-  .picture-sequence :global(.sequence-order__visual){display:block;width:100%;height:100%}
+  .picture-sequence :global(.sequence-order__visuals){position:relative;display:block;flex:none;width:100%;height:auto}
+  .picture-sequence :global(.sequence-order__visuals)::before{content:'';display:block;padding-top:62.5%}
+  .picture-sequence :global(.sequence-order__visual){position:absolute;inset:0;display:block;width:100%;height:100%}
   .picture-sequence :global(.visual-entity){display:block}
   .picture-sequence .sequence-order__controls{display:grid;grid-template-columns:repeat(2,minmax(48px,1fr));gap:5px;min-width:0}
   .picture-sequence .sequence-order__move{width:100%;min-width:48px;height:48px;min-height:48px;padding:0;border-radius:10px;border:1px solid #d3ddcc;background:#f0f4e9;color:#344c40;font-size:1.25rem}
