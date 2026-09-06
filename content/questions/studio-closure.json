@@ -12,12 +12,12 @@
   },
   {
     "id":"bicycle.studio.pre-ride-dependencies.001","revision":1,"schemaVersion":1,
-    "conceptIds":["transport.bicycle.parts"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
-    "prompt":{"text":"Get ready before the ride. Helmet, brake check and bell check can happen in any order, but all three come before riding."},
+    "conceptIds":["bicycle.safety.pre-ride"],"evidencePolicy":"practice_only","difficulty":2,"language":"en-IN",
+    "prompt":{"text":"Get ready before the ride. Helmet, brake check and tyre check can happen in any order, but all three come before riding."},
     "interaction":{"type":"sequence_order","version":2,"seed":2802,
-      "items":[{"id":"helmet","label":"Put on the helmet","symbol":"⛑"},{"id":"brake","label":"Check the brakes","symbol":"▣"},{"id":"bell","label":"Check the bell","symbol":"🔔"},{"id":"ride","label":"Start the ride","symbol":"🚲"}]},
-    "solution":{"type":"ordered_items","orderedItemIds":["helmet","brake","bell","ride"],"prerequisites":{"helmet":[],"brake":[],"bell":[],"ride":["helmet","brake","bell"]}},
-    "feedback":{"correct":"Ready to ride: all three checks happened before the ride. Their order did not matter.","incorrect":"Keep your cards. Make sure helmet, brakes and bell all come before starting the ride."},
+      "items":[{"id":"helmet","label":"Put on the helmet","symbol":"⛑"},{"id":"brake","label":"Check the brakes","symbol":"▣"},{"id":"tyres","label":"Check the tyres","symbol":"◯"},{"id":"ride","label":"Start the ride","symbol":"🚲"}]},
+    "solution":{"type":"ordered_items","orderedItemIds":["helmet","brake","tyres","ride"],"prerequisites":{"helmet":[],"brake":[],"tyres":[],"ride":["helmet","brake","tyres"]}},
+    "feedback":{"correct":"Ready to ride: all three checks happened before the ride. Their order did not matter.","incorrect":"Keep your cards. Make sure helmet, brakes and tyres all come before starting the ride."},
     "authoring":{"status":"draft","source":"kidsplay-studio-09-dependency-order-v1"}
   }
 ]
