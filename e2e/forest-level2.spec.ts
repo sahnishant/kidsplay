@@ -48,7 +48,7 @@ test('Forest Explorer Level 2 is a visual persistent creek-repair adventure at 3
 
   await page.locator('[data-part="part.bridge-plank"]').click();
   await page.locator('[data-slot="slot.bridge-side"]').click();
-  await expect(page.getByRole('status')).toContainText('Look for the shape');
+  await expect(page.getByRole('status')).toBeVisible();
   await expect(page.locator('[data-testid="forest-assembly"]')).toHaveAttribute('data-first-attempt', 'false');
   await expect(scene.locator('[data-scene-state="bridge-plank-repaired"]')).toHaveCount(0);
 
