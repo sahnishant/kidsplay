@@ -1,0 +1,41 @@
+name: Studio Topic Source Snapshot
+on:
+  push:
+    branches: [qa/studio-topic-source-20260906]
+permissions:
+  contents: read
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+          fetch-depth: 2
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+      - name: Install locked development dependencies
+        run: |
+          npm ci --ignore-scripts --no-audit --no-fund
+          ROLLDOWN_VERSION="$(node -p "require('./node_modules/rolldown/package.json').version")"
+          LIGHTNINGCSS_VERSION="$(node -p "require('./node_modules/lightningcss/package.json').version")"
+          NATIVE_DIR="$(mktemp -d)"
+          npm install --prefix "$NATIVE_DIR" --ignore-scripts --no-save --package-lock=false --no-audit --no-fund "@rolldown/binding-linux-x64-gnu@$ROLLDOWN_VERSION" "lightningcss-linux-x64-gnu@$LIGHTNINGCSS_VERSION"
+          mkdir -p node_modules/@rolldown
+          cp -R "$NATIVE_DIR/node_modules/@rolldown/binding-linux-x64-gnu" node_modules/@rolldown/
+          cp -R "$NATIVE_DIR/node_modules/lightningcss-linux-x64-gnu" node_modules/
+          rm -rf "$NATIVE_DIR"
+      - name: Archive tracked source and dependencies only
+        run: |
+          mkdir -p snapshot
+          git archive 174282f6879756e71baa7536d5d61927d9ca064d | gzip > snapshot/source.tar.gz
+          tar -czf snapshot/dependencies.tar.gz node_modules
+          printf '%s\n' '174282f6879756e71baa7536d5d61927d9ca064d' > snapshot/source-commit.txt
+      - uses: actions/upload-artifact@v7
+        with:
+          name: studio-topic-source-snapshot
+          path: snapshot
+          retention-days: 2
+          compression-level: 0
