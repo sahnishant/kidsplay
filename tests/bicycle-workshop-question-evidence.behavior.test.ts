@@ -31,9 +31,23 @@ describe('Bicycle Workshop canonical question evidence', () => {
       claimEvidenceQuestionCount: 15,
       processQuestionCount: 2,
       supportingKnowledgeQuestionCount: 2,
-      wordSearchPracticeOnly: true,
+      knowledgeEvidenceForbiddenCount: 4,
+      practiceOnlyInteractionTypeCount: 1,
+      practiceOnlyInteractionCoverage: true,
       naturalLanguageEntailmentCertified: false
     });
+  });
+
+  it('uses a data-owned question directory and evidence boundaries rather than Bicycle-specific validator paths', () => {
+    const policy = readJson<any>(policyPath);
+    expect(policy.questionDirectory).toBe('content/curriculum-runtime/bicycle-workshop/questions');
+    expect(policy.knowledgeEvidenceForbiddenQuestionRefs).toEqual([
+      'bicycle.workshop.reading.detail.001',
+      'bicycle.workshop.reading.sequence.001',
+      'bicycle.workshop.reading.verify.001',
+      'bicycle.workshop.reading.inference.001'
+    ]);
+    expect(policy.practiceOnlyInteractionTypes).toEqual(['word_search']);
   });
 
   it('uses the direct canonical function claims for the repaired play activities', () => {
