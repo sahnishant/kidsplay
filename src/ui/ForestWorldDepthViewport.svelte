@@ -12,12 +12,12 @@
 </script>
 
 {#if isTownMission}
-  {#await import('./TownWorldDepthViewport.svelte') then module}
+  {#await import('./TownWorldDepthViewport-Practical.svelte') then module}
     {@const TownWorldDepthViewport = module.default}
     <TownWorldDepthViewport {mission} {childName} {onComplete} {onExit} />
   {/await}
 {:else}
-  {#await import('./ForestWorldDepthMissionViewport.svelte') then module}
+  {#await import('./ForestWorldDepthMissionViewport-Practical.svelte') then module}
     {@const ForestWorldDepthMissionViewport = module.default}
     <ForestWorldDepthMissionViewport {mission} {childName} {onComplete} {onExit} />
   {/await}
