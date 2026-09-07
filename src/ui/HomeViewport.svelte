@@ -19,8 +19,7 @@
   type ChildPrimaryView = 'world' | 'practice';
   type ChildNavView = ChildPrimaryView | 'stories';
   type GrownUpView = 'progress' | 'goals' | 'programmes';
-  type PracticeChildView = 'phonics' | 'bicycle-workshop';
-  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | PracticeChildView;
+  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | 'phonics' | 'bicycle-workshop';
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
@@ -54,7 +53,8 @@
 
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
-  let releasePracticeChildBack: (() => void) | null = null;
+  let childViewLayerSequence = 0;
+  const childViewReleases = new Set<() => void>();
   let displayName = $derived(child.name.trim() || 'Dheu');
   let worldState = $derived(mergeForestWorldDepthState(deriveWorldRewardState(progress), storyProgress));
   let forestDiscoveries = $derived(projectForestDiscoveries(storyProgress));
@@ -77,30 +77,34 @@
   function updateName(event: Event): void {
     onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value });
   }
-  function isPracticeChildView(value: HomeView): value is PracticeChildView {
-    return value === 'phonics' || value === 'bicycle-workshop';
+  function clearChildViewLayers(): void {
+    for (const release of childViewReleases) release();
+    childViewReleases.clear();
   }
   function closeViewFromBack(): void { view = 'world'; releaseViewBack = null; }
-  function closePracticeChildFromBack(): void { view = 'practice'; releasePracticeChildBack = null; }
   function openView(next: HomeView): void {
     if (next === view) return;
     if (next === 'world') { requestAppBack(closeViewFromBack); return; }
-    if (view === 'practice' && isPracticeChildView(next)) {
-      releasePracticeChildBack?.();
-      view = next;
-      releasePracticeChildBack = pushAppBackLayer(`home:${next}`, closePracticeChildFromBack);
-      return;
-    }
-    releasePracticeChildBack?.();
-    releasePracticeChildBack = null;
+    clearChildViewLayers();
     releaseViewBack?.();
     view = next;
     releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
   }
+  function openChildView(next: HomeView): void {
+    if (next === view) return;
+    const parent = view;
+    const layerId = `home-child:${++childViewLayerSequence}:${next}`;
+    let release: () => void = () => {};
+    release = pushAppBackLayer(layerId, () => {
+      childViewReleases.delete(release);
+      view = parent;
+    });
+    childViewReleases.add(release);
+    view = next;
+  }
   function openChildArea(next: ChildNavView): void {
     if (next === 'stories') {
-      releasePracticeChildBack?.();
-      releasePracticeChildBack = null;
+      clearChildViewLayers();
       releaseViewBack?.();
       releaseViewBack = null;
       onOpenStories();
@@ -109,7 +113,7 @@
     openView(next);
   }
   function requestWorld(): void { requestAppBack(closeViewFromBack); }
-  function requestPractice(): void { requestAppBack(closePracticeChildFromBack); }
+  function requestParentView(): void { requestAppBack(); }
   function startPatternMock(): void { if (patternMockEntryId) onStart(patternMockEntryId); }
   function panelTitle(): string {
     if (view === 'player') return 'Who is playing?';
@@ -119,7 +123,7 @@
     return 'Choose a play activity';
   }
   onDestroy(() => {
-    releasePracticeChildBack?.();
+    clearChildViewLayers();
     releaseViewBack?.();
   });
 </script>
@@ -145,7 +149,7 @@
     <div class="phonics-host">
       {#await import('./PhonicsAdventureViewport.svelte') then module}
         {@const PhonicsAdventureViewport = module.default}
-        <PhonicsAdventureViewport childName={child.name} childAvatar={child.avatar} onExit={requestPractice} />
+        <PhonicsAdventureViewport childName={child.name} childAvatar={child.avatar} onExit={requestParentView} />
       {/await}
     </div>
   {:else if view === 'bicycle-workshop'}
@@ -153,7 +157,7 @@
       {#await import('./BicycleWorkshopViewport.svelte') then module}
         {@const BicycleWorkshopViewport = module.default}
         <BicycleWorkshopViewport
-          onExit={requestPractice}
+          onExit={requestParentView}
           onPractice={() => onStart('free.english.bicycle-workshop.1')}
           onChapterCheck={() => onStart('free.english.bicycle-workshop.chapter-check.1')}
         />
@@ -235,13 +239,13 @@
               <div class="catalog-card__topline"><span class="access-badge">CLASS 2 ENGLISH</span></div>
               <h2>Bicycle Workshop</h2>
               <p>Learn through seven graph-traced sections, then practise or take an eight-mark chapter check.</p>
-              <button class="primary-action" type="button" onclick={() => openView('bicycle-workshop')}>Open chapter</button>
+              <button class="primary-action" type="button" onclick={() => openChildView('bicycle-workshop')}>Open chapter</button>
             </article>
             <article class="catalog-card catalog-card--phonics">
               <div class="catalog-card__topline"><span class="access-badge">SOUND PLAY</span></div>
               <h2>Scientu’s Sound Trail</h2>
               <p>Listen, sort pictures, connect sounds to letters, then find the matching word.</p>
-              <button class="primary-action" type="button" onclick={() => openView('phonics')}>Start Sound Trail</button>
+              <button class="primary-action" type="button" onclick={() => openChildView('phonics')}>Start Sound Trail</button>
             </article>
             <article class="catalog-card catalog-card--learn-about">
               <div class="catalog-card__topline"><span class="access-badge">LEARN ABOUT</span></div>
