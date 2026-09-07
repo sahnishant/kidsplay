@@ -31,8 +31,11 @@ const budgets = {
   // illustrated square, five visible world-state changes and richer assembly/guided/
   // cause-effect presentation. CI measures 920.0 KiB raw; admit +9 KiB for this lazy
   // world route while retaining an independent Town JS/CSS ceiling below.
+  // #283 replaces button-only Town/Quiet Creek actions with direct spatial dragging,
+  // three-stage road motion and three-target watering. CI measures 923.8 KiB raw;
+  // admit a bounded +4 KiB while the affected lazy routes remain independently capped.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9 + 4) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
@@ -63,12 +66,13 @@ const lazyRouteBudgets = [
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
-  // Quiet Creek plus the generic Forest mission presentation now measures 13.1 KiB
-  // CSS after the visual-workbench pass. Keep only 0.4 KiB reviewed headroom.
-  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 13.5 * 1024 },
+  // #283 keeps Forest world actions lazy but adds direct fallen-branch dragging,
+  // a bank target, a movable watering can and three independently watered saplings.
+  // CI measures 6.2 KiB gzip / 16.1 KiB CSS; keep only narrow measured headroom.
+  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6.5 * 1024, maxCssBytes: 16.75 * 1024 },
   // Town Square now carries one persistent illustrated world instead of a flat status
   // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
-  // CI measures 7.8 KiB JS gzip / 27.7 KiB CSS; keep narrow reviewed headroom here.
+  // #283 remains inside the existing Town ceiling at ~8.2 KiB gzip / 23.7 KiB CSS.
   { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.25 * 1024, maxCssBytes: 29 * 1024 },
   { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
