@@ -28,6 +28,11 @@ async function expectChildOpened(page: Page): Promise<void> {
   await expect(page.getByRole('heading', { name: 'Choose a play activity' })).toBeHidden();
 }
 
+async function revealLastWorkshopIdea(page: Page): Promise<void> {
+  const nextIdea = page.getByRole('button', { name: 'Next idea', exact: true });
+  while (await nextIdea.isVisible().catch(() => false)) await nextIdea.click();
+}
+
 test.describe('Play navigation tree', () => {
   test('every child launched from Play returns to Play with Escape', async ({ page }) => {
     test.setTimeout(120_000);
@@ -68,6 +73,34 @@ test.describe('Play navigation tree', () => {
     await expectPlay(page);
 
     await page.goBack();
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
+  });
+
+  test('deep Play descendants unwind exactly one tree node at a time', async ({ page }) => {
+    test.setTimeout(120_000);
+    await openCleanApp(page);
+    await openPlay(page);
+
+    await page.getByRole('button', { name: 'Open chapter' }).click();
+    await expect(page.getByRole('heading', { name: 'Bicycle Workshop', exact: true })).toBeVisible();
+    const workshopNav = page.getByRole('navigation', { name: 'Bicycle Workshop learning sections' });
+    await workshopNav.getByRole('button', { name: '7 Ready', exact: true }).click();
+    await revealLastWorkshopIdea(page);
+    await expect(page.getByText('7/7', { exact: true })).toBeVisible();
+
+    await page.getByRole('button', { name: 'Practice', exact: true }).click();
+    await expect(page.getByText('Bicycle Workshop — Class 2 English', { exact: true })).toBeVisible();
+
+    // Home -> Play -> Bicycle Workshop -> Practice
+    // must unwind Practice -> Bicycle Workshop -> Play -> Home.
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('heading', { name: 'Bicycle Workshop', exact: true })).toBeVisible();
+    await expect(page.getByText('7/7', { exact: true })).toBeVisible();
+
+    await page.keyboard.press('Escape');
+    await expectPlay(page);
+
+    await page.keyboard.press('Escape');
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
   });
 });
