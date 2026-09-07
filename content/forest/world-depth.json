@@ -238,7 +238,7 @@
             "subjectSemanticRefs": ["semantic.forest.seed-food", "semantic.forest.leaf-litter", "semantic.forest.wrapper"],
             "targetSemanticRefs": ["semantic.forest.feeder", "semantic.forest.compost-pile", "semantic.forest.litter-bag"],
             "evidenceClass": "guided_practice",
-            "retryPolicy": "reset_for_retry_preserve_first_attempt"
+            "retryPolicy": "not_applicable"
           },
           "assembly": {
             "schemaVersion": 1,
