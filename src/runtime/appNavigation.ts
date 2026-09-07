@@ -49,7 +49,14 @@ export function installAppBackNavigation(): () => void {
   };
 }
 
-/** All platforms consume the same app-owned history depth, not a second stack. */
+/**
+ * Add one child node to the current app navigation path.
+ *
+ * A layer never destroys its parent. If the visible path is
+ * Home -> Play -> Topic -> Activity, Back/Escape/system Back always removes
+ * exactly Activity first, then Topic, then Play. Callers decide when a true
+ * sibling/root switch should release an older layer explicitly.
+ */
 export function pushAppBackLayer(id: string, onBack: AppBackHandler): () => void {
   if (!canUseHistory()) return () => {};
   removeLayer(id);
@@ -58,16 +65,9 @@ export function pushAppBackLayer(id: string, onBack: AppBackHandler): () => void
   return () => removeLayer(id);
 }
 
-/** Enter a full-screen session without reopening an intermediate panel on Back. */
+/** Full-screen learning surfaces are children of whatever launched them. */
 export function enterAppSessionLayer(id: string, onBack: AppBackHandler): () => void {
-  if (!canUseHistory()) return () => {};
-  const hadLayer = layers.length > 0;
-  layers.length = 0;
-  layers.push({ id, onBack });
-  const state = { ...(window.history.state ?? {}), kidsplayLayer: id };
-  if (hadLayer) window.history.replaceState(state, '');
-  else window.history.pushState(state, '');
-  return () => removeLayer(id);
+  return pushAppBackLayer(id, onBack);
 }
 
 /** Visible Back controls do not own a separate navigation path. */
