@@ -19,7 +19,8 @@
   type ChildPrimaryView = 'world' | 'practice';
   type ChildNavView = ChildPrimaryView | 'stories';
   type GrownUpView = 'progress' | 'goals' | 'programmes';
-  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | 'phonics' | 'bicycle-workshop';
+  type PracticeChildView = 'phonics' | 'bicycle-workshop';
+  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | PracticeChildView;
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
@@ -53,6 +54,7 @@
 
   let view = $state<HomeView>('world');
   let releaseViewBack: (() => void) | null = null;
+  let releasePracticeChildBack: (() => void) | null = null;
   let displayName = $derived(child.name.trim() || 'Dheu');
   let worldState = $derived(mergeForestWorldDepthState(deriveWorldRewardState(progress), storyProgress));
   let forestDiscoveries = $derived(projectForestDiscoveries(storyProgress));
@@ -75,16 +77,30 @@
   function updateName(event: Event): void {
     onChildChange({ ...child, name: (event.currentTarget as HTMLInputElement).value });
   }
+  function isPracticeChildView(value: HomeView): value is PracticeChildView {
+    return value === 'phonics' || value === 'bicycle-workshop';
+  }
   function closeViewFromBack(): void { view = 'world'; releaseViewBack = null; }
+  function closePracticeChildFromBack(): void { view = 'practice'; releasePracticeChildBack = null; }
   function openView(next: HomeView): void {
     if (next === view) return;
     if (next === 'world') { requestAppBack(closeViewFromBack); return; }
+    if (view === 'practice' && isPracticeChildView(next)) {
+      releasePracticeChildBack?.();
+      view = next;
+      releasePracticeChildBack = pushAppBackLayer(`home:${next}`, closePracticeChildFromBack);
+      return;
+    }
+    releasePracticeChildBack?.();
+    releasePracticeChildBack = null;
     releaseViewBack?.();
     view = next;
     releaseViewBack = pushAppBackLayer(`home:${next}`, closeViewFromBack);
   }
   function openChildArea(next: ChildNavView): void {
     if (next === 'stories') {
+      releasePracticeChildBack?.();
+      releasePracticeChildBack = null;
       releaseViewBack?.();
       releaseViewBack = null;
       onOpenStories();
@@ -93,6 +109,7 @@
     openView(next);
   }
   function requestWorld(): void { requestAppBack(closeViewFromBack); }
+  function requestPractice(): void { requestAppBack(closePracticeChildFromBack); }
   function startPatternMock(): void { if (patternMockEntryId) onStart(patternMockEntryId); }
   function panelTitle(): string {
     if (view === 'player') return 'Who is playing?';
@@ -101,7 +118,10 @@
     if (view === 'programmes') return 'Programmes & profiles';
     return 'Choose a play activity';
   }
-  onDestroy(() => releaseViewBack?.());
+  onDestroy(() => {
+    releasePracticeChildBack?.();
+    releaseViewBack?.();
+  });
 </script>
 
 <main class="home-viewport" data-home-view={view}>
@@ -125,7 +145,7 @@
     <div class="phonics-host">
       {#await import('./PhonicsAdventureViewport.svelte') then module}
         {@const PhonicsAdventureViewport = module.default}
-        <PhonicsAdventureViewport childName={child.name} childAvatar={child.avatar} onExit={requestWorld} />
+        <PhonicsAdventureViewport childName={child.name} childAvatar={child.avatar} onExit={requestPractice} />
       {/await}
     </div>
   {:else if view === 'bicycle-workshop'}
@@ -133,7 +153,7 @@
       {#await import('./BicycleWorkshopViewport.svelte') then module}
         {@const BicycleWorkshopViewport = module.default}
         <BicycleWorkshopViewport
-          onExit={() => openView('practice')}
+          onExit={requestPractice}
           onPractice={() => onStart('free.english.bicycle-workshop.1')}
           onChapterCheck={() => onStart('free.english.bicycle-workshop.chapter-check.1')}
         />
