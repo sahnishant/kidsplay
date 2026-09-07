@@ -34,8 +34,11 @@ const budgets = {
   // #283 replaces button-only Town/Quiet Creek actions with direct spatial dragging,
   // three-stage road motion and three-target watering. CI measures 923.8 KiB raw;
   // admit a bounded +4 KiB while the affected lazy routes remain independently capped.
+  // Human review then exposed the untouched Forest L3 fallback. Its new Busy Grove
+  // practical scene is split into its own lazy route; allow at most +28 KiB raw JS
+  // pending exact-head CI measurement, with the route independently capped below.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9 + 4) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9 + 4 + 28) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
@@ -70,6 +73,10 @@ const lazyRouteBudgets = [
   // a bank target, a movable watering can and three independently watered saplings.
   // CI measures 6.2 KiB gzip / 16.1 KiB CSS; keep only narrow measured headroom.
   { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6.5 * 1024, maxCssBytes: 16.75 * 1024 },
+  // Forest L3 is no longer allowed to fall through to the generic button renderer.
+  // This separate route owns direct shelter repair, physical three-way sorting,
+  // feeder filling and three-patch watering. Keep it isolated from startup/core.
+  { prefix: 'ForestGroveMissionViewport-', maxJsGzipBytes: 9 * 1024, maxCssBytes: 24 * 1024 },
   // Town Square now carries one persistent illustrated world instead of a flat status
   // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
   // #283 remains inside the existing Town ceiling at ~8.2 KiB gzip / 23.7 KiB CSS.
