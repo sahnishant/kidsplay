@@ -37,7 +37,19 @@ jobs:
           rm -rf "$NATIVE_DIR"
 
       - name: Install Chromium
-        run: npx playwright install --with-deps chromium
+        shell: bash
+        run: |
+          for attempt in 1 2 3; do
+            if npx playwright install --with-deps chromium; then
+              exit 0
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            echo "Chromium dependency install failed on attempt $attempt; refreshing apt metadata before retry."
+            sudo rm -rf /var/lib/apt/lists/*
+            sleep 10
+          done
 
       - name: Run existing checks
         run: npm run check
