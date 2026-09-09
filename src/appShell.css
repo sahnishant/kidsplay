@@ -1,2 +1,3 @@
 .app-error{width:min(900px,100%);margin:10px auto 0;padding:10px 12px;border-radius:12px;background:var(--try-soft);color:var(--try);font-weight:750}
 .grove-slot{box-sizing:border-box}
+@media(max-width:420px){.compost-slot{left:42%!important}}
