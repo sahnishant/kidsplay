@@ -58,6 +58,7 @@ test('Forest Explorer Level 3 restores a habitat through real scene work and per
 
   // 2. Sort actual scattered objects into their real grove destinations.
   await expect(page.getByRole('heading', { name: /Sort the feeding place/ })).toBeVisible();
+  await expectAllForestButtonsTouchable(page, 'Level 3 sorting action');
   const compostBox = await page.locator('[data-grove-slot="slot.grove.compost"]').boundingBox();
   const bagBox = await page.locator('[data-grove-slot="slot.grove.litter-bag"]').boundingBox();
   expect(compostBox, 'compost target should have a measurable box').not.toBeNull();
@@ -75,6 +76,7 @@ test('Forest Explorer Level 3 restores a habitat through real scene work and per
 
   // 3. Carry seed into the feeder; the feeder fills and a bird returns.
   await expect(page.getByRole('heading', { name: /Set out the animal food/ })).toBeVisible();
+  await expectAllForestButtonsTouchable(page, 'Level 3 feeding action');
   await page.getByRole('button', { name: /Seed scoop/i }).click();
   await page.getByRole('button', { name: /Feeder\. Put the seed here/i }).click();
   await expect(page.locator('[data-grove-state="bird-returned"]')).toBeVisible();
@@ -83,17 +85,20 @@ test('Forest Explorer Level 3 restores a habitat through real scene work and per
 
   // 4. Water all three patches individually; each watering is child work, not one completion button.
   await expect(page.getByRole('heading', { name: /Help the flowering patch grow/ })).toBeVisible();
+  await expectAllForestButtonsTouchable(page, 'Level 3 meadow action');
   for (const patch of [1, 2, 3]) {
     await page.getByRole('button', { name: /Watering can/i }).click();
     await page.getByRole('button', { name: new RegExp(`Dry flower patch ${patch}`) }).click();
   }
   await expect(page.locator('[data-grove-state="butterflies-returned"]')).toBeVisible();
   await expect(page.getByRole('status').last()).toContainText('Flowers rise and butterflies return');
+  await expectAllForestButtonsTouchable(page, 'Level 3 restored action');
   await page.getByRole('button', { name: /See the restored grove/i }).click();
 
   await expect(page.getByText('Forest depth complete · next world available')).toBeVisible();
   await expect(page.getByText(/butterflies return to the restored grove/i)).toBeVisible();
   await expect(page.getByText(/replaying the mission cannot farm another reward/i)).toHaveCount(0);
+  await expectAllForestButtonsTouchable(page, 'Level 3 completion');
   await expectForestSurfaceFits(page, 'Level 3 completion');
 
   await page.getByRole('button', { name: 'Back to the Forest' }).click();
