@@ -2,102 +2,49 @@ export type AppBackHandler = () => void;
 
 interface AppBackLayer {
   id: string;
-  key: string;
+  key: number;
   onBack: AppBackHandler;
 }
 
-interface AppHistorySnapshot {
-  index: number;
-  path: string[];
+interface AppHistoryState {
+  s: number;
+  i: number;
+  p: number[];
 }
 
 const layers: AppBackLayer[] = [];
 let listenersInstalled = false;
 let layerSequence = 0;
-let currentHistoryIndex = 0;
-let currentHistoryPath: string[] = [];
+const navigationSession = Math.random();
+const HISTORY_KEY = 'kidsplayNav';
+let currentHistory: AppHistoryState = { s: navigationSession, i: 0, p: [] };
 
 export const NATIVE_APP_BACK_EVENT = 'kidsplay:system-back';
-
-const HISTORY_SESSION_KEY = 'kidsplayNavigationSession';
-const HISTORY_INDEX_KEY = 'kidsplayNavigationIndex';
-const HISTORY_PATH_KEY = 'kidsplayNavigationPath';
-const navigationSessionId = `kidsplay-${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 
 function canUseHistory(): boolean {
   return typeof window !== 'undefined' && Boolean(window.history);
 }
 
-function asHistoryRecord(state: unknown): Record<string, unknown> | null {
-  return state !== null && typeof state === 'object' ? state as Record<string, unknown> : null;
+function readHistoryState(state: unknown): AppHistoryState | null {
+  const nav = state && typeof state === 'object'
+    ? (state as Record<string, unknown>)[HISTORY_KEY] as AppHistoryState | undefined
+    : undefined;
+  return nav?.s === navigationSession && typeof nav.i === 'number' && Array.isArray(nav.p) ? nav : null;
 }
 
-function readHistorySnapshot(state: unknown): AppHistorySnapshot | null {
-  const record = asHistoryRecord(state);
-  if (!record || record[HISTORY_SESSION_KEY] !== navigationSessionId) return null;
-
-  const index = record[HISTORY_INDEX_KEY];
-  const path = record[HISTORY_PATH_KEY];
-  if (typeof index !== 'number' || !Number.isInteger(index) || index < 0) return null;
-  if (!Array.isArray(path) || path.some((key) => typeof key !== 'string')) return null;
-
-  return { index, path: [...path] as string[] };
+function historyState(index: number): AppHistoryState {
+  return { s: navigationSession, i: index, p: layers.map((layer) => layer.key) };
 }
 
-function activePath(): string[] {
-  return layers.map((layer) => layer.key);
-}
-
-function writeHistoryState(
-  method: 'push' | 'replace',
-  index: number,
-  path: string[],
-  layerId: string | null
-): void {
+function replaceHistoryState(): void {
   if (!canUseHistory()) return;
-  const state = {
-    ...(window.history.state ?? {}),
-    [HISTORY_SESSION_KEY]: navigationSessionId,
-    [HISTORY_INDEX_KEY]: index,
-    [HISTORY_PATH_KEY]: path,
-    kidsplayLayer: layerId
-  };
-  if (method === 'push') window.history.pushState(state, '');
-  else window.history.replaceState(state, '');
-  currentHistoryIndex = index;
-  currentHistoryPath = [...path];
+  currentHistory = historyState(readHistoryState(window.history.state)?.i ?? 0);
+  window.history.replaceState({ ...(window.history.state ?? {}), [HISTORY_KEY]: currentHistory }, '');
 }
 
-function syncCurrentHistoryEntry(): void {
-  if (!canUseHistory()) return;
-  const existing = readHistorySnapshot(window.history.state);
-  const index = existing?.index ?? 0;
-  const path = activePath();
-  writeHistoryState('replace', index, path, layers.at(-1)?.id ?? null);
-}
-
-function ensureTrackedHistoryEntry(): void {
-  if (!canUseHistory()) return;
-  const snapshot = readHistorySnapshot(window.history.state);
-  if (snapshot) {
-    currentHistoryIndex = snapshot.index;
-    currentHistoryPath = snapshot.path;
-    return;
-  }
-  syncCurrentHistoryEntry();
-}
-
-function removeLayerById(id: string): void {
-  for (let index = layers.length - 1; index >= 0; index -= 1) {
-    if (layers[index].id !== id) continue;
-    layers.splice(index, 1);
-    return;
-  }
-}
-
-function removeLayerByKey(key: string): void {
-  const index = layers.findIndex((layer) => layer.key === key);
-  if (index >= 0) layers.splice(index, 1);
+function pushHistoryState(): void {
+  currentHistory = historyState(currentHistory.i + 1);
+  window.history.pushState({ ...(window.history.state ?? {}), [HISTORY_KEY]: currentHistory }, '');
 }
 
 function consumeTopLayer(): boolean {
@@ -107,61 +54,39 @@ function consumeTopLayer(): boolean {
   return true;
 }
 
-function consumeRemovedLayers(previousPath: string[], nextPath: string[]): number {
-  const nextKeys = new Set(nextPath);
-  let consumed = 0;
+function handlePopState(event: PopStateEvent): void {
+  const previous = currentHistory;
+  const next = readHistoryState(event.state);
+  currentHistory = next ?? { s: navigationSession, i: 0, p: [] };
 
-  for (let index = previousPath.length - 1; index >= 0; index -= 1) {
-    const key = previousPath[index];
-    if (nextKeys.has(key)) continue;
+  // Forward navigation may revisit an already-closed app entry. Keep the live
+  // UI authoritative instead of popping its current parent.
+  if (next && next.i >= previous.i) return;
+
+  let consumed = false;
+  for (let pathIndex = previous.p.length - 1; pathIndex >= 0; pathIndex -= 1) {
+    const key = previous.p[pathIndex];
+    if (currentHistory.p.includes(key)) continue;
     const layerIndex = layers.findIndex((layer) => layer.key === key);
     if (layerIndex < 0) continue;
     const [layer] = layers.splice(layerIndex, 1);
     layer.onBack();
-    consumed += 1;
+    consumed = true;
   }
 
-  return consumed;
-}
+  if (consumed || layers.length === 0) return;
 
-function handlePopState(event: PopStateEvent): void {
-  const previousIndex = currentHistoryIndex;
-  const previousPath = currentHistoryPath;
-  const nextSnapshot = readHistorySnapshot(event.state);
-  const nextIndex = nextSnapshot?.index ?? 0;
-  const nextPath = nextSnapshot?.path ?? [];
-  const movingBackward = nextSnapshot === null || nextIndex < previousIndex;
-
-  currentHistoryIndex = nextIndex;
-  currentHistoryPath = nextPath;
-
-  // Forward navigation must never close a currently visible app node. We do
-  // not reconstruct already-closed app surfaces when the browser moves
-  // forward; the current UI remains authoritative.
-  if (!movingBackward) return;
-
-  const consumed = consumeRemovedLayers(previousPath, nextPath);
-  if (consumed > 0 || layers.length === 0) return;
-
-  // A programmatically released/replaced layer can leave an older browser
-  // history entry behind. Skip such stale entries automatically so one
-  // Back/Escape/system-Back gesture still removes exactly one *live* node.
-  if (nextSnapshot && nextIndex > 0) {
-    window.history.back();
-    return;
-  }
-
-  // Defensive recovery: if a live layer somehow is no longer represented in
-  // browser history, close it in-memory rather than navigating away from the
-  // app while a child surface is still visible.
-  consumeTopLayer();
+  // Released/replaced nodes can leave stale browser entries. Skip them so a
+  // single Back gesture still removes exactly one live app node.
+  if (next && next.i > 0) window.history.back();
+  else consumeTopLayer();
 }
 
 /** One shared browser/native Back bridge, installed once by the app shell. */
 export function installAppBackNavigation(): () => void {
   if (!canUseHistory() || listenersInstalled) return () => {};
   listenersInstalled = true;
-  syncCurrentHistoryEntry();
+  replaceHistoryState();
 
   const handleKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== 'Escape' || event.defaultPrevented || layers.length === 0) return;
@@ -170,8 +95,6 @@ export function installAppBackNavigation(): () => void {
   };
   const handleNativeBack = (event: Event): void => {
     if (layers.length === 0) return;
-    // Native dispatchEvent returns false only for a cancelled event. At Home
-    // leave it uncancelled so Android retains its normal root Back behaviour.
     event.preventDefault();
     requestAppBack();
   };
@@ -185,38 +108,31 @@ export function installAppBackNavigation(): () => void {
     window.removeEventListener(NATIVE_APP_BACK_EVENT, handleNativeBack);
     listenersInstalled = false;
     layers.length = 0;
-    currentHistoryIndex = 0;
-    currentHistoryPath = [];
+    currentHistory = { s: navigationSession, i: 0, p: [] };
   };
 }
 
-/**
- * Add one child node to the current app navigation path.
- *
- * A layer never destroys its parent. If the visible path is
- * Home -> Play -> Topic -> Activity, Back/Escape/system Back always removes
- * exactly Activity first, then Topic, then Play. Callers decide when a true
- * sibling/root switch should release an older layer explicitly.
- */
+/** Add one child node without destroying its parent. */
 export function pushAppBackLayer(id: string, onBack: AppBackHandler): () => void {
   if (!canUseHistory()) return () => {};
-  ensureTrackedHistoryEntry();
+  if (!readHistoryState(window.history.state)) replaceHistoryState();
 
-  // Preserve the public id as a semantic label, but make each concrete layer
-  // unique. An old disposer must never be able to remove a newer layer that
-  // happens to reuse the same semantic id.
-  removeLayerById(id);
-  const key = `${navigationSessionId}:${++layerSequence}:${id}`;
+  for (let index = layers.length - 1; index >= 0; index -= 1) {
+    if (layers[index].id !== id) continue;
+    layers.splice(index, 1);
+    break;
+  }
+
+  const key = ++layerSequence;
   layers.push({ id, key, onBack });
-
-  const nextIndex = currentHistoryIndex + 1;
-  writeHistoryState('push', nextIndex, activePath(), id);
+  pushHistoryState();
 
   let released = false;
   return () => {
     if (released) return;
     released = true;
-    removeLayerByKey(key);
+    const index = layers.findIndex((layer) => layer.key === key);
+    if (index >= 0) layers.splice(index, 1);
   };
 }
 
@@ -228,20 +144,12 @@ export function enterAppSessionLayer(id: string, onBack: AppBackHandler): () => 
 /** Visible Back controls do not own a separate navigation path. */
 export function requestAppBack(fallback?: AppBackHandler): boolean {
   if (canUseHistory() && layers.length > 0) {
-    ensureTrackedHistoryEntry();
+    const current = readHistoryState(window.history.state);
     const top = layers.at(-1);
-    const snapshot = readHistorySnapshot(window.history.state);
-
-    if (top && snapshot?.path.includes(top.key) && snapshot.index > 0) {
-      window.history.back();
-    } else {
-      // The browser entry is stale or foreign. Keep the visible app tree
-      // correct instead of allowing Back to leave the app unexpectedly.
-      consumeTopLayer();
-    }
+    if (current && top && current.p.includes(top.key) && current.i > 0) window.history.back();
+    else consumeTopLayer();
     return true;
   }
-
   fallback?.();
   return false;
 }
