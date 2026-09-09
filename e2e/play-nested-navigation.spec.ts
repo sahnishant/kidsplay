@@ -76,6 +76,27 @@ test.describe('Play navigation tree', () => {
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
   });
 
+  test('browser Forward never consumes the still-live parent node', async ({ page }) => {
+    await openCleanApp(page);
+    await openPlay(page);
+
+    await page.getByRole('button', { name: 'Open chapter' }).click();
+    await expect(page.getByRole('heading', { name: 'Bicycle Workshop', exact: true })).toBeVisible();
+
+    await page.goBack();
+    await expectPlay(page);
+
+    // Forward revisits the browser entry for an app node that was already
+    // closed. It must not pop the live Play parent or reopen stale UI.
+    await page.goForward();
+    await expectPlay(page);
+
+    // The stale child entry is skipped internally: one Escape still removes
+    // exactly the live Play node and returns to Home.
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
+  });
+
   test('deep Play descendants unwind exactly one tree node at a time', async ({ page }) => {
     test.setTimeout(120_000);
     await openCleanApp(page);
