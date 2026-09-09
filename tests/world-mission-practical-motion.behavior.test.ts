@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const source = (relativePath: string) => readFileSync(path.join(root, relativePath), 'utf8');
+const source = (relativePath: string) => readFileSync(path.join(root, relativePath), 'utf8').replace(/\r\n/g, '\n');
 
 describe('world mission practical motion', () => {
   const dispatcher = source('src/ui/ForestWorldDepthViewport.svelte');
@@ -94,7 +94,7 @@ describe('world mission practical motion', () => {
 
   it('keeps Busy Grove mobile sort targets separated and touchable', () => {
     expect(grove).toContain('@media(max-width:420px)');
-    expect(grove).toContain('.compost{left:48%}.compost-slot{left:44%}');
+    expect(grove).toContain('.compost{left:48%}.compost-slot{left:43%;width:96px}');
     expect(grove).toContain('.bag-slot{right:2%');
     expect(grove).toContain('.roof-slot,.perch-slot,.feeder-slot{min-height:54px}');
     expect(forestE2eHelper).toContain("const forestWorldRoot = ':is(.forest-depth, .grove-depth)';");
