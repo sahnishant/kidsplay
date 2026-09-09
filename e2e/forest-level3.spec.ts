@@ -96,7 +96,7 @@ test('Forest Explorer Level 3 restores a habitat through real scene work and per
   await page.getByRole('button', { name: /See the restored grove/i }).click();
 
   await expect(page.getByText('Forest depth complete · next world available')).toBeVisible();
-  await expect(page.getByText(/butterflies return to the restored grove/i)).toBeVisible();
+  await expect(page.locator('.completion-copy').getByText(/butterflies return to the restored grove/i)).toBeVisible();
   await expect(page.getByText(/replaying the mission cannot farm another reward/i)).toHaveCount(0);
   await expectAllForestButtonsTouchable(page, 'Level 3 completion');
   await expectForestSurfaceFits(page, 'Level 3 completion');
