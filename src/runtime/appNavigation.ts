@@ -12,24 +12,25 @@ interface AppHistoryState {
   p: number[];
 }
 
+interface BrowserState {
+  kp?: AppHistoryState;
+}
+
 const layers: AppBackLayer[] = [];
 let listenersInstalled = false;
 let layerSequence = 0;
 const navigationSession = Math.random();
-const HISTORY_KEY = 'kidsplayNav';
 let currentHistory: AppHistoryState = { s: navigationSession, i: 0, p: [] };
 
 export const NATIVE_APP_BACK_EVENT = 'kidsplay:system-back';
 
 function canUseHistory(): boolean {
-  return typeof window !== 'undefined' && Boolean(window.history);
+  return typeof window !== 'undefined';
 }
 
 function readHistoryState(state: unknown): AppHistoryState | null {
-  const nav = state && typeof state === 'object'
-    ? (state as Record<string, unknown>)[HISTORY_KEY] as AppHistoryState | undefined
-    : undefined;
-  return nav?.s === navigationSession && typeof nav.i === 'number' && Array.isArray(nav.p) ? nav : null;
+  const nav = (state as BrowserState | null)?.kp;
+  return nav?.s === navigationSession ? nav : null;
 }
 
 function historyState(index: number): AppHistoryState {
@@ -37,21 +38,17 @@ function historyState(index: number): AppHistoryState {
 }
 
 function replaceHistoryState(): void {
-  if (!canUseHistory()) return;
   currentHistory = historyState(readHistoryState(window.history.state)?.i ?? 0);
-  window.history.replaceState({ ...(window.history.state ?? {}), [HISTORY_KEY]: currentHistory }, '');
+  window.history.replaceState({ kp: currentHistory }, '');
 }
 
 function pushHistoryState(): void {
   currentHistory = historyState(currentHistory.i + 1);
-  window.history.pushState({ ...(window.history.state ?? {}), [HISTORY_KEY]: currentHistory }, '');
+  window.history.pushState({ kp: currentHistory }, '');
 }
 
-function consumeTopLayer(): boolean {
-  const layer = layers.pop();
-  if (!layer) return false;
-  layer.onBack();
-  return true;
+function consumeTopLayer(): void {
+  layers.pop()?.onBack();
 }
 
 function handlePopState(event: PopStateEvent): void {
@@ -59,8 +56,7 @@ function handlePopState(event: PopStateEvent): void {
   const next = readHistoryState(event.state);
   currentHistory = next ?? { s: navigationSession, i: 0, p: [] };
 
-  // Forward navigation may revisit an already-closed app entry. Keep the live
-  // UI authoritative instead of popping its current parent.
+  // Forward can revisit an already-closed entry; the live UI remains authoritative.
   if (next && next.i >= previous.i) return;
 
   let consumed = false;
@@ -69,15 +65,13 @@ function handlePopState(event: PopStateEvent): void {
     if (currentHistory.p.includes(key)) continue;
     const layerIndex = layers.findIndex((layer) => layer.key === key);
     if (layerIndex < 0) continue;
-    const [layer] = layers.splice(layerIndex, 1);
-    layer.onBack();
+    layers.splice(layerIndex, 1)[0].onBack();
     consumed = true;
   }
 
-  if (consumed || layers.length === 0) return;
+  if (consumed || !layers.length) return;
 
-  // Released/replaced nodes can leave stale browser entries. Skip them so a
-  // single Back gesture still removes exactly one live app node.
+  // Skip stale released/replaced entries so one Back gesture removes one live node.
   if (next && next.i > 0) window.history.back();
   else consumeTopLayer();
 }
@@ -89,12 +83,12 @@ export function installAppBackNavigation(): () => void {
   replaceHistoryState();
 
   const handleKeyDown = (event: KeyboardEvent): void => {
-    if (event.key !== 'Escape' || event.defaultPrevented || layers.length === 0) return;
+    if (event.key !== 'Escape' || event.defaultPrevented || !layers.length) return;
     event.preventDefault();
     requestAppBack();
   };
   const handleNativeBack = (event: Event): void => {
-    if (layers.length === 0) return;
+    if (!layers.length) return;
     event.preventDefault();
     requestAppBack();
   };
@@ -117,11 +111,8 @@ export function pushAppBackLayer(id: string, onBack: AppBackHandler): () => void
   if (!canUseHistory()) return () => {};
   if (!readHistoryState(window.history.state)) replaceHistoryState();
 
-  for (let index = layers.length - 1; index >= 0; index -= 1) {
-    if (layers[index].id !== id) continue;
-    layers.splice(index, 1);
-    break;
-  }
+  const duplicate = layers.findIndex((layer) => layer.id === id);
+  if (duplicate >= 0) layers.splice(duplicate, 1);
 
   const key = ++layerSequence;
   layers.push({ id, key, onBack });
@@ -143,7 +134,7 @@ export function enterAppSessionLayer(id: string, onBack: AppBackHandler): () => 
 
 /** Visible Back controls do not own a separate navigation path. */
 export function requestAppBack(fallback?: AppBackHandler): boolean {
-  if (canUseHistory() && layers.length > 0) {
+  if (canUseHistory() && layers.length) {
     const current = readHistoryState(window.history.state);
     const top = layers.at(-1);
     if (current && top && current.p.includes(top.key) && current.i > 0) window.history.back();
