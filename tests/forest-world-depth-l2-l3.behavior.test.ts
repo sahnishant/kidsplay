@@ -60,6 +60,21 @@ describe('Forest Explorer L2/L3 world depth', () => {
     expect(proof.map((item) => item.definition.operation)).toEqual(expect.arrayContaining(['repair_restore', 'connect_parts']));
   });
 
+  it('keeps guided-practice retry semantics out of world-action authority while assembly owns its own retry', () => {
+    const adventures = getForestWorldDepthAdventures();
+    const steps = adventures.flatMap((adventure) => adventure.steps);
+    expect(steps.filter((step) => step.worldAction.evidenceClass !== 'evaluative')
+      .every((step) => step.worldAction.retryPolicy === 'not_applicable')).toBe(true);
+
+    const groveSort = adventures
+      .find((adventure) => adventure.adventureRef === 'forest.world-depth.l3.grove-return')!
+      .steps.find((step) => step.id === 'forest.l3.step.sort-feeding-place')!;
+    expect(groveSort.worldAction.evidenceClass).toBe('guided_practice');
+    expect(groveSort.worldAction.retryPolicy).toBe('not_applicable');
+    expect(groveSort.assembly?.operation).toBe('place_part_in_slot');
+    expect(groveSort.assembly?.retryPolicy).toBe('reset_for_retry_preserve_first_attempt');
+  });
+
   it('preserves first-attempt failure through honest in-place assembly retry and auto-submits final placement', () => {
     const definition = getForestAssemblyProof()[0].definition;
     const firstPart = definition.parts[0].partId;

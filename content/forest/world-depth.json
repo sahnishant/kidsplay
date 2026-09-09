@@ -239,6 +239,28 @@
             "targetSemanticRefs": ["semantic.forest.feeder", "semantic.forest.compost-pile", "semantic.forest.litter-bag"],
             "evidenceClass": "guided_practice",
             "retryPolicy": "not_applicable"
+          },
+          "assembly": {
+            "schemaVersion": 1,
+            "assemblyId": "assembly.forest.l3.feeding-sort",
+            "operation": "place_part_in_slot",
+            "orderMode": "unordered",
+            "parts": [
+              {"partId": "part.grove.seed-food", "semanticRef": "semantic.forest.seed-food"},
+              {"partId": "part.grove.leaf-litter", "semanticRef": "semantic.forest.leaf-litter"},
+              {"partId": "part.grove.wrapper", "semanticRef": "semantic.forest.wrapper"}
+            ],
+            "slots": [
+              {"slotId": "slot.grove.feeder", "semanticRef": "semantic.forest.feeder"},
+              {"slotId": "slot.grove.compost", "semanticRef": "semantic.forest.compost-pile"},
+              {"slotId": "slot.grove.litter-bag", "semanticRef": "semantic.forest.litter-bag"}
+            ],
+            "requiredAssignments": [
+              {"partId": "part.grove.seed-food", "slotId": "slot.grove.feeder"},
+              {"partId": "part.grove.leaf-litter", "slotId": "slot.grove.compost"},
+              {"partId": "part.grove.wrapper", "slotId": "slot.grove.litter-bag"}
+            ],
+            "retryPolicy": "reset_for_retry_preserve_first_attempt"
           }
         },
         {

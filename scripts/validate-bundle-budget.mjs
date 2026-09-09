@@ -31,13 +31,20 @@ const budgets = {
   // illustrated square, five visible world-state changes and richer assembly/guided/
   // cause-effect presentation. CI measures 920.0 KiB raw; admit +9 KiB for this lazy
   // world route while retaining an independent Town JS/CSS ceiling below.
+  // #283 replaces button-only Town/Quiet Creek actions with direct spatial dragging,
+  // three-stage road motion and three-target watering. CI measures 923.8 KiB raw;
+  // admit a bounded +4 KiB while the affected lazy routes remain independently capped.
+  // Human review then exposed the untouched Forest L3 fallback. The separately lazy
+  // Busy Grove practical scene measures 942.2 KiB total JS on CI, +18.4 KiB over the
+  // prior head. Admit +20 KiB, leaving only ~2.8 KiB reviewed total-JS headroom.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9 + 4 + 20) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
-  // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
-  // keep the adjustment bounded to +0.5 KiB rather than broadening route budgets.
-  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.5) * 1024,
+  // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB.
+  // Splitting Forest L3 into its own lazy renderer perturbs shared dispatcher/content
+  // compression by another ~0.1 KiB (168.6 measured); admit only +0.25 KiB here.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.75) * 1024,
   // #281 also upgrades the generic Forest world-depth fallback through the existing
   // global forestSessionPolish.css rather than shipping a second duplicate renderer.
   // CI measures 105.7 KiB core CSS; keep a narrow reviewed 107 KiB ceiling.
@@ -63,13 +70,19 @@ const lazyRouteBudgets = [
   { prefix: 'studioWordProjection-', maxJsGzipBytes: 1.5 * 1024, maxCssBytes: 0 },
   { prefix: 'EqualParts-', maxJsGzipBytes: 4 * 1024, maxCssBytes: 3 * 1024 },
   { prefix: 'ForestWorldDepthViewport-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
-  // Quiet Creek plus the generic Forest mission presentation now measures 13.1 KiB
-  // CSS after the visual-workbench pass. Keep only 0.4 KiB reviewed headroom.
-  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6 * 1024, maxCssBytes: 13.5 * 1024 },
+  // #283 keeps Forest world actions lazy but adds direct fallen-branch dragging,
+  // a bank target, a movable watering can and three independently watered saplings.
+  // CI measures 6.0 KiB gzip / 16.1 KiB CSS; keep only narrow measured headroom.
+  { prefix: 'ForestWorldDepthMissionViewport-', maxJsGzipBytes: 6.5 * 1024, maxCssBytes: 16.75 * 1024 },
+  // Forest L3 is no longer allowed to fall through to the generic button renderer.
+  // Exact-head CI measures this direct shelter/sort/feed/water scene at 5.5 KiB gzip
+  // / 17.0 KiB CSS, so keep only narrow route-specific headroom.
+  { prefix: 'ForestGroveMissionViewport-', maxJsGzipBytes: 5.75 * 1024, maxCssBytes: 17.5 * 1024 },
   // Town Square now carries one persistent illustrated world instead of a flat status
   // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
-  // CI measures 7.8 KiB JS gzip / 27.7 KiB CSS; keep narrow reviewed headroom here.
-  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.25 * 1024, maxCssBytes: 29 * 1024 },
+  // The reviewed rain-channel gate adds the accessible tap-select/tap-bank fallback;
+  // exact-head CI measures ~8.4 KiB gzip, so admit only +0.25 KiB route headroom.
+  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.5 * 1024, maxCssBytes: 29 * 1024 },
   { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'StoriesViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 3 * 1024 },
