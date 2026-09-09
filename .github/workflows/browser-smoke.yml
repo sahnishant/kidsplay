@@ -39,6 +39,14 @@ jobs:
       - name: Install Chromium
         shell: bash
         run: |
+          # GitHub's Ubuntu image also carries the Google Chrome apt source. Playwright
+          # does not need it, and an out-of-sync Chrome mirror must not block Chromium.
+          for source in /etc/apt/sources.list.d/*; do
+            if sudo grep -q 'dl.google.com/linux/chrome' "$source" 2>/dev/null; then
+              sudo rm -f "$source"
+            fi
+          done
+          sudo rm -rf /var/lib/apt/lists/*
           for attempt in 1 2 3; do
             if npx playwright install --with-deps chromium; then
               exit 0
