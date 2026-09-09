@@ -58,6 +58,12 @@ test('Forest Explorer Level 3 restores a habitat through real scene work and per
 
   // 2. Sort actual scattered objects into their real grove destinations.
   await expect(page.getByRole('heading', { name: /Sort the feeding place/ })).toBeVisible();
+  const compostBox = await page.locator('[data-grove-slot="slot.grove.compost"]').boundingBox();
+  const bagBox = await page.locator('[data-grove-slot="slot.grove.litter-bag"]').boundingBox();
+  expect(compostBox, 'compost target should have a measurable box').not.toBeNull();
+  expect(bagBox, 'litter bag target should have a measurable box').not.toBeNull();
+  expect(compostBox!.x + compostBox!.width, 'compost and litter bag targets must not overlap at 360px').toBeLessThanOrEqual(bagBox!.x);
+
   await page.locator('[data-part="part.grove.seed-food"]').click();
   await page.locator('[data-grove-slot="slot.grove.feeder"]').click();
   await page.locator('[data-part="part.grove.leaf-litter"]').click();
