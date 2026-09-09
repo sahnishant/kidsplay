@@ -28,3 +28,7 @@
     <ForestWorldDepthMissionViewport {mission} {childName} {onComplete} {onExit} />
   {/await}
 {/if}
+
+<style>
+  @media(max-width:420px){:global(.grove-depth .compost-slot){left:43%;width:96px}}
+</style>
