@@ -17,14 +17,14 @@ describe('app navigation history bridge', () => {
   let cleanup: () => void;
 
   beforeEach(() => {
-    window.history.replaceState({}, '', '/');
+    window.history.replaceState({}, '');
     cleanup = installAppBackNavigation();
   });
 
   afterEach(() => {
     cleanup();
     vi.restoreAllMocks();
-    window.history.replaceState({}, '', '/');
+    window.history.replaceState({}, '');
   });
 
   it('consumes only the child when browser Back returns to its parent entry', () => {
@@ -95,7 +95,7 @@ describe('app navigation history bridge', () => {
     const historyBack = vi.spyOn(window.history, 'back').mockImplementation(() => {});
 
     pushAppBackLayer('child', layerBack);
-    window.history.replaceState({}, '', '/');
+    window.history.replaceState({}, '');
 
     expect(requestAppBack()).toBe(true);
     expect(layerBack).toHaveBeenCalledTimes(1);
