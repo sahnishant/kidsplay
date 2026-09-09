@@ -48,6 +48,10 @@ describe('world mission practical motion', () => {
     expect(town).toContain('onpointerdown={(event) => beginAssemblyDrag(event, part.partId)}');
     expect(town).toContain('data-rain-target="clear-bank"');
     expect(town).toContain('onpointerup={endRainDrag}');
+    expect(town).toContain('function pickRain(): void');
+    expect(town).toContain("stepComplete || !rainPicked) return;");
+    expect(town).toContain('onclick={pickRain}');
+    expect(town).toContain('aria-label="Dry bank. Put the leaves here."');
     expect(town).toContain('@keyframes water-rush');
   });
 
@@ -70,6 +74,12 @@ describe('world mission practical motion', () => {
     expect(grove).toContain('wateredPatches.length');
     expect(grove).toContain('No “do it for me” action button. Move the actual object in the grove.');
     expect(grove).not.toContain('onclick={performWorldAction}');
+  });
+
+  it('keeps Busy Grove mobile sort targets separated', () => {
+    expect(grove).toContain('@media(max-width:420px)');
+    expect(grove).toContain('.compost{left:48%}.compost-slot{left:44%}');
+    expect(grove).toContain('.bag-slot{right:2%');
   });
 
   it('makes grove consequences visibly happen in the same scene', () => {
