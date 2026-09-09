@@ -35,9 +35,10 @@ const budgets = {
   maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
-  // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB;
-  // keep the adjustment bounded to +0.5 KiB rather than broadening route budgets.
-  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.5) * 1024,
+  // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB.
+  // The generic parent/child navigation history bridge measures 168.5 KiB core;
+  // admit only +0.25 KiB so the navigation contract remains independently bounded.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.75) * 1024,
   // #281 also upgrades the generic Forest world-depth fallback through the existing
   // global forestSessionPolish.css rather than shipping a second duplicate renderer.
   // CI measures 105.7 KiB core CSS; keep a narrow reviewed 107 KiB ceiling.
