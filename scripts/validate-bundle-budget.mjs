@@ -80,8 +80,9 @@ const lazyRouteBudgets = [
   { prefix: 'ForestGroveMissionViewport-', maxJsGzipBytes: 5.75 * 1024, maxCssBytes: 17.5 * 1024 },
   // Town Square now carries one persistent illustrated world instead of a flat status
   // grid, and renders assembly, guided-sequence and cause/effect jobs as visual actions.
-  // #283 remains inside the existing Town ceiling at ~8.2 KiB gzip / 23.7 KiB CSS.
-  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.25 * 1024, maxCssBytes: 29 * 1024 },
+  // The reviewed rain-channel gate adds the accessible tap-select/tap-bank fallback;
+  // exact-head CI measures ~8.4 KiB gzip, so admit only +0.25 KiB route headroom.
+  { prefix: 'TownWorldDepthViewport-', maxJsGzipBytes: 8.5 * 1024, maxCssBytes: 29 * 1024 },
   { prefix: 'assemblyInteraction-', maxJsGzipBytes: 2.5 * 1024, maxCssBytes: 0 },
   { prefix: 'FirstPlayViewport-', maxJsGzipBytes: 5 * 1024, maxCssBytes: 1 * 1024 },
   { prefix: 'StoriesViewport-', maxJsGzipBytes: 7 * 1024, maxCssBytes: 3 * 1024 },
