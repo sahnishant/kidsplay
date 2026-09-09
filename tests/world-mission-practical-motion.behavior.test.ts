@@ -11,6 +11,7 @@ describe('world mission practical motion', () => {
   const town = source('src/ui/TownWorldDepthViewport-Practical.svelte');
   const grove = source('src/ui/ForestGroveMissionViewport.svelte');
   const forestDepth = source('content/forest/world-depth.json');
+  const forestE2eHelper = source('e2e/helpers/forestWorldDepth.ts');
 
   it('routes Town, Quiet Creek and Busy Grove through practical world viewports', () => {
     expect(dispatcher).toContain("import('./TownWorldDepthViewport-Practical.svelte')");
@@ -55,6 +56,21 @@ describe('world mission practical motion', () => {
     expect(town).toContain('@keyframes water-rush');
   });
 
+  it('keeps the final Town consequence on screen until the child chooses to continue', () => {
+    expect(town).toContain('if (completedCount === adventure.steps.length) {\n      stepIndex = adventure.steps.length;\n      return;\n    }');
+    expect(town).toContain("completedCount === adventure.steps.length ? 'See changed town' : 'Next town job'");
+    expect(town).not.toContain('onComplete(`session.${mission.id}.world-action.v1`);\n      stepIndex = adventure.steps.length;');
+  });
+
+  it('keeps Town direct-manipulation controls child-sized on the phone layout', () => {
+    expect(town).toContain('.crossing-node{left:29%;bottom:2%;transform:scale(.75)');
+    expect(town).toContain('.parcel-node .help-table{height:55px}');
+    expect(town).toContain('.parcel-node .parcel{width:55px;height:55px}');
+    expect(town).toContain('.rain-node{right:6%;bottom:0;transform:scale(.9)');
+    expect(town).toContain('.rain-node .leaf-blockage{min-width:50px;min-height:50px}');
+    expect(town).toContain('.rain-node .rain-bank-target{width:50px;height:50px}');
+  });
+
   it('makes every Busy Grove job manipulate an object in the scene rather than pressing an action button', () => {
     expect(grove).toContain('data-grove-slot="slot.shelter-top"');
     expect(grove).toContain('data-grove-slot="slot.shelter-front"');
@@ -76,10 +92,19 @@ describe('world mission practical motion', () => {
     expect(grove).not.toContain('onclick={performWorldAction}');
   });
 
-  it('keeps Busy Grove mobile sort targets separated', () => {
+  it('keeps Busy Grove mobile sort targets separated and touchable', () => {
     expect(grove).toContain('@media(max-width:420px)');
     expect(grove).toContain('.compost{left:48%}.compost-slot{left:44%}');
     expect(grove).toContain('.bag-slot{right:2%');
+    expect(grove).toContain('.roof-slot,.perch-slot,.feeder-slot{min-height:54px}');
+    expect(forestE2eHelper).toContain("const forestWorldRoot = ':is(.forest-depth, .grove-depth)';");
+    expect(forestE2eHelper).toContain('page.locator(`${forestWorldRoot} button:visible`)');
+    expect(forestE2eHelper).toContain('page.locator(`${forestWorldRoot} *`)');
+  });
+
+  it('does not let a post-drag click immediately reselect the just-dropped piece', () => {
+    expect(town).toContain('setTimeout(() => {\n      if (suppressPartClick === ended.partId) suppressPartClick = null;\n    }, 0);');
+    expect(grove).toContain('setTimeout(() => {\n      if (suppressPartClick === ended.partId) suppressPartClick = null;\n    }, 0);');
   });
 
   it('makes grove consequences visibly happen in the same scene', () => {
