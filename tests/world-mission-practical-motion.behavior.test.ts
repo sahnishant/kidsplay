@@ -94,7 +94,8 @@ describe('world mission practical motion', () => {
 
   it('keeps Busy Grove mobile sort targets separated and touchable', () => {
     expect(grove).toContain('@media(max-width:420px)');
-    expect(grove).toContain('.compost{left:48%}.compost-slot{left:43%;width:96px}');
+    expect(grove).toContain('.compost{left:48%}.compost-slot{left:44%}');
+    expect(dispatcher).toContain(':global(.grove-depth .compost-slot){left:43%;width:96px}');
     expect(grove).toContain('.bag-slot{right:2%');
     expect(grove).toContain('.roof-slot,.perch-slot,.feeder-slot{min-height:54px}');
     expect(forestE2eHelper).toContain("const forestWorldRoot = ':is(.forest-depth, .grove-depth)';");
