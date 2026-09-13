@@ -1,12 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 
-async function openClean(page: import('@playwright/test').Page, path: string): Promise<void> {
+async function openClean(page: Page, path: string): Promise<void> {
   await page.goto(path);
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
 }
 
-async function expectNoHorizontalOverflow(page: import('@playwright/test').Page): Promise<void> {
+async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   const dimensions = await page.evaluate(() => ({
     width: document.documentElement.scrollWidth,
     viewport: document.documentElement.clientWidth
@@ -32,9 +32,13 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.locator('[data-nav100-lane="stories"]')).toContainText('Stories');
     await expect(page.getByRole('button', { name: /Browse all/ })).toBeVisible();
     await expectNoHorizontalOverflow(page);
+
+    await page.goto('/');
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
+    await expect(page.locator('[data-nav100-prototype="true"]')).toHaveCount(0);
   });
 
-  test('browse finds Bicycle and Escape returns launch to browse then home', async ({ page }) => {
+  test('browse finds Bicycle and browser Back returns launch to browse', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openClean(page, '/?nav100=1');
 
@@ -46,7 +50,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await bicycle.click();
     await expect(page.getByRole('heading', { name: 'Bicycle Workshop' })).toBeVisible();
 
-    await page.keyboard.press('Escape');
+    await page.goBack();
     await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
