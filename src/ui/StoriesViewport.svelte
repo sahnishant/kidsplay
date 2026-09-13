@@ -18,7 +18,7 @@
   import { loadChildAudioPreferences, saveChildAudioPreferences } from '../runtime/childAudio';
   import { cancelChildUtterance, playChildUtterance } from '../runtime/childAudioProduction';
 
-  let { onExit }: { onExit: () => void } = $props();
+  let { onExit, initialStoryId }: { onExit: () => void; initialStoryId?: string } = $props();
   let catalog = $state<StoryManifest[]>([]);
   let store = $state<StoryReadingStore>({ version: 1, currentStoryId: null, states: {} });
   let activeStoryId = $state<string | null>(null);
@@ -41,7 +41,9 @@
         if (!alive) return;
         catalog = loaded;
         store = loadStoryReadingStore(loaded);
-        activeStoryId = store.currentStoryId;
+        const requested = initialStoryId ? loaded.find((story) => story.storyId === initialStoryId) : undefined;
+        if (requested) persist(requested, store.states[requested.storyId] ?? createInitialStoryReadingState(requested));
+        else activeStoryId = store.currentStoryId;
       })
       .catch(() => {
         if (alive) loadError = 'Stories could not be opened from this installation.';
@@ -73,6 +75,7 @@
     persist(story, store.states[story.storyId] ?? createInitialStoryReadingState(story));
   }
   function closeStory(): void { cancelChildUtterance(); audioStatus = ''; activeStoryId = null; }
+  function leaveReader(): void { if (initialStoryId) onExit(); else closeStory(); }
   function move(delta: -1 | 1): void {
     const story = activeStory(); const state = readingState();
     if (!story || !state) return;
@@ -127,7 +130,7 @@
     {@const index = beatIndex()}
     {@const beat = story.beats[index]}
     <header class="topbar">
-      <button class="icon" type="button" aria-label="Back to stories" onclick={closeStory}>←</button>
+      <button class="icon" type="button" aria-label={initialStoryId ? 'Back to navigation' : 'Back to stories'} onclick={leaveReader}>←</button>
       <div class="title"><small>STORY TIME</small><h1>{story.childTitle}</h1></div>
       <button class="icon" type="button" aria-label={state.favourite ? 'Remove from favourites' : 'Add to favourites'} aria-pressed={state.favourite} onclick={toggleFavourite}>{state.favourite ? '♥' : '♡'}</button>
       <button class="icon" type="button" aria-label={audioEnabled ? 'Turn sound off' : 'Turn sound on'} aria-pressed={audioEnabled} onclick={toggleSound}>{audioEnabled ? '🔊' : '🔇'}</button>
