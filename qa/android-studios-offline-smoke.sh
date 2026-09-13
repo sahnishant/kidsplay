@@ -41,9 +41,29 @@ PY
   return 1
 }
 
+has_studio_label_once() {
+  local needle="$1"
+  local xml="$OUT_DIR/studio-nav-ui.xml"
+  local remote="/sdcard/kidsplay-studio-nav-ui.xml"
+  adb shell uiautomator dump --compressed "$remote" >/dev/null 2>&1 || return 1
+  adb pull "$remote" "$xml" >/dev/null 2>&1 || return 1
+  NEEDLE="$needle" XML_PATH="$xml" python3 - <<'PY'
+import os, xml.etree.ElementTree as ET
+root = ET.parse(os.environ['XML_PATH']).getroot()
+needle = os.environ['NEEDLE'].casefold()
+for node in root.iter('node'):
+    label = ' '.join((node.attrib.get('text',''), node.attrib.get('content-desc',''))).casefold()
+    if needle in label and node.attrib.get('enabled') != 'false':
+        raise SystemExit(0)
+raise SystemExit(1)
+PY
+}
+
 open_fraction_studio_from_home() {
-  # A native PID does not establish that the WebView Home is ready for input.
-  # Match the Stories precondition rather than sending scrolls during startup.
+  # A native PID and an accessibility node can appear slightly before the
+  # hydrated WebView is ready to run a Svelte click handler after force-stop.
+  # Require the real compact menu to visibly open and retry the human tap if
+  # the first early tap was ignored; never inject DOM or application state.
   assert_label "Open child navigation" || {
     # Preserve the failed launch instead of dismissing a system ANR or retrying
     # the app. Diagnostics are bounded and cannot turn this failure into a pass.
@@ -53,7 +73,26 @@ open_fraction_studio_from_home() {
     echo "Studio Home readiness failed; startup diagnostics retained." >&2
     return 1
   }
-  tap_label "Open child navigation"
+
+  local menu_open=""
+  for _ in $(seq 1 6); do
+    if has_studio_label_once "Open practice activities"; then
+      menu_open="1"
+      break
+    fi
+    tap_label "Open child navigation"
+    sleep 1
+    if has_studio_label_once "Open practice activities"; then
+      menu_open="1"
+      break
+    fi
+    sleep 1
+  done
+  if [ "$menu_open" != "1" ]; then
+    echo "Compact child navigation did not open after bounded real taps." >&2
+    return 1
+  fi
+
   tap_label "Open practice activities" 1
   tap_label "Open Learn About" 1
   tap_label "Learn about Fractions" 1
