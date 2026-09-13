@@ -63,7 +63,7 @@ jobs:
         run: npm run check
 
       - name: Run browser child journeys
-        run: npm run test:e2e:ci -- --timeout=60000
+        run: npm run test:e2e:ci
 
       - name: Assemble exact-checkout illustration contact sheet
         if: always()
