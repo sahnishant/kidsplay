@@ -1,17 +1,22 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import type { ExperienceDiscoveryDescriptor } from '../../experienceDiscovery';
+  import { installAppBackNavigation, pushAppBackLayer, requestAppBack } from '../../runtime/appNavigation';
   import { loadChildSettings } from '../../runtime/localProgress';
   import NavigationPrototypeBrowse from './NavigationPrototypeBrowse.svelte';
   import NavigationPrototypeHome from './NavigationPrototypeHome.svelte';
+  import NavigationPrototypeLaunch from './NavigationPrototypeLaunch.svelte';
 
   const child = loadChildSettings();
   let entries = $state<ExperienceDiscoveryDescriptor[]>([]);
   let loading = $state(true);
   let error = $state<string | null>(null);
-  let message = $state<string | null>(null);
   let view = $state<'home' | 'browse'>('home');
+  let activeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
+  let releaseBrowseBack: (() => void) | null = null;
+  let releaseLaunchBack: (() => void) | null = null;
 
+  onMount(() => installAppBackNavigation());
   onMount(async () => {
     try {
       const { loadCurrentExperienceDiscovery } = await import('../../experienceDiscovery/current');
@@ -23,15 +28,52 @@
     }
   });
 
+  function openBrowse(): void {
+    if (view === 'browse') return;
+    releaseBrowseBack?.();
+    view = 'browse';
+    releaseBrowseBack = pushAppBackLayer('nav100:browse', () => {
+      view = 'home';
+      releaseBrowseBack = null;
+    });
+  }
+
+  function closeBrowse(): void {
+    requestAppBack(() => {
+      view = 'home';
+      releaseBrowseBack = null;
+    });
+  }
+
   function select(entry: ExperienceDiscoveryDescriptor): void {
-    message = `Selected: ${entry.childTitle}. Launch wiring follows in the next small PR.`;
+    if (activeEntry) return;
+    releaseLaunchBack?.();
+    activeEntry = entry;
+    releaseLaunchBack = pushAppBackLayer(`nav100:launch:${entry.canonicalId}`, () => {
+      activeEntry = null;
+      releaseLaunchBack = null;
+    });
+  }
+
+  function closeLaunch(): void {
+    requestAppBack(() => {
+      activeEntry = null;
+      releaseLaunchBack = null;
+    });
   }
 </script>
 
-{#if view === 'browse'}
+{#if activeEntry}
+  <NavigationPrototypeLaunch
+    entry={activeEntry}
+    childName={child.name}
+    childAvatar={child.avatar}
+    onExit={closeLaunch}
+  />
+{:else if view === 'browse'}
   <NavigationPrototypeBrowse
     {entries}
-    onBack={() => view = 'home'}
+    onBack={closeBrowse}
     onSelect={select}
   />
 {:else}
@@ -41,17 +83,6 @@
     {loading}
     {error}
     onSelect={select}
-    onBrowse={() => view = 'browse'}
+    onBrowse={openBrowse}
   />
 {/if}
-
-{#if message}
-  <div class="prototype-message" role="status">
-    {message}
-    <button type="button" onclick={() => message = null}>Close</button>
-  </div>
-{/if}
-
-<style>
-  .prototype-message{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);width:min(520px,calc(100% - 24px));box-sizing:border-box;padding:12px 14px;border-radius:16px;background:#17324d;color:white;display:flex;gap:12px;align-items:center;justify-content:space-between;box-shadow:0 8px 28px rgba(0,0,0,.22);z-index:50}.prototype-message button{min-height:42px;padding:0 14px;border:0;border-radius:12px;background:white;color:#17324d;font:inherit;font-weight:800;cursor:pointer}.prototype-message button:focus-visible{outline:4px solid #ffb02e;outline-offset:2px}@media(max-width:560px){.prototype-message{align-items:stretch;flex-direction:column}.prototype-message button{width:100%}}
-</style>
