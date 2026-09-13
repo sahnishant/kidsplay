@@ -15,7 +15,7 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
 }
 
 test.describe('NAV100 consolidated navigation prototype', () => {
-  test('stays opt-in and exposes five simple child lanes at phone size', async ({ page }) => {
+  test('stays opt-in and exposes five simple child lanes at phone size', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
@@ -32,18 +32,20 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.locator('[data-nav100-lane="stories"]')).toContainText('Stories');
     await expect(page.getByRole('button', { name: /Browse all/ })).toBeVisible();
     await expectNoHorizontalOverflow(page);
+    await page.screenshot({ path: testInfo.outputPath('nav100-home-360x640.png'), fullPage: true });
 
     await page.goto('/');
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
     await expect(page.locator('[data-nav100-prototype="true"]')).toHaveCount(0);
   });
 
-  test('browse finds Bicycle and browser Back returns launch to browse', async ({ page }) => {
+  test('browse finds Bicycle and browser Back returns launch to browse', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openClean(page, '/?nav100=1');
 
     await page.getByRole('button', { name: /Browse all/ }).click();
     await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath('nav100-browse-390x844.png'), fullPage: true });
     await page.getByRole('searchbox').fill('Bicycle');
     const bicycle = page.locator('[data-canonical-id="experience.bicycle-workshop.guided.v1"]');
     await expect(bicycle).toBeVisible();
