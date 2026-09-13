@@ -64,7 +64,7 @@
   {:else}
     <section class="results" aria-label="Available activities">
       {#each visible as entry (entry.canonicalId)}
-        <button class="result-card" type="button" onclick={() => onSelect(entry)}>
+        <button class="result-card" data-canonical-id={entry.canonicalId} type="button" onclick={() => onSelect(entry)}>
           <span class="result-card__copy">
             <small>{kindLabel(entry.kind)}</small>
             <strong>{entry.childTitle}</strong>
