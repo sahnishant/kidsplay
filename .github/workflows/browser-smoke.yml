@@ -65,6 +65,9 @@ jobs:
       - name: Run browser child journeys
         run: npm run test:e2e:ci
 
+      - name: Run NAV100 development-prototype journeys
+        run: npx playwright test --config playwright.nav100.config.ts
+
       - name: Assemble exact-checkout illustration contact sheet
         if: always()
         run: node scripts/qa/studio-art-contact-sheet.mjs
@@ -98,5 +101,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: playwright-browser-smoke-diagnostics
-          path: node_modules/.cache/kidsplay-playwright/results
+          path: |
+            node_modules/.cache/kidsplay-playwright/results
+            node_modules/.cache/kidsplay-playwright/nav100-results
           if-no-files-found: ignore
