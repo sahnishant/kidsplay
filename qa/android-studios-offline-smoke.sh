@@ -48,12 +48,18 @@ has_studio_label_once() {
   adb shell uiautomator dump --compressed "$remote" >/dev/null 2>&1 || return 1
   adb pull "$remote" "$xml" >/dev/null 2>&1 || return 1
   NEEDLE="$needle" XML_PATH="$xml" python3 - <<'PY'
-import os, xml.etree.ElementTree as ET
+import os, re, xml.etree.ElementTree as ET
 root = ET.parse(os.environ['XML_PATH']).getroot()
 needle = os.environ['NEEDLE'].casefold()
 for node in root.iter('node'):
     label = ' '.join((node.attrib.get('text',''), node.attrib.get('content-desc',''))).casefold()
-    if needle in label and node.attrib.get('enabled') != 'false':
+    if needle not in label or node.attrib.get('enabled') == 'false':
+        continue
+    match = re.fullmatch(r'\[(\d+),(\d+)\]\[(\d+),(\d+)\]', node.attrib.get('bounds',''))
+    if not match:
+        continue
+    x1, y1, x2, y2 = map(int, match.groups())
+    if x2 - x1 >= 24 and y2 - y1 >= 24:
         raise SystemExit(0)
 raise SystemExit(1)
 PY
@@ -94,7 +100,38 @@ open_fraction_studio_from_home() {
   fi
 
   tap_label "Open practice activities" 1
-  tap_label "Open Learn About" 1
+
+  # Play is a nested CSS scroll pane, which Android WebView does not expose as
+  # a native scrollable accessibility node. Hardware-key focus traversal is a
+  # real child input path and makes the browser scroll a focused off-screen
+  # button into view. Verify visible bounds after every bounded key press.
+  local learn_about_visible=""
+  for _ in $(seq 1 12); do
+    if has_studio_label_once "Open Learn About"; then
+      learn_about_visible="1"
+      break
+    fi
+    adb shell input keyevent 61 # KEYCODE_TAB
+    sleep 1
+  done
+  # Some Android WebView builds map directional navigation more reliably than
+  # Tab. Keep a second bounded hardware-key path, still with no DOM/state injection.
+  if [ "$learn_about_visible" != "1" ]; then
+    for _ in $(seq 1 10); do
+      if has_studio_label_once "Open Learn About"; then
+        learn_about_visible="1"
+        break
+      fi
+      adb shell input keyevent 20 # KEYCODE_DPAD_DOWN
+      sleep 1
+    done
+  fi
+  if [ "$learn_about_visible" != "1" ]; then
+    echo "Learn About did not become visibly tappable after bounded keyboard navigation." >&2
+    return 1
+  fi
+
+  tap_label "Open Learn About"
   tap_label "Learn about Fractions" 1
   tap_label "Make equal shares" 1
 }

@@ -141,6 +141,8 @@ describe('user-facing product flow', () => {
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Choose a play activity' })).toBeTruthy());
+    await fireEvent.keyDown(window, { key: 'Escape' });
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
   });
 

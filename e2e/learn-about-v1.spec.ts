@@ -62,10 +62,10 @@ test.describe('Learn About V1 production journey', () => {
     expect(await storageSnapshot(page)).toEqual(beforeDiscovery);
 
     await page.getByRole('button', { name: /D2\s*Connect/ }).click();
-    await expect(page.getByText('DID YOU KNOW?').first()).toBeVisible();
-    await expect(page.getByText('COMPARE').first()).toBeVisible();
-    await expect(page.getByText('TRY IT').first()).toBeVisible();
-    await expect(page.getByText('GUESS').first()).toBeVisible();
+    await expect(page.getByText('DID YOU KNOW?', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('COMPARE', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('TRY IT', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('GUESS', { exact: true }).first()).toBeVisible();
     expect(await storageSnapshot(page)).toEqual(beforeDiscovery);
 
     const answerButton = page.getByRole('button', { name: 'Choose an answer' }).first();
@@ -79,7 +79,7 @@ test.describe('Learn About V1 production journey', () => {
     await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
 
     await page.getByRole('button', { name: /D3\+\s*Go deeper/ }).click();
-    await expect(page.getByText('PRACTICE')).toBeVisible();
+    await expect(page.getByText('PRACTICE', { exact: true })).toBeVisible();
     const practiceButton = page.getByRole('button', { name: 'Try this question' });
     await expectTapTarget(practiceButton);
     await practiceButton.click();
@@ -97,8 +97,8 @@ test.describe('Learn About V1 production journey', () => {
     await page.getByRole('button', { name: /D2\s*Connect/ }).click();
     await expect(page.getByRole('heading', { name: 'Where lions rest' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Animal homes & families' })).toBeVisible();
-    await expect(page.getByText('COMPARE').first()).toBeVisible();
-    await expect(page.getByText('GUESS')).toHaveCount(2);
+    await expect(page.getByText('COMPARE', { exact: true }).first()).toBeVisible();
+    await expect(page.getByText('GUESS', { exact: true })).toHaveCount(2);
     await expectViewportContained(page);
 
     await page.getByRole('button', { name: 'Back to Learn About topics' }).click();
@@ -131,8 +131,8 @@ test.describe('Learn About V1 production journey', () => {
     await openLearnAbout(page);
     await page.getByRole('button', { name: 'Learn about Earth' }).click();
     await page.getByRole('button', { name: /D2\s*Connect/ }).click();
-    await expect(page.getByText(/Earth/).first()).toBeVisible();
-    await expect(page.getByText('DID YOU KNOW?').first()).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
+    await expect(page.getByText('DID YOU KNOW?', { exact: true }).first()).toBeVisible();
     expect(remoteRequests).toEqual([]);
   });
 });
