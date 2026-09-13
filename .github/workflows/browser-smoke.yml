@@ -60,18 +60,7 @@ jobs:
           done
 
       - name: Run existing checks
-        shell: bash
-        run: |
-          set -o pipefail
-          npm run check 2>&1 | tee npm-check.log
-
-      - name: Upload npm check diagnostics
-        if: always()
-        uses: actions/upload-artifact@v7
-        with:
-          name: npm-check-diagnostics
-          path: npm-check.log
-          if-no-files-found: error
+        run: npm run check
 
       - name: Run browser child journeys
         run: npm run test:e2e:ci
