@@ -136,6 +136,9 @@ test.describe('Kidsplay child journeys', () => {
     expect(sawAnotherFamily, 'Free Explore should exercise a second interaction family').toBe(true);
 
     await page.getByRole('button', { name: 'Back to Kidsplay home' }).click();
+    await expect(page.getByRole('heading', { name: 'Choose a play activity' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
     await openProgress(page);
     await expect(page.getByRole('heading', { name: /strong facts!/ })).toBeVisible();
     const attemptsBeforeReload = await progressAttempts(page);
@@ -255,7 +258,7 @@ test.describe('Kidsplay child journeys', () => {
     await expect(page.getByText('3 / 35')).toBeVisible();
     await page.getByRole('button', { name: /Continue/ }).click();
     await expect(page.getByRole('note')).toContainText('Your saved answer is restored.');
-    await expect(page.getByText(/^3 \/ 35$/)).toBeVisible();
+    await expect(page.locator('[data-session-state]:visible').getByText(/^3 \/ 35$/)).toBeVisible();
     await expect(sessionFeedback(page)).toBeVisible();
     expect(thirdPrompt.length).toBeGreaterThan(0);
   });
