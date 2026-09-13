@@ -101,21 +101,33 @@ open_fraction_studio_from_home() {
 
   tap_label "Open practice activities" 1
 
-  # The Learn About card is intentionally below the first two Play cards on a
-  # 360x640 phone. Android WebView reports its off-screen button at [0,0][0,0].
-  # Swipe upward from non-interactive Learn About copy in the middle of the
-  # scroll pane so the gesture cannot be captured by a card action or nav toggle.
+  # Play is a nested CSS scroll pane, which Android WebView does not expose as
+  # a native scrollable accessibility node. Hardware-key focus traversal is a
+  # real child input path and makes the browser scroll a focused off-screen
+  # button into view. Verify visible bounds after every bounded key press.
   local learn_about_visible=""
-  for _ in $(seq 1 8); do
+  for _ in $(seq 1 12); do
     if has_studio_label_once "Open Learn About"; then
       learn_about_visible="1"
       break
     fi
-    adb shell input swipe 180 585 180 385 500
+    adb shell input keyevent 61 # KEYCODE_TAB
     sleep 1
   done
+  # Some Android WebView builds map directional navigation more reliably than
+  # Tab. Keep a second bounded hardware-key path, still with no DOM/state injection.
   if [ "$learn_about_visible" != "1" ]; then
-    echo "Learn About did not become visibly tappable after bounded Play scrolling." >&2
+    for _ in $(seq 1 10); do
+      if has_studio_label_once "Open Learn About"; then
+        learn_about_visible="1"
+        break
+      fi
+      adb shell input keyevent 20 # KEYCODE_DPAD_DOWN
+      sleep 1
+    done
+  fi
+  if [ "$learn_about_visible" != "1" ]; then
+    echo "Learn About did not become visibly tappable after bounded keyboard navigation." >&2
     return 1
   fi
 
