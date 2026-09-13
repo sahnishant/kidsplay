@@ -108,9 +108,11 @@ describe('mock resume contract integrity', () => {
     expect(screen.getByText('Mock progress saves on this device')).toBeTruthy();
 
     await fireEvent.keyDown(window, { key: 'Escape' });
-    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Assessment & mocks' })).toBeTruthy());
 
     expect(loadMockCheckpoint()?.state.sessionId).toBe('session.back-preserved');
+    await fireEvent.keyDown(window, { key: 'Escape' });
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
     await openAssessment();
     expect(await screen.findByRole('heading', { name: 'Pick up where you left off' })).toBeTruthy();
   });
