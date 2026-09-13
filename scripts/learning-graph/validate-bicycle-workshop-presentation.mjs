@@ -46,7 +46,7 @@ export function validateBicycleWorkshopPresentation() {
   invariant(viewport.includes('LOOK') && viewport.includes('LEARN') && viewport.includes('YOUR TURN'), 'Guided chapter pacing cues are incomplete');
   invariant(viewport.includes('Practice') && viewport.includes('Chapter check'), 'Guided chapter completion actions are incomplete');
   invariant(viewport.includes('No score here — just explore.'), 'Non-mastery wording is missing');
-  invariant(home.includes("openView('bicycle-workshop')"), 'Practice catalogue does not open the guided chapter');
+  invariant(home.includes("openChildView('bicycle-workshop')") || home.includes("openView('bicycle-workshop')"), 'Practice catalogue does not open the guided chapter');
   invariant(home.includes("onStart('free.english.bicycle-workshop.1')") && home.includes("onStart('free.english.bicycle-workshop.chapter-check.1')"), 'Guided chapter does not launch both assessed packs');
 
   return {

@@ -85,7 +85,10 @@ PY
     fi
     if [ "$allow_scroll" = "1" ]; then
       # Bounded normal portrait scrolling; no DOM force-click or state injection.
-      adb shell input swipe 180 500 180 210 300
+      # Swipe in the left card gutter instead of through a large action button;
+      # Chromium can otherwise treat the gesture as button interaction rather
+      # than scrolling the nested .home-panel-body container.
+      adb shell input swipe 20 520 20 220 400
     fi
     sleep 1
   done

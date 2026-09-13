@@ -78,6 +78,11 @@ async function openGrownUpArea(): Promise<void> {
   await fireEvent.click(screen.getByRole('button', { name: 'Open grown-up area' }));
 }
 
+async function openChildNavigation(): Promise<void> {
+  const open = screen.queryByRole('button', { name: 'Open child navigation' });
+  if (open) await fireEvent.click(open);
+}
+
 beforeEach(() => {
   window.localStorage.clear();
   window.history.replaceState({}, '', '/');
@@ -97,6 +102,10 @@ describe('user-facing product flow', () => {
     expect(screen.getAllByText('LEVEL 1').length).toBeGreaterThanOrEqual(2);
     expect(screen.queryByText('Kidsplay')).toBeNull();
     expect(screen.queryByRole('heading', { name: "Dheu's science world" })).toBeNull();
+    expect(screen.getByRole('button', { name: 'Open child navigation' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Open story world' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open practice activities' })).toBeNull();
+    await openChildNavigation();
     expect(screen.getByRole('button', { name: 'Open story world' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Open practice activities' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Open learning progress' })).toBeNull();
@@ -121,16 +130,19 @@ describe('user-facing product flow', () => {
     await fireEvent.click(screen.getByRole('button', { name: "Back to Dheu's world" }));
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
 
+    await openChildNavigation();
     await fireEvent.click(screen.getByRole('button', { name: 'Open practice activities' }));
     expect(screen.getByRole('heading', { name: 'Choose a play activity' })).toBeTruthy();
     expect(screen.queryByText(/Curriculum profile:/)).toBeNull();
     expect(screen.queryByRole('button', { name: 'Try 35-question mock' })).toBeNull();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Play free' }));
-    expect(screen.getByText('Science Explorer: Class 2 Science & EVS')).toBeTruthy();
+    expect(screen.getByTitle('Science Explorer: Class 2 Science & EVS')).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Back to Kidsplay home' })).toBeTruthy();
 
     await fireEvent.click(screen.getByRole('button', { name: 'Back to Kidsplay home' }));
+    await waitFor(() => expect(screen.getByRole('heading', { name: 'Choose a play activity' })).toBeTruthy());
+    await fireEvent.keyDown(window, { key: 'Escape' });
     await waitFor(() => expect(screen.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeTruthy());
   });
 

@@ -83,7 +83,8 @@ export function validateBicycleWorkshopGuidedExperience() {
   invariant(!/recordAttempt|evaluate\(|localProgress|saveProgress|knowledgeEvidence/.test(`${component}\n${stage}`), 'Guided story surface must not write or evaluate mastery');
   invariant(!sourceIdentity.test(`${component}\n${stage}`), 'Source identity leaked into the child story surface');
 
-  invariant(home.includes("'bicycle-workshop'") && home.includes("openView('bicycle-workshop')"), 'Home does not open the Bicycle Workshop view');
+  const opensWorkshop = home.includes("openChildView('bicycle-workshop')") || home.includes("openView('bicycle-workshop')");
+  invariant(home.includes("'bicycle-workshop'") && opensWorkshop, 'Home does not open the Bicycle Workshop view');
   invariant(home.includes("free.english.bicycle-workshop.1") && home.includes("free.english.bicycle-workshop.chapter-check.1"), 'Home does not launch both assessed Bicycle packs');
   invariant(home.includes("!entry.id.startsWith('free.english.bicycle-workshop.')"), 'Raw pack cards were not collapsed into the coherent chapter entry');
 
