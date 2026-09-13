@@ -43,8 +43,9 @@ const budgets = {
   // shared drag-state typing/validation without absorbing the matching UI route.
   // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB.
   // Splitting Forest L3 into its own lazy renderer perturbs shared dispatcher/content
-  // compression by another ~0.1 KiB (168.6 measured); admit only +0.25 KiB here.
-  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 0.75) * 1024,
+  // compression by ~0.1 KiB. Combined with #282's generic navigation bridge the
+  // exact merge head measures 168.8 KiB; retain only ~0.2 KiB reviewed headroom.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 1) * 1024,
   // #281 also upgrades the generic Forest world-depth fallback through the existing
   // global forestSessionPolish.css rather than shipping a second duplicate renderer.
   // CI measures 105.7 KiB core CSS; keep a narrow reviewed 107 KiB ceiling.
