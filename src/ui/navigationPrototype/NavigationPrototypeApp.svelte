@@ -2,6 +2,7 @@
   import { onMount } from 'svelte';
   import type { ExperienceDiscoveryDescriptor } from '../../experienceDiscovery';
   import { loadChildSettings } from '../../runtime/localProgress';
+  import NavigationPrototypeBrowse from './NavigationPrototypeBrowse.svelte';
   import NavigationPrototypeHome from './NavigationPrototypeHome.svelte';
 
   const child = loadChildSettings();
@@ -9,6 +10,7 @@
   let loading = $state(true);
   let error = $state<string | null>(null);
   let message = $state<string | null>(null);
+  let view = $state<'home' | 'browse'>('home');
 
   onMount(async () => {
     try {
@@ -24,20 +26,24 @@
   function select(entry: ExperienceDiscoveryDescriptor): void {
     message = `Selected: ${entry.childTitle}. Launch wiring follows in the next small PR.`;
   }
-
-  function browse(): void {
-    message = 'Browse all opens in the next small PR.';
-  }
 </script>
 
-<NavigationPrototypeHome
-  childName={child.name}
-  {entries}
-  {loading}
-  {error}
-  onSelect={select}
-  onBrowse={browse}
-/>
+{#if view === 'browse'}
+  <NavigationPrototypeBrowse
+    {entries}
+    onBack={() => view = 'home'}
+    onSelect={select}
+  />
+{:else}
+  <NavigationPrototypeHome
+    childName={child.name}
+    {entries}
+    {loading}
+    {error}
+    onSelect={select}
+    onBrowse={() => view = 'browse'}
+  />
+{/if}
 
 {#if message}
   <div class="prototype-message" role="status">
