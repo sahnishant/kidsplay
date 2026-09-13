@@ -8,6 +8,8 @@ const rewards: Record<ForestSeedMission, string> = {
   'mission.forest-busy-grove': 'badge.forest-habitat-helper'
 };
 
+const forestWorldRoot = ':is(.forest-depth, .grove-depth)';
+
 export async function openForestDepth(page: Page, completed: ForestSeedMission[]): Promise<void> {
   await page.goto('/');
   await page.evaluate(({ completed, rewards }) => {
@@ -67,7 +69,7 @@ export async function expectForestSurfaceFits(page: Page, label: string): Promis
 }
 
 export async function expectAllForestButtonsTouchable(page: Page, label: string): Promise<void> {
-  const buttons = page.locator('.forest-depth button:visible');
+  const buttons = page.locator(`${forestWorldRoot} button:visible`);
   for (let index = 0; index < await buttons.count(); index += 1) {
     await expectChildTapTarget(buttons.nth(index), `${label} button ${index + 1}`);
   }
@@ -79,7 +81,7 @@ export async function expectStaticReducedMotion(page: Page): Promise<void> {
   // A non-zero animation-duration declaration is harmless when animation-name is `none`.
   // Assert on animations that could actually run, and separately ensure SVG persona motion
   // has not been mounted under reduced-motion.
-  const activeCssAnimations = await page.locator('.forest-depth *').evaluateAll((elements) =>
+  const activeCssAnimations = await page.locator(`${forestWorldRoot} *`).evaluateAll((elements) =>
     elements.flatMap((element) => {
       const style = getComputedStyle(element);
       const names = style.animationName.split(',').map((value) => value.trim());
@@ -93,7 +95,7 @@ export async function expectStaticReducedMotion(page: Page): Promise<void> {
     })
   );
   expect(activeCssAnimations, 'reduced-motion should leave no runnable CSS animation').toEqual([]);
-  await expect(page.locator('.forest-depth animate, .forest-depth animateTransform')).toHaveCount(0);
+  await expect(page.locator(`${forestWorldRoot} animate, ${forestWorldRoot} animateTransform`)).toHaveCount(0);
 }
 
 export function remoteHttpRequests(requestUrls: string[], appOrigin: string): string[] {

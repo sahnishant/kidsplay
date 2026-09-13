@@ -3,3 +3,5 @@
    layer wrappers layout-transparent while visible so the child surface keeps
    the exact viewport geometry it had before nesting. */
 #app>div:not([class]):not([hidden]){display:contents}
+.grove-slot{box-sizing:border-box}
+@media(max-width:420px){.compost-slot{left:42%!important}}

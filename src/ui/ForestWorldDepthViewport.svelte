@@ -9,16 +9,26 @@
   } = $props();
 
   let isTownMission = $derived(mission.worldActionRef?.startsWith('town.') ?? false);
+  let isBusyGrove = $derived(mission.worldActionRef === 'forest.world-depth.l3.grove-return');
 </script>
 
 {#if isTownMission}
-  {#await import('./TownWorldDepthViewport.svelte') then module}
+  {#await import('./TownWorldDepthViewport-Practical.svelte') then module}
     {@const TownWorldDepthViewport = module.default}
     <TownWorldDepthViewport {mission} {childName} {onComplete} {onExit} />
   {/await}
+{:else if isBusyGrove}
+  {#await import('./ForestGroveMissionViewport.svelte') then module}
+    {@const ForestGroveMissionViewport = module.default}
+    <ForestGroveMissionViewport {mission} {childName} {onComplete} {onExit} />
+  {/await}
 {:else}
-  {#await import('./ForestWorldDepthMissionViewport.svelte') then module}
+  {#await import('./ForestWorldDepthMissionViewport-Practical.svelte') then module}
     {@const ForestWorldDepthMissionViewport = module.default}
     <ForestWorldDepthMissionViewport {mission} {childName} {onComplete} {onExit} />
   {/await}
 {/if}
+
+<style>
+  @media(max-width:420px){:global(.grove-depth .compost-slot){left:43%;width:96px}}
+</style>

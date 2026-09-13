@@ -37,7 +37,7 @@ test('Forest Explorer Level 2 is a visual persistent creek-repair adventure at 3
   await expect(level).toBeVisible();
   await expect(scene).toBeVisible();
   await expect(scene.locator('img[src="/assets/forest/quiet-creek-scene.svg"]')).toBeVisible();
-  await expect(page.getByText('Can you help fix the bridge?')).toBeVisible();
+  await expect(scene.getByText('Drag the loose wood into the bridge gaps.')).toBeVisible();
   await expect(level.locator('[data-testid="forest-assembly"]')).toBeVisible();
   await expect(page.getByText('WORLD PROBLEM')).toHaveCount(0);
   await expect(page.getByText('broken-crossing')).toHaveCount(0);
@@ -62,7 +62,7 @@ test('Forest Explorer Level 2 is a visual persistent creek-repair adventure at 3
   await page.getByRole('button', { name: 'Next' }).click();
 
   await expect(page.getByRole('heading', { name: /Reconnect the water path/ })).toBeVisible();
-  await expect(page.getByText('Can the water reach the plants?')).toBeVisible();
+  await expect(scene.getByText('Build the water path to the plants.')).toBeVisible();
   await page.locator('[data-part="part.channel-left"]').click();
   await page.locator('[data-slot="slot.channel-upper"]').click();
   await expect(scene.locator('[data-scene-state="channel-left-connected"]')).toBeVisible();
@@ -73,18 +73,22 @@ test('Forest Explorer Level 2 is a visual persistent creek-repair adventure at 3
   await page.getByRole('button', { name: 'Next' }).click();
 
   await expect(page.getByRole('heading', { name: /Water the creek-bank saplings/ })).toBeVisible();
-  await expect(page.getByText('Help the little plants drink.')).toBeVisible();
-  await page.locator('.plant-action').click();
+  await expect(scene.getByText('Water each sapling. 0/3 are drinking.')).toBeVisible();
+  for (const sapling of [1, 2, 3]) {
+    await page.getByRole('button', { name: 'Watering can. Drag it to each dry sapling.' }).click();
+    await page.getByRole('button', { name: `Sapling ${sapling}, dry` }).click();
+  }
   await expect(page.getByRole('status')).toContainText('Water reaches the soil');
   await expect(scene.locator('[data-scene-state="saplings-watered"]')).toBeVisible();
   await page.getByRole('button', { name: 'Next' }).click();
 
   await expect(page.getByRole('heading', { name: /Release the creek flow/ })).toBeVisible();
-  await expect(page.getByText('What is blocking the water?')).toBeVisible();
-  await page.locator('.branch-action').click();
+  await expect(scene.getByText('Move the fallen branch out of the water.')).toBeVisible();
+  await page.getByRole('button', { name: 'Fallen branch. Drag it out of the creek and onto the dry bank.' }).click();
+  await page.getByRole('button', { name: 'Dry bank. Put the branch here.' }).click();
   await expect(scene.locator('[data-scene-state="creek-flowing"]')).toBeVisible();
   await expect(scene.getByText('Creek rescued!', { exact: true })).toBeVisible();
-  const rescued = page.getByLabel('Creek rescued!');
+  const rescued = level.locator('.finish-copy');
   await expect(rescued).toBeVisible();
   await expect(rescued).toContainText(/Water is moving again, the crossing is safe/i);
   await expect(page.getByText('Forest Level 3 unlocked')).toBeVisible();
