@@ -91,13 +91,14 @@
 {:else if entry.launch.owner === 'stories'}
   {#await import('../StoriesViewport.svelte') then module}
     {@const StoriesViewport = module.default}
-    <StoriesViewport {onExit} />
+    <StoriesViewport {onExit} initialStoryId={entry.launch.ref} />
   {/await}
 {:else if entry.launch.owner === 'learn_about'}
   {#await import('../LearnAboutViewport.svelte') then module}
     {@const LearnAboutViewport = module.default}
     <LearnAboutViewport
       {onExit}
+      initialTopicId={entry.launch.ref}
       onStartQuestion={startQuestion}
     />
   {/await}
