@@ -50,7 +50,7 @@ afterEach(() => {
 });
 
 describe('child dashboard acceptance surfaces', () => {
-  it('uses one compact adventure CTA and keeps adult progress and assessment navigation off the child home', () => {
+  it('uses one compact adventure CTA and keeps adult progress and assessment navigation off the child home', async () => {
     render(App);
 
     expect(screen.getByRole('button', { name: 'Continue Forest Explorer Trail' })).toBeTruthy();
@@ -60,6 +60,9 @@ describe('child dashboard acceptance surfaces', () => {
     expect(screen.queryByText('World changed')).toBeNull();
     expect(screen.queryByText('World ready')).toBeNull();
     expect(screen.getByLabelText('Current adventure level 1')).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Open child navigation' })).toBeTruthy();
+    expect(screen.queryByRole('button', { name: 'Open practice activities' })).toBeNull();
+    await fireEvent.click(screen.getByRole('button', { name: 'Open child navigation' }));
     expect(screen.getByRole('button', { name: 'Open practice activities' })).toBeTruthy();
     expect(screen.queryByRole('button', { name: 'Open learning progress' })).toBeNull();
     expect(screen.queryByRole('button', { name: 'Open goal learning' })).toBeNull();
