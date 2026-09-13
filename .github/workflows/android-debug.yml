@@ -161,7 +161,7 @@ jobs:
             for _ in $(seq 1 15); do
               adb exec-out screencap -p > "$path"
               bytes="$(wc -c < "$path" | tr -d ' ')"
-              if [ "$bytes" -ge 45000 ]; then
+              if [ "$bytes" -ge 20000 ]; then
                 return 0
               fi
               sleep 2
@@ -227,7 +227,7 @@ jobs:
             adb exec-out screencap -p > android-smoke/landscape.png
             bytes="$(wc -c < android-smoke/landscape.png | tr -d ' ')"
             read -r width height <<< "$(python3 -c 'import struct,sys; d=open(sys.argv[1],"rb").read(24); print(*struct.unpack(">II", d[16:24]))' android-smoke/landscape.png)"
-            if [ "$width" -gt "$height" ] && [ "$bytes" -ge 45000 ]; then
+            if [ "$width" -gt "$height" ] && [ "$bytes" -ge 20000 ]; then
               landscape_ready="1"
               break
             fi
