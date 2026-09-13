@@ -30,3 +30,4 @@ export type {
   GuidedWorkshopDiscoverySource,
   LearningStudioPlacement
 } from './adapters';
+export { loadCurrentExperienceDiscovery } from './current';
