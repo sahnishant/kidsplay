@@ -103,15 +103,15 @@ open_fraction_studio_from_home() {
 
   # The Learn About card is intentionally below the first two Play cards on a
   # 360x640 phone. Android WebView reports its off-screen button at [0,0][0,0].
-  # Surface it with real swipes in the card's right gutter, outside the large
-  # action buttons, and only continue once accessibility reports tappable bounds.
+  # Swipe upward from non-interactive Learn About copy in the middle of the
+  # scroll pane so the gesture cannot be captured by a card action or nav toggle.
   local learn_about_visible=""
   for _ in $(seq 1 8); do
     if has_studio_label_once "Open Learn About"; then
       learn_about_visible="1"
       break
     fi
-    adb shell input swipe 340 525 340 245 400
+    adb shell input swipe 180 585 180 385 500
     sleep 1
   done
   if [ "$learn_about_visible" != "1" ]; then
