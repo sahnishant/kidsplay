@@ -1,3 +1,7 @@
 .app-error{width:min(900px,100%);margin:10px auto 0;padding:10px 12px;border-radius:12px;background:var(--try-soft);color:var(--try);font-weight:750}
+/* App keeps parent screens mounted for Back navigation. Keep those anonymous
+   layer wrappers layout-transparent while visible so the child surface keeps
+   the exact viewport geometry it had before nesting. */
+#app>div:not([class]):not([hidden]){display:contents}
 .grove-slot{box-sizing:border-box}
 @media(max-width:420px){.compost-slot{left:42%!important}}
