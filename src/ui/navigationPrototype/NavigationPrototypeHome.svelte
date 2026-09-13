@@ -19,12 +19,12 @@
 
   const displayName = $derived(childName.trim() || 'Dheu');
   const visible = $derived(entries.filter((entry) => entry.availability === 'available'));
-  const story = $derived(visible.find((entry) => entry.kind === 'story'));
-  const topic = $derived(visible.find((entry) => entry.kind === 'learn_about_topic'));
-  const workshop = $derived(visible.find((entry) => entry.kind === 'guided_workshop'));
-  const phonics = $derived(visible.find((entry) => entry.kind === 'phonics_adventure'));
-  const worldAction = $derived(visible.find((entry) => entry.kind === 'world_action'));
-  const studio = $derived(visible.find((entry) => entry.kind === 'learning_studio'));
+  const story = $derived(visible.find((entry) => entry.canonicalId === 'story.dheu.moonlit-leaf') ?? visible.find((entry) => entry.kind === 'story'));
+  const topic = $derived(visible.find((entry) => entry.canonicalId === 'learn.earth') ?? visible.find((entry) => entry.kind === 'learn_about_topic'));
+  const workshop = $derived(visible.find((entry) => entry.canonicalId === 'experience.bicycle-workshop.guided.v1') ?? visible.find((entry) => entry.kind === 'guided_workshop'));
+  const phonics = $derived(visible.find((entry) => entry.canonicalId === 'phonics.sound-trail.v1') ?? visible.find((entry) => entry.kind === 'phonics_adventure'));
+  const worldAction = $derived(visible.find((entry) => entry.canonicalId === 'forest.world-depth.l2.creek-rescue') ?? visible.find((entry) => entry.kind === 'world_action'));
+  const studio = $derived(visible.find((entry) => entry.canonicalId === 'studio.fractions.equal-shares') ?? visible.find((entry) => entry.kind === 'learning_studio'));
   const continueEntry = $derived(
     visible.find((entry) => entry.progress.resume !== 'none')
       ?? workshop
@@ -92,7 +92,7 @@
           <h2>{continueEntry.progress.resume === 'exact' || continueEntry.progress.resume === 'workspace' ? 'Continue' : 'Pick something familiar'}</h2>
           <p>{continueEntry.childTitle}</p>
         </div>
-        <button type="button" onclick={() => onSelect(continueEntry)}>
+        <button data-canonical-id={continueEntry.canonicalId} type="button" onclick={() => onSelect(continueEntry)}>
           {continueEntry.progress.resume === 'exact' || continueEntry.progress.resume === 'workspace' ? 'Continue' : 'Open'}
         </button>
       </section>
@@ -103,6 +103,8 @@
         <button
           type="button"
           class="lane-card"
+          data-nav100-lane={lane.id}
+          data-canonical-id={lane.entry?.canonicalId}
           disabled={!lane.entry}
           onclick={() => lane.entry && onSelect(lane.entry)}
         >
