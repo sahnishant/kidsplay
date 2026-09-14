@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
   import type { Question } from '../contracts/question';
   import { LEARN_ABOUT_TOPICS } from '../experience/learnAboutCatalog';
   import { getLearnAboutTopicBinding } from '../experience/learnAboutBindings';
@@ -8,10 +9,11 @@
   import { getTopicStudioActivityRefs } from '../experience/learningStudios';
 
   const studioLauncherPromise = import('./StudioLauncher.svelte');
-  let { onExit, onStartQuestion, onTopicInterest = () => {} }: {
+  let { onExit, onStartQuestion, onTopicInterest = () => {}, initialTopicId }: {
     onExit: () => void;
     onStartQuestion: (question: Question, title: string) => void;
     onTopicInterest?: (rootConceptRefs: readonly string[]) => void;
+    initialTopicId?: string;
   } = $props();
   const depths: Array<{ id: LearnAboutDepthBand; label: string }> = [
     { id: 'd0_first_play', label: 'D0 Look' }, { id: 'd1_preschool', label: 'D1 Discover' },
@@ -28,16 +30,19 @@
 
   async function chooseTopic(topicId: string): Promise<void> {
     const topic = LEARN_ABOUT_TOPICS.find((item) => item.topicId === topicId);
-    if (topic) onTopicInterest(topic.rootConceptRefs);
+    if (!topic) return;
+    onTopicInterest(topic.rootConceptRefs);
     selectedTopicId = topicId;
-    selectedDepth = depths.find((depth) => topic?.sections.some((section) => section.depthBands.includes(depth.id)))?.id ?? 'd0_first_play';
+    selectedDepth = depths.find((depth) => topic.sections.some((section) => section.depthBands.includes(depth.id)))?.id ?? 'd0_first_play';
     touchedRowId = null;
     loadError = null;
     try { knowledgeRows = await loadReviewedLearnAboutKnowledge(); }
     catch (error) { loadError = error instanceof Error ? error.message : 'This topic could not be opened.'; }
   }
+  onMount(() => { if (initialTopicId) void chooseTopic(initialTopicId); });
   function retryTopic(): void { if (selectedTopicId) void chooseTopic(selectedTopicId); }
   function back(): void {
+    if (selectedTopicId && initialTopicId) { onExit(); return; }
     if (selectedTopicId) { selectedTopicId = null; touchedRowId = null; loadError = null; return; }
     onExit();
   }
