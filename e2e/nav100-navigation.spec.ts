@@ -6,6 +6,17 @@ async function openClean(page: Page, path: string): Promise<void> {
   await page.reload();
 }
 
+async function expectNoDocumentOverflow(page: Page): Promise<void> {
+  const dimensions = await page.evaluate(() => ({
+    width: document.documentElement.scrollWidth,
+    viewportWidth: document.documentElement.clientWidth,
+    height: document.documentElement.scrollHeight,
+    viewportHeight: document.documentElement.clientHeight
+  }));
+  expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewportWidth + 1);
+  expect(dimensions.height).toBeLessThanOrEqual(dimensions.viewportHeight + 1);
+}
+
 async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   const dimensions = await page.evaluate(() => ({
     width: document.documentElement.scrollWidth,
@@ -15,7 +26,7 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
 }
 
 test.describe('NAV100 consolidated navigation prototype', () => {
-  test('stays opt-in and exposes five simple child lanes at phone size', async ({ page }, testInfo) => {
+  test('stays opt-in and exposes one dominant adventure plus bounded alternatives at phone size', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
@@ -25,13 +36,22 @@ test.describe('NAV100 consolidated navigation prototype', () => {
 
     await page.goto('/?nav100=1');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
-    await expect(page.locator('[data-nav100-lane="games"]')).toContainText('Big games');
-    await expect(page.locator('[data-nav100-lane="discover"]')).toContainText('Discover');
-    await expect(page.locator('[data-nav100-lane="lab"]')).toContainText('Scientu’s Lab');
-    await expect(page.locator('[data-nav100-lane="words"]')).toContainText('Words & sounds');
-    await expect(page.locator('[data-nav100-lane="stories"]')).toContainText('Stories');
+
+    const primary = page.locator('[data-nav100-primary="true"]');
+    await expect(primary).toHaveCount(1);
+    await expect(primary).toHaveAttribute('data-canonical-id', 'experience.bicycle-workshop.guided.v1');
+    await expect(primary).toContainText('Bicycle Workshop');
+
+    const alternatives = page.locator('[data-nav100-choice="true"]');
+    await expect(alternatives).toHaveCount(3);
+    await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="learn.earth"]')).toBeVisible();
+    await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="story.dheu.moonlit-leaf"]')).toBeVisible();
+    await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="phonics.sound-trail.v1"]')).toBeVisible();
+
+    // Categories remain discovery metadata; they are not five equal child modes on Home.
+    await expect(page.locator('[data-nav100-lane]')).toHaveCount(0);
     await expect(page.getByRole('button', { name: /Browse all/ })).toBeVisible();
-    await expectNoHorizontalOverflow(page);
+    await expectNoDocumentOverflow(page);
     await page.screenshot({ path: testInfo.outputPath('nav100-home-360x640.png'), fullPage: true });
 
     await page.goto('/');
@@ -63,18 +83,18 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(browseAll).toBeFocused();
   });
 
-  test('opens Earth and Moonlit story without turning navigation into mastery evidence', async ({ page }) => {
+  test('opens Earth and Moonlit story directly without turning navigation into mastery evidence', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await openClean(page, '/?nav100=1');
     const progressBefore = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
 
-    await page.locator('[data-nav100-lane="discover"]').click();
+    await page.locator('[data-nav100-choice="true"][data-canonical-id="learn.earth"]').click();
     await expect(page.locator('[data-learn-about-view="topic"]')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
 
-    await page.locator('[data-nav100-lane="stories"]').click();
+    await page.locator('[data-nav100-choice="true"][data-canonical-id="story.dheu.moonlit-leaf"]').click();
     await expect(page.locator('[data-testid="story-reader"][data-story-id="story.dheu.moonlit-leaf"]')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'The Moonlit Leaf' })).toBeVisible();
     await page.keyboard.press('Escape');
@@ -84,17 +104,24 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     expect(progressAfter).toBe(progressBefore);
   });
 
-  test('keeps Lab and Sound Trail as their existing runtimes', async ({ page }) => {
+  test('keeps Lab discoverable without making it a permanent Home mode and reuses Sound Trail', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openClean(page, '/?nav100=1');
 
-    await page.locator('[data-nav100-lane="lab"]').click();
+    await expect(page.getByText('Scientu’s Lab', { exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: /Browse all/ }).click();
+    const search = page.getByRole('searchbox');
+    await search.fill('equal shares');
+    const equalShares = page.locator('[data-canonical-id="studio.fractions.equal-shares"]');
+    await expect(equalShares).toBeVisible();
+    await equalShares.click();
     await expect(page.getByRole('heading', { name: 'Make equal shares' })).toBeVisible();
-    await expect(page.getByRole('button', { name: /Make equal shares/ })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
 
-    await page.locator('[data-nav100-lane="words"]').click();
+    await page.locator('[data-nav100-choice="true"][data-canonical-id="phonics.sound-trail.v1"]').click();
     await expect(page.getByText('Scientu’s Sound Trail', { exact: true })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
@@ -118,20 +145,20 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(creek).toBeFocused();
   });
 
-  test('keeps primary navigation keyboard reachable in phone landscape and desktop layouts', async ({ page }) => {
+  test('keeps the dominant action keyboard-first in phone landscape and desktop layouts', async ({ page }) => {
     await page.setViewportSize({ width: 640, height: 360 });
     await openClean(page, '/?nav100=1');
-    const games = page.locator('[data-nav100-lane="games"]');
-    await expect(games).toBeVisible();
+    const primary = page.locator('[data-nav100-primary="true"]');
+    await expect(primary).toBeVisible();
     await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
     await page.keyboard.press('Tab');
-    await expect(games).toBeFocused();
+    await expect(primary).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(page.getByRole('heading', { name: 'Bicycle Workshop' })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
-    await expect(games).toBeFocused();
-    await expectNoHorizontalOverflow(page);
+    await expect(primary).toBeFocused();
+    await expectNoDocumentOverflow(page);
 
     await page.setViewportSize({ width: 1024, height: 768 });
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
