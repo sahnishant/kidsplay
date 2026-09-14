@@ -1,4 +1,4 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
 async function openClean(page: Page, path: string): Promise<void> {
   await page.goto(path);
@@ -25,8 +25,15 @@ async function expectNoHorizontalOverflow(page: Page): Promise<void> {
   expect(dimensions.width).toBeLessThanOrEqual(dimensions.viewport + 1);
 }
 
+async function expectTouchTarget(locator: Locator): Promise<void> {
+  const box = await locator.boundingBox();
+  expect(box).not.toBeNull();
+  expect(box!.width).toBeGreaterThanOrEqual(44);
+  expect(box!.height).toBeGreaterThanOrEqual(44);
+}
+
 test.describe('NAV100 consolidated navigation prototype', () => {
-  test('stays opt-in and exposes one dominant adventure plus bounded alternatives at phone size', async ({ page }, testInfo) => {
+  test('stays opt-in and exposes one dominant adventure plus bounded visual alternatives at phone size', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
 
@@ -41,16 +48,25 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(primary).toHaveCount(1);
     await expect(primary).toHaveAttribute('data-canonical-id', 'experience.bicycle-workshop.guided.v1');
     await expect(primary).toContainText('Bicycle Workshop');
+    await expect(primary.locator('[data-nav100-marker="true"]')).toHaveCount(1);
+    await expectTouchTarget(primary);
 
     const alternatives = page.locator('[data-nav100-choice="true"]');
     await expect(alternatives).toHaveCount(3);
     await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="learn.earth"]')).toBeVisible();
     await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="story.dheu.moonlit-leaf"]')).toBeVisible();
     await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="phonics.sound-trail.v1"]')).toBeVisible();
+    for (let index = 0; index < 3; index += 1) {
+      const choice = alternatives.nth(index);
+      await expect(choice.locator('[data-nav100-marker="true"]')).toHaveCount(1);
+      await expectTouchTarget(choice);
+    }
 
     // Categories remain discovery metadata; they are not five equal child modes on Home.
     await expect(page.locator('[data-nav100-lane]')).toHaveCount(0);
-    await expect(page.getByRole('button', { name: /Browse all/ })).toBeVisible();
+    const browseAll = page.getByRole('button', { name: /Browse all/ });
+    await expect(browseAll).toBeVisible();
+    await expectTouchTarget(browseAll);
     await expectNoDocumentOverflow(page);
     await page.screenshot({ path: testInfo.outputPath('nav100-home-360x640.png'), fullPage: true });
 
@@ -59,7 +75,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.locator('[data-nav100-prototype="true"]')).toHaveCount(0);
   });
 
-  test('browse preserves Bicycle search and focus when browser Back returns from launch', async ({ page }, testInfo) => {
+  test('browse adds visual cues and preserves Bicycle search and focus when browser Back returns from launch', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openClean(page, '/?nav100=1');
 
@@ -71,6 +87,8 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await search.fill('Bicycle');
     const bicycle = page.locator('[data-canonical-id="experience.bicycle-workshop.guided.v1"]');
     await expect(bicycle).toBeVisible();
+    await expect(bicycle.locator('[data-nav100-marker="true"]')).toHaveCount(1);
+    await expectTouchTarget(bicycle);
     await bicycle.click();
     await expect(page.getByRole('heading', { name: 'Bicycle Workshop' })).toBeVisible();
 
@@ -114,6 +132,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await search.fill('equal shares');
     const equalShares = page.locator('[data-canonical-id="studio.fractions.equal-shares"]');
     await expect(equalShares).toBeVisible();
+    await expect(equalShares.locator('[data-nav100-marker="true"]')).toHaveCount(1);
     await equalShares.click();
     await expect(page.getByRole('heading', { name: 'Make equal shares' })).toBeVisible();
     await page.keyboard.press('Escape');
@@ -137,6 +156,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     const creek = page.locator('[data-canonical-id="forest.world-depth.l2.creek-rescue"]');
     await expect(creek).toBeVisible();
     await expect(creek).toContainText('Preview');
+    await expect(creek.locator('[data-nav100-marker="true"]')).toHaveCount(1);
     await creek.click();
     await expect(page.getByText(/Quiet Creek Rescue|creek/i).first()).toBeVisible();
     await page.keyboard.press('Escape');
