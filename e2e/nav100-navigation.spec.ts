@@ -99,9 +99,26 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await page.getByRole('searchbox').fill('Creek');
     const creek = page.locator('[data-canonical-id="forest.world-depth.l2.creek-rescue"]');
     await expect(creek).toBeVisible();
+    await expect(creek).toContainText('Preview');
     await creek.click();
     await expect(page.getByText(/Quiet Creek Rescue|creek/i).first()).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
+  });
+
+  test('keeps primary navigation keyboard reachable in phone landscape and desktop layouts', async ({ page }) => {
+    await page.setViewportSize({ width: 640, height: 360 });
+    await openClean(page, '/?nav100=1');
+    await page.keyboard.press('Tab');
+    await expect(page.locator('[data-nav100-lane="games"]')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(page.getByRole('heading', { name: 'Bicycle Workshop' })).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    await expectNoHorizontalOverflow(page);
+
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    await expectNoHorizontalOverflow(page);
   });
 });
