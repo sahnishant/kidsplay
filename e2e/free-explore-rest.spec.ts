@@ -77,9 +77,10 @@ test.describe('Free Explore replay and calm rest play', () => {
     await expect(page.locator('[data-session-state]')).toBeVisible();
     expect(await page.evaluate(() => window.localStorage.getItem('kidsplay.adaptive-interest.v1'))).toBeNull();
 
+    // Back returns to the Play parent that launched the replay, not all the way to Story World.
     await page.keyboard.press('Escape');
-    await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
-    await page.getByRole('button', { name: 'Open Play', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Choose a play activity' })).toBeVisible();
+    await expect(page.getByRole('region', { name: 'Play again' })).toBeVisible();
 
     const progressBeforeCalmPlay = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
     await page.getByRole('button', { name: 'Open Sky Window' }).click();
