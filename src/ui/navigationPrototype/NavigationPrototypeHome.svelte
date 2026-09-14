@@ -69,6 +69,32 @@
     }
   }
 
+  function primaryLabel(entry: ExperienceDiscoveryDescriptor): string {
+    switch (entry.kind) {
+      case 'guided_workshop': return 'BIG ADVENTURE';
+      case 'story': return 'STORY';
+      case 'phonics_adventure': return 'SOUND PLAY';
+      case 'learn_about_topic': return 'DISCOVER';
+      case 'learning_studio': return 'TRY IT';
+      case 'story_mission':
+      case 'world_action': return 'WORLD ADVENTURE';
+      default: return 'START HERE';
+    }
+  }
+
+  function primaryMarker(entry: ExperienceDiscoveryDescriptor): string {
+    switch (entry.kind) {
+      case 'guided_workshop': return '🚲';
+      case 'story': return '📖';
+      case 'phonics_adventure': return '🔊';
+      case 'learn_about_topic': return '🔎';
+      case 'learning_studio': return '🧪';
+      case 'story_mission':
+      case 'world_action': return '🗺️';
+      default: return '▶';
+    }
+  }
+
   const primary = $derived(choosePrimary(visible));
   const alternatives = $derived(chooseAlternatives(visible, primary));
 </script>
@@ -76,7 +102,7 @@
 <main class="prototype-home" data-nav100-prototype="true">
   <header class="prototype-home__topbar">
     <span class="prototype-tag">NAVIGATION PROTOTYPE</span>
-    <h1>Choose your next thing, {displayName}</h1>
+    <h1>What should we do, {displayName}?</h1>
   </header>
 
   {#if loading}
@@ -93,7 +119,7 @@
     </section>
   {:else}
     {#if primary}
-      <section class="hero-zone" aria-label="Start with an adventure">
+      <section class="hero-zone" aria-label="Start with an activity">
         <button
           type="button"
           class="hero-card"
@@ -101,9 +127,9 @@
           data-canonical-id={primary.canonicalId}
           onclick={() => onSelect(primary)}
         >
-          <span class="hero-card__marker" aria-hidden="true">🚲</span>
+          <span class="hero-card__marker" aria-hidden="true">{primaryMarker(primary)}</span>
           <span class="hero-card__copy">
-            <small>BIG ADVENTURE</small>
+            <small>{primaryLabel(primary)}</small>
             <strong>{primary.childTitle}</strong>
             <span>{choiceNote(primary)}</span>
           </span>
