@@ -10,32 +10,30 @@ This packet is for the consolidated `kidsplay` branch and PR #302. It is **not**
 
 ## What the prototype is trying to solve
 
-The test is about the front door, not re-testing every answer inside existing games. A child should be able to see a few stable choices, find a specific experience without a wall of tiles, open a real existing experience, and return to the place they came from.
+The test is about the front door, not re-testing every answer inside existing games. The first child screen should not ask a young child to understand the repository's content taxonomy. It now presents:
 
-Current prototype lanes are deliberately concrete and small:
+1. **one dominant adventure** — currently the existing Bicycle Workshop;
+2. **at most three nearby alternatives** — representative topic, story and sound experiences when available;
+3. **Browse all** — a secondary escape hatch for finding the wider canonical catalogue.
 
-- **Big games** — substantial authored experiences such as Bicycle Workshop.
-- **Discover** — topic exploration such as Earth.
-- **Scientu’s Lab** — registered hands-on studios such as Make equal shares.
-- **Words & sounds** — sound/literacy experiences such as Scientu’s Sound Trail.
-- **Stories** — primary reading/listening experiences such as The Moonlit Leaf.
-- **Browse all** — deterministic find-by-name access to the broader catalogue, including world actions such as Quiet Creek Rescue.
+The old five equal mode/category buttons were deliberately removed. Categories remain discovery/search metadata rather than permanent child-facing Home modes. This does not create a new learning sequence, mastery ladder or content authority.
 
-These labels remain product-testable; they are not a new learning/content authority.
+The wider catalogue still reuses the existing owners and canonical IDs. Examples include Earth, Make equal shares, Scientu’s Sound Trail, The Moonlit Leaf and Quiet Creek Rescue.
 
 ## Owner test tasks
 
 Run these without coaching the person using the screen:
 
-1. From first use, choose something interesting.
+1. From first use, say what looks like the obvious thing to do next. Record whether the large adventure card is understood without explanation.
 2. Open Bicycle Workshop, leave it, then find Bicycle again.
-3. Deliberately choose **Scientu’s Lab** and open **Make equal shares**.
+3. Find **Make equal shares** without a permanent **Scientu’s Lab** button on Home. The intended route is **Browse all**.
 4. Use **Browse all** to find a specific non-featured experience by name.
-5. Open **The Moonlit Leaf** as a story without being funnelled through a quiz.
-6. Open **Earth** from Discover and confirm it is the existing Learn About topic rather than a duplicate topic system.
-7. From Browse, open **Quiet Creek Rescue**, then return to Browse rather than being dumped at an unrelated home.
-8. Try Back, Escape and browser Back through `Home -> Browse -> activity -> Browse -> Home`.
-9. Remove `?nav100=1` and verify the existing production home is still intact.
+5. Open **The Moonlit Leaf** directly from the small choice set and confirm it remains a story rather than being funnelled through a quiz.
+6. Open **Earth** directly and confirm it is the existing Learn About topic rather than a duplicate topic system.
+7. Open **Scientu’s Sound Trail** from the small choice set and confirm it is the existing phonics runtime.
+8. From Browse, open **Quiet Creek Rescue**, then return to Browse rather than being dumped at an unrelated home.
+9. Try Back, Escape and browser Back through `Home -> Browse -> activity -> Browse -> Home` and through `Home -> direct choice -> Home`.
+10. Remove `?nav100=1` and verify the existing production home is still intact.
 
 ## What to record
 
@@ -43,15 +41,28 @@ For each task record only observed facts:
 
 | Task | Completed? | Wrong turn / confusion | Help needed | Could find it again? | Notes |
 | --- | --- | --- | --- | --- | --- |
-| First choice | PENDING | | | | |
+| Obvious first action | PENDING | | | | |
 | Bicycle rediscovery | PENDING | | | | |
-| Scientu’s Lab | PENDING | | | | |
+| Equal shares via Browse | PENDING | | | | |
 | Non-featured search | PENDING | | | | |
 | Primary story | PENDING | | | | |
 | Earth topic | PENDING | | | | |
+| Sound Trail | PENDING | | | | |
 | Creek return | PENDING | | | | |
 | Back/Escape/browser Back | PENDING | | | | |
 | Prototype off again | PENDING | | | | |
+
+## Product questions to answer
+
+The review should specifically determine whether:
+
+- one strong first action is clearer than five equal category choices;
+- three alternatives are enough choice without feeling like a catalogue wall;
+- **Browse all** is discoverable when the desired activity is not featured;
+- a child can rediscover an activity by its visible name;
+- the screen feels like a place to start playing rather than a menu of software modes.
+
+Do not infer a pass from automated tests. These are human-observation questions.
 
 ## Evidence separation
 
