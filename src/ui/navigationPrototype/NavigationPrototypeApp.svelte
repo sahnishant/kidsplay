@@ -14,6 +14,7 @@
   let view = $state<'home' | 'browse'>('home');
   let browseQuery = $state('');
   let activeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
+  let resumeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
   let releaseBrowseBack: (() => void) | null = null;
   let releaseLaunchBack: (() => void) | null = null;
   let launchReturnFocusId: string | null = null;
@@ -22,13 +23,38 @@
   onMount(async () => {
     try {
       const { loadCurrentExperienceDiscovery } = await import('../../experienceDiscovery/current');
-      entries = await loadCurrentExperienceDiscovery();
+      const loaded = await loadCurrentExperienceDiscovery();
+      entries = loaded;
+      await refreshSupportedResume(loaded);
     } catch (cause) {
       error = cause instanceof Error ? cause.message : 'Catalogue unavailable.';
     } finally {
       loading = false;
     }
   });
+
+  async function refreshSupportedResume(source: ExperienceDiscoveryDescriptor[] = entries): Promise<void> {
+    try {
+      const [{ PUBLISHED_STORIES_V1 }, { loadStoryResumeState }] = await Promise.all([
+        import('../../experience/storyCatalog'),
+        import('../../experience/storyReadingPersistence')
+      ]);
+      const state = loadStoryResumeState(PUBLISHED_STORIES_V1);
+      if (!state || state.completed) {
+        resumeEntry = null;
+        return;
+      }
+      resumeEntry = source.find((entry) =>
+        entry.canonicalId === state.storyId
+        && entry.availability === 'available'
+        && entry.progress.owner === 'story_reading'
+        && entry.progress.resume === 'exact'
+      ) ?? null;
+    } catch {
+      // Resume is optional navigation affordance. Corrupt/unavailable storage fails soft.
+      resumeEntry = null;
+    }
+  }
 
   async function restoreFocus(selector: string): Promise<void> {
     await tick();
@@ -39,6 +65,12 @@
     const id = launchReturnFocusId;
     launchReturnFocusId = null;
     if (id) void restoreFocus(`[data-canonical-id="${id}"]`);
+  }
+
+  function settleLaunchReturn(): void {
+    activeEntry = null;
+    releaseLaunchBack = null;
+    void refreshSupportedResume().finally(restoreLaunchFocus);
   }
 
   function openBrowse(): void {
@@ -68,19 +100,11 @@
     releaseLaunchBack?.();
     launchReturnFocusId = entry.canonicalId;
     activeEntry = entry;
-    releaseLaunchBack = pushAppBackLayer(`nav100:launch:${entry.canonicalId}`, () => {
-      activeEntry = null;
-      releaseLaunchBack = null;
-      restoreLaunchFocus();
-    });
+    releaseLaunchBack = pushAppBackLayer(`nav100:launch:${entry.canonicalId}`, settleLaunchReturn);
   }
 
   function closeLaunch(): void {
-    requestAppBack(() => {
-      activeEntry = null;
-      releaseLaunchBack = null;
-      restoreLaunchFocus();
-    });
+    requestAppBack(settleLaunchReturn);
   }
 </script>
 
@@ -103,6 +127,7 @@
   <NavigationPrototypeHome
     childName={child.name}
     {entries}
+    {resumeEntry}
     {loading}
     {error}
     onSelect={select}
