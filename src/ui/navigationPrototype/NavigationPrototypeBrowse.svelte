@@ -14,7 +14,7 @@
   let query = $state('');
   const normalizedQuery = $derived(query.trim().toLocaleLowerCase('en'));
   const filtered = $derived(entries.filter((entry) => {
-    if (entry.availability !== 'available') return false;
+    if (entry.availability === 'unavailable') return false;
     if (!normalizedQuery) return true;
     return entry.childTitle.toLocaleLowerCase('en').includes(normalizedQuery)
       || entry.kind.replaceAll('_', ' ').includes(normalizedQuery);
@@ -29,6 +29,10 @@
     if (kind === 'story') return 'Story';
     if (kind === 'world_action') return 'World mission';
     return 'Play activity';
+  }
+
+  function availabilityLabel(entry: ExperienceDiscoveryDescriptor): string {
+    return entry.availability === 'partial' ? ' · Preview' : '';
   }
 </script>
 
@@ -51,7 +55,7 @@
     {#if normalizedQuery}
       {filtered.length} {filtered.length === 1 ? 'match' : 'matches'}
     {:else}
-      {entries.filter((entry) => entry.availability === 'available').length} activities
+      {entries.filter((entry) => entry.availability !== 'unavailable').length} activities
     {/if}
   </div>
 
@@ -66,7 +70,7 @@
       {#each visible as entry (entry.canonicalId)}
         <button class="result-card" data-canonical-id={entry.canonicalId} type="button" onclick={() => onSelect(entry)}>
           <span class="result-card__copy">
-            <small>{kindLabel(entry.kind)}</small>
+            <small>{kindLabel(entry.kind)}{availabilityLabel(entry)}</small>
             <strong>{entry.childTitle}</strong>
           </span>
           <span class="result-card__arrow" aria-hidden="true">›</span>
