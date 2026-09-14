@@ -64,7 +64,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
 
     await page.locator('[data-nav100-lane="discover"]').click();
     await expect(page.locator('[data-learn-about-view="topic"]')).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Earth' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Earth', exact: true })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
 
