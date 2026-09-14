@@ -54,6 +54,10 @@ const budgets = {
 
 // Explicit feature allowances are review items, not disabled checks.
 const lazyRouteBudgets = [
+  // #201 keeps replay discovery secondary and loads it only after the child enters
+  // Play. The shelf reads canonical local attempts and launches existing activities;
+  // it owns no progress/recommendation/reward store. Keep it isolated from core.
+  { prefix: 'FreeExploreReplayShelf-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
   // The restored StudioLauncher split measures Learn About at ~9.34 KiB gzip.
   // Keep a narrow 9.5 KiB ceiling rather than folding the whole Studio surface back in.
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9.5 * 1024, maxCssBytes: 3 * 1024 },
