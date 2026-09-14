@@ -4,6 +4,7 @@
   let {
     childName,
     entries,
+    resumeEntry = null,
     loading = false,
     error = null,
     onSelect,
@@ -11,6 +12,7 @@
   }: {
     childName: string;
     entries: ExperienceDiscoveryDescriptor[];
+    resumeEntry?: ExperienceDiscoveryDescriptor | null;
     loading?: boolean;
     error?: string | null;
     onSelect: (entry: ExperienceDiscoveryDescriptor) => void;
@@ -29,14 +31,17 @@
 
   function chooseAlternatives(
     items: ExperienceDiscoveryDescriptor[],
-    primary: ExperienceDiscoveryDescriptor | undefined
+    primary: ExperienceDiscoveryDescriptor | undefined,
+    resume: ExperienceDiscoveryDescriptor | null
   ): ExperienceDiscoveryDescriptor[] {
     const preferredIds = [
       'learn.earth',
       'story.dheu.moonlit-leaf',
       'phonics.sound-trail.v1'
     ];
-    const seen = new Set(primary ? [primary.canonicalId] : []);
+    const seen = new Set<string>();
+    if (primary) seen.add(primary.canonicalId);
+    if (resume) seen.add(resume.canonicalId);
     const chosen: ExperienceDiscoveryDescriptor[] = [];
 
     for (const canonicalId of preferredIds) {
@@ -98,7 +103,7 @@
   }
 
   const primary = $derived(choosePrimary(visible));
-  const alternatives = $derived(chooseAlternatives(visible, primary));
+  const alternatives = $derived(chooseAlternatives(visible, primary, resumeEntry));
 </script>
 
 <main class="prototype-home" data-nav100-prototype="true">
@@ -120,6 +125,26 @@
       <button type="button" onclick={onBrowse}>Browse all</button>
     </section>
   {:else}
+    {#if resumeEntry}
+      <section class="resume-zone" aria-label="Continue where you stopped">
+        <button
+          type="button"
+          class="resume-card"
+          data-nav100-resume="true"
+          data-canonical-id={resumeEntry.canonicalId}
+          onclick={() => onSelect(resumeEntry)}
+        >
+          <span class="resume-card__marker" data-nav100-marker="true" aria-hidden="true">{choiceMarker(resumeEntry)}</span>
+          <span class="resume-card__copy">
+            <small>CONTINUE</small>
+            <strong>{resumeEntry.childTitle}</strong>
+            <span>Back to the page you left</span>
+          </span>
+          <span class="resume-card__arrow" aria-hidden="true">›</span>
+        </button>
+      </section>
+    {/if}
+
     {#if primary}
       <section class="hero-zone" aria-label="Start with an activity">
         <button
@@ -172,5 +197,5 @@
 </main>
 
 <style>
-  .prototype-home{width:min(940px,100%);min-height:100dvh;margin:auto;padding:clamp(12px,3vw,26px);display:flex;flex-direction:column;gap:14px;box-sizing:border-box;background:linear-gradient(180deg,#fff8ea 0%,#f5fbff 100%);color:#17324d}.prototype-home__topbar{display:flex;flex-direction:column;align-items:flex-start;gap:8px}.prototype-tag{font-size:.68rem;font-weight:800;letter-spacing:.08em;display:inline-block;padding:4px 8px;border-radius:999px;background:#fff;border:2px solid #17324d}.prototype-home h1{font-size:clamp(1.45rem,5vw,2.25rem);line-height:1.05;margin:0;max-width:20ch}.prototype-card button,.hero-card,.choice-card,.browse-all{font:inherit;color:#17324d;cursor:pointer}.hero-card{width:100%;min-height:150px;padding:18px;border:0;border-radius:26px;background:#17324d;color:white;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:15px;align-items:center;box-shadow:0 7px 0 rgba(23,50,77,.16)}.hero-card__marker{width:62px;height:62px;display:grid;place-items:center;border-radius:20px;background:#fff7dc;font-size:2.25rem}.hero-card__copy{display:flex;flex-direction:column;gap:5px;min-width:0}.hero-card__copy small{font-size:.68rem;font-weight:900;letter-spacing:.1em;color:#ffe29a}.hero-card__copy strong{font-size:clamp(1.3rem,4.5vw,1.85rem);line-height:1.05}.hero-card__copy span{font-size:.86rem;color:#dcecff}.hero-card__go{font-weight:900;white-space:nowrap}.choice-zone{display:flex;flex-direction:column;gap:9px}.choice-zone h2{margin:0;font-size:1rem}.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.choice-card{min-height:88px;padding:12px;border:2px solid rgba(23,50,77,.16);border-radius:19px;background:white;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;box-shadow:0 4px 0 rgba(23,50,77,.07)}.choice-card__marker{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:#fff4d8;font-size:1.35rem}.choice-card__copy{display:flex;flex-direction:column;gap:4px;min-width:0}.choice-card strong{font-size:.98rem;line-height:1.1}.choice-card small{font-size:.78rem;line-height:1.2;color:#4b6782}.choice-card__arrow{font-size:1.4rem;color:#61788d}.browse-all{width:100%;min-height:56px;padding:10px 16px;border:2px dashed #5b7690;border-radius:17px;background:rgba(255,255,255,.72);display:flex;justify-content:space-between;align-items:center;gap:12px}.browse-all span{font-size:.86rem;color:#46627d}.prototype-card--status{padding:22px;border-radius:20px;background:white;border:2px solid rgba(23,50,77,.14);display:flex;flex-direction:column;gap:10px}.prototype-card button{min-height:48px;padding:0 18px;border:0;border-radius:16px;background:white;font-weight:800}.hero-card:focus-visible,.choice-card:focus-visible,.browse-all:focus-visible,.prototype-card button:focus-visible{outline:4px solid #ffb02e;outline-offset:3px}@media(max-width:560px){.prototype-home{gap:11px;padding:11px}.hero-card{min-height:132px;padding:14px;border-radius:22px}.hero-card__marker{width:52px;height:52px;border-radius:17px;font-size:1.9rem}.choice-grid{grid-template-columns:1fr;gap:7px}.choice-card{min-height:64px;padding:8px 10px}.choice-card__marker{width:38px;height:38px}.choice-card small{font-size:.74rem}.browse-all{min-height:52px}}@media(max-height:620px) and (orientation:landscape){.prototype-home{min-height:auto}.prototype-tag{display:none}.prototype-home h1{font-size:1.25rem}.hero-card{min-height:86px;padding:10px 14px}.hero-card__marker{width:44px;height:44px;font-size:1.55rem}.choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.choice-card{min-height:64px}.browse-all{min-height:48px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+  .prototype-home{width:min(940px,100%);min-height:100dvh;margin:auto;padding:clamp(12px,3vw,26px);display:flex;flex-direction:column;gap:14px;box-sizing:border-box;background:linear-gradient(180deg,#fff8ea 0%,#f5fbff 100%);color:#17324d}.prototype-home__topbar{display:flex;flex-direction:column;align-items:flex-start;gap:8px}.prototype-tag{font-size:.68rem;font-weight:800;letter-spacing:.08em;display:inline-block;padding:4px 8px;border-radius:999px;background:#fff;border:2px solid #17324d}.prototype-home h1{font-size:clamp(1.45rem,5vw,2.25rem);line-height:1.05;margin:0;max-width:20ch}.prototype-card button,.resume-card,.hero-card,.choice-card,.browse-all{font:inherit;color:#17324d;cursor:pointer}.resume-card{width:100%;min-height:72px;padding:10px 13px;border:2px solid #7b65aa;border-radius:19px;background:#f4efff;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:11px;align-items:center;box-shadow:0 4px 0 rgba(71,54,112,.12)}.resume-card__marker{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:white;font-size:1.45rem}.resume-card__copy{display:flex;flex-direction:column;gap:2px;min-width:0}.resume-card__copy small{font-size:.66rem;font-weight:900;letter-spacing:.1em;color:#65518e}.resume-card__copy strong{font-size:1rem}.resume-card__copy span{font-size:.76rem;color:#5f5870}.resume-card__arrow{font-size:1.45rem}.hero-card{width:100%;min-height:150px;padding:18px;border:0;border-radius:26px;background:#17324d;color:white;text-align:left;display:grid;grid-template-columns:auto 1fr auto;gap:15px;align-items:center;box-shadow:0 7px 0 rgba(23,50,77,.16)}.hero-card__marker{width:62px;height:62px;display:grid;place-items:center;border-radius:20px;background:#fff7dc;font-size:2.25rem}.hero-card__copy{display:flex;flex-direction:column;gap:5px;min-width:0}.hero-card__copy small{font-size:.68rem;font-weight:900;letter-spacing:.1em;color:#ffe29a}.hero-card__copy strong{font-size:clamp(1.3rem,4.5vw,1.85rem);line-height:1.05}.hero-card__copy span{font-size:.86rem;color:#dcecff}.hero-card__go{font-weight:900;white-space:nowrap}.choice-zone{display:flex;flex-direction:column;gap:9px}.choice-zone h2{margin:0;font-size:1rem}.choice-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.choice-card{min-height:88px;padding:12px;border:2px solid rgba(23,50,77,.16);border-radius:19px;background:white;text-align:left;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;box-shadow:0 4px 0 rgba(23,50,77,.07)}.choice-card__marker{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:#fff4d8;font-size:1.35rem}.choice-card__copy{display:flex;flex-direction:column;gap:4px;min-width:0}.choice-card strong{font-size:.98rem;line-height:1.1}.choice-card small{font-size:.78rem;line-height:1.2;color:#4b6782}.choice-card__arrow{font-size:1.4rem;color:#61788d}.browse-all{width:100%;min-height:56px;padding:10px 16px;border:2px dashed #5b7690;border-radius:17px;background:rgba(255,255,255,.72);display:flex;justify-content:space-between;align-items:center;gap:12px}.browse-all span{font-size:.86rem;color:#46627d}.prototype-card--status{padding:22px;border-radius:20px;background:white;border:2px solid rgba(23,50,77,.14);display:flex;flex-direction:column;gap:10px}.prototype-card button{min-height:48px;padding:0 18px;border:0;border-radius:16px;background:white;font-weight:800}.resume-card:focus-visible,.hero-card:focus-visible,.choice-card:focus-visible,.browse-all:focus-visible,.prototype-card button:focus-visible{outline:4px solid #ffb02e;outline-offset:3px}@media(max-width:560px){.prototype-home{gap:10px;padding:11px}.resume-card{min-height:64px;padding:8px 10px}.resume-card__marker{width:40px;height:40px}.hero-card{min-height:132px;padding:14px;border-radius:22px}.hero-card__marker{width:52px;height:52px;border-radius:17px;font-size:1.9rem}.choice-grid{grid-template-columns:1fr;gap:7px}.choice-card{min-height:64px;padding:8px 10px}.choice-card__marker{width:38px;height:38px}.choice-card small{font-size:.74rem}.browse-all{min-height:52px}}@media(max-height:620px) and (orientation:landscape){.prototype-home{min-height:auto}.prototype-tag{display:none}.prototype-home h1{font-size:1.25rem}.resume-card{min-height:54px}.hero-card{min-height:86px;padding:10px 14px}.hero-card__marker{width:44px;height:44px;font-size:1.55rem}.choice-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.choice-card{min-height:64px}.browse-all{min-height:48px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 </style>
