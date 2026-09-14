@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { onMount, tick } from 'svelte';
   import type { ExperienceDiscoveryDescriptor } from '../../experienceDiscovery';
   import { installAppBackNavigation, pushAppBackLayer, requestAppBack } from '../../runtime/appNavigation';
   import { loadChildSettings } from '../../runtime/localProgress';
@@ -15,6 +15,7 @@
   let activeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
   let releaseBrowseBack: (() => void) | null = null;
   let releaseLaunchBack: (() => void) | null = null;
+  let launchReturnFocusId: string | null = null;
 
   onMount(() => installAppBackNavigation());
   onMount(async () => {
@@ -28,6 +29,17 @@
     }
   });
 
+  async function restoreFocus(selector: string): Promise<void> {
+    await tick();
+    document.querySelector<HTMLElement>(selector)?.focus();
+  }
+
+  function restoreLaunchFocus(): void {
+    const id = launchReturnFocusId;
+    launchReturnFocusId = null;
+    if (id) void restoreFocus(`[data-canonical-id="${id}"]`);
+  }
+
   function openBrowse(): void {
     if (view === 'browse') return;
     releaseBrowseBack?.();
@@ -35,6 +47,7 @@
     releaseBrowseBack = pushAppBackLayer('nav100:browse', () => {
       view = 'home';
       releaseBrowseBack = null;
+      void restoreFocus('.browse-all');
     });
   }
 
@@ -42,16 +55,19 @@
     requestAppBack(() => {
       view = 'home';
       releaseBrowseBack = null;
+      void restoreFocus('.browse-all');
     });
   }
 
   function select(entry: ExperienceDiscoveryDescriptor): void {
     if (activeEntry) return;
     releaseLaunchBack?.();
+    launchReturnFocusId = entry.canonicalId;
     activeEntry = entry;
     releaseLaunchBack = pushAppBackLayer(`nav100:launch:${entry.canonicalId}`, () => {
       activeEntry = null;
       releaseLaunchBack = null;
+      restoreLaunchFocus();
     });
   }
 
@@ -59,6 +75,7 @@
     requestAppBack(() => {
       activeEntry = null;
       releaseLaunchBack = null;
+      restoreLaunchFocus();
     });
   }
 </script>
