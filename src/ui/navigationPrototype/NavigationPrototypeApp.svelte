@@ -12,6 +12,7 @@
   let loading = $state(true);
   let error = $state<string | null>(null);
   let view = $state<'home' | 'browse'>('home');
+  let browseQuery = $state('');
   let activeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
   let releaseBrowseBack: (() => void) | null = null;
   let releaseLaunchBack: (() => void) | null = null;
@@ -43,8 +44,10 @@
   function openBrowse(): void {
     if (view === 'browse') return;
     releaseBrowseBack?.();
+    browseQuery = '';
     view = 'browse';
     releaseBrowseBack = pushAppBackLayer('nav100:browse', () => {
+      browseQuery = '';
       view = 'home';
       releaseBrowseBack = null;
       void restoreFocus('.browse-all');
@@ -53,6 +56,7 @@
 
   function closeBrowse(): void {
     requestAppBack(() => {
+      browseQuery = '';
       view = 'home';
       releaseBrowseBack = null;
       void restoreFocus('.browse-all');
@@ -90,6 +94,8 @@
 {:else if view === 'browse'}
   <NavigationPrototypeBrowse
     {entries}
+    query={browseQuery}
+    onQueryChange={(query) => browseQuery = query}
     onBack={closeBrowse}
     onSelect={select}
   />
