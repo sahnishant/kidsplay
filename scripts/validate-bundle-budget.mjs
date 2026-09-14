@@ -37,15 +37,20 @@ const budgets = {
   // Human review then exposed the untouched Forest L3 fallback. The separately lazy
   // Busy Grove practical scene measures 942.2 KiB total JS on CI, +18.4 KiB over the
   // prior head. Admit +20 KiB, leaving only ~2.8 KiB reviewed total-JS headroom.
+  // #201 adds the lazy replay shelf plus the minimal calm-play host. After trimming
+  // duplicate projection/storage code CI measures 947.0 KiB; admit only +3 KiB so
+  // the feature remains review-visible and leaves roughly 1 KiB total headroom.
   // See docs/studio-art-budget-review.md; other routes remain independently capped.
-  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9 + 4 + 20) * 1024,
+  maxTotalJsBytes: (784 + 32 + 16 + 32 + 3 + 12 + 9 + 11 + 9 + 4 + 9 + 4 + 20 + 3) * 1024,
   // MATCH-08 measured core at 167.2 KiB gzip; a bounded +1 KiB admission covers
   // shared drag-state typing/validation without absorbing the matching UI route.
   // #281's canonical SVG grouping perturbs shared chunk compression by ~0.2 KiB.
   // Splitting Forest L3 into its own lazy renderer perturbs shared dispatcher/content
   // compression by ~0.1 KiB. Combined with #282's generic navigation bridge the
   // exact merge head measures 168.8 KiB; retain only ~0.2 KiB reviewed headroom.
-  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 1) * 1024,
+  // #201 measures 169.3 KiB after its Home-level entry/quiet-play host; admit +0.5 KiB
+  // while keeping the actual replay shelf outside core under its own route ceiling.
+  maxCoreJsGzipBytes: (162 + 4 + 1 + 1 + 1 + 0.5) * 1024,
   // #281 also upgrades the generic Forest world-depth fallback through the existing
   // global forestSessionPolish.css rather than shipping a second duplicate renderer.
   // CI measures 105.7 KiB core CSS; keep a narrow reviewed 107 KiB ceiling.
@@ -54,6 +59,10 @@ const budgets = {
 
 // Explicit feature allowances are review items, not disabled checks.
 const lazyRouteBudgets = [
+  // #201 keeps replay discovery secondary and loads it only after the child enters
+  // Play. The shelf reads canonical local attempts and launches existing activities;
+  // it owns no progress/recommendation/reward store. Keep it isolated from core.
+  { prefix: 'FreeExploreReplayShelf-', maxJsGzipBytes: 2 * 1024, maxCssBytes: 1 * 1024 },
   // The restored StudioLauncher split measures Learn About at ~9.34 KiB gzip.
   // Keep a narrow 9.5 KiB ceiling rather than folding the whole Studio surface back in.
   { prefix: 'LearnAboutViewport-', maxJsGzipBytes: 9.5 * 1024, maxCssBytes: 3 * 1024 },

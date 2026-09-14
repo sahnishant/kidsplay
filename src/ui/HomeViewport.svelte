@@ -19,7 +19,7 @@
   type ChildPrimaryView = 'world' | 'practice';
   type ChildNavView = ChildPrimaryView | 'stories';
   type GrownUpView = 'progress' | 'goals' | 'programmes';
-  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | 'phonics' | 'bicycle-workshop';
+  type HomeView = ChildPrimaryView | GrownUpView | 'player' | 'discovery' | 'phonics' | 'bicycle-workshop' | 'calm-play';
 
   let {
     child, catalog, progress, goalReadiness, resumableMock, mockTrends, storyProgress,
@@ -47,11 +47,16 @@
     { id: 'fox', label: 'Fox' }, { id: 'owl', label: 'Owl' },
     { id: 'panda', label: 'Panda' }, { id: 'tiger', label: 'Tiger' }
   ];
+  const calmScenes = [
+    { id: 'day-sunrise', label: 'Morning' }, { id: 'day-noon', label: 'Day' },
+    { id: 'day-sunset', label: 'Evening' }, { id: 'day-midnight', label: 'Night' }
+  ] as const;
   const storyLocations = getStoryLocations();
   const storyMissions = getStoryMissions();
   const discoveryProgress = loadProgress();
 
   let view = $state<HomeView>('world');
+  let calmScene = $state<(typeof calmScenes)[number]['id']>('day-sunrise');
   let releaseViewBack: (() => void) | null = null;
   let childViewLayerSequence = 0;
   const childViewReleases = new Set<() => void>();
@@ -135,7 +140,10 @@
       <StoryWorldViewport childName={child.name} childAvatar={child.avatar} {storyProgress} {worldState} {forestDiscoveries}
         recommendedTopics={progress.recommendedTopics} topicProgress={progress.topics}
         {onStartMission} {onExploreLocation} />
-      <button class="discovery-book-launch" type="button" onclick={() => openView('discovery')}>Discovery Book</button>
+      <div class="child-quick-launches" aria-label="Quick child choices">
+        <button class="play-quick-launch" type="button" aria-label="Open Play" onclick={() => openView('practice')}>🎲 Play</button>
+        <button class="discovery-book-launch" type="button" onclick={() => openView('discovery')}>Discovery Book</button>
+      </div>
     </div>
     <HomeBottomNav active="world" onOpen={openChildArea} />
   {:else if view === 'discovery'}
@@ -163,6 +171,31 @@
         />
       {/await}
     </div>
+  {:else if view === 'calm-play'}
+    <section class="home-panel-screen" aria-label="Sky Window">
+      <header class="panel-topbar">
+        <button class="panel-back" type="button" onclick={requestParentView} aria-label="Back to Play">←</button>
+        <div><span class="eyebrow">QUIET PLAY</span><h1>Sky Window</h1></div>
+      </header>
+      <div class="home-panel-body">
+        <section class="panel-card">
+          {#await import('../presentation/StudioScene.svelte') then module}
+            {@const StudioScene = module.default}
+            <StudioScene icon={calmScene} />
+          {/await}
+          <div class="avatar-picker" role="group" aria-label="Choose a sky">
+            {#each calmScenes as scene}
+              <button type="button" class:avatar-button--selected={calmScene === scene.id} class="avatar-button"
+                aria-pressed={calmScene === scene.id} onclick={() => { calmScene = scene.id; }}>
+                <strong>{scene.label}</strong>
+              </button>
+            {/each}
+          </div>
+          <p class="panel-note">No score. Pick any sky you like.</p>
+          <button type="button" class="primary-action" onclick={requestParentView}>Done</button>
+        </section>
+      </div>
+    </section>
   {:else}
     <section class="home-panel-screen" aria-label={`${view} screen`}>
       <header class="panel-topbar">
@@ -223,6 +256,11 @@
             {/each}
           </section>
         {:else if view === 'practice'}
+          {#await import('./FreeExploreReplayShelf.svelte') then module}
+            {@const FreeExploreReplayShelf = module.default}
+            <FreeExploreReplayShelf entries={freeExploreEntries} {onStart} />
+          {/await}
+
           {#if onStartFirstPlay}
             <section class="first-play-launches" aria-label="Picture-first play">
               <button class="first-play-launch" type="button" aria-label="Start First Play sampler" onclick={() => onStartFirstPlay?.('first_play')}>
@@ -235,6 +273,12 @@
           {/if}
 
           <section class="catalog-grid" aria-label="Play activities">
+            <article class="catalog-card catalog-card--calm">
+              <div class="catalog-card__topline"><span class="access-badge">QUIET PLAY</span></div>
+              <h2>Sky Window</h2>
+              <p>Pick morning, day, evening or night and simply look around. No score.</p>
+              <button class="primary-action" type="button" onclick={() => openChildView('calm-play')}>Open Sky Window</button>
+            </article>
             <article class="catalog-card catalog-card--chapter">
               <div class="catalog-card__topline"><span class="access-badge">CLASS 2 ENGLISH</span></div>
               <h2>Bicycle Workshop</h2>
@@ -274,11 +318,12 @@
 <style>
   .home-viewport{width:min(960px,100%);height:calc(100dvh - 42px);margin:auto;display:grid;grid-template-rows:auto minmax(0,1fr) auto;gap:7px;overflow:hidden}
   .home-viewport__stage,.home-panel-screen,.home-panel-body{min-height:0}.home-viewport__stage,.home-panel-screen{overflow:hidden}.home-viewport__stage{position:relative}.home-panel-screen{grid-row:1/-1;display:flex;flex-direction:column;gap:7px}.discovery-host,.phonics-host,.bicycle-workshop-host{grid-row:1/-1;min-height:0;overflow:hidden}
-  .discovery-book-launch{position:absolute;right:10px;bottom:10px;min-height:44px;padding:8px 14px;border:2px solid #fff;border-radius:999px;background:var(--accent);color:#fff;font:inherit;font-size:.76rem;font-weight:950;box-shadow:0 4px 14px #24303a2a;cursor:pointer}
+  .child-quick-launches{position:absolute;right:10px;bottom:10px;z-index:9;display:flex;align-items:center;gap:6px}.play-quick-launch,.discovery-book-launch{min-height:44px;padding:8px 13px;border:2px solid #fff;border-radius:999px;font:inherit;font-size:.76rem;font-weight:950;box-shadow:0 4px 14px #24303a2a;cursor:pointer}.play-quick-launch{background:#fff;color:var(--accent)}.discovery-book-launch{background:var(--accent);color:#fff}
   .panel-topbar{min-height:50px;display:flex;align-items:center;gap:8px;padding:4px 8px;border:1px solid #24303a14;border-radius:15px;background:#fffffff2}.panel-back{width:40px;height:40px;flex:none;border:0;border-radius:12px;background:var(--accent-soft);color:var(--accent);font-size:1.1rem;font-weight:950;cursor:pointer}.eyebrow{color:var(--accent);font-size:.57rem;font-weight:950;letter-spacing:.08em}.panel-topbar h1{margin:1px 0 0;font-size:clamp(1rem,3.5vw,1.25rem);line-height:1}
   .home-panel-body{min-height:0;flex:1;overflow:auto;padding:1px 2px 5px}.home-panel-body--fixed{overflow:hidden;padding:0}.panel-card,.catalog-card{border:1px solid #24303a17;border-radius:18px;background:#fffffff0}.panel-card{padding:16px}.panel-note,.catalog-card p,.profile-ref{color:var(--muted)}
   .name-field{display:grid;gap:6px}.name-field span{font-size:.76rem;font-weight:800}.name-field input{min-height:50px;padding:9px 12px;border:2px solid var(--line);border-radius:14px;font:inherit;font-weight:800}.avatar-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:12px}.avatar-button{min-height:100px;display:grid;place-items:center;padding:7px;border:2px solid #e3e8eb;border-radius:18px;background:#f8fafb;color:var(--ink);cursor:pointer}.avatar-button--selected{border-color:var(--accent);background:var(--accent-soft)}.avatar-art{width:58px;height:58px}
   .first-play-launches{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px}.first-play-launch{min-height:96px;border:2px solid var(--line);border-radius:18px;background:#fff;color:var(--ink);font:inherit;font-weight:900}.first-play-launch span{display:block;font-size:2rem}
-  .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card--chapter{background:#eef9f4}.catalog-card--learn-about{background:#fff8e9}.catalog-card--phonics{background:#eefaff}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
-  @media(max-width:650px){.home-viewport{gap:5px}.catalog-grid{grid-template-columns:1fr}.avatar-picker{grid-template-columns:repeat(2,1fr)}.discovery-book-launch{right:7px;bottom:7px}}
+  .catalog-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.catalog-card{display:flex;flex-direction:column;padding:14px}.catalog-card--goal{background:#f7f2ff}.catalog-card--calm{background:#f5fbff}.catalog-card--chapter{background:#eef9f4}.catalog-card--learn-about{background:#fff8e9}.catalog-card--phonics{background:#eefaff}.catalog-card__topline{display:flex;justify-content:space-between}.access-badge,.prototype-badge{font-size:.6rem;font-weight:950}.access-badge{color:var(--good)}.prototype-badge{color:var(--try)}.catalog-card h2{margin:10px 0 6px;font-size:1rem}.catalog-card p{margin:0 0 8px;font-size:.8rem}.profile-ref{margin-top:auto;font-size:.64rem;font-weight:800}.primary-action{min-height:48px;margin-top:10px;border:0;border-radius:14px;background:var(--accent);color:#fff;font:inherit;font-weight:900;cursor:pointer}
+  @media(max-width:650px){.home-viewport{gap:5px}.catalog-grid{grid-template-columns:1fr}.avatar-picker{grid-template-columns:repeat(2,1fr)}.child-quick-launches{right:7px;bottom:7px}}
+  @media(max-width:380px){.child-quick-launches{gap:4px}.play-quick-launch,.discovery-book-launch{padding:7px 9px;font-size:.7rem}}
 </style>
