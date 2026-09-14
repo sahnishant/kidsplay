@@ -70,11 +70,13 @@
   }
 
   function choiceMarker(entry: ExperienceDiscoveryDescriptor): string {
+    if (entry.canonicalId === 'experience.bicycle-workshop.guided.v1') return '🚲';
+    if (entry.canonicalId === 'learn.earth') return '🌍';
     switch (entry.kind) {
-      case 'guided_workshop': return '🚲';
+      case 'guided_workshop': return '🎮';
       case 'story': return '📖';
       case 'phonics_adventure': return '🔊';
-      case 'learn_about_topic': return '🌍';
+      case 'learn_about_topic': return '🔎';
       case 'learning_studio': return '🧪';
       case 'story_mission':
       case 'world_action': return '🗺️';
