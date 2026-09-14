@@ -1,5 +1,9 @@
 import { beforeEach, describe, expect, it } from 'vitest';
-import { loadAdaptiveInterestSignals, recordAdaptiveTopicInterest } from '../src/runtime/adaptiveInterest';
+import {
+  loadAdaptiveInterestSignals,
+  recordAdaptiveActivityReplay,
+  recordAdaptiveTopicInterest
+} from '../src/runtime/adaptiveInterest';
 import { loadProgress } from '../src/runtime/localProgress';
 
 describe('adaptive interest persistence', () => {
@@ -18,6 +22,27 @@ describe('adaptive interest persistence', () => {
     expect(loadAdaptiveInterestSignals()).toEqual(signals);
     expect(loadProgress()).toEqual(before);
     expect(window.localStorage.getItem('kidsplay.progress.v1')).toBeNull();
+  });
+
+  it('persists an explicit activity replay in the same bounded preference store without mastery or reward evidence', () => {
+    const before = loadProgress();
+    const signals = recordAdaptiveActivityReplay('free.animals-foundation.1', '2026-09-04T10:05:00.000Z');
+
+    expect(signals).toEqual([{
+      kind: 'voluntary_replay',
+      observedAt: '2026-09-04T10:05:00.000Z',
+      activityRef: 'free.animals-foundation.1'
+    }]);
+    expect(loadAdaptiveInterestSignals()).toEqual(signals);
+    expect(loadProgress()).toEqual(before);
+    expect(window.localStorage.getItem('kidsplay.progress.v1')).toBeNull();
+    expect(window.localStorage.getItem('kidsplay.story-progress.v1')).toBeNull();
+  });
+
+  it('rejects malformed replay identities and timestamps before persistence', () => {
+    expect(() => recordAdaptiveActivityReplay('not a stable activity')).toThrow(/stable ref/);
+    expect(() => recordAdaptiveActivityReplay('activity.ok', 'not-a-date')).toThrow(/valid timestamp/);
+    expect(loadAdaptiveInterestSignals()).toEqual([]);
   });
 
   it('bounds preference history independently of the canonical progress ledger', () => {
