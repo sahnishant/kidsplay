@@ -63,9 +63,10 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(browseAll).toBeFocused();
   });
 
-  test('opens the audited Earth topic and Moonlit story directly', async ({ page }) => {
+  test('opens Earth and Moonlit story without turning navigation into mastery evidence', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await openClean(page, '/?nav100=1');
+    const progressBefore = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
 
     await page.locator('[data-nav100-lane="discover"]').click();
     await expect(page.locator('[data-learn-about-view="topic"]')).toBeVisible();
@@ -78,6 +79,9 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.getByRole('heading', { name: 'The Moonlit Leaf' })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+
+    const progressAfter = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
+    expect(progressAfter).toBe(progressBefore);
   });
 
   test('keeps Lab and Sound Trail as their existing runtimes', async ({ page }) => {
