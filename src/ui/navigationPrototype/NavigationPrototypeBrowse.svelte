@@ -3,15 +3,18 @@
 
   let {
     entries,
+    query,
+    onQueryChange,
     onBack,
     onSelect
   }: {
     entries: ExperienceDiscoveryDescriptor[];
+    query: string;
+    onQueryChange: (query: string) => void;
     onBack: () => void;
     onSelect: (entry: ExperienceDiscoveryDescriptor) => void;
   } = $props();
 
-  let query = $state('');
   const normalizedQuery = $derived(query.trim().toLocaleLowerCase('en'));
   const filtered = $derived(entries.filter((entry) => {
     if (entry.availability === 'unavailable') return false;
@@ -48,7 +51,13 @@
   <label class="search-box">
     <span class="sr-only">Search activities by name</span>
     <span aria-hidden="true">🔎</span>
-    <input bind:value={query} type="search" placeholder="Try Bicycle, Earth, story…" autocomplete="off" />
+    <input
+      value={query}
+      oninput={(event) => onQueryChange(event.currentTarget.value)}
+      type="search"
+      placeholder="Try Bicycle, Earth, story…"
+      autocomplete="off"
+    />
   </label>
 
   <div class="result-meta" aria-live="polite">
@@ -63,7 +72,7 @@
     <section class="empty">
       <strong>Nothing with that name yet.</strong>
       <span>Try a shorter word.</span>
-      <button type="button" onclick={() => query = ''}>Show everything</button>
+      <button type="button" onclick={() => onQueryChange('')}>Show everything</button>
     </section>
   {:else}
     <section class="results" aria-label="Available activities">
