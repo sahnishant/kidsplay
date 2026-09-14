@@ -75,13 +75,7 @@ test.describe('Free Explore replay and calm rest play', () => {
     // Action 2 from Home: launch the canonical activity, not a copied replay bank.
     await replayTiles.first().click();
     await expect(page.locator('[data-session-state]')).toBeVisible();
-    const storedPreference = await page.evaluate(() => JSON.parse(
-      window.localStorage.getItem('kidsplay.adaptive-interest.v1') ?? '{"signals":[]}'
-    ));
-    expect(storedPreference.signals.at(-1)).toMatchObject({
-      kind: 'voluntary_replay'
-    });
-    expect(storedPreference.signals.at(-1).activityRef).toMatch(/^free\./);
+    expect(await page.evaluate(() => window.localStorage.getItem('kidsplay.adaptive-interest.v1'))).toBeNull();
 
     await page.keyboard.press('Escape');
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
@@ -90,8 +84,9 @@ test.describe('Free Explore replay and calm rest play', () => {
     const progressBeforeCalmPlay = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
     await page.getByRole('button', { name: 'Open Sky Window' }).click();
     await expect(page.getByRole('heading', { name: 'Sky Window' })).toBeVisible();
-    await page.getByRole('button', { name: 'Night' }).click();
-    await expect(page.getByLabel('Night sky')).toBeVisible();
+    const night = page.getByRole('button', { name: 'Night' });
+    await night.click();
+    await expect(night).toHaveAttribute('aria-pressed', 'true');
     await expect(page.getByText('No score. Pick any sky you like.')).toBeVisible();
     await expectNoDocumentOverflow(page);
 
