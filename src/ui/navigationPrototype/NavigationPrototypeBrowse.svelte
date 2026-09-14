@@ -34,13 +34,15 @@
     return 'Play activity';
   }
 
-  function kindMarker(kind: ExperienceDiscoveryDescriptor['kind']): string {
-    if (kind === 'guided_workshop') return '🚲';
-    if (kind === 'learn_about_topic') return '🌍';
-    if (kind === 'learning_studio') return '🧪';
-    if (kind === 'phonics_adventure') return '🔊';
-    if (kind === 'story') return '📖';
-    if (kind === 'world_action' || kind === 'story_mission') return '🗺️';
+  function kindMarker(entry: ExperienceDiscoveryDescriptor): string {
+    if (entry.canonicalId === 'experience.bicycle-workshop.guided.v1') return '🚲';
+    if (entry.canonicalId === 'learn.earth') return '🌍';
+    if (entry.kind === 'guided_workshop') return '🎮';
+    if (entry.kind === 'learn_about_topic') return '🔎';
+    if (entry.kind === 'learning_studio') return '🧪';
+    if (entry.kind === 'phonics_adventure') return '🔊';
+    if (entry.kind === 'story') return '📖';
+    if (entry.kind === 'world_action' || entry.kind === 'story_mission') return '🗺️';
     return '▶';
   }
 
@@ -88,7 +90,7 @@
     <section class="results" aria-label="Available activities">
       {#each visible as entry (entry.canonicalId)}
         <button class="result-card" data-canonical-id={entry.canonicalId} type="button" onclick={() => onSelect(entry)}>
-          <span class="result-card__marker" data-nav100-marker="true" aria-hidden="true">{kindMarker(entry.kind)}</span>
+          <span class="result-card__marker" data-nav100-marker="true" aria-hidden="true">{kindMarker(entry)}</span>
           <span class="result-card__copy">
             <small>{kindLabel(entry.kind)}{availabilityLabel(entry)}</small>
             <strong>{entry.childTitle}</strong>
