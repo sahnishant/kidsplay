@@ -6,7 +6,7 @@ This file describes the certification matrix for the consolidated `kidsplay` bra
 
 The prototype remains opt-in through `?nav100=1`. The normal `/` entry still mounts the existing `App.svelte`. The discovery layer is read-only and reuses existing canonical IDs, launch owners, progress/evidence stores and gameplay surfaces.
 
-No second mastery store, answer bank, router, audio engine, story runtime or session runtime is introduced.
+No second mastery store, answer bank, router, audio engine, story runtime or session runtime is introduced. The Home presentation also does **not** declare a universal level ladder or a fixed five-category child taxonomy.
 
 ## Automated coverage added for NAV100
 
@@ -32,18 +32,22 @@ No second mastery store, answer bank, router, audio engine, story runtime or ses
   - prototype OFF -> ON -> OFF;
   - 360×640 and 390×844 phone layouts;
   - phone landscape and larger desktop containment;
-  - five stable child lanes plus Browse all;
-  - keyboard activation of a primary lane;
+  - exactly one dominant Home adventure when the audited Bicycle experience is available;
+  - at most three deterministic nearby alternatives instead of five permanent child modes;
+  - no legacy `[data-nav100-lane]` category buttons on Home;
+  - Browse all remains the secondary route to the broader canonical catalogue;
+  - keyboard activation of the dominant action;
   - Bicycle find-by-name and browser Back;
   - Browse search text survives activity return;
-  - focus returns to the originating result/lane and then to Browse all;
+  - focus returns to the originating result/action and then to Browse all;
   - Escape return paths;
   - direct Earth topic launch with an exact heading selector;
   - direct Moonlit story launch;
-  - existing Lab studio and Sound Trail runtimes;
+  - existing Lab studio remains findable through Browse without becoming a permanent Home category;
+  - existing Sound Trail runtime remains directly launchable;
   - Creek world-action discovery through Browse;
   - partial/prototype world actions remain truthfully labelled `Preview` rather than being hidden or falsely marked reviewed;
-  - horizontal-overflow checks;
+  - 360×640 full-document containment plus horizontal-overflow checks on larger layouts;
   - reduced-motion run.
 
 Existing Bicycle, Learn About, Learning Studio, Sound Trail, Stories, world-action, child-journey, touch-target and navigation regressions remain part of the repository's normal check/browser workflows.
@@ -53,6 +57,7 @@ Existing Bicycle, Learn About, Learning Studio, Sound Trail, Stories, world-acti
 | Area | Evidence | Status before final exact-head CI |
 | --- | --- | --- |
 | Prototype OFF / ON / OFF | `e2e/nav100-navigation.spec.ts` | IMPLEMENTED; CI result recorded separately |
+| One dominant action + bounded alternatives | NAV100 browser test | IMPLEMENTED; no fixed five-mode Home |
 | Browse/find + non-home content | NAV100 browser + projection tests | IMPLEMENTED; CI result recorded separately |
 | Browser Back + Escape | NAV100 browser test + existing app-navigation tests | IMPLEMENTED; CI result recorded separately |
 | Browse context + focus return | NAV100 browser test | IMPLEMENTED; CI result recorded separately |
@@ -71,6 +76,8 @@ Existing Bicycle, Learn About, Learning Studio, Sound Trail, Stories, world-acti
 
 ## Known limits kept truthful
 
+- The dominant Home card is deterministic presentation, not a claim that the system has inferred a child's universally correct "next level".
+- The three alternative cards are a bounded presentation sample, not a new recommendation store or curriculum placement system.
 - Bicycle guided position does not have exact durable resume.
 - Learn About does not claim exact section resume.
 - Sound Trail does not claim exact stage resume.
@@ -92,7 +99,7 @@ npm ci
 npm run typecheck
 npm run test:run -- tests/nav100-experience-discovery.behavior.test.ts tests/nav100-current-discovery.behavior.test.ts
 npm run check
-npm run test:e2e
+npx playwright test --config playwright.nav100.config.ts
 ```
 
 GitHub exact-head evidence should include Windows Check, Browser Smoke, Android Debug APK and Android Stories Offline. Any unavailable native/device proof is recorded as NOT RUN or PENDING, never converted into a pass.
