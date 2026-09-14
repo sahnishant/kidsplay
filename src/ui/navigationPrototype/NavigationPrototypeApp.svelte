@@ -7,12 +7,15 @@
   import NavigationPrototypeHome from './NavigationPrototypeHome.svelte';
   import NavigationPrototypeLaunch from './NavigationPrototypeLaunch.svelte';
 
+  type BrowseFilter = 'all' | 'play' | 'discover' | 'hands_on' | 'stories' | 'sounds';
+
   const child = loadChildSettings();
   let entries = $state<ExperienceDiscoveryDescriptor[]>([]);
   let loading = $state(true);
   let error = $state<string | null>(null);
   let view = $state<'home' | 'browse'>('home');
   let browseQuery = $state('');
+  let browseFilter = $state<BrowseFilter>('all');
   let activeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
   let resumeEntry = $state<ExperienceDiscoveryDescriptor | null>(null);
   let releaseBrowseBack: (() => void) | null = null;
@@ -73,13 +76,18 @@
     void refreshSupportedResume().finally(restoreLaunchFocus);
   }
 
+  function resetBrowseState(): void {
+    browseQuery = '';
+    browseFilter = 'all';
+  }
+
   function openBrowse(): void {
     if (view === 'browse') return;
     releaseBrowseBack?.();
-    browseQuery = '';
+    resetBrowseState();
     view = 'browse';
     releaseBrowseBack = pushAppBackLayer('nav100:browse', () => {
-      browseQuery = '';
+      resetBrowseState();
       view = 'home';
       releaseBrowseBack = null;
       void restoreFocus('.browse-all');
@@ -88,7 +96,7 @@
 
   function closeBrowse(): void {
     requestAppBack(() => {
-      browseQuery = '';
+      resetBrowseState();
       view = 'home';
       releaseBrowseBack = null;
       void restoreFocus('.browse-all');
@@ -119,7 +127,9 @@
   <NavigationPrototypeBrowse
     {entries}
     query={browseQuery}
+    filter={browseFilter}
     onQueryChange={(query) => browseQuery = query}
+    onFilterChange={(filter) => browseFilter = filter}
     onBack={closeBrowse}
     onSelect={select}
   />
