@@ -31,14 +31,19 @@ No second mastery store, answer bank, router, audio engine, story runtime or ses
 - `e2e/nav100-navigation.spec.ts`
   - prototype OFF -> ON -> OFF;
   - 360×640 and 390×844 phone layouts;
+  - phone landscape and larger desktop containment;
   - five stable child lanes plus Browse all;
+  - keyboard activation of a primary lane;
   - Bicycle find-by-name and browser Back;
+  - Browse search text survives activity return;
+  - focus returns to the originating result/lane and then to Browse all;
   - Escape return paths;
-  - direct Earth topic launch;
+  - direct Earth topic launch with an exact heading selector;
   - direct Moonlit story launch;
   - existing Lab studio and Sound Trail runtimes;
   - Creek world-action discovery through Browse;
-  - horizontal-overflow check;
+  - partial/prototype world actions remain truthfully labelled `Preview` rather than being hidden or falsely marked reviewed;
+  - horizontal-overflow checks;
   - reduced-motion run.
 
 Existing Bicycle, Learn About, Learning Studio, Sound Trail, Stories, world-action, child-journey, touch-target and navigation regressions remain part of the repository's normal check/browser workflows.
@@ -50,11 +55,14 @@ Existing Bicycle, Learn About, Learning Studio, Sound Trail, Stories, world-acti
 | Prototype OFF / ON / OFF | `e2e/nav100-navigation.spec.ts` | IMPLEMENTED; CI result recorded separately |
 | Browse/find + non-home content | NAV100 browser + projection tests | IMPLEMENTED; CI result recorded separately |
 | Browser Back + Escape | NAV100 browser test + existing app-navigation tests | IMPLEMENTED; CI result recorded separately |
+| Browse context + focus return | NAV100 browser test | IMPLEMENTED; CI result recorded separately |
+| Keyboard access | NAV100 browser test | IMPLEMENTED; CI result recorded separately |
 | Six real pilots | projection tests + actual UI launches | IMPLEMENTED; CI result recorded separately |
+| Partial content truth | Creek shown as `Preview`; unavailable entries remain excluded | IMPLEMENTED; CI result recorded separately |
 | Resume truth | projection assertions; Story/Studio keep their existing persistence owners | IMPLEMENTED; no universal resume claim |
 | Evidence safety | existing evaluator/progress tests; studios remain `practice_only`; stories retain no mastery writes | EXISTING REGRESSION COVERAGE |
 | 0/1/150/1000 scale | unit fixture only | IMPLEMENTED; fixtures are not production games |
-| Small phone / reduced motion | Playwright | IMPLEMENTED; CI result recorded separately |
+| Small phone / landscape / desktop / reduced motion | Playwright | IMPLEMENTED; CI result recorded separately |
 | Windows full check | GitHub Windows Check | PENDING FINAL HEAD |
 | Browser suite | GitHub Browser Smoke | PENDING FINAL HEAD |
 | Android debug build | GitHub Android Debug APK | PENDING FINAL HEAD |
@@ -70,6 +78,9 @@ Existing Bicycle, Learn About, Learning Studio, Sound Trail, Stories, world-acti
 - Story beat resume and Studio workspace resume continue to use their existing stores.
 - Browse renders a bounded first 80 matches and asks the user to search when the result set is larger.
 - Synthetic 150/1000 descriptors are tests only; they are not produced games.
+- No new recent/favourite persistence is introduced by NAV100; the prototype only preserves the active Browse query while an activity is open.
+- Book/chapter coverage lookup is not claimed by this prototype.
+- Browser/CI proof does not substitute for physical-device child usability evidence.
 - The prototype does not become production-default without separate owner acceptance and G4 authorisation.
 
 ## Required final commands / workflows
