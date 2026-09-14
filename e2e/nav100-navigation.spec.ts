@@ -121,13 +121,16 @@ test.describe('NAV100 consolidated navigation prototype', () => {
   test('keeps primary navigation keyboard reachable in phone landscape and desktop layouts', async ({ page }) => {
     await page.setViewportSize({ width: 640, height: 360 });
     await openClean(page, '/?nav100=1');
+    const games = page.locator('[data-nav100-lane="games"]');
+    await expect(games).toBeVisible();
+    await page.evaluate(() => (document.activeElement as HTMLElement | null)?.blur());
     await page.keyboard.press('Tab');
-    await expect(page.locator('[data-nav100-lane="games"]')).toBeFocused();
+    await expect(games).toBeFocused();
     await page.keyboard.press('Enter');
     await expect(page.getByRole('heading', { name: 'Bicycle Workshop' })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
-    await expect(page.locator('[data-nav100-lane="games"]')).toBeFocused();
+    await expect(games).toBeFocused();
     await expectNoHorizontalOverflow(page);
 
     await page.setViewportSize({ width: 1024, height: 768 });
