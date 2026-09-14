@@ -75,32 +75,64 @@
     <button type="button" onclick={onExit}>Back</button>
   </main>
 {:else if entry.launch.owner === 'bicycle_workshop'}
-  {#await import('../BicycleWorkshopViewport.svelte') then module}
+  {#await import('../BicycleWorkshopViewport.svelte')}
+    <main class="launch-error" role="status">Opening {entry.childTitle}…</main>
+  {:then module}
     {@const BicycleWorkshopViewport = module.default}
     <BicycleWorkshopViewport
       {onExit}
       onPractice={() => void startBicycle('practice')}
       onChapterCheck={() => void startBicycle('chapter_check')}
     />
+  {:catch}
+    <main class="launch-error" role="alert">
+      <strong>Could not open {entry.childTitle}</strong>
+      <p>The activity screen did not load.</p>
+      <button type="button" onclick={onExit}>Back</button>
+    </main>
   {/await}
 {:else if entry.launch.owner === 'phonics'}
-  {#await import('../PhonicsAdventureViewport.svelte') then module}
+  {#await import('../PhonicsAdventureViewport.svelte')}
+    <main class="launch-error" role="status">Opening {entry.childTitle}…</main>
+  {:then module}
     {@const PhonicsAdventureViewport = module.default}
     <PhonicsAdventureViewport {childName} {childAvatar} {onExit} />
+  {:catch}
+    <main class="launch-error" role="alert">
+      <strong>Could not open {entry.childTitle}</strong>
+      <p>The activity screen did not load.</p>
+      <button type="button" onclick={onExit}>Back</button>
+    </main>
   {/await}
 {:else if entry.launch.owner === 'stories'}
-  {#await import('../StoriesViewport.svelte') then module}
+  {#await import('../StoriesViewport.svelte')}
+    <main class="launch-error" role="status">Opening {entry.childTitle}…</main>
+  {:then module}
     {@const StoriesViewport = module.default}
     <StoriesViewport {onExit} initialStoryId={entry.launch.ref} />
+  {:catch}
+    <main class="launch-error" role="alert">
+      <strong>Could not open {entry.childTitle}</strong>
+      <p>The story screen did not load.</p>
+      <button type="button" onclick={onExit}>Back</button>
+    </main>
   {/await}
 {:else if entry.launch.owner === 'learn_about'}
-  {#await import('../LearnAboutViewport.svelte') then module}
+  {#await import('../LearnAboutViewport.svelte')}
+    <main class="launch-error" role="status">Opening {entry.childTitle}…</main>
+  {:then module}
     {@const LearnAboutViewport = module.default}
     <LearnAboutViewport
       {onExit}
       initialTopicId={entry.launch.ref}
       onStartQuestion={startQuestion}
     />
+  {:catch}
+    <main class="launch-error" role="alert">
+      <strong>Could not open {entry.childTitle}</strong>
+      <p>The topic screen did not load.</p>
+      <button type="button" onclick={onExit}>Back</button>
+    </main>
   {/await}
 {:else if entry.launch.owner === 'learning_studio'}
   <main class="studio-launch-host">
@@ -108,15 +140,24 @@
       <button type="button" onclick={onExit} aria-label="Back to browse">←</button>
       <div><small>HANDS-ON ACTIVITY</small><h1>{entry.childTitle}</h1></div>
     </header>
-    {#await import('../StudioLauncher.svelte') then module}
+    {#await import('../StudioLauncher.svelte')}
+      <p role="status">Opening activity…</p>
+    {:then module}
       {@const StudioLauncher = module.default}
       <StudioLauncher activityRefs={[entry.launch.ref]} />
+    {:catch}
+      <section class="launch-error" role="alert">
+        <strong>Could not open {entry.childTitle}</strong>
+        <p>The activity screen did not load.</p>
+      </section>
     {/await}
   </main>
 {:else if entry.launch.owner === 'story_world'}
   {@const mission = getStoryMission(entry.launch.ref)}
   {#if mission.worldActionRef}
-    {#await import('../ForestWorldDepthViewport.svelte') then module}
+    {#await import('../ForestWorldDepthViewport.svelte')}
+      <main class="launch-error" role="status">Opening {entry.childTitle}…</main>
+    {:then module}
       {@const ForestWorldDepthViewport = module.default}
       <ForestWorldDepthViewport
         {mission}
@@ -124,6 +165,12 @@
         onComplete={(sessionId) => recordStoryMissionCompletion(mission, sessionId)}
         {onExit}
       />
+    {:catch}
+      <main class="launch-error" role="alert">
+        <strong>Could not open {entry.childTitle}</strong>
+        <p>The world activity screen did not load.</p>
+        <button type="button" onclick={onExit}>Back</button>
+      </main>
     {/await}
   {:else}
     <main class="launch-error">
