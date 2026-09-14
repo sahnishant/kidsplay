@@ -55,7 +55,7 @@ test.describe('Free Explore replay and calm rest play', () => {
     await seedRecentFreeExploreUse(page);
 
     await expect(page.getByRole('button', { name: 'Continue Forest Explorer Trail' })).toBeVisible();
-    const quickPlay = page.getByRole('button', { name: 'Open Play' });
+    const quickPlay = page.getByRole('button', { name: 'Open Play', exact: true });
     await expect(quickPlay).toBeVisible();
 
     // Action 1 from Home: enter the secondary child Play surface directly.
@@ -79,7 +79,7 @@ test.describe('Free Explore replay and calm rest play', () => {
 
     await page.keyboard.press('Escape');
     await expect(page.getByRole('heading', { name: 'Forest Explorer Trail' })).toBeVisible();
-    await page.getByRole('button', { name: 'Open Play' }).click();
+    await page.getByRole('button', { name: 'Open Play', exact: true }).click();
 
     const progressBeforeCalmPlay = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
     await page.getByRole('button', { name: 'Open Sky Window' }).click();
