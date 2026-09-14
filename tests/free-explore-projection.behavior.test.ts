@@ -17,13 +17,40 @@ describe('Free Explore replay projection', () => {
     ]);
   });
 
+  it('can surface existing use as recent play without pretending the activity was completed', () => {
+    expect(projectFreeExploreReplayTiles([{
+      activityRef: 'activity.recent',
+      available: true,
+      playCount: 1,
+      voluntaryReplayCount: 0,
+      completionCount: 0,
+      observedActivityCount: 1,
+      lastPlayedSequence: 20
+    }])).toEqual([{
+      activityRef: 'activity.recent',
+      reason: 'recent_play',
+      oneTimeRewardEligible: false
+    }]);
+  });
+
+  it('uses recency to order recent-play evidence while leaving completion at zero', () => {
+    const tiles = projectFreeExploreReplayTiles([
+      { activityRef: 'activity.older', available: true, playCount: 1, voluntaryReplayCount: 0, completionCount: 0, observedActivityCount: 1, lastPlayedSequence: 10 },
+      { activityRef: 'activity.newer', available: true, playCount: 1, voluntaryReplayCount: 0, completionCount: 0, observedActivityCount: 1, lastPlayedSequence: 20 }
+    ]);
+    expect(tiles.map((tile) => [tile.activityRef, tile.reason])).toEqual([
+      ['activity.newer', 'recent_play'],
+      ['activity.older', 'recent_play']
+    ]);
+  });
+
   it('never recommends unavailable activities', () => {
     expect(projectFreeExploreReplayTiles([
-      { activityRef: 'activity.old', available: false, playCount: 99, voluntaryReplayCount: 99, completionCount: 99, lastPlayedSequence: 99 }
+      { activityRef: 'activity.old', available: false, playCount: 99, voluntaryReplayCount: 99, completionCount: 99, observedActivityCount: 1, lastPlayedSequence: 99 }
     ])).toEqual([]);
   });
 
-  it('does not manufacture a favourite from one unfinished accidental play', () => {
+  it('does not manufacture a favourite from one unfinished accidental play without explicit observed-use evidence', () => {
     expect(projectFreeExploreReplayTiles([
       { activityRef: 'activity.once', available: true, playCount: 1, voluntaryReplayCount: 0, completionCount: 0, lastPlayedSequence: 20 }
     ])).toEqual([]);
@@ -62,5 +89,17 @@ describe('Free Explore replay projection', () => {
     expect(() => projectFreeExploreReplayTiles([{
       activityRef: 'activity.bad-completions', available: true, playCount: 1, voluntaryReplayCount: 0, completionCount: 2, lastPlayedSequence: 1
     }])).toThrow(/completionCount may not exceed playCount/);
+  });
+
+  it('rejects malformed observed-use counts', () => {
+    expect(() => projectFreeExploreReplayTiles([{
+      activityRef: 'activity.bad-observed',
+      available: true,
+      playCount: 1,
+      voluntaryReplayCount: 0,
+      completionCount: 0,
+      observedActivityCount: -1,
+      lastPlayedSequence: 1
+    }])).toThrow(/observedActivityCount must be a non-negative integer/);
   });
 });
