@@ -102,6 +102,39 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(browseAll).toBeFocused();
   });
 
+  test('browse can be narrowed visually without typing and keeps that group on activity return', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openClean(page, '/?nav100=1');
+    await page.getByRole('button', { name: /Browse all/ }).click();
+
+    const allFilter = page.locator('[data-nav100-filter="all"]');
+    const handsOnFilter = page.locator('[data-nav100-filter="hands_on"]');
+    const storiesFilter = page.locator('[data-nav100-filter="stories"]');
+    await expect(allFilter).toHaveAttribute('aria-pressed', 'true');
+    await expectTouchTarget(handsOnFilter);
+    await expectTouchTarget(storiesFilter);
+
+    await handsOnFilter.click();
+    await expect(handsOnFilter).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.locator('[data-canonical-id="studio.fractions.equal-shares"]')).toBeVisible();
+    await expect(page.locator('[data-canonical-id="story.dheu.moonlit-leaf"]')).toHaveCount(0);
+
+    await storiesFilter.click();
+    await expect(storiesFilter).toHaveAttribute('aria-pressed', 'true');
+    await expect(allFilter).toHaveAttribute('aria-pressed', 'false');
+    const moonlit = page.locator('[data-canonical-id="story.dheu.moonlit-leaf"]');
+    await expect(moonlit).toBeVisible();
+    await expect(page.locator('[data-canonical-id="experience.bicycle-workshop.guided.v1"]')).toHaveCount(0);
+    await expectNoHorizontalOverflow(page);
+
+    await moonlit.click();
+    await expect(page.locator('[data-testid="story-reader"][data-story-id="story.dheu.moonlit-leaf"]')).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
+    await expect(storiesFilter).toHaveAttribute('aria-pressed', 'true');
+    await expect(moonlit).toBeFocused();
+  });
+
   test('opens Earth and Moonlit story directly without turning navigation into mastery evidence', async ({ page }) => {
     await page.setViewportSize({ width: 360, height: 640 });
     await openClean(page, '/?nav100=1');
