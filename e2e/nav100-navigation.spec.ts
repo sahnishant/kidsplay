@@ -43,6 +43,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
 
     await page.goto('/?nav100=1');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    await expect(page.locator('[data-nav100-resume="true"]')).toHaveCount(0);
 
     const primary = page.locator('[data-nav100-primary="true"]');
     await expect(primary).toHaveCount(1);
@@ -120,6 +121,45 @@ test.describe('NAV100 consolidated navigation prototype', () => {
 
     const progressAfter = await page.evaluate(() => window.localStorage.getItem('kidsplay.progress.v1'));
     expect(progressAfter).toBe(progressBefore);
+  });
+
+  test('surfaces only supported unfinished story resume and reopens the exact saved page', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await openClean(page, '/?nav100=1');
+
+    const moonlitChoice = page.locator('[data-nav100-choice="true"][data-canonical-id="story.dheu.moonlit-leaf"]');
+    await moonlitChoice.click();
+    const reader = page.locator('[data-testid="story-reader"][data-story-id="story.dheu.moonlit-leaf"]');
+    await expect(reader).toHaveAttribute('aria-label', /page 1 of/);
+    await page.getByRole('button', { name: /Next/ }).click();
+    await expect(reader).toHaveAttribute('aria-label', /page 2 of/);
+
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    const resume = page.locator('[data-nav100-resume="true"][data-canonical-id="story.dheu.moonlit-leaf"]');
+    await expect(resume).toBeVisible();
+    await expect(resume).toContainText('CONTINUE');
+    await expect(resume).toContainText('Back to the page you left');
+    await expectTouchTarget(resume);
+    await expect(page.locator('[data-nav100-choice="true"][data-canonical-id="story.dheu.moonlit-leaf"]')).toHaveCount(0);
+
+    await resume.click();
+    await expect(reader).toHaveAttribute('aria-label', /page 2 of/);
+    await page.keyboard.press('Escape');
+    await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+
+    await page.evaluate(() => {
+      const key = 'kidsplay.stories.reading.v1';
+      const raw = window.localStorage.getItem(key);
+      if (!raw) throw new Error('Expected story reading state');
+      const store = JSON.parse(raw) as { currentStoryId: string | null; states: Record<string, { completed: boolean }> };
+      if (!store.currentStoryId || !store.states[store.currentStoryId]) throw new Error('Expected current story state');
+      store.states[store.currentStoryId].completed = true;
+      window.localStorage.setItem(key, JSON.stringify(store));
+    });
+    await page.reload();
+    await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    await expect(page.locator('[data-nav100-resume="true"]')).toHaveCount(0);
   });
 
   test('keeps Lab discoverable without making it a permanent Home mode and reuses Sound Trail', async ({ page }) => {
