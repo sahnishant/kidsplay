@@ -39,14 +39,16 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.locator('[data-nav100-prototype="true"]')).toHaveCount(0);
   });
 
-  test('browse finds Bicycle and browser Back returns launch to browse', async ({ page }, testInfo) => {
+  test('browse preserves Bicycle search and focus when browser Back returns from launch', async ({ page }, testInfo) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await openClean(page, '/?nav100=1');
 
-    await page.getByRole('button', { name: /Browse all/ }).click();
+    const browseAll = page.getByRole('button', { name: /Browse all/ });
+    await browseAll.click();
     await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath('nav100-browse-390x844.png'), fullPage: true });
-    await page.getByRole('searchbox').fill('Bicycle');
+    const search = page.getByRole('searchbox');
+    await search.fill('Bicycle');
     const bicycle = page.locator('[data-canonical-id="experience.bicycle-workshop.guided.v1"]');
     await expect(bicycle).toBeVisible();
     await bicycle.click();
@@ -54,8 +56,11 @@ test.describe('NAV100 consolidated navigation prototype', () => {
 
     await page.goBack();
     await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
+    await expect(search).toHaveValue('Bicycle');
+    await expect(bicycle).toBeFocused();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    await expect(browseAll).toBeFocused();
   });
 
   test('opens the audited Earth topic and Moonlit story directly', async ({ page }) => {
@@ -96,7 +101,8 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await openClean(page, '/?nav100=1');
 
     await page.getByRole('button', { name: /Browse all/ }).click();
-    await page.getByRole('searchbox').fill('Creek');
+    const search = page.getByRole('searchbox');
+    await search.fill('Creek');
     const creek = page.locator('[data-canonical-id="forest.world-depth.l2.creek-rescue"]');
     await expect(creek).toBeVisible();
     await expect(creek).toContainText('Preview');
@@ -104,6 +110,8 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.getByText(/Quiet Creek Rescue|creek/i).first()).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-browse="true"]')).toBeVisible();
+    await expect(search).toHaveValue('Creek');
+    await expect(creek).toBeFocused();
   });
 
   test('keeps primary navigation keyboard reachable in phone landscape and desktop layouts', async ({ page }) => {
@@ -115,6 +123,7 @@ test.describe('NAV100 consolidated navigation prototype', () => {
     await expect(page.getByRole('heading', { name: 'Bicycle Workshop' })).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(page.locator('[data-nav100-prototype="true"]')).toBeVisible();
+    await expect(page.locator('[data-nav100-lane="games"]')).toBeFocused();
     await expectNoHorizontalOverflow(page);
 
     await page.setViewportSize({ width: 1024, height: 768 });
